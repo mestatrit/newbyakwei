@@ -39,6 +39,9 @@ public class ObjectSqlData {
 	 */
 	private final List<Field> fieldList = new ArrayList<Field>();
 
+	/**
+	 * 所左右字段信息集合
+	 */
 	private final List<Field> allfieldList = new ArrayList<Field>();
 
 	/**
@@ -103,6 +106,11 @@ public class ObjectSqlData {
 		return fieldColumnMap.get(fieldName);
 	}
 
+	/**
+	 * 获得id字段
+	 * 
+	 * @return
+	 */
 	public Field getIdField() {
 		return idField;
 	}
@@ -111,6 +119,11 @@ public class ObjectSqlData {
 		this.idField = idField;
 	}
 
+	/**
+	 * 获得数据库对应的id字段
+	 * 
+	 * @return
+	 */
 	public String getIdColumn() {
 		return idColumn;
 	}
@@ -119,10 +132,20 @@ public class ObjectSqlData {
 		this.idColumn = idColumn;
 	}
 
+	/**
+	 * 获得除去id的所有字段
+	 * 
+	 * @return
+	 */
 	public List<Field> getFieldList() {
 		return fieldList;
 	}
 
+	/**
+	 * 获得逻辑表名
+	 * 
+	 * @return
+	 */
 	public String getTableName() {
 		return tableName;
 	}
@@ -131,6 +154,11 @@ public class ObjectSqlData {
 		this.tableName = tableName;
 	}
 
+	/**
+	 * 获得所有字段
+	 * 
+	 * @return
+	 */
 	public List<Field> getAllfieldList() {
 		return allfieldList;
 	}
