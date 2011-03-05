@@ -1,0 +1,12 @@
+<resp errcode="0" err_msg="">
+<cmt>
+	<cmtid>${photoCmt.cmtid}</cmtid>
+	<content><![CDATA[$!{photoCmt.content}]]></content>
+	<create_time><![CDATA[$!{photoCmt.getFmtCreate_time()}]]></create_time>
+	<replyuserid>${photoCmt.replyuserid}</replyuserid>
+	<user>
+		<userid>${photoCmt.user.userid}</userid>
+		<nick><![CDATA[${photoCmt.user.nick}]]></nick>
+	</user>
+</cmt>
+</resp>

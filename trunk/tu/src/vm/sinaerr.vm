@@ -1,0 +1,1 @@
+<resp errcode="$!{errcode}" err_msg="$!{err_msg}"></resp>

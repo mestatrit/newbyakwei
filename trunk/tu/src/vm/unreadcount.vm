@@ -1,0 +1,3 @@
+<resp errcode="0" err_msg="">
+	<count>$!{count}</count>
+</resp>

@@ -1,0 +1,20 @@
+<resp errcode="0" err_msg="">
+	<list>
+		#foreach($notice in $list)
+			<notice>
+				<noticeid>$!{notice.noticeid}</noticeid>
+				<userid>$!{notice.userid}</userid>
+				<createtime>$!{notice.fmtTime}</createtime>
+				<notice_flg>$!{notice.notice_flg}</notice_flg>
+				<readflg>$!{notice.readflg}</readflg>
+				<sender>
+					<userid>$!{notice.dataMap.get("senderid")}</userid>
+					<nick><![CDATA[$!{notice.dataMap.get("nick")}]]></nick>
+					<head><![CDATA[$!{notice.dataMap.get("head")}]]></head>
+				</sender>
+				<photoid><![CDATA[$!{notice.dataMap.get("photoid")}]]></photoid>
+				<noticeintro><![CDATA[$!{notice.noticeIntro}]]></noticeintro>
+			</notice>
+		#end
+	</list>
+</resp>

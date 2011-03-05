@@ -1,0 +1,14 @@
+<resp errcode="0" err_msg="">
+	<list>
+		#foreach($sinaUser in $list)
+			<sinauser>
+				<userid>$!{sinaUser.userid}</userid>
+				<sinauserid>$!{sinaUser.sinaUserid}</sinauserid>
+				<nick><![CDATA[$!{sinaUser.nick}]]></nick>
+				<head><![CDATA[$!{sinaUser.head}]]></head>
+				<pic_num>$!{sinaUser.pic_num}</pic_num>
+				<invited>$!{sinaUser.invited}</invited>
+			</sinauser>
+		#end
+	</list>
+</resp>

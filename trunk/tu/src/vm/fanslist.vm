@@ -1,0 +1,16 @@
+<resp errcode="0" err_msg="">
+<list>
+#foreach($o in $list)
+	<user>
+		<userid>${o.fansUser.userid}</userid>
+		<nick><![CDATA[$!{o.fansUser.nick}]]></nick>
+		<head><![CDATA[$!{o.fansUser.getHead_path()}]]></head>
+		<pic_num>$!{o.fansUser.pic_num}</pic_num>
+		<fav_num>0</fav_num>
+		<fans_num>${o.fansUser.fans_num}</fans_num>
+		<friend_num>${o.fansUser.friend_num}</friend_num>
+		<isfriend>${o.friendRef}</isfriend>
+	</user>
+#end
+</list>
+</resp>

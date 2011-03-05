@@ -1,0 +1,17 @@
+<resp errcode="0" err_msg="">
+<list>
+#foreach($photoCmt in $list)
+<photocmt>
+	<cmtid>${photoCmt.cmtid}</cmtid>
+	<content><![CDATA[$!{photoCmt.content}]]></content>
+	<create_time><![CDATA[$!{photoCmt.getFmtCreate_time()}]]></create_time>
+	<user>
+		<userid>$!{photoCmt.user.userid}</userid>
+		<nick><![CDATA[$!{photoCmt.user.nick}]]></nick>
+		<head><![CDATA[$!{photoCmt.user.head_path}]]></head>
+		<pic_num><![CDATA[$!{photoCmt.user.pic_num}]]></pic_num>
+	</user>
+</photocmt>
+#end
+</list>
+</resp>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- userMessage converter -->
+	<bean id="hkMessageConverter" class="tuxiazi.svr.impl.jms.HkMessageConverter" />
+	<bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+		<property name="targetConnectionFactory">
+			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+				<property name="brokerURL" value="tcp://localhost:61616" />
+			</bean>
+		</property>
+	</bean>
+	<!-- Spring JmsTemplate config -->
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<!-- custom MessageConverter -->
+		<property name="messageConverter" ref="hkMessageConverter" />
+	</bean>
+	<bean id="tuxiazi_photo_destination" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg index="0">
+			<value>UserMessageQueue_tuxiazi_photo</value>
+		</constructor-arg>
+	</bean>
+	<bean id="tuxiazi_user_destination" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg index="0">
+			<value>UserMessageQueue_tuxiazi_user</value>
+		</constructor-arg>
+	</bean>
+	<!-- Queue模式 -->
+	<bean id="hkMsgProducer" class="tuxiazi.svr.impl.jms.HkMsgProducer">
+		<property name="jmsTemplate" ref="jmsTemplate" />
+		<property name="destinationMap">
+			<map>
+				<entry key="tuxiazi_photo" value-ref="tuxiazi_photo_destination" />
+				<entry key="tuxiazi_user" value-ref="tuxiazi_user_destination" />
+			</map>
+		</property>
+	</bean>
+	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="destination" ref="tuxiazi_photo_destination" />
+		<property name="messageListener">
+			<bean class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+				<constructor-arg>
+					<bean class="tuxiazi.svr.impl.jms.FeedConsumer" />
+				</constructor-arg>
+				<property name="defaultListenerMethod" value="processMessage" />
+				<property name="messageConverter" ref="hkMessageConverter" />
+			</bean>
+		</property>
+	</bean>
+	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="destination" ref="tuxiazi_user_destination" />
+		<property name="messageListener">
+			<bean class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+				<constructor-arg>
+					<bean class="tuxiazi.svr.impl.jms.UserConsumer" />
+				</constructor-arg>
+				<property name="defaultListenerMethod" value="processMessage" />
+				<property name="messageConverter" ref="hkMessageConverter" />
+			</bean>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,11 @@
+<resp errcode="0" err_msg="">
+	<list>
+		#foreach($hot in $list)
+			<photo>
+				<photoid>$!{hot.photoid}</photoid>
+				<p1url><![CDATA[$!{hot.p1url}]]></p1url>
+				<p4url><![CDATA[$!{hot.p4url}]]></p4url>
+			</photo>
+		#end
+	</list>
+</resp>

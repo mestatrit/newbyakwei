@@ -1,0 +1,9 @@
+<resp errcode="0" err_msg="">
+	<user>
+		<id>${user.id}</id>
+		<screenname><![CDATA[$!{user.screenName}]]></screenname>
+		<name><![CDATA[$!{user.name}]]></name>
+		<headurl><![CDATA[$!{user.getProfileImageURL().toString()}]]></headurl>
+		<description><![CDATA[$!{user.description}]]></description>
+	</user>
+</resp>
