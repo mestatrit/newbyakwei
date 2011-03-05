@@ -207,7 +207,7 @@ public class HkQuery {
 	 *            返回值的组装对象
 	 * @return
 	 */
-	public <T> List<T> list(PartitionTableInfo[] partitionTableInfos,
+	public <T> List<T> queryList(PartitionTableInfo[] partitionTableInfos,
 			String[][] columns, String where, Object[] params, String order,
 			int begin, int size, RowMapper<T> mapper) {
 		return this.hkDaoSupport2.query(this.getListSQL(partitionTableInfos,
@@ -248,7 +248,7 @@ public class HkQuery {
 	 *            返回值的组装对象
 	 * @return
 	 */
-	public <T> T object(PartitionTableInfo[] partitionTableInfos,
+	public <T> T queryObject(PartitionTableInfo[] partitionTableInfos,
 			String[][] columns, String where, Object[] params, String order,
 			RowMapper<T> mapper) {
 		return this.hkDaoSupport2.queryForObject(this.getObjectSQL(
