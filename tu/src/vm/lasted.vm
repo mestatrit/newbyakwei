@@ -1,0 +1,17 @@
+<resp errcode="0" err_msg="">
+	<list>
+		#foreach($lasted in $lastedlist)
+			<photo>
+				<photoid>$!{lasted.photo.photoid}</photoid>
+				<name><![CDATA[$!{lasted.photo.name}]]></name>
+				<intro><![CDATA[$!{lasted.photo.intro}]]></intro>
+				<p1url><![CDATA[$!{lasted.photo.p1url}]]></p1url>
+				<p2url><![CDATA[$!{lasted.photo.p2url}]]></p2url>
+				<p3url><![CDATA[$!{lasted.photo.p3url}]]></p3url>
+				<p4url><![CDATA[$!{lasted.photo.p4url}]]></p4url>
+				<p5url><![CDATA[$!{lasted.photo.p5url}]]></p5url>
+				<p6url><![CDATA[$!{lasted.photo.p6url}]]></p6url>
+			</photo>
+		#end
+	</list>
+</resp>

@@ -1,0 +1,40 @@
+<resp errcode="0" err_msg="">
+<list>
+#foreach($up in $list)
+<photo>
+	<photoid>$!{up.photoid}</photoid>
+	<name><![CDATA[$!{up.photo.name}]]></name>
+	<cmt_num>$!{up.photo.cmt_num}</cmt_num>
+	<opliked>$!{up.photo.opliked}</opliked>
+	<like_num>$!{up.photo.like_num}</like_num>
+	<create_time><![CDATA[$!{up.photo.fmtTime}]]></create_time>
+	<p1url><![CDATA[$!{up.photo.p1url}]]></p1url>
+	<p2url><![CDATA[$!{up.photo.p2url}]]></p2url>
+	<p3url><![CDATA[$!{up.photo.p3url}]]></p3url>
+	<p4url><![CDATA[$!{up.photo.p4url}]]></p4url>
+	<p5url><![CDATA[$!{up.photo.p5url}]]></p5url>
+	<p6url><![CDATA[$!{up.photo.p6url}]]></p6url>
+	<user>
+		<userid>$!{up.photo.user.userid}</userid>
+		<nick><![CDATA[$!{up.photo.user.nick}]]></nick>
+		<head><![CDATA[$!{up.photo.user.head_path}]]></head>
+		<pic_num><![CDATA[$!{up.photo.user.pic_num}]]></pic_num>
+	</user>
+	<cmtlist>
+		#foreach($cmt in $up.photo.getCmtList())
+		<cmt>
+			<cmtid>${cmt.cmtid}</cmtid>
+			<content><![CDATA[$!{cmt.content}]]></content>
+			<create_time>$!{cmt.getFmtCreate_time()}</create_time>
+			<replyuserid>${cmt.replyuserid}</replyuserid>
+			<user>
+				<userid>${cmt.user.userid}</userid>
+				<nick><![CDATA[${cmt.user.nick}]]></nick>
+			</user>
+		</cmt>
+		#end
+	</cmtlist>
+</photo>
+#end
+</list>
+</resp>

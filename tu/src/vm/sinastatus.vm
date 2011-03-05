@@ -1,0 +1,17 @@
+<resp errcode="0" err_msg="">
+	<list>
+		#foreach($status in $list)
+		<status>
+			<id>${status.id}</id>
+			<text><![CDATA[$!{status.text}]]></text>
+			<in_reply_to_user_id>$!{status.inReplyToStatusId}</in_reply_to_user_id>
+			<in_reply_to_screen_name><![CDATA[$!{status.inReplyToScreenName}]]></in_reply_to_screen_name>
+			<source><![CDATA[$!{status.source}]]></source>
+			<thumbnail_pic><![CDATA[$!{status.thumbnail_pic}]]></thumbnail_pic>
+			<bmiddle_pic><![CDATA[$!{status.bmiddle_pic}]]></bmiddle_pic>
+			<original_pic><![CDATA[$!{status.original_pic}]]></original_pic>
+			<create_at>$!{status.getFmtDate()}</create_at>
+		</status>
+		#end
+	</list>
+</resp>
