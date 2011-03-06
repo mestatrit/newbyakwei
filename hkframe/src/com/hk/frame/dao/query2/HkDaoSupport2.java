@@ -13,8 +13,6 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
@@ -38,35 +36,34 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 		return con;
 	}
 
-	protected String getLastChar(Number id) {
-		String ss = id + "";
-		if (ss.equals("0")) {
-			throw new IllegalArgumentException("Id is 0");
-		}
-		int len = ss.length();
-		if (len == 0) {
-			throw new IllegalArgumentException("Id is null");
-		}
-		if (len > 1) {
-			ss = ss.substring(ss.length() - 1, ss.length());
-		}
-		try {
-			Long.parseLong(ss);
-		}
-		catch (NumberFormatException e) {
-			throw new IllegalArgumentException("Id is less than 0");
-		}
-		return ss;
-	}
-
-	protected String getModTableName(String tableName, Number id) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(tableName);
-		sb.append(this.getLastChar(id));
-		return sb.toString();
-	}
-
-	public Number insertObject(String sql, Object... values) {
+	// protected String getLastChar(Number id) {
+	// String ss = id + "";
+	// if (ss.equals("0")) {
+	// throw new IllegalArgumentException("Id is 0");
+	// }
+	// int len = ss.length();
+	// if (len == 0) {
+	// throw new IllegalArgumentException("Id is null");
+	// }
+	// if (len > 1) {
+	// ss = ss.substring(ss.length() - 1, ss.length());
+	// }
+	// try {
+	// Long.parseLong(ss);
+	// }
+	// catch (NumberFormatException e) {
+	// throw new IllegalArgumentException("Id is less than 0");
+	// }
+	// return ss;
+	// }
+	//
+	// protected String getModTableName(String tableName, Number id) {
+	// StringBuilder sb = new StringBuilder();
+	// sb.append(tableName);
+	// sb.append(this.getLastChar(id));
+	// return sb.toString();
+	// }
+	public Number insert(String sql, Object... values) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -102,13 +99,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 	}
 
 	public <T> List<T> query(String sql, int begin, int size,
-			PreparedStatementSetter pss, RowMapper<T> rm) {
-		return this.getJdbcTemplate().query(
-				sql + " limit " + begin + "," + size, pss, rm);
-	}
-
-	public <T> List<T> query(String sql, int begin, int size, RowMapper<T> rm,
-			Object... values) {
+			ObjectSQLMapper<T> rm, Object... values) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -149,7 +140,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 	}
 
 	public <T> List<T> queryFunc(String sql, int begin, int size,
-			Class<T> clazz, ObjectSqlData objectSqlData, RowMapper<T> rm,
+			Class<T> clazz, ObjectSqlData objectSqlData, ObjectSQLMapper<T> rm,
 			Object... values) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -303,7 +294,8 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 		}
 	}
 
-	public <T> T queryForObject(String sql, RowMapper<T> rm, Object... values) {
+	public <T> T queryForObject(String sql, ObjectSQLMapper<T> rm,
+			Object... values) {
 		List<T> list = this.query(sql, 0, 1, rm, values);
 		if (list.isEmpty()) {
 			return null;

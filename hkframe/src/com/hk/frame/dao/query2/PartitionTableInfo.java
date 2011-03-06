@@ -6,14 +6,21 @@ package com.hk.frame.dao.query2;
  * @author fire9
  */
 public class PartitionTableInfo {
+
 	/**
 	 * 数据库真是名称
 	 */
 	private String databaseName;
+
 	/**
 	 * 表真是名称
 	 */
 	private String tableName;
+
+	/**
+	 * 表的别名
+	 */
+	private String aliasName;
 
 	public PartitionTableInfo() {
 	}
@@ -37,5 +44,13 @@ public class PartitionTableInfo {
 
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
+	}
+
+	public void setAliasName(String aliasName) {
+		this.aliasName = aliasName;
+	}
+
+	public String getAliasName() {
+		return aliasName;
 	}
 }
