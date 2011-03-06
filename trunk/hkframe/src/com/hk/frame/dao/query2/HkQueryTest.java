@@ -24,7 +24,7 @@ public class HkQueryTest {
 	}
 
 	@Test
-	public void testUpdateSQL() {
+	public void testUpdateSQL1() {
 		String update_sql = "update user set nick=?,gender=? where userid=?";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
 		partitionTableInfo.setDatabaseName("ds");
@@ -36,111 +36,412 @@ public class HkQueryTest {
 	}
 
 	@Test
-	public void testCountSQL1() {
-		String count_sql = "select count(*) from user where userid=? and nick=? and gender=?";
+	public void testUpdateSQL2() {
+		String update_sql = "update user set nick=?,gender=?";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
 		HkQuery hkQuery = new HkQuery();
+		String res_update_sql = hkQuery.getUpdateSQL(partitionTableInfo,
+				new String[] { "nick", "gender" }, null);
+		Assert.assertEquals(update_sql, res_update_sql);
+	}
+
+	@Test
+	public void testDeleteSQL1() {
+		String delete_sql = "delete from user where userid=? and nick=?";
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setTableName("user");
+		partitionTableInfo.setAliasName("u");
+		HkQuery hkQuery = new HkQuery();
+		String res_delete_sql = hkQuery.getDeleteSQL(partitionTableInfo,
+				"userid=? and nick=?");
+		Assert.assertEquals(delete_sql, res_delete_sql);
+	}
+
+	@Test
+	public void testDeleteSQL2() {
+		String delete_sql = "delete from user";
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setTableName("user");
+		partitionTableInfo.setAliasName("u");
+		HkQuery hkQuery = new HkQuery();
+		String res_delete_sql = hkQuery.getDeleteSQL(partitionTableInfo, null);
+		Assert.assertEquals(delete_sql, res_delete_sql);
+	}
+
+	@Test
+	public void testCountSQL1() {
+		String count_sql = "select count(*) from user u where u.userid=? and u.nick=? and u.gender=?";
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setTableName("user");
+		partitionTableInfo.setAliasName("u");
+		HkQuery hkQuery = new HkQuery();
 		String res_count_sql = hkQuery.getCountSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
-				"userid=? and nick=? and gender=?");
+				"u.userid=? and u.nick=? and u.gender=?");
 		Assert.assertEquals(count_sql, res_count_sql);
 	}
 
 	@Test
 	public void testCountSQL2() {
-		String count_sql = "select count(*) from user,info where user.userid=? and user.nick=?"
-				+ " and user.gender=? and info.userid=? and info.nick=? and user.userid=info.userid";
+		String count_sql = "select count(*) from user u,info i where u.userid=? and u.nick=?"
+				+ " and u.gender=? and i.userid=? and i.nick=? and u.userid=i.userid";
 		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
 		partitionTableInfo1.setDatabaseName("ds");
 		partitionTableInfo1.setTableName("user");
+		partitionTableInfo1.setAliasName("u");
 		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
 		partitionTableInfo2.setDatabaseName("ds");
 		partitionTableInfo2.setTableName("info");
+		partitionTableInfo2.setAliasName("i");
 		HkQuery hkQuery = new HkQuery();
 		String res_count_sql = hkQuery
 				.getCountSQL(
 						new PartitionTableInfo[] { partitionTableInfo1,
 								partitionTableInfo2 },
-						"1.userid=? and 1.nick=?"
-								+ " and 1.gender=? and 2.userid=? and 2.nick=? and 1.userid=2.userid");
+						"u.userid=? and u.nick=?"
+								+ " and u.gender=? and i.userid=? and i.nick=? and u.userid=i.userid");
+		Assert.assertEquals(count_sql, res_count_sql);
+	}
+
+	@Test
+	public void testCountSQL3() {
+		String count_sql = "select count(*) from user u";
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setTableName("user");
+		partitionTableInfo.setAliasName("u");
+		HkQuery hkQuery = new HkQuery();
+		String res_count_sql = hkQuery.getCountSQL(
+				new PartitionTableInfo[] { partitionTableInfo }, null);
+		Assert.assertEquals(count_sql, res_count_sql);
+	}
+
+	@Test
+	public void testCountSQL4() {
+		String count_sql = "select count(*) from user u,info i";
+		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
+		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setTableName("user");
+		partitionTableInfo1.setAliasName("u");
+		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
+		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setTableName("info");
+		partitionTableInfo2.setAliasName("i");
+		HkQuery hkQuery = new HkQuery();
+		String res_count_sql = hkQuery.getCountSQL(new PartitionTableInfo[] {
+				partitionTableInfo1, partitionTableInfo2 }, null);
 		Assert.assertEquals(count_sql, res_count_sql);
 	}
 
 	@Test
 	public void testSelectSQL1() {
-		String select_sql = "select user.userid,user.nick,user.gender from user where userid=? and nick=? and gender=? order by createtime desc,nick asc";
+		String select_sql = "select u.userid,u.nick,u.gender from user u where u.userid=? and u.nick=? and u.gender=? "
+				+ "order by u.createtime desc,u.nick asc";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
+		partitionTableInfo.setAliasName("u");
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "userid", "nick", "gender" } },
-				"userid=? and nick=? and gender=?", "createtime desc,nick asc");
+				new String[][] { { "u.userid", "u.nick", "u.gender" } },
+				"u.userid=? and u.nick=? and u.gender=?",
+				"u.createtime desc,u.nick asc");
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
 
 	@Test
 	public void testSelectSQL2() {
-		String select_sql = "select user.userid,user.nick,user.gender,user.createtime,"
-				+ "info.userid,info.birthday,info.fansnum "
-				+ "from user,info where user.userid=info.userid and user.userid=? and user.nick=? "
-				+ "and user.gender=? and info.birthday>? "
-				+ "order by user.createtime desc,user.nick asc,info.birthday desc";
+		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
+				+ "i.userid,i.birthday,i.fansnum "
+				+ "from user u,info i where u.userid=i.userid and u.userid=? and u.nick=? "
+				+ "and u.gender=? and i.birthday>? "
+				+ "order by u.createtime desc,u.nick asc,i.birthday desc";
 		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
 		partitionTableInfo1.setDatabaseName("ds");
 		partitionTableInfo1.setTableName("user");
+		partitionTableInfo1.setAliasName("u");
 		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
 		partitionTableInfo2.setDatabaseName("ds");
 		partitionTableInfo2.setTableName("info");
+		partitionTableInfo2.setAliasName("i");
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getListSQL(new PartitionTableInfo[] {
 				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
-				{ "userid", "nick", "gender", "createtime" },
-				{ "userid", "birthday", "fansnum" } },
-				"1.userid=2.userid and 1.userid=? and 1.nick=? "
-						+ "and 1.gender=? and 2.birthday>?",
-				"1.createtime desc,1.nick asc,2.birthday desc");
+				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
+				{ "i.userid", "i.birthday", "i.fansnum" } },
+				"u.userid=i.userid and u.userid=? and u.nick=? "
+						+ "and u.gender=? and i.birthday>?",
+				"u.createtime desc,u.nick asc,i.birthday desc");
+		Assert.assertEquals(select_sql, res_select_sql);
+	}
+
+	@Test
+	public void testSelectSQL3() {
+		String select_sql = "select u.userid,u.nick,u.gender from user u "
+				+ "order by u.createtime desc,u.nick asc";
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setTableName("user");
+		partitionTableInfo.setAliasName("u");
+		HkQuery hkQuery = new HkQuery();
+		String res_select_sql = hkQuery.getListSQL(
+				new PartitionTableInfo[] { partitionTableInfo },
+				new String[][] { { "u.userid", "u.nick", "u.gender" } }, null,
+				"u.createtime desc,u.nick asc");
+		Assert.assertEquals(select_sql, res_select_sql);
+	}
+
+	@Test
+	public void testSelectSQL4() {
+		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
+				+ "i.userid,i.birthday,i.fansnum " + "from user u,info i "
+				+ "order by u.createtime desc,u.nick asc,i.birthday desc";
+		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
+		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setTableName("user");
+		partitionTableInfo1.setAliasName("u");
+		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
+		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setTableName("info");
+		partitionTableInfo2.setAliasName("i");
+		HkQuery hkQuery = new HkQuery();
+		String res_select_sql = hkQuery.getListSQL(new PartitionTableInfo[] {
+				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
+				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
+				{ "i.userid", "i.birthday", "i.fansnum" } }, null,
+				"u.createtime desc,u.nick asc,i.birthday desc");
+		Assert.assertEquals(select_sql, res_select_sql);
+	}
+
+	@Test
+	public void testSelectSQL5() {
+		String select_sql = "select u.userid,u.nick,u.gender from user u";
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setTableName("user");
+		partitionTableInfo.setAliasName("u");
+		HkQuery hkQuery = new HkQuery();
+		String res_select_sql = hkQuery.getListSQL(
+				new PartitionTableInfo[] { partitionTableInfo },
+				new String[][] { { "u.userid", "u.nick", "u.gender" } }, null,
+				null);
+		Assert.assertEquals(select_sql, res_select_sql);
+	}
+
+	@Test
+	public void testSelectSQL6() {
+		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
+				+ "i.userid,i.birthday,i.fansnum " + "from user u,info i";
+		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
+		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setTableName("user");
+		partitionTableInfo1.setAliasName("u");
+		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
+		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setTableName("info");
+		partitionTableInfo2.setAliasName("i");
+		HkQuery hkQuery = new HkQuery();
+		String res_select_sql = hkQuery.getListSQL(new PartitionTableInfo[] {
+				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
+				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
+				{ "i.userid", "i.birthday", "i.fansnum" } }, null, null);
+		Assert.assertEquals(select_sql, res_select_sql);
+	}
+
+	@Test
+	public void testSelectSQL7() {
+		String select_sql = "select u.userid,u.nick,u.gender from user u where u.userid=? and u.nick=? and u.gender=?";
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setTableName("user");
+		partitionTableInfo.setAliasName("u");
+		HkQuery hkQuery = new HkQuery();
+		String res_select_sql = hkQuery.getListSQL(
+				new PartitionTableInfo[] { partitionTableInfo },
+				new String[][] { { "u.userid", "u.nick", "u.gender" } },
+				"u.userid=? and u.nick=? and u.gender=?", null);
+		Assert.assertEquals(select_sql, res_select_sql);
+	}
+
+	@Test
+	public void testSelectSQL8() {
+		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
+				+ "i.userid,i.birthday,i.fansnum "
+				+ "from user u,info i where u.userid=i.userid and u.userid=? and u.nick=? "
+				+ "and u.gender=? and i.birthday>?";
+		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
+		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setTableName("user");
+		partitionTableInfo1.setAliasName("u");
+		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
+		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setTableName("info");
+		partitionTableInfo2.setAliasName("i");
+		HkQuery hkQuery = new HkQuery();
+		String res_select_sql = hkQuery.getListSQL(new PartitionTableInfo[] {
+				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
+				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
+				{ "i.userid", "i.birthday", "i.fansnum" } },
+				"u.userid=i.userid and u.userid=? and u.nick=? "
+						+ "and u.gender=? and i.birthday>?", null);
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
 
 	@Test
 	public void testObjectSQL1() {
-		String select_sql = "select user.userid,user.nick,user.gender from user where userid=? and nick=? and gender=? order by createtime desc,nick asc";
+		String select_sql = "select u.userid,u.nick,u.gender from user u where userid=? and nick=? and gender=? order by createtime desc,nick asc";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
+		partitionTableInfo.setAliasName("u");
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "userid", "nick", "gender" } },
+				new String[][] { { "u.userid", "u.nick", "u.gender" } },
 				"userid=? and nick=? and gender=?", "createtime desc,nick asc");
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
 
 	@Test
 	public void testObjectSQL2() {
-		String select_sql = "select user.userid,user.nick,user.gender,user.createtime,"
-				+ "info.userid,info.birthday,info.fansnum "
-				+ "from user,info where user.userid=info.userid and user.userid=? and user.nick=? "
-				+ "and user.gender=? and info.birthday>? "
-				+ "order by user.createtime desc,user.nick asc,info.birthday desc";
+		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
+				+ "i.userid,i.birthday,i.fansnum "
+				+ "from user u,info i where u.userid=i.userid and u.userid=? and u.nick=? "
+				+ "and u.gender=? and i.birthday>? "
+				+ "order by u.createtime desc,u.nick asc,i.birthday desc";
 		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
 		partitionTableInfo1.setDatabaseName("ds");
 		partitionTableInfo1.setTableName("user");
+		partitionTableInfo1.setAliasName("u");
 		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
 		partitionTableInfo2.setDatabaseName("ds");
 		partitionTableInfo2.setTableName("info");
+		partitionTableInfo2.setAliasName("i");
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getObjectSQL(new PartitionTableInfo[] {
 				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
-				{ "userid", "nick", "gender", "createtime" },
-				{ "userid", "birthday", "fansnum" } },
-				"1.userid=2.userid and 1.userid=? and 1.nick=? "
-						+ "and 1.gender=? and 2.birthday>?",
-				"1.createtime desc,1.nick asc,2.birthday desc");
+				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
+				{ "i.userid", "i.birthday", "i.fansnum" } },
+				"u.userid=i.userid and u.userid=? and u.nick=? "
+						+ "and u.gender=? and i.birthday>?",
+				"u.createtime desc,u.nick asc,i.birthday desc");
+		Assert.assertEquals(select_sql, res_select_sql);
+	}
+
+	@Test
+	public void testObjectSQL3() {
+		String select_sql = "select u.userid,u.nick,u.gender from user u order by createtime desc,nick asc";
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setTableName("user");
+		partitionTableInfo.setAliasName("u");
+		HkQuery hkQuery = new HkQuery();
+		String res_select_sql = hkQuery.getListSQL(
+				new PartitionTableInfo[] { partitionTableInfo },
+				new String[][] { { "u.userid", "u.nick", "u.gender" } }, null,
+				"createtime desc,nick asc");
+		Assert.assertEquals(select_sql, res_select_sql);
+	}
+
+	@Test
+	public void testObjectSQL4() {
+		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
+				+ "i.userid,i.birthday,i.fansnum " + "from user u,info i "
+				+ "order by u.createtime desc,u.nick asc,i.birthday desc";
+		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
+		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setTableName("user");
+		partitionTableInfo1.setAliasName("u");
+		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
+		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setTableName("info");
+		partitionTableInfo2.setAliasName("i");
+		HkQuery hkQuery = new HkQuery();
+		String res_select_sql = hkQuery.getObjectSQL(new PartitionTableInfo[] {
+				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
+				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
+				{ "i.userid", "i.birthday", "i.fansnum" } }, null,
+				"u.createtime desc,u.nick asc,i.birthday desc");
+		Assert.assertEquals(select_sql, res_select_sql);
+	}
+
+	@Test
+	public void testObjectSQL5() {
+		String select_sql = "select u.userid,u.nick,u.gender from user u";
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setTableName("user");
+		partitionTableInfo.setAliasName("u");
+		HkQuery hkQuery = new HkQuery();
+		String res_select_sql = hkQuery.getListSQL(
+				new PartitionTableInfo[] { partitionTableInfo },
+				new String[][] { { "u.userid", "u.nick", "u.gender" } }, null,
+				null);
+		Assert.assertEquals(select_sql, res_select_sql);
+	}
+
+	@Test
+	public void testObjectSQL6() {
+		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
+				+ "i.userid,i.birthday,i.fansnum " + "from user u,info i";
+		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
+		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setTableName("user");
+		partitionTableInfo1.setAliasName("u");
+		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
+		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setTableName("info");
+		partitionTableInfo2.setAliasName("i");
+		HkQuery hkQuery = new HkQuery();
+		String res_select_sql = hkQuery.getObjectSQL(new PartitionTableInfo[] {
+				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
+				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
+				{ "i.userid", "i.birthday", "i.fansnum" } }, null, null);
+		Assert.assertEquals(select_sql, res_select_sql);
+	}
+
+	@Test
+	public void testObjectSQL7() {
+		String select_sql = "select u.userid,u.nick,u.gender from user u where userid=? and nick=? and gender=?";
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setTableName("user");
+		partitionTableInfo.setAliasName("u");
+		HkQuery hkQuery = new HkQuery();
+		String res_select_sql = hkQuery.getListSQL(
+				new PartitionTableInfo[] { partitionTableInfo },
+				new String[][] { { "u.userid", "u.nick", "u.gender" } },
+				"userid=? and nick=? and gender=?", null);
+		Assert.assertEquals(select_sql, res_select_sql);
+	}
+
+	@Test
+	public void testObjectSQL8() {
+		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
+				+ "i.userid,i.birthday,i.fansnum "
+				+ "from user u,info i where u.userid=i.userid and u.userid=? and u.nick=? "
+				+ "and u.gender=? and i.birthday>?";
+		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
+		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setTableName("user");
+		partitionTableInfo1.setAliasName("u");
+		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
+		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setTableName("info");
+		partitionTableInfo2.setAliasName("i");
+		HkQuery hkQuery = new HkQuery();
+		String res_select_sql = hkQuery.getObjectSQL(new PartitionTableInfo[] {
+				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
+				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
+				{ "i.userid", "i.birthday", "i.fansnum" } },
+				"u.userid=i.userid and u.userid=? and u.nick=? "
+						+ "and u.gender=? and i.birthday>?", null);
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
 }
