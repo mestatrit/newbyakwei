@@ -23,7 +23,15 @@ public class NoticeServiceImpl implements NoticeService {
 		if (notice.getCreatetime() == null) {
 			notice.setCreatetime(new Date());
 		}
-		this.manager.createQuery().insertObject(notice);
+		Query query = this.manager.createQuery();
+		Notice notice2 = query.getObject(Notice.class,
+				"userid=? and notice_flg=?", new Object[] { notice.getUserid(),
+						notice.getNotice_flg() }, "noticeid desc");
+		if (notice2 != null) {
+			notice.setReadflg(notice2.getReadflg());
+			query.deleteObject(notice2);
+		}
+		query.insertObject(notice);
 	}
 
 	@Override
