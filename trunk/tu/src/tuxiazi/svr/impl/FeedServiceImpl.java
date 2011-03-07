@@ -82,9 +82,9 @@ public class FeedServiceImpl implements FeedService {
 			long userid, boolean buildPhoto, boolean buildPhotoUser,
 			long favUserid, int begin, int size) {
 		Query query = this.manager.createQuery();
-		List<Friend_photo_feed> list = query
-				.listEx(Friend_photo_feed.class, "userid=?",
-						new Object[] { userid }, "feedid desc", begin, size);
+		List<Friend_photo_feed> list = query.listEx(Friend_photo_feed.class,
+				"userid=?", new Object[] { userid }, "photoid desc", begin,
+				size);
 		if (buildPhoto) {
 			List<Long> idList = new ArrayList<Long>();
 			for (Friend_photo_feed o : list) {
