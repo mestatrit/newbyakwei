@@ -32,5 +32,13 @@
 		</cmt>
 		#end
 	</cmtlist>
+	<likeuserlist>
+	#foreach($likeuser in $photo.likeUserList)
+		<likeuser>
+			<userid>${likeuser.userid}</userid>
+			<nick><![CDATA[$!{likeuser.nick}]]></nick>
+		</likeuser>
+	#end
+	</likeuserlist>
 </photo>
 </resp>

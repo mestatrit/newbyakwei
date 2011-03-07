@@ -308,6 +308,9 @@ public class Photo {
 	}
 
 	public List<LikeUser> getLikeUserList() {
+		if (this.likeUserList == null) {
+			this.initPhotoLikeUserList();
+		}
 		return likeUserList;
 	}
 
