@@ -13,6 +13,7 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
@@ -99,7 +100,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 	}
 
 	public <T> List<T> query(String sql, int begin, int size,
-			ObjectSQLMapper<T> rm, Object... values) {
+ RowMapper<T> rm, Object... values) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -140,7 +141,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 	}
 
 	public <T> List<T> queryFunc(String sql, int begin, int size,
-			Class<T> clazz, ObjectSqlData objectSqlData, ObjectSQLMapper<T> rm,
+			Class<T> clazz, ObjectSqlData objectSqlData, RowMapper<T> rm,
 			Object... values) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -294,7 +295,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 		}
 	}
 
-	public <T> T queryForObject(String sql, ObjectSQLMapper<T> rm,
+	public <T> T queryForObject(String sql, RowMapper<T> rm,
 			Object... values) {
 		List<T> list = this.query(sql, 0, 1, rm, values);
 		if (list.isEmpty()) {
