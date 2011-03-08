@@ -11,7 +11,7 @@ import com.hk.frame.dao.annotation.Id;
 import com.hk.frame.dao.annotation.Table;
 
 /**
- * 类的sql信息数据，分析了类所对应的sql相关字段与表名
+ * 把class进行分析，存储class 对应的 sql相关信息
  * 
  * @author akwei
  */
@@ -35,12 +35,12 @@ public class ObjectSqlData {
 	private String idColumn;
 
 	/**
-	 * 有sql信息的字段集合(除id)
+	 * 除id字段的其他字段信息集合
 	 */
 	private final List<Field> fieldList = new ArrayList<Field>();
 
 	/**
-	 * 所左右字段信息集合
+	 * 所有字段信息集合
 	 */
 	private final List<Field> allfieldList = new ArrayList<Field>();
 
@@ -88,14 +88,14 @@ public class ObjectSqlData {
 			if (id != null) {
 				field.setAccessible(true);
 				allfieldList.add(field);
-				idField = field;
+				this.setIdField(field);
 				if (id.name().equals("")) {
-					idColumn = field.getName().toLowerCase();
+					this.setIdColumn(field.getName().toLowerCase());
 					fieldColumnMap.put(field.getName(), field.getName()
 							.toLowerCase());
 				}
 				else {
-					idColumn = id.name();
+					this.setIdColumn(id.name());
 					fieldColumnMap.put(field.getName(), id.name());
 				}
 			}

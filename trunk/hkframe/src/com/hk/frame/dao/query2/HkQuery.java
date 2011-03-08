@@ -2,6 +2,8 @@ package com.hk.frame.dao.query2;
 
 import java.util.List;
 
+import org.springframework.jdbc.core.RowMapper;
+
 /**
  * 操作数据的工具类
  * 
@@ -85,34 +87,6 @@ public class HkQuery extends HkDaoSupport2 {
 		return "delete from " + partitionTableInfo.getTableName();
 	}
 
-	// /**
-	// * 创建真正的where orderby sql语句,把表别名的占位符进行替换
-	// *
-	// * @param partitionTableInfos
-	// * 表信息
-	// * @param whereAndOrder
-	// * 未被替换的 where 与 order by sql
-	// * @return
-	// */
-	// protected String buildWhere(PartitionTableInfo[] partitionTableInfos,
-	// String whereAndOrder) {
-	// String _whereAndOrder = whereAndOrder;
-	// for (int i = 0; i < partitionTableInfos.length; i++) {
-	// _whereAndOrder = _whereAndOrder.replaceAll((i + 1) + "\\.",
-	// partitionTableInfos[i].getAliasName() + ".");
-	// }
-	// return _whereAndOrder;
-	// }
-	// protected String buildOrder(PartitionTableInfo[] partitionTableInfos,
-	// String order) {
-	// String _order = order;
-	// for (int i = 0; i < partitionTableInfos.length; i++) {
-	// _order = _order.replaceAll((i + 1) + "\\.", partitionTableInfos[i]
-	// .getAliasName()
-	// + ".");
-	// }
-	// return _order;
-	// }
 	protected String buildFrom(PartitionTableInfo[] partitionTableInfos) {
 		StringBuilder sb = new StringBuilder(" from ");
 		for (int i = 0; i < partitionTableInfos.length; i++) {
@@ -197,7 +171,7 @@ public class HkQuery extends HkDaoSupport2 {
 	 */
 	public <T> List<T> queryList(PartitionTableInfo[] partitionTableInfos,
 			String[][] columns, String where, Object[] params, String order,
-			int begin, int size, ObjectSQLMapper<T> mapper) {
+			int begin, int size, RowMapper<T> mapper) {
 		return this.query(this.getListSQL(partitionTableInfos, columns, where,
 				order), begin, size, mapper, params);
 	}
@@ -238,7 +212,7 @@ public class HkQuery extends HkDaoSupport2 {
 	 */
 	public <T> T queryObject(PartitionTableInfo[] partitionTableInfos,
 			String[][] columns, String where, Object[] params, String order,
-			ObjectSQLMapper<T> mapper) {
+			RowMapper<T> mapper) {
 		return this.queryForObject(this.getObjectSQL(partitionTableInfos,
 				columns, where, order), mapper, params);
 	}
@@ -323,4 +297,32 @@ public class HkQuery extends HkDaoSupport2 {
 		return this
 				.update(this.getDeleteSQL(partitionTableInfo, where), params);
 	}
+	// /**
+	// * 创建真正的where orderby sql语句,把表别名的占位符进行替换
+	// *
+	// * @param partitionTableInfos
+	// * 表信息
+	// * @param whereAndOrder
+	// * 未被替换的 where 与 order by sql
+	// * @return
+	// */
+	// protected String buildWhere(PartitionTableInfo[] partitionTableInfos,
+	// String whereAndOrder) {
+	// String _whereAndOrder = whereAndOrder;
+	// for (int i = 0; i < partitionTableInfos.length; i++) {
+	// _whereAndOrder = _whereAndOrder.replaceAll((i + 1) + "\\.",
+	// partitionTableInfos[i].getAliasName() + ".");
+	// }
+	// return _whereAndOrder;
+	// }
+	// protected String buildOrder(PartitionTableInfo[] partitionTableInfos,
+	// String order) {
+	// String _order = order;
+	// for (int i = 0; i < partitionTableInfos.length; i++) {
+	// _order = _order.replaceAll((i + 1) + "\\.", partitionTableInfos[i]
+	// .getAliasName()
+	// + ".");
+	// }
+	// return _order;
+	// }
 }
