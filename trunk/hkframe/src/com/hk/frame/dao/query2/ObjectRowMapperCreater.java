@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.hk.frame.dao.query.ObjectSqlData;
 
-public class ObjectSQLMapperCreater extends ClassLoader implements Opcodes {
+public class ObjectRowMapperCreater extends ClassLoader implements Opcodes {
 
 	private static final String TYPE_LONG = "long";
 
@@ -31,7 +31,7 @@ public class ObjectSQLMapperCreater extends ClassLoader implements Opcodes {
 
 	private static final String TYPE_DATE = Date.class.getName();
 
-	protected ObjectSQLMapperCreater(ClassLoader parent) {
+	protected ObjectRowMapperCreater(ClassLoader parent) {
 		super(parent);
 	}
 
@@ -74,7 +74,7 @@ public class ObjectSQLMapperCreater extends ClassLoader implements Opcodes {
 		methodVisitor.visitInsn(ARETURN);
 		methodVisitor.visitEnd();
 		byte[] code = classWriter.toByteArray();
-		ObjectSQLMapperCreater rowMapperUtil = new ObjectSQLMapperCreater(Thread.currentThread()
+		ObjectRowMapperCreater rowMapperUtil = new ObjectRowMapperCreater(Thread.currentThread()
 				.getContextClassLoader());
 		Class mapperClass;
 		try {
