@@ -11,8 +11,6 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.springframework.jdbc.core.RowMapper;
 
-import com.hk.frame.dao.query.ObjectSqlData;
-
 public class ObjectRowMapperCreater extends ClassLoader implements Opcodes {
 
 	private static final String TYPE_LONG = "long";
@@ -36,9 +34,10 @@ public class ObjectRowMapperCreater extends ClassLoader implements Opcodes {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> Class<T> createRowMapperClass(ObjectSqlData objectSqlData) {
+	public static <T> Class<T> createRowMapperClass(
+			ObjectSqlInfo<T> objectSqlInfo) {
 		ClassWriter classWriter = new ClassWriter(0);
-		String mapperName = createMapperClassName(objectSqlData.getClazz());
+		String mapperName = createMapperClassName(objectSqlInfo.getClazz());
 		String signName = mapperName.replaceAll("\\.", "/");
 		classWriter.visit(V1_5, ACC_PUBLIC, signName, null, "java/lang/Object",
 				new String[] { Type.getInternalName(RowMapper.class) });
@@ -60,22 +59,21 @@ public class ObjectRowMapperCreater extends ClassLoader implements Opcodes {
 						null,
 						new String[] { Type.getInternalName(SQLException.class) });
 		methodVisitor.visitMaxs(3, 4);
-		methodVisitor.visitTypeInsn(NEW, Type.getInternalName(objectSqlData
+		methodVisitor.visitTypeInsn(NEW, Type.getInternalName(objectSqlInfo
 				.getClazz()));
 		methodVisitor.visitInsn(DUP);
 		methodVisitor.visitMethodInsn(INVOKESPECIAL, Type
-				.getInternalName(objectSqlData.getClazz()), "<init>", "()V");
+				.getInternalName(objectSqlInfo.getClazz()), "<init>", "()V");
 		methodVisitor.visitVarInsn(ASTORE, 3);
 		methodVisitor.visitVarInsn(ALOAD, 3);
-		for (Field field : objectSqlData.getAllfieldList()) {
-			createResultSetGetValue(methodVisitor, objectSqlData.getClazz(),
-					field, objectSqlData.getColumn(field.getName()));
+		for (Field field : objectSqlInfo.getAllfieldList()) {
+			createResultSetGetValue(methodVisitor, objectSqlInfo, field);
 		}
 		methodVisitor.visitInsn(ARETURN);
 		methodVisitor.visitEnd();
 		byte[] code = classWriter.toByteArray();
-		ObjectRowMapperCreater rowMapperUtil = new ObjectRowMapperCreater(Thread.currentThread()
-				.getContextClassLoader());
+		ObjectRowMapperCreater rowMapperUtil = new ObjectRowMapperCreater(
+				Thread.currentThread().getContextClassLoader());
 		Class mapperClass;
 		try {
 			rowMapperUtil.loadClass(RowMapper.class.getName());
@@ -89,15 +87,17 @@ public class ObjectRowMapperCreater extends ClassLoader implements Opcodes {
 		return mapperClass;
 	}
 
-	private static void createResultSetGetValue(MethodVisitor methodVisitor,
-			Class<?> clazz, Field field, String columnName) {
+	private static <T> void createResultSetGetValue(
+			MethodVisitor methodVisitor, ObjectSqlInfo<T> objectSqlInfo,
+			Field field) {
 		String[] info = createMethodNameAndDesc(field);
 		methodVisitor.visitVarInsn(ALOAD, 1);
-		methodVisitor.visitLdcInsn(columnName);
+		methodVisitor.visitLdcInsn(objectSqlInfo.getTableName() + "."
+				+ objectSqlInfo.getColumn(field.getName()));
 		methodVisitor.visitMethodInsn(INVOKEINTERFACE, Type
 				.getInternalName(ResultSet.class), info[0], info[1]);
 		methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-				.getInternalName(clazz), info[2], info[3]);
+				.getInternalName(objectSqlInfo.getClazz()), info[2], info[3]);
 		methodVisitor.visitVarInsn(ALOAD, 3);
 	}
 
