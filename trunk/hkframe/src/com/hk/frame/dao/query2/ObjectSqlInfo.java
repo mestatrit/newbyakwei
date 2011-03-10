@@ -61,16 +61,16 @@ public class ObjectSqlInfo<T> {
 	 */
 	private final List<Field> allfieldList = new ArrayList<Field>();
 
-	/**
-	 * sql insert 语句中字段部分例如(column1,column2 .....) values(?,?,?...)
-	 */
-	private String sql_insert_columns;
-
-	/**
-	 * sql update 语句中更新字段部分，例如:set column1=?,column2=?......
-	 */
-	private String sql_update_columns;
-
+	//
+	// /**
+	// * sql insert 语句中字段部分例如(column1,column2 .....) values(?,?,?...)
+	// */
+	// private String sql_insert_columns;
+	//
+	// /**
+	// * sql update 语句中更新字段部分，例如:set column1=?,column2=?......
+	// */
+	// private String sql_update_columns;
 	/**
 	 * 属性名称对应的列名称(列名称小写后成为sql字段名称)filed:column
 	 */
@@ -106,8 +106,8 @@ public class ObjectSqlInfo<T> {
 			idColumn = table.id();
 		}
 		this.buildAllColumns();
-		this.buildSql_insert_columns();
-		this.buildSql_update_columns();
+		// this.buildSql_insert_columns();
+		// this.buildSql_update_columns();
 		this.buildMapper();
 	}
 
@@ -146,44 +146,42 @@ public class ObjectSqlInfo<T> {
 		}
 	}
 
-	/**
-	 * 生成sql_insert_columns
-	 */
-	private void buildSql_insert_columns() {
-		StringBuilder sb = new StringBuilder("(");
-		StringBuilder sb2 = new StringBuilder(" values(");
-		for (Field f : this.allfieldList) {
-			sb.append(this.getColumn(f.getName()));
-			sb.append(",");
-			sb2.append("?,");
-		}
-		if (sb.length() > 0) {
-			sb.deleteCharAt(sb.length() - 1);
-		}
-		if (sb2.length() > 0) {
-			sb2.deleteCharAt(sb.length() - 1);
-		}
-		sb.append(")");
-		sb2.append(")");
-		sb.append(sb2);
-		this.sql_insert_columns = sb.toString();
-	}
-
-	/**
-	 * 生成sql_updatre_columns
-	 */
-	private void buildSql_update_columns() {
-		StringBuilder sb = new StringBuilder("set ");
-		for (Field f : this.fieldList) {
-			sb.append(this.getColumn(f.getName()));
-			sb.append("=?,");
-		}
-		if (sb.length() > 0) {
-			sb.deleteCharAt(sb.length() - 1);
-		}
-		this.sql_update_columns = sb.toString();
-	}
-
+	// /**
+	// * 生成sql_insert_columns
+	// */
+	// private void buildSql_insert_columns() {
+	// StringBuilder sb = new StringBuilder("(");
+	// StringBuilder sb2 = new StringBuilder(" values(");
+	// for (Field f : this.allfieldList) {
+	// sb.append(this.getColumn(f.getName()));
+	// sb.append(",");
+	// sb2.append("?,");
+	// }
+	// if (sb.length() > 0) {
+	// sb.deleteCharAt(sb.length() - 1);
+	// }
+	// if (sb2.length() > 0) {
+	// sb2.deleteCharAt(sb.length() - 1);
+	// }
+	// sb.append(")");
+	// sb2.append(")");
+	// sb.append(sb2);
+	// this.sql_insert_columns = sb.toString();
+	// }
+	// /**
+	// * 生成sql_updatre_columns
+	// */
+	// private void buildSql_update_columns() {
+	// StringBuilder sb = new StringBuilder("set ");
+	// for (Field f : this.fieldList) {
+	// sb.append(this.getColumn(f.getName()));
+	// sb.append("=?,");
+	// }
+	// if (sb.length() > 0) {
+	// sb.deleteCharAt(sb.length() - 1);
+	// }
+	// this.sql_update_columns = sb.toString();
+	// }
 	public String getColumn(String fieldName) {
 		return fieldColumnMap.get(fieldName);
 	}
@@ -273,14 +271,13 @@ public class ObjectSqlInfo<T> {
 		return clazz;
 	}
 
-	public String getSql_insert_columns() {
-		return sql_insert_columns;
-	}
-
-	public String getSql_update_columns() {
-		return sql_update_columns;
-	}
-
+	// public String getSql_insert_columns() {
+	// return sql_insert_columns;
+	// }
+	//
+	// public String getSql_update_columns() {
+	// return sql_update_columns;
+	// }
 	public RowMapper<T> getRowMapper() {
 		return rowMapper;
 	}

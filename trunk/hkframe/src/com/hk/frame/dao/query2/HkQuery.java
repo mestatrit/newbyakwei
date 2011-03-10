@@ -25,8 +25,8 @@ public class HkQuery extends HkDaoSupport2 {
 		return sb.toString();
 	}
 
-	protected String buildSelectColumns(
-			PartitionTableInfo[] partitionTableInfos, String[][] columns) {
+	public String buildSelectColumns(PartitionTableInfo[] partitionTableInfos,
+			String[][] columns) {
 		StringBuilder sb = new StringBuilder("select ");
 		int k1 = 0;
 		int k2 = 0;
@@ -47,7 +47,7 @@ public class HkQuery extends HkDaoSupport2 {
 		return sb.toString();
 	}
 
-	protected String buildInsert(PartitionTableInfo partitionTableInfo,
+	public String buildInsert(PartitionTableInfo partitionTableInfo,
 			String[] columns) {
 		StringBuilder sb = new StringBuilder("insert into ");
 		sb.append(partitionTableInfo.getTableName());
@@ -69,7 +69,7 @@ public class HkQuery extends HkDaoSupport2 {
 		return sb.toString();
 	}
 
-	protected String buildUpdate(PartitionTableInfo partitionTableInfo,
+	public String buildUpdate(PartitionTableInfo partitionTableInfo,
 			String[] columns) {
 		StringBuilder sb = new StringBuilder("update ");
 		sb.append(partitionTableInfo.getTableName());
@@ -83,11 +83,11 @@ public class HkQuery extends HkDaoSupport2 {
 		return sb.toString();
 	}
 
-	protected String buildDelete(PartitionTableInfo partitionTableInfo) {
+	public String buildDelete(PartitionTableInfo partitionTableInfo) {
 		return "delete from " + partitionTableInfo.getTableName();
 	}
 
-	protected String buildFrom(PartitionTableInfo[] partitionTableInfos) {
+	public String buildFrom(PartitionTableInfo[] partitionTableInfos) {
 		StringBuilder sb = new StringBuilder(" from ");
 		for (int i = 0; i < partitionTableInfos.length; i++) {
 			sb.append(partitionTableInfos[i].getTableName());
@@ -100,7 +100,7 @@ public class HkQuery extends HkDaoSupport2 {
 		return sb.toString();
 	}
 
-	protected String getCountSQL(PartitionTableInfo[] partitionTableInfos,
+	public String getCountSQL(PartitionTableInfo[] partitionTableInfos,
 			String where) {
 		StringBuilder sb = new StringBuilder(this.buildSelectCount("*"));
 		sb.append(this.buildFrom(partitionTableInfos));
@@ -130,7 +130,7 @@ public class HkQuery extends HkDaoSupport2 {
 				.intValue();
 	}
 
-	protected String getListSQL(PartitionTableInfo[] partitionTableInfos,
+	public String getListSQL(PartitionTableInfo[] partitionTableInfos,
 			String[][] columns, String where, String order) {
 		StringBuilder sb = new StringBuilder(this.buildSelectColumns(
 				partitionTableInfos, columns));
@@ -176,7 +176,7 @@ public class HkQuery extends HkDaoSupport2 {
 				order), begin, size, mapper, params);
 	}
 
-	protected String getObjectSQL(PartitionTableInfo[] partitionTableInfos,
+	public String getObjectSQL(PartitionTableInfo[] partitionTableInfos,
 			String[][] columns, String where, String order) {
 		StringBuilder sb = new StringBuilder(this.buildSelectColumns(
 				partitionTableInfos, columns));
@@ -217,7 +217,7 @@ public class HkQuery extends HkDaoSupport2 {
 				columns, where, order), mapper, params);
 	}
 
-	protected String getInsertSQL(PartitionTableInfo partitionTableInfo,
+	public String getInsertSQL(PartitionTableInfo partitionTableInfo,
 			String[] columns) {
 		StringBuilder sb = new StringBuilder(this.buildInsert(
 				partitionTableInfo, columns));
@@ -241,7 +241,7 @@ public class HkQuery extends HkDaoSupport2 {
 				params);
 	}
 
-	protected String getUpdateSQL(PartitionTableInfo partitionTableInfo,
+	public String getUpdateSQL(PartitionTableInfo partitionTableInfo,
 			String[] columns, String where) {
 		StringBuilder sb = new StringBuilder(this.buildUpdate(
 				partitionTableInfo, columns));
@@ -270,7 +270,7 @@ public class HkQuery extends HkDaoSupport2 {
 				.getUpdateSQL(partitionTableInfo, columns, where), params);
 	}
 
-	protected String getDeleteSQL(PartitionTableInfo partitionTableInfo,
+	public String getDeleteSQL(PartitionTableInfo partitionTableInfo,
 			String where) {
 		StringBuilder sb = new StringBuilder(this
 				.buildDelete(partitionTableInfo));
@@ -306,7 +306,7 @@ public class HkQuery extends HkDaoSupport2 {
 	// * 未被替换的 where 与 order by sql
 	// * @return
 	// */
-	// protected String buildWhere(PartitionTableInfo[] partitionTableInfos,
+	// public String buildWhere(PartitionTableInfo[] partitionTableInfos,
 	// String whereAndOrder) {
 	// String _whereAndOrder = whereAndOrder;
 	// for (int i = 0; i < partitionTableInfos.length; i++) {
@@ -315,7 +315,7 @@ public class HkQuery extends HkDaoSupport2 {
 	// }
 	// return _whereAndOrder;
 	// }
-	// protected String buildOrder(PartitionTableInfo[] partitionTableInfos,
+	// public String buildOrder(PartitionTableInfo[] partitionTableInfos,
 	// String order) {
 	// String _order = order;
 	// for (int i = 0; i < partitionTableInfos.length; i++) {

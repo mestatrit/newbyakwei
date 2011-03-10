@@ -20,7 +20,7 @@ public class ObjectSqlData {
 	private Class<?> clazz;
 
 	/**
-	 * 逻辑表名称
+	 * 逻辑表名称,与别名相同
 	 */
 	private String tableName;
 
