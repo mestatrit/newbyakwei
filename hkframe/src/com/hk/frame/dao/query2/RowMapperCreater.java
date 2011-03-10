@@ -67,8 +67,7 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 		methodVisitor.visitVarInsn(ASTORE, 3);
 		methodVisitor.visitVarInsn(ALOAD, 3);
 		for (Field field : objectSqlInfo.getAllfieldList()) {
-			createResultSetGetValue(methodVisitor, objectSqlInfo.getClazz(),
-					field, objectSqlInfo.getColumn(field.getName()));
+			createResultSetGetValue(methodVisitor, objectSqlInfo, field);
 		}
 		methodVisitor.visitInsn(ARETURN);
 		methodVisitor.visitEnd();
@@ -86,15 +85,17 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 		}
 	}
 
-	private static void createResultSetGetValue(MethodVisitor methodVisitor,
-			Class<?> clazz, Field field, String columnName) {
+	private static <T> void createResultSetGetValue(
+			MethodVisitor methodVisitor, ObjectSqlInfo<T> objectSqlInfo,
+			Field field) {
 		String[] info = createMethodNameAndDesc(field);
 		methodVisitor.visitVarInsn(ALOAD, 1);
-		methodVisitor.visitLdcInsn(columnName);
+		methodVisitor.visitLdcInsn(objectSqlInfo.getTableName() + "."
+				+ objectSqlInfo.getColumn(field.getName()));
 		methodVisitor.visitMethodInsn(INVOKEINTERFACE, Type
 				.getInternalName(ResultSet.class), info[0], info[1]);
 		methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-				.getInternalName(clazz), info[2], info[3]);
+				.getInternalName(objectSqlInfo.getClazz()), info[2], info[3]);
 		methodVisitor.visitVarInsn(ALOAD, 3);
 	}
 

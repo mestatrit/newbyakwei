@@ -6,7 +6,7 @@ package com.hk.frame.dao.query2;
  * @author akwei
  * @param <T>
  */
-public interface SqlUpdateMqpper<T> {
+public interface SqlUpdateMapper<T> {
 
 	/**
 	 * 返回insert需要的参数
