@@ -1,32 +1,36 @@
 package sqlupdatemapper;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.hk.frame.dao.query2.ParamListUtil;
+import com.hk.frame.dao.query2.SqlUpdateMapper;
 
-import com.hk.frame.dao.query2.SqlUpdateMqpper;
-
-public class TestUserSqlUpdateMapper implements SqlUpdateMqpper<TestUser> {
+public class TestUserSqlUpdateMapper implements SqlUpdateMapper<TestUser> {
 
 	@Override
 	public Object getIdParam(TestUser t) {
-		return t.getNick();
+		return ParamListUtil.toObject(t.getUserid());
 	}
 
 	@Override
 	public Object[] getParamsForInsert(TestUser t) {
-		List<Object> list = new ArrayList<Object>();
-		list.add(t.getUserid());
-		list.add(t.getNick());
-		list.add(t.getCreatetime());
-		return list.toArray(new Object[list.size()]);
+		ParamListUtil paramListUtil = new ParamListUtil();
+		paramListUtil.addLong(t.getUserid());
+		paramListUtil.addByte(t.getGender());
+		paramListUtil.addString(t.getNick());
+		paramListUtil.addDate(t.getCreatetime());
+		paramListUtil.addDouble(t.getMoney());
+		paramListUtil.addFloat(t.getPurchase());
+		return paramListUtil.toObjects();
 	}
 
 	@Override
 	public Object[] getParamsForUpdate(TestUser t) {
-		List<Object> list = new ArrayList<Object>();
-		list.add(t.getNick());
-		list.add(t.getCreatetime());
-		list.add(t.getUserid());
-		return list.toArray(new Object[list.size()]);
+		ParamListUtil paramListUtil = new ParamListUtil();
+		paramListUtil.addByte(t.getGender());
+		paramListUtil.addString(t.getNick());
+		paramListUtil.addDate(t.getCreatetime());
+		paramListUtil.addDouble(t.getMoney());
+		paramListUtil.addFloat(t.getPurchase());
+		paramListUtil.addLong(t.getUserid());
+		return paramListUtil.toObjects();
 	}
 }
