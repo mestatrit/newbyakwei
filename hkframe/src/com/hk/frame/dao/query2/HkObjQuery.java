@@ -23,8 +23,7 @@ public class HkObjQuery extends HkQuery {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
 				.getObjectSqlInfo(t.getClass().getName());
 		return this.insert(partitionTableInfo, objectSqlInfo.getColumns(),
-				objectSqlInfo.getSqlUpdateMqpper().getParamsForInsert(
-						objectSqlInfo.getAllfieldList(), t));
+				objectSqlInfo.getSqlUpdateMqpper().getParamsForInsert(t));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -33,9 +32,7 @@ public class HkObjQuery extends HkQuery {
 				.getObjectSqlInfo(t.getClass().getName());
 		return this.update(partitionTableInfo, objectSqlInfo
 				.getColumnsForUpdate(), objectSqlInfo.getIdColumn() + "=?",
-				objectSqlInfo.getSqlUpdateMqpper().getParamsForUpdate(
-						objectSqlInfo.getFieldList(),
-						objectSqlInfo.getIdField(), t));
+				objectSqlInfo.getSqlUpdateMqpper().getParamsForUpdate(t));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -44,7 +41,7 @@ public class HkObjQuery extends HkQuery {
 				.getObjectSqlInfo(t.getClass().getName());
 		return this.delete(partitionTableInfo, objectSqlInfo.getIdColumn()
 				+ "=?", new Object[] { objectSqlInfo.getSqlUpdateMqpper()
-				.getIdParam(objectSqlInfo.getIdField(), t) });
+				.getIdParam(t) });
 	}
 
 	@SuppressWarnings("unchecked")
