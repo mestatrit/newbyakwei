@@ -30,7 +30,7 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		String mapperName = createMapperClassName(objectSqlInfo.getClazz());
 		String signName = mapperName.replaceAll("\\.", "/");
 		classWriter.visit(V1_5, ACC_PUBLIC, signName, null, "java/lang/Object",
-				new String[] { Type.getInternalName(SqlUpdateMqpper.class) });
+				new String[] { Type.getInternalName(SqlUpdateMapper.class) });
 		// 构造方法
 		MethodVisitor methodVisitor = classWriter.visitMethod(ACC_PUBLIC,
 				"<init>", "()V", null, null);
@@ -42,8 +42,8 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		methodVisitor.visitEnd();
 		visitGetIdParam(classWriter, methodVisitor, objectSqlInfo.getIdField(),
 				objectSqlInfo);
-		visitGetParamsForInsert(classWriter, methodVisitor, objectSqlInfo);
-		visitGetParamsForUpdate(classWriter, methodVisitor, objectSqlInfo);
+		// visitGetParamsForInsert(classWriter, methodVisitor, objectSqlInfo);
+		// visitGetParamsForUpdate(classWriter, methodVisitor, objectSqlInfo);
 		byte[] code = classWriter.toByteArray();
 		SqlUpdateMapperCreater sqlUpdateMapperCreater = new SqlUpdateMapperCreater(
 				Thread.currentThread().getContextClassLoader());
@@ -62,8 +62,8 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 			MethodVisitor methodVisitor, Field field,
 			ObjectSqlInfo<T> objectSqlInfo) {
 		methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "getIdParam", "("
-				+ Type.getDescriptor(objectSqlInfo.getClazz()) + ")", null,
-				null);
+				+ Type.getDescriptor(objectSqlInfo.getClazz())
+				+ ")Ljava/lang/Object;", null, null);
 		methodVisitor.visitMaxs(1, 2);
 		methodVisitor.visitVarInsn(ALOAD, 2);
 		visitGetIdParamInvokeForField(methodVisitor, field, objectSqlInfo);

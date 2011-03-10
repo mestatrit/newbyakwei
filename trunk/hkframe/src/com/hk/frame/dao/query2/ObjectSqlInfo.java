@@ -22,7 +22,7 @@ public class ObjectSqlInfo<T> {
 
 	private RowMapper<T> rowMapper;
 
-	private SqlUpdateMqpper<T> sqlUpdateMqpper;
+	private SqlUpdateMapper<T> sqlUpdateMapper;
 
 	private Class<T> clazz;
 
@@ -87,9 +87,7 @@ public class ObjectSqlInfo<T> {
 	 * @throws InvocationTargetException
 	 * @throws NoSuchMethodException
 	 */
-	public ObjectSqlInfo(Class<T> clazz) throws IllegalArgumentException,
-			SecurityException, InstantiationException, IllegalAccessException,
-			InvocationTargetException, NoSuchMethodException {
+	public ObjectSqlInfo(Class<T> clazz) {
 		this.clazz = clazz;
 		Table table = clazz.getAnnotation(Table.class);
 		if (table == null) {
@@ -109,6 +107,7 @@ public class ObjectSqlInfo<T> {
 		// this.buildSql_insert_columns();
 		// this.buildSql_update_columns();
 		this.buildMapper();
+		this.buildSqlUpdateMapper();
 	}
 
 	private void analyze(Field field) {
@@ -187,12 +186,28 @@ public class ObjectSqlInfo<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void buildMapper() throws IllegalArgumentException,
-			SecurityException, InstantiationException, IllegalAccessException,
-			InvocationTargetException, NoSuchMethodException {
+	private void buildMapper() {
 		Class<T> clazz = RowMapperCreater.createRowMapperClass(this);
-		Object obj = clazz.getConstructor().newInstance();
-		this.rowMapper = (RowMapper<T>) obj;
+		try {
+			Object obj = clazz.getConstructor().newInstance();
+			this.rowMapper = (RowMapper<T>) obj;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void buildSqlUpdateMapper() {
+		Class<T> clazz = SqlUpdateMapperCreater
+				.createSqlUpdateMapperClass(this);
+		try {
+			Object obj = clazz.getConstructor().newInstance();
+			this.sqlUpdateMapper = (SqlUpdateMapper<T>) obj;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private void buildAllColumns() {
@@ -282,8 +297,8 @@ public class ObjectSqlInfo<T> {
 		return rowMapper;
 	}
 
-	public SqlUpdateMqpper<T> getSqlUpdateMqpper() {
-		return sqlUpdateMqpper;
+	public SqlUpdateMapper<T> getSqlUpdateMapper() {
+		return sqlUpdateMapper;
 	}
 
 	/**
