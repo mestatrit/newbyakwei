@@ -64,7 +64,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 	// sb.append(this.getLastChar(id));
 	// return sb.toString();
 	// }
-	public Number insert(String sql, Object... values) {
+	public Number insert(String sql, Object[] values) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -99,8 +99,8 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 		}
 	}
 
-	public <T> List<T> query(String sql, int begin, int size,
- RowMapper<T> rm, Object... values) {
+	public <T> List<T> query(String sql, int begin, int size, RowMapper<T> rm,
+			Object[] values) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -142,7 +142,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 
 	public <T> List<T> queryFunc(String sql, int begin, int size,
 			Class<T> clazz, ObjectSqlData objectSqlData, RowMapper<T> rm,
-			Object... values) {
+			Object[] values) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -253,7 +253,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 		}
 	}
 
-	public Number queryForNumber(String sql, Object... values) {
+	public Number queryForNumber(String sql, Object[] values) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -295,8 +295,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 		}
 	}
 
-	public <T> T queryForObject(String sql, RowMapper<T> rm,
-			Object... values) {
+	public <T> T queryForObject(String sql, RowMapper<T> rm, Object[] values) {
 		List<T> list = this.query(sql, 0, 1, rm, values);
 		if (list.isEmpty()) {
 			return null;
@@ -304,7 +303,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 		return list.get(0);
 	}
 
-	public int update(String sql, Object... values) {
+	public int update(String sql, Object[] values) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
