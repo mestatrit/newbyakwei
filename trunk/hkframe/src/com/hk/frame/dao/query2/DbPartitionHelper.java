@@ -18,15 +18,15 @@ public abstract class DbPartitionHelper {
 	 *            logicDatabaseName 上下文数据对象
 	 * @return
 	 */
-	public abstract PartitionTableInfo createPartitionTableInfoForInsert(
-			String logicDatabaseName, Map<String, Object> ctxMap);
+	public abstract <T> PartitionTableInfo createPartitionTableInfoForInsert(
+			Class<T> clazz, Map<String, Object> ctxMap);
 
-	public abstract PartitionTableInfo createPartitionTableInfoForUpdate(
-			String logicDatabaseName, Map<String, Object> ctxMap);
+	public abstract <T> PartitionTableInfo createPartitionTableInfoForUpdate(
+			Class<T> clazz, Map<String, Object> ctxMap);
 
-	public abstract PartitionTableInfo createPartitionTableInfoForDelete(
-			String logicDatabaseName, Map<String, Object> ctxMap);
+	public abstract <T> PartitionTableInfo createPartitionTableInfoForDelete(
+			Class<T> clazz, Map<String, Object> ctxMap);
 
-	public abstract PartitionTableInfo createPartitionTableInfoForSelect(
-			String logicDatabaseName, Map<String, Object> ctxMap);
+	public abstract <T> PartitionTableInfo createPartitionTableInfoForSelect(
+			Class<T> clazz, Map<String, Object> ctxMap);
 }
