@@ -5,7 +5,8 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import sqlupdatemapper.TestUser;
+import bean.TestUser;
+
 
 public class TestUserRowMapper implements RowMapper<TestUser> {
 

@@ -1,5 +1,7 @@
 package sqlupdatemapper;
 
+import bean.TestUser;
+
 import com.hk.frame.dao.query2.ParamListUtil;
 import com.hk.frame.dao.query2.SqlUpdateMapper;
 
