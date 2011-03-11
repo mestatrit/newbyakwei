@@ -1,4 +1,4 @@
-package sqlupdatemapper;
+package bean;
 
 import java.util.Date;
 

@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import bean.TestUser;
+
 import com.hk.frame.dao.query2.ObjectSqlInfo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
