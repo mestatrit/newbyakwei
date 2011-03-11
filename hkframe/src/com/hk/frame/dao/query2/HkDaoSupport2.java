@@ -1,13 +1,11 @@
 package com.hk.frame.dao.query2;
 
-import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -17,8 +15,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
-
-import com.hk.frame.dao.query.ObjectSqlData;
 
 public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 
@@ -137,119 +133,6 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 			JdbcUtils.closeResultSet(rs);
 			JdbcUtils.closeStatement(ps);
 			DataSourceUtils.releaseConnection(con, getDataSource());
-		}
-	}
-
-	public <T> List<T> queryFunc(String sql, int begin, int size,
-			Class<T> clazz, ObjectSqlData objectSqlData, RowMapper<T> rm,
-			Object[] values) {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		Connection con = this.getCurrentConnection();
-		try {
-			if (begin >= 0 && size > 0) {
-				ps = con.prepareStatement(sql + " limit " + begin + "," + size);
-			}
-			else {
-				ps = con.prepareStatement(sql);
-			}
-			if (values != null) {
-				for (int i = 0; i < values.length; i++) {
-					ps.setObject(i + 1, values[i]);
-				}
-			}
-			rs = ps.executeQuery();
-			int rowNum = 0;
-			List<T> list = new ArrayList<T>();
-			if (rm == null) {
-				while (rs.next()) {
-					list.add(this.createObjectFromResultSet(clazz,
-							objectSqlData, rs));
-				}
-			}
-			else {
-				while (rs.next()) {
-					list.add(rm.mapRow(rs, rowNum++));
-				}
-			}
-			return list;
-		}
-		catch (SQLException e) {
-			JdbcUtils.closeStatement(ps);
-			ps = null;
-			DataSourceUtils.releaseConnection(con, getDataSource());
-			con = null;
-			e.printStackTrace();
-			throw getExceptionTranslator().translate("StatementCallback", sql,
-					e);
-		}
-		finally {
-			JdbcUtils.closeResultSet(rs);
-			JdbcUtils.closeStatement(ps);
-			DataSourceUtils.releaseConnection(con, getDataSource());
-		}
-	}
-
-	private static final String TYPE_LONG = "long";
-
-	private static final String TYPE_INT = "int";
-
-	private static final String TYPE_BYTE = "byte";
-
-	private static final String TYPE_SHORT = "short";
-
-	private static final String TYPE_FLOAT = "float";
-
-	private static final String TYPE_DOUBLE = "double";
-
-	private static final String TYPE_STRING = String.class.getName();
-
-	private static final String TYPE_DATE = Date.class.getName();
-
-	private <T> T createObjectFromResultSet(Class<T> clazz,
-			ObjectSqlData objectSqlData, ResultSet rs) throws SQLException {
-		try {
-			T t = clazz.getConstructor().newInstance();
-			String name = null;
-			for (Field field : objectSqlData.getAllfieldList()) {
-				name = field.getType().getName();
-				if (name.equals(TYPE_STRING)) {
-					field.set(t, rs.getString(objectSqlData.getColumn(field
-							.getName())));
-				}
-				else if (name.equals(TYPE_LONG)) {
-					field.set(t, rs.getLong(objectSqlData.getColumn(field
-							.getName())));
-				}
-				else if (name.equals(TYPE_INT)) {
-					field.set(t, rs.getInt(objectSqlData.getColumn(field
-							.getName())));
-				}
-				else if (name.equals(TYPE_BYTE)) {
-					field.set(t, rs.getByte(objectSqlData.getColumn(field
-							.getName())));
-				}
-				else if (name.equals(TYPE_DOUBLE)) {
-					field.set(t, rs.getDouble(objectSqlData.getColumn(field
-							.getName())));
-				}
-				else if (name.equals(TYPE_FLOAT)) {
-					field.set(t, rs.getFloat(objectSqlData.getColumn(field
-							.getName())));
-				}
-				else if (name.equals(TYPE_DATE)) {
-					field.set(t, rs.getTimestamp(objectSqlData.getColumn(field
-							.getName())));
-				}
-				else if (name.equals(TYPE_SHORT)) {
-					field.set(t, rs.getShort(objectSqlData.getColumn(field
-							.getName())));
-				}
-			}
-			return t;
-		}
-		catch (Exception e) {
-			throw new SQLException(e);
 		}
 	}
 

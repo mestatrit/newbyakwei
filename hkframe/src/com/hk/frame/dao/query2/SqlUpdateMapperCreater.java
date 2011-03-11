@@ -10,6 +10,13 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.springframework.jdbc.core.RowMapper;
 
+/**
+ * 创建对象所对应的sql
+ * insert,update,delete所需要的信息,目前对象只支持long,int,byte,short,float,char,double
+ * ,String,java.util.Date类型的值,id类型只支持long,int,String类型
+ * 
+ * @author akwei
+ */
 public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 
 	protected SqlUpdateMapperCreater(ClassLoader parent) {
@@ -104,17 +111,18 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
 				.getInternalName(objectSqlInfo.getClazz()), methodName, "()"
 				+ Type.getDescriptor(field.getType()));
+		FieldTypeUtil.checkIdFieldType(field);
 		if (type.equals("int")) {
 			methodVisitor.visitMethodInsn(INVOKESTATIC, Type
 					.getInternalName(ParamListUtil.class), "toObject",
 					"(I)Ljava/lang/Object;");
 		}
-		if (type.equals("long")) {
+		else if (type.equals("long")) {
 			methodVisitor.visitMethodInsn(INVOKESTATIC, Type
 					.getInternalName(ParamListUtil.class), "toObject",
 					"(J)Ljava/lang/Object;");
 		}
-		if (type.equals("java.lang.String")) {
+		else if (type.equals("java.lang.String")) {
 			methodVisitor.visitMethodInsn(INVOKESTATIC, Type
 					.getInternalName(ParamListUtil.class), "toObject",
 					"(Ljava/lang/String;)Ljava/lang/Object;");
@@ -184,6 +192,7 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 				.getInternalName(objectSqlInfo.getClazz()),
 				getGetMethodName(field), "()"
 						+ Type.getDescriptor(field.getType()));
+		FieldTypeUtil.checkFieldType(field);
 		if (type.equals("int")) {
 			methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
 					.getInternalName(ParamListUtil.class), "addInt", "(I)V");
@@ -195,12 +204,6 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		else if (type.equals("short")) {
 			methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
 					.getInternalName(ParamListUtil.class), "addShort", "(S)V");
-		}
-		else if (type.equals("boolean")) {
-			methodVisitor
-					.visitMethodInsn(INVOKEVIRTUAL, Type
-							.getInternalName(ParamListUtil.class),
-							"addBoolean", "(Z)V");
 		}
 		else if (type.equals("char")) {
 			methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
