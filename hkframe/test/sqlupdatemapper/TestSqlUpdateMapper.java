@@ -1,9 +1,7 @@
 package sqlupdatemapper;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,10 +26,11 @@ public class TestSqlUpdateMapper {
 		testUser.setMoney(25);
 		testUser.setPurchase(30f);
 		testUser.setCreatetime(date);
+		testUser.setPurchase1('a');
 		ObjectSqlInfo<TestUser> objectSqlInfo = new ObjectSqlInfo<TestUser>(
 				TestUser.class);
-		int want_fieldListSize = 5;
-		int want_allFieldListSize = 6;
+		int want_fieldListSize = 6;
+		int want_allFieldListSize = 7;
 		Assert.assertEquals(want_fieldListSize, objectSqlInfo.getFieldList()
 				.size());
 		Assert.assertEquals(want_allFieldListSize, objectSqlInfo
