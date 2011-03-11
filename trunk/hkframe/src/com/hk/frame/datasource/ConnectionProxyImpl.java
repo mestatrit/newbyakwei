@@ -79,7 +79,7 @@ public class ConnectionProxyImpl implements ConnectionProxy {
 		return this.getCurrentConnection().createStatement();
 	}
 
-	public Connection getCurrentConnection() throws SQLException {
+	public Connection getCurrentConnection() {
 		String name = DataSourceStatus.getCurrentDsName();
 		Connection con = this.conMap.get(name);
 		if (con == null) {
@@ -87,10 +87,15 @@ public class ConnectionProxyImpl implements ConnectionProxy {
 				log.info("create database connection from datasource [ " + name
 						+ " ]");
 			}
-			con = this.cloudDataSourceWrapper.getCurrentDataSource()
-					.getConnection();
-			this.initCurrentConnection(con);
-			this.conMap.put(name, con);
+			try {
+				con = this.cloudDataSourceWrapper.getCurrentDataSource()
+						.getConnection();
+				this.initCurrentConnection(con);
+				this.conMap.put(name, con);
+			}
+			catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
 		}
 		return con;
 	}
@@ -279,80 +284,70 @@ public class ConnectionProxyImpl implements ConnectionProxy {
 	@Override
 	public Array createArrayOf(String typeName, Object[] elements)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getCurrentConnection().createArrayOf(typeName, elements);
 	}
 
 	@Override
 	public Blob createBlob() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getCurrentConnection().createBlob();
 	}
 
 	@Override
 	public Clob createClob() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getCurrentConnection().createClob();
 	}
 
 	@Override
 	public NClob createNClob() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getCurrentConnection().createNClob();
 	}
 
 	@Override
 	public SQLXML createSQLXML() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getCurrentConnection().createSQLXML();
 	}
 
 	@Override
 	public Struct createStruct(String typeName, Object[] attributes)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getCurrentConnection().createStruct(typeName, attributes);
 	}
 
 	@Override
 	public Properties getClientInfo() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getCurrentConnection().getClientInfo();
 	}
 
 	@Override
 	public String getClientInfo(String name) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = this.getCurrentConnection();
+		return con.getClientInfo(name);
 	}
 
 	@Override
 	public boolean isValid(int timeout) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		return this.getCurrentConnection().isValid(timeout);
 	}
 
 	@Override
 	public void setClientInfo(Properties properties)
 			throws SQLClientInfoException {
-		// TODO Auto-generated method stub
+		this.getCurrentConnection().setClientInfo(properties);
 	}
 
 	@Override
 	public void setClientInfo(String name, String value)
 			throws SQLClientInfoException {
-		// TODO Auto-generated method stub
+		this.getCurrentConnection().setClientInfo(name, value);
 	}
 
 	@Override
 	public boolean isWrapperFor(Class<?> iface) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		return this.getCurrentConnection().isWrapperFor(iface);
 	}
 
 	@Override
 	public <T> T unwrap(Class<T> iface) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getCurrentConnection().unwrap(iface);
 	}
 }

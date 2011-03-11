@@ -11,6 +11,12 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.springframework.jdbc.core.RowMapper;
 
+/**
+ * 自动创建数据对象对应的rowmapper对象 暂时只支持
+ * long,int,byte,short,float,char,double,String,java.util.Date类型的值
+ * 
+ * @author akwei
+ */
 public class RowMapperCreater extends ClassLoader implements Opcodes {
 
 	private static final String TYPE_LONG = "long";
@@ -24,6 +30,8 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 	private static final String TYPE_FLOAT = "float";
 
 	private static final String TYPE_DOUBLE = "double";
+
+	private static final String TYPE_CHAR = "char";
 
 	private static final String TYPE_STRING = String.class.getName();
 
@@ -100,6 +108,7 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 	}
 
 	private static String[] createMethodNameAndDesc(Field field) {
+		FieldTypeUtil.checkFieldType(field);
 		String type = field.getType().getName();
 		String fieldName = field.getName();
 		String[] a = new String[4];
@@ -133,6 +142,11 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 			a[0] = "getDouble";
 			a[1] = "(Ljava/lang/String;)D";
 			a[3] = "(D)V";
+		}
+		if (type.equals(TYPE_CHAR)) {
+			a[0] = "getChar";
+			a[1] = "(Ljava/lang/String;)C";
+			a[3] = "(C)V";
 		}
 		if (type.equals(TYPE_STRING)) {
 			a[0] = "getString";

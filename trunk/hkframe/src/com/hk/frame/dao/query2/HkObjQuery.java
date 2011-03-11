@@ -45,6 +45,15 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	@SuppressWarnings("unchecked")
+	public <T> int deleteById(PartitionTableInfo partitionTableInfo,
+			Class<T> clazz, Object idValue) {
+		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
+				.getObjectSqlInfo(clazz.getName());
+		return this.delete(partitionTableInfo, objectSqlInfo.getIdColumn()
+				+ "=?", new Object[] { idValue });
+	}
+
+	@SuppressWarnings("unchecked")
 	public <T> List<T> queryListEx(PartitionTableInfo[] partitionTableInfos,
 			Class[] classes, String where, Object[] params, String order,
 			int begin, int size, RowMapper<T> mapper) {
