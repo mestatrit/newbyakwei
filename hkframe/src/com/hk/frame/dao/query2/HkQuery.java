@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.hk.frame.datasource.DataSourceStatus;
+
 /**
  * 操作数据的工具类
  * 
@@ -125,6 +127,8 @@ public class HkQuery extends HkDaoSupport2 {
 	 */
 	public int count(PartitionTableInfo[] partitionTableInfos, String where,
 			Object[] params) {
+		DataSourceStatus.setCurrentDsName(partitionTableInfos[0]
+				.getDatabaseName());
 		return this.queryForNumber(
 				this.getCountSQL(partitionTableInfos, where), params)
 				.intValue();
@@ -172,6 +176,8 @@ public class HkQuery extends HkDaoSupport2 {
 	public <T> List<T> queryList(PartitionTableInfo[] partitionTableInfos,
 			String[][] columns, String where, Object[] params, String order,
 			int begin, int size, RowMapper<T> mapper) {
+		DataSourceStatus.setCurrentDsName(partitionTableInfos[0]
+				.getDatabaseName());
 		return this.query(this.getListSQL(partitionTableInfos, columns, where,
 				order), begin, size, mapper, params);
 	}
@@ -213,6 +219,8 @@ public class HkQuery extends HkDaoSupport2 {
 	public <T> T queryObject(PartitionTableInfo[] partitionTableInfos,
 			String[][] columns, String where, Object[] params, String order,
 			RowMapper<T> mapper) {
+		DataSourceStatus.setCurrentDsName(partitionTableInfos[0]
+				.getDatabaseName());
 		return this.queryForObject(this.getObjectSQL(partitionTableInfos,
 				columns, where, order), mapper, params);
 	}
@@ -237,6 +245,7 @@ public class HkQuery extends HkDaoSupport2 {
 	 */
 	public Number insert(PartitionTableInfo partitionTableInfo,
 			String[] columns, Object[] params) {
+		DataSourceStatus.setCurrentDsName(partitionTableInfo.getDatabaseName());
 		return this.insert(this.getInsertSQL(partitionTableInfo, columns),
 				params);
 	}
@@ -266,6 +275,7 @@ public class HkQuery extends HkDaoSupport2 {
 	 */
 	public int update(PartitionTableInfo partitionTableInfo, String[] columns,
 			String where, Object[] params) {
+		DataSourceStatus.setCurrentDsName(partitionTableInfo.getDatabaseName());
 		return this.update(this
 				.getUpdateSQL(partitionTableInfo, columns, where), params);
 	}
@@ -294,6 +304,7 @@ public class HkQuery extends HkDaoSupport2 {
 	 */
 	public int delete(PartitionTableInfo partitionTableInfo, String where,
 			Object[] params) {
+		DataSourceStatus.setCurrentDsName(partitionTableInfo.getDatabaseName());
 		return this
 				.update(this.getDeleteSQL(partitionTableInfo, where), params);
 	}

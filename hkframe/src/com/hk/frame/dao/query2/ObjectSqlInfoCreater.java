@@ -1,5 +1,6 @@
 package com.hk.frame.dao.query2;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  */
 public class ObjectSqlInfoCreater {
 
-	private Map<String, ObjectSqlInfo<?>> objectSqlInfoMap;
+	private final Map<String, ObjectSqlInfo<?>> objectSqlInfoMap = new HashMap<String, ObjectSqlInfo<?>>();;
 
 	/**
 	 * 类名与分析类的名称组合。格式为：className;helperClassName;
