@@ -22,7 +22,7 @@ import com.hk.frame.dao.query2.HkQuery;
 import com.hk.frame.dao.query2.PartitionTableInfo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration( { "/query-test.xml" })
+@ContextConfiguration( { "/query-test2.xml" })
 @Transactional
 public class HkQueryTest {
 

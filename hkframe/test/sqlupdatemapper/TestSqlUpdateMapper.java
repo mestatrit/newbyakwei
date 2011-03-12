@@ -30,8 +30,8 @@ public class TestSqlUpdateMapper {
 		testUser.setCreatetime(date);
 		ObjectSqlInfo<TestUser> objectSqlInfo = new ObjectSqlInfo<TestUser>(
 				TestUser.class);
-		int want_fieldListSize = 6;
-		int want_allFieldListSize = 7;
+		int want_fieldListSize = 5;
+		int want_allFieldListSize = 6;
 		Assert.assertEquals(want_fieldListSize, objectSqlInfo.getFieldList()
 				.size());
 		Assert.assertEquals(want_allFieldListSize, objectSqlInfo

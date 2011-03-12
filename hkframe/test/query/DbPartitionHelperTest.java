@@ -33,8 +33,8 @@ public class DbPartitionHelperTest {
 		ctxMap.put("userid", testUser.getUserid());
 		PartitionTableInfo partitionTableInfo = dbPartitionHelper.parse(
 				objectSqlInfo.getTableName(), ctxMap);
-		Assert.assertEquals("testuser1", partitionTableInfo.getTableName());
-		Assert.assertEquals("test1", partitionTableInfo.getDatabaseName());
+		Assert.assertEquals("testuser0", partitionTableInfo.getTableName());
+		Assert.assertEquals("ds_test0", partitionTableInfo.getDatabaseName());
 		Assert.assertEquals("testuser", objectSqlInfo.getTableName());
 	}
 }

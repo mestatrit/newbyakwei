@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -16,9 +18,14 @@ import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
 
+import com.hk.frame.dao.DaoDebugMode;
+
 public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 
+	private final Log log = LogFactory.getLog(HkDaoSupport2.class);
+
 	public int[] batchUpdate(String sql, BatchPreparedStatementSetter bpss) {
+		this.log("batchUpdate sql [ +" + sql + "+ ]");
 		try {
 			return this.getJdbcTemplate().batchUpdate(sql, bpss);
 		}
@@ -33,34 +40,8 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 		return con;
 	}
 
-	// protected String getLastChar(Number id) {
-	// String ss = id + "";
-	// if (ss.equals("0")) {
-	// throw new IllegalArgumentException("Id is 0");
-	// }
-	// int len = ss.length();
-	// if (len == 0) {
-	// throw new IllegalArgumentException("Id is null");
-	// }
-	// if (len > 1) {
-	// ss = ss.substring(ss.length() - 1, ss.length());
-	// }
-	// try {
-	// Long.parseLong(ss);
-	// }
-	// catch (NumberFormatException e) {
-	// throw new IllegalArgumentException("Id is less than 0");
-	// }
-	// return ss;
-	// }
-	//
-	// protected String getModTableName(String tableName, Number id) {
-	// StringBuilder sb = new StringBuilder();
-	// sb.append(tableName);
-	// sb.append(this.getLastChar(id));
-	// return sb.toString();
-	// }
 	public Number insert(String sql, Object[] values) {
+		this.log("insert sql [ +" + sql + "+ ]");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -97,6 +78,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 
 	public <T> List<T> query(String sql, int begin, int size, RowMapper<T> rm,
 			Object[] values) {
+		this.log("query sql [ +" + sql + "+ ]");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -137,6 +119,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 	}
 
 	public Number queryForNumber(String sql, Object[] values) {
+		this.log("queryForNumber sql [ +" + sql + "+ ]");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -179,6 +162,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 	}
 
 	public <T> T queryForObject(String sql, RowMapper<T> rm, Object[] values) {
+		this.log("queryForObject sql [ +" + sql + "+ ]");
 		List<T> list = this.query(sql, 0, 1, rm, values);
 		if (list.isEmpty()) {
 			return null;
@@ -187,6 +171,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 	}
 
 	public int update(String sql, Object[] values) {
+		this.log("update sql [ +" + sql + "+ ]");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -213,6 +198,12 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 			JdbcUtils.closeResultSet(rs);
 			JdbcUtils.closeStatement(ps);
 			DataSourceUtils.releaseConnection(con, getDataSource());
+		}
+	}
+
+	protected void log(String v) {
+		if (DaoDebugMode.isSqlDeubg()) {
+			log.info(v);
 		}
 	}
 }
