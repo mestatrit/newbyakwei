@@ -18,6 +18,10 @@ public class HkObjQuery extends HkQuery {
 		this.objectSqlInfoCreater = objectSqlInfoCreater;
 	}
 
+	public ObjectSqlInfoCreater getObjectSqlInfoCreater() {
+		return objectSqlInfoCreater;
+	}
+
 	@SuppressWarnings("unchecked")
 	public <T> Number insertObj(PartitionTableInfo partitionTableInfo, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater

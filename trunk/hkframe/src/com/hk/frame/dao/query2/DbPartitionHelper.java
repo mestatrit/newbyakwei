@@ -9,24 +9,40 @@ import java.util.Map;
  */
 public abstract class DbPartitionHelper {
 
+	protected String get01(Number id) {
+		if (id.equals(0)) {
+			throw new IllegalArgumentException("Id is 0");
+		}
+		long v = id.longValue();
+		long res = v % 2;
+		if (res == 0) {
+			return "0";
+		}
+		return "1";
+	}
+
+	protected String getLastChar(Number id) {
+		if (id.equals(0)) {
+			throw new IllegalArgumentException("Id is 0");
+		}
+		String ss = String.valueOf(id);
+		int len = ss.length();
+		if (len == 1) {
+			return ss;
+		}
+		ss = ss.substring(ss.length() - 1, ss.length());
+		return ss;
+	}
+
 	/**
-	 * 返回经过计算后，生成的真是数据库与表信息<br/>
+	 * 根据内容进行分析，创建表的分区信息
 	 * 
-	 * @param logicDatabaseName
-	 *            要进行计算的逻辑表名
+	 * @param name
+	 *            逻辑表名称，也将会成为表的别名
 	 * @param ctxMap
-	 *            logicDatabaseName 上下文数据对象
+	 *            上下文存储
 	 * @return
 	 */
-	public abstract <T> PartitionTableInfo createPartitionTableInfoForInsert(
-			Class<T> clazz, Map<String, Object> ctxMap);
-
-	public abstract <T> PartitionTableInfo createPartitionTableInfoForUpdate(
-			Class<T> clazz, Map<String, Object> ctxMap);
-
-	public abstract <T> PartitionTableInfo createPartitionTableInfoForDelete(
-			Class<T> clazz, Map<String, Object> ctxMap);
-
-	public abstract <T> PartitionTableInfo createPartitionTableInfoForSelect(
-			Class<T> clazz, Map<String, Object> ctxMap);
+	public abstract PartitionTableInfo parse(String name,
+			Map<String, Object> ctxMap);
 }

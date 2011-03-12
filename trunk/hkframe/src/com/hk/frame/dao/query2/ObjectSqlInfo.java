@@ -1,7 +1,6 @@
 package com.hk.frame.dao.query2;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +22,8 @@ public class ObjectSqlInfo<T> {
 	private RowMapper<T> rowMapper;
 
 	private SqlUpdateMapper<T> sqlUpdateMapper;
+
+	private DbPartitionHelper dbPartitionHelper;
 
 	private Class<T> clazz;
 
@@ -76,16 +77,15 @@ public class ObjectSqlInfo<T> {
 	 */
 	private final Map<String, String> fieldColumnMap = new HashMap<String, String>();
 
+	public ObjectSqlInfo(Class<T> clazz, Class<T> dbPartitionHelperClazz) {
+		this(clazz);
+		this.buildDbPartitionHelper(dbPartitionHelperClazz);
+	}
+
 	/**
 	 * 创建对象，初始化数据
 	 * 
 	 * @param clazz
-	 * @throws IllegalArgumentException
-	 * @throws SecurityException
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
 	 */
 	public ObjectSqlInfo(Class<T> clazz) {
 		this.clazz = clazz;
@@ -210,6 +210,16 @@ public class ObjectSqlInfo<T> {
 		}
 	}
 
+	private void buildDbPartitionHelper(Class<T> dbPartitionHelperClazz) {
+		try {
+			Object obj = dbPartitionHelperClazz.getConstructor().newInstance();
+			this.dbPartitionHelper = (DbPartitionHelper) obj;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	private void buildAllColumns() {
 		columns = new String[this.allfieldList.size()];
 		int i = 0;
@@ -317,5 +327,9 @@ public class ObjectSqlInfo<T> {
 	 */
 	public String[] getColumnsForUpdate() {
 		return columnsForUpdate;
+	}
+
+	public DbPartitionHelper getDbPartitionHelper() {
+		return dbPartitionHelper;
 	}
 }

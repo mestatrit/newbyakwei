@@ -15,20 +15,24 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 	private Map<String, ObjectSqlInfo<?>> objectSqlInfoMap;
 
 	/**
-	 * 存储类名称信息集合
+	 * 类名与分析类的名称组合。格式为：className;helperClassName;
 	 */
-	private List<String> clazzNameList;
+	private List<String> infos;
 
-	public void setClazzNameList(List<String> clazzNameList) {
-		this.clazzNameList = clazzNameList;
+	public void setInfos(List<String> infos) {
+		this.infos = infos;
 	}
 
-	public List<String> getClazzNameList() {
-		return clazzNameList;
+	public List<String> getInfos() {
+		return infos;
 	}
 
-	public ObjectSqlInfo<?> getObjectSqlInfo(String key) {
-		return this.objectSqlInfoMap.get(key);
+	public ObjectSqlInfo<?> getObjectSqlInfo(String className) {
+		return this.objectSqlInfoMap.get(className);
+	}
+
+	public <T> ObjectSqlInfo<?> getObjectSqlInfo(Class<T> clazz) {
+		return this.objectSqlInfoMap.get(clazz.getName());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -37,10 +41,16 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 		ClassLoader classLoader = Thread.currentThread()
 				.getContextClassLoader();
 		Class<? extends Object> clazz = null;
+		Class<? extends Object> dbPartitionHelperClazz = null;
 		ObjectSqlInfo<?> objectSqlInfo = null;
-		for (String className : clazzNameList) {
+		for (String s : infos) {
+			String[] tmp = s.split(";");
+			String className = tmp[0];
+			String dbPartitionHelperClassName = tmp[1];
 			clazz = classLoader.loadClass(className);
-			objectSqlInfo = new ObjectSqlInfo(clazz);
+			dbPartitionHelperClazz = classLoader
+					.loadClass(dbPartitionHelperClassName);
+			objectSqlInfo = new ObjectSqlInfo(clazz, dbPartitionHelperClazz);
 			objectSqlInfoMap.put(className, objectSqlInfo);
 		}
 	}
