@@ -28,7 +28,6 @@ public class TestSqlUpdateMapper {
 		testUser.setMoney(25);
 		testUser.setPurchase(30f);
 		testUser.setCreatetime(date);
-		testUser.setPurchase1('a');
 		ObjectSqlInfo<TestUser> objectSqlInfo = new ObjectSqlInfo<TestUser>(
 				TestUser.class);
 		int want_fieldListSize = 6;
