@@ -1,15 +1,21 @@
 package query;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import bean.TestUser;
 
 import com.hk.frame.dao.query2.HkQuery;
 import com.hk.frame.dao.query2.PartitionTableInfo;
@@ -463,5 +469,106 @@ public class HkQueryTest {
 		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
 				"nick", "gender", "money", "purchase", "createtime" },
 				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
+	}
+
+	@Test
+	public void testUpdate() {
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setTableName("testuser0");
+		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
+				"nick", "gender", "money", "purchase", "createtime" },
+				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
+		int res = this.hkQuery.update(partitionTableInfo, new String[] {
+				"nick", "gender", "money", "purchase", "createtime" },
+				"userid=?", new Object[] { "原味原味原味", "0", 12.5, 16.7,
+						new Date(), 1 });
+		Assert.assertEquals(1, res);
+	}
+
+	@Test
+	public void testDelete() {
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setTableName("testuser0");
+		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
+				"nick", "gender", "money", "purchase", "createtime" },
+				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
+		int res = this.hkQuery.delete(partitionTableInfo, "userid=?",
+				new Object[] { 1 });
+		Assert.assertEquals(1, res);
+	}
+
+	@Test
+	public void testSelectList() {
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setAliasName("a");
+		partitionTableInfo.setTableName("testuser0");
+		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
+				"nick", "gender", "money", "purchase", "createtime" },
+				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
+		List<TestUser> list = this.hkQuery.queryList(
+				new PartitionTableInfo[] { partitionTableInfo },
+				new String[][] { { "userid", "nick", "gender", "money",
+						"purchase", "createtime" } }, null, null, null, 0, 10,
+				new RowMapper<TestUser>() {
+
+					@Override
+					public TestUser mapRow(ResultSet rs, int arg1)
+							throws SQLException {
+						TestUser o = new TestUser();
+						o.setUserid(rs.getLong("a.userid"));
+						o.setNick(rs.getString("a.nick"));
+						o.setCreatetime(rs.getTimestamp("a.createtime"));
+						o.setGender(rs.getByte("a.gender"));
+						o.setMoney(rs.getDouble("a.money"));
+						o.setPurchase(rs.getFloat("a.purchase"));
+						return o;
+					}
+				});
+		Assert.assertEquals(1, list.size());
+		System.out.println(list.get(0).getUserid());
+	}
+
+	@Test
+	public void testSelectObject() {
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setAliasName("a");
+		partitionTableInfo.setTableName("testuser0");
+		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
+				"nick", "gender", "money", "purchase", "createtime" },
+				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
+		TestUser testUser = this.hkQuery.queryObject(
+				new PartitionTableInfo[] { partitionTableInfo },
+				new String[][] { { "userid", "nick", "gender", "money",
+						"purchase", "createtime" } }, "userid=?",
+				new Object[] { 1 }, null, new RowMapper<TestUser>() {
+
+					@Override
+					public TestUser mapRow(ResultSet rs, int arg1)
+							throws SQLException {
+						TestUser o = new TestUser();
+						o.setUserid(rs.getLong("a.userid"));
+						o.setNick(rs.getString("a.nick"));
+						o.setCreatetime(rs.getTimestamp("a.createtime"));
+						o.setGender(rs.getByte("a.gender"));
+						o.setMoney(rs.getDouble("a.money"));
+						o.setPurchase(rs.getFloat("a.purchase"));
+						return o;
+					}
+				});
+		Assert.assertNotNull(testUser);
+		System.out.println(testUser.getNick());
+	}
+
+	@Test
+	public void testSelectCount() {
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setAliasName("a");
+		partitionTableInfo.setTableName("testuser0");
+		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
+				"nick", "gender", "money", "purchase", "createtime" },
+				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
+		int count = this.hkQuery.count(
+				new PartitionTableInfo[] { partitionTableInfo }, null, null);
+		Assert.assertEquals(1, count);
 	}
 }
