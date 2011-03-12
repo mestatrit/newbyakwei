@@ -79,14 +79,15 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 	private static <T> void visitGetIdParam(ClassWriter classWriter,
 			MethodVisitor methodVisitor, Field field,
 			ObjectSqlInfo<T> objectSqlInfo) {
-		methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "getIdParam", "("
+		MethodVisitor _methodVisitor = methodVisitor;
+		_methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "getIdParam", "("
 				+ Type.getDescriptor(objectSqlInfo.getClazz())
 				+ ")Ljava/lang/Object;", null, null);
-		methodVisitor.visitMaxs(2, 2);
-		methodVisitor.visitVarInsn(ALOAD, 1);
-		visitGetIdParamInvokeForField(methodVisitor, field, objectSqlInfo);
-		methodVisitor.visitInsn(ARETURN);
-		methodVisitor.visitEnd();
+		_methodVisitor.visitMaxs(2, 2);
+		_methodVisitor.visitVarInsn(ALOAD, 1);
+		visitGetIdParamInvokeForField(_methodVisitor, field, objectSqlInfo);
+		_methodVisitor.visitInsn(ARETURN);
+		_methodVisitor.visitEnd();
 	}
 
 	private static String getGetMethodName(Field field) {
@@ -131,161 +132,167 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 
 	private static <T> void visitGetParamsForInsert(ClassWriter classWriter,
 			MethodVisitor methodVisitor, ObjectSqlInfo<T> objectSqlInfo) {
-		methodVisitor = classWriter.visitMethod(ACC_PUBLIC,
+		MethodVisitor _methodVisitor = methodVisitor;
+		_methodVisitor = classWriter.visitMethod(ACC_PUBLIC,
 				"getParamsForInsert", "("
 						+ Type.getDescriptor(objectSqlInfo.getClazz()) + ")"
 						+ Type.getDescriptor(Object[].class), null, null);
-		methodVisitor.visitMaxs(3, 3);
-		methodVisitor.visitTypeInsn(NEW, Type
+		_methodVisitor.visitMaxs(3, 3);
+		_methodVisitor.visitTypeInsn(NEW, Type
 				.getInternalName(ParamListUtil.class));
-		methodVisitor.visitInsn(DUP);
-		methodVisitor.visitMethodInsn(INVOKESPECIAL, Type
+		_methodVisitor.visitInsn(DUP);
+		_methodVisitor.visitMethodInsn(INVOKESPECIAL, Type
 				.getInternalName(ParamListUtil.class), "<init>", "()V");
-		methodVisitor.visitVarInsn(ASTORE, 2);
-		methodVisitor.visitVarInsn(ALOAD, 2);
+		_methodVisitor.visitVarInsn(ASTORE, 2);
+		_methodVisitor.visitVarInsn(ALOAD, 2);
 		int i = 0;
 		for (Field f : objectSqlInfo.getAllfieldList()) {
-			visitGetParamsForInsertAndUpdate(methodVisitor, f, objectSqlInfo);
+			visitGetParamsForInsertAndUpdate(_methodVisitor, f, objectSqlInfo);
 			i++;
 		}
-		methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
+		_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
 				.getInternalName(ParamListUtil.class), "toObjects",
 				"()[Ljava/lang/Object;");
-		methodVisitor.visitInsn(ARETURN);
-		methodVisitor.visitEnd();
+		_methodVisitor.visitInsn(ARETURN);
+		_methodVisitor.visitEnd();
 	}
 
 	private static <T> void visitGetParamsForUpdate(ClassWriter classWriter,
 			MethodVisitor methodVisitor, ObjectSqlInfo<T> objectSqlInfo) {
-		methodVisitor = classWriter.visitMethod(ACC_PUBLIC,
+		MethodVisitor _methodVisitor = methodVisitor;
+		_methodVisitor = classWriter.visitMethod(ACC_PUBLIC,
 				"getParamsForUpdate", "("
 						+ Type.getDescriptor(objectSqlInfo.getClazz()) + ")"
 						+ Type.getDescriptor(Object[].class), null, null);
-		methodVisitor.visitMaxs(3, 3);
-		methodVisitor.visitTypeInsn(NEW, Type
+		_methodVisitor.visitMaxs(3, 3);
+		_methodVisitor.visitTypeInsn(NEW, Type
 				.getInternalName(ParamListUtil.class));
-		methodVisitor.visitInsn(DUP);
-		methodVisitor.visitMethodInsn(INVOKESPECIAL, Type
+		_methodVisitor.visitInsn(DUP);
+		_methodVisitor.visitMethodInsn(INVOKESPECIAL, Type
 				.getInternalName(ParamListUtil.class), "<init>", "()V");
-		methodVisitor.visitVarInsn(ASTORE, 2);
-		methodVisitor.visitVarInsn(ALOAD, 2);
+		_methodVisitor.visitVarInsn(ASTORE, 2);
+		_methodVisitor.visitVarInsn(ALOAD, 2);
 		int i = 0;
 		List<Field> list = new ArrayList<Field>(objectSqlInfo.getFieldList());
 		list.add(objectSqlInfo.getIdField());
 		for (Field f : list) {
-			visitGetParamsForInsertAndUpdate(methodVisitor, f, objectSqlInfo);
+			visitGetParamsForInsertAndUpdate(_methodVisitor, f, objectSqlInfo);
 			i++;
 		}
-		methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
+		_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
 				.getInternalName(ParamListUtil.class), "toObjects",
 				"()[Ljava/lang/Object;");
-		methodVisitor.visitInsn(ARETURN);
-		methodVisitor.visitEnd();
+		_methodVisitor.visitInsn(ARETURN);
+		_methodVisitor.visitEnd();
 	}
 
 	private static <T> void visitGetParamsForInsertAndUpdate(
 			MethodVisitor methodVisitor, Field field,
 			ObjectSqlInfo<T> objectSqlInfo) {
-		methodVisitor.visitVarInsn(ALOAD, 1);
+		MethodVisitor _methodVisitor = methodVisitor;
+		_methodVisitor.visitVarInsn(ALOAD, 1);
 		String type = getFieldReturnType(field);
-		methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
+		_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
 				.getInternalName(objectSqlInfo.getClazz()),
 				getGetMethodName(field), "()"
 						+ Type.getDescriptor(field.getType()));
 		FieldTypeUtil.checkFieldType(field);
 		if (type.equals("int")) {
-			methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
 					.getInternalName(ParamListUtil.class), "addInt", "(I)V");
 		}
 		else if (type.equals("long")) {
-			methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
 					.getInternalName(ParamListUtil.class), "addLong", "(J)V");
 		}
 		else if (type.equals("short")) {
-			methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
 					.getInternalName(ParamListUtil.class), "addShort", "(S)V");
 		}
 		else if (type.equals("char")) {
-			methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
 					.getInternalName(ParamListUtil.class), "addChar", "(C)V");
 		}
 		else if (type.equals("byte")) {
-			methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
 					.getInternalName(ParamListUtil.class), "addByte", "(B)V");
 		}
 		else if (type.equals("float")) {
-			methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
 					.getInternalName(ParamListUtil.class), "addFloat", "(F)V");
 		}
 		else if (type.equals("double")) {
-			methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
 					.getInternalName(ParamListUtil.class), "addDouble", "(D)V");
 		}
 		else if (type.equals("java.lang.String")) {
-			methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
 					.getInternalName(ParamListUtil.class), "addString",
 					"(Ljava/lang/String;)V");
 		}
 		else if (type.equals("java.util.Date")) {
-			methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
 					.getInternalName(ParamListUtil.class), "addDate",
 					"(Ljava/util/Date;)V");
 		}
-		methodVisitor.visitVarInsn(ALOAD, 2);
+		_methodVisitor.visitVarInsn(ALOAD, 2);
 	}
 
 	private static <T> void visitBridgeGetIdParam(ClassWriter classWriter,
 			MethodVisitor methodVisitor, String mapperClassName,
 			ObjectSqlInfo<T> objectSqlInfo) {
-		methodVisitor = classWriter.visitMethod(ACC_PUBLIC + ACC_BRIDGE
+		MethodVisitor _methodVisitor = methodVisitor;
+		_methodVisitor = classWriter.visitMethod(ACC_PUBLIC + ACC_BRIDGE
 				+ ACC_SYNTHETIC, "getIdParam",
 				"(Ljava/lang/Object;)Ljava/lang/Object;", null, null);
-		methodVisitor.visitMaxs(2, 2);
-		methodVisitor.visitVarInsn(ALOAD, 0);
-		methodVisitor.visitVarInsn(ALOAD, 1);
-		methodVisitor.visitTypeInsn(CHECKCAST, Type
+		_methodVisitor.visitMaxs(2, 2);
+		_methodVisitor.visitVarInsn(ALOAD, 0);
+		_methodVisitor.visitVarInsn(ALOAD, 1);
+		_methodVisitor.visitTypeInsn(CHECKCAST, Type
 				.getInternalName(objectSqlInfo.getClazz()));
-		methodVisitor.visitMethodInsn(INVOKEVIRTUAL, mapperClassName,
+		_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, mapperClassName,
 				"getIdParam", "("
 						+ Type.getDescriptor(objectSqlInfo.getClazz())
 						+ ")Ljava/lang/Object;");
-		methodVisitor.visitInsn(ARETURN);
+		_methodVisitor.visitInsn(ARETURN);
 	}
 
 	private static <T> void visitBridgeGetParamsForUpdate(
 			ClassWriter classWriter, MethodVisitor methodVisitor,
 			String mapperClassName, ObjectSqlInfo<T> objectSqlInfo) {
-		methodVisitor = classWriter.visitMethod(ACC_PUBLIC + ACC_BRIDGE
+		MethodVisitor _methodVisitor = methodVisitor;
+		_methodVisitor = classWriter.visitMethod(ACC_PUBLIC + ACC_BRIDGE
 				+ ACC_SYNTHETIC, "getParamsForUpdate",
 				"(Ljava/lang/Object;)[Ljava/lang/Object;", null, null);
-		methodVisitor.visitMaxs(2, 2);
-		methodVisitor.visitVarInsn(ALOAD, 0);
-		methodVisitor.visitVarInsn(ALOAD, 1);
-		methodVisitor.visitTypeInsn(CHECKCAST, Type
+		_methodVisitor.visitMaxs(2, 2);
+		_methodVisitor.visitVarInsn(ALOAD, 0);
+		_methodVisitor.visitVarInsn(ALOAD, 1);
+		_methodVisitor.visitTypeInsn(CHECKCAST, Type
 				.getInternalName(objectSqlInfo.getClazz()));
-		methodVisitor.visitMethodInsn(INVOKEVIRTUAL, mapperClassName,
+		_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, mapperClassName,
 				"getParamsForUpdate", "("
 						+ Type.getDescriptor(objectSqlInfo.getClazz())
 						+ ")[Ljava/lang/Object;");
-		methodVisitor.visitInsn(ARETURN);
+		_methodVisitor.visitInsn(ARETURN);
 	}
 
 	private static <T> void visitBridgeGetParamsForInsert(
 			ClassWriter classWriter, MethodVisitor methodVisitor,
 			String mapperClassName, ObjectSqlInfo<T> objectSqlInfo) {
-		methodVisitor = classWriter.visitMethod(ACC_PUBLIC + ACC_BRIDGE
+		MethodVisitor _methodVisitor = methodVisitor;
+		_methodVisitor = classWriter.visitMethod(ACC_PUBLIC + ACC_BRIDGE
 				+ ACC_SYNTHETIC, "getParamsForInsert",
 				"(Ljava/lang/Object;)[Ljava/lang/Object;", null, null);
-		methodVisitor.visitMaxs(2, 2);
-		methodVisitor.visitVarInsn(ALOAD, 0);
-		methodVisitor.visitVarInsn(ALOAD, 1);
-		methodVisitor.visitTypeInsn(CHECKCAST, Type
+		_methodVisitor.visitMaxs(2, 2);
+		_methodVisitor.visitVarInsn(ALOAD, 0);
+		_methodVisitor.visitVarInsn(ALOAD, 1);
+		_methodVisitor.visitTypeInsn(CHECKCAST, Type
 				.getInternalName(objectSqlInfo.getClazz()));
-		methodVisitor.visitMethodInsn(INVOKEVIRTUAL, mapperClassName,
+		_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, mapperClassName,
 				"getParamsForInsert", "("
 						+ Type.getDescriptor(objectSqlInfo.getClazz())
 						+ ")[Ljava/lang/Object;");
-		methodVisitor.visitInsn(ARETURN);
+		_methodVisitor.visitInsn(ARETURN);
 	}
 
 	private static String getFieldReturnType(Field field) {
