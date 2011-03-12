@@ -1,6 +1,7 @@
 package com.hk.frame.dao.query2;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -22,43 +23,88 @@ public class HkObjQuery extends HkQuery {
 		return objectSqlInfoCreater;
 	}
 
+	public <T> DbPartitionHelper getDbPartitionHelper(Class<T> clazz) {
+		return this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
+				.getDbPartitionHelper();
+	}
+
+	public <T> PartitionTableInfo parse(Class<T> clazz,
+			Map<String, Object> ctxMap) {
+		DbPartitionHelper dbPartitionHelper = this.objectSqlInfoCreater
+				.getObjectSqlInfo(clazz).getDbPartitionHelper();
+		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
+				.getObjectSqlInfo(clazz);
+		return dbPartitionHelper.parse(objectSqlInfo.getTableName(), ctxMap);
+	}
+
 	@SuppressWarnings("unchecked")
-	public <T> Number insertObj(PartitionTableInfo partitionTableInfo, T t) {
+	private <T> Number insertObj(PartitionTableInfo partitionTableInfo, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
-				.getObjectSqlInfo(t.getClass().getName());
+				.getObjectSqlInfo(t.getClass());
 		return this.insert(partitionTableInfo, objectSqlInfo.getColumns(),
 				objectSqlInfo.getSqlUpdateMapper().getParamsForInsert(t));
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> int updateObj(PartitionTableInfo partitionTableInfo, T t) {
+	public <T> Number insertObj(Map<String, Object> ctxMap, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
-				.getObjectSqlInfo(t.getClass().getName());
+				.getObjectSqlInfo(t.getClass());
+		return this.insertObj(objectSqlInfo.getDbPartitionHelper().parse(
+				objectSqlInfo.getTableName(), ctxMap), t);
+	}
+
+	@SuppressWarnings("unchecked")
+	private <T> int updateObj(PartitionTableInfo partitionTableInfo, T t) {
+		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
+				.getObjectSqlInfo(t.getClass());
 		return this.update(partitionTableInfo, objectSqlInfo
 				.getColumnsForUpdate(), objectSqlInfo.getIdColumn() + "=?",
 				objectSqlInfo.getSqlUpdateMapper().getParamsForUpdate(t));
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> int deleteObj(PartitionTableInfo partitionTableInfo, T t) {
+	public <T> int updateObj(Map<String, Object> ctxMap, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
-				.getObjectSqlInfo(t.getClass().getName());
+				.getObjectSqlInfo(t.getClass());
+		return this.updateObj(objectSqlInfo.getDbPartitionHelper().parse(
+				objectSqlInfo.getTableName(), ctxMap), t);
+	}
+
+	@SuppressWarnings("unchecked")
+	private <T> int deleteObj(PartitionTableInfo partitionTableInfo, T t) {
+		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
+				.getObjectSqlInfo(t.getClass());
 		return this.delete(partitionTableInfo, objectSqlInfo.getIdColumn()
 				+ "=?", new Object[] { objectSqlInfo.getSqlUpdateMapper()
 				.getIdParam(t) });
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> int deleteById(PartitionTableInfo partitionTableInfo,
-			Class<T> clazz, Object idValue) {
+	public <T> int deleteObj(Map<String, Object> ctxMap, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
-				.getObjectSqlInfo(clazz.getName());
+				.getObjectSqlInfo(t.getClass());
+		return this.deleteObj(objectSqlInfo.getDbPartitionHelper().parse(
+				objectSqlInfo.getTableName(), ctxMap), t);
+	}
+
+	private <T> int deleteById(PartitionTableInfo partitionTableInfo,
+			Class<T> clazz, Object idValue) {
+		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
+				.getObjectSqlInfo(clazz);
 		return this.delete(partitionTableInfo, objectSqlInfo.getIdColumn()
 				+ "=?", new Object[] { idValue });
 	}
 
+	public <T> int deleteById(Map<String, Object> ctxMap, Class<T> clazz,
+			Object idValue) {
+		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
+				.getObjectSqlInfo(clazz);
+		return this.deleteById(objectSqlInfo.getDbPartitionHelper().parse(
+				objectSqlInfo.getTableName(), ctxMap), clazz, idValue);
+	}
+
 	@SuppressWarnings("unchecked")
-	public <T> List<T> queryListEx(PartitionTableInfo[] partitionTableInfos,
+	private <T> List<T> queryListEx(PartitionTableInfo[] partitionTableInfos,
 			Class[] classes, String where, Object[] params, String order,
 			int begin, int size, RowMapper<T> mapper) {
 		ObjectSqlInfo<T> objectSqlInfo = null;
@@ -66,7 +112,7 @@ public class HkObjQuery extends HkQuery {
 		int i = 0;
 		for (Class<?> clazz : classes) {
 			objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
-					.getObjectSqlInfo(clazz.getName());
+					.getObjectSqlInfo(clazz);
 			columns[i] = objectSqlInfo.getColumns();
 			i++;
 		}
@@ -75,45 +121,82 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> List<T> queryListEx(PartitionTableInfo[] partitionTableInfos,
-			Class clazz, String where, Object[] params, String order,
-			int begin, int size) {
-		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
-				.getObjectSqlInfo(clazz.getName());
-		return this.queryList(partitionTableInfos,
-				new String[][] { objectSqlInfo.getColumns() }, where, params,
-				order, begin, size, objectSqlInfo.getRowMapper());
+	public <T> List<T> queryListEx(Map<String, Object>[] ctxMaps,
+			Class[] classes, String where, Object[] params, String order,
+			int begin, int size, RowMapper<T> mapper) {
+		ObjectSqlInfo<T> objectSqlInfo = null;
+		PartitionTableInfo[] partitionTableInfos = new PartitionTableInfo[classes.length];
+		int i = 0;
+		for (Class<?> clazz : classes) {
+			objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
+					.getObjectSqlInfo(clazz);
+			partitionTableInfos[i] = objectSqlInfo.getDbPartitionHelper()
+					.parse(objectSqlInfo.getTableName(), ctxMaps[i]);
+			i++;
+		}
+		return this.queryListEx(partitionTableInfos, classes, where, params,
+				order, begin, size, mapper);
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> T queryObjectEx(PartitionTableInfo[] partitionTableInfos,
+	public <T> List<T> queryListEx(PartitionTableInfo partitionTableInfo,
 			Class<T> clazz, String where, Object[] params, String order,
-			RowMapper<T> mapper) {
-		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
-				.getObjectSqlInfo(clazz.getName());
-		return this.queryObject(partitionTableInfos,
-				new String[][] { objectSqlInfo.getColumns() }, where, params,
-				order, mapper);
+			int begin, int size) {
+		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
+				.getObjectSqlInfo(clazz);
+		return this.queryListEx(
+				new PartitionTableInfo[] { partitionTableInfo },
+				new Class[] { clazz }, where, params, order, begin, size,
+				objectSqlInfo.getRowMapper());
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> T queryObjectEx(PartitionTableInfo partitionTableInfo,
+	public <T> List<T> queryListEx(Map<String, Object> ctxMap, Class<T> clazz,
+			String where, Object[] params, String order, int begin, int size) {
+		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
+				.getObjectSqlInfo(clazz);
+		return this.queryListEx(objectSqlInfo.getDbPartitionHelper().parse(
+				objectSqlInfo.getTableName(), ctxMap), clazz, where, params,
+				order, begin, size);
+	}
+
+	public <T> T queryObjectEx(PartitionTableInfo[] partitionTableInfos,
 			Class<T> clazz, String where, Object[] params, String order) {
-		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
-				.getObjectSqlInfo(clazz.getName());
-		return this.queryObject(
-				new PartitionTableInfo[] { partitionTableInfo },
+		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
+				.getObjectSqlInfo(clazz);
+		return this.queryObject(partitionTableInfos,
 				new String[][] { objectSqlInfo.getColumns() }, where, params,
 				order, objectSqlInfo.getRowMapper());
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> T queryObjectExById(PartitionTableInfo partitionTableInfo,
+	private <T> T queryObjectEx(PartitionTableInfo partitionTableInfo,
+			Class<T> clazz, String where, Object[] params, String order) {
+		return this.queryObjectEx(
+				new PartitionTableInfo[] { partitionTableInfo }, clazz, where,
+				params, order);
+	}
+
+	public <T> T queryObjectEx(Map<String, Object> ctxMap, Class<T> clazz,
+			String where, Object[] params, String order) {
+		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
+				.getObjectSqlInfo(clazz);
+		return this.queryObjectEx(objectSqlInfo.getDbPartitionHelper().parse(
+				objectSqlInfo.getTableName(), ctxMap), clazz, where, params,
+				order);
+	}
+
+	private <T> T queryObjectExById(PartitionTableInfo partitionTableInfo,
 			Class<T> clazz, Object idValue) {
-		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
-				.getObjectSqlInfo(clazz.getName());
+		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
+				.getObjectSqlInfo(clazz);
 		return this.queryObjectEx(partitionTableInfo, clazz, objectSqlInfo
 				.getIdColumn()
 				+ "=?", new Object[] { idValue }, null);
+	}
+
+	public <T> T queryObjectExById(Map<String, Object> ctxMap, Class<T> clazz,
+			Object idValue) {
+		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
+				.getObjectSqlInfo(clazz);
+		return this.queryObjectExById(objectSqlInfo.getDbPartitionHelper()
+				.parse(objectSqlInfo.getTableName(), ctxMap), clazz, idValue);
 	}
 }
