@@ -8,7 +8,6 @@ import com.hk.frame.dao.annotation.Table;
 
 @Table(name = "testuser")
 public class TestUser {
-	
 
 	@Id
 	private long userid;
