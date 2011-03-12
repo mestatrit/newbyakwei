@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import bean.Member;
 import bean.TestUser;
 
 import com.hk.frame.dao.query2.HkQuery;
@@ -526,6 +527,52 @@ public class HkQueryTest {
 				});
 		Assert.assertEquals(1, list.size());
 		System.out.println(list.get(0).getUserid());
+	}
+
+	@Test
+	public void testSelectList2() {
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setAliasName("a");
+		partitionTableInfo.setTableName("testuser0");
+		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
+		partitionTableInfo2.setAliasName("b");
+		partitionTableInfo2.setTableName("member");
+		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
+				"nick", "gender", "money", "purchase", "createtime" },
+				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
+		this.hkQuery.insert(partitionTableInfo2, new String[] { "userid",
+				"nick", "groupid", }, new Object[] { 1, "原味++=", "5" });
+		List<Member> list = this.hkQuery.queryList(new PartitionTableInfo[] {
+				partitionTableInfo, partitionTableInfo2 },
+				new String[][] {
+						{ "a.userid", "a.nick", "a.gender", "a.money",
+								"a.purchase", "a.createtime" },
+						{ "b.userid", "b.nick", "b.groupid" } },
+				"a.userid=b.userid", null, null, 0, 10,
+				new RowMapper<Member>() {
+
+					@Override
+					public Member mapRow(ResultSet rs, int arg1)
+							throws SQLException {
+						TestUser o = new TestUser();
+						o.setUserid(rs.getLong("a.userid"));
+						o.setNick(rs.getString("a.nick"));
+						o.setCreatetime(rs.getTimestamp("a.createtime"));
+						o.setGender(rs.getByte("a.gender"));
+						o.setMoney(rs.getDouble("a.money"));
+						o.setPurchase(rs.getFloat("a.purchase"));
+						Member member = new Member();
+						member.setUserid(rs.getLong("b.userid"));
+						member.setNick(rs.getString("b.nick"));
+						member.setGroupid(rs.getLong("b.groupid"));
+						member.setTestUser(o);
+						return member;
+					}
+				});
+		Assert.assertEquals(1, list.size());
+		System.out.println(list.get(0).getUserid() + " | "
+				+ list.get(0).getGroupid() + " | "
+				+ list.get(0).getTestUser().getNick());
 	}
 
 	@Test
