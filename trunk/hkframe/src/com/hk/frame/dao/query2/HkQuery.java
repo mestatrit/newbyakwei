@@ -13,8 +13,6 @@ import com.hk.frame.datasource.DataSourceStatus;
  */
 public class HkQuery extends HkDaoSupport2 {
 
-	// private static Map<String, String> sqlCacheMap = new HashMap<String,
-	// String>();
 	protected String buildSelectCount(String columns) {
 		StringBuilder sb = new StringBuilder("select count(");
 		if (columns == null) {
@@ -308,32 +306,4 @@ public class HkQuery extends HkDaoSupport2 {
 		return this
 				.update(this.getDeleteSQL(partitionTableInfo, where), params);
 	}
-	// /**
-	// * 创建真正的where orderby sql语句,把表别名的占位符进行替换
-	// *
-	// * @param partitionTableInfos
-	// * 表信息
-	// * @param whereAndOrder
-	// * 未被替换的 where 与 order by sql
-	// * @return
-	// */
-	// public String buildWhere(PartitionTableInfo[] partitionTableInfos,
-	// String whereAndOrder) {
-	// String _whereAndOrder = whereAndOrder;
-	// for (int i = 0; i < partitionTableInfos.length; i++) {
-	// _whereAndOrder = _whereAndOrder.replaceAll((i + 1) + "\\.",
-	// partitionTableInfos[i].getAliasName() + ".");
-	// }
-	// return _whereAndOrder;
-	// }
-	// public String buildOrder(PartitionTableInfo[] partitionTableInfos,
-	// String order) {
-	// String _order = order;
-	// for (int i = 0; i < partitionTableInfos.length; i++) {
-	// _order = _order.replaceAll((i + 1) + "\\.", partitionTableInfos[i]
-	// .getAliasName()
-	// + ".");
-	// }
-	// return _order;
-	// }
 }

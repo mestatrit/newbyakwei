@@ -121,9 +121,8 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> List<T> queryListEx(Map<String, Object>[] ctxMaps,
-			Class[] classes, String where, Object[] params, String order,
-			int begin, int size, RowMapper<T> mapper) {
+	public <T> int countEx(Map<String, Object> ctxMap, Class[] classes,
+			String where, Object[] params) {
 		ObjectSqlInfo<T> objectSqlInfo = null;
 		PartitionTableInfo[] partitionTableInfos = new PartitionTableInfo[classes.length];
 		int i = 0;
@@ -131,7 +130,29 @@ public class HkObjQuery extends HkQuery {
 			objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
 					.getObjectSqlInfo(clazz);
 			partitionTableInfos[i] = objectSqlInfo.getDbPartitionHelper()
-					.parse(objectSqlInfo.getTableName(), ctxMaps[i]);
+					.parse(objectSqlInfo.getTableName(), ctxMap);
+			i++;
+		}
+		return this.count(partitionTableInfos, where, params);
+	}
+
+	public <T> int countEx(Map<String, Object> ctxMap, Class<T> clazz,
+			String where, Object[] params) {
+		return this.countEx(ctxMap, new Class[] { clazz }, where, params);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> List<T> queryListEx(Map<String, Object> ctxMap, Class[] classes,
+			String where, Object[] params, String order, int begin, int size,
+			RowMapper<T> mapper) {
+		ObjectSqlInfo<T> objectSqlInfo = null;
+		PartitionTableInfo[] partitionTableInfos = new PartitionTableInfo[classes.length];
+		int i = 0;
+		for (Class<?> clazz : classes) {
+			objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
+					.getObjectSqlInfo(clazz);
+			partitionTableInfos[i] = objectSqlInfo.getDbPartitionHelper()
+					.parse(objectSqlInfo.getTableName(), ctxMap);
 			i++;
 		}
 		return this.queryListEx(partitionTableInfos, classes, where, params,
