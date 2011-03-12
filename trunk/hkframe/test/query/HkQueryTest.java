@@ -1,18 +1,26 @@
 package query;
 
+import java.util.Date;
+
+import javax.annotation.Resource;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.frame.dao.query2.HkQuery;
 import com.hk.frame.dao.query2.PartitionTableInfo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( { "/query-test.xml" })
-// @Transactional
+@Transactional
 public class HkQueryTest {
+
+	@Resource
+	private HkQuery hkQuery;
 
 	@Test
 	public void testCreateSQL() {
@@ -446,5 +454,15 @@ public class HkQueryTest {
 				"u.userid=i.userid and u.userid=? and u.nick=? "
 						+ "and u.gender=? and i.birthday>?", null);
 		Assert.assertEquals(select_sql, res_select_sql);
+	}
+
+	@Test
+	public void testInsert() {
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		partitionTableInfo.setTableName("testuser0");
+		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
+				"nick", "gender", "money", "purchase", "purchase1",
+				"createtime" }, new Object[] { 1, "原味", "0", 12.5, 16.7, 'c',
+				new Date() });
 	}
 }
