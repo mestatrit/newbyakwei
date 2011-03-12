@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class ObjectSqlInfoCreater {
 
-	private final Map<String, ObjectSqlInfo<?>> objectSqlInfoMap = new HashMap<String, ObjectSqlInfo<?>>();;
+	private final Map<String, ObjectSqlInfo<?>> objectSqlInfoMap = new HashMap<String, ObjectSqlInfo<?>>();
 
 	/**
 	 * 类名与分析类的名称组合。格式为：className;helperClassName;
