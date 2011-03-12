@@ -29,6 +29,5 @@ public class HkObjQueryTest {
 		testUser.setGender((byte) 1);
 		testUser.setMoney(45.5);
 		testUser.setPurchase(20.5f);
-		testUser.setPurchase1('d');
 	}
 }

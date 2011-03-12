@@ -27,17 +27,6 @@ public class TestUser {
 	@Column
 	private float purchase;
 
-	@Column
-	private char purchase1;
-
-	public char getPurchase1() {
-		return purchase1;
-	}
-
-	public void setPurchase1(char purchase1) {
-		this.purchase1 = purchase1;
-	}
-
 	public long getUserid() {
 		return userid;
 	}
