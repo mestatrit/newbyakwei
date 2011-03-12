@@ -461,8 +461,7 @@ public class HkQueryTest {
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
 		partitionTableInfo.setTableName("testuser0");
 		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
-				"nick", "gender", "money", "purchase", "purchase1",
-				"createtime" }, new Object[] { 1, "原味", "0", 12.5, 16.7, 'c',
-				new Date() });
+				"nick", "gender", "money", "purchase", "createtime" },
+				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
 	}
 }
