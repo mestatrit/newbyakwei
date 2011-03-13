@@ -16,8 +16,6 @@ class ActionMapping {
 	 */
 	public static final Map<String, ActionMapping> mappingMap = new HashMap<String, ActionMapping>();
 
-	// public static final Map<String, Action> actionMap = new HashMap<String,
-	// Action>();
 	/**
 	 * Action中要运行的方法名称
 	 */
@@ -38,19 +36,12 @@ class ActionMapping {
 	 */
 	private Method actionMethod;
 
-	// /**
-	// * 进行匹配的uri
-	// */
-	// private String mappingUri;
-	//
-	// public String getMappingUri() {
-	// return mappingUri;
-	// }
-	//
-	// public void setMappingUri(String mappingUri) {
-	// this.mappingUri = mappingUri;
-	// }
-	public ActionMapping() {//
+	/**
+	 * 通过asm创建的对象
+	 */
+	private Action asmAction;
+
+	public ActionMapping() {
 	}
 
 	public void setActionMethod(Method actionMethod) {
@@ -73,9 +64,6 @@ class ActionMapping {
 		return mappingMap;
 	}
 
-	// public static Map<String, Action> getActionMap() {
-	// return actionMap;
-	// }
 	public String getMethodName() {
 		return methodName;
 	}
@@ -97,5 +85,13 @@ class ActionMapping {
 			return false;
 		}
 		return true;
+	}
+
+	public void setAsmAction(Action asmAction) {
+		this.asmAction = asmAction;
+	}
+
+	public Action getAsmAction() {
+		return asmAction;
 	}
 }

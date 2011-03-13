@@ -97,8 +97,14 @@ public class HkActionInvocation {
 		}
 		else {
 			if (actionMapping.hasMethod()) {
-				this.result = (String) actionMapping.getActionMethod().invoke(
-						actionMapping.getAction(), request, response);
+				if(actionMapping.getAsmAction()!=null){
+					this.result=actionMapping.getAsmAction().execute(request, response);
+				}
+				else{
+					
+					this.result = (String) actionMapping.getActionMethod().invoke(
+							actionMapping.getAction(), request, response);
+				}
 			}
 			else {
 				this.result = actionMapping.getAction().execute(request,
