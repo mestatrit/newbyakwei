@@ -2,6 +2,7 @@ package com.hk.frame.web.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import javax.servlet.ServletException;
@@ -124,6 +125,7 @@ public class ActionExe {
 			Method method = null;
 			method = this.getMethod(mapping.getAction(), methodName);
 			mapping.setActionMethod(method);
+			mapping.setAsmAction(this.createAsmAction(mapping));
 			ActionMapping.mappingMap.put(mappingUri, mapping);
 			return mapping;
 		}
@@ -138,6 +140,23 @@ public class ActionExe {
 		mapping.setActionName(mappingUri);
 		ActionMapping.mappingMap.put(mappingUri, mapping);
 		return mapping;
+	}
+
+	private Action createAsmAction(ActionMapping actionMapping) {
+		ASMActionCreater asmActionCreater = new ASMActionCreater(Thread
+				.currentThread().getContextClassLoader());
+		Class<Action> clazz = asmActionCreater.createASMAction(actionMapping);
+		try {
+			Object obj = clazz.getConstructor().newInstance();
+			Action action = (Action) obj;
+			Field field = action.getClass().getDeclaredField("action");
+			field.setAccessible(true);
+			field.set(action, actionMapping.getAction());
+			return action;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public void processNoCache(HttpServletResponse response) {

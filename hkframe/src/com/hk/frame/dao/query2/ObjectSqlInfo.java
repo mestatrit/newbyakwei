@@ -199,7 +199,9 @@ public class ObjectSqlInfo<T> {
 
 	@SuppressWarnings("unchecked")
 	private void buildSqlUpdateMapper() {
-		Class<T> clazz = SqlUpdateMapperCreater
+		SqlUpdateMapperCreater sqlUpdateMapperCreater = new SqlUpdateMapperCreater(
+				Thread.currentThread().getContextClassLoader());
+		Class<T> clazz = sqlUpdateMapperCreater
 				.createSqlUpdateMapperClass(this);
 		try {
 			Object obj = clazz.getConstructor().newInstance();

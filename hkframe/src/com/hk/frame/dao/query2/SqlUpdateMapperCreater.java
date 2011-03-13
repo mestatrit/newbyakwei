@@ -23,7 +23,7 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		super(parent);
 	}
 
-	private static String createMapperClassName(Class<?> clazz) {
+	private String createMapperClassName(Class<?> clazz) {
 		int idx = clazz.getName().lastIndexOf(".");
 		String shortName = clazz.getName().substring(idx + 1);
 		String pkgName = clazz.getName().substring(0, idx);
@@ -31,7 +31,7 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> Class<T> createSqlUpdateMapperClass(
+	public <T> Class<T> createSqlUpdateMapperClass(
 			ObjectSqlInfo<T> objectSqlInfo) {
 		ClassWriter classWriter = new ClassWriter(0);
 		String mapperName = createMapperClassName(objectSqlInfo.getClazz());
@@ -63,12 +63,10 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		visitBridgeGetParamsForUpdate(classWriter, methodVisitor,
 				mapperClassName, objectSqlInfo);
 		byte[] code = classWriter.toByteArray();
-		SqlUpdateMapperCreater sqlUpdateMapperCreater = new SqlUpdateMapperCreater(
-				Thread.currentThread().getContextClassLoader());
 		try {
-			sqlUpdateMapperCreater.loadClass(RowMapper.class.getName());
-			Class<T> mapperClass = (Class<T>) sqlUpdateMapperCreater
-					.defineClass(mapperName, code, 0, code.length);
+			this.loadClass(RowMapper.class.getName());
+			Class<T> mapperClass = (Class<T>) this.defineClass(mapperName,
+					code, 0, code.length);
 			return mapperClass;
 		}
 		catch (Exception e) {
@@ -76,7 +74,7 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		}
 	}
 
-	private static <T> void visitGetIdParam(ClassWriter classWriter,
+	private <T> void visitGetIdParam(ClassWriter classWriter,
 			MethodVisitor methodVisitor, Field field,
 			ObjectSqlInfo<T> objectSqlInfo) {
 		MethodVisitor _methodVisitor = methodVisitor;
@@ -90,7 +88,7 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		_methodVisitor.visitEnd();
 	}
 
-	private static String getGetMethodName(Field field) {
+	private String getGetMethodName(Field field) {
 		String fieldName = field.getName();
 		return "get" + fieldName.substring(0, 1).toUpperCase()
 				+ fieldName.substring(1);
@@ -104,9 +102,8 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 	 * @param field
 	 * @param objectSqlInfo
 	 */
-	private static <T> void visitGetIdParamInvokeForField(
-			MethodVisitor methodVisitor, Field field,
-			ObjectSqlInfo<T> objectSqlInfo) {
+	private <T> void visitGetIdParamInvokeForField(MethodVisitor methodVisitor,
+			Field field, ObjectSqlInfo<T> objectSqlInfo) {
 		String type = getFieldReturnType(field);
 		String methodName = getGetMethodName(objectSqlInfo.getIdField());
 		methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
@@ -130,7 +127,7 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		}
 	}
 
-	private static <T> void visitGetParamsForInsert(ClassWriter classWriter,
+	private <T> void visitGetParamsForInsert(ClassWriter classWriter,
 			MethodVisitor methodVisitor, ObjectSqlInfo<T> objectSqlInfo) {
 		MethodVisitor _methodVisitor = methodVisitor;
 		_methodVisitor = classWriter.visitMethod(ACC_PUBLIC,
@@ -157,7 +154,7 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		_methodVisitor.visitEnd();
 	}
 
-	private static <T> void visitGetParamsForUpdate(ClassWriter classWriter,
+	private <T> void visitGetParamsForUpdate(ClassWriter classWriter,
 			MethodVisitor methodVisitor, ObjectSqlInfo<T> objectSqlInfo) {
 		MethodVisitor _methodVisitor = methodVisitor;
 		_methodVisitor = classWriter.visitMethod(ACC_PUBLIC,
@@ -186,7 +183,7 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		_methodVisitor.visitEnd();
 	}
 
-	private static <T> void visitGetParamsForInsertAndUpdate(
+	private <T> void visitGetParamsForInsertAndUpdate(
 			MethodVisitor methodVisitor, Field field,
 			ObjectSqlInfo<T> objectSqlInfo) {
 		MethodVisitor _methodVisitor = methodVisitor;
@@ -238,7 +235,7 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		_methodVisitor.visitVarInsn(ALOAD, 2);
 	}
 
-	private static <T> void visitBridgeGetIdParam(ClassWriter classWriter,
+	private <T> void visitBridgeGetIdParam(ClassWriter classWriter,
 			MethodVisitor methodVisitor, String mapperClassName,
 			ObjectSqlInfo<T> objectSqlInfo) {
 		MethodVisitor _methodVisitor = methodVisitor;
@@ -257,9 +254,9 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		_methodVisitor.visitInsn(ARETURN);
 	}
 
-	private static <T> void visitBridgeGetParamsForUpdate(
-			ClassWriter classWriter, MethodVisitor methodVisitor,
-			String mapperClassName, ObjectSqlInfo<T> objectSqlInfo) {
+	private <T> void visitBridgeGetParamsForUpdate(ClassWriter classWriter,
+			MethodVisitor methodVisitor, String mapperClassName,
+			ObjectSqlInfo<T> objectSqlInfo) {
 		MethodVisitor _methodVisitor = methodVisitor;
 		_methodVisitor = classWriter.visitMethod(ACC_PUBLIC + ACC_BRIDGE
 				+ ACC_SYNTHETIC, "getParamsForUpdate",
@@ -276,9 +273,9 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		_methodVisitor.visitInsn(ARETURN);
 	}
 
-	private static <T> void visitBridgeGetParamsForInsert(
-			ClassWriter classWriter, MethodVisitor methodVisitor,
-			String mapperClassName, ObjectSqlInfo<T> objectSqlInfo) {
+	private <T> void visitBridgeGetParamsForInsert(ClassWriter classWriter,
+			MethodVisitor methodVisitor, String mapperClassName,
+			ObjectSqlInfo<T> objectSqlInfo) {
 		MethodVisitor _methodVisitor = methodVisitor;
 		_methodVisitor = classWriter.visitMethod(ACC_PUBLIC + ACC_BRIDGE
 				+ ACC_SYNTHETIC, "getParamsForInsert",
@@ -295,7 +292,7 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		_methodVisitor.visitInsn(ARETURN);
 	}
 
-	private static String getFieldReturnType(Field field) {
+	private String getFieldReturnType(Field field) {
 		return field.getType().getName();
 	}
 }
