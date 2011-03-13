@@ -1,4 +1,4 @@
-package query;
+package unittest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import query.TestUserDbPartitionHelper;
 
 import bean.TestUser;
 
