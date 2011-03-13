@@ -1,4 +1,4 @@
-package sqlupdatemapper;
+package unittest;
 
 import java.util.Calendar;
 import java.util.Date;
