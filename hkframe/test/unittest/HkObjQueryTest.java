@@ -124,7 +124,7 @@ public class HkObjQueryTest {
 	}
 
 	@Test
-	public void testSelectObj() {
+	public void testDelete2() {
 		TestUser testUser = new TestUser();
 		testUser.setUserid(10);
 		testUser.setNick("原-=-=味");
@@ -138,11 +138,40 @@ public class HkObjQueryTest {
 		TestUser o = this.hkObjQuery.queryObjectExById(ctxMap, TestUser.class,
 				testUser.getUserid());
 		Assert.assertNotNull(o);
-		o = this.hkObjQuery.queryObjectEx(ctxMap, TestUser.class, "gender=?",
-				new Object[] { 3 }, null);
+		this.hkObjQuery.delete(ctxMap, TestUser.class, "nick=?",
+				new Object[] { testUser.getNick() });
+		o = this.hkObjQuery.queryObjectExById(ctxMap, TestUser.class, testUser
+				.getUserid());
 		Assert.assertNull(o);
-		o = this.hkObjQuery.queryObjectEx(ctxMap, TestUser.class, "gender=?",
-				new Object[] { 1 }, null);
+	}
+
+	@Test
+	public void testUpdate2() {
+		TestUser testUser = new TestUser();
+		testUser.setUserid(10);
+		testUser.setNick("原-=-=味");
+		testUser.setCreatetime(new Date());
+		testUser.setGender((byte) 1);
+		testUser.setMoney(45.5);
+		testUser.setPurchase(20.5f);
+		Map<String, Object> ctxMap = new HashMap<String, Object>();
+		ctxMap.put("userid", testUser.getUserid());
+		this.hkObjQuery.insertObj(ctxMap, testUser);
+		TestUser o = this.hkObjQuery.queryObjectExById(ctxMap, TestUser.class,
+				testUser.getUserid());
 		Assert.assertNotNull(o);
+		int res = this.hkObjQuery.update(ctxMap, TestUser.class, new String[] {
+				"nick", "gender" }, "userid=?", new Object[] { "akweiwei", "0",
+				"11" });
+		Assert.assertNotSame(1, res);
+		res = this.hkObjQuery.update(ctxMap, TestUser.class, new String[] {
+				"nick", "gender" }, "userid=?", new Object[] { "akweiwei", "0",
+				"10" });
+		Assert.assertEquals(1, res);
+		o = this.hkObjQuery.queryObjectExById(ctxMap, TestUser.class, testUser
+				.getUserid());
+		Assert.assertNotNull(o);
+		Assert.assertNotSame(testUser.getNick(), o.getNick());
+		Assert.assertNotSame(testUser.getGender(), o.getGender());
 	}
 }
