@@ -70,6 +70,22 @@ public class HkObjQuery extends HkQuery {
 				objectSqlInfo.getTableName(), ctxMap), t);
 	}
 
+	public <T> int delete(Map<String, Object> ctxMap, Class<T> clazz,
+			String where, Object[] params) {
+		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
+				.getObjectSqlInfo(clazz);
+		return this.delete(objectSqlInfo.getDbPartitionHelper().parse(
+				objectSqlInfo.getTableName(), ctxMap), where, params);
+	}
+
+	public <T> int update(Map<String, Object> ctxMap, Class<T> clazz,
+			String[] columns, String where, Object[] params) {
+		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
+				.getObjectSqlInfo(clazz);
+		return this.update(objectSqlInfo.getDbPartitionHelper().parse(
+				objectSqlInfo.getTableName(), ctxMap), columns, where, params);
+	}
+
 	@SuppressWarnings("unchecked")
 	private <T> int deleteObj(PartitionTableInfo partitionTableInfo, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
