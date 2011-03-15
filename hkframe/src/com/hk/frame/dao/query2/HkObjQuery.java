@@ -23,6 +23,11 @@ public class HkObjQuery extends HkQuery {
 		return objectSqlInfoCreater;
 	}
 
+	public <T> RowMapper<T> getRowMapper(Class<T> clazz) {
+		return this.getObjectSqlInfoCreater().getObjectSqlInfo(clazz)
+				.getRowMapper();
+	}
+
 	public <T> DbPartitionHelper getDbPartitionHelper(Class<T> clazz) {
 		return this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
 				.getDbPartitionHelper();

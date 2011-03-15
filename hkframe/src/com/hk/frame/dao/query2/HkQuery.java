@@ -36,6 +36,7 @@ public class HkQuery extends HkDaoSupport2 {
 		}
 		for (int i = 0; i < partitionTableInfos.length; i++) {
 			for (int k = 0; k < columns[i].length; k++) {
+				sb.append(partitionTableInfos[i].getAliasName()).append(".");
 				sb.append(columns[i][k]);
 				if (i == k1 && k == k2) {
 				}

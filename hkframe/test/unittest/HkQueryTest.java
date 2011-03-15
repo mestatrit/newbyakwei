@@ -167,7 +167,7 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "u.userid", "u.nick", "u.gender" } },
+				new String[][] { { "userid", "nick", "gender" } },
 				"u.userid=? and u.nick=? and u.gender=?",
 				"u.createtime desc,u.nick asc");
 		Assert.assertEquals(select_sql, res_select_sql);
@@ -191,8 +191,8 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getListSQL(new PartitionTableInfo[] {
 				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
-				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
-				{ "i.userid", "i.birthday", "i.fansnum" } },
+				{ "userid", "nick", "gender", "createtime" },
+				{ "userid", "birthday", "fansnum" } },
 				"u.userid=i.userid and u.userid=? and u.nick=? "
 						+ "and u.gender=? and i.birthday>?",
 				"u.createtime desc,u.nick asc,i.birthday desc");
@@ -210,7 +210,7 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "u.userid", "u.nick", "u.gender" } }, null,
+				new String[][] { { "userid", "nick", "gender" } }, null,
 				"u.createtime desc,u.nick asc");
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
@@ -231,8 +231,8 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getListSQL(new PartitionTableInfo[] {
 				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
-				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
-				{ "i.userid", "i.birthday", "i.fansnum" } }, null,
+				{ "userid", "nick", "gender", "createtime" },
+				{ "userid", "birthday", "fansnum" } }, null,
 				"u.createtime desc,u.nick asc,i.birthday desc");
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
@@ -247,8 +247,7 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "u.userid", "u.nick", "u.gender" } }, null,
-				null);
+				new String[][] { { "userid", "nick", "gender" } }, null, null);
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
 
@@ -267,8 +266,8 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getListSQL(new PartitionTableInfo[] {
 				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
-				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
-				{ "i.userid", "i.birthday", "i.fansnum" } }, null, null);
+				{ "userid", "nick", "gender", "createtime" },
+				{ "userid", "birthday", "fansnum" } }, null, null);
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
 
@@ -282,7 +281,7 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "u.userid", "u.nick", "u.gender" } },
+				new String[][] { { "userid", "nick", "gender" } },
 				"u.userid=? and u.nick=? and u.gender=?", null);
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
@@ -304,8 +303,8 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getListSQL(new PartitionTableInfo[] {
 				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
-				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
-				{ "i.userid", "i.birthday", "i.fansnum" } },
+				{ "userid", "nick", "gender", "createtime" },
+				{ "userid", "birthday", "fansnum" } },
 				"u.userid=i.userid and u.userid=? and u.nick=? "
 						+ "and u.gender=? and i.birthday>?", null);
 		Assert.assertEquals(select_sql, res_select_sql);
@@ -321,7 +320,7 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "u.userid", "u.nick", "u.gender" } },
+				new String[][] { { "userid", "nick", "gender" } },
 				"userid=? and nick=? and gender=?", "createtime desc,nick asc");
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
@@ -344,8 +343,8 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getObjectSQL(new PartitionTableInfo[] {
 				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
-				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
-				{ "i.userid", "i.birthday", "i.fansnum" } },
+				{ "userid", "nick", "gender", "createtime" },
+				{ "userid", "birthday", "fansnum" } },
 				"u.userid=i.userid and u.userid=? and u.nick=? "
 						+ "and u.gender=? and i.birthday>?",
 				"u.createtime desc,u.nick asc,i.birthday desc");
@@ -362,7 +361,7 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "u.userid", "u.nick", "u.gender" } }, null,
+				new String[][] { { "userid", "nick", "gender" } }, null,
 				"createtime desc,nick asc");
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
@@ -383,8 +382,8 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getObjectSQL(new PartitionTableInfo[] {
 				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
-				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
-				{ "i.userid", "i.birthday", "i.fansnum" } }, null,
+				{ "userid", "nick", "gender", "createtime" },
+				{ "userid", "birthday", "fansnum" } }, null,
 				"u.createtime desc,u.nick asc,i.birthday desc");
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
@@ -399,8 +398,7 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "u.userid", "u.nick", "u.gender" } }, null,
-				null);
+				new String[][] { { "userid", "nick", "gender" } }, null, null);
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
 
@@ -419,8 +417,8 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getObjectSQL(new PartitionTableInfo[] {
 				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
-				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
-				{ "i.userid", "i.birthday", "i.fansnum" } }, null, null);
+				{ "userid", "nick", "gender", "createtime" },
+				{ "userid", "birthday", "fansnum" } }, null, null);
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
 
@@ -434,7 +432,7 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "u.userid", "u.nick", "u.gender" } },
+				new String[][] { { "userid", "nick", "gender" } },
 				"userid=? and nick=? and gender=?", null);
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
@@ -456,8 +454,8 @@ public class HkQueryTest {
 		HkQuery hkQuery = new HkQuery();
 		String res_select_sql = hkQuery.getObjectSQL(new PartitionTableInfo[] {
 				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
-				{ "u.userid", "u.nick", "u.gender", "u.createtime" },
-				{ "i.userid", "i.birthday", "i.fansnum" } },
+				{ "userid", "nick", "gender", "createtime" },
+				{ "userid", "birthday", "fansnum" } },
 				"u.userid=i.userid and u.userid=? and u.nick=? "
 						+ "and u.gender=? and i.birthday>?", null);
 		Assert.assertEquals(select_sql, res_select_sql);
@@ -542,33 +540,36 @@ public class HkQueryTest {
 				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
 		this.hkQuery.insert(partitionTableInfo2, new String[] { "userid",
 				"nick", "groupid", }, new Object[] { 1, "原味++=", "5" });
-		List<Member> list = this.hkQuery.queryList(new PartitionTableInfo[] {
-				partitionTableInfo, partitionTableInfo2 },
-				new String[][] {
-						{ "a.userid", "a.nick", "a.gender", "a.money",
-								"a.purchase", "a.createtime" },
-						{ "b.userid", "b.nick", "b.groupid" } },
-				"a.userid=b.userid", null, null, 0, 10,
-				new RowMapper<Member>() {
+		List<Member> list = this.hkQuery
+				.queryList(new PartitionTableInfo[] { partitionTableInfo,
+						partitionTableInfo2 },
+						new String[][] {
+								{ "userid", "nick", "gender", "money",
+										"purchase", "createtime" },
+								{ "userid", "nick", "groupid" } },
+						"a.userid=b.userid", null, null, 0, 10,
+						new RowMapper<Member>() {
 
-					@Override
-					public Member mapRow(ResultSet rs, int arg1)
-							throws SQLException {
-						TestUser o = new TestUser();
-						o.setUserid(rs.getLong("a.userid"));
-						o.setNick(rs.getString("a.nick"));
-						o.setCreatetime(rs.getTimestamp("a.createtime"));
-						o.setGender(rs.getByte("a.gender"));
-						o.setMoney(rs.getDouble("a.money"));
-						o.setPurchase(rs.getFloat("a.purchase"));
-						Member member = new Member();
-						member.setUserid(rs.getLong("b.userid"));
-						member.setNick(rs.getString("b.nick"));
-						member.setGroupid(rs.getLong("b.groupid"));
-						member.setTestUser(o);
-						return member;
-					}
-				});
+							@Override
+							public Member mapRow(ResultSet rs, int arg1)
+									throws SQLException {
+								TestUser o = new TestUser();
+								o.setUserid(rs.getLong("a.userid"));
+								o.setNick(rs.getString("a.nick"));
+								o
+										.setCreatetime(rs
+												.getTimestamp("a.createtime"));
+								o.setGender(rs.getByte("a.gender"));
+								o.setMoney(rs.getDouble("a.money"));
+								o.setPurchase(rs.getFloat("a.purchase"));
+								Member member = new Member();
+								member.setUserid(rs.getLong("b.userid"));
+								member.setNick(rs.getString("b.nick"));
+								member.setGroupid(rs.getLong("b.groupid"));
+								member.setTestUser(o);
+								return member;
+							}
+						});
 		Assert.assertEquals(1, list.size());
 		System.out.println(list.get(0).getUserid() + " | "
 				+ list.get(0).getGroupid() + " | "

@@ -1,5 +1,7 @@
 package unittest;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,10 +12,12 @@ import javax.annotation.Resource;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import bean.Member;
 import bean.TestUser;
 
 import com.hk.frame.dao.query2.HkObjQuery;
@@ -25,6 +29,10 @@ public class HkObjQueryTest {
 
 	@Resource
 	private HkObjQuery hkObjQuery;
+
+	public HkObjQuery getHkObjQuery() {
+		return hkObjQuery;
+	}
 
 	@Test
 	public void testInsert() {
@@ -120,6 +128,44 @@ public class HkObjQueryTest {
 		Assert.assertEquals(0, list.size());
 		list = this.hkObjQuery.queryListEx(ctxMap, TestUser.class, "nick=?",
 				new Object[] { "原-=-=味" }, null, 0, -1);
+		Assert.assertEquals(1, list.size());
+	}
+
+	@Test
+	public void testSelect2() {
+		TestUser testUser = new TestUser();
+		testUser.setUserid(5);
+		testUser.setNick("原-=-=味");
+		testUser.setCreatetime(new Date());
+		testUser.setGender((byte) 1);
+		testUser.setMoney(45.5);
+		testUser.setPurchase(20.5f);
+		Map<String, Object> ctxMap = new HashMap<String, Object>();
+		ctxMap.put("userid", testUser.getUserid());
+		this.hkObjQuery.insertObj(ctxMap, testUser);
+		Member member = new Member();
+		member.setUserid(testUser.getUserid());
+		member.setNick("akweiwei");
+		member.setGroupid(9);
+		this.hkObjQuery.insertObj(ctxMap, member);
+		final RowMapper<Member> memberMapper = this.hkObjQuery
+				.getRowMapper(Member.class);
+		final RowMapper<TestUser> testUserMapper = this.hkObjQuery
+				.getRowMapper(TestUser.class);
+		List<Member> list = this.hkObjQuery.queryListEx(ctxMap, new Class[] {
+				TestUser.class, Member.class },
+				"testuser.userid=member.userid", null, null, 0, -1,
+				new RowMapper<Member>() {
+
+					@Override
+					public Member mapRow(ResultSet rs, int arg1)
+							throws SQLException {
+						Member member = memberMapper.mapRow(rs, arg1);
+						TestUser testUser = testUserMapper.mapRow(rs, arg1);
+						member.setTestUser(testUser);
+						return member;
+					}
+				});
 		Assert.assertEquals(1, list.size());
 	}
 
