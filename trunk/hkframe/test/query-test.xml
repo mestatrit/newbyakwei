@@ -53,6 +53,7 @@
 				<property name="infos">
 					<list>
 						<value>bean.TestUser;query.TestUserDbPartitionHelper</value>
+						<value>bean.Member;query.MemberDbPartitionHelper</value>
 					</list>
 				</property>
 			</bean>
