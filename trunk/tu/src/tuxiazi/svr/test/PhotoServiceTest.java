@@ -26,9 +26,9 @@ import tuxiazi.svr.iface.UserService;
 @ContextConfiguration( { "/applicationContext.xml" })
 public class PhotoServiceTest {
 
-	private long userid = 1;
+	private long userid = 3;
 
-	private long userid2 = 2;
+	private long userid2 = 4;
 
 	@Resource
 	private PhotoService photoService;
@@ -51,7 +51,7 @@ public class PhotoServiceTest {
 		list.add(up);
 		up = new UploadPhoto();
 		up.setName("bbb");
-		up.setUserid(1);
+		up.setUserid(3);
 		up.setCreate_time(new Date());
 		up.setFile(new File("c:/test/02.jpg"));
 		list.add(up);
