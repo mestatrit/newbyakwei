@@ -98,17 +98,19 @@ public class PhotoServiceImpl implements PhotoService {
 		// 添加图片到最新图片表中
 		this.proccessLastPhoto(result, query);
 		List<Friend_photo_feed> friendPhotoFeeds = new ArrayList<Friend_photo_feed>();
-		for (Photo o : result.getPhotos()) {
-			Friend_photo_feed feed = new Friend_photo_feed();
-			feed.setUserid(userid);
-			feed.setPhotoid(o.getPhotoid());
-			feed.setCreate_time(o.getCreate_time());
-			feed.setPhoto_userid(o.getUserid());
-			friendPhotoFeeds.add(feed);
+		if (result.getPhotos() != null) {
+			for (Photo o : result.getPhotos()) {
+				Friend_photo_feed feed = new Friend_photo_feed();
+				feed.setUserid(userid);
+				feed.setPhotoid(o.getPhotoid());
+				feed.setCreate_time(o.getCreate_time());
+				feed.setPhoto_userid(o.getUserid());
+				friendPhotoFeeds.add(feed);
+			}
+			this.feedService.createFriend_photo_feed(friendPhotoFeeds);
+			// 图片关注动态
+			this.proccessFriend_photo_feed(result);
 		}
-		this.feedService.createFriend_photo_feed(friendPhotoFeeds);
-		// 图片关注动态
-		this.proccessFriend_photo_feed(result);
 		return result;
 	}
 
