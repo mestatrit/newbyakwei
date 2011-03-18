@@ -25,8 +25,11 @@
 		<property name="initialPoolSize" value="10" />
 		<property name="minPoolSize" value="10" />
 	</bean>
-	<bean id="hkQuery" class="com.hk.frame.dao.query2.HkQuery">
+	<bean id="baseDaoSupport" class="com.hk.frame.dao.query2.BaseDaoSupport">
 		<property name="dataSource" ref="dataSourcesingle" />
+	</bean>
+	<bean id="hkQuery" class="com.hk.frame.dao.query2.HkQuery">
+		<property name="daoSupport" ref="baseDaoSupport" />
 	</bean>
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSourcesingle" />

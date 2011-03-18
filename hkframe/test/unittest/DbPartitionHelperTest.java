@@ -10,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import query.TestUserDbPartitionHelper;
-
 import bean.TestUser;
 
 import com.hk.frame.dao.query2.ObjectSqlInfo;
@@ -36,7 +35,9 @@ public class DbPartitionHelperTest {
 		PartitionTableInfo partitionTableInfo = dbPartitionHelper.parse(
 				objectSqlInfo.getTableName(), ctxMap);
 		Assert.assertEquals("testuser0", partitionTableInfo.getTableName());
-		Assert.assertEquals("ds_test0", partitionTableInfo.getDatabaseName());
+		Assert
+				.assertEquals("mysql_test0", partitionTableInfo
+						.getDatabaseName());
 		Assert.assertEquals("testuser", objectSqlInfo.getTableName());
 	}
 }

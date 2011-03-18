@@ -17,7 +17,7 @@
 	<bean id="dataSource" class="com.hk.frame.datasource.HkDataSourceWrapper">
 		<property name="dataSourceMap">
 			<map>
-				<entry key="ds_test0">
+				<entry key="mysql_test0">
 					<bean class="com.mchange.v2.c3p0.ComboPooledDataSource">
 						<property name="driverClass" value="com.mysql.jdbc.Driver" />
 						<property name="jdbcUrl" value="jdbc:mysql://192.168.157.132:3306/test0?useUnicode=true&amp;characterEncoding=UTF-8" />
@@ -30,7 +30,7 @@
 						<property name="minPoolSize" value="20" />
 					</bean>
 				</entry>
-				<entry key="ds_test1">
+				<entry key="mysql_test1">
 					<bean class="com.mchange.v2.c3p0.ComboPooledDataSource">
 						<property name="driverClass" value="com.mysql.jdbc.Driver" />
 						<property name="jdbcUrl" value="jdbc:mysql://192.168.157.132:3306/test1?useUnicode=true&amp;characterEncoding=UTF-8" />
@@ -46,8 +46,20 @@
 			</map>
 		</property>
 	</bean>
+	<bean id="daoSupport" class="com.hk.frame.dao.query2.MultiDaoSupport">
+		<property name="daoSupportMap">
+			<map>
+				<!-- mysql 数据库 -->
+				<entry key="mysql">
+					<bean class="com.hk.frame.dao.query2.BaseDaoSupport">
+						<property name="dataSource" ref="dataSource" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
 	<bean id="hkObjQuery" class="com.hk.frame.dao.query2.HkObjQuery">
-		<property name="dataSource" ref="dataSource" />
+		<property name="daoSupport" ref="daoSupport" />
 		<property name="objectSqlInfoCreater">
 			<bean id="objectSqlInfoCreater" class="com.hk.frame.dao.query2.ObjectSqlInfoCreater">
 				<property name="infos">
