@@ -14,7 +14,7 @@ public class TestUserDbPartitionHelper extends DbPartitionHelper {
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
 		partitionTableInfo.setAliasName(name);
 		partitionTableInfo.setTableName("testuser" + lastChar);
-		partitionTableInfo.setDatabaseName("ds_test" + lastChar);
+		partitionTableInfo.setDatabaseName("mysql_test" + lastChar);
 		return partitionTableInfo;
 	}
 }

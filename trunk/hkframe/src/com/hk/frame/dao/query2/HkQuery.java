@@ -11,7 +11,17 @@ import com.hk.frame.datasource.DataSourceStatus;
  * 
  * @author akwei
  */
-public class HkQuery extends HkDaoSupport2 {
+public class HkQuery {
+
+	private DaoSupport daoSupport;
+
+	public void setDaoSupport(DaoSupport daoSupport) {
+		this.daoSupport = daoSupport;
+	}
+
+	public DaoSupport getDaoSupport() {
+		return daoSupport;
+	}
 
 	protected String buildSelectCount(String columns) {
 		StringBuilder sb = new StringBuilder("select count(");
@@ -128,7 +138,7 @@ public class HkQuery extends HkDaoSupport2 {
 			Object[] params) {
 		DataSourceStatus.setCurrentDsName(partitionTableInfos[0]
 				.getDatabaseName());
-		return this.queryForNumber(
+		return this.getDaoSupport().queryForNumber(
 				this.getCountSQL(partitionTableInfos, where), params)
 				.intValue();
 	}
@@ -177,8 +187,9 @@ public class HkQuery extends HkDaoSupport2 {
 			int begin, int size, RowMapper<T> mapper) {
 		DataSourceStatus.setCurrentDsName(partitionTableInfos[0]
 				.getDatabaseName());
-		return this.query(this.getListSQL(partitionTableInfos, columns, where,
-				order), begin, size, mapper, params);
+		return this.getDaoSupport().query(
+				this.getListSQL(partitionTableInfos, columns, where, order),
+				begin, size, mapper, params);
 	}
 
 	public String getObjectSQL(PartitionTableInfo[] partitionTableInfos,
@@ -220,8 +231,9 @@ public class HkQuery extends HkDaoSupport2 {
 			RowMapper<T> mapper) {
 		DataSourceStatus.setCurrentDsName(partitionTableInfos[0]
 				.getDatabaseName());
-		return this.queryForObject(this.getObjectSQL(partitionTableInfos,
-				columns, where, order), mapper, params);
+		return this.getDaoSupport().queryForObject(
+				this.getObjectSQL(partitionTableInfos, columns, where, order),
+				mapper, params);
 	}
 
 	public String getInsertSQL(PartitionTableInfo partitionTableInfo,
@@ -242,11 +254,11 @@ public class HkQuery extends HkDaoSupport2 {
 	 *            字段对应的参数
 	 * @return
 	 */
-	public Number insert(PartitionTableInfo partitionTableInfo,
+	public Object insert(PartitionTableInfo partitionTableInfo,
 			String[] columns, Object[] params) {
 		DataSourceStatus.setCurrentDsName(partitionTableInfo.getDatabaseName());
-		return this.insert(this.getInsertSQL(partitionTableInfo, columns),
-				params);
+		return this.getDaoSupport().insert(
+				this.getInsertSQL(partitionTableInfo, columns), params);
 	}
 
 	public String getUpdateSQL(PartitionTableInfo partitionTableInfo,
@@ -275,8 +287,8 @@ public class HkQuery extends HkDaoSupport2 {
 	public int update(PartitionTableInfo partitionTableInfo, String[] columns,
 			String where, Object[] params) {
 		DataSourceStatus.setCurrentDsName(partitionTableInfo.getDatabaseName());
-		return this.update(this
-				.getUpdateSQL(partitionTableInfo, columns, where), params);
+		return this.getDaoSupport().update(
+				this.getUpdateSQL(partitionTableInfo, columns, where), params);
 	}
 
 	public String getDeleteSQL(PartitionTableInfo partitionTableInfo,
@@ -304,7 +316,7 @@ public class HkQuery extends HkDaoSupport2 {
 	public int delete(PartitionTableInfo partitionTableInfo, String where,
 			Object[] params) {
 		DataSourceStatus.setCurrentDsName(partitionTableInfo.getDatabaseName());
-		return this
-				.update(this.getDeleteSQL(partitionTableInfo, where), params);
+		return this.getDaoSupport().update(
+				this.getDeleteSQL(partitionTableInfo, where), params);
 	}
 }

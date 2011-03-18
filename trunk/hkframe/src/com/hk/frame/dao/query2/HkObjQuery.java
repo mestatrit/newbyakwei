@@ -43,7 +43,7 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> Number insertObj(PartitionTableInfo partitionTableInfo, T t) {
+	private <T> Object insertObj(PartitionTableInfo partitionTableInfo, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
 				.getObjectSqlInfo(t.getClass());
 		return this.insert(partitionTableInfo, objectSqlInfo.getColumns(),
@@ -51,7 +51,7 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> Number insertObj(Map<String, Object> ctxMap, T t) {
+	public <T> Object insertObj(Map<String, Object> ctxMap, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
 				.getObjectSqlInfo(t.getClass());
 		return this.insertObj(objectSqlInfo.getDbPartitionHelper().parse(

@@ -20,9 +20,14 @@ import org.springframework.jdbc.support.JdbcUtils;
 
 import com.hk.frame.dao.DaoDebugMode;
 
-public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
+/**
+ * mysql处理作为基础类，以此为扩展可以扩展到db2 oracle等
+ * 
+ * @author akwei
+ */
+public class BaseDaoSupport extends SimpleJdbcDaoSupport implements DaoSupport {
 
-	private final Log log = LogFactory.getLog(HkDaoSupport2.class);
+	private final Log log = LogFactory.getLog(BaseDaoSupport.class);
 
 	public int[] batchUpdate(String sql, BatchPreparedStatementSetter bpss) {
 		this.log("batchUpdate sql [ +" + sql + "+ ]");
@@ -40,7 +45,8 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 		return con;
 	}
 
-	public Number insert(String sql, Object[] values) {
+	@Override
+	public Object insert(String sql, Object[] values) {
 		this.log("insert sql [ +" + sql + "+ ]");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -56,7 +62,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 			ps.executeUpdate();
 			rs = ps.getGeneratedKeys();
 			if (rs.next()) {
-				return (Number) rs.getObject(1);
+				return rs.getObject(1);
 			}
 			return 0;
 		}
@@ -76,6 +82,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 		}
 	}
 
+	@Override
 	public <T> List<T> query(String sql, int begin, int size, RowMapper<T> rm,
 			Object[] values) {
 		this.log("query sql [ +" + sql + "+ ]");
@@ -118,6 +125,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 		}
 	}
 
+	@Override
 	public Number queryForNumber(String sql, Object[] values) {
 		this.log("queryForNumber sql [ +" + sql + "+ ]");
 		PreparedStatement ps = null;
@@ -161,6 +169,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 		}
 	}
 
+	@Override
 	public <T> T queryForObject(String sql, RowMapper<T> rm, Object[] values) {
 		this.log("queryForObject sql [ +" + sql + "+ ]");
 		List<T> list = this.query(sql, 0, 1, rm, values);
@@ -170,6 +179,7 @@ public class HkDaoSupport2 extends SimpleJdbcDaoSupport {
 		return list.get(0);
 	}
 
+	@Override
 	public int update(String sql, Object[] values) {
 		this.log("update sql [ +" + sql + "+ ]");
 		PreparedStatement ps = null;
