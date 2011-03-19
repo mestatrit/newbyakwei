@@ -43,7 +43,7 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> Object insertObj(PartitionTableInfo partitionTableInfo, T t) {
+	protected <T> Object insertObj(PartitionTableInfo partitionTableInfo, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
 				.getObjectSqlInfo(t.getClass());
 		return this.insert(partitionTableInfo, objectSqlInfo.getColumns(),
@@ -59,7 +59,7 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> int updateObj(PartitionTableInfo partitionTableInfo, T t) {
+	protected <T> int updateObj(PartitionTableInfo partitionTableInfo, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
 				.getObjectSqlInfo(t.getClass());
 		return this.update(partitionTableInfo, objectSqlInfo
@@ -92,7 +92,7 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> int deleteObj(PartitionTableInfo partitionTableInfo, T t) {
+	protected <T> int deleteObj(PartitionTableInfo partitionTableInfo, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
 				.getObjectSqlInfo(t.getClass());
 		return this.delete(partitionTableInfo, objectSqlInfo.getIdColumn()
@@ -108,7 +108,7 @@ public class HkObjQuery extends HkQuery {
 				objectSqlInfo.getTableName(), ctxMap), t);
 	}
 
-	private <T> int deleteById(PartitionTableInfo partitionTableInfo,
+	protected <T> int deleteById(PartitionTableInfo partitionTableInfo,
 			Class<T> clazz, Object idValue) {
 		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
 				.getObjectSqlInfo(clazz);
@@ -125,7 +125,7 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> List<T> queryListEx(PartitionTableInfo[] partitionTableInfos,
+	protected <T> List<T> queryListEx(PartitionTableInfo[] partitionTableInfos,
 			Class[] classes, String where, Object[] params, String order,
 			int begin, int size, RowMapper<T> mapper) {
 		ObjectSqlInfo<T> objectSqlInfo = null;
@@ -209,7 +209,7 @@ public class HkObjQuery extends HkQuery {
 				order, objectSqlInfo.getRowMapper());
 	}
 
-	private <T> T queryObjectEx(PartitionTableInfo partitionTableInfo,
+	protected <T> T queryObjectEx(PartitionTableInfo partitionTableInfo,
 			Class<T> clazz, String where, Object[] params, String order) {
 		return this.queryObjectEx(
 				new PartitionTableInfo[] { partitionTableInfo }, clazz, where,
