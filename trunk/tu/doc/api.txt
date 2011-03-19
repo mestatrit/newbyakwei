@@ -39,3 +39,6 @@ api_type=1&userid=1&uid=1795487825&access_token=fa70c08f889270a4007d3bc3955deda7
 
 
 http://www.tuxiazi.com/tu/api/notice_prvlasted?api_type=1&userid=1&uid=1795487825&access_token=fa70c08f889270a4007d3bc3955deda7&token_secret=5035cbe48f4220ee757d76571b992b50
+
+
+http://adcdownload.apple.com/Developer_Tools/xcode_3.2.6_and_ios_sdk_4.3__final/xcode_3.2.6_and_ios_sdk_4.3__final.dmg
