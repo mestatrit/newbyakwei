@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.hk.frame.dao.annotation.Column;
 import com.hk.frame.dao.annotation.Id;
+import com.hk.frame.dao.annotation.PartitionIdentifier;
 import com.hk.frame.dao.annotation.Table;
 
 /**
@@ -62,6 +63,11 @@ public class ObjectSqlInfo<T> {
 	 */
 	private final List<Field> allfieldList = new ArrayList<Field>();
 
+	/**
+	 * 存储有分区标识的的字段
+	 */
+	private final List<Field> partitionIdentifierFieldList = new ArrayList<Field>();
+
 	//
 	// /**
 	// * sql insert 语句中字段部分例如(column1,column2 .....) values(?,?,?...)
@@ -111,6 +117,7 @@ public class ObjectSqlInfo<T> {
 	}
 
 	private void analyze(Field field) {
+		// 分析与数据库对应的字段
 		Column column = field.getAnnotation(Column.class);
 		if (column != null) {
 			field.setAccessible(true);
@@ -145,42 +152,6 @@ public class ObjectSqlInfo<T> {
 		}
 	}
 
-	// /**
-	// * 生成sql_insert_columns
-	// */
-	// private void buildSql_insert_columns() {
-	// StringBuilder sb = new StringBuilder("(");
-	// StringBuilder sb2 = new StringBuilder(" values(");
-	// for (Field f : this.allfieldList) {
-	// sb.append(this.getColumn(f.getName()));
-	// sb.append(",");
-	// sb2.append("?,");
-	// }
-	// if (sb.length() > 0) {
-	// sb.deleteCharAt(sb.length() - 1);
-	// }
-	// if (sb2.length() > 0) {
-	// sb2.deleteCharAt(sb.length() - 1);
-	// }
-	// sb.append(")");
-	// sb2.append(")");
-	// sb.append(sb2);
-	// this.sql_insert_columns = sb.toString();
-	// }
-	// /**
-	// * 生成sql_updatre_columns
-	// */
-	// private void buildSql_update_columns() {
-	// StringBuilder sb = new StringBuilder("set ");
-	// for (Field f : this.fieldList) {
-	// sb.append(this.getColumn(f.getName()));
-	// sb.append("=?,");
-	// }
-	// if (sb.length() > 0) {
-	// sb.deleteCharAt(sb.length() - 1);
-	// }
-	// this.sql_update_columns = sb.toString();
-	// }
 	public String getColumn(String fieldName) {
 		return fieldColumnMap.get(fieldName);
 	}
@@ -233,6 +204,20 @@ public class ObjectSqlInfo<T> {
 		columnsForUpdate = new String[this.fieldList.size()];
 		for (Field f : this.fieldList) {
 			columnsForUpdate[i] = this.getColumn(f.getName());
+			i++;
+		}
+	}
+
+	private void buildPartitionIdentifierInfo() {
+		// 分析分区字段
+		int i = 0;
+		for (Field f : this.allfieldList) {
+			columns[i] = this.getColumn(f.getName());
+			PartitionIdentifier partitionIdentifier = f
+					.getAnnotation(PartitionIdentifier.class);
+			if (partitionIdentifier != null) {
+				this.partitionIdentifierFieldList.add(f);
+			}
 			i++;
 		}
 	}
@@ -333,5 +318,9 @@ public class ObjectSqlInfo<T> {
 
 	public DbPartitionHelper getDbPartitionHelper() {
 		return dbPartitionHelper;
+	}
+
+	public List<Field> getPartitionIdentifierFieldList() {
+		return partitionIdentifierFieldList;
 	}
 }
