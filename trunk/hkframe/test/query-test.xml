@@ -47,15 +47,13 @@
 		</property>
 	</bean>
 	<bean id="daoSupport" class="com.hk.frame.dao.query2.MultiDaoSupport">
-		<property name="daoSupportMap">
-			<map>
+		<property name="daoSupportList">
+			<list>
 				<!-- mysql 数据库 -->
-				<entry key="mysql">
-					<bean class="com.hk.frame.dao.query2.BaseDaoSupport">
-						<property name="dataSource" ref="dataSource" />
-					</bean>
-				</entry>
-			</map>
+				<bean class="com.hk.frame.dao.query2.BaseDaoSupport">
+					<property name="dataSource" ref="dataSource" />
+				</bean>
+			</list>
 		</property>
 	</bean>
 	<bean id="hkObjQuery" class="com.hk.frame.dao.query2.HkObjQuery">
