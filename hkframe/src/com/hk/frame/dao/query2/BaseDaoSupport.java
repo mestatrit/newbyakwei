@@ -25,7 +25,8 @@ import com.hk.frame.dao.DaoDebugMode;
  * 
  * @author akwei
  */
-public class BaseDaoSupport extends SimpleJdbcDaoSupport implements DaoSupport {
+public class BaseDaoSupport extends SimpleJdbcDaoSupport implements DaoSupport,
+		DaoIdentifier {
 
 	private final Log log = LogFactory.getLog(BaseDaoSupport.class);
 
@@ -43,6 +44,11 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport implements DaoSupport {
 	protected Connection getCurrentConnection() {
 		Connection con = this.getConnection();
 		return con;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return DaoIdentifier.IDENTIFIER_MYSQL;
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package com.hk.frame.dao.query2;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,28 +9,58 @@ import org.springframework.jdbc.core.RowMapper;
 import com.hk.frame.datasource.DataSourceStatus;
 
 /**
- * 对应多种数据库的daoSupport切换使用
+ * 对应多种数据库的daoSupport切换使用。数据源必须表明前缀，这样可与daosupport对应
  * 
- * @author fire9
+ * @author akwei
  */
 public class MultiDaoSupport implements DaoSupport {
 
-	private Map<String, DaoSupport> daoSupportMap;
+	/**
+	 * 配置的多数据库的daosupport
+	 */
+	private final Map<String, DaoSupport> daoSupportMap = new HashMap<String, DaoSupport>();
 
-	private final List<DaoSupport> daoSupportList = new ArrayList<DaoSupport>();
+	/**
+	 * 配置的多数据库的daosupport集合
+	 */
+	private List<DaoSupport> daoSupportList;
 
-	public void setDaoSupportMap(Map<String, DaoSupport> daoSupportMap) {
-		this.daoSupportMap = daoSupportMap;
-		Collection<DaoSupport> values = this.daoSupportMap.values();
-		daoSupportList.addAll(values);
+	/**
+	 * 把实现DaoIdentifier 接口的类装入map中，便于根据标识获取相应数据库类型的daosupport
+	 * 
+	 * @param daoSupportList
+	 */
+	public void setDaoSupportList(List<DaoSupport> daoSupportList) {
+		this.daoSupportList = daoSupportList;
+		for (DaoSupport daoSupport : daoSupportList) {
+			if (daoSupport instanceof DaoIdentifier) {
+				DaoIdentifier id = (DaoIdentifier) daoSupport;
+				String identifier = id.getIdentifier();
+				this.daoSupportMap.put(identifier, daoSupport);
+			}
+		}
 	}
 
+	public String getCurrentDaoSupportIdentifier() {
+		String dsName = DataSourceStatus.getCurrentDsName();
+		int idx = dsName.indexOf('_');
+		if (idx == -1) {
+			return null;
+		}
+		return dsName.substring(0, idx);
+	}
+
+	/**
+	 * 根据当前环境设定的数据源特征返回相应的daosupport
+	 * 
+	 * @return
+	 */
 	private DaoSupport getDaoSupport() {
-		String flg = DataSourceStatus.getCurrentDaoSupportFlg();
-		if (flg == null) {
+		String identifier = this.getCurrentDaoSupportIdentifier();
+		if (identifier == null) {
 			return this.daoSupportList.get(0);
 		}
-		return this.daoSupportMap.get(flg);
+		return this.daoSupportMap.get(identifier);
 	}
 
 	@Override

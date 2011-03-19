@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import com.hk.frame.datasource.DataSourceStatus;
 
 /**
- * 操作数据的工具类
+ * 操作数据的工具类。调用daosupport进行数据库处理
  * 
  * @author akwei
  */
