@@ -7,21 +7,6 @@ import org.springframework.jdbc.core.RowMapper;
 public interface DaoSupport {
 
 	/**
-	 * db2数据库前缀标识
-	 */
-	String DB2_SUPPORT_FLG = "db2";
-
-	/**
-	 * mysql数据库前缀标识
-	 */
-	String MYSQL_SUPPORT_FLG = "mysql";
-
-	/**
-	 *oracle数据库前缀标识
-	 */
-	String ORACLE_SUPPORT_FLG = "oracle";
-
-	/**
 	 * 创建记录到数据库
 	 * 
 	 * @param sql
