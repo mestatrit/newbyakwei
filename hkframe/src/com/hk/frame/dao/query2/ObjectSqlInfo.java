@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.hk.frame.dao.annotation.Column;
 import com.hk.frame.dao.annotation.Id;
-import com.hk.frame.dao.annotation.PartitionIdentifier;
 import com.hk.frame.dao.annotation.Table;
 
 /**
@@ -63,21 +62,6 @@ public class ObjectSqlInfo<T> {
 	 */
 	private final List<Field> allfieldList = new ArrayList<Field>();
 
-	/**
-	 * 存储有分区标识的的字段
-	 */
-	private final List<Field> partitionIdentifierFieldList = new ArrayList<Field>();
-
-	//
-	// /**
-	// * sql insert 语句中字段部分例如(column1,column2 .....) values(?,?,?...)
-	// */
-	// private String sql_insert_columns;
-	//
-	// /**
-	// * sql update 语句中更新字段部分，例如:set column1=?,column2=?......
-	// */
-	// private String sql_update_columns;
 	/**
 	 * 属性名称对应的列名称(列名称小写后成为sql字段名称)filed:column
 	 */
@@ -208,20 +192,6 @@ public class ObjectSqlInfo<T> {
 		}
 	}
 
-	private void buildPartitionIdentifierInfo() {
-		// 分析分区字段
-		int i = 0;
-		for (Field f : this.allfieldList) {
-			columns[i] = this.getColumn(f.getName());
-			PartitionIdentifier partitionIdentifier = f
-					.getAnnotation(PartitionIdentifier.class);
-			if (partitionIdentifier != null) {
-				this.partitionIdentifierFieldList.add(f);
-			}
-			i++;
-		}
-	}
-
 	/**
 	 * 获得id字段
 	 * 
@@ -318,9 +288,5 @@ public class ObjectSqlInfo<T> {
 
 	public DbPartitionHelper getDbPartitionHelper() {
 		return dbPartitionHelper;
-	}
-
-	public List<Field> getPartitionIdentifierFieldList() {
-		return partitionIdentifierFieldList;
 	}
 }

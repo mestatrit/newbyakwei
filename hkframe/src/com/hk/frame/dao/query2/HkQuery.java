@@ -321,6 +321,15 @@ public class HkQuery {
 				mapper, params);
 	}
 
+	/**
+	 * 产生insert sql
+	 * 
+	 * @param partitionTableInfo
+	 *            表信息
+	 * @param columns
+	 *            要插入的表列
+	 * @return
+	 */
 	public String getInsertSQL(PartitionTableInfo partitionTableInfo,
 			String[] columns) {
 		StringBuilder sb = new StringBuilder(this.buildInsert(
@@ -346,6 +355,17 @@ public class HkQuery {
 				this.getInsertSQL(partitionTableInfo, columns), params);
 	}
 
+	/**
+	 * 产生 update sql
+	 * 
+	 * @param partitionTableInfo
+	 *            表信息
+	 * @param columns
+	 *            要更新的列
+	 * @param where
+	 *            条件 sql
+	 * @return
+	 */
 	public String getUpdateSQL(PartitionTableInfo partitionTableInfo,
 			String[] columns, String where) {
 		StringBuilder sb = new StringBuilder(this.buildUpdate(
@@ -376,6 +396,15 @@ public class HkQuery {
 				this.getUpdateSQL(partitionTableInfo, columns, where), params);
 	}
 
+	/**
+	 * 产生delete sql
+	 * 
+	 * @param partitionTableInfo
+	 *            表信息
+	 * @param where
+	 *            条件sql
+	 * @return
+	 */
 	public String getDeleteSQL(PartitionTableInfo partitionTableInfo,
 			String where) {
 		StringBuilder sb = new StringBuilder(this
