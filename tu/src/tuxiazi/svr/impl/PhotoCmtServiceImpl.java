@@ -69,6 +69,7 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 			photoCmtNoticeCreater.setSenderid(photoCmt.getUserid());
 			photoCmtNoticeCreater.setSender_nick(user.getNick());
 			photoCmtNoticeCreater.setSender_head(user.getHead_path());
+			photoCmtNoticeCreater.setContent(photoCmt.getContent());
 			this.noticeService
 					.createNotice(photoCmtNoticeCreater.buildNotice());
 		}

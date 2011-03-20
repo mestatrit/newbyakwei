@@ -66,8 +66,7 @@ public class PhotoAction extends BaseApiAction {
 	 * 
 	 * @param req
 	 * @param resp
-	 * @return
-	 *         2010-11-8
+	 * @return 2010-11-8
 	 */
 	public String prvdelete(HkRequest req, HkResponse resp) {
 		User user = this.getUser(req);
@@ -91,8 +90,7 @@ public class PhotoAction extends BaseApiAction {
 	 * 
 	 * @param req
 	 * @param resp
-	 * @return
-	 *         2010-11-8
+	 * @return 2010-11-8
 	 */
 	public String prvupload(HkRequest req, HkResponse resp) {
 		File file = req.getFile("f");
@@ -104,7 +102,7 @@ public class PhotoAction extends BaseApiAction {
 		UploadPhoto uploadPhoto = new UploadPhoto();
 		uploadPhoto.setUserid(user.getUserid());
 		uploadPhoto.setFile(file);
-		uploadPhoto.setName(DataUtil.limitTextRow(req.getHtmlRow("name"), 40));
+		uploadPhoto.setName(DataUtil.limitTextRow(req.getHtmlRow("name"), 140));
 		uploadPhoto.setCreate_time(new Date());
 		uploadPhoto.setPrivacy_flg(req.getByte("privacy_flg"));
 		List<UploadPhoto> list = new ArrayList<UploadPhoto>();
@@ -195,8 +193,7 @@ public class PhotoAction extends BaseApiAction {
 	 * 
 	 * @param req
 	 * @param resp
-	 * @return
-	 *         2010-11-30
+	 * @return 2010-11-30
 	 */
 	public String list(HkRequest req, HkResponse resp) {
 		long uid = req.getLong("uid");
