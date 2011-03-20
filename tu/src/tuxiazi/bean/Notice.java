@@ -2,7 +2,6 @@ package tuxiazi.bean;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import tuxiazi.bean.benum.NoticeEnum;
@@ -10,6 +9,7 @@ import tuxiazi.bean.helper.noticedata.FollowNoticeCreater;
 import tuxiazi.bean.helper.noticedata.NoticeCreater;
 import tuxiazi.bean.helper.noticedata.PhotoCmtNoticeCreater;
 import tuxiazi.bean.helper.noticedata.PhotoLikeNoticeCreater;
+import tuxiazi.util.PhotoUtil;
 
 import com.hk.frame.dao.annotation.Column;
 import com.hk.frame.dao.annotation.Id;
@@ -24,8 +24,6 @@ import com.hk.frame.util.JsonUtil;
  */
 @Table(name = "notice")
 public class Notice {
-
-	private static final String DATE_FMT = "EEE MMM d HH:mm:ss z yyyy";
 
 	/**
 	 * 通知id
@@ -109,8 +107,7 @@ public class Notice {
 	}
 
 	public String getFmtTime() {
-		return DataUtil.getFormatTimeData(this.createtime, DATE_FMT,
-				Locale.ENGLISH);
+		return PhotoUtil.getFmtTime(this.createtime);
 	}
 
 	private Map<String, String> dataMap = null;
