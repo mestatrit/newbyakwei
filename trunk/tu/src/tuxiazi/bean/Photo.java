@@ -235,10 +235,9 @@ public class Photo {
 	}
 
 	/**
-	 * 存储的最近的10条评论
+	 * 存储的最近的5条评论
 	 * 
-	 * @return
-	 *         2010-12-2
+	 * @return 2010-12-2
 	 */
 	public List<PhotoCmt> getCmtList() {
 		if (DataUtil.isEmpty(this.recentCmtData)) {
@@ -271,15 +270,15 @@ public class Photo {
 	}
 
 	/**
-	 * 只保存前15条
+	 * 只保存前5条
 	 * 
 	 * @param list
 	 *            2010-12-2
 	 */
 	public void buildRecentCmtData(final List<PhotoCmt> list) {
 		List<PhotoCmt> _list = null;
-		if (list.size() > 15) {
-			_list = DataUtil.subList(list, 0, 15);
+		if (list.size() > 5) {
+			_list = DataUtil.subList(list, 0, 5);
 		}
 		else {
 			_list = list;

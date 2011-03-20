@@ -24,6 +24,16 @@ public class PhotoCmtNoticeCreater implements NoticeCreater {
 
 	private long photoid;
 
+	private String content;
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
 	public void setUserid(long userid) {
 		this.userid = userid;
 	}

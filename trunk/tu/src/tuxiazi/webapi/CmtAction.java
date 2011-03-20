@@ -16,6 +16,7 @@ import tuxiazi.svr.iface.PhotoService;
 import tuxiazi.util.Err;
 import tuxiazi.web.util.APIUtil;
 
+import com.hk.frame.util.DataUtil;
 import com.hk.frame.util.page.SimplePage;
 import com.hk.frame.web.http.HkRequest;
 import com.hk.frame.web.http.HkResponse;
@@ -41,7 +42,8 @@ public class CmtAction extends BaseApiAction {
 		photoCmt.setPhotoid(photoid);
 		photoCmt.setUserid(user.getUserid());
 		photoCmt.setCreate_time(new Date());
-		photoCmt.setContent(req.getHtmlRow("content"));
+		photoCmt.setContent(DataUtil.limitTextRow(req.getHtmlRow("content"),
+				140));
 		photoCmt.setUser(user);
 		int code = photoCmt.validate();
 		if (code != Err.SUCCESS) {
