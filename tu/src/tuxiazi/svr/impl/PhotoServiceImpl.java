@@ -184,12 +184,12 @@ public class PhotoServiceImpl implements PhotoService {
 				// newf = new File(this.fileCnf.getTmpPhotoPath() + tmpname);
 				// util = new JMagickUtil(newf, fileCnf.getFileMaxSize());
 				// }
-				util.setQuality(80);
+				util.setQuality(90);
 				util.makeImage(filePath, Photo.p1_houzhui,
 						JMagickUtil.IMG_SQUARE, 60);
 				util.makeImage(filePath, Photo.p2_houzhui,
 						JMagickUtil.IMG_OBLONG, 120);
-				util.setQuality(90);
+				util.setFullQuality(true);
 				util.makeImage(filePath, Photo.p4_houzhui,
 						JMagickUtil.IMG_OBLONG, 480);
 				util.makeImage(filePath, Photo.p6_houzhui,
