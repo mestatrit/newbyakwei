@@ -17,6 +17,7 @@ import weibo4j.http.ImageItem;
 import weibo4j.http.RequestToken;
 
 import com.hk.frame.util.DataUtil;
+import com.hk.frame.util.P;
 
 public class SinaUtil {
 
@@ -217,38 +218,11 @@ public class SinaUtil {
 	public static void main(String[] args) throws WeiboException {
 		String access_token = "fa70c08f889270a4007d3bc3955deda7";
 		String token_secret = "5035cbe48f4220ee757d76571b992b50";
-		// long uid = 1639525917;
-		// try {
-		// // List<User> list = SinaUtil.getFansList(access_token,
-		// // token_secret,
-		// // "1639525917", 2, 6);
-		// // for (User o : list) {
-		// // P.println(o.getScreenName() + " | "
-		// // + o.getProfileImageURL().toString());
-		// // }
-		// List<Long> idlist = SinaUtil.getFansIdList(access_token,
-		// token_secret, uid);
-		// for (Long o : idlist) {
-		// P.println(o);
-		// }
-		// idlist = SinaUtil.getFriendIdList(access_token, token_secret, uid);
-		// for (Long o : idlist) {
-		// P.println(o);
-		// }
-		// // SinaUtil.sendMessage(access_token, token_secret, 1752481465,
-		// // "你好，我在测试");
-		// }
-		// catch (WeiboException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// //
-		 String content = "测试易宝";
-		// File file = new File("c:/test/test1.jpg");
-		// // SinaUtil.updateStatus(access_token, token_secret, content, file);
-		 SinaUtil.updateStatus(access_token, token_secret, content);
-		RateLimitStatus rateLimitStatus = SinaUtil.getRateLimitStatus(
-				access_token, token_secret);
-		System.out.println(rateLimitStatus.toString());
+		List<User> list = SinaUtil.getFansList(access_token, token_secret,
+				"1639525917", 1, 6);
+		for (User o : list) {
+			P.println(o.getScreenName() + " | "
+					+ o.getProfileImageURL().toString());
+		}
 	}
 }
