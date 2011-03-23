@@ -58,4 +58,9 @@ public interface Err {
 	 * 上传的图片文件不存在
 	 */
 	int PHOTO_FILE_NOTEXIST = 11;
+
+	/**
+	 * 发送私信
+	 */
+	int API_SINA_MESSAGE_ERR = 12;
 }
