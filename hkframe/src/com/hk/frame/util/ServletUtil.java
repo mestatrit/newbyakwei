@@ -57,6 +57,9 @@ public class ServletUtil {
 	}
 
 	public static boolean isPc(HttpServletRequest request) {
+		if (getUA(request).indexOf("android") != -1) {
+			return false;
+		}
 		if (getUA(request).indexOf("iphone") != -1) {
 			return false;
 		}
@@ -71,6 +74,9 @@ public class ServletUtil {
 	}
 
 	public static boolean isWap(HttpServletRequest request) {
+		if (getUA(request).indexOf("android") != -1) {
+			return true;
+		}
 		if (getUA(request).indexOf("iphone") != -1) {
 			return true;
 		}
