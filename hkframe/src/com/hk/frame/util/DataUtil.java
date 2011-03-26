@@ -1350,6 +1350,13 @@ public class DataUtil implements ApplicationContextAware {
 		return fmt.format(number);
 	}
 
+	public static Date createNoMillisecondTime(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.MILLISECOND, 0);
+		return cal.getTime();
+	}
+
 	public static void main(String[] args) {
 		// String text =
 		// "马修刘 转发了 @剑语 的微博:在ipad上下载了个 读揽天下，发现其杂志99%都是收费的，用户习惯还需培养，若不先以免费方式吸引读者，恐怕很难做大 转发理由:iPad上这么做其实还是能理解的，大家“被收费“已习惯了。 //@冯文杰:厄，我也发现了";

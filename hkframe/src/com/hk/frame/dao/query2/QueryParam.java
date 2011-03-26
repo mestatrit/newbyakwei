@@ -10,7 +10,7 @@ package com.hk.frame.dao.query2;
  */
 public class QueryParam extends Param {
 
-	private Class<? extends Object>[] classes;
+	private Class<?>[] classes;
 
 	private String[][] columns;
 

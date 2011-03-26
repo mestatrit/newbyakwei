@@ -14,6 +14,18 @@ public class HkObjQuery extends HkQuery {
 
 	private ObjectSqlInfoCreater objectSqlInfoCreater;
 
+	private ResultSetDataInfoCreater resultSetDataInfoCreater;
+
+	public void setResultSetDataInfoCreater(
+			ResultSetDataInfoCreater resultSetDataInfoCreater) {
+		this.resultSetDataInfoCreater = resultSetDataInfoCreater;
+	}
+
+	public <T> RowMapper<T> getResultSetDataInfoMapper(Class<T> clazz) {
+		return this.resultSetDataInfoCreater.getObjectSqlInfo(clazz)
+				.getRowMapper();
+	}
+
 	public void setObjectSqlInfoCreater(
 			ObjectSqlInfoCreater objectSqlInfoCreater) {
 		this.objectSqlInfoCreater = objectSqlInfoCreater;
@@ -23,7 +35,23 @@ public class HkObjQuery extends HkQuery {
 		return objectSqlInfoCreater;
 	}
 
-	private <T> RowMapper<T> getRowMapper(Class<T> clazz) {
+	public BaseParam createBaseParam() {
+		return new BaseParam(this.getObjectSqlInfoCreater());
+	}
+
+	public UpdateParam createUpdateParam() {
+		return new UpdateParam(this.getObjectSqlInfoCreater());
+	}
+
+	public DeleteParam createDeleteParam() {
+		return new DeleteParam(this.getObjectSqlInfoCreater());
+	}
+
+	public QueryParam createQueryParam() {
+		return new QueryParam(this.getObjectSqlInfoCreater());
+	}
+
+	public <T> RowMapper<T> getRowMapper(Class<T> clazz) {
 		return this.getObjectSqlInfoCreater().getObjectSqlInfo(clazz)
 				.getRowMapper();
 	}
@@ -116,7 +144,7 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	public <T> List<T> getList(QueryParam queryParam, RowMapper<T> mapper) {
-		if (queryParam.getColumns() != null) {
+		if (queryParam.getColumns() == null) {
 			queryParam.setColumns(this.getColumns(queryParam.getClasses()));
 		}
 		return this.getList(this.parse(queryParam.getClasses(), queryParam
@@ -135,7 +163,7 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	public <T> T getObject(QueryParam queryParam, RowMapper<T> mapper) {
-		if (queryParam.getColumns() != null) {
+		if (queryParam.getColumns() == null) {
 			queryParam.setColumns(this.getColumns(queryParam.getClasses()));
 		}
 		return this.getObject(this.parse(queryParam.getClasses(), queryParam
