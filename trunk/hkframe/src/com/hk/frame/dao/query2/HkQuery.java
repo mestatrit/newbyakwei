@@ -171,7 +171,7 @@ public class HkQuery {
 	 *            查询条件
 	 * @return sql 语句
 	 */
-	public String getCountSQL(PartitionTableInfo[] partitionTableInfos,
+	public String createCountSQL(PartitionTableInfo[] partitionTableInfos,
 			String where) {
 		StringBuilder sb = new StringBuilder(this.buildSelectCount("*"));
 		sb.append(this.buildFrom(partitionTableInfos));
@@ -198,7 +198,7 @@ public class HkQuery {
 		DataSourceStatus.setCurrentDsName(partitionTableInfos[0]
 				.getDatabaseName());
 		return this.getDaoSupport().queryForNumber(
-				this.getCountSQL(partitionTableInfos, where), params)
+				this.createCountSQL(partitionTableInfos, where), params)
 				.intValue();
 	}
 
@@ -215,7 +215,7 @@ public class HkQuery {
 	 *            排序条件，没有可为null
 	 * @return sql语句
 	 */
-	public String getListSQL(PartitionTableInfo[] partitionTableInfos,
+	public String createListSQL(PartitionTableInfo[] partitionTableInfos,
 			String[][] columns, String where, String order) {
 		StringBuilder sb = new StringBuilder(this.buildSelectColumns(
 				partitionTableInfos, columns));
@@ -254,13 +254,13 @@ public class HkQuery {
 	 *            返回值的组装对象
 	 * @return
 	 */
-	public <T> List<T> queryList(PartitionTableInfo[] partitionTableInfos,
+	public <T> List<T> getList(PartitionTableInfo[] partitionTableInfos,
 			String[][] columns, String where, Object[] params, String order,
 			int begin, int size, RowMapper<T> mapper) {
 		DataSourceStatus.setCurrentDsName(partitionTableInfos[0]
 				.getDatabaseName());
 		return this.getDaoSupport().query(
-				this.getListSQL(partitionTableInfos, columns, where, order),
+				this.createListSQL(partitionTableInfos, columns, where, order),
 				begin, size, mapper, params);
 	}
 
@@ -277,7 +277,7 @@ public class HkQuery {
 	 *            排序条件
 	 * @return 完整的sql语句
 	 */
-	public String getObjectSQL(PartitionTableInfo[] partitionTableInfos,
+	public String createObjectSQL(PartitionTableInfo[] partitionTableInfos,
 			String[][] columns, String where, String order) {
 		StringBuilder sb = new StringBuilder(this.buildSelectColumns(
 				partitionTableInfos, columns));
@@ -311,13 +311,13 @@ public class HkQuery {
 	 *            返回值的组装对象
 	 * @return
 	 */
-	public <T> T queryObject(PartitionTableInfo[] partitionTableInfos,
+	public <T> T getObject(PartitionTableInfo[] partitionTableInfos,
 			String[][] columns, String where, Object[] params, String order,
 			RowMapper<T> mapper) {
 		DataSourceStatus.setCurrentDsName(partitionTableInfos[0]
 				.getDatabaseName());
 		return this.getDaoSupport().queryForObject(
-				this.getObjectSQL(partitionTableInfos, columns, where, order),
+				this.createObjectSQL(partitionTableInfos, columns, where, order),
 				mapper, params);
 	}
 
@@ -330,7 +330,7 @@ public class HkQuery {
 	 *            要插入的表列
 	 * @return
 	 */
-	public String getInsertSQL(PartitionTableInfo partitionTableInfo,
+	public String createInsertSQL(PartitionTableInfo partitionTableInfo,
 			String[] columns) {
 		StringBuilder sb = new StringBuilder(this.buildInsert(
 				partitionTableInfo, columns));
@@ -352,7 +352,7 @@ public class HkQuery {
 			String[] columns, Object[] params) {
 		DataSourceStatus.setCurrentDsName(partitionTableInfo.getDatabaseName());
 		return this.getDaoSupport().insert(
-				this.getInsertSQL(partitionTableInfo, columns), params);
+				this.createInsertSQL(partitionTableInfo, columns), params);
 	}
 
 	/**
@@ -366,7 +366,7 @@ public class HkQuery {
 	 *            条件 sql
 	 * @return
 	 */
-	public String getUpdateSQL(PartitionTableInfo partitionTableInfo,
+	public String createUpdateSQL(PartitionTableInfo partitionTableInfo,
 			String[] columns, String where) {
 		StringBuilder sb = new StringBuilder(this.buildUpdate(
 				partitionTableInfo, columns));
@@ -393,7 +393,7 @@ public class HkQuery {
 			String where, Object[] params) {
 		DataSourceStatus.setCurrentDsName(partitionTableInfo.getDatabaseName());
 		return this.getDaoSupport().update(
-				this.getUpdateSQL(partitionTableInfo, columns, where), params);
+				this.createUpdateSQL(partitionTableInfo, columns, where), params);
 	}
 
 	/**
@@ -405,7 +405,7 @@ public class HkQuery {
 	 *            条件sql
 	 * @return
 	 */
-	public String getDeleteSQL(PartitionTableInfo partitionTableInfo,
+	public String createDeleteSQL(PartitionTableInfo partitionTableInfo,
 			String where) {
 		StringBuilder sb = new StringBuilder(this
 				.buildDelete(partitionTableInfo));
@@ -431,6 +431,6 @@ public class HkQuery {
 			Object[] params) {
 		DataSourceStatus.setCurrentDsName(partitionTableInfo.getDatabaseName());
 		return this.getDaoSupport().update(
-				this.getDeleteSQL(partitionTableInfo, where), params);
+				this.createDeleteSQL(partitionTableInfo, where), params);
 	}
 }
