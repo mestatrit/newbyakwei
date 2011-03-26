@@ -253,13 +253,6 @@ public class ObjectSqlInfo<T> {
 		return clazz;
 	}
 
-	// public String getSql_insert_columns() {
-	// return sql_insert_columns;
-	// }
-	//
-	// public String getSql_update_columns() {
-	// return sql_update_columns;
-	// }
 	public RowMapper<T> getRowMapper() {
 		return rowMapper;
 	}

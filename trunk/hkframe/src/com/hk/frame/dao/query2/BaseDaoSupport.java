@@ -31,7 +31,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport implements DaoSupport,
 	private final Log log = LogFactory.getLog(BaseDaoSupport.class);
 
 	public int[] batchUpdate(String sql, BatchPreparedStatementSetter bpss) {
-		this.log("batchUpdate sql [ +" + sql + "+ ]");
+		this.log("batchUpdate sql [ " + sql + " ]");
 		try {
 			return this.getJdbcTemplate().batchUpdate(sql, bpss);
 		}
@@ -53,7 +53,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport implements DaoSupport,
 
 	@Override
 	public Object insert(String sql, Object[] values) {
-		this.log("insert sql [ +" + sql + "+ ]");
+		this.log("insert sql [ " + sql + " ]");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -91,7 +91,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport implements DaoSupport,
 	@Override
 	public <T> List<T> query(String sql, int begin, int size, RowMapper<T> rm,
 			Object[] values) {
-		this.log("query sql [ +" + sql + "+ ]");
+		this.log("query sql [ " + sql + " ]");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -133,7 +133,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport implements DaoSupport,
 
 	@Override
 	public Number queryForNumber(String sql, Object[] values) {
-		this.log("queryForNumber sql [ +" + sql + "+ ]");
+		this.log("queryForNumber sql [ " + sql + " ]");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -177,7 +177,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport implements DaoSupport,
 
 	@Override
 	public <T> T queryForObject(String sql, RowMapper<T> rm, Object[] values) {
-		this.log("queryForObject sql [ +" + sql + "+ ]");
+		this.log("queryForObject sql [ " + sql + " ]");
 		List<T> list = this.query(sql, 0, 1, rm, values);
 		if (list.isEmpty()) {
 			return null;
@@ -187,7 +187,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport implements DaoSupport,
 
 	@Override
 	public int update(String sql, Object[] values) {
-		this.log("update sql [ +" + sql + "+ ]");
+		this.log("update sql [ " + sql + " ]");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
