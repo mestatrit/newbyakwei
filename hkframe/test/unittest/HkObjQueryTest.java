@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import bean.Member;
 import bean.TestUser;
+import bean.UserVo;
 
 import com.hk.frame.dao.query2.BaseParam;
 import com.hk.frame.dao.query2.HkObjQuery;
@@ -65,7 +66,7 @@ public class HkObjQueryTest {
 
 	private TestUser getTestUser(long userid) {
 		QueryParam queryParam = this.hkObjQuery.createQueryParam();
-		queryParam.setClasses(new Class<?>[] { TestUser.class });
+		queryParam.addClass(TestUser.class);
 		queryParam.addKeyAndValue(TestUser.class, "userid", userid);
 		return this.hkObjQuery
 				.getObjectById(queryParam, TestUser.class, userid);
@@ -103,7 +104,7 @@ public class HkObjQueryTest {
 		this.createTestUser(5);
 		this.createTestUser(6);
 		QueryParam queryParam = this.hkObjQuery.createQueryParam();
-		queryParam.setClasses(new Class<?>[] { TestUser.class });
+		queryParam.addClass(TestUser.class);
 		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
@@ -126,7 +127,7 @@ public class HkObjQueryTest {
 		this.createTestUser(6);
 		QueryParam queryParam = this.hkObjQuery.createQueryParam();
 		queryParam.setOrder("testuser.userid desc");
-		queryParam.setClasses(new Class<?>[] { TestUser.class });
+		queryParam.addClass(TestUser.class);
 		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
@@ -151,7 +152,7 @@ public class HkObjQueryTest {
 		queryParam.setWhere("userid=?");
 		queryParam.setParams(new Object[] { new Long(4) });
 		queryParam.setOrder("testuser.userid desc");
-		queryParam.setClasses(new Class<?>[] { TestUser.class });
+		queryParam.addClass(TestUser.class);
 		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
@@ -173,7 +174,8 @@ public class HkObjQueryTest {
 		this.createTestUser(6);
 		this.createMember(6);
 		QueryParam queryParam = this.hkObjQuery.createQueryParam();
-		queryParam.setClasses(new Class<?>[] { TestUser.class, Member.class });
+		queryParam.addClass(TestUser.class);
+		queryParam.addClass(Member.class);
 		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
 		queryParam.addKeyAndValue(Member.class, "userid", new Long(4));
 		queryParam.setBegin(0);
@@ -196,5 +198,108 @@ public class HkObjQueryTest {
 		queryParam.setSize(1);
 		list = this.hkObjQuery.getList(queryParam, mapper);
 		Assert.assertEquals(1, list.size());
+	}
+
+	@Test
+	public void getListTwoTableNoWhereHasOrder() {
+		this.createTestUser(4);
+		this.createMember(4);
+		this.createTestUser(5);
+		this.createMember(5);
+		this.createTestUser(6);
+		this.createMember(6);
+		QueryParam queryParam = this.hkObjQuery.createQueryParam();
+		queryParam.addClass(TestUser.class);
+		queryParam.addClass(Member.class);
+		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
+		queryParam.addKeyAndValue(Member.class, "userid", new Long(4));
+		queryParam.setBegin(0);
+		queryParam.setSize(-1);
+		queryParam.setWhere("testuser.userid=member.userid");
+		queryParam.setOrder("testuser.nick asc");
+		RowMapper<Member> mapper = new RowMapper<Member>() {
+
+			@Override
+			public Member mapRow(ResultSet arg0, int arg1) throws SQLException {
+				TestUser testUser = hkObjQuery.getRowMapper(TestUser.class)
+						.mapRow(arg0, arg1);
+				Member member = hkObjQuery.getRowMapper(Member.class).mapRow(
+						arg0, arg1);
+				member.setTestUser(testUser);
+				return member;
+			}
+		};
+		List<Member> list = this.hkObjQuery.getList(queryParam, mapper);
+		Assert.assertEquals(2, list.size());
+		queryParam.setSize(1);
+		list = this.hkObjQuery.getList(queryParam, mapper);
+		Assert.assertEquals(1, list.size());
+	}
+
+	@Test
+	public void getListTwoTableHasWhereHasOrder() {
+		this.createTestUser(4);
+		this.createMember(4);
+		this.createTestUser(5);
+		this.createMember(5);
+		this.createTestUser(6);
+		this.createMember(6);
+		QueryParam queryParam = this.hkObjQuery.createQueryParam();
+		queryParam.addClass(TestUser.class);
+		queryParam.addClass(Member.class);
+		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
+		queryParam.addKeyAndValue(Member.class, "userid", new Long(4));
+		queryParam.setBegin(0);
+		queryParam.setSize(-1);
+		queryParam
+				.setWhere("testuser.userid=member.userid and testuser.userid=?");
+		queryParam.setParams(new Object[] { 4 });
+		queryParam.setOrder("testuser.nick asc");
+		RowMapper<Member> mapper = new RowMapper<Member>() {
+
+			@Override
+			public Member mapRow(ResultSet arg0, int arg1) throws SQLException {
+				TestUser testUser = hkObjQuery.getRowMapper(TestUser.class)
+						.mapRow(arg0, arg1);
+				Member member = hkObjQuery.getRowMapper(Member.class).mapRow(
+						arg0, arg1);
+				member.setTestUser(testUser);
+				return member;
+			}
+		};
+		List<Member> list = this.hkObjQuery.getList(queryParam, mapper);
+		Assert.assertEquals(1, list.size());
+		queryParam.setSize(1);
+		list = this.hkObjQuery.getList(queryParam, mapper);
+		Assert.assertEquals(1, list.size());
+	}
+
+	@Test
+	public void getListTwoTableResultSetData() {
+		this.createTestUser(4);
+		this.createMember(4);
+		this.createTestUser(5);
+		this.createMember(5);
+		this.createTestUser(6);
+		this.createMember(6);
+		QueryParam queryParam = this.hkObjQuery.createQueryParam();
+		queryParam.addClass(TestUser.class);
+		queryParam.addClass(Member.class);
+		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
+		queryParam.addKeyAndValue(Member.class, "userid", new Long(4));
+		queryParam.setBegin(0);
+		queryParam.setSize(-1);
+		queryParam
+				.setWhere("testuser.userid=member.userid and testuser.userid=?");
+		queryParam.setParams(new Object[] { 4 });
+		queryParam.setOrder("testuser.nick asc");
+		List<UserVo> list = this.hkObjQuery.getList(queryParam, UserVo.class);
+		Assert.assertEquals(1, list.size());
+		queryParam.setSize(1);
+		list = this.hkObjQuery.getList(queryParam, UserVo.class);
+		Assert.assertEquals(1, list.size());
+		for (UserVo vo : list) {
+			P.println(vo.getUserid() + " | " + vo.getNick());
+		}
 	}
 }

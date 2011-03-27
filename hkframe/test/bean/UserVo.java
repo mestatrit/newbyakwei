@@ -7,7 +7,7 @@ public class UserVo {
 	@Column("testuser.userid")
 	private long userid;
 
-	@Column("testuser.nick")
+	@Column("member.nick")
 	private String nick;
 
 	public long getUserid() {

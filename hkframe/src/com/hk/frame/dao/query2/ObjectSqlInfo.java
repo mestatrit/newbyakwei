@@ -142,7 +142,9 @@ public class ObjectSqlInfo<T> {
 
 	@SuppressWarnings("unchecked")
 	private void buildMapper() {
-		Class<T> clazz = RowMapperCreater.createRowMapperClass(this);
+		RowMapperCreater creater = new RowMapperCreater(Thread.currentThread()
+				.getContextClassLoader());
+		Class<T> clazz = creater.createRowMapperClass(this);
 		try {
 			Object obj = clazz.getConstructor().newInstance();
 			this.rowMapper = (RowMapper<T>) obj;
