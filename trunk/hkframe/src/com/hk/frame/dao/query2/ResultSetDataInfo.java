@@ -9,7 +9,6 @@ import java.util.Map;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.hk.frame.dao.annotation.Column;
-import com.hk.frame.dao.annotation.Table;
 
 public class ResultSetDataInfo<T> {
 
@@ -36,11 +35,6 @@ public class ResultSetDataInfo<T> {
 	@SuppressWarnings("unchecked")
 	public ResultSetDataInfo(Class<T> clazz) {
 		this.clazz = clazz;
-		Table table = clazz.getAnnotation(Table.class);
-		if (table == null) {
-			throw new RuntimeException("ResultSetDataInfo tableName not set [ "
-					+ clazz.getName() + " ]");
-		}
 		Field[] fs = clazz.getDeclaredFields();
 		for (Field f : fs) {
 			this.analyze(f);

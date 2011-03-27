@@ -1,5 +1,8 @@
 package com.hk.frame.dao.query2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 查询条件参数的对象表示方式，完全是为了程序易读<br/>
  * 集合查询时，所有参数都要用到<br/>
@@ -10,7 +13,7 @@ package com.hk.frame.dao.query2;
  */
 public class QueryParam extends Param {
 
-	private Class<?>[] classes;
+	private final List<Class<?>> classList = new ArrayList<Class<?>>(2);
 
 	private String[][] columns;
 
@@ -22,6 +25,12 @@ public class QueryParam extends Param {
 
 	public QueryParam(ObjectSqlInfoCreater objectSqlInfoCreater) {
 		super(objectSqlInfoCreater);
+	}
+
+	public <T> void addClass(Class<T> clazz) {
+		if (!this.classList.contains(clazz)) {
+			this.classList.add(clazz);
+		}
 	}
 
 	public String[][] getColumns() {
@@ -56,11 +65,7 @@ public class QueryParam extends Param {
 		this.size = size;
 	}
 
-	public void setClasses(Class<? extends Object>[] classes) {
-		this.classes = classes;
-	}
-
-	public Class<? extends Object>[] getClasses() {
-		return classes;
+	Class<? extends Object>[] getClasses() {
+		return this.classList.toArray(new Class<?>[this.classList.size()]);
 	}
 }

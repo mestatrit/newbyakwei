@@ -13,7 +13,7 @@ public class ResultSetDataInfoCreater {
 	private final Map<String, ResultSetDataInfo<?>> infoMap = new HashMap<String, ResultSetDataInfo<?>>();
 
 	@SuppressWarnings("unchecked")
-	public <T> ResultSetDataInfo<T> getObjectSqlInfo(Class<T> clazz) {
+	public <T> ResultSetDataInfo<T> getResultSetDataInfo(Class<T> clazz) {
 		ResultSetDataInfo<T> info = (ResultSetDataInfo<T>) this.infoMap
 				.get(clazz.getName());
 		if (info == null) {

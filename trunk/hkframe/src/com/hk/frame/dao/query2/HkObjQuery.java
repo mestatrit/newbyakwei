@@ -21,9 +21,25 @@ public class HkObjQuery extends HkQuery {
 		this.resultSetDataInfoCreater = resultSetDataInfoCreater;
 	}
 
-	public <T> RowMapper<T> getResultSetDataInfoMapper(Class<T> clazz) {
-		return this.resultSetDataInfoCreater.getObjectSqlInfo(clazz)
-				.getRowMapper();
+	/**
+	 * 获rowmapper，先从表映射的对象开始匹配，如果没有，就到结果集resultsetdata中进行查找
+	 * 
+	 * @param <T>
+	 * @param clazz
+	 * @return
+	 */
+	public <T> RowMapper<T> getRowMapper(Class<T> clazz) {
+		ObjectSqlInfo<T> objectSqlInfo = this.getObjectSqlInfoCreater()
+				.getObjectSqlInfo(clazz);
+		if (objectSqlInfo != null) {
+			return objectSqlInfo.getRowMapper();
+		}
+		ResultSetDataInfo<T> resultSetDataInfo = this.resultSetDataInfoCreater
+				.getResultSetDataInfo(clazz);
+		if (resultSetDataInfo != null) {
+			return resultSetDataInfo.getRowMapper();
+		}
+		throw new RuntimeException("no rowmapper for " + clazz.getName());
 	}
 
 	public void setObjectSqlInfoCreater(
@@ -49,11 +65,6 @@ public class HkObjQuery extends HkQuery {
 
 	public QueryParam createQueryParam() {
 		return new QueryParam(this.getObjectSqlInfoCreater());
-	}
-
-	public <T> RowMapper<T> getRowMapper(Class<T> clazz) {
-		return this.getObjectSqlInfoCreater().getObjectSqlInfo(clazz)
-				.getRowMapper();
 	}
 
 	private <T> DbPartitionHelper getDbPartitionHelper(Class<T> clazz) {

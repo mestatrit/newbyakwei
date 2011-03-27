@@ -42,8 +42,7 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> Class<T> createRowMapperClass(
-			ObjectSqlInfo<T> objectSqlInfo) {
+	public <T> Class<T> createRowMapperClass(ObjectSqlInfo<T> objectSqlInfo) {
 		ClassWriter classWriter = new ClassWriter(0);
 		String mapperName = createMapperClassName(objectSqlInfo.getClazz());
 		String signName = mapperName.replaceAll("\\.", "/");
@@ -80,12 +79,10 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 		methodVisitor.visitInsn(ARETURN);
 		methodVisitor.visitEnd();
 		byte[] code = classWriter.toByteArray();
-		RowMapperCreater rowMapperCreater = new RowMapperCreater(Thread
-				.currentThread().getContextClassLoader());
 		try {
-			rowMapperCreater.loadClass(RowMapper.class.getName());
-			Class<T> mapperClass = (Class<T>) rowMapperCreater.defineClass(
-					mapperName, code, 0, code.length);
+			this.loadClass(RowMapper.class.getName());
+			Class<T> mapperClass = (Class<T>) this.defineClass(mapperName,
+					code, 0, code.length);
 			return mapperClass;
 		}
 		catch (Exception e) {
