@@ -19,6 +19,11 @@ public class UpdateParam extends Param {
 		return updateColumns;
 	}
 
+	/**
+	 * 设置需要更新的列(与数据库字段相同)
+	 * 
+	 * @param updateColumns
+	 */
 	public void setUpdateColumns(String[] updateColumns) {
 		this.updateColumns = updateColumns;
 	}
@@ -27,6 +32,11 @@ public class UpdateParam extends Param {
 		return clazz;
 	}
 
+	/**
+	 * 设置要更新的类，通过此类可获取对应的表信息
+	 * 
+	 * @param clazz
+	 */
 	public void setClazz(Class<? extends Object> clazz) {
 		this.clazz = clazz;
 	}

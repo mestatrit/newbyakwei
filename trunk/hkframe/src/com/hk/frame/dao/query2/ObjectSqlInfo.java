@@ -189,6 +189,9 @@ public class ObjectSqlInfo<T> {
 		}
 	}
 
+	/**
+	 * 创建update需要的列
+	 */
 	private void buildAllColumns() {
 		columns = new String[this.allfieldList.size()];
 		int i = 0;
