@@ -3,7 +3,7 @@ package com.hk.frame.dao.query2;
 import java.util.Map;
 
 /**
- * 表信息分析器，通过此分析器可以分析表所在的具体的数据库与数据表名称
+ * 数据分区分析器，通过此分析器可以分析表所在的具体的数据库与数据表名称
  * 
  * @author akwei
  */
@@ -40,7 +40,7 @@ public abstract class DbPartitionHelper {
 	 * @param name
 	 *            逻辑表名称，也将会成为表的别名
 	 * @param ctxMap
-	 *            上下文存储
+	 *            上下文信息存储
 	 * @return
 	 */
 	public abstract PartitionTableInfo parse(String name,

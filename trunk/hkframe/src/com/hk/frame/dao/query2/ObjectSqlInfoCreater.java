@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 初始化类与数据表的对应关系配置信息
+ * 初始化类与数据表的对应关系配置信息，存储类与数据表的映射对象的数据
  * 
- * @author fire9
+ * @author akwei
  */
 public class ObjectSqlInfoCreater {
 
