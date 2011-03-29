@@ -59,7 +59,8 @@ public class HkObjQueryTest {
 		member.setGroupid(999);
 		member.setNick("member akwei");
 		BaseParam baseParam = this.hkObjQuery.createBaseParam();
-		baseParam.addKeyAndValue(Member.class, "userid", member.getUserid());
+		baseParam.addKeyAndValue(Member.class, "memberuserid", member
+				.getUserid());
 		this.hkObjQuery.insert(baseParam, member);
 		return member;
 	}
@@ -177,10 +178,10 @@ public class HkObjQueryTest {
 		queryParam.addClass(TestUser.class);
 		queryParam.addClass(Member.class);
 		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
-		queryParam.addKeyAndValue(Member.class, "userid", new Long(4));
+		queryParam.addKeyAndValue(Member.class, "memberuserid", new Long(4));
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
-		queryParam.setWhere("testuser.userid=member.userid");
+		queryParam.setWhere("testuser.userid=member.memberuserid");
 		RowMapper<Member> mapper = new RowMapper<Member>() {
 
 			@Override
@@ -212,10 +213,10 @@ public class HkObjQueryTest {
 		queryParam.addClass(TestUser.class);
 		queryParam.addClass(Member.class);
 		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
-		queryParam.addKeyAndValue(Member.class, "userid", new Long(4));
+		queryParam.addKeyAndValue(Member.class, "memberuserid", new Long(4));
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
-		queryParam.setWhere("testuser.userid=member.userid");
+		queryParam.setWhere("testuser.userid=member.memberuserid");
 		queryParam.setOrder("testuser.nick asc");
 		RowMapper<Member> mapper = new RowMapper<Member>() {
 
@@ -248,11 +249,11 @@ public class HkObjQueryTest {
 		queryParam.addClass(TestUser.class);
 		queryParam.addClass(Member.class);
 		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
-		queryParam.addKeyAndValue(Member.class, "userid", new Long(4));
+		queryParam.addKeyAndValue(Member.class, "memberuserid", new Long(4));
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
 		queryParam
-				.setWhere("testuser.userid=member.userid and testuser.userid=?");
+				.setWhere("testuser.userid=member.memberuserid and testuser.userid=?");
 		queryParam.setParams(new Object[] { 4 });
 		queryParam.setOrder("testuser.nick asc");
 		RowMapper<Member> mapper = new RowMapper<Member>() {
@@ -286,11 +287,11 @@ public class HkObjQueryTest {
 		queryParam.addClass(TestUser.class);
 		queryParam.addClass(Member.class);
 		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
-		queryParam.addKeyAndValue(Member.class, "userid", new Long(4));
+		queryParam.addKeyAndValue(Member.class, "memberuserid", new Long(4));
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
 		queryParam
-				.setWhere("testuser.userid=member.userid and testuser.userid=?");
+				.setWhere("testuser.userid=member.memberuserid and testuser.userid=?");
 		queryParam.setParams(new Object[] { 4 });
 		queryParam.setOrder("testuser.nick asc");
 		List<UserVo> list = this.hkObjQuery.getList(queryParam, UserVo.class);
