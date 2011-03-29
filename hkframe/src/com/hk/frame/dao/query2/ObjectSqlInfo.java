@@ -13,7 +13,7 @@ import com.hk.frame.dao.annotation.Id;
 import com.hk.frame.dao.annotation.Table;
 
 /**
- * 把class进行分析，存储class 对应的 sql相关信息
+ * 类-表映射数据。存储class 对应的 sql相关信息
  * 
  * @author akwei
  */
@@ -30,7 +30,7 @@ public class ObjectSqlInfo<T> {
 	private SqlUpdateMapper<T> sqlUpdateMapper;
 
 	/**
-	 * 数据分区解析器
+	 * 数据分区分析器
 	 */
 	private DbPartitionHelper dbPartitionHelper;
 
@@ -216,6 +216,11 @@ public class ObjectSqlInfo<T> {
 		return idField;
 	}
 
+	/**
+	 * 设置@Id字段
+	 * 
+	 * @param idField
+	 */
 	public void setIdField(Field idField) {
 		this.idField = idField;
 	}
@@ -251,6 +256,11 @@ public class ObjectSqlInfo<T> {
 		return tableName;
 	}
 
+	/**
+	 * 设置表别名
+	 * 
+	 * @param tableName
+	 */
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
@@ -264,14 +274,29 @@ public class ObjectSqlInfo<T> {
 		return allfieldList;
 	}
 
+	/**
+	 * 获得进行解析的类
+	 * 
+	 * @return
+	 */
 	public Class<T> getClazz() {
 		return clazz;
 	}
 
+	/**
+	 * 获得与数据表对应的RowMapper对象
+	 * 
+	 * @return
+	 */
 	public RowMapper<T> getRowMapper() {
 		return rowMapper;
 	}
 
+	/**
+	 * 获得SqlUpdateMapper对象
+	 * 
+	 * @return
+	 */
 	public SqlUpdateMapper<T> getSqlUpdateMapper() {
 		return sqlUpdateMapper;
 	}
@@ -294,6 +319,11 @@ public class ObjectSqlInfo<T> {
 		return columnsForUpdate;
 	}
 
+	/**
+	 * 获得数据分区分析器
+	 * 
+	 * @return
+	 */
 	public DbPartitionHelper getDbPartitionHelper() {
 		return dbPartitionHelper;
 	}
