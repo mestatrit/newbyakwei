@@ -12,6 +12,11 @@ import org.apache.commons.logging.LogFactory;
 
 import com.hk.frame.dao.DaoDebugMode;
 
+/**
+ * DataSource的包装类
+ * 
+ * @author akwei
+ */
 public class HkDataSourceWrapper implements DataSource {
 
 	private Map<String, DataSource> dataSourceMap;

@@ -1,5 +1,10 @@
 package com.hk.frame.datasource;
 
+/**
+ * 保存当前使用的数据库key
+ * 
+ * @author akwei
+ */
 public class DataSourceStatus {
 
 	private static final ThreadLocal<String> currentDsName = new ThreadLocal<String>();
