@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 初始化配置的sql类信息
+ * 初始化类与数据表的对应关系配置信息
  * 
  * @author fire9
  */
 public class ObjectSqlInfoCreater {
 
+	/**
+	 * class名称为key
+	 */
 	private final Map<String, ObjectSqlInfo<?>> objectSqlInfoMap = new HashMap<String, ObjectSqlInfo<?>>();
 
 	/**

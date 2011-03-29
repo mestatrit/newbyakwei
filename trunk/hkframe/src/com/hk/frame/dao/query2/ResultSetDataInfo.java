@@ -46,10 +46,20 @@ public class ResultSetDataInfo<T> {
 		return clazz;
 	}
 
+	/**
+	 * 获得结果集的对应mapper
+	 * 
+	 * @return
+	 */
 	public RowMapper<T> getRowMapper() {
 		return rowMapper;
 	}
 
+	/**
+	 * 根据类创建结果集分析信息
+	 * 
+	 * @param clazz
+	 */
 	@SuppressWarnings("unchecked")
 	public ResultSetDataInfo(Class<T> clazz) {
 		this.clazz = clazz;
@@ -84,6 +94,13 @@ public class ResultSetDataInfo<T> {
 		}
 	}
 
+	/**
+	 * 获得数据库对应的列
+	 * 
+	 * @param fieldName
+	 *            java对象的字段名称
+	 * @return
+	 */
 	public String getColumn(String fieldName) {
 		return fieldColumnMap.get(fieldName);
 	}

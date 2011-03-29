@@ -6,12 +6,22 @@ import java.util.Map;
 /**
  * 初始化配置的sql类信息
  * 
- * @author fire9
+ * @author akwei
  */
 public class ResultSetDataInfoCreater {
 
+	/**
+	 * class名称为key
+	 */
 	private final Map<String, ResultSetDataInfo<?>> infoMap = new HashMap<String, ResultSetDataInfo<?>>();
 
+	/**
+	 * 获得结果集信息数据
+	 * 
+	 * @param <T>
+	 * @param clazz
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> ResultSetDataInfo<T> getResultSetDataInfo(Class<T> clazz) {
 		ResultSetDataInfo<T> info = (ResultSetDataInfo<T>) this.infoMap
