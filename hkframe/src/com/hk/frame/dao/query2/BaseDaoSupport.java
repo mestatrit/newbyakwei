@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,42 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 	protected Connection getCurrentConnection() {
 		Connection con = this.getConnection();
 		return con;
+	}
+
+	public Object insert(String sql, Object[] values) {
+		this.log("insert sql [ " + sql + " ]");
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = this.getCurrentConnection();
+		try {
+			ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			if (values != null) {
+				int i = 1;
+				for (Object value : values) {
+					ps.setObject(i++, value);
+				}
+			}
+			ps.executeUpdate();
+			rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				return rs.getObject(1);
+			}
+			return 0;
+		}
+		catch (SQLException e) {
+			JdbcUtils.closeStatement(ps);
+			ps = null;
+			DataSourceUtils.releaseConnection(con, getDataSource());
+			con = null;
+			e.printStackTrace();
+			throw getExceptionTranslator().translate("StatementCallback", sql,
+					e);
+		}
+		finally {
+			JdbcUtils.closeResultSet(rs);
+			JdbcUtils.closeStatement(ps);
+			DataSourceUtils.releaseConnection(con, getDataSource());
+		}
 	}
 
 	public <T> List<T> query(String sql, RowMapper<T> rm, Object[] values) {
