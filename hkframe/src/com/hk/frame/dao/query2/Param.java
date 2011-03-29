@@ -20,6 +20,11 @@ public class Param extends BaseParam {
 		return where;
 	}
 
+	/**
+	 * 设置sql的where条件
+	 * 
+	 * @param where
+	 */
 	public void setWhere(String where) {
 		this.where = where;
 	}
@@ -28,6 +33,11 @@ public class Param extends BaseParam {
 		return params;
 	}
 
+	/**
+	 * 设置条件对应的参数
+	 * 
+	 * @param params
+	 */
 	public void setParams(Object[] params) {
 		this.params = params;
 	}

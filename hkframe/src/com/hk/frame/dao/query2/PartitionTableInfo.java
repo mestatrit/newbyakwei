@@ -3,7 +3,7 @@ package com.hk.frame.dao.query2;
 /**
  * 数据库表的基本信息，包括数据库真是名称与表真是名称
  * 
- * @author fire9
+ * @author akwei
  */
 public class PartitionTableInfo {
 
@@ -34,6 +34,11 @@ public class PartitionTableInfo {
 		return databaseName;
 	}
 
+	/**
+	 * 设置数据库真实key
+	 * 
+	 * @param databaseName
+	 */
 	public void setDatabaseName(String databaseName) {
 		this.databaseName = databaseName;
 	}
@@ -42,10 +47,20 @@ public class PartitionTableInfo {
 		return tableName;
 	}
 
+	/**
+	 * 设置表真实名称
+	 * 
+	 * @param tableName
+	 */
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
 
+	/**
+	 * 设置表别名
+	 * 
+	 * @param aliasName
+	 */
 	public void setAliasName(String aliasName) {
 		this.aliasName = aliasName;
 	}

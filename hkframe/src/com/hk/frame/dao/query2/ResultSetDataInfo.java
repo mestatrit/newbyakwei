@@ -38,10 +38,20 @@ public class ResultSetDataInfo<T> {
 	 */
 	private RowMapper<T> rowMapper;
 
+	/**
+	 * 获得结果集字段的集合
+	 * 
+	 * @return
+	 */
 	public List<Field> getFieldList() {
 		return fieldList;
 	}
 
+	/**
+	 * 结果集映射对象
+	 * 
+	 * @return
+	 */
 	public Class<T> getClazz() {
 		return clazz;
 	}
@@ -79,6 +89,11 @@ public class ResultSetDataInfo<T> {
 		}
 	}
 
+	/**
+	 * 对类进行分析，获得映射的字段对应数据表的列信息
+	 * 
+	 * @param field
+	 */
 	private void analyze(Field field) {
 		Column column = field.getAnnotation(Column.class);
 		if (column != null) {

@@ -40,18 +40,32 @@ public class QueryParam extends Param {
 		}
 	}
 
+	/**
+	 * 获得需要查询的列，是与addClass表一致的顺序
+	 * 
+	 * @return
+	 */
 	public String[][] getColumns() {
 		return columns;
 	}
 
 	/**
 	 * 设置数据库需要显示的字段。(注意：是数据库字段，不是代码表现的属性)。<br/>
-	 * 添加的顺序一定要与addClass的顺序一致
+	 * 添加的顺序一定要与addClass的顺序一致<br/>
+	 * 例如 addClass(User.class);addClass(Member.class); setColumns的参数为：<br/>
+	 * new String[][]{<br/>
+	 * {userid,nick,gender}(user表),<br/>
+	 * {memberid,membername,birthday}(member表)<br/>
 	 */
 	public void setColumns(String[][] columns) {
 		this.columns = columns;
 	}
 
+	/**
+	 * 获得order by的排序sql片段
+	 * 
+	 * @return
+	 */
 	public String getOrder() {
 		return order;
 	}
@@ -65,6 +79,11 @@ public class QueryParam extends Param {
 		this.order = order;
 	}
 
+	/**
+	 * 获得获取数据集合的开始位置
+	 * 
+	 * @return
+	 */
 	public int getBegin() {
 		return begin;
 	}
@@ -78,6 +97,12 @@ public class QueryParam extends Param {
 		this.begin = begin;
 	}
 
+	/**
+	 * 获取数据集合的数量<br/>
+	 * <=0时，获取所有数据;>0时获取指定数量数据
+	 * 
+	 * @return
+	 */
 	public int getSize() {
 		return size;
 	}
@@ -91,6 +116,12 @@ public class QueryParam extends Param {
 		this.size = size;
 	}
 
+	/**
+	 * 获取要查询的类<br/>
+	 * 根据类信息可获取表信息
+	 * 
+	 * @return
+	 */
 	Class<? extends Object>[] getClasses() {
 		return this.classList.toArray(new Class<?>[this.classList.size()]);
 	}
