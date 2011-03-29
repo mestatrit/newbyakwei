@@ -1,8 +1,8 @@
 package com.hk.frame.dao.query2;
 
 /**
- * insert、delete、update、select时参数的对象表示方式，完全是为了程序易读<br/>
- * insert、deleteById、deleteObj时， 没有参数有效<br/>
+ * delete、update、select时参数的对象表示方式，完全是为了程序易读<br/>
+ * deleteById、deleteObj时， 没有参数有效<br/>
  * 
  * @author akwei
  */

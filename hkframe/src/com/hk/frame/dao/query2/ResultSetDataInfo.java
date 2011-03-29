@@ -10,14 +10,32 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.hk.frame.dao.annotation.Column;
 
+/**
+ * 对于数据查询结果的集合
+ * 
+ * @author akwei
+ * @param <T>
+ */
 public class ResultSetDataInfo<T> {
 
+	/**
+	 * 所有字段的集合
+	 */
 	private final List<Field> fieldList = new ArrayList<Field>();
 
+	/**
+	 * 字段与数据库列对应的map信息
+	 */
 	private final Map<String, String> fieldColumnMap = new HashMap<String, String>();
 
+	/**
+	 * 数据结果映射类
+	 */
 	private Class<T> clazz;
 
+	/**
+	 * 数据结果映射mapper
+	 */
 	private RowMapper<T> rowMapper;
 
 	public List<Field> getFieldList() {
