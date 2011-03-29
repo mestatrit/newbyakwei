@@ -11,6 +11,12 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.springframework.jdbc.core.RowMapper;
 
+/**
+ * 使用asm来创建RowMapper对象，目前RowMapper对象支持的数据类型为long,int,byte,short,float,double,
+ * java.lang.String,java.util.Date
+ * 
+ * @author akwei
+ */
 public class ResultSetDataRowMapperCreater extends ClassLoader implements
 		Opcodes {
 
