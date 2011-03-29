@@ -3,6 +3,11 @@ package com.hk.frame.dao.query2;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 参数对象，insert时需要
+ * 
+ * @author akwei
+ */
 public class BaseParam {
 
 	private final Map<String, Object> ctxMap = new HashMap<String, Object>(2);
