@@ -445,4 +445,14 @@ public class ServletUtil {
 				request.getQueryString()).toString();
 		return url;
 	}
+
+	public static String getCallBackUrl(HttpServletRequest request) {
+		String queryString = request.getQueryString();
+		if (DataUtil.isEmpty(queryString)) {
+			return request.getRequestURL().toString();
+		}
+		return request.getRequestURL().append(
+				queryString.replaceAll(">", "&gt;").replaceAll("<", "&lt;"))
+				.toString();
+	}
 }
