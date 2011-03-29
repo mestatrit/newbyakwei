@@ -67,11 +67,25 @@ public class HkObjQuery extends HkQuery {
 		return new QueryParam(this.getObjectSqlInfoCreater());
 	}
 
+	/**
+	 * @param <T>
+	 * @param clazz
+	 *            查询的类
+	 * @return
+	 */
 	private <T> DbPartitionHelper getDbPartitionHelper(Class<T> clazz) {
 		return this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
 				.getDbPartitionHelper();
 	}
 
+	/**
+	 * 获得真实的操作的数据表信息
+	 * 
+	 * @param <T>
+	 * @param clazz
+	 * @param ctxMap
+	 * @return
+	 */
 	private <T> PartitionTableInfo parse(Class<T> clazz,
 			Map<String, Object> ctxMap) {
 		return this.getDbPartitionHelper(clazz).parse(
@@ -79,6 +93,14 @@ public class HkObjQuery extends HkQuery {
 						.getTableName(), ctxMap);
 	}
 
+	/**
+	 * 获得真实的操作的数据表信息
+	 * 
+	 * @param <T>
+	 * @param classes
+	 * @param ctxMap
+	 * @return
+	 */
 	private <T> PartitionTableInfo[] parse(Class<?>[] classes,
 			Map<String, Object> ctxMap) {
 		PartitionTableInfo[] partitionTableInfos = new PartitionTableInfo[classes.length];
@@ -88,6 +110,13 @@ public class HkObjQuery extends HkQuery {
 		return partitionTableInfos;
 	}
 
+	/**
+	 * 根据参数获得所需要的类中与数据库对应的所有列字段
+	 * 
+	 * @param <T>
+	 * @param classes
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	private <T> String[][] getColumns(Class[] classes) {
 		ObjectSqlInfo<T> objectSqlInfo = null;
@@ -134,6 +163,15 @@ public class HkObjQuery extends HkQuery {
 				.getCtxMap()), deleteParam.getWhere(), deleteParam.getParams());
 	}
 
+	/**
+	 * 删除对象
+	 * 
+	 * @param <T>
+	 * @param baseParam
+	 * @param t
+	 *            要删除的对象，只能是与表映射对应的对象，不能是结果集映射对象
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> int deleteObj(BaseParam baseParam, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
@@ -142,6 +180,16 @@ public class HkObjQuery extends HkQuery {
 				.getSqlUpdateMapper().getIdParam(t));
 	}
 
+	/**
+	 * 根据id删除对象
+	 * 
+	 * @param <T>
+	 * @param baseParam
+	 * @param clazz
+	 *            要删除的数据表的类信息
+	 * @param idValue
+	 * @return
+	 */
 	public <T> int deleteById(BaseParam baseParam, Class<T> clazz,
 			Object idValue) {
 		DeleteParam deleteParam = new DeleteParam(baseParam
@@ -154,6 +202,14 @@ public class HkObjQuery extends HkQuery {
 		return this.delete(deleteParam);
 	}
 
+	/**
+	 * 查询操作，如果QueryParam 中columns没有赋值,则查询表中的所有列，程序将会自动复制列信息到columns属性
+	 * 
+	 * @param <T>
+	 * @param queryParam
+	 * @param mapper
+	 * @return
+	 */
 	public <T> List<T> getList(QueryParam queryParam, RowMapper<T> mapper) {
 		if (queryParam.getColumns() == null) {
 			queryParam.setColumns(this.getColumns(queryParam.getClasses()));
@@ -164,6 +220,13 @@ public class HkObjQuery extends HkQuery {
 						.getBegin(), queryParam.getSize(), mapper);
 	}
 
+	/**
+	 * @param <T>
+	 * @param queryParam
+	 * @param clazz
+	 *            根据此类型可以获得匹配的mapper
+	 * @return
+	 */
 	public <T> List<T> getList(QueryParam queryParam, Class<T> clazz) {
 		return this.getList(queryParam, this.getRowMapper(clazz));
 	}
@@ -173,6 +236,14 @@ public class HkObjQuery extends HkQuery {
 				.getCtxMap()), queryParam.getWhere(), queryParam.getParams());
 	}
 
+	/**
+	 * 查询操作，如果QueryParam 中columns没有赋值,则查询表中的所有列，程序将会自动复制列信息到columns属性
+	 * 
+	 * @param <T>
+	 * @param queryParam
+	 * @param mapper
+	 * @return
+	 */
 	public <T> T getObject(QueryParam queryParam, RowMapper<T> mapper) {
 		if (queryParam.getColumns() == null) {
 			queryParam.setColumns(this.getColumns(queryParam.getClasses()));
@@ -182,10 +253,29 @@ public class HkObjQuery extends HkQuery {
 				queryParam.getParams(), queryParam.getOrder(), mapper);
 	}
 
+	/**
+	 * 查询单个对象
+	 * 
+	 * @param <T>
+	 * @param queryParam
+	 * @param clazz
+	 *            根据此类型可以获得匹配的mapper
+	 * @return
+	 */
 	public <T> T getObject(QueryParam queryParam, Class<T> clazz) {
 		return this.getObject(queryParam, this.getRowMapper(clazz));
 	}
 
+	/**
+	 * 根据id查询对象
+	 * 
+	 * @param <T>
+	 * @param queryParam
+	 * @param clazz
+	 *            根据此类型可以获得匹配的mapper
+	 * @param idValue
+	 * @return
+	 */
 	public <T> T getObjectById(QueryParam queryParam, Class<T> clazz,
 			Object idValue) {
 		queryParam.setWhere(this.objectSqlInfoCreater.getObjectSqlInfo(clazz)

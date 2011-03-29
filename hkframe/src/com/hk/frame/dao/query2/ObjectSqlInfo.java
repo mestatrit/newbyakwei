@@ -19,12 +19,24 @@ import com.hk.frame.dao.annotation.Table;
  */
 public class ObjectSqlInfo<T> {
 
+	/**
+	 * 结果集的映射
+	 */
 	private RowMapper<T> rowMapper;
 
+	/**
+	 * 插入，更新，删除的映射
+	 */
 	private SqlUpdateMapper<T> sqlUpdateMapper;
 
+	/**
+	 * 数据分区解析器
+	 */
 	private DbPartitionHelper dbPartitionHelper;
 
+	/**
+	 * 类信息
+	 */
 	private Class<T> clazz;
 
 	/**
@@ -94,8 +106,6 @@ public class ObjectSqlInfo<T> {
 			idColumn = table.id();
 		}
 		this.buildAllColumns();
-		// this.buildSql_insert_columns();
-		// this.buildSql_update_columns();
 		this.buildMapper();
 		this.buildSqlUpdateMapper();
 	}
