@@ -3,7 +3,7 @@ package com.hk.frame.datasource;
 import java.sql.Connection;
 
 /**
- * Connection代理,并不是实际的Connection,内部存储了多个实际的Connection
+ * Connection代理,不产生实际的connection资源
  * 
  * @author yuanwei
  */
