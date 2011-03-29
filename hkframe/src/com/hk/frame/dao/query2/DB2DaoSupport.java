@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
  * 
  * @author fire9
  */
-public class DB2DaoSupport extends BaseDaoSupport {
+public class DB2DaoSupport extends MysqlDaoSupport {
 
 	@Override
 	public <T> List<T> query(String sql, int begin, int size, RowMapper<T> rm,

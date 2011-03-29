@@ -25,10 +25,10 @@ import com.hk.frame.dao.DaoDebugMode;
  * 
  * @author akwei
  */
-public class BaseDaoSupport extends SimpleJdbcDaoSupport implements DaoSupport,
+public class MysqlDaoSupport extends SimpleJdbcDaoSupport implements DaoSupport,
 		DaoIdentifier {
 
-	private final Log log = LogFactory.getLog(BaseDaoSupport.class);
+	private final Log log = LogFactory.getLog(MysqlDaoSupport.class);
 
 	public int[] batchUpdate(String sql, BatchPreparedStatementSetter bpss) {
 		this.log("batchUpdate sql [ " + sql + " ]");
