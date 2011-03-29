@@ -3,7 +3,7 @@ package com.hk.frame.dao.query2;
 import java.util.Map;
 
 /**
- * 进行数据库选择与表选择的工具类
+ * 表信息分析器，通过此分析器可以分析表所在的具体的数据库与数据表名称
  * 
  * @author akwei
  */

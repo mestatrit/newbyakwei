@@ -7,7 +7,7 @@ import com.hk.frame.dao.annotation.Table;
 @Table(name = "member")
 public class Member {
 
-	@Id
+	@Id(name = "memberuserid")
 	private long userid;
 
 	@Column

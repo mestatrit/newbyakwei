@@ -51,26 +51,48 @@ public class HkObjQuery extends HkQuery {
 		return objectSqlInfoCreater;
 	}
 
+	/**
+	 * 创建参数对象的快捷方法
+	 * 
+	 * @return
+	 */
 	public BaseParam createBaseParam() {
 		return new BaseParam(this.getObjectSqlInfoCreater());
 	}
 
+	/**
+	 * 创建参数对象的快捷方法
+	 * 
+	 * @return
+	 */
 	public UpdateParam createUpdateParam() {
 		return new UpdateParam(this.getObjectSqlInfoCreater());
 	}
 
+	/**
+	 * 创建参数对象的快捷方法
+	 * 
+	 * @return
+	 */
 	public DeleteParam createDeleteParam() {
 		return new DeleteParam(this.getObjectSqlInfoCreater());
 	}
 
+	/**
+	 * 创建参数对象的快捷方法
+	 * 
+	 * @return
+	 */
 	public QueryParam createQueryParam() {
 		return new QueryParam(this.getObjectSqlInfoCreater());
 	}
 
 	/**
+	 * 获得表信息分析器
+	 * 
 	 * @param <T>
 	 * @param clazz
-	 *            查询的类
+	 *            表信息分析器与class对应，传递class参数即可获得
 	 * @return
 	 */
 	private <T> DbPartitionHelper getDbPartitionHelper(Class<T> clazz) {
