@@ -16,5 +16,6 @@ public @interface Table {
 	String id() default "";
 
 	String mapper() default "";
-	// String alias() default "";
+
+	String sequence() default "";
 }
