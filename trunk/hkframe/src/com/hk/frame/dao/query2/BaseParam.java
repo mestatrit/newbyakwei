@@ -21,12 +21,32 @@ public class BaseParam {
 		return ctxMap;
 	}
 
+	/**
+	 * 添加分区关键字
+	 * 
+	 * @param <T>
+	 * @param clazz
+	 *            需要分区的类
+	 * @param key
+	 *            关键字，不需要写别名
+	 * @param value
+	 *            关键字的值
+	 */
 	public <T> void addKeyAndValue(Class<T> clazz, String key, Object value) {
 		this.ctxMap.put(this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
 				.getTableName()
 				+ "." + key, value);
 	}
 
+	/**
+	 * 添加分区关键字
+	 * 
+	 * @param <T>
+	 * @param key
+	 *            关键字，可以包括别名，必须保证唯一
+	 * @param value
+	 *            关键字值
+	 */
 	public <T> void addKeyAndValue(String key, Object value) {
 		this.ctxMap.put(key, value);
 	}

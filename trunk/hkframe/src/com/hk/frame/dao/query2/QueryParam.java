@@ -27,6 +27,13 @@ public class QueryParam extends Param {
 		super(objectSqlInfoCreater);
 	}
 
+	/**
+	 * 添加需要查询的类。添加类的顺序会影响到设置现实字段的顺序。添加类的顺序一定要与columns的顺序一致
+	 * 
+	 * @param <T>
+	 * @param clazz
+	 *            需要查询的类
+	 */
 	public <T> void addClass(Class<T> clazz) {
 		if (!this.classList.contains(clazz)) {
 			this.classList.add(clazz);
@@ -37,6 +44,10 @@ public class QueryParam extends Param {
 		return columns;
 	}
 
+	/**
+	 * 设置数据库需要显示的字段。(注意：是数据库字段，不是代码表现的属性)。<br/>
+	 * 添加的顺序一定要与addClass的顺序一致
+	 */
 	public void setColumns(String[][] columns) {
 		this.columns = columns;
 	}
@@ -45,6 +56,11 @@ public class QueryParam extends Param {
 		return order;
 	}
 
+	/**
+	 * 设置sql中 order部分
+	 * 
+	 * @param order
+	 */
 	public void setOrder(String order) {
 		this.order = order;
 	}
@@ -53,6 +69,11 @@ public class QueryParam extends Param {
 		return begin;
 	}
 
+	/**
+	 * 设置获取数据开始的位置
+	 * 
+	 * @param begin
+	 */
 	public void setBegin(int begin) {
 		this.begin = begin;
 	}
@@ -61,6 +82,11 @@ public class QueryParam extends Param {
 		return size;
 	}
 
+	/**
+	 * 设置获取数据的数量。<=0时，获取所有数据;>0时获取指定数量数据
+	 * 
+	 * @param size
+	 */
 	public void setSize(int size) {
 		this.size = size;
 	}
