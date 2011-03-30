@@ -2,7 +2,6 @@ package demo.web;
 
 import org.springframework.stereotype.Component;
 
-import com.hk.frame.util.P;
 import com.hk.frame.web.http.HkRequest;
 import com.hk.frame.web.http.HkResponse;
 
