@@ -7,8 +7,30 @@ public class UserVo {
 	@Column("testuser.userid")
 	private long userid;
 
-	@Column("member.nick")
+	@Column("testuser.nick")
 	private String nick;
+
+	@Column("member.memberid")
+	private long memberid;
+
+	public long getMemberid() {
+		return memberid;
+	}
+
+	public void setMemberid(long memberid) {
+		this.memberid = memberid;
+	}
+
+	public String getMembername() {
+		return membername;
+	}
+
+	public void setMembername(String membername) {
+		this.membername = membername;
+	}
+
+	@Column("member.membername")
+	private String membername;
 
 	public long getUserid() {
 		return userid;

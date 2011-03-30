@@ -29,4 +29,9 @@ public class DeleteParam extends Param {
 	public Class<? extends Object> getClazz() {
 		return clazz;
 	}
+
+	public void setWhereAndParams(String where, Object[] params) {
+		this.setWhere(where);
+		this.setParams(params);
+	}
 }

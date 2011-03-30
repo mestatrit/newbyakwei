@@ -49,7 +49,7 @@ public class HkObjQueryTest {
 		BaseParam baseParam = this.hkObjQuery.createBaseParam();
 		baseParam
 				.addKeyAndValue(TestUser.class, "userid", testUser.getUserid());
-		this.hkObjQuery.insert(baseParam, testUser);
+		this.hkObjQuery.insertObj(baseParam, testUser);
 		return testUser;
 	}
 
@@ -61,13 +61,13 @@ public class HkObjQueryTest {
 		BaseParam baseParam = this.hkObjQuery.createBaseParam();
 		baseParam.addKeyAndValue(Member.class, "memberuserid", member
 				.getUserid());
-		this.hkObjQuery.insert(baseParam, member);
+		this.hkObjQuery.insertObj(baseParam, member);
 		return member;
 	}
 
 	private TestUser getTestUser(long userid) {
 		QueryParam queryParam = this.hkObjQuery.createQueryParam();
-		queryParam.addClass(TestUser.class);
+//		queryParam.addClass(TestUser.class);
 		queryParam.addKeyAndValue(TestUser.class, "userid", userid);
 		return this.hkObjQuery
 				.getObjectById(queryParam, TestUser.class, userid);
