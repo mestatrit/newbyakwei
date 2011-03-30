@@ -91,4 +91,15 @@ public class HelloAction extends BaseAction {
 		P.println("页面调用action");
 		return null;
 	}
+
+	/**
+	 * 重定向到外部链接功能
+	 * 
+	 * @param req
+	 * @param resp
+	 * @return
+	 */
+	public String method5(HkRequest req, HkResponse resp) {
+		return "r:/http://www.163.com";
+	}
 }

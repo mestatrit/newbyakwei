@@ -20,7 +20,7 @@
 	<bean id="hkUtil" class="com.hk.frame.util.HkUtil">
 		<property name="scanPathList">
 			<list>
-				<!-- 配置到哪里进行查找，可深入目录查找 -->
+				<!-- 配置到哪里进行action查找，可深入目录查找 -->
 				<value>demo.web</value>
 			</list>
 		</property>
