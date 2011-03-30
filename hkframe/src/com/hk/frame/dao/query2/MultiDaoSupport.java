@@ -64,28 +64,33 @@ public class MultiDaoSupport implements DaoSupport {
 	}
 
 	@Override
-	public Object insert(String sql, Object[] values) {
-		return this.getDaoSupport().insert(sql, values);
+	public Object insertBySQL(String sql, Object[] values) {
+		return this.getDaoSupport().insertBySQL(sql, values);
 	}
 
 	@Override
-	public <T> List<T> query(String sql, int begin, int size, RowMapper<T> rm,
+	public <T> List<T> getListBySQL(String sql, int begin, int size, RowMapper<T> rm,
 			Object[] values) {
-		return this.getDaoSupport().query(sql, begin, size, rm, values);
+		return this.getDaoSupport().getListBySQL(sql, begin, size, rm, values);
 	}
 
 	@Override
-	public Number queryForNumber(String sql, Object[] values) {
-		return this.getDaoSupport().queryForNumber(sql, values);
+	public <T> List<T> getListBySQL(String sql, RowMapper<T> rm, Object[] values) {
+		return this.getDaoSupport().getListBySQL(sql, rm, values);
 	}
 
 	@Override
-	public <T> T queryForObject(String sql, RowMapper<T> rm, Object[] values) {
-		return this.getDaoSupport().queryForObject(sql, rm, values);
+	public Number getNumberBySQL(String sql, Object[] values) {
+		return this.getDaoSupport().getNumberBySQL(sql, values);
 	}
 
 	@Override
-	public int update(String sql, Object[] values) {
-		return this.getDaoSupport().update(sql, values);
+	public <T> T getObjectBySQL(String sql, RowMapper<T> rm, Object[] values) {
+		return this.getDaoSupport().getObjectBySQL(sql, rm, values);
+	}
+
+	@Override
+	public int updateBySQL(String sql, Object[] values) {
+		return this.getDaoSupport().updateBySQL(sql, values);
 	}
 }

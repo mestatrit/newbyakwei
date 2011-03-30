@@ -45,7 +45,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 		return con;
 	}
 
-	public Object insert(String sql, Object[] values) {
+	public Object insertBySQL(String sql, Object[] values) {
 		this.log("insert sql [ " + sql + " ]");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -81,7 +81,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 		}
 	}
 
-	public <T> List<T> query(String sql, RowMapper<T> rm, Object[] values) {
+	public <T> List<T> getListBySQL(String sql, RowMapper<T> rm, Object[] values) {
 		this.log("query sql [ " + sql + " ]");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -117,7 +117,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 		}
 	}
 
-	public Number queryForNumber(String sql, Object[] values) {
+	public Number getNumberBySQL(String sql, Object[] values) {
 		this.log("queryForNumber sql [ " + sql + " ]");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -160,7 +160,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 		}
 	}
 
-	public int update(String sql, Object[] values) {
+	public int updateBySQL(String sql, Object[] values) {
 		this.log("update sql [ " + sql + " ]");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
