@@ -108,7 +108,7 @@ public class HkObjQuery extends HkQuery {
 	 * @param ctxMap
 	 * @return
 	 */
-	private <T> PartitionTableInfo parse(Class<T> clazz,
+	public <T> PartitionTableInfo parse(Class<T> clazz,
 			Map<String, Object> ctxMap) {
 		return this.getDbPartitionHelper(clazz).parse(
 				this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
@@ -123,7 +123,7 @@ public class HkObjQuery extends HkQuery {
 	 * @param ctxMap
 	 * @return
 	 */
-	private <T> PartitionTableInfo[] parse(Class<?>[] classes,
+	public <T> PartitionTableInfo[] parse(Class<?>[] classes,
 			Map<String, Object> ctxMap) {
 		PartitionTableInfo[] partitionTableInfos = new PartitionTableInfo[classes.length];
 		for (int i = 0; i < classes.length; i++) {
