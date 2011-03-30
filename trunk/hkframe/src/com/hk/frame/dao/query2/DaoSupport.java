@@ -34,8 +34,8 @@ public interface DaoSupport {
 	 *            传递的参数
 	 * @return 查询对象集合
 	 */
-	<T> List<T> getListBySQL(String sql, int begin, int size, RowMapper<T> rm,
-			Object[] values);
+	<T> List<T> getListBySQL(String sql, Object[] values, int begin, int size,
+			RowMapper<T> rm);
 
 	/**
 	 * 查询数据库
@@ -44,13 +44,13 @@ public interface DaoSupport {
 	 *            查询对象类型
 	 * @param sql
 	 *            sql语句
-	 * @param rm
-	 *            rowmapper
 	 * @param values
 	 *            传递的参数
+	 * @param rm
+	 *            rowmapper
 	 * @return 查询对象集合
 	 */
-	<T> List<T> getListBySQL(String sql, RowMapper<T> rm, Object[] values);
+	<T> List<T> getListBySQL(String sql, Object[] values, RowMapper<T> rm);
 
 	/**
 	 * 查询数字结果
@@ -70,13 +70,13 @@ public interface DaoSupport {
 	 *            对象类型
 	 * @param sql
 	 *            sql语句
-	 * @param rm
-	 *            rowmapper
 	 * @param values
 	 *            传递参数
+	 * @param rm
+	 *            rowmapper
 	 * @return
 	 */
-	<T> T getObjectBySQL(String sql, RowMapper<T> rm, Object[] values);
+	<T> T getObjectBySQL(String sql, Object[] values, RowMapper<T> rm);
 
 	/**
 	 * 更新记录

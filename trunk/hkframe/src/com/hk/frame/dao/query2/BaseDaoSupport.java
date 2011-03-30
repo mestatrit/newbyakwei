@@ -81,7 +81,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 		}
 	}
 
-	public <T> List<T> getListBySQL(String sql, RowMapper<T> rm, Object[] values) {
+	public <T> List<T> getListBySQL(String sql, Object[] values, RowMapper<T> rm) {
 		this.log("query sql [ " + sql + " ]");
 		PreparedStatement ps = null;
 		ResultSet rs = null;
