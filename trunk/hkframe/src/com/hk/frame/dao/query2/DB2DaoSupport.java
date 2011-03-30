@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 public class DB2DaoSupport extends MysqlDaoSupport {
 
 	@Override
-	public <T> List<T> query(String sql, int begin, int size, RowMapper<T> rm,
+	public <T> List<T> getListBySQL(String sql, int begin, int size, RowMapper<T> rm,
 			Object[] values) {
 //		select * from (
 //
@@ -20,6 +20,6 @@ public class DB2DaoSupport extends MysqlDaoSupport {
 //
 //		where ROWNUM > 20 and ROWNUM <=30
 //		String db2sql="select ";
-		return super.query(sql, begin, size, rm, values);
+		return super.getListBySQL(sql, begin, size, rm, values);
 	}
 }

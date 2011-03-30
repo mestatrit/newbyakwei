@@ -18,17 +18,17 @@ public class MysqlDaoSupport extends BaseDaoSupport implements DaoSupport,
 	}
 
 	@Override
-	public <T> List<T> query(String sql, int begin, int size, RowMapper<T> rm,
+	public <T> List<T> getListBySQL(String sql, int begin, int size, RowMapper<T> rm,
 			Object[] values) {
 		if (begin >= 0 && size > 0) {
-			return this.query(sql + " limit " + begin + "," + size, rm, values);
+			return this.getListBySQL(sql + " limit " + begin + "," + size, rm, values);
 		}
-		return this.query(sql, rm, values);
+		return this.getListBySQL(sql, rm, values);
 	}
 
 	@Override
-	public <T> T queryForObject(String sql, RowMapper<T> rm, Object[] values) {
-		List<T> list = this.query(sql, 0, 1, rm, values);
+	public <T> T getObjectBySQL(String sql, RowMapper<T> rm, Object[] values) {
+		List<T> list = this.getListBySQL(sql, 0, 1, rm, values);
 		if (list.isEmpty()) {
 			return null;
 		}

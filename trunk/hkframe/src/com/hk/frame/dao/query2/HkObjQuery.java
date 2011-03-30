@@ -95,7 +95,7 @@ public class HkObjQuery extends HkQuery {
 	 *            表信息分析器与class对应，传递class参数即可获得
 	 * @return
 	 */
-	private <T> DbPartitionHelper getDbPartitionHelper(Class<T> clazz) {
+	public <T> DbPartitionHelper getDbPartitionHelper(Class<T> clazz) {
 		return this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
 				.getDbPartitionHelper();
 	}
