@@ -69,14 +69,14 @@ public class MultiDaoSupport implements DaoSupport {
 	}
 
 	@Override
-	public <T> List<T> getListBySQL(String sql, int begin, int size, RowMapper<T> rm,
-			Object[] values) {
-		return this.getDaoSupport().getListBySQL(sql, begin, size, rm, values);
+	public <T> List<T> getListBySQL(String sql, Object[] values, int begin,
+			int size, RowMapper<T> rm) {
+		return this.getDaoSupport().getListBySQL(sql, values, begin, size, rm);
 	}
 
 	@Override
-	public <T> List<T> getListBySQL(String sql, RowMapper<T> rm, Object[] values) {
-		return this.getDaoSupport().getListBySQL(sql, rm, values);
+	public <T> List<T> getListBySQL(String sql, Object[] values, RowMapper<T> rm) {
+		return this.getDaoSupport().getListBySQL(sql, values, rm);
 	}
 
 	@Override
@@ -85,8 +85,8 @@ public class MultiDaoSupport implements DaoSupport {
 	}
 
 	@Override
-	public <T> T getObjectBySQL(String sql, RowMapper<T> rm, Object[] values) {
-		return this.getDaoSupport().getObjectBySQL(sql, rm, values);
+	public <T> T getObjectBySQL(String sql, Object[] values, RowMapper<T> rm) {
+		return this.getDaoSupport().getObjectBySQL(sql, values, rm);
 	}
 
 	@Override

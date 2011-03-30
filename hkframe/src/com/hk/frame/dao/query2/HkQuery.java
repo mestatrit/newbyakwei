@@ -261,7 +261,7 @@ public class HkQuery {
 				.getDatabaseName());
 		return this.getDaoSupport().getListBySQL(
 				this.createListSQL(partitionTableInfos, columns, where, order),
-				begin, size, mapper, params);
+				params, begin, size, mapper);
 	}
 
 	/**
@@ -319,7 +319,7 @@ public class HkQuery {
 		return this.getDaoSupport().getObjectBySQL(
 				this
 						.createObjectSQL(partitionTableInfos, columns, where,
-								order), mapper, params);
+								order), params, mapper);
 	}
 
 	/**
@@ -443,10 +443,10 @@ public class HkQuery {
 	}
 
 	public <T> List<T> getListBySQL(PartitionTableInfo[] partitionTableInfos,
-			String sql, RowMapper<T> rm, Object[] values) {
+			String sql, Object[] values, RowMapper<T> rm) {
 		DataSourceStatus.setCurrentDsName(partitionTableInfos[0]
 				.getDatabaseName());
-		return this.getDaoSupport().getListBySQL(sql, rm, values);
+		return this.getDaoSupport().getListBySQL(sql, values, rm);
 	}
 
 	public Number getNumberBySQL(PartitionTableInfo[] partitionTableInfos,
@@ -457,10 +457,10 @@ public class HkQuery {
 	}
 
 	public <T> T getObjectBySQL(PartitionTableInfo[] partitionTableInfos,
-			String sql, RowMapper<T> rm, Object[] values) {
+			String sql, Object[] values, RowMapper<T> rm) {
 		DataSourceStatus.setCurrentDsName(partitionTableInfos[0]
 				.getDatabaseName());
-		return this.getDaoSupport().getObjectBySQL(sql, rm, values);
+		return this.getDaoSupport().getObjectBySQL(sql, values, rm);
 	}
 
 	public int updateBySQL(PartitionTableInfo partitionTableInfo, String sql,
