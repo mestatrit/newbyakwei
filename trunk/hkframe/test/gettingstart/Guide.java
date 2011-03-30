@@ -18,13 +18,15 @@ import com.hk.frame.util.HkUtil;
 import com.hk.frame.util.P;
 
 /**
- * 1, 配置spring文件，看guide.xml<br/>
+ * 配置spring文件，看guide.xml<br/>
+ * 对于此类中的所有操作适用于所有sql的方式
  * 
  * @author akwei
  */
 public class Guide {
 
 	public void insert() {
+		// 通过spring获取，获取方式有很多，可以注入等
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		Map<String, Object> ctxMap = new HashMap<String, Object>();
 		// 设置分区关键值

@@ -152,7 +152,7 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> Object insert(BaseParam baseParam, T t) {
+	public <T> Object insertObj(BaseParam baseParam, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
 				.getObjectSqlInfo(t.getClass());
 		return this.insert(this.parse(t.getClass(), baseParam.getCtxMap()),
@@ -289,7 +289,7 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	/**
-	 * 根据id查询对象
+	 * 根据id查询对象,默认查询 clazz 对象数据，如果设置了
 	 * 
 	 * @param <T>
 	 * @param queryParam
@@ -307,6 +307,9 @@ public class HkObjQuery extends HkQuery {
 		queryParam.setOrder(null);
 		queryParam.setBegin(0);
 		queryParam.setSize(1);
+		if (queryParam.getClasses().length == 0) {
+			queryParam.addClass(clazz);
+		}
 		return this.getObject(queryParam, clazz);
 	}
 }

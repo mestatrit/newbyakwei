@@ -125,4 +125,14 @@ public class QueryParam extends Param {
 	Class<? extends Object>[] getClasses() {
 		return this.classList.toArray(new Class<?>[this.classList.size()]);
 	}
+
+	public void setWhereAndParams(String where, Object[] params) {
+		this.setWhere(where);
+		this.setParams(params);
+	}
+
+	public void setRange(int begin, int szie) {
+		this.setBegin(begin);
+		this.setSize(szie);
+	}
 }
