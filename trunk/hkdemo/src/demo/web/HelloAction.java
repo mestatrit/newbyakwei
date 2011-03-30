@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 import com.hk.frame.util.P;
 import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkRequestImpl;
 import com.hk.frame.web.http.HkResponse;
 
 @Component("/hello")
@@ -76,7 +75,7 @@ public class HelloAction extends BaseAction {
 	 * @param resp
 	 * @return
 	 */
-	public String method4(HkRequestImpl req, HkResponse resp) {
+	public String method4(HkRequest req, HkResponse resp) {
 		return "action.jsp";
 	}
 
@@ -88,7 +87,7 @@ public class HelloAction extends BaseAction {
 	 * @return
 	 */
 	public String jspinvoke(HkRequest req, HkResponse resp) {
-		P.println("页面调用action");
+		req.setAttribute("invoke_attr", "hello invoke");
 		return null;
 	}
 
