@@ -5,7 +5,7 @@
 		<title></title>
 	</head>
 	<body>
-		页面调用action,结果看控制台
+		页面调用action
 		<hk:actioninvoke mappinguri="/hello_jspinvoke" />
 		<br />
 		action调用输出文字：${invoke_attr }<br/>

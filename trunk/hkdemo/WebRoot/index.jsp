@@ -2,9 +2,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
-		<title>${name }</title>
+		<title>使用首页</title>
 	</head>
 	<body>
+	点击下面链接查看效果<br/>
 		<br><jsp:include page="inc.jsp"></jsp:include>
 	</body>
 </html>
