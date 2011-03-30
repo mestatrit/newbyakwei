@@ -5,7 +5,6 @@
 		<title>${name }</title>
 	</head>
 	<body>
-		页面输出：${name }
 		<br><jsp:include page="inc.jsp"></jsp:include>
 	</body>
 </html>

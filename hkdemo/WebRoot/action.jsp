@@ -8,6 +8,7 @@
 		页面调用action,结果看控制台
 		<hk:actioninvoke mappinguri="/hello_jspinvoke" />
 		<br />
+		action调用输出文字：${invoke_attr }<br/>
 		<jsp:include page="inc.jsp"></jsp:include>
 	</body>
 </html>
