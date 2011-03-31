@@ -35,7 +35,7 @@ public class Guide {
 		PartitionTableInfo partitionTableInfo = hkObjQuery.parse(
 				TestUser.class, ctxMap);
 		// 创建insert sql
-		String insert_sql = "insert " + partitionTableInfo.getTableName()
+		String insert_sql = "insert into " + partitionTableInfo.getTableName()
 				+ "(id,nick) values(?,?)";
 		// 设置参数
 		Object[] values = new Object[] { 1, "akwei" };
