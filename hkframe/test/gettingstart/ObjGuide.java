@@ -115,16 +115,14 @@ public class ObjGuide {
 	public void selectList() {
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		QueryParam queryParam = hkObjQuery.createQueryParam();
-		// 添加需要查询的表
+		// 添加需要查询的表,如果查询的表与返回值类型相同，可不设置此参数
 		queryParam.addClass(TestUser.class);
 		// 设置分区参数以及值
 		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
-		// 设置查询开始位置
-		queryParam.setBegin(0);
-		// 设置查询数量，如果为<0时，取所有数据
-		queryParam.setSize(10);
-		queryParam.setWhere("testuser.nick=?");
-		queryParam.setParams(new Object[] { "akwei" });
+		// 设置查询范围如果size为<0时，取所有数据
+		queryParam.setRange(0, 10);
+		queryParam.setWhereAndParams("testuser.nick=?",
+				new Object[] { "akwei" });
 		queryParam.setOrder("gender desc");
 		// select
 		List<TestUser> list = hkObjQuery.getList(queryParam, TestUser.class);

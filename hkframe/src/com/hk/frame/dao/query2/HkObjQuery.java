@@ -241,13 +241,18 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	/**
+	 * 数据查询select
+	 * 
 	 * @param <T>
 	 * @param queryParam
 	 * @param clazz
-	 *            根据此类型可以获得匹配的mapper
+	 *            返回对象类型，如果 queryParam没有设置classes参数，默认使用此参数 根据此类型可以获得匹配的mapper
 	 * @return
 	 */
 	public <T> List<T> getList(QueryParam queryParam, Class<T> clazz) {
+		if (queryParam.getClasses().length == 0) {
+			queryParam.addClass(clazz);
+		}
 		return this.getList(queryParam, this.getRowMapper(clazz));
 	}
 
