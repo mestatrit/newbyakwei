@@ -89,10 +89,8 @@ public class ObjGuide {
 				"nick" });
 		// 设置修改列与where条件的对应的参数
 		updateParam.setParams(new Object[] { 1, new Date(), "akweiwei" });
-		// 设置需要update的类
-		updateParam.setClazz(TestUser.class);
 		// update
-		hkObjQuery.update(updateParam);
+		hkObjQuery.update(updateParam, TestUser.class);
 	}
 
 	/**
@@ -243,14 +241,12 @@ public class ObjGuide {
 	public void delete() {
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		DeleteParam deleteParam = hkObjQuery.createDeleteParam();
-		// 设置要删除的类
-		deleteParam.setClazz(TestUser.class);
 		// 设置分区参数以及值
 		deleteParam.addKeyAndValue(TestUser.class, "userid", new Long(10));
 		// 设置查询条件与参数
 		deleteParam.setWhereAndParams("nick=?", new Object[] { "akwei" });
 		// delete
-		hkObjQuery.delete(deleteParam);
+		hkObjQuery.delete(deleteParam, TestUser.class);
 	}
 
 	/**
