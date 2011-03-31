@@ -14,6 +14,10 @@ public class TestUserRowMapper implements RowMapper<TestUser> {
 		TestUser o = new TestUser();
 		o.setUserid(rs.getLong("testuser.userid"));
 		o.setNick(rs.getString("testuser.nick"));
+		rs.getObject("nick");
+		if (!rs.wasNull()) {
+			o.setNick(rs.getString("nick"));
+		}
 		return o;
 	}
 }
