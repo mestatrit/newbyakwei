@@ -167,22 +167,21 @@ public class HkObjQuery extends HkQuery {
 		UpdateParam updateParam = new UpdateParam(baseParam
 				.getObjectSqlInfoCreater());
 		updateParam.setWhere(objectSqlInfo.getIdColumn() + "=?");
-		updateParam.setClazz(t.getClass());
 		updateParam.setUpdateColumns(objectSqlInfo.getColumnsForUpdate());
 		updateParam.setParams(objectSqlInfo.getSqlUpdateMapper()
 				.getParamsForUpdate(t));
-		return this.update(updateParam);
+		return this.update(updateParam, t.getClass());
 	}
 
-	public <T> int update(UpdateParam updateParam) {
-		return this.update(this.parse(updateParam.getClazz(), updateParam
-				.getCtxMap()), updateParam.getUpdateColumns(), updateParam
-				.getWhere(), updateParam.getParams());
+	public <T> int update(UpdateParam updateParam, Class<T> clazz) {
+		return this.update(this.parse(clazz, updateParam.getCtxMap()),
+				updateParam.getUpdateColumns(), updateParam.getWhere(),
+				updateParam.getParams());
 	}
 
-	public <T> int delete(DeleteParam deleteParam) {
-		return this.delete(this.parse(deleteParam.getClazz(), deleteParam
-				.getCtxMap()), deleteParam.getWhere(), deleteParam.getParams());
+	public <T> int delete(DeleteParam deleteParam, Class<T> clazz) {
+		return this.delete(this.parse(clazz, deleteParam.getCtxMap()),
+				deleteParam.getWhere(), deleteParam.getParams());
 	}
 
 	/**
@@ -216,12 +215,11 @@ public class HkObjQuery extends HkQuery {
 			Object idValue) {
 		DeleteParam deleteParam = new DeleteParam(baseParam
 				.getObjectSqlInfoCreater());
-		deleteParam.setClazz(clazz);
 		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
 				.getObjectSqlInfo(clazz);
 		deleteParam.setWhere(objectSqlInfo.getIdColumn() + "=?");
 		deleteParam.setParams(new Object[] { idValue });
-		return this.delete(deleteParam);
+		return this.delete(deleteParam, clazz);
 	}
 
 	/**
