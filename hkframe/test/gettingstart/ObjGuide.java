@@ -82,13 +82,14 @@ public class ObjGuide {
 		UpdateParam updateParam = hkObjQuery.createUpdateParam();
 		// 设置分区参数以及值
 		updateParam.addKeyAndValue(TestUser.class, "userid", 1);
-		// 设置sql where
-		updateParam.setWhere("nick=?");
 		// 设置需要修改的列
 		updateParam.setUpdateColumns(new String[] { "gender", "createtime",
 				"nick" });
+		// 设置sql where
+		updateParam.setWhere("nick=?");
 		// 设置修改列与where条件的对应的参数
-		updateParam.setParams(new Object[] { 1, new Date(), "akweiwei" });
+		updateParam
+				.setParams(new Object[] { 1, new Date(), "akweiwei", "aaa" });
 		// update
 		hkObjQuery.update(updateParam, TestUser.class);
 	}
@@ -185,8 +186,8 @@ public class ObjGuide {
 		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
 		queryParam.addKeyAndValue(Member.class, "memberuserid", new Long(4));
 		// 设置需要返回的列，每组列必须与addClass的类顺序一致
-		queryParam.setColumns(new String[][] { { "usetid,nick" },
-				{ "memberid,membername" } });
+		queryParam.setColumns(new String[][] { { "usetid", "nick", "gender" },
+				{ "memberid", "membername" } });
 		queryParam.setRange(0, -1);
 		queryParam.setWhereAndParams(
 				"testuser.userid=member.memberuserid and testuser.userid=?",
