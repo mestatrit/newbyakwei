@@ -98,6 +98,6 @@ public class HelloAction extends BaseAction {
 	 * @return
 	 */
 	public String method5(HkRequest req, HkResponse resp) {
-		return "r:/http://www.163.com";
+		return "r:http://www.163.com";
 	}
 }
