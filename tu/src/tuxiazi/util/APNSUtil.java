@@ -18,8 +18,8 @@ public class APNSUtil {
 	public static void sendNotification(String id, String deviceToken)
 			throws Exception {
 		PayLoad simplePayLoad = new PayLoad();
-		simplePayLoad.addAlert("My alert message000");
-		simplePayLoad.addBadge(45);
+		simplePayLoad.addAlert("My alert 你好 oo");
+		simplePayLoad.addBadge(5);
 		simplePayLoad.addSound("default");
 		Device client = null;
 		PushNotificationManager pushManager = PushNotificationManager
