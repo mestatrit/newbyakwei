@@ -60,6 +60,13 @@ public class HkObjQuery extends HkQuery {
 		return new BaseParam(this.getObjectSqlInfoCreater());
 	}
 
+	public <T> BaseParam createBaseParam(Class<T> clazz, String key,
+			Object value) {
+		BaseParam baseParam = this.createBaseParam();
+		baseParam.addKeyAndValue(clazz, key, value);
+		return baseParam;
+	}
+
 	/**
 	 * 创建参数对象的快捷方法
 	 * 
@@ -67,6 +74,13 @@ public class HkObjQuery extends HkQuery {
 	 */
 	public UpdateParam createUpdateParam() {
 		return new UpdateParam(this.getObjectSqlInfoCreater());
+	}
+
+	public <T> UpdateParam createUpdateParam(Class<T> clazz, String key,
+			Object value) {
+		UpdateParam updateParam = this.createUpdateParam();
+		updateParam.addKeyAndValue(clazz, key, value);
+		return updateParam;
 	}
 
 	/**
@@ -85,6 +99,13 @@ public class HkObjQuery extends HkQuery {
 	 */
 	public QueryParam createQueryParam() {
 		return new QueryParam(this.getObjectSqlInfoCreater());
+	}
+
+	public <T> QueryParam createQueryParam(Class<T> clazz, String key,
+			Object value) {
+		QueryParam queryParam = this.createQueryParam();
+		queryParam.addKeyAndValue(clazz, key, value);
+		return queryParam;
 	}
 
 	/**

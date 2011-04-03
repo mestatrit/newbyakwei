@@ -131,8 +131,8 @@ public class QueryParam extends Param {
 		this.setParams(params);
 	}
 
-	public void setRange(int begin, int szie) {
+	public void setRange(int begin, int size) {
 		this.setBegin(begin);
-		this.setSize(szie);
+		this.setSize(size);
 	}
 }
