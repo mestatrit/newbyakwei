@@ -58,6 +58,17 @@ public class Notice {
 	@Column
 	private int readflg;
 
+	@Column
+	private long refoid;
+
+	public void setRefoid(long refoid) {
+		this.refoid = refoid;
+	}
+
+	public long getRefoid() {
+		return refoid;
+	}
+
 	public void setReadflg(int readflg) {
 		this.readflg = readflg;
 	}
