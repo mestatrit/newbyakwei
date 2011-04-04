@@ -14,6 +14,10 @@ import tuxiazi.bean.Invitelog;
 import tuxiazi.bean.SinaUser;
 import tuxiazi.bean.User;
 import tuxiazi.bean.Userid;
+import tuxiazi.dao.Api_userDao;
+import tuxiazi.dao.Api_user_sinaDao;
+import tuxiazi.dao.UserDao;
+import tuxiazi.dao.UseridDao;
 import tuxiazi.svr.iface.InvitelogService;
 import tuxiazi.svr.iface.UserService;
 import tuxiazi.svr.impl.jms.HkMsgProducer;
@@ -35,6 +39,14 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private InvitelogService invitelogService;
+
+	private Api_user_sinaDao api_user_sinaDao;
+
+	private UserDao userDao;
+
+	private Api_userDao api_userDao;
+
+	private UseridDao useridDao;
 
 	@Override
 	public void createApi_user_sina(Api_user_sina apiUserSina, String nick,
@@ -280,5 +292,29 @@ public class UserServiceImpl implements UserService {
 		catch (WeiboException e) {
 			return list;
 		}
+	}
+
+	public void setUseridDao(UseridDao useridDao) {
+		this.useridDao = useridDao;
+	}
+
+	public void setApi_userDao(Api_userDao apiUserDao) {
+		api_userDao = apiUserDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	public void setApi_user_sinaDao(Api_user_sinaDao apiUserSinaDao) {
+		api_user_sinaDao = apiUserSinaDao;
+	}
+
+	public void setInvitelogService(InvitelogService invitelogService) {
+		this.invitelogService = invitelogService;
+	}
+
+	public void setHkMsgProducer(HkMsgProducer hkMsgProducer) {
+		this.hkMsgProducer = hkMsgProducer;
 	}
 }
