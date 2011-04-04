@@ -25,8 +25,9 @@ public class NoticeServiceImpl implements NoticeService {
 		}
 		Query query = this.manager.createQuery();
 		Notice notice2 = query.getObject(Notice.class,
-				"userid=? and notice_flg=?", new Object[] { notice.getUserid(),
-						notice.getNotice_flg() }, "noticeid desc");
+				"userid=? and notice_flg=? and refoid=?", new Object[] {
+						notice.getUserid(), notice.getNotice_flg(),
+						notice.getRefoid() }, "noticeid desc");
 		if (notice2 != null) {
 			notice.setReadflg(notice2.getReadflg());
 			query.deleteObject(notice2);

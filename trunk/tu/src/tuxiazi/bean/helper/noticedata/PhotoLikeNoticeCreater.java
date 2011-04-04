@@ -4,11 +4,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.hk.frame.util.JsonUtil;
-
 import tuxiazi.bean.Notice;
 import tuxiazi.bean.benum.NoticeEnum;
 import tuxiazi.bean.benum.NoticeReadEnum;
+
+import com.hk.frame.util.JsonUtil;
 
 public class PhotoLikeNoticeCreater implements NoticeCreater {
 
@@ -49,6 +49,7 @@ public class PhotoLikeNoticeCreater implements NoticeCreater {
 		notice.setCreatetime(new Date());
 		notice.setNotice_flg(NoticeEnum.ADD_PHOTOLIKE.getValue());
 		notice.setReadflg(NoticeReadEnum.UNREAD.getValue());
+		notice.setRefoid(this.photoid);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("senderid", String.valueOf(this.senderid));
 		map.put("nick", this.sender_nick);

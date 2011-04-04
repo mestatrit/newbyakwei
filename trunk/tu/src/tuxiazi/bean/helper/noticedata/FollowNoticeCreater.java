@@ -59,6 +59,7 @@ public class FollowNoticeCreater implements NoticeCreater {
 		notice.setCreatetime(new Date());
 		notice.setNotice_flg(NoticeEnum.ADD_FOLLOW.getValue());
 		notice.setReadflg(NoticeReadEnum.UNREAD.getValue());
+		notice.setRefoid(this.userid);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("nick", this.sender_nick);
 		map.put("head", this.sender_head);

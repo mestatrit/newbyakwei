@@ -65,6 +65,7 @@ public class PhotoCmtNoticeCreater implements NoticeCreater {
 		notice.setCreatetime(new Date());
 		notice.setNotice_flg(NoticeEnum.ADD_PHOTOCMT.getValue());
 		notice.setReadflg(NoticeReadEnum.UNREAD.getValue());
+		notice.setRefoid(this.photoid);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("senderid", String.valueOf(this.senderid));
 		map.put("nick", this.sender_nick);
