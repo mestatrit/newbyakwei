@@ -7,7 +7,7 @@ import com.hk.frame.dao.annotation.Table;
 /**
  * 喜欢图片的用户数据
  * 
- * @author Administrator
+ * @author akwei
  */
 @Table(name = "photo_likeuser")
 public class PhotoLikeUser {

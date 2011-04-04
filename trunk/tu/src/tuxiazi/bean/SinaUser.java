@@ -3,7 +3,7 @@ package tuxiazi.bean;
 /**
  * 新浪用户
  * 
- * @author Administrator
+ * @author akwei
  */
 public class SinaUser {
 

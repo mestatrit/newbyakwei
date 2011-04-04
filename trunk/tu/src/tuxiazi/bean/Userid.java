@@ -6,7 +6,7 @@ import com.hk.frame.dao.annotation.Table;
 /**
  * id
  * 
- * @author Administrator
+ * @author akwei
  */
 @Table(name = "userid")
 public class Userid {
