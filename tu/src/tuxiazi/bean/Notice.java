@@ -20,7 +20,7 @@ import com.hk.frame.util.JsonUtil;
 /**
  * 用户通知
  * 
- * @author Administrator
+ * @author akwei
  */
 @Table(name = "notice")
 public class Notice {

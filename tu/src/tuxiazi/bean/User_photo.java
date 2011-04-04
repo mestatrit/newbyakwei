@@ -7,7 +7,7 @@ import com.hk.frame.dao.annotation.Table;
 /**
  * 用户的图片
  * 
- * @author Administrator
+ * @author akwei
  */
 @Table(name = "user_photo")
 public class User_photo {
