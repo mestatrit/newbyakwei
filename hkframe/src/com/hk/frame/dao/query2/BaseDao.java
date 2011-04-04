@@ -4,15 +4,22 @@ import java.util.List;
 
 public abstract class BaseDao<T> {
 
+	private final String empty_key = "";
+
 	private HkObjQuery hkObjQuery;
 
 	public void setHkObjQuery(HkObjQuery hkObjQuery) {
 		this.hkObjQuery = hkObjQuery;
 	}
 
-	public abstract String getKey();
+	public String getKey() {
+		return empty_key;
+	}
 
-	public abstract Class<T> getClazz();
+	@SuppressWarnings("unchecked")
+	public Class<T> getClazz() {
+		return (Class<T>) this.getClass();
+	}
 
 	public BaseParam createBaseParam(Object value) {
 		return hkObjQuery.createBaseParam(getClazz(), getKey(), value);
