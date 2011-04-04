@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms" xmlns:lang="http://www.springframework.org/schema/lang" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:util="http://www.springframework.org/schema/util"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
@@ -47,42 +46,50 @@
 			</map>
 		</property>
 	</bean>
-	<bean id="hkDaoSupport" class="com.hk.frame.dao.HkDaoSupport">
-		<property name="dataSource" ref="dataSource" />
+	<bean id="daoSupport" class="com.hk.frame.dao.query2.MultiDaoSupport">
+		<property name="daoSupportList">
+			<list>
+				<!-- mysql 数据库 -->
+				<bean class="com.hk.frame.dao.query2.MysqlDaoSupport">
+					<property name="dataSource" ref="dataSource" />
+				</bean>
+			</list>
+		</property>
 	</bean>
-	<bean id="dbPartition_tuxiazi" class="com.hk.frame.dao.query.partition.impl.DbPartition">
-		<property name="ds" value="ds_tuxiazi" />
+	<bean id="dbPartitionHelperDef" class="com.hk.frame.dao.query2.DbPartitionHelperDef">
+		<property name="dsKey" value=""></property>
 	</bean>
-	<bean id="dbPartition_tuxiazi_feed" class="com.hk.frame.dao.query.partition.impl.DbPartition">
-		<property name="ds" value="ds_tuxiazi_feed" />
-	</bean>
-	<bean id="queryManager" class="com.hk.frame.dao.query.QueryManager">
-		<!--
-		<property name="rowMapperPath" value="tuxiazi.svr.beanmapper" /> 
-		 -->
-		<property name="enableAsm" value="true" />
-		<property name="hkDaoSupport" ref="hkDaoSupport" />
-		<property name="tablePartitionConfig">
-			<map>
-				<entry key="tuxiazi.bean.Api_user_sina" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.Api_user" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.Lasted_photo" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.Photo" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.Photoid" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.PhotoCmt" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.PhotoCmtid" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.User_photo" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.User" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.Userid" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.Friend" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.Fans" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.PhotoUserLike" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.PhotoLikeUser" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.HotPhoto" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.Invitelog" value-ref="dbPartition_tuxiazi" />
-				<entry key="tuxiazi.bean.Notice" value-ref="dbPartition_tuxiazi_feed" />
-				<entry key="tuxiazi.bean.Friend_photo_feed" value-ref="dbPartition_tuxiazi_feed" />
-			</map>
+	<bean id="hkObjQuery" class="com.hk.frame.dao.query2.HkObjQuery">
+		<property name="daoSupport" ref="daoSupport" />
+		<property name="resultSetDataInfoCreater">
+			<bean class="com.hk.frame.dao.query2.ResultSetDataInfoCreater" />
+		</property>
+		<property name="objectSqlInfoCreater">
+			<bean id="objectSqlInfoCreater" class="com.hk.frame.dao.query2.ObjectSqlInfoCreater">
+				<property name="infos">
+					<list>
+						<value>tuxiazi.bean.Api_user_sina;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.Api_user;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.Lasted_photo;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.Photo;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.Photoid;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.PhotoCmt;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.PhotoCmtid;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.User_photo;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.User;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.Userid;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.Friend;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.Fans;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.PhotoUserLike;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.PhotoLikeUser;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.HotPhoto;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.Invitelog;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.PhotoFav;tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper</value>
+						<value>tuxiazi.bean.Notice;tuxiazi.dao.dbpartitionhelper.Tuxiazi_FeedDbPartitionHelper</value>
+						<value>tuxiazi.bean.Friend_photo_feed;tuxiazi.dao.dbpartitionhelper.Tuxiazi_FeedDbPartitionHelper</value>
+					</list>
+				</property>
+			</bean>
 		</property>
 	</bean>
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" autowire="byName" />
