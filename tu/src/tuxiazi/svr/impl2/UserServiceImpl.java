@@ -1,4 +1,4 @@
-package tuxiazi.svr.impl;
+package tuxiazi.svr.impl2;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,14 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import tuxiazi.bean.Api_user;
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.Invitelog;
 import tuxiazi.bean.SinaUser;
 import tuxiazi.bean.User;
 import tuxiazi.bean.Userid;
+import tuxiazi.dao.Api_userDao;
+import tuxiazi.dao.Api_user_sinaDao;
+import tuxiazi.dao.UserDao;
+import tuxiazi.dao.UseridDao;
 import tuxiazi.svr.iface.InvitelogService;
 import tuxiazi.svr.iface.UserService;
 import tuxiazi.svr.impl.jms.HkMsgProducer;
@@ -23,29 +25,31 @@ import tuxiazi.web.util.SinaUtil;
 import weibo4j.WeiboException;
 
 import com.hk.frame.dao.query.Query;
-import com.hk.frame.dao.query.QueryManager;
+import com.hk.frame.util.NumberUtil;
 
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private QueryManager manager;
-
-	@Autowired
 	private HkMsgProducer hkMsgProducer;
 
-	@Autowired
 	private InvitelogService invitelogService;
+
+	private Api_user_sinaDao api_user_sinaDao;
+
+	private UserDao userDao;
+
+	private Api_userDao api_userDao;
+
+	private UseridDao useridDao;
 
 	@Override
 	public void createApi_user_sina(Api_user_sina apiUserSina, String nick,
 			String head_path) {
 		boolean create = false;
 		// 是否存在新浪用户
-		Query query = this.manager.createQuery();
-		Api_user_sina db_obj = query.getObjectById(Api_user_sina.class,
-				apiUserSina.getSina_userid());
+		Api_user_sina db_obj = this.api_user_sinaDao.getById(null, apiUserSina
+				.getSina_userid());
 		if (db_obj == null) {
-			query.insertObject(apiUserSina);
+			this.api_user_sinaDao.save(null, apiUserSina);
 			create = true;
 		}
 		else {
@@ -54,14 +58,19 @@ public class UserServiceImpl implements UserService {
 		// 检查是否已经有用户信息
 		if (apiUserSina.getUserid() == 0) {
 			User user = new User();
-			user.setUserid(query.insertObject(new Userid()).longValue());
+			user.setUserid(NumberUtil.getLong(this.useridDao.save(null,
+					new Userid())));
 			user.setNick(nick);
 			user.setHead_path(head_path);
 			user.setCreate_time(new Date());
-			query.insertObject(user);
+			this.userDao.save(null, user);
 			// 更新api_user_sina中userid
 			apiUserSina.setUserid(user.getUserid());
-			query.updateObject(apiUserSina);
+			this.api_user_sinaDao.update(null, apiUserSina);
+		}
+		if(this.api_userDao.getObject(null, "userid=? and api_type=?", new Object[] { apiUserSina.getUserid(),
+								Api_user.API_TYPE_SINA }, null)==null){
+			
 		}
 		if (query
 				.getObjectEx(Api_user.class, "userid=? and api_type=?",
@@ -280,5 +289,29 @@ public class UserServiceImpl implements UserService {
 		catch (WeiboException e) {
 			return list;
 		}
+	}
+
+	public void setUseridDao(UseridDao useridDao) {
+		this.useridDao = useridDao;
+	}
+
+	public void setApi_userDao(Api_userDao apiUserDao) {
+		api_userDao = apiUserDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	public void setApi_user_sinaDao(Api_user_sinaDao apiUserSinaDao) {
+		api_user_sinaDao = apiUserSinaDao;
+	}
+
+	public void setInvitelogService(InvitelogService invitelogService) {
+		this.invitelogService = invitelogService;
+	}
+
+	public void setHkMsgProducer(HkMsgProducer hkMsgProducer) {
+		this.hkMsgProducer = hkMsgProducer;
 	}
 }
