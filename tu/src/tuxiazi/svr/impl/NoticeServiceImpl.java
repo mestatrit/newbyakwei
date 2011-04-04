@@ -24,13 +24,15 @@ public class NoticeServiceImpl implements NoticeService {
 			notice.setCreatetime(new Date());
 		}
 		Query query = this.manager.createQuery();
-		Notice notice2 = query.getObject(Notice.class,
-				"userid=? and notice_flg=? and refoid=?", new Object[] {
-						notice.getUserid(), notice.getNotice_flg(),
-						notice.getRefoid() }, "noticeid desc");
-		if (notice2 != null) {
-			notice.setReadflg(notice2.getReadflg());
-			query.deleteObject(notice2);
+		if (notice.getNotice_flg() == NoticeEnum.ADD_PHOTOLIKE.getValue()) {
+			Notice notice2 = query.getObject(Notice.class,
+					"userid=? and notice_flg=? and refoid=?", new Object[] {
+							notice.getUserid(), notice.getNotice_flg(),
+							notice.getRefoid() }, "noticeid desc");
+			if (notice2 != null) {
+				notice.setReadflg(notice2.getReadflg());
+				query.deleteObject(notice2);
+			}
 		}
 		query.insertObject(notice);
 	}
