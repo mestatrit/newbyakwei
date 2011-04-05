@@ -1,12 +1,14 @@
 package com.hk.frame.dao.query2;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class BaseDao<T> {
 
 	private final String empty_key = "";
 
-	private HkObjQuery hkObjQuery;
+	public HkObjQuery hkObjQuery;
 
 	public void setHkObjQuery(HkObjQuery hkObjQuery) {
 		this.hkObjQuery = hkObjQuery;
@@ -62,6 +64,21 @@ public abstract class BaseDao<T> {
 		return this.hkObjQuery.updateObj(baseParam, t);
 	}
 
+	public int updateBySQL(Object keyValue, String updateSqlSegment,
+			String where, Object[] params) {
+		Map<String, Object> ctxMap = new HashMap<String, Object>();
+		ctxMap.put(this.hkObjQuery.getAliasName(getClazz()) + "." + getKey(),
+				keyValue);
+		PartitionTableInfo partitionTableInfo = this.hkObjQuery.parse(
+				getClazz(), ctxMap);
+		StringBuilder sb = new StringBuilder("update ");
+		sb.append(partitionTableInfo.getTableName());
+		sb.append(" set ").append(updateSqlSegment);
+		sb.append(" where ").append(where);
+		return this.hkObjQuery.updateBySQL(partitionTableInfo, sb.toString(),
+				params);
+	}
+
 	/**
 	 * 删除对象
 	 * 
@@ -74,6 +91,13 @@ public abstract class BaseDao<T> {
 		BaseParam baseParam = this.hkObjQuery.createBaseParam(this.getClazz(),
 				this.getKey(), keyValue);
 		return this.hkObjQuery.deleteObj(baseParam, t);
+	}
+
+	public int delete(Object keyValue, String where, Object[] params) {
+		DeleteParam deleteParam = this.hkObjQuery.createDeleteParam(this
+				.getClazz(), this.getKey(), keyValue);
+		deleteParam.setWhereAndParams(where, params);
+		return this.hkObjQuery.delete(deleteParam, getClazz());
 	}
 
 	/**
@@ -115,6 +139,30 @@ public abstract class BaseDao<T> {
 		return this.hkObjQuery.getList(queryParam, getClazz());
 	}
 
+	public <E> List<T> getListInField(Object keyValue, String field,
+			List<E> fieldValueList) {
+		QueryParam queryParam = this.hkObjQuery.createQueryParam(getClazz(),
+				getKey(), keyValue);
+		StringBuilder sb = new StringBuilder(field);
+		sb.append(" in (");
+		int len = fieldValueList.size();
+		for (int i = 0; i < len; i++) {
+			sb.append("?,");
+		}
+		sb.deleteCharAt(sb.length() - 1).append(")");
+		queryParam.setWhere(sb.toString());
+		queryParam.setParams(fieldValueList.toArray(new Object[fieldValueList
+				.size()]));
+		return this.hkObjQuery.getList(queryParam, getClazz());
+	}
+
+	public int count(Object keyValue, String where, Object[] params) {
+		QueryParam queryParam = this.hkObjQuery.createQueryParam(getClazz(),
+				getKey(), keyValue);
+		queryParam.setWhereAndParams(where, params);
+		return this.hkObjQuery.count(queryParam);
+	}
+
 	public T getObject(Object keyValue, String where, Object[] params,
 			String order) {
 		QueryParam queryParam = this.hkObjQuery.createQueryParam(getClazz(),
@@ -122,5 +170,9 @@ public abstract class BaseDao<T> {
 		queryParam.setWhereAndParams(where, params);
 		queryParam.setOrder(order);
 		return this.hkObjQuery.getObject(queryParam, getClazz());
+	}
+
+	public T getObject(Object keyValue, String where, Object[] params) {
+		return this.getObject(keyValue, where, params, null);
 	}
 }
