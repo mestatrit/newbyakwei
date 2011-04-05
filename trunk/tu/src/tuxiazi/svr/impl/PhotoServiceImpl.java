@@ -25,7 +25,6 @@ import tuxiazi.bean.Photoid;
 import tuxiazi.bean.UploadPhoto;
 import tuxiazi.bean.User;
 import tuxiazi.bean.User_photo;
-import tuxiazi.bean.benum.PhotoPrivacyEnum;
 import tuxiazi.bean.helper.noticedata.PhotoLikeNoticeCreater;
 import tuxiazi.svr.iface.FeedService;
 import tuxiazi.svr.iface.FriendService;
@@ -353,21 +352,11 @@ public class PhotoServiceImpl implements PhotoService {
 
 	@Override
 	public List<User_photo> getUser_photoListByUserid(long userid,
-			boolean allPhoto, boolean buildPhoto, long favUserid, int begin,
-			int size) {
+			boolean buildPhoto, long favUserid, int begin, int size) {
 		List<User_photo> list = null;
 		Query query = this.manager.createQuery();
-		if (allPhoto) {
-			list = query.listEx(User_photo.class, "userid=?",
-					new Object[] { userid }, "photoid desc", begin, size);
-		}
-		else {
-			list = query
-					.listEx(User_photo.class, "userid=? and privacy_flg=?",
-							new Object[] { userid,
-									PhotoPrivacyEnum.PUBLIC.getValue() },
-							"photoid desc", begin, size);
-		}
+		list = query.listEx(User_photo.class, "userid=?",
+				new Object[] { userid }, "photoid desc", begin, size);
 		if (buildPhoto) {
 			List<Long> idList = new ArrayList<Long>();
 			for (User_photo o : list) {

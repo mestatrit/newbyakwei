@@ -200,20 +200,16 @@ public class PhotoAction extends BaseApiAction {
 		int page = req.getInt("page", 1);
 		int size = req.getInt("size", 1);
 		SimplePage simplePage = new SimplePage(size, page);
-		boolean allPhoto = false;
 		long userid = 0;
 		User loginuser = this.getUser(req);
-		if (loginuser != null && loginuser.getUserid() == uid) {
-			allPhoto = true;
-		}
 		if (loginuser != null) {
 			userid = loginuser.getUserid();
 		}
 		try {
 			User user = this.userService.getUser(uid);
 			List<User_photo> list = this.photoService
-					.getUser_photoListByUserid(uid, allPhoto, true, userid,
-							simplePage.getBegin(), size);
+					.getUser_photoListByUserid(uid, true, userid, simplePage
+							.getBegin(), size);
 			for (User_photo o : list) {
 				if (o.getPhoto() != null) {
 					o.getPhoto().setUser(user);

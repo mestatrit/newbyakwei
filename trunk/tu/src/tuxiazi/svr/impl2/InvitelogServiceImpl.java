@@ -3,28 +3,35 @@ package tuxiazi.svr.impl2;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import tuxiazi.bean.Api_user;
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.Invitelog;
+import tuxiazi.dao.InvitelogDao;
 import tuxiazi.svr.iface.InvitelogService;
 import tuxiazi.web.util.SinaUtil;
 import weibo4j.WeiboException;
 
-import com.hk.frame.dao.query.QueryManager;
+import com.hk.frame.util.NumberUtil;
 
 public class InvitelogServiceImpl implements InvitelogService {
 
-	@Autowired
-	private QueryManager manager;
+	private InvitelogDao invitelogDao;
+
+	public void setInvitelogDao(InvitelogDao invitelogDao) {
+		this.invitelogDao = invitelogDao;
+	}
+
+	private final Log log = LogFactory.getLog(InvitelogServiceImpl.class);
 
 	@Override
 	public List<Invitelog> getInvitelogListByUseridAndApi_typeAndInOtherid(
 			long userid, int apiType, List<String> otheridList) {
-		return this.manager.createQuery().listInField(Invitelog.class,
+		return this.invitelogDao.getListInField(null,
 				"userid=? and api_type=?", new Object[] { userid, apiType },
-				"otherid", otheridList, null);
+				"otherid", otheridList);
 	}
 
 	@Override
@@ -38,11 +45,12 @@ public class InvitelogServiceImpl implements InvitelogService {
 			invitelog.setApi_type(Api_user.API_TYPE_SINA);
 			invitelog.setCreatetime(new Date());
 			invitelog.setOtherid(String.valueOf(sinaUserid));
-			invitelog.setLogid(this.manager.createQuery().insertObject(
-					invitelog).longValue());
+			invitelog.setLogid(NumberUtil.getLong(this.invitelogDao.save(null,
+					invitelog)));
 			return true;
 		}
 		catch (WeiboException e) {
+			log.error("invite err : " + e.getMessage());
 			return false;
 		}
 	}
