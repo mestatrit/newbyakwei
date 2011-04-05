@@ -21,6 +21,11 @@ public class HkObjQuery extends HkQuery {
 		this.resultSetDataInfoCreater = resultSetDataInfoCreater;
 	}
 
+	public <T> String getAliasName(Class<T> clazz) {
+		return this.getObjectSqlInfoCreater().getObjectSqlInfo(clazz)
+				.getTableName();
+	}
+
 	/**
 	 * 获rowmapper，先从表映射的对象开始匹配，如果没有，就到结果集resultsetdata中进行查找
 	 * 
@@ -90,6 +95,13 @@ public class HkObjQuery extends HkQuery {
 	 */
 	public DeleteParam createDeleteParam() {
 		return new DeleteParam(this.getObjectSqlInfoCreater());
+	}
+
+	public <T> DeleteParam createDeleteParam(Class<T> clazz, String key,
+			Object value) {
+		DeleteParam deleteParam = this.createDeleteParam();
+		deleteParam.addKeyAndValue(clazz, key, value);
+		return deleteParam;
 	}
 
 	/**
