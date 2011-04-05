@@ -7,29 +7,34 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import tuxiazi.bean.Friend_photo_feed;
 import tuxiazi.bean.Photo;
 import tuxiazi.bean.PhotoUserLike;
 import tuxiazi.bean.User;
+import tuxiazi.dao.Friend_photo_feedDao;
 import tuxiazi.svr.iface.FeedService;
 import tuxiazi.svr.iface.PhotoService;
 import tuxiazi.svr.iface.UserService;
 
-import com.hk.frame.dao.query.Query;
-import com.hk.frame.dao.query.QueryManager;
-
 public class FeedServiceImpl implements FeedService {
 
-	@Autowired
-	private QueryManager manager;
-
-	@Autowired
 	private PhotoService photoService;
 
-	@Autowired
 	private UserService userService;
+
+	private Friend_photo_feedDao friend_photo_feedDao;
+
+	public void setFriend_photo_feedDao(Friend_photo_feedDao friendPhotoFeedDao) {
+		friend_photo_feedDao = friendPhotoFeedDao;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public void setPhotoService(PhotoService photoService) {
+		this.photoService = photoService;
+	}
 
 	/**
 	 * 每人最多动态数据量
@@ -46,34 +51,31 @@ public class FeedServiceImpl implements FeedService {
 			return;
 		}
 		long userid = friendPhotoFeeds.get(0).getUserid();
-		Query query = this.manager.createQuery();
 		for (Friend_photo_feed o : friendPhotoFeeds) {
-			query.insertObject(o);
+			this.friend_photo_feedDao.save(null, o);
 		}
-		int count = query.count(Friend_photo_feed.class, "userid=?",
+		int count = this.friend_photo_feedDao.count(null, "userid=?",
 				new Object[] { userid });
 		if (count > maxSize) {
-			List<Friend_photo_feed> list = query.listEx(
-					Friend_photo_feed.class, "userid=?",
-					new Object[] { userid }, "feedid asc", maxSize - 1, count
-							- maxSize);
+			List<Friend_photo_feed> list = this.friend_photo_feedDao.getList(
+					null, "userid=?", new Object[] { userid }, "feedid asc",
+					maxSize - 1, count - maxSize);
 			for (Friend_photo_feed o : list) {
-				query.deleteObject(o);
+				this.friend_photo_feedDao.delete(null, o);
 			}
 		}
 	}
 
 	@Override
 	public void deleteFriend_photo_feedByPhotoid(long photoid) {
-		this.manager.createQuery().delete(Friend_photo_feed.class, "photoid=?",
+		this.friend_photo_feedDao.delete(null, "photoid=?",
 				new Object[] { photoid });
 	}
 
 	@Override
 	public void deleteFriend_photo_feedByUseridAndPhoto_userid(long userid,
 			long photo_userid) {
-		this.manager.createQuery().delete(Friend_photo_feed.class,
-				"userid=? and photo_userid=?",
+		this.friend_photo_feedDao.delete(null, "userid=? and photo_userid=?",
 				new Object[] { userid, photo_userid });
 	}
 
@@ -81,8 +83,7 @@ public class FeedServiceImpl implements FeedService {
 	public List<Friend_photo_feed> getFriend_photo_feedListByUserid(
 			long userid, boolean buildPhoto, boolean buildPhotoUser,
 			long favUserid, int begin, int size) {
-		Query query = this.manager.createQuery();
-		List<Friend_photo_feed> list = query.listEx(Friend_photo_feed.class,
+		List<Friend_photo_feed> list = this.friend_photo_feedDao.getList(null,
 				"userid=?", new Object[] { userid }, "photoid desc", begin,
 				size);
 		if (buildPhoto) {

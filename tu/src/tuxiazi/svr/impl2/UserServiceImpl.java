@@ -24,7 +24,6 @@ import tuxiazi.svr.impl.jms.JsonKey;
 import tuxiazi.web.util.SinaUtil;
 import weibo4j.WeiboException;
 
-import com.hk.frame.dao.query.Query;
 import com.hk.frame.util.NumberUtil;
 
 public class UserServiceImpl implements UserService {
@@ -68,18 +67,13 @@ public class UserServiceImpl implements UserService {
 			apiUserSina.setUserid(user.getUserid());
 			this.api_user_sinaDao.update(null, apiUserSina);
 		}
-		if(this.api_userDao.getObject(null, "userid=? and api_type=?", new Object[] { apiUserSina.getUserid(),
-								Api_user.API_TYPE_SINA }, null)==null){
-			
-		}
-		if (query
-				.getObjectEx(Api_user.class, "userid=? and api_type=?",
-						new Object[] { apiUserSina.getUserid(),
-								Api_user.API_TYPE_SINA }) == null) {
+		if (this.api_userDao
+				.getObject(null, "userid=? and api_type=?", new Object[] {
+						apiUserSina.getUserid(), Api_user.API_TYPE_SINA }) == null) {
 			Api_user apiUser = new Api_user();
 			apiUser.setUserid(apiUserSina.getUserid());
 			apiUser.setApi_type(Api_user.API_TYPE_SINA);
-			query.insertObject(apiUser);
+			this.api_userDao.save(null, apiUser);
 		}
 		if (create) {
 			JmsMsg jmsMsg = new JmsMsg();
@@ -97,52 +91,48 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void deleteApi_user(Api_user apiUser) {
-		Query query = this.manager.createQuery();
 		if (apiUser.getApi_type() == Api_user.API_TYPE_SINA) {
-			query.delete(Api_user_sina.class, "userid=?",
+			this.api_user_sinaDao.delete(null, "userid=?",
 					new Object[] { apiUser.getUserid() });
 		}
-		query.deleteObject(apiUser);
+		this.api_userDao.delete(null, apiUser);
 	}
 
 	@Override
 	public User getUser(long userid) {
-		return this.manager.createQuery().getObjectById(User.class, userid);
+		return this.userDao.getById(null, userid);
 	}
 
 	@Override
 	public void update(User user) {
-		this.manager.createQuery().updateObject(user);
+		this.userDao.update(null, user);
 	}
 
 	@Override
 	public void updateApi_user_sina(Api_user_sina apiUserSina) {
-		this.manager.createQuery().updateObject(apiUserSina);
+		this.api_user_sinaDao.update(null, apiUserSina);
 	}
 
 	@Override
 	public Api_user getApi_userByUseridAndApi_type(long userid, int apiType) {
-		return this.manager.createQuery().getObjectEx(Api_user.class,
-				"userid=? and api_type=?", new Object[] { userid, apiType });
+		return this.api_userDao.getObject(null, "userid=? and api_type=?",
+				new Object[] { userid, apiType });
 	}
 
 	@Override
 	public Api_user_sina getApi_user_sinaBySina_userid(long sina_userid) {
-		return this.manager.createQuery().getObjectById(Api_user_sina.class,
-				sina_userid);
+		return this.api_user_sinaDao.getById(null, sina_userid);
 	}
 
 	@Override
 	public Api_user_sina getApi_user_sinaByUserid(long userid) {
-		return this.manager.createQuery().getObjectEx(Api_user_sina.class,
-				"userid=?", new Object[] { userid });
+		return this.api_user_sinaDao.getObject(null, "userid=?",
+				new Object[] { userid });
 	}
 
 	@Override
 	public void addUserPic_numByUserid(long userid, int add) {
-		Query query = this.manager.createQuery();
-		query.addField("pic_num", "add", add);
-		query.updateById(User.class, userid);
+		this.userDao.addPi_num(null, userid, add);
 	}
 
 	@Override
@@ -166,16 +156,14 @@ public class UserServiceImpl implements UserService {
 		if (idList.isEmpty()) {
 			return new ArrayList<Api_user_sina>(0);
 		}
-		Query query = this.manager.createQuery();
-		List<Api_user_sina> list = query.listInField(Api_user_sina.class, null,
-				null, "sina_userid", idList, null);
+		List<Api_user_sina> list = this.api_user_sinaDao.getListInField(null,
+				"sina_userid", idList);
 		if (buildUser) {
 			List<Long> id2List = new ArrayList<Long>();
 			for (Api_user_sina o : list) {
 				id2List.add(o.getUserid());
 			}
-			List<User> userlist = query.listInField(User.class, null, null,
-					"userid", id2List, null);
+			List<User> userlist = this.getUserListInId(id2List);
 			Map<Long, User> usermap = new HashMap<Long, User>();
 			for (User o : userlist) {
 				usermap.put(o.getUserid(), o);
@@ -199,22 +187,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getUserListInId(List<Long> idList) {
-		return this.manager.createQuery().listInField(User.class, null, null,
-				"userid", idList, null);
-	}
-
-	@Override
-	public void addFans_num(long userid, int num) {
-		Query query = this.manager.createQuery();
-		query.addField("fans_num", "add", num);
-		query.updateById(User.class, userid);
-	}
-
-	@Override
-	public void addFriend_num(long userid, int num) {
-		Query query = this.manager.createQuery();
-		query.addField("friend_num", "add", num);
-		query.updateById(User.class, userid);
+		return this.userDao.getListInField(null, "userid", idList);
 	}
 
 	@Override

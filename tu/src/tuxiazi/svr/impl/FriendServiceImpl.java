@@ -158,6 +158,10 @@ public class FriendServiceImpl implements FriendService {
 					userid, friendid);
 		}
 	}
+	@Override
+	public void deleteFriend(User user, User friendUser, boolean delPhoto) {
+		// TODO Auto-generated method stub
+	}
 
 	@Override
 	public Fans getFansByUseridAndFansid(long userid, long fansid) {

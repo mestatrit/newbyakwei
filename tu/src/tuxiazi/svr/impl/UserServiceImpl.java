@@ -194,19 +194,19 @@ public class UserServiceImpl implements UserService {
 				"userid", idList, null);
 	}
 
-	@Override
-	public void addFans_num(long userid, int num) {
-		Query query = this.manager.createQuery();
-		query.addField("fans_num", "add", num);
-		query.updateById(User.class, userid);
-	}
-
-	@Override
-	public void addFriend_num(long userid, int num) {
-		Query query = this.manager.createQuery();
-		query.addField("friend_num", "add", num);
-		query.updateById(User.class, userid);
-	}
+//	@Override
+//	public void addFans_num(long userid, int num) {
+//		Query query = this.manager.createQuery();
+//		query.addField("fans_num", "add", num);
+//		query.updateById(User.class, userid);
+//	}
+//
+//	@Override
+//	public void addFriend_num(long userid, int num) {
+//		Query query = this.manager.createQuery();
+//		query.addField("friend_num", "add", num);
+//		query.updateById(User.class, userid);
+//	}
 
 	@Override
 	public List<SinaUser> getSinaFansListBy(Api_user_sina apiUserSina,
