@@ -14,9 +14,10 @@ public interface UserService {
 	 * 通过新浪用户信息创建用户
 	 * 
 	 * @param apiUserSina
-	 * @param nick 新浪昵称
-	 * @param head_path 新浪头像
-	 *            2010-11-7
+	 * @param nick
+	 *            新浪昵称
+	 * @param head_path
+	 *            新浪头像 2010-11-7
 	 */
 	void createApi_user_sina(Api_user_sina apiUserSina, String nick,
 			String head_path);
@@ -43,8 +44,7 @@ public interface UserService {
 	 * 根据userid获得user
 	 * 
 	 * @param userid
-	 * @return
-	 *         2010-11-6
+	 * @return 2010-11-6
 	 */
 	User getUser(long userid);
 
@@ -59,18 +59,18 @@ public interface UserService {
 	/**
 	 * 获取已经注册的新浪好友
 	 * 
-	 * @param idList 新浪userid
-	 * @return
-	 *         2010-11-12
+	 * @param idList
+	 *            新浪userid
+	 * @return 2010-11-12
 	 */
 	Map<Long, Api_user_sina> getApi_user_sinaMapInSina_userid(
 			List<Long> idList, boolean buildUser);
 
 	/**
-	 * @param idlist 新浪userid
+	 * @param idlist
+	 *            新浪userid
 	 * @param buildUser
-	 * @return
-	 *         2010-11-13
+	 * @return 2010-11-13
 	 */
 	List<Api_user_sina> getApi_user_sinaListInSina_userid(List<Long> idList,
 			boolean buildUser);
@@ -79,9 +79,9 @@ public interface UserService {
 
 	List<User> getUserListInId(List<Long> idList);
 
-	void addFriend_num(long userid, int num);
-
-	void addFans_num(long userid, int num);
+	// void addFriend_num(long userid, int num);
+	//
+	// void addFans_num(long userid, int num);
 
 	/**
 	 * 获得用户在新浪微博的粉丝列表，如果好友在系统中已经注册，就会有系统的信息在数据中

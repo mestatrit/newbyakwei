@@ -68,6 +68,17 @@ public class FriendAction extends BaseApiAction {
 		this.friendService.deleteFriend(user.getUserid(), uid, true);
 		APIUtil.writeSuccess(req, resp);
 		return null;
+		// will
+		// long uid = req.getLong("uid");
+		// User user = this.getUser(req);
+		// User dbUser = this.userService.getUser(user.getUserid());
+		// User friendUser = this.userService.getUser(uid);
+		// if (dbUser == null || friendUser == null) {
+		// APIUtil.writeErr(req, resp, Err.USER_NOTEXIST);
+		// }
+		// this.friendService.deleteFriend(user, friendUser, true);
+		// APIUtil.writeSuccess(req, resp);
+		// return null;
 	}
 
 	@Override
