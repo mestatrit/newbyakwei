@@ -14,7 +14,7 @@
 		</div>
 		<div style="font-size: 14px;margin-bottom: 20px">
 		iphone 版下载地址:<br/>
-		<a href="http://itunes.apple.com/us/app/id427968459?mt=8&ls=1" target="_blank">http://itunes.apple.com/us/app/id427968459?mt=8&ls=1</a>
+		<a href="http://itunes.apple.com/us/app/id427968459?mt=8&ls=1"target="_blank">http://itunes.apple.com/us/app/id427968459?mt=8&amp;ls=1</a>
 		<br/><br/>
 		</div>
 		在新浪微博关注我们：<br/>
