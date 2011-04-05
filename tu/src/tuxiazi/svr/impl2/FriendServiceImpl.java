@@ -132,8 +132,8 @@ public class FriendServiceImpl implements FriendService {
 		if (getPhoto) {
 			// 获取被关注人的10张图片
 			List<User_photo> photolist = this.photoService
-					.getUser_photoListByUserid(friend.getFriendid(), true,
-							false, 0, 0, 10);
+					.getUser_photoListByUserid(friend.getFriendid(), false, 0,
+							0, 10);
 			// 按照photid排序(正序)从小到大
 			Collections.sort(photolist, comparator);
 			List<Friend_photo_feed> friendPhotoFeeds = new ArrayList<Friend_photo_feed>();

@@ -18,12 +18,18 @@ public interface PhotoService {
 	/**
 	 * 上传图片
 	 * 
-	 * @param userid 上传图片的用户
-	 * @param uploadPhotos 上传图片的集合 @see{@link UploadPhoto}
-	 * @param x 图片x坐标
-	 * @param y 图片y坐标
-	 * @param width 图片宽度
-	 * @param height 图片高度
+	 * @param userid
+	 *            上传图片的用户
+	 * @param uploadPhotos
+	 *            上传图片的集合 @see{@link UploadPhoto}
+	 * @param x
+	 *            图片x坐标
+	 * @param y
+	 *            图片y坐标
+	 * @param width
+	 *            图片宽度
+	 * @param height
+	 *            图片高度
 	 * @return
 	 */
 	UploadPhotoResult createPhoto(long userid, List<UploadPhoto> uploadPhotos,
@@ -75,24 +81,23 @@ public interface PhotoService {
 
 	/**
 	 * @param userid
-	 * @param allPhoto
-	 *            true:获取所有图片,false:只获取公开图片
 	 * @param buildPhoto
-	 * @param favUserid 查看该用户是否有收藏当前集合的图片
+	 * @param favUserid
+	 *            查看该用户是否有收藏当前集合的图片
 	 * @param begin
 	 * @param size
-	 * @return
-	 *         2010-11-13
+	 * @return 2010-11-13
 	 */
-	List<User_photo> getUser_photoListByUserid(long userid, boolean allPhoto,
-			boolean buildPhoto, long favUserid, int begin, int size);
+	List<User_photo> getUser_photoListByUserid(long userid, boolean buildPhoto,
+			long favUserid, int begin, int size);
 
 	/**
 	 * 获取最新图片
 	 * 
-	 * @param buildPhoto true:组装图片数据
-	 * @param buildPhotoUser true:组装图片的用户数据
-	 *            * @param favUserid 查看该用户是否有收藏当前集合的图片
+	 * @param buildPhoto
+	 *            true:组装图片数据
+	 * @param buildPhotoUser
+	 *            true:组装图片的用户数据 * @param favUserid 查看该用户是否有收藏当前集合的图片
 	 * @param begin
 	 * @param size
 	 * @return

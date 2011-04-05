@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.Friend_photo_feed;
@@ -25,8 +24,14 @@ import tuxiazi.bean.Photoid;
 import tuxiazi.bean.UploadPhoto;
 import tuxiazi.bean.User;
 import tuxiazi.bean.User_photo;
-import tuxiazi.bean.benum.PhotoPrivacyEnum;
 import tuxiazi.bean.helper.noticedata.PhotoLikeNoticeCreater;
+import tuxiazi.dao.HotPhotoDao;
+import tuxiazi.dao.Lasted_photoDao;
+import tuxiazi.dao.PhotoDao;
+import tuxiazi.dao.PhotoLikeUserDao;
+import tuxiazi.dao.PhotoUserLikeDao;
+import tuxiazi.dao.PhotoidDao;
+import tuxiazi.dao.User_photoDao;
 import tuxiazi.svr.iface.FeedService;
 import tuxiazi.svr.iface.FriendService;
 import tuxiazi.svr.iface.NoticeService;
@@ -41,9 +46,8 @@ import tuxiazi.util.FileCnf;
 import tuxiazi.web.util.SinaUtil;
 import weibo4j.WeiboException;
 
-import com.hk.frame.dao.query.Query;
-import com.hk.frame.dao.query.QueryManager;
 import com.hk.frame.util.DataUtil;
+import com.hk.frame.util.NumberUtil;
 import com.hk.frame.util.ResourceConfig;
 import com.hk.frame.util.image.ImageException;
 import com.hk.frame.util.image.JMagickUtil;
@@ -56,8 +60,83 @@ public class PhotoServiceImpl implements PhotoService {
 
 	private int lasted_photo_max_count;
 
-	@Autowired
 	private FriendService friendService;
+
+	private PhotoidDao photoidDao;
+
+	private PhotoDao photoDao;
+
+	private NoticeService noticeService;
+
+	private FeedService feedService;
+
+	private HkMsgProducer hkMsgProducer;
+
+	private PhotoCmtService photoCmtService;
+
+	private UserService userService;
+
+	private User_photoDao user_photoDao;
+
+	private Lasted_photoDao lasted_photoDao;
+
+	private HotPhotoDao hotPhotoDao;
+
+	private PhotoUserLikeDao photoUserLikeDao;
+
+	private PhotoLikeUserDao photoLikeUserDao;
+
+	public void setPhotoLikeUserDao(PhotoLikeUserDao photoLikeUserDao) {
+		this.photoLikeUserDao = photoLikeUserDao;
+	}
+
+	public void setPhotoUserLikeDao(PhotoUserLikeDao photoUserLikeDao) {
+		this.photoUserLikeDao = photoUserLikeDao;
+	}
+
+	public void setHotPhotoDao(HotPhotoDao hotPhotoDao) {
+		this.hotPhotoDao = hotPhotoDao;
+	}
+
+	public void setLasted_photoDao(Lasted_photoDao lastedPhotoDao) {
+		lasted_photoDao = lastedPhotoDao;
+	}
+
+	public void setUser_photoDao(User_photoDao userPhotoDao) {
+		user_photoDao = userPhotoDao;
+	}
+
+	public void setNoticeService(NoticeService noticeService) {
+		this.noticeService = noticeService;
+	}
+
+	public void setFeedService(FeedService feedService) {
+		this.feedService = feedService;
+	}
+
+	public void setHkMsgProducer(HkMsgProducer hkMsgProducer) {
+		this.hkMsgProducer = hkMsgProducer;
+	}
+
+	public void setPhotoCmtService(PhotoCmtService photoCmtService) {
+		this.photoCmtService = photoCmtService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public void setPhotoDao(PhotoDao photoDao) {
+		this.photoDao = photoDao;
+	}
+
+	public void setPhotoidDao(PhotoidDao photoidDao) {
+		this.photoidDao = photoidDao;
+	}
+
+	public void setFriendService(FriendService friendService) {
+		this.friendService = friendService;
+	}
 
 	private final Log log = LogFactory.getLog(PhotoServiceImpl.class);
 
@@ -69,34 +148,14 @@ public class PhotoServiceImpl implements PhotoService {
 		this.fileCnf = fileCnf;
 	}
 
-	@Autowired
-	private QueryManager manager;
-
-	@Autowired
-	private NoticeService noticeService;
-
-	@Autowired
-	private FeedService feedService;
-
-	@Autowired
-	private HkMsgProducer hkMsgProducer;
-
-	@Autowired
-	private PhotoCmtService photoCmtService;
-
-	@Autowired
-	private UserService userService;
-
 	@Override
 	public UploadPhotoResult createPhoto(long userid,
 			List<UploadPhoto> uploadPhotos, int x, int y, int width, int height) {
 		UploadPhotoResult result = new UploadPhotoResult();
-		Query query = this.manager.createQuery();
 		// 处理图片创建
-		this.proccessUpload(userid, result, query, uploadPhotos, x, y, width,
-				height);
+		this.proccessUpload(userid, result, uploadPhotos, x, y, width, height);
 		// 添加图片到最新图片表中
-		this.proccessLastPhoto(result, query);
+		this.proccessLastPhoto(result);
 		List<Friend_photo_feed> friendPhotoFeeds = new ArrayList<Friend_photo_feed>();
 		if (result.getPhotos() != null) {
 			for (Photo o : result.getPhotos()) {
@@ -154,36 +213,17 @@ public class PhotoServiceImpl implements PhotoService {
 	 * @param height
 	 */
 	private void proccessUpload(long userid, UploadPhotoResult result,
-			Query query, List<UploadPhoto> uploadPhotos, int x, int y,
-			int width, int height) {
+			List<UploadPhoto> uploadPhotos, int x, int y, int width, int height) {
 		JMagickUtil util = null;
 		Photo photo = null;
 		User user = this.userService.getUser(userid);
-		// int x1 = x;
-		// int y1 = y;
-		// int x2 = x + width;
-		// int y2 = y + height;
 		for (UploadPhoto o : uploadPhotos) {
 			String name = FileCnf.createFileName();
 			String dbPath = fileCnf.getFileSaveToDbPath(name);
 			String filePath = fileCnf.getFilePath(dbPath);
 			// File newf = null;
 			try {
-				// try {
-				// DataUtil.copyFile(o.getFile(), filePath, "origion.jpg");
-				// }
-				// catch (IOException e) {
-				// e.printStackTrace();
-				// }
 				util = new JMagickUtil(o.getFile(), fileCnf.getFileMaxSize());
-				// if (x1 + x2 + y1 + y2 > 0) {
-				// String tmpname = userid + "" + System.currentTimeMillis()
-				// + System.nanoTime() + ".jpg";
-				// util.cutImage(this.fileCnf.getTmpPhotoPath(), tmpname, x1,
-				// y1, x2, y2);
-				// newf = new File(this.fileCnf.getTmpPhotoPath() + tmpname);
-				// util = new JMagickUtil(newf, fileCnf.getFileMaxSize());
-				// }
 				util.setQuality(90);
 				util.makeImage(filePath, Photo.p1_houzhui,
 						JMagickUtil.IMG_SQUARE, 60);
@@ -196,17 +236,18 @@ public class PhotoServiceImpl implements PhotoService {
 						JMagickUtil.IMG_OBLONG, 640);
 				photo = new Photo();
 				photo.setPrivacy_flg(o.getPrivacy_flg());
-				photo.setPhotoid(query.insertObject(new Photoid()).longValue());
+				photo.setPhotoid(NumberUtil.getLong(this.photoidDao.save(null,
+						new Photoid())));
 				photo.setUserid(o.getUserid());
 				photo.setName(o.getName());
 				photo.setCreate_time(o.getCreate_time());
 				photo.setPath(dbPath);
-				query.insertObject(photo);
+				this.photoDao.save(null, photo);
 				User_photo userPhoto = new User_photo();
 				userPhoto.setUserid(photo.getUserid());
 				userPhoto.setPhotoid(photo.getPhotoid());
 				userPhoto.setPrivacy_flg(photo.getPrivacy_flg());
-				query.insertObject(userPhoto);
+				this.user_photoDao.save(null, userPhoto);
 				user.setPic_num(user.getPic_num() + 1);
 				result.addPhoto(photo);
 			}
@@ -232,7 +273,7 @@ public class PhotoServiceImpl implements PhotoService {
 		result.proccess();
 	}
 
-	private void proccessLastPhoto(UploadPhotoResult result, Query query) {
+	private void proccessLastPhoto(UploadPhotoResult result) {
 		List<Photo> list = result.getPhotos();
 		if (list == null || list.isEmpty()) {
 			return;
@@ -244,15 +285,15 @@ public class PhotoServiceImpl implements PhotoService {
 			}
 			lastedPhoto = new Lasted_photo();
 			lastedPhoto.setPhotoid(o.getPhotoid());
-			query.insertObject(lastedPhoto);
+			this.lasted_photoDao.save(null, lastedPhoto);
 		}
-		int count = query.count(Lasted_photo.class);
+		int count = this.lasted_photoDao.count(null, null, null);
 		if (count > this.lasted_photo_max_count) {
-			List<Lasted_photo> tmplist = query.listEx(Lasted_photo.class,
-					"photoid asc", this.lasted_photo_max_count - 1, count
-							- this.lasted_photo_max_count);
+			List<Lasted_photo> tmplist = this.lasted_photoDao.getList(null,
+					null, null, "photoid asc", this.lasted_photo_max_count - 1,
+					count - this.lasted_photo_max_count);
 			for (Lasted_photo o : tmplist) {
-				query.deleteObject(o);
+				this.lasted_photoDao.delete(null, o);
 			}
 		}
 	}
@@ -285,14 +326,13 @@ public class PhotoServiceImpl implements PhotoService {
 		this.deletePhotoUserLikeByPhotoid(photo.getPhotoid());
 		String filePath = this.fileCnf.getFilePath(photo.getPath());
 		FileCnf.delPhotoFile(filePath);
-		Query query = this.manager.createQuery();
 		this.feedService.deleteFriend_photo_feedByPhotoid(photo.getPhotoid());
-		query.delete(User_photo.class, "userid=? and photoid=?", new Object[] {
+		this.user_photoDao.delete(null, "userid=? and photoid=?", new Object[] {
 				photo.getUserid(), photo.getPhotoid() });
-		query.deleteObject(photo);
-		query.delete(HotPhoto.class, "photoid=?", new Object[] { photo
+		this.photoDao.delete(null, photo);
+		this.hotPhotoDao.delete(null, "photoid=?", new Object[] { photo
 				.getPhotoid() });
-		int count = query.count(User_photo.class, "userid=?",
+		int count = this.user_photoDao.count(null, "userid=?",
 				new Object[] { photo.getUserid() });
 		User user = this.userService.getUser(photo.getUserid());
 		user.setPic_num(count);
@@ -300,22 +340,18 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	private void deletePhotoUserLikeByPhotoid(long photoid) {
-		Query query = this.manager.createQuery();
-		query
-				.delete(PhotoUserLike.class, "photoid=?",
-						new Object[] { photoid });
+		this.photoUserLikeDao.delete(null, "photoid=?",
+				new Object[] { photoid });
 	}
 
 	private void deletePhotoLikeUserByPhotoid(long photoid) {
-		Query query = this.manager.createQuery();
-		query
-				.delete(PhotoLikeUser.class, "photoid=?",
-						new Object[] { photoid });
+		this.photoLikeUserDao.delete(null, "photoid=?",
+				new Object[] { photoid });
 	}
 
 	@Override
 	public Photo getPhoto(long photoid) {
-		return this.manager.createQuery().getObjectById(Photo.class, photoid);
+		return this.photoDao.getById(null, photoid);
 	}
 
 	@Override
@@ -343,8 +379,8 @@ public class PhotoServiceImpl implements PhotoService {
 			return new HashMap<Long, Photo>();
 		}
 		Map<Long, Photo> map = new HashMap<Long, Photo>();
-		List<Photo> list = this.manager.createQuery().listInField(Photo.class,
-				null, null, "photoid", idList, null);
+		List<Photo> list = this.photoDao
+				.getListInField(null, "photoid", idList);
 		for (Photo o : list) {
 			map.put(o.getPhotoid(), o);
 		}
@@ -353,21 +389,9 @@ public class PhotoServiceImpl implements PhotoService {
 
 	@Override
 	public List<User_photo> getUser_photoListByUserid(long userid,
-			boolean allPhoto, boolean buildPhoto, long favUserid, int begin,
-			int size) {
-		List<User_photo> list = null;
-		Query query = this.manager.createQuery();
-		if (allPhoto) {
-			list = query.listEx(User_photo.class, "userid=?",
-					new Object[] { userid }, "photoid desc", begin, size);
-		}
-		else {
-			list = query
-					.listEx(User_photo.class, "userid=? and privacy_flg=?",
-							new Object[] { userid,
-									PhotoPrivacyEnum.PUBLIC.getValue() },
-							"photoid desc", begin, size);
-		}
+			boolean buildPhoto, long favUserid, int begin, int size) {
+		List<User_photo> list = this.user_photoDao.getList(null, "userid=?",
+				new Object[] { userid }, "photoid desc", begin, size);
 		if (buildPhoto) {
 			List<Long> idList = new ArrayList<Long>();
 			for (User_photo o : list) {
@@ -398,15 +422,14 @@ public class PhotoServiceImpl implements PhotoService {
 
 	@Override
 	public void updatePhoto(Photo photo) {
-		this.manager.createQuery().updateObject(photo);
+		this.photoDao.update(null, photo);
 	}
 
 	@Override
 	public List<Lasted_photo> getLasted_photoList(boolean buildPhoto,
 			boolean buildPhotoUser, long favUserid, int begin, int size) {
-		Query query = this.manager.createQuery();
-		List<Lasted_photo> list = query.listEx(Lasted_photo.class,
-				"photoid desc", begin, size);
+		List<Lasted_photo> list = this.lasted_photoDao.getList(null, null,
+				null, "photoid desc", begin, size);
 		if (buildPhoto) {
 			List<Long> idList = new ArrayList<Long>();
 			for (Lasted_photo o : list) {
@@ -451,32 +474,30 @@ public class PhotoServiceImpl implements PhotoService {
 
 	@Override
 	public void addPhotoCmt_num(long photoid, int add) {
-		Query query = this.manager.createQuery();
-		query.addField("cmt_num", "add", add);
-		query.updateById(Photo.class, photoid);
+		this.photoDao.updateBySQL(null, "cmt_num=cmt_num+?", "photoid=?",
+				new Object[] { add, photoid });
 	}
 
 	@Override
 	public void createPhotoUserLike(User user, Photo photo) {
-		Query query = this.manager.createQuery();
-		if (query.getObjectEx(PhotoLikeUser.class, "userid=? and photoid=?",
+		if (this.photoLikeUserDao.getObject(null, "userid=? and photoid=?",
 				new Object[] { user.getUserid(), photo.getPhotoid() }) != null) {
 			return;
 		}
 		PhotoLikeUser photoLikeUser = new PhotoLikeUser();
 		photoLikeUser.setUserid(user.getUserid());
 		photoLikeUser.setPhotoid(photo.getPhotoid());
-		query.insertObject(photoLikeUser);
-		if (query.getObjectEx(PhotoUserLike.class, "userid=? and photoid=?",
+		this.photoLikeUserDao.save(null, photoLikeUser);
+		if (this.photoUserLikeDao.getObject(null, "userid=? and photoid=?",
 				new Object[] { user.getUserid(), photo.getPhotoid() }) != null) {
 			return;
 		}
 		PhotoUserLike photoUserLike = new PhotoUserLike();
 		photoUserLike.setUserid(user.getUserid());
 		photoUserLike.setPhotoid(photo.getPhotoid());
-		query.insertObject(photoUserLike);
+		this.photoUserLikeDao.save(null, photoUserLike);
 		photo.addLikeUser(user.getUserid(), user.getNick());
-		photo.setLike_num(query.count(PhotoLikeUser.class, "photoid=?",
+		photo.setLike_num(this.photoLikeUserDao.count(null, "photoid=?",
 				new Object[] { photo.getPhotoid() }));
 		this.updatePhoto(photo);
 		// 发送通知给图片所有者
@@ -493,16 +514,15 @@ public class PhotoServiceImpl implements PhotoService {
 
 	@Override
 	public void deletePhotoUserLike(long userid, long photoid) {
-		Query query = this.manager.createQuery();
 		Photo photo = this.getPhoto(photoid);
 		if (photo == null) {
 			return;
 		}
-		query.delete(PhotoUserLike.class, "userid=? and photoid=?",
+		this.photoUserLikeDao.delete(null, "userid=? and photoid=?",
 				new Object[] { userid, photoid });
-		query.delete(PhotoLikeUser.class, "userid=? and photoid=?",
+		this.photoLikeUserDao.delete(null, "userid=? and photoid=?",
 				new Object[] { userid, photoid });
-		List<PhotoUserLike> list = query.listEx(PhotoUserLike.class,
+		List<PhotoUserLike> list = this.photoUserLikeDao.getList(null,
 				"photoid=?", new Object[] { photoid }, "oid desc", 0, 10);
 		List<Long> idList = new ArrayList<Long>();
 		for (PhotoUserLike o : list) {
@@ -514,52 +534,50 @@ public class PhotoServiceImpl implements PhotoService {
 			likeUsers.add(new LikeUser(o.getUserid(), o.getNick()));
 		}
 		photo.initLikeUserlist(likeUsers);
-		photo.setLike_num(query.count(PhotoLikeUser.class, "photoid=?",
+		photo.setLike_num(this.photoLikeUserDao.count(null, "photoid=?",
 				new Object[] { photo.getPhotoid() }));
 		this.updatePhoto(photo);
 	}
 
 	@Override
 	public void createHotPhotos() {
-		Query query = this.manager.createQuery();
-		List<Photo> list = query.listEx(Photo.class,
+		List<Photo> list = this.photoDao.getList(null, null, null,
 				"like_num desc,photoid desc", 0, 100);
-		query.delete(HotPhoto.class);
+		this.hotPhotoDao.delete(null, null, null);
 		for (Photo o : list) {
 			HotPhoto hotPhoto = new HotPhoto();
 			hotPhoto.setPhotoid(o.getPhotoid());
 			hotPhoto.setPath(o.getPath());
-			long oid = query.insertObject(hotPhoto).longValue();
+			long oid = NumberUtil
+					.getLong(this.hotPhotoDao.save(null, hotPhoto));
 			hotPhoto.setOid(oid);
 		}
 	}
 
 	@Override
 	public List<HotPhoto> getHotPhotoList(int begin, int size) {
-		return this.manager.createQuery().listEx(HotPhoto.class, "oid asc",
-				begin, size);
+		return this.hotPhotoDao.getList(null, null, null, "oid asc", begin,
+				size);
 	}
 
 	@Override
 	public List<PhotoUserLike> getPhotoUserLikeListByUserid(long userid,
 			boolean buildPhoto, int begin, int size) {
-		Query query = this.manager.createQuery();
-		return query.listEx(PhotoUserLike.class, "userid=?",
+		return this.photoUserLikeDao.getList(null, "userid=?",
 				new Object[] { userid }, "oid desc", begin, size);
 	}
 
 	@Override
 	public PhotoUserLike getPhotoUserLikeByUseridAndPhotoid(long userid,
 			long photoid) {
-		return this.manager.createQuery().getObjectEx(PhotoUserLike.class,
-				"userid=? and photoid=?", new Object[] { userid, photoid });
+		return this.photoUserLikeDao.getObject(null, "userid=? and photoid=?",
+				new Object[] { userid, photoid });
 	}
 
 	@Override
 	public List<PhotoLikeUser> getPhotoLikeUserListByPhotoid(long photoid,
 			boolean buildUser, long refuserid, int begin, int size) {
-		Query query = this.manager.createQuery();
-		List<PhotoLikeUser> list = query.listEx(PhotoLikeUser.class,
+		List<PhotoLikeUser> list = this.photoLikeUserDao.getList(null,
 				"photoid=?", new Object[] { photoid }, "oid desc", begin, size);
 		List<Long> idList = new ArrayList<Long>();
 		if (buildUser) {

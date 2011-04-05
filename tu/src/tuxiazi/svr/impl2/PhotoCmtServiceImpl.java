@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.Photo;
@@ -15,6 +14,8 @@ import tuxiazi.bean.PhotoCmt;
 import tuxiazi.bean.PhotoCmtid;
 import tuxiazi.bean.User;
 import tuxiazi.bean.helper.noticedata.PhotoCmtNoticeCreater;
+import tuxiazi.dao.PhotoCmtDao;
+import tuxiazi.dao.PhotoCmtidDao;
 import tuxiazi.svr.iface.NoticeService;
 import tuxiazi.svr.iface.PhotoCmtService;
 import tuxiazi.svr.iface.PhotoService;
@@ -23,38 +24,58 @@ import tuxiazi.util.FileCnf;
 import tuxiazi.web.util.SinaUtil;
 import weibo4j.WeiboException;
 
-import com.hk.frame.dao.query.Query;
-import com.hk.frame.dao.query.QueryManager;
+import com.hk.frame.util.NumberUtil;
 
 public class PhotoCmtServiceImpl implements PhotoCmtService {
 
-	@Autowired
-	private QueryManager manager;
-
-	@Autowired
 	private UserService userService;
 
-	@Autowired
 	private PhotoService photoService;
 
-	@Autowired
 	private FileCnf fileCnf;
 
-	@Autowired
 	private NoticeService noticeService;
+
+	private PhotoCmtDao photoCmtDao;
+
+	private PhotoCmtidDao photoCmtidDao;
+
+	public void setPhotoCmtDao(PhotoCmtDao photoCmtDao) {
+		this.photoCmtDao = photoCmtDao;
+	}
+
+	public void setPhotoCmtidDao(PhotoCmtidDao photoCmtidDao) {
+		this.photoCmtidDao = photoCmtidDao;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public void setPhotoService(PhotoService photoService) {
+		this.photoService = photoService;
+	}
+
+	public void setFileCnf(FileCnf fileCnf) {
+		this.fileCnf = fileCnf;
+	}
+
+	public void setNoticeService(NoticeService noticeService) {
+		this.noticeService = noticeService;
+	}
 
 	private Log log = LogFactory.getLog(PhotoCmtServiceImpl.class);
 
 	@Override
 	public void createPhotoCmt(Photo photo, PhotoCmt photoCmt, User user) {
-		Query query = this.manager.createQuery();
 		if (photo == null) {
 			return;
 		}
-		long cmtid = query.insertObject(new PhotoCmtid()).longValue();
+		long cmtid = NumberUtil.getLong(this.photoCmtidDao.save(null,
+				new PhotoCmtid()));
 		photoCmt.setCmtid(cmtid);
 		photoCmt.setUser(user);
-		query.insertObject(photoCmt);
+		this.photoCmtDao.save(null, photoCmt);
 		photo.setCmt_num(photo.getCmt_num() + 1);
 		List<PhotoCmt> list = photo.getCmtList();
 		list.add(0, photoCmt);
@@ -112,29 +133,26 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 			photo.buildRecentCmtData(list);
 			this.photoService.updatePhoto(photo);
 		}
-		this.manager.createQuery().delete(PhotoCmt.class,
-				"cmtid=? and photoid=?",
-				new Object[] { photoCmt.getCmtid(), photoCmt.getPhotoid() });
+		this.photoCmtDao.delete(null, "cmtid=? and photoid=?", new Object[] {
+				photoCmt.getCmtid(), photoCmt.getPhotoid() });
 	}
 
 	@Override
 	public void deletePhotoCmtByPhotoid(long photoid) {
-		this.manager.createQuery().delete(PhotoCmt.class, "photoid=?",
-				new Object[] { photoid });
+		this.photoCmtDao.delete(null, "photoid=?", new Object[] { photoid });
 	}
 
 	@Override
 	public PhotoCmt getPhotoCmt(long photoid, long cmtid) {
-		return this.manager.createQuery().getObjectEx(PhotoCmt.class,
-				"photoid=? and cmtid=?", new Object[] { photoid, cmtid });
+		return this.photoCmtDao.getObject(null, "photoid=? and cmtid=?",
+				new Object[] { photoid, cmtid });
 	}
 
 	@Override
 	public List<PhotoCmt> getPhotoCmtListByPhotoid(long photoid,
 			boolean buildUser, int begin, int size) {
-		List<PhotoCmt> list = this.manager.createQuery().listEx(PhotoCmt.class,
-				"photoid=?", new Object[] { photoid }, "cmtid desc", begin,
-				size);
+		List<PhotoCmt> list = this.photoCmtDao.getList(null, "photoid=?",
+				new Object[] { photoid }, "cmtid desc", begin, size);
 		if (buildUser) {
 			List<Long> idList = new ArrayList<Long>();
 			for (PhotoCmt o : list) {
