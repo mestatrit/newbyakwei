@@ -593,10 +593,10 @@ public class JMagickUtil {
 
 	public static void main(String[] args) throws ImageException,
 			NotPermitImageFormatException, OutOfSizeException {
-		JMagickUtil util = new JMagickUtil(new File("c:/test/1.jpg"), 10);
-//		util.setFullQuality(true);
+		JMagickUtil util = new JMagickUtil(new File("c:/test/datu.jpg"), 10);
+		// util.setFullQuality(true);
 		util.setRui(0);
-		util.makeImage("c:/test/create/", "640.jpg", JMagickUtil.IMG_SQUARE,
-				120);
+		util.makeImage("c:/test/create/", "640.jpg", JMagickUtil.IMG_OBLONG,
+				444);
 	}
 }
