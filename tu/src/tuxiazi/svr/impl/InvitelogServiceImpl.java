@@ -3,6 +3,8 @@ package tuxiazi.svr.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import tuxiazi.bean.Api_user;
@@ -18,6 +20,8 @@ public class InvitelogServiceImpl implements InvitelogService {
 
 	@Autowired
 	private QueryManager manager;
+
+	private Log log = LogFactory.getLog(InvitelogServiceImpl.class);
 
 	@Override
 	public List<Invitelog> getInvitelogListByUseridAndApi_typeAndInOtherid(
@@ -43,6 +47,7 @@ public class InvitelogServiceImpl implements InvitelogService {
 			return true;
 		}
 		catch (WeiboException e) {
+			log.error("send invite err : " + e.getMessage());
 			return false;
 		}
 	}

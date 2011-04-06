@@ -50,7 +50,7 @@ public class InvitelogServiceImpl implements InvitelogService {
 			return true;
 		}
 		catch (WeiboException e) {
-			log.error("invite err : " + e.getMessage());
+			log.error("send invite err : " + e.getMessage());
 			return false;
 		}
 	}
