@@ -1,5 +1,6 @@
 package com.hk.frame.dao.query2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -141,9 +142,18 @@ public abstract class BaseDao<T> {
 
 	public <E> List<T> getListInField(Object keyValue, String field,
 			List<E> fieldValueList) {
+		return this.getListInField(keyValue, null, null, field, fieldValueList);
+	}
+
+	public <E> List<T> getListInField(Object keyValue, String where,
+			Object[] params, String field, List<E> fieldValueList) {
 		QueryParam queryParam = this.hkObjQuery.createQueryParam(getClazz(),
 				getKey(), keyValue);
-		StringBuilder sb = new StringBuilder(field);
+		StringBuilder sb = new StringBuilder();
+		if (where != null) {
+			sb.append(where).append(" and ");
+		}
+		sb.append(field);
 		sb.append(" in (");
 		int len = fieldValueList.size();
 		for (int i = 0; i < len; i++) {
@@ -151,8 +161,14 @@ public abstract class BaseDao<T> {
 		}
 		sb.deleteCharAt(sb.length() - 1).append(")");
 		queryParam.setWhere(sb.toString());
-		queryParam.setParams(fieldValueList.toArray(new Object[fieldValueList
-				.size()]));
+		List<Object> paramList = new ArrayList<Object>();
+		if (params != null) {
+			for (int i = 0; i < params.length; i++) {
+				paramList.add(params[i]);
+			}
+		}
+		paramList.addAll(fieldValueList);
+		queryParam.setParams(paramList.toArray(new Object[paramList.size()]));
 		return this.hkObjQuery.getList(queryParam, getClazz());
 	}
 
