@@ -28,7 +28,8 @@ public class InviteAction extends BaseApiAction {
 			throws Exception {
 		long sinaUserid = req.getLong("sinauserid");
 		if (sinaUserid > 0) {
-			String content = "我正在使用图匣子，感觉很不错，推荐你使用 http://www.tuxiazi.com";
+			String content = "我正在使用图匣子，感觉很不错，推荐你使用 http://www.tuxiazi.com?v="
+					+ System.currentTimeMillis();
 			boolean result = this.invitelogService.inviteSinaFans(this
 					.getApiUserSina(req), sinaUserid, content);
 			// boolean result = false;
