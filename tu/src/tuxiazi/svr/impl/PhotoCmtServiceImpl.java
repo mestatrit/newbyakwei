@@ -25,6 +25,7 @@ import weibo4j.WeiboException;
 
 import com.hk.frame.dao.query.Query;
 import com.hk.frame.dao.query.QueryManager;
+import com.hk.frame.util.DataUtil;
 
 public class PhotoCmtServiceImpl implements PhotoCmtService {
 
@@ -82,14 +83,19 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 		if (withweibo == 1) {
 			String filepath = this.fileCnf.getFilePath(photo.getPath());
 			File imgFile = FileCnf.getFile(filepath + Photo.p4_houzhui);
-			try {
-				SinaUtil.updateStatus(apiUserSina.getAccess_token(),
-						apiUserSina.getToken_secret(), photoCmt.getContent(),
-						imgFile);
-			}
-			catch (WeiboException e) {
-				log.error("error while share to weibo");
-				log.error(e.toString());
+			if (user.getUserid() != photo.getUserid()) {
+				try {
+					User photoUser = this.userService
+							.getUser(photo.getUserid());
+					String content = "评论了 @" + photoUser.getNick() + " 的图片："
+							+ DataUtil.toText(photoCmt.getContent());
+					SinaUtil.updateStatus(apiUserSina.getAccess_token(),
+							apiUserSina.getToken_secret(), content, imgFile);
+				}
+				catch (WeiboException e) {
+					log.error("error while share to weibo");
+					log.error(e.toString());
+				}
 			}
 		}
 	}
