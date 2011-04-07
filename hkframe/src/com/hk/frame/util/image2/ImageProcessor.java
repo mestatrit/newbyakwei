@@ -9,8 +9,8 @@ import magick.MagickException;
 import magick.MagickImage;
 import magick.PreviewType;
 
+import com.hk.frame.util.P;
 import com.hk.frame.util.image.ImageException;
-import com.hk.frame.util.image.JMagickUtil;
 
 public class ImageProcessor {
 
@@ -30,16 +30,26 @@ public class ImageProcessor {
 
 	private boolean clearExif;
 
-	public final static byte IMG_SQUARE = 0;
+	public void setClearExif(boolean clearExif) {
+		this.clearExif = clearExif;
+	}
 
-	public final static byte IMG_OBLONG = 1;
+	public void setSharp(double sharp0, double sharp1) {
+		this.sharp0 = sharp0;
+		this.sharp1 = sharp1;
+	}
+
+	public void setQuality(int quality) {
+		this.quality = quality;
+	}
 
 	public ImageProcessor(ImgFileInfo imgFileInfo) {
 		this.imgFileInfo = ImgFileInfo.getImageFileInfo(imgFileInfo.getFile());
 	}
 
 	// 120*120的图片,不裁图，只压缩，按照比例
-	public void makeSmall(String newFileName, int size) throws ImageException {
+	protected void makeSmall(String newFileName, int size)
+			throws ImageException {
 		int width = this.imgFileInfo.getWidth();
 		int height = this.imgFileInfo.getHeight();
 		try {
@@ -87,7 +97,7 @@ public class ImageProcessor {
 		}
 	}
 
-	public void makeBig(String newFileName, int size) throws ImageException {
+	protected void makeBig(String newFileName, int size) throws ImageException {
 		int width = this.imgFileInfo.getWidth();
 		int height = this.imgFileInfo.getHeight();
 		try {
@@ -147,7 +157,8 @@ public class ImageProcessor {
 	 * 方图 ,裁减后压缩<br/>
 	 * 从上传的大图中裁剪出中间部分，然后对中间部分进行压缩
 	 */
-	public void makeSquare(String newFileName, int size) throws ImageException {
+	protected void makeSquare(String newFileName, int size)
+			throws ImageException {
 		int width = this.imgFileInfo.getWidth();
 		int height = this.imgFileInfo.getHeight();
 		try {
@@ -193,7 +204,7 @@ public class ImageProcessor {
 	 * @param y2
 	 * @throws ImageException
 	 */
-	public void cutImage(String filePath, String fileName, int x1, int y1,
+	protected void cutImage(String filePath, String fileName, int x1, int y1,
 			int x2, int y2) throws ImageException {
 		File f = new File(filePath);
 		if (!f.exists()) {
@@ -228,8 +239,8 @@ public class ImageProcessor {
 	 *            图片尺寸
 	 * @throws MagickException
 	 */
-	public void makeImage(String filePath, String fileName, byte type, int size)
-			throws ImageException {
+	public void makeImage(String filePath, String fileName, boolean square,
+			int size) throws ImageException {
 		File f = new File(filePath);
 		if (!f.exists()) {
 			f.mkdirs();
@@ -237,10 +248,10 @@ public class ImageProcessor {
 		String newFile = filePath + fileName;
 		String img = newFile.substring(0, newFile.lastIndexOf("."));
 		// 文件先不加后缀
-		if (type == JMagickUtil.IMG_SQUARE) {
+		if (square) {
 			this.makeSquare(img, size);
 		}
-		else if (type == JMagickUtil.IMG_OBLONG) {
+		else {
 			if (size <= 120) {
 				this.makeSmall(img, size);
 			}
@@ -297,5 +308,17 @@ public class ImageProcessor {
 		info.setPreviewType(PreviewType.JPEGPreview);
 		this.processQuality(info);
 		return info;
+	}
+
+	public static void main(String[] args) throws ImageException {
+		ImgFileInfo imgFileInfo = ImgFileInfo.getImageFileInfo(new File(
+				"d:/test/test2.jpg"));
+		if (imgFileInfo != null) {
+			ImageProcessor imageProcessor = new ImageProcessor(imgFileInfo);
+			imageProcessor.makeImage("d:/test/create/", "square.jpg", true, 70);
+			imageProcessor.makeImage("d:/test/create/", "oblong.jpg", false,
+					480);
+		}
+		P.println("ok");
 	}
 }
