@@ -45,7 +45,7 @@ public class ImageProcessor {
 		try {
 			ImageInfo info = this.createImageInfo();
 			MagickImage image = new MagickImage(info);
-			this.proccessClearExif(image);
+			this.processClearExif(image);
 			MagickImage scaled = null;
 			double proportion = 0;
 			if (width < size && height < size) {
@@ -78,7 +78,7 @@ public class ImageProcessor {
 					}
 				}
 			}
-			scaled = this.proccessSharp(scaled);
+			scaled = this.processSharp(scaled);
 			scaled.setFileName(newFileName);
 			scaled.writeImage(info);
 		}
@@ -92,9 +92,9 @@ public class ImageProcessor {
 		int height = this.imgFileInfo.getHeight();
 		try {
 			ImageInfo info = this.createImageInfo();
-			this.proccessQuality(info);
+			this.processQuality(info);
 			MagickImage image = new MagickImage(info);
-			this.proccessClearExif(image);
+			this.processClearExif(image);
 			MagickImage scaled = null;
 			double proportion = 0;
 			if (width == height) {
@@ -133,7 +133,7 @@ public class ImageProcessor {
 				scaled = scaled.sharpenImage(1.0, 1.0);
 			}
 			else {
-				scaled = this.proccessSharp(scaled);
+				scaled = this.processSharp(scaled);
 			}
 			scaled.setFileName(newFileName);
 			scaled.writeImage(info);
@@ -169,11 +169,11 @@ public class ImageProcessor {
 				}
 			}
 			ImageInfo info = this.createImageInfo();
-			this.proccessQuality(info);
+			this.processQuality(info);
 			MagickImage image = new MagickImage(info);
-			this.proccessClearExif(image);
+			this.processClearExif(image);
 			MagickImage cropped = image.cropImage(rect).scaleImage(size, size);
-			cropped = this.proccessSharp(cropped);
+			cropped = this.processSharp(cropped);
 			cropped.setFileName(newFileName);
 			cropped.writeImage(info);
 		}
@@ -207,7 +207,7 @@ public class ImageProcessor {
 			ImageInfo info = this.createImageInfo();
 			info.setQuality(95);
 			MagickImage image = new MagickImage(info);
-			this.proccessClearExif(image);
+			this.processClearExif(image);
 			MagickImage cropped = image.cropImage(rect);
 			cropped.setFileName(newFile);
 			cropped.writeImage(info);
@@ -256,7 +256,7 @@ public class ImageProcessor {
 		file.renameTo(new File(newFile));
 	}
 
-	private ImageInfo proccessQuality(ImageInfo info) {
+	private ImageInfo processQuality(ImageInfo info) {
 		if (this.quality > 0) {
 			try {
 				info.setQuality(quality);
@@ -267,7 +267,7 @@ public class ImageProcessor {
 		return info;
 	}
 
-	private MagickImage proccessClearExif(MagickImage image) {
+	private MagickImage processClearExif(MagickImage image) {
 		if (!this.clearExif) {
 			return image;
 		}
@@ -279,7 +279,7 @@ public class ImageProcessor {
 		return image;
 	}
 
-	private MagickImage proccessSharp(MagickImage image) {
+	private MagickImage processSharp(MagickImage image) {
 		if (this.sharp0 > 0 || this.sharp1 > 0) {
 			try {
 				return image.sharpenImage(this.sharp0, this.sharp1);
@@ -295,7 +295,7 @@ public class ImageProcessor {
 				.getAbsolutePath());
 		info.setCompression(CompressionType.JPEGCompression);
 		info.setPreviewType(PreviewType.JPEGPreview);
-		this.proccessQuality(info);
+		this.processQuality(info);
 		return info;
 	}
 }
