@@ -5,12 +5,10 @@
 		<title>图匣子</title>
 	</head>
 	<body>
-	<div style="margin-left: 30px;">
-		<h1>网站正在建设中，欢迎关注:</h1>
-		
+	<div style="margin-left: 10px;">
 		<div style="margin-bottom: 30px">
 		图匣子介绍：
-		图匣子是一款简便的iphone图片分享工具，能自动把照片发布到新浪微博。你访问www.tuxiazi.com还能看到自己所有的照片集。在iphone的app store中搜索“图匣子”就可以免费下载安装本应用。
+		图匣子是一款简便的iphone图片分享工具, 能自动把照片发布到新浪微博。通过iphone客户端可以查看你的好友的最新图片动态。在没有wifi的情况下, 可以使用图匣子批量拍摄图片, 当程序探测到当前网络环境为wifi时, 会自动把没有上传的图片批量上传。
 		</div>
 		<div style="font-size: 14px;margin-bottom: 20px">
 		iphone 版下载地址:<br/>
