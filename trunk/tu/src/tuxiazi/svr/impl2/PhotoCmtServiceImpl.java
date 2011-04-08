@@ -102,18 +102,30 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 	public void createPhotoCmt(Photo photo, PhotoCmt photoCmt, User user,
 			int withweibo, Api_user_sina apiUserSina) {
 		this.createPhotoCmt(photo, photoCmt, user);
-		if (withweibo == 1 && user.getUserid() != photo.getUserid()) {
+		if (withweibo == 1) {
 			String filepath = this.fileCnf.getFilePath(photo.getPath());
 			File imgFile = FileCnf.getFile(filepath + Photo.p4_houzhui);
 			try {
 				User photoUser = this.userService.getUser(photo.getUserid());
-				String content = "针对 @"
-						+ photoUser.getNick()
-						+ " 的图片评论道：\""
-						+ DataUtil.toText(photoCmt.getContent())
-						+ "\" "
-						+ ResourceConfig.getText("photourl", photo.getPhotoid()
-								+ "");
+				String content = null;
+				if (user.getUserid() == photo.getUserid()) {
+					content = "针对自己 的图片评论道：“"
+							+ DataUtil.toText(photoCmt.getContent())
+							+ "” "
+							+ ResourceConfig.getText("photourl", photo
+									.getPhotoid()
+									+ "");
+				}
+				else {
+					content = "针对 @"
+							+ photoUser.getNick()
+							+ " 的图片评论道：“"
+							+ DataUtil.toText(photoCmt.getContent())
+							+ "” "
+							+ ResourceConfig.getText("photourl", photo
+									.getPhotoid()
+									+ "");
+				}
 				SinaUtil.updateStatus(apiUserSina.getAccess_token(),
 						apiUserSina.getToken_secret(), content, imgFile);
 			}
