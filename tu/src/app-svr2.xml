@@ -21,7 +21,7 @@
 	<bean class="tuxiazi.util.PhotoUtil">
 		<property name="fileCnf" ref="fileCnf" />
 	</bean>
-	<bean id="userService" class="tuxiazi.svr.impl.UserServiceImpl">
+	<bean id="userService" class="tuxiazi.svr.impl2.UserServiceImpl">
 		<property name="api_user_sinaDao" ref="api_user_sinaDao" />
 		<property name="api_userDao" ref="api_userDao" />
 		<property name="userDao" ref="userDao" />
@@ -29,15 +29,15 @@
 		<property name="invitelogService" ref="invitelogService" />
 		<property name="hkMsgProducer" ref="hkMsgProducer" />
 	</bean>
-	<bean id="photoService" class="tuxiazi.svr.impl.PhotoServiceImpl">
+	<bean id="photoService" class="tuxiazi.svr.impl2.PhotoServiceImpl">
 		<property name="fileCnf" ref="fileCnf" />
 		<property name="lasted_photo_max_count" value="20" />
 	</bean>
-	<bean id="friendService" class="tuxiazi.svr.impl.FriendServiceImpl" />
-	<bean id="feedService" class="tuxiazi.svr.impl.FeedServiceImpl">
+	<bean id="friendService" class="tuxiazi.svr.impl2.FriendServiceImpl" />
+	<bean id="feedService" class="tuxiazi.svr.impl2.FeedServiceImpl">
 		<property name="maxSize" value="200" />
 	</bean>
-	<bean id="photoCmtService" class="tuxiazi.svr.impl.PhotoCmtServiceImpl" />
-	<bean id="noticeService" class="tuxiazi.svr.impl.NoticeServiceImpl" />
-	<bean id="invitelogService" class="tuxiazi.svr.impl.InvitelogServiceImpl" />
+	<bean id="photoCmtService" class="tuxiazi.svr.impl2.PhotoCmtServiceImpl" />
+	<bean id="noticeService" class="tuxiazi.svr.impl2.NoticeServiceImpl" />
+	<bean id="invitelogService" class="tuxiazi.svr.impl2.InvitelogServiceImpl" />
 </beans>
