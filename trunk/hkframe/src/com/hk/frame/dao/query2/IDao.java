@@ -13,7 +13,7 @@ public interface IDao<T> {
 	 * @param t
 	 * @return
 	 */
-	public Object save(Object keyValue, T t);
+	Object save(Object keyValue, T t);
 
 	/**
 	 * 更新对象
@@ -23,10 +23,10 @@ public interface IDao<T> {
 	 * @param t
 	 * @return
 	 */
-	public int update(Object keyValue, T t);
+	int update(Object keyValue, T t);
 
-	public int updateBySQL(Object keyValue, String updateSqlSegment,
-			String where, Object[] params);
+	int updateBySQL(Object keyValue, String updateSqlSegment, String where,
+			Object[] params);
 
 	/**
 	 * 删除对象
@@ -36,9 +36,11 @@ public interface IDao<T> {
 	 * @param t
 	 * @return
 	 */
-	public int delete(Object keyValue, T t);
+	int delete(Object keyValue, T t);
 
-	public int delete(Object keyValue, String where, Object[] params);
+	int deleteById(Object keyValue, Object idValue);
+
+	int delete(Object keyValue, String where, Object[] params);
 
 	/**
 	 * 根据id查询对象
@@ -48,7 +50,7 @@ public interface IDao<T> {
 	 * @param idValue
 	 * @return
 	 */
-	public T getById(Object keyValue, Object idValue);
+	T getById(Object keyValue, Object idValue);
 
 	/**
 	 * @param keyValue
@@ -65,19 +67,18 @@ public interface IDao<T> {
 	 *            <0时，取所有符合条件数据
 	 * @return
 	 */
-	public List<T> getList(Object keyValue, String where, Object[] params,
+	List<T> getList(Object keyValue, String where, Object[] params,
 			String order, int begin, int size);
 
-	public <E> List<T> getListInField(Object keyValue, String field,
+	<E> List<T> getListInField(Object keyValue, String field,
 			List<E> fieldValueList);
 
-	public <E> List<T> getListInField(Object keyValue, String where,
-			Object[] params, String field, List<E> fieldValueList);
+	<E> List<T> getListInField(Object keyValue, String where, Object[] params,
+			String field, List<E> fieldValueList);
 
-	public int count(Object keyValue, String where, Object[] params);
+	int count(Object keyValue, String where, Object[] params);
 
-	public T getObject(Object keyValue, String where, Object[] params,
-			String order);
+	T getObject(Object keyValue, String where, Object[] params, String order);
 
-	public T getObject(Object keyValue, String where, Object[] params);
+	T getObject(Object keyValue, String where, Object[] params);
 }
