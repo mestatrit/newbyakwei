@@ -89,9 +89,14 @@ public abstract class BaseDao<T> implements IDao<T> {
 	 * @return
 	 */
 	public int delete(Object keyValue, T t) {
-		BaseParam baseParam = this.hkObjQuery.createBaseParam(this.getClazz(),
-				this.getKey(), keyValue);
-		return this.hkObjQuery.deleteObj(baseParam, t);
+		return this.hkObjQuery.deleteObj(this.hkObjQuery.createBaseParam(this
+				.getClazz(), this.getKey(), keyValue), t);
+	}
+
+	@Override
+	public int deleteById(Object keyValue, Object idValue) {
+		return this.hkObjQuery.deleteById(this.hkObjQuery.createBaseParam(this
+				.getClazz(), this.getKey(), keyValue), getClazz(), idValue);
 	}
 
 	public int delete(Object keyValue, String where, Object[] params) {
@@ -110,9 +115,8 @@ public abstract class BaseDao<T> implements IDao<T> {
 	 * @return
 	 */
 	public T getById(Object keyValue, Object idValue) {
-		QueryParam queryParam = this.hkObjQuery.createQueryParam(getClazz(),
-				getKey(), keyValue);
-		return this.hkObjQuery.getObjectById(queryParam, getClazz(), idValue);
+		return this.hkObjQuery.getObjectById(this.hkObjQuery.createQueryParam(
+				getClazz(), getKey(), keyValue), getClazz(), idValue);
 	}
 
 	/**

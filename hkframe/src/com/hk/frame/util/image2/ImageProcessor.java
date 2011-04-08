@@ -18,7 +18,7 @@ public class ImageProcessor {
 		System.setProperty("jmagick.systemclassloader", "no");
 	}
 
-	public int maxWidth = 800;
+	private int maxWidth = 800;
 
 	private ImgFileInfo imgFileInfo;
 
@@ -29,6 +29,10 @@ public class ImageProcessor {
 	private double sharp1;
 
 	private boolean clearExif;
+
+	public void setMaxWidth(int maxWidth) {
+		this.maxWidth = maxWidth;
+	}
 
 	public void setClearExif(boolean clearExif) {
 		this.clearExif = clearExif;

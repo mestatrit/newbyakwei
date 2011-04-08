@@ -1293,6 +1293,24 @@ public class DataUtil implements ApplicationContextAware {
 		}
 	}
 
+	public static void deleteAllFile(String dirPath) {
+		File file = new File(dirPath);
+		if (file.exists()) {
+			if (file.isDirectory()) {
+				File[] fs = file.listFiles();
+				String path = null;
+				for (File f : fs) {
+					path = f.getAbsolutePath();
+					deleteAllFile(path);
+				}
+				file.delete();
+			}
+			else {
+				file.delete();
+			}
+		}
+	}
+
 	/**
 	 * 验证2个字符串是否相等，当字符串都为null时，返回不相等
 	 * 
@@ -1361,9 +1379,11 @@ public class DataUtil implements ApplicationContextAware {
 		// String text =
 		// "马修刘 转发了 @剑语 的微博:在ipad上下载了个 读揽天下，发现其杂志99%都是收费的，用户习惯还需培养，若不先以免费方式吸引读者，恐怕很难做大 转发理由:iPad上这么做其实还是能理解的，大家“被收费“已习惯了。 //@冯文杰:厄，我也发现了";
 		// P.println(getFormatNickLabaValue(text));
-		P.println(DataUtil.getFormatTimeData(new Date(),
-				"EEE MMM d HH:mm:ss z yyyy", Locale.ENGLISH));
-		P.println(DataUtil.getFormatTimeData(new Date(),
-				"EEE MMM d HH:mm:ss z yyyy"));
+		// P.println(DataUtil.getFormatTimeData(new Date(),
+		// "EEE MMM d HH:mm:ss z yyyy", Locale.ENGLISH));
+		// P.println(DataUtil.getFormatTimeData(new Date(),
+		// "EEE MMM d HH:mm:ss z yyyy"));
+		DataUtil.deleteAllFile("d:/test/create");
+		P.println("ok");
 	}
 }
