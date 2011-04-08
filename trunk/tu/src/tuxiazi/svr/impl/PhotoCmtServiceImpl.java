@@ -26,6 +26,7 @@ import weibo4j.WeiboException;
 import com.hk.frame.dao.query.Query;
 import com.hk.frame.dao.query.QueryManager;
 import com.hk.frame.util.DataUtil;
+import com.hk.frame.util.ResourceConfig;
 
 public class PhotoCmtServiceImpl implements PhotoCmtService {
 
@@ -80,22 +81,24 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 	public void createPhotoCmt(Photo photo, PhotoCmt photoCmt, User user,
 			int withweibo, Api_user_sina apiUserSina) {
 		this.createPhotoCmt(photo, photoCmt, user);
-		if (withweibo == 1) {
+		if (withweibo == 1 && user.getUserid() != photo.getUserid()) {
 			String filepath = this.fileCnf.getFilePath(photo.getPath());
 			File imgFile = FileCnf.getFile(filepath + Photo.p4_houzhui);
-			if (user.getUserid() != photo.getUserid()) {
-				try {
-					User photoUser = this.userService
-							.getUser(photo.getUserid());
-					String content = "评论了 @" + photoUser.getNick() + " 的图片："
-							+ DataUtil.toText(photoCmt.getContent());
-					SinaUtil.updateStatus(apiUserSina.getAccess_token(),
-							apiUserSina.getToken_secret(), content, imgFile);
-				}
-				catch (WeiboException e) {
-					log.error("error while share to weibo");
-					log.error(e.toString());
-				}
+			try {
+				User photoUser = this.userService.getUser(photo.getUserid());
+				String content = "针对 @"
+						+ photoUser.getNick()
+						+ " 的图片评论道：\""
+						+ DataUtil.toText(photoCmt.getContent())
+						+ "\" "
+						+ ResourceConfig.getText("photourl", photo.getPhotoid()
+								+ "");
+				SinaUtil.updateStatus(apiUserSina.getAccess_token(),
+						apiUserSina.getToken_secret(), content, imgFile);
+			}
+			catch (WeiboException e) {
+				log.error("error while share to weibo");
+				log.error(e.toString());
 			}
 		}
 	}
