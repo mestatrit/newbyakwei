@@ -195,4 +195,19 @@ public class BaseDao<T> implements IDao<T> {
 	public T getObject(Object keyValue, String where, Object[] params) {
 		return this.getObject(keyValue, where, params, null);
 	}
+
+	@Override
+	public int delete(T t) {
+		return this.delete(null, t);
+	}
+
+	@Override
+	public Object save(T t) {
+		return this.save(null, t);
+	}
+
+	@Override
+	public int update(T t) {
+		return this.update(null, t);
+	}
 }
