@@ -219,8 +219,7 @@ public class HkUtil implements ApplicationContextAware, InitializingBean {
 						Action.class, true, true);
 			}
 			catch (BeansException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				throw new RuntimeException(e);
 			}
 		}
 		return map;

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseDao<T> implements IDao<T> {
+public class BaseDao<T> implements IDao<T> {
 
 	private final String empty_key = "";
 
