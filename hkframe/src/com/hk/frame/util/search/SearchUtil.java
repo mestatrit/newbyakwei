@@ -214,8 +214,7 @@ public class SearchUtil {
 			reader.deleteDocuments(new Term(field, text));
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		finally {
 			try {

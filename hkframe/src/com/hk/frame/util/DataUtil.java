@@ -100,8 +100,7 @@ public class DataUtil implements ApplicationContextAware {
 			urlPattern = urlCompiler.compile(urlRegx);
 		}
 		catch (MalformedPatternException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -748,7 +747,6 @@ public class DataUtil implements ApplicationContextAware {
 	// }
 	// }
 	// catch (MalformedPatternException e) {
-	// // TODO Auto-generated catch block
 	// e.printStackTrace();
 	// }
 	// return list;

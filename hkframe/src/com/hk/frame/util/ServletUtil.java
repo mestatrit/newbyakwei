@@ -18,7 +18,6 @@ import com.hk.frame.util.page.SimplePage;
 public class ServletUtil {
 
 	private ServletUtil() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public static String PAGE = "page";
@@ -105,8 +104,7 @@ public class ServletUtil {
 			sendXml2(resp, VelocityUtil.writeToString(vmpath, context));
 		}
 		catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -405,8 +403,7 @@ public class ServletUtil {
 			writer.flush();
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		finally {
 			if (writer != null) {
