@@ -13,7 +13,9 @@ public interface IDao<T> {
 	 * @param t
 	 * @return
 	 */
-	Object save(Object keyValue, T t);
+//	Object save(Object keyValue, T t);
+
+	Object save(T t);
 
 	/**
 	 * 更新对象
@@ -23,7 +25,9 @@ public interface IDao<T> {
 	 * @param t
 	 * @return
 	 */
-	int update(Object keyValue, T t);
+//	int update(Object keyValue, T t);
+
+	int update(T t);
 
 	int updateBySQL(Object keyValue, String updateSqlSegment, String where,
 			Object[] params);
@@ -36,7 +40,9 @@ public interface IDao<T> {
 	 * @param t
 	 * @return
 	 */
-	int delete(Object keyValue, T t);
+//	int delete(Object keyValue, T t);
+
+	int delete(T t);
 
 	int deleteById(Object keyValue, Object idValue);
 
