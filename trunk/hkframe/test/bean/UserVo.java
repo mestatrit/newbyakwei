@@ -10,7 +10,7 @@ public class UserVo {
 	@Column("testuser.nick")
 	private String nick;
 
-	@Column("member.memberid")
+	@Column("member.memberuserid")
 	private long memberid;
 
 	public long getMemberid() {
@@ -20,17 +20,6 @@ public class UserVo {
 	public void setMemberid(long memberid) {
 		this.memberid = memberid;
 	}
-
-	public String getMembername() {
-		return membername;
-	}
-
-	public void setMembername(String membername) {
-		this.membername = membername;
-	}
-
-	@Column("member.membername")
-	private String membername;
 
 	public long getUserid() {
 		return userid;

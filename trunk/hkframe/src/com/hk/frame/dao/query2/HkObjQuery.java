@@ -283,7 +283,7 @@ public class HkObjQuery extends HkQuery {
 	 * @return
 	 */
 	public <T> List<T> getList(QueryParam queryParam, Class<T> clazz) {
-		if (queryParam.getClasses().length == 0) {
+		if (queryParam.getClassCount() == 0) {
 			queryParam.addClass(clazz);
 		}
 		return this.getList(queryParam, this.getRowMapper(clazz));
@@ -321,6 +321,9 @@ public class HkObjQuery extends HkQuery {
 	 * @return
 	 */
 	public <T> T getObject(QueryParam queryParam, Class<T> clazz) {
+		if (queryParam.getClassCount() == 0) {
+			queryParam.addClass(clazz);
+		}
 		return this.getObject(queryParam, this.getRowMapper(clazz));
 	}
 

@@ -123,8 +123,12 @@ public class QueryParam extends Param {
 	 * 
 	 * @return
 	 */
-	Class<? extends Object>[] getClasses() {
+	public Class<? extends Object>[] getClasses() {
 		return this.classList.toArray(new Class<?>[this.classList.size()]);
+	}
+
+	public int getClassCount() {
+		return this.classList.size();
 	}
 
 	public void setWhereAndParams(String where, Object[] params) {
