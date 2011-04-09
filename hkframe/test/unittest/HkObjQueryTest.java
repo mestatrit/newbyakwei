@@ -67,7 +67,7 @@ public class HkObjQueryTest {
 
 	private TestUser getTestUser(long userid) {
 		QueryParam queryParam = this.hkObjQuery.createQueryParam();
-//		queryParam.addClass(TestUser.class);
+		// queryParam.addClass(TestUser.class);
 		queryParam.addKeyAndValue(TestUser.class, "userid", userid);
 		return this.hkObjQuery
 				.getObjectById(queryParam, TestUser.class, userid);
@@ -97,6 +97,17 @@ public class HkObjQueryTest {
 				testuser_insert_cal.get(Calendar.MILLISECOND));
 		Assert.assertEquals(testUser.getCreatetime().getTime(), testUser_insert
 				.getCreatetime().getTime());
+	}
+
+	@Test
+	public void getObject2() {
+		this.createTestUser(4);
+		QueryParam queryParam = this.hkObjQuery.createQueryParam(
+				TestUser.class, "userid", new Long(4));
+		queryParam.setWhereAndParams("userid=?", new Object[] { 4 });
+		TestUser testUser = this.hkObjQuery.getObject(queryParam,
+				TestUser.class);
+		Assert.assertNotNull(testUser);
 	}
 
 	@Test

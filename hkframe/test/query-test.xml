@@ -20,7 +20,7 @@
 				<entry key="mysql_test0">
 					<bean class="com.mchange.v2.c3p0.ComboPooledDataSource">
 						<property name="driverClass" value="com.mysql.jdbc.Driver" />
-						<property name="jdbcUrl" value="jdbc:mysql://192.168.157.132:3306/test0?useUnicode=true&amp;characterEncoding=UTF-8" />
+						<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test0?useUnicode=true&amp;characterEncoding=UTF-8" />
 						<property name="user" value="root" />
 						<property name="password" value="boseeandbokee" />
 						<property name="maxStatements" value="200" />
@@ -33,7 +33,7 @@
 				<entry key="mysql_test1">
 					<bean class="com.mchange.v2.c3p0.ComboPooledDataSource">
 						<property name="driverClass" value="com.mysql.jdbc.Driver" />
-						<property name="jdbcUrl" value="jdbc:mysql://192.168.157.132:3306/test1?useUnicode=true&amp;characterEncoding=UTF-8" />
+						<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test1?useUnicode=true&amp;characterEncoding=UTF-8" />
 						<property name="user" value="root" />
 						<property name="password" value="boseeandbokee" />
 						<property name="maxStatements" value="200" />

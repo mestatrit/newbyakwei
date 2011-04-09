@@ -9,12 +9,12 @@ import com.hk.frame.dao.annotation.Table;
 @Table(name = "testuser")
 public class TestUser {
 
-	@Id(name = "user_id")
 	// 对应数据库user_id，如果字段与数据库列名相同可以不用写(name = "user_id")
+	@Id
 	private long userid;
 
-	@Column("user_nick")
 	// 对应数据库user_nick，如果字段与数据库列名相同可以不用写(name = "user_nick")
+	@Column
 	private String nick;
 
 	@Column
