@@ -3,6 +3,21 @@
 	<tlib-version>1.0</tlib-version>
 	<short-name>hk</short-name>
 	<tag>
+		<name>value</name>
+		<tag-class>com.hk.frame.web.taglib.HtmlValueTag</tag-class>
+		<body-content>empty</body-content>
+		<description>输出字符，对html字符进行过滤</description>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onerow</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
 		<name>domain</name>
 		<tag-class>com.hk.frame.web.taglib.DomainTag</tag-class>
 		<body-content>empty</body-content>
