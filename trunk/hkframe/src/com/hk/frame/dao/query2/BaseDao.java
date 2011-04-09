@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BaseDao<T> implements IDao<T> {
+public abstract class BaseDao<T> implements IDao<T> {
 
 	private final String empty_key = "";
 
@@ -19,10 +19,7 @@ public class BaseDao<T> implements IDao<T> {
 		return empty_key;
 	}
 
-	@SuppressWarnings("unchecked")
-	public Class<T> getClazz() {
-		return (Class<T>) this.getClass();
-	}
+	public abstract Class<T> getClazz();
 
 	public BaseParam createBaseParam(Object value) {
 		return hkObjQuery.createBaseParam(getClazz(), getKey(), value);
@@ -179,6 +176,7 @@ public class BaseDao<T> implements IDao<T> {
 	public int count(Object keyValue, String where, Object[] params) {
 		QueryParam queryParam = this.hkObjQuery.createQueryParam(getClazz(),
 				getKey(), keyValue);
+		queryParam.addClass(getClazz());
 		queryParam.setWhereAndParams(where, params);
 		return this.hkObjQuery.count(queryParam);
 	}
