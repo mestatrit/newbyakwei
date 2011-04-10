@@ -13,7 +13,7 @@ public interface IDao<T> {
 	 * @param t
 	 * @return
 	 */
-//	Object save(Object keyValue, T t);
+	Object save(Object keyValue, T t);
 
 	Object save(T t);
 
@@ -25,7 +25,7 @@ public interface IDao<T> {
 	 * @param t
 	 * @return
 	 */
-//	int update(Object keyValue, T t);
+	int update(Object keyValue, T t);
 
 	int update(T t);
 
@@ -40,7 +40,7 @@ public interface IDao<T> {
 	 * @param t
 	 * @return
 	 */
-//	int delete(Object keyValue, T t);
+	int delete(Object keyValue, T t);
 
 	int delete(T t);
 
