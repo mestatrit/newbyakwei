@@ -32,7 +32,13 @@ public class ObjectSqlInfoCreater {
 
 	@SuppressWarnings("unchecked")
 	public <T> ObjectSqlInfo<T> getObjectSqlInfo(Class<T> clazz) {
-		return (ObjectSqlInfo<T>) this.objectSqlInfoMap.get(clazz.getName());
+		ObjectSqlInfo<T> o = (ObjectSqlInfo<T>) this.objectSqlInfoMap.get(clazz
+				.getName());
+		if (o == null) {
+			throw new RuntimeException("no ObjectSqlInfo for [ "
+					+ clazz.getName() + " ]");
+		}
+		return o;
 	}
 
 	@SuppressWarnings("unchecked")
