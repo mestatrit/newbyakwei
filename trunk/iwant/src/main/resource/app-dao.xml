@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+	<bean id="categoryDao" class="iwant.dao.impl.CategoryDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="followProjectDao" class="iwant.dao.impl.FollowProjectDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="projectFansDao" class="iwant.dao.impl.ProjectFansDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="mainPptDao" class="iwant.dao.impl.MainPptDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="noticeDao" class="iwant.dao.impl.NoticeDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="noticeidCreatorDao" class="iwant.dao.impl.NoticeidCreatorDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="pptDao" class="iwant.dao.impl.PptDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="pptidCreatorDao" class="iwant.dao.impl.PptidCreatorDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="pptTimelineDao" class="iwant.dao.impl.PptTimelineDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="projectDao" class="iwant.dao.impl.ProjectDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="projectidCreatorDao" class="iwant.dao.impl.ProjectidCreatorDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="slideDao" class="iwant.dao.impl.SlideDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="userDao" class="iwant.dao.impl.UserDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="useridCreatorDao" class="iwant.dao.impl.UseridCreatorDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="userNoticeDao" class="iwant.dao.impl.UserNoticeDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="projectRecycleDao" class="iwant.dao.impl.ProjectRecycleDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+</beans>
