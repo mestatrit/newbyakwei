@@ -3,7 +3,7 @@
 %>
 <form id="frm" method="post" onsubmit="subfrm(this.id)" target="hideframe" action="${form_action }">
 <hk:hide name="ch" value="1"/>
-<hk:hide name="catid" value="${catid }"/>
+<hk:hide name="catid" value="${cat.catid }"/>
 <table class="formt" cellpadding="0" cellspacing="0">
 	<tr>
 		<td width="90" align="right">名称</td>
@@ -15,14 +15,14 @@
 	<tr>
 		<td width="90" align="right">电话</td>
 		<td>
-			<input maxlength="20" name="tel" value="<hk:value value="${project.tel }" onerow="true"/>" class="text"/>
+			<input maxlength="30" name="tel" value="<hk:value value="${project.tel }" onerow="true"/>" class="text"/>
 			<div class="infowarn" id="err_tel"></div>
 		</td>
 	</tr>
 	<tr>
 		<td width="90" align="right">地址</td>
 		<td>
-			<input maxlength="20" name="addr" value="<hk:value value="${project.addr }" onerow="true"/>" class="text"/>
+			<input maxlength="100" name="addr" value="<hk:value value="${project.addr }" onerow="true"/>" class="text"/>
 			<div class="infowarn" id="err_addr"></div>
 		</td>
 	</tr>
@@ -48,9 +48,6 @@ var err_code_<%=Err.PROJECT_ADDR_ERR%>={objid:"err_addr"};
 var err_code_<%=Err.PROJECT_TEL_ERR%>={objid:"err_tel"};
 var err_code_<%=Err.PROJECT_DESCR_ERR%>={objid:"err_descr"};
 var err_code_<%=Err.PROJECT_CATID_ERR%>={objid:"err_catid"};
-var err_code_<%=Err.PROJECT_IMAGEFILE_FORMAT_ERR%>={objid:"err_f"};
-var err_code_<%=Err.PROJECT_IMAGEFILE_SIZE_ERR%>={objid:"err_f"};
-var err_code_<%=Err.PROCESS_IMAGEFILE_ERR%>={objid:"err_f"};
 
 var glassid=null;
 var submited=false;
@@ -88,10 +85,10 @@ function updateerr(err,err_msg,v){
 }
 
 function createok(err,err_msg,v){
-	tourl('${appctx_path}/mgr/cat.do');
+	tourl('${appctx_path}/mgr/project.do');
 }
 
 function updateok(err,err_msg,v){
-	tourl('${appctx_path}/mgr/cat.do');
+	tourl('${appctx_path}/mgr/project.do');
 }
 </script>

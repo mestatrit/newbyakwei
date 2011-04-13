@@ -15,7 +15,7 @@
 			<c:forEach var="project" items="${list }" varStatus="idx">
 			<li>
 				<div class="f_l" style="width: 150px;margin-right: 20px">
-					<a href="javascript:view(${project.projectid})"><hk:value value="$project.name }" onerow="true"/></a>
+					<a href="javascript:view(${project.projectid})"><hk:value value="${project.name }" onerow="true"/></a>
 				</div>
 				<div class="f_l">
 					<a href="javascript:toupdate(${project.projectid })" class="split-r" id="op_update_${project.projectid }">修改</a>

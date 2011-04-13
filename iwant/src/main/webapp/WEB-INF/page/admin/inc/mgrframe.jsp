@@ -3,10 +3,10 @@
 <div class="f_l" style="width: 160px">
 	<ul class="mgrmenu">
 		<li>
-			<a target="_blank" href="${appctx_path }/mgr/cat.do" class="<c:if test="${op_cat }">sel</c:if>">分类管理</a>
+			<a href="${appctx_path }/mgr/cat.do" class="<c:if test="${op_cat }">sel</c:if>">分类管理</a>
 		</li>
 		<li>
-			<a target="_blank" href="${appctx_path }/mgr/project.do" class="<c:if test="${op_project }">sel</c:if>">项目管理</a>
+			<a href="${appctx_path }/mgr/project.do" class="<c:if test="${op_project }">sel</c:if>">项目管理</a>
 		</li>
 	</ul>
 </div>
