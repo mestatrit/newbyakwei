@@ -6,8 +6,8 @@
 		<script type="text/javascript" language="javascript" src="${appctx_path }/static/js/jquery-1.4.4.min.js"></script>
 		<script type="text/javascript" language="javascript" src="${appctx_path }/static/js/pub.js"></script>
 		<script type="text/javascript">
-var path = "${ctx_path }";
-var loading_path = "${ctx_path }/static/img/blue-loading.gif";</script>
+var path = "${appctx_path }";
+var loading_path = "${appctx_path }/static/img/blue-loading.gif";</script>
 		<c:if test="${html_head_value!=null}">${html_head_value}</c:if>
 		<title>${html_head_title } - 后台管理</title>
 	</head>

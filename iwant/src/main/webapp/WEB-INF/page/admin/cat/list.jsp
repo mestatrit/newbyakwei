@@ -20,7 +20,7 @@
 				</div>
 				<div class="f_l" style="width: 80px;margin-right: 20px">
 					<c:if test="${idx.index>0}">
-						<a href="toup()">上移</a>
+						<a id="optoup_${cat.catid}" href="javascript:toup(${cat.catid})">上移</a>
 					</c:if>&nbsp;
 				</div>
 				<div class="f_l">
@@ -37,6 +37,10 @@
 	</div>
 </div>
 <script type="text/javascript">
+var catidarr=new Array();
+<c:forEach var="cat" items="${list }" varStatus="idx">
+catidarr[${idx.index}]=${cat.catid};
+</c:forEach>
 $(document).ready(function(){
 	$('ul.rowlist li').bind('mouseenter', function(){
 		$(this).addClass('enter');
@@ -55,7 +59,7 @@ function opdel(cid){
 		var glassid_op=addGlass('op_delete_'+cid,false);
 		$.ajax({
 			type:"POST",
-			url:"${appctx_path}/mgr/cat_delete?catid="+cid,
+			url:"${appctx_path}/mgr/cat_delete.do?catid="+cid,
 			cache:false,
 	    	dataType:"html",
 			success:function(data){
@@ -67,6 +71,35 @@ function opdel(cid){
 			}
 		});
 	}
+}
+function getPrevCatid(catid){
+	var prev_idx=-1;
+	for(var i=0;i<catidarr.length;i++){
+		if(catidarr[i]==catid){
+			prev_idx=i-1;
+			break;
+		}
+	}
+	if(prev_idx>-1){
+		return catidarr[prev_idx];
+	}
+	return 0;
+}
+function toup(cid){
+	var glassid_op=addGlass('optoup_'+cid,false);
+	$.ajax({
+		type:"POST",
+		url:"${appctx_path}/mgr/cat_toup.do?catid="+cid+"&toid="+getPrevCatid(cid),
+		cache:false,
+    	dataType:"html",
+		success:function(data){
+			refreshurl();
+		},
+		error:function(data){
+			removeGlass(glassid_op);
+			alert('服务器出错，请刷新页面稍后继续操作');
+		}
+	});
 }
 </script>
 </c:set><jsp:include page="../inc/mgrframe.jsp"></jsp:include>

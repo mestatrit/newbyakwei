@@ -5,6 +5,9 @@
 		<li>
 			<a target="_blank" href="${appctx_path }/mgr/cat.do" class="<c:if test="${op_cat }">sel</c:if>">分类管理</a>
 		</li>
+		<li>
+			<a target="_blank" href="${appctx_path }/mgr/project.do" class="<c:if test="${op_project }">sel</c:if>">项目管理</a>
+		</li>
 	</ul>
 </div>
 <div class="f_r" style="width: 710px;">
