@@ -30,7 +30,7 @@ public class ActionFilter implements Filter {
 	/**
 	 * 程序运行器初始化
 	 */
-	private ActionExe actionExe = new ActionExe();
+	private ActionExe actionExe;
 
 	public void init(FilterConfig config) throws ServletException {
 		String url_extension = config.getInitParameter("url-extension");
