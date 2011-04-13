@@ -8,15 +8,36 @@
 	<tr>
 		<td width="90" align="right">名称</td>
 		<td>
-			<input maxlength="20" id="catname" name="name" value="<hk:value value="${cat.name }" onerow="true"/>" class="text"/>
+			<input maxlength="20" name="name" value="<hk:value value="${project.name }" onerow="true"/>" class="text"/>
 			<div class="infowarn" id="err_name"></div>
+		</td>
+	</tr>
+	<tr>
+		<td width="90" align="right">电话</td>
+		<td>
+			<input maxlength="20" name="tel" value="<hk:value value="${project.tel }" onerow="true"/>" class="text"/>
+			<div class="infowarn" id="err_tel"></div>
+		</td>
+	</tr>
+	<tr>
+		<td width="90" align="right">地址</td>
+		<td>
+			<input maxlength="20" name="addr" value="<hk:value value="${project.addr }" onerow="true"/>" class="text"/>
+			<div class="infowarn" id="err_addr"></div>
+		</td>
+	</tr>
+	<tr>
+		<td width="90" align="right">描述</td>
+		<td>
+			<textarea name="descr" style="width: 270px;height: 80px;"><hk:value value="${project.descr}"/></textarea>
+			<div class="infowarn" id="err_descr"></div>
 		</td>
 	</tr>
 	<tr>
 		<td width="90" align="right"></td>
 		<td>
 			<input type="submit" value="提交" class="btn split-r"/>
-			<a href="${appctx_path }/mgr/cat.do">返回</a>
+			<a href="${appctx_path }/mgr/project.do">返回</a>
 		</td>
 	</tr>
 </table>
