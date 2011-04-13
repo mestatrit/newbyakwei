@@ -3,10 +3,8 @@ package svr;
 import iwant.bean.Project;
 import iwant.bean.ProjectRecycle;
 import iwant.bean.enumtype.ActiveType;
-import iwant.svr.OptStatus;
 import iwant.svr.ProjectSvr;
 
-import java.io.File;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -43,8 +41,7 @@ public class ProjectSvrTest {
 		project0.setName("project 1");
 		project0.setOrder_flag(100);
 		project0.setTel("125");
-		project0.setPic_path("");
-		this.projectSvr.createProject(project0, new File("d:/test/test7.jpg"));
+		this.projectSvr.createProject(project0);
 	}
 
 	@Test
@@ -59,10 +56,9 @@ public class ProjectSvrTest {
 		project.setName("project 1");
 		project.setOrder_flag(100);
 		project.setTel("125");
-		project.setPic_path("");
-		OptStatus optStatus = this.projectSvr.createProject(project, new File(
-				"d:/test/test7.jpg"));
-		Assert.assertEquals(true, optStatus.isSuccess());
+		this.projectSvr.createProject(project);
+		Project actual = this.projectSvr.getProject(project.getProjectid());
+		this.assertProjectData(project, actual);
 	}
 
 	@Test
@@ -70,6 +66,13 @@ public class ProjectSvrTest {
 		Project project = this.projectSvr.getProject(this.project0
 				.getProjectid());
 		Assert.assertNotNull(project);
+		project.setName("dsfsdf");
+		project.setDescr("dfsdf");
+		project.setAddr("rr9900");
+		project.setCatid(99);
+		this.projectSvr.updateProject(project);
+		Project actual = this.projectSvr.getProject(project.getProjectid());
+		this.assertProjectData(project, actual);
 	}
 
 	private void assertProjectData(Project expected, Project actual) {
@@ -81,7 +84,6 @@ public class ProjectSvrTest {
 				actual.getMarkery()));
 		Assert.assertEquals(expected.getName(), actual.getName());
 		Assert.assertEquals(expected.getOrder_flag(), actual.getOrder_flag());
-		Assert.assertEquals(expected.getPic_path(), actual.getPic_path());
 		Assert.assertEquals(expected.getProjectid(), actual.getProjectid());
 		Assert.assertEquals(expected.getTel(), actual.getTel());
 		Assert.assertEquals(expected.getActive_flag(), actual.getActive_flag());

@@ -29,6 +29,7 @@ public class CategorySvrTest {
 
 	@Before
 	public void init() {
+		this.categorySvr.clearAllData();
 		// data 1
 		category1 = new Category();
 		category1.setName("akwei");
