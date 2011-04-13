@@ -14,7 +14,7 @@
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 	<!-- 语言配置 -->
 	<bean id="resourceConfig" class="com.hk.frame.util.ResourceConfig" lazy-init="false">
-		<property name="resource" value="err" />
+		<property name="resource" value="admin_err" />
 	</bean>
 	<bean id="hkUtil" class="com.hk.frame.util.HkUtil">
 		<property name="scanPathList">
