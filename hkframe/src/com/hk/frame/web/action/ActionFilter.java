@@ -79,6 +79,7 @@ public class ActionFilter implements Filter {
 				return;
 			}
 		}
+		req.setAttribute("appctx_path", req.getContextPath());
 		this.actionExe.proccess(req, (HttpServletResponse) arg1);
 	}
 
