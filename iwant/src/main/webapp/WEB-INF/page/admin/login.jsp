@@ -28,13 +28,14 @@
 </div>
 <script type="text/javascript">
 function subfrm(frmid){
+	setHtml('errmsg','');
 	return true;
 }
 function loginerr(err,err_msg,v){
 	setHtml('errmsg',err_msg);
 }
 function loginok(err,err_msg,v){
-	alert('login ok');
+	tourl('${appctx_path}/mgr/cat.do');
 }
 </script>
 </c:set><jsp:include page="inc/frame.jsp"></jsp:include>
