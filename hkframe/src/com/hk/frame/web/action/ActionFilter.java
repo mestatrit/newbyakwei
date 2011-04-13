@@ -13,6 +13,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.hk.frame.util.DataUtil;
+
 /**
  * web运行的入口
  * 
@@ -33,6 +35,7 @@ public class ActionFilter implements Filter {
 	public void init(FilterConfig config) throws ServletException {
 		String url_extension = config.getInitParameter("url-extension");
 		String v = config.getInitParameter("debug");
+		String actionExeClass = config.getInitParameter("actionExeClass");
 		if (v != null && v.equals("true")) {
 			actionExe.setDebug(true);
 		}
@@ -45,6 +48,20 @@ public class ActionFilter implements Filter {
 					ingoreList.add(s);
 				}
 			}
+		}
+		if (DataUtil.isNotEmpty(actionExeClass)) {
+			try {
+				Class<?> clazz = Thread.currentThread().getContextClassLoader()
+						.loadClass(actionExeClass);
+				this.actionExe = (ActionExe) clazz.getConstructor()
+						.newInstance();
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+		else {
+			this.actionExe = new ActionExe();
 		}
 	}
 

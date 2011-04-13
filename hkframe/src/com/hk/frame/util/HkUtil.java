@@ -42,6 +42,8 @@ public class HkUtil implements ApplicationContextAware, InitializingBean {
 
 	public static final String RETURN_URL = "return_url";
 
+	public static final String backString_key = "backString";
+
 	public static final String DENC_RETURN_URL = "denc_return_url";
 
 	public static final String TO_URL = "to_url";

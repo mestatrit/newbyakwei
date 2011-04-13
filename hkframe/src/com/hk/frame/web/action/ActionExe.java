@@ -259,7 +259,9 @@ public class ActionExe {
 			request.reSetAttribute("repage");
 			request.reSetReturnUrl();
 			request.reSetBackString();
-			request.setAttribute(HkUtil.ACTION_EXE_ATTR_KEY, this);
+			if (request.getAttribute(HkUtil.ACTION_EXE_ATTR_KEY) == null) {
+				request.setAttribute(HkUtil.ACTION_EXE_ATTR_KEY, this);
+			}
 			this.setBuildedSysParameter(request, true);
 		}
 	}
