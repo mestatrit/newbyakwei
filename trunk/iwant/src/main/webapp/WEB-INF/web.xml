@@ -32,12 +32,10 @@
 			<param-name>debug</param-name>
 			<param-value>true</param-value>
 		</init-param>
-		<!-- 
-		<init-param>
-			<param-name>endIngore</param-name>
-			<param-value>.jpg,.png,.gif,.css,.js,.ico,.jsp,.bmp,.xml</param-value>
-		</init-param>
-		 -->
+		<filter>
+			<filter-name>AdminFilter</filter-name>
+			<filter-class>iwant.web.admin.util.AdminFilter</filter-class>
+		</filter>
 	</filter>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
@@ -47,6 +45,10 @@
 	<filter-mapping>
 		<filter-name>HttpWrapperFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>AdminFilter</filter-name>
+		<url-pattern>/sitemgr/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>ActionFilter</filter-name>
