@@ -17,7 +17,7 @@ import com.hk.frame.util.ServletUtil;
  */
 public class AdminUtil {
 
-	private static final String des_key = "";
+	private static final String des_key = "abc";
 
 	private static DesUtil pwddesUtil = new DesUtil(des_key);
 
@@ -94,7 +94,7 @@ public class AdminUtil {
 	}
 
 	public static void main(String[] args) {
-		// P.println(encodePwd(""));
-		P.println(isLogined("admin", ""));
+		P.println(encodeValue("admin"));
+		P.println(isLogined("admin", "admin"));
 	}
 }

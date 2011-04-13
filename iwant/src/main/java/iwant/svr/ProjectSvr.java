@@ -2,9 +2,11 @@ package iwant.svr;
 
 import iwant.bean.Project;
 import iwant.bean.ProjectRecycle;
+import iwant.dao.ProjectSearchCdn;
 import iwant.util.ErrorCode;
 
 import java.io.File;
+import java.util.List;
 
 public interface ProjectSvr {
 
@@ -48,4 +50,7 @@ public interface ProjectSvr {
 	boolean deleteProject(long projectid);
 
 	ProjectRecycle getProjectRecycle(long projectid);
+
+	List<Project> getProjectListByCdn(ProjectSearchCdn projectSearchCdn,
+			int begin, int size);
 }
