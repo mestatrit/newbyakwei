@@ -22,7 +22,7 @@ public class ProjectValidate {
 		if (!HkValidate.validateLength(project.getDescr(), false, 300)) {
 			errlist.add(Err.PROJECT_DESCR_ERR);
 		}
-		if (!HkValidate.validateLength(project.getAddr(), false, 300)) {
+		if (!HkValidate.validateLength(project.getAddr(), false, 100)) {
 			errlist.add(Err.PROJECT_ADDR_ERR);
 		}
 		if (!HkValidate.validateLength(project.getTel(), false, 100)) {
