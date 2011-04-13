@@ -32,10 +32,10 @@
 			<param-name>debug</param-name>
 			<param-value>true</param-value>
 		</init-param>
-		<filter>
-			<filter-name>AdminFilter</filter-name>
-			<filter-class>iwant.web.admin.util.AdminFilter</filter-class>
-		</filter>
+	</filter>
+	<filter>
+		<filter-name>AdminFilter</filter-name>
+		<filter-class>iwant.web.admin.util.AdminFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>

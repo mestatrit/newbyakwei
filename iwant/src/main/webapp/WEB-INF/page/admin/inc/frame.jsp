@@ -3,9 +3,9 @@
 %><!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<link rel="stylesheet" type="text/css" href="${ctx_path }/static/css/a.css" />
-	<script type="text/javascript" language="javascript" src="${ctx_path }/static/js/jquery-1.4.4.min.js"></script>
-	<script type="text/javascript" language="javascript" src="${ctx_path }/static/js/pub.js"></script>
+	<link rel="stylesheet" type="text/css" href="${appctx_path }/static/css/a.css" />
+	<script type="text/javascript" language="javascript" src="${appctx_path }/static/js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" language="javascript" src="${appctx_path }/static/js/pub.js"></script>
 	<script type="text/javascript">var path="${ctx_path }";var loading_path="${ctx_path }/static/img/blue-loading.gif";</script>
 	<c:if test="${html_head_value!=null}">${html_head_value}</c:if>
 	<title>${html_head_title } - 后台管理</title>
