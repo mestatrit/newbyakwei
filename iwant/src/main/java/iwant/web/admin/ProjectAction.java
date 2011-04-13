@@ -56,18 +56,22 @@ public class ProjectAction extends BaseAction {
 
 	public String create(HkRequest req, HkResponse resp) throws Exception {
 		if (this.isForwardPage(req)) {
+			List<Category> catlist = this.categorySvr.getCategoryListForAll();
+			req.setAttribute("catlist", catlist);
+			Category category = catlist.get(0);
+			req.setAttribute("cat", category);
 			req.setAttribute("op_project", true);
 			return this.getAdminPath("project/create.jsp");
 		}
 		Project project = new Project();
 		project.setName(req.getString("name"));
-		project.setAddr(req.getString("addr"));
+		project.setAddr(req.getString("addr", ""));
 		project.setCatid(req.getInt("catid"));
 		project.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
-		project.setDescr(req.getString("descr"));
+		project.setDescr(req.getString("descr", ""));
 		project.setMarkerx(req.getDouble("markerx"));
 		project.setMarkery(req.getDouble("markery"));
-		project.setTel(req.getString("tel"));
+		project.setTel(req.getString("tel", ""));
 		List<String> errlist = ProjectValidate.validate(project);
 		if (errlist.size() > 0) {
 			return this.onErrorList(req, errlist, "createerr");
@@ -90,7 +94,6 @@ public class ProjectAction extends BaseAction {
 		}
 		project.setName(req.getString("name"));
 		project.setAddr(req.getString("addr"));
-		project.setCatid(req.getInt("catid"));
 		project.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
 		project.setDescr(req.getString("descr"));
 		project.setMarkerx(req.getDouble("markerx"));

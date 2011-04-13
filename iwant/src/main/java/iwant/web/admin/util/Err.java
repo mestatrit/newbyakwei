@@ -25,9 +25,5 @@ public interface Err {
 
 	String PROJECT_CATID_ERR = "8";
 
-	String PROJECT_IMAGEFILE_FORMAT_ERR = "9";
-
-	String PROJECT_IMAGEFILE_SIZE_ERR = "10";
-
 	String PROCESS_IMAGEFILE_ERR = "pro1";
 }
