@@ -1,7 +1,11 @@
 package iwant.web;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.hk.frame.util.DataUtil;
 import com.hk.frame.util.page.SimplePage;
 import com.hk.frame.web.action.Action;
 import com.hk.frame.web.http.HkRequest;
@@ -34,6 +38,23 @@ public class BaseAction implements Action {
 			req.setAttribute("respValue", respValue);
 		}
 		return "/WEB-INF/page/inc/onerror.jsp";
+	}
+
+	protected String onErrorList(HkRequest req, Collection<String> list,
+			String functionName) {
+		Map<String, String> map = new HashMap<String, String>();
+		StringBuilder sb = new StringBuilder();
+		for (String i : list) {
+			map.put(String.valueOf("error_" + i), req
+					.getText(String.valueOf(i)));
+			sb.append(i).append(",");
+		}
+		sb.deleteCharAt(sb.length() - 1);
+		String json = DataUtil.toJson(map);
+		req.setAttribute("json", json);
+		req.setAttribute("errorlist", sb.toString());
+		req.setAttribute("functionName", functionName);
+		return "/WEB-INF/page/inc/onerrorlist.jsp";
 	}
 
 	protected String onSuccess(HkRequest req, String functionName,

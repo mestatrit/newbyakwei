@@ -5,6 +5,7 @@ import iwant.bean.ProjectRecycle;
 import iwant.bean.ProjectidCreator;
 import iwant.dao.ProjectDao;
 import iwant.dao.ProjectRecycleDao;
+import iwant.dao.ProjectSearchCdn;
 import iwant.dao.ProjectidCreatorDao;
 import iwant.svr.OptStatus;
 import iwant.svr.PptSvr;
@@ -14,6 +15,7 @@ import iwant.util.FileCnf;
 import iwant.util.PicUtil;
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -112,6 +114,12 @@ public class ProjectSvrImpl implements ProjectSvr {
 	@Override
 	public ProjectRecycle getProjectRecycle(long projectid) {
 		return this.projectRecycleDao.getById(null, projectid);
+	}
+
+	@Override
+	public List<Project> getProjectListByCdn(ProjectSearchCdn projectSearchCdn,
+			int begin, int size) {
+		return this.projectDao.getListByCdn(projectSearchCdn, begin, size);
 	}
 
 	private void processImage(File imgFile, OptStatus optStatus) {
