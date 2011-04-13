@@ -33,22 +33,7 @@ public class ActionFilter implements Filter {
 	private ActionExe actionExe;
 
 	public void init(FilterConfig config) throws ServletException {
-		String url_extension = config.getInitParameter("url-extension");
-		String v = config.getInitParameter("debug");
 		String actionExeClass = config.getInitParameter("actionExeClass");
-		if (v != null && v.equals("true")) {
-			actionExe.setDebug(true);
-		}
-		actionExe.setUrl_extension(url_extension);
-		String endIngore = config.getInitParameter("endIngore");
-		if (endIngore != null) {
-			String[] t = endIngore.split(",");
-			if (t != null) {
-				for (String s : t) {
-					ingoreList.add(s);
-				}
-			}
-		}
 		if (DataUtil.isNotEmpty(actionExeClass)) {
 			try {
 				Class<?> clazz = Thread.currentThread().getContextClassLoader()
@@ -62,6 +47,21 @@ public class ActionFilter implements Filter {
 		}
 		else {
 			this.actionExe = new ActionExe();
+		}
+		String url_extension = config.getInitParameter("url-extension");
+		String v = config.getInitParameter("debug");
+		if (v != null && v.equals("true")) {
+			actionExe.setDebug(true);
+		}
+		actionExe.setUrl_extension(url_extension);
+		String endIngore = config.getInitParameter("endIngore");
+		if (endIngore != null) {
+			String[] t = endIngore.split(",");
+			if (t != null) {
+				for (String s : t) {
+					ingoreList.add(s);
+				}
+			}
 		}
 	}
 
