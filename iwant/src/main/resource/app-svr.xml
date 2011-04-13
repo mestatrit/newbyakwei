@@ -34,16 +34,6 @@
 		</property>
 	</bean>
 	<bean id="pptTimelineSvr" class="iwant.svr.impl.PptTimelineSvrImpl" />
-	<bean id="projectSvr" class="iwant.svr.impl.ProjectSvrImpl">
-		<property name="fileCnf">
-			<bean class="iwant.util.FileCnf">
-				<property name="root_path" value="/home/iwant/pub/pic/projectpic/" />
-				<property name="tmpPhotoPath" value="/home/iwant/pub/tmppic/projectpic/" />
-				<property name="fileMaxSize" value="2" />
-				<property name="directory" value="a/" />
-				<property name="suburl" value="http://www.iwant.com/pic/projectpic/" />
-			</bean>
-		</property>
-	</bean>
+	<bean id="projectSvr" class="iwant.svr.impl.ProjectSvrImpl"></bean>
 	<bean id="userSvr" class="iwant.svr.impl.UserSvrImpl" />
 </beans>

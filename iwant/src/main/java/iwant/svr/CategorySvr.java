@@ -21,4 +21,6 @@ public interface CategorySvr {
 	Category getCategory(int catid);
 
 	List<Category> getCategoryListForAll();
+
+	void clearAllData();
 }

@@ -63,12 +63,6 @@ public class Project {
 	private String tel;
 
 	/**
-	 * 焦点图路径
-	 */
-	@Column
-	private String pic_path;
-
-	/**
 	 * 地图坐标
 	 */
 	@Column
@@ -148,14 +142,6 @@ public class Project {
 
 	public void setTel(String tel) {
 		this.tel = tel;
-	}
-
-	public void setPic_path(String picPath) {
-		pic_path = picPath;
-	}
-
-	public String getPic_path() {
-		return pic_path;
 	}
 
 	public Date getCreatetime() {

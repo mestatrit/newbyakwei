@@ -5,13 +5,10 @@ import iwant.bean.Project;
 import iwant.bean.validate.ProjectValidate;
 import iwant.dao.ProjectSearchCdn;
 import iwant.svr.CategorySvr;
-import iwant.svr.OptStatus;
 import iwant.svr.ProjectSvr;
 import iwant.util.ActiveTypeCreater;
 import iwant.web.BaseAction;
-import iwant.web.admin.util.Err;
 
-import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -62,7 +59,6 @@ public class ProjectAction extends BaseAction {
 			req.setAttribute("op_project", true);
 			return this.getAdminPath("project/create.jsp");
 		}
-		File imgFile = req.getFile("f");
 		Project project = new Project();
 		project.setName(req.getString("name"));
 		project.setAddr(req.getString("addr"));
@@ -72,17 +68,13 @@ public class ProjectAction extends BaseAction {
 		project.setMarkerx(req.getDouble("markerx"));
 		project.setMarkery(req.getDouble("markery"));
 		project.setTel(req.getString("tel"));
-		List<String> errlist = ProjectValidate.validate(project, imgFile);
+		List<String> errlist = ProjectValidate.validate(project);
 		if (errlist.size() > 0) {
 			return this.onErrorList(req, errlist, "createerr");
 		}
-		OptStatus optStatus = this.projectSvr.createProject(project, imgFile);
-		if (optStatus.isSuccess()) {
-			this.opCreateSuccess(req);
-			return this.onSuccess(req, "createok", null);
-		}
-		return this.onError(req, Err.PROCESS_IMAGEFILE_ERR, "processimgerr",
-				null);
+		this.projectSvr.createProject(project);
+		this.opCreateSuccess(req);
+		return this.onSuccess(req, "createok", null);
 	}
 
 	public String update(HkRequest req, HkResponse resp) throws Exception {
@@ -96,7 +88,6 @@ public class ProjectAction extends BaseAction {
 			req.setAttribute("op_project", true);
 			return this.getAdminPath("project/create.jsp");
 		}
-		File imgFile = req.getFile("f");
 		project.setName(req.getString("name"));
 		project.setAddr(req.getString("addr"));
 		project.setCatid(req.getInt("catid"));
@@ -105,17 +96,13 @@ public class ProjectAction extends BaseAction {
 		project.setMarkerx(req.getDouble("markerx"));
 		project.setMarkery(req.getDouble("markery"));
 		project.setTel(req.getString("tel"));
-		List<String> errlist = ProjectValidate.validate(project, imgFile);
+		List<String> errlist = ProjectValidate.validate(project);
 		if (errlist.size() > 0) {
 			return this.onErrorList(req, errlist, "updateerr");
 		}
-		OptStatus optStatus = this.projectSvr.updateProject(project, imgFile);
-		if (optStatus.isSuccess()) {
-			this.opUpdateSuccess(req);
-			return this.onSuccess(req, "updateok", null);
-		}
-		return this.onError(req, Err.PROCESS_IMAGEFILE_ERR, "processimgerr",
-				null);
+		this.projectSvr.updateProject(project);
+		this.opUpdateSuccess(req);
+		return this.onSuccess(req, "updateok", null);
 	}
 
 	public String delete(HkRequest req, HkResponse resp) throws Exception {
