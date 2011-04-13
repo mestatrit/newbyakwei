@@ -32,4 +32,9 @@ public class CategoryDaoImpl extends BaseDao<Category> implements CategoryDao {
 	public List<Category> getListOrdered(int begin, int size) {
 		return this.getList(null, null, null, "order_flag desc", begin, size);
 	}
+
+	@Override
+	public void deleteAllData() {
+		this.delete(null, null, null);
+	}
 }

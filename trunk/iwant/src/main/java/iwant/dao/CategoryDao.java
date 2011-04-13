@@ -18,4 +18,6 @@ public interface CategoryDao extends IDao<Category> {
 	 * @return
 	 */
 	List<Category> getListOrdered(int begin, int size);
+
+	void deleteAllData();
 }

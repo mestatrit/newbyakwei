@@ -50,4 +50,9 @@ public class CategorySvrImpl implements CategorySvr {
 		this.categoryDao.update(category);
 		return true;
 	}
+
+	@Override
+	public void clearAllData() {
+		this.categoryDao.deleteAllData();
+	}
 }
