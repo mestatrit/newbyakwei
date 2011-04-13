@@ -277,6 +277,9 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 	}
 
 	public void reSetAttribute(String name) {
+		if (this.getAttribute(name) != null) {
+			return;
+		}
 		String o = this.getString(name);
 		if (o != null) {
 			getHttpServletRequest().setAttribute(name, o);
@@ -303,16 +306,16 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 	}
 
 	public void setBackString(String s) {
-		this.setAttribute("backString", s);
+		this.setAttribute(HkUtil.backString_key, s);
 	}
 
 	public void reSetBackString() {
-		this.reSetAttribute("backString");
+		this.reSetAttribute(HkUtil.backString_key);
 	}
 
 	public String getBackString() {
 		String s = (String) this.getHttpServletRequest().getAttribute(
-				"backString");
+				HkUtil.backString_key);
 		if (s == null) {
 			return "";
 		}
@@ -325,6 +328,10 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 	}
 
 	public void reSetReturnUrl() {
+		if (this.getAttribute(HkUtil.DENC_RETURN_URL) != null
+				&& this.getAttribute(HkUtil.DENC_RETURN_URL) != null) {
+			return;
+		}
 		String s = this.getReturnUrl();
 		this.setReturnUrl(s);
 	}
