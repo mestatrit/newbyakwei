@@ -4,7 +4,7 @@
 <c:set var="html_head_title" scope="request">PPT管理</c:set>
 <c:set scope="request" var="mgr_body_content">
 <div class="mod">
-	<div class="mod_title">PPT管理</div>
+	<div class="mod_title"> <hk:value value="${project.name}"/> - PPT管理</div>
 	<div class="mod_content">
 		<div>
 		<input type="button" class="btn" value="创建PPT" onclick="tocreate()"/>
@@ -12,7 +12,7 @@
 		<div style="padding-left: 50">
 		<form method="get" action="${appctx_path}/mgr/ppt.do">
 			<input type="hidden" name="projectid" value="${projectid}"/>
-			<input type="text" class="text" name="name" value="<hk:value value="${pptSearchCdn.title}" onerow="true"/>"/>
+			<input type="text" class="text" name="name" value="<hk:value value="${pptSearchCdn.name}" onerow="true"/>"/>
 			<input type="button" value="模糊搜索" class="btn"/>
 		</form>
 		</div>
@@ -24,7 +24,7 @@
 			<c:forEach var="ppt" items="${list }" varStatus="idx">
 			<li>
 				<div class="f_l" style="width: 150px;margin-right: 20px">
-					<a href="javascript:view(${ppt.pptid})"><hk:value value="${ppt.title }" onerow="true"/></a>
+					<a href="javascript:view(${ppt.pptid})"><hk:value value="${ppt.name }" onerow="true"/></a>
 				</div>
 				<div class="f_l">
 					<a href="javascript:toupdate(${ppt.pptid })" class="split-r" id="op_update_${ppt.pptid }">修改</a>
@@ -38,7 +38,7 @@
 			</c:if>
 		</ul>
 		<div>
-			<c:set var="page_url" scope="request">${appctx_path }/mgr/project.do?projectid=${projectid }&amp;name=${pptSearchCdn.encTitle }</c:set>
+			<c:set var="page_url" scope="request">${appctx_path }/mgr/ppt.do?projectid=${projectid }&amp;name=${pptSearchCdn.encName }</c:set>
 			<jsp:include page="../../inc/pagesupport_inc.jsp"></jsp:include>
 		</div>
 	</div>
@@ -52,7 +52,7 @@ $(document).ready(function(){
 	});
 });
 function tocreate(){
-	tourl('${appctx_path}/mgr/ppt_create.do');
+	tourl('${appctx_path}/mgr/ppt_create.do?projectid=${projectid}');
 }
 function toupdate(pptid){
 	tourl('${appctx_path}/mgr/ppt_update.do?pptid='+pptid+"&back_url="+encodeLocalURL());

@@ -6,11 +6,11 @@
 <c:set scope="request" var="mgr_body_content">
 <div class="mod">
 	<div class="mod_title">
-		修改项目
+		<hk:value value="${ppt.name}"/> - <hk:value value="${project.name}"/> - 修改PPT
 	</div>
 	<div class="mod_content">
 		<div>
-			<c:set var="form_action" scope="request">${appctx_path}/mgr/project_update.do</c:set>
+			<c:set var="form_action" scope="request">${appctx_path}/mgr/ppt_update.do</c:set>
 			<jsp:include page="form.jsp"></jsp:include>
 		</div>
 	</div>

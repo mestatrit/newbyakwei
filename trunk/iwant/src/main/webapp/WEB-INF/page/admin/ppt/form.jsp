@@ -3,35 +3,13 @@
 %>
 <form id="frm" method="post" onsubmit="subfrm(this.id)" target="hideframe" action="${form_action }">
 <hk:hide name="ch" value="1"/>
-<hk:hide name="catid" value="${cat.catid }"/>
 <hk:hide name="projectid" value="${project.projectid }"/>
 <table class="formt" cellpadding="0" cellspacing="0">
 	<tr>
 		<td width="90" align="right">名称</td>
 		<td>
-			<input maxlength="20" name="name" value="<hk:value value="${project.name }" onerow="true"/>" class="text"/>
+			<input maxlength="20" name="name" value="<hk:value value="${ppt.name }" onerow="true"/>" class="text"/>
 			<div class="infowarn" id="err_name"></div>
-		</td>
-	</tr>
-	<tr>
-		<td width="90" align="right">电话</td>
-		<td>
-			<input maxlength="30" name="tel" value="<hk:value value="${project.tel }" onerow="true"/>" class="text"/>
-			<div class="infowarn" id="err_tel"></div>
-		</td>
-	</tr>
-	<tr>
-		<td width="90" align="right">地址</td>
-		<td>
-			<input maxlength="100" name="addr" value="<hk:value value="${project.addr }" onerow="true"/>" class="text"/>
-			<div class="infowarn" id="err_addr"></div>
-		</td>
-	</tr>
-	<tr>
-		<td width="90" align="right">描述</td>
-		<td>
-			<textarea name="descr" style="width: 270px;height: 80px;"><hk:value value="${project.descr}" textarea="true"/></textarea>
-			<div class="infowarn" id="err_descr"></div>
 		</td>
 	</tr>
 	<tr>
@@ -44,11 +22,7 @@
 </table>
 </form>
 <script type="text/javascript">
-var err_code_<%=Err.PROJECT_NAME_ERR %>={objid:"err_name"};
-var err_code_<%=Err.PROJECT_ADDR_ERR%>={objid:"err_addr"};
-var err_code_<%=Err.PROJECT_TEL_ERR%>={objid:"err_tel"};
-var err_code_<%=Err.PROJECT_DESCR_ERR%>={objid:"err_descr"};
-var err_code_<%=Err.PROJECT_CATID_ERR%>={objid:"err_catid"};
+var err_code_<%=Err.PPT_NAME_ERR %>={objid:"err_name"};
 
 var glassid=null;
 var submited=false;
@@ -59,11 +33,6 @@ function subfrm(frmid){
 	glassid=addGlass(frmid,false);
 	submited=true;
 	setHtml('err_name','');
-	setHtml('err_addr','');
-	setHtml('err_tel','');
-	setHtml('err_descr','');
-	setHtml('err_catid','');
-	setHtml('err_f','');
 	return true;
 }
 
@@ -86,12 +55,12 @@ function updateerr(err,err_msg,v){
 }
 
 function createok(err,err_msg,v){
-	tourl('${appctx_path}/mgr/project.do');
+	tourl('${appctx_path}/mgr/ppt_view.do?pptid='+v);
 }
 
 function updateok(err,err_msg,v){
 	if(back_url.length==0){
-		tourl('${appctx_path}/mgr/project.do');
+		tourl('${appctx_path}/mgr/ppt_view.do?pptid=${ppt.pptid}');
 		return;
 	}
 	tourl(decodeURIComponent(back_url)); 
