@@ -32,6 +32,9 @@
 		<hk:value value="${ppt.name}"/>的Slide
 	</div>
 	<div class="mod_content">
+		<div>
+			<input type="button" class="btn" onclick="tocreateslide()"/>
+		</div>
 		<ul class="rowlist">
 			<c:forEach var="slide" items="${list }" varStatus="idx">
 			<li>
@@ -59,6 +62,9 @@ $(document).ready(function(){
 		$(this).removeClass('enter');
 	});
 });
+function tocreateslide(){
+	tourl('${appctx_path}/mgr/slide_create.do?pptid=${pptid}');
+}
 function toupdate(projectid){
 	tourl('${appctx_path}/mgr/ppt_update.do?pptid=${pptid}&back_url='+encodeLocalURL());
 }
