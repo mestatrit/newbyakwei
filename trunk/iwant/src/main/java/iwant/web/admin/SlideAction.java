@@ -4,7 +4,6 @@ import iwant.bean.Slide;
 import iwant.bean.validate.SlideValidator;
 import iwant.svr.OptStatus;
 import iwant.svr.PptSvr;
-import iwant.svr.ProjectSvr;
 import iwant.web.BaseAction;
 import iwant.web.admin.util.Err;
 
@@ -19,9 +18,6 @@ import com.hk.frame.web.http.HkResponse;
 
 @Component("/mgr/slide")
 public class SlideAction extends BaseAction {
-
-	@Autowired
-	private ProjectSvr projectSvr;
 
 	@Autowired
 	private PptSvr pptSvr;
