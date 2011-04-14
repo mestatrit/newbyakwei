@@ -57,8 +57,8 @@ function tocreate(){
 function toupdate(pptid){
 	tourl('${appctx_path}/mgr/ppt_update.do?pptid='+pptid+"&back_url="+encodeLocalURL());
 }
-function view(projectid){
-	tourl('${appctx_path}/mgr/project_view.do?pptid='+pptid+"&back_url="+encodeLocalURL());
+function view(pptid){
+	tourl('${appctx_path}/mgr/ppt_view.do?pptid='+pptid+"&back_url="+encodeLocalURL());
 }
 function opdel(pptid){
 	if(window.confirm('确实要删除？')){
