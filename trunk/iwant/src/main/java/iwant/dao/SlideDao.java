@@ -14,5 +14,5 @@ public interface SlideDao extends IDao<Slide> {
 
 	int countByPptid(long pptid);
 
-	Slide getByPptidAndSlideid(long pptid, long slideid);
+	Slide getBySlideid(long slideid);
 }

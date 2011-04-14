@@ -27,5 +27,17 @@ public interface Err {
 
 	String PPT_NAME_ERR = "9";
 
+	String SLIDE_TITLE_ERR = "10";
+
+	String SLIDE_SUBTITLE_ERR = "11";
+
+	String SLIDE_DESCR_ERR = "12";
+
+	String SLIDE_IMG_FORMAT_ERR = "13";
+
+	String SLIDE_IMG_SIZE_ERR = "14";
+
+	String SLIDE_PPTID_ERR = "15";
+
 	String PROCESS_IMAGEFILE_ERR = "pro1";
 }
