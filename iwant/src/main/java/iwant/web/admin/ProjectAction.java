@@ -7,6 +7,8 @@ import iwant.dao.ProjectSearchCdn;
 import iwant.svr.CategorySvr;
 import iwant.svr.ProjectSvr;
 import iwant.util.ActiveTypeCreater;
+import iwant.util.BackUrl;
+import iwant.util.BackUrlUtil;
 import iwant.web.BaseAction;
 
 import java.util.Date;
@@ -90,6 +92,9 @@ public class ProjectAction extends BaseAction {
 		req.setAttribute("project", project);
 		if (this.isForwardPage(req)) {
 			req.setAttribute("op_project", true);
+			BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+			backUrl.push(req.getString("back_url"));
+			req.setAttribute("backUrl", backUrl);
 			return this.getAdminPath("project/update.jsp");
 		}
 		project.setName(req.getString("name"));
@@ -106,6 +111,28 @@ public class ProjectAction extends BaseAction {
 		this.projectSvr.updateProject(project);
 		this.opUpdateSuccess(req);
 		return this.onSuccess(req, "updateok", null);
+	}
+
+	public String view(HkRequest req, HkResponse resp) throws Exception {
+		Project project = this.projectSvr.getProject(req
+				.getLongAndSetAttr("projectid"));
+		if (project == null) {
+			return null;
+		}
+		req.setAttribute("project", project);
+		BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+		backUrl.push(req.getString("back_url"));
+		req.setAttribute("backUrl", backUrl);
+		return this.getAdminPath("project/view.jsp");
+	}
+
+	public String back(HkRequest req, HkResponse resp) throws Exception {
+		BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+		String url = backUrl.getLastUrl();
+		if (DataUtil.isNotEmpty(url)) {
+			return "r:" + url;
+		}
+		return "r:/mgr/project.do";
 	}
 
 	public String delete(HkRequest req, HkResponse resp) throws Exception {

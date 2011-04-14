@@ -37,28 +37,47 @@ public class BackUrl {
 	}
 
 	public void push(String url) {
+		if (DataUtil.isEmpty(url)) {
+			return;
+		}
+		if (list.contains(url)) {
+			return;
+		}
 		list.add(0, url);
 		if (list.size() > this.size) {
 			list.remove(this.size);
 		}
+		this.save();
 	}
 
-	public String pop() {
+	public String getLastUrl() {
 		if (list.size() > 0) {
-			return list.remove(0);
+			String s = list.remove(0);
+			this.save();
+			return s;
 		}
 		return null;
 	}
 
-	public void save() {
-		StringBuilder sb = new StringBuilder();
-		for (String e : this.list) {
-			sb.append(DataUtil.urlEncoder(e)).append(":");
+	public String getLastEncUrl() {
+		return DataUtil.urlEncoder(getLastUrl());
+	}
+
+	private void save() {
+		if (this.list.isEmpty()) {
+			cookie.setMaxAge(0);
+			cookie.setValue("");
 		}
-		if (sb.length() > 0) {
-			sb.deleteCharAt(sb.length() - 1);
+		else {
+			StringBuilder sb = new StringBuilder();
+			for (String e : this.list) {
+				sb.append(DataUtil.urlEncoder(e)).append(":");
+			}
+			if (sb.length() > 0) {
+				sb.deleteCharAt(sb.length() - 1);
+			}
+			cookie.setValue(desUtil.encrypt(sb.toString()));
 		}
-		cookie.setValue(desUtil.encrypt(sb.toString()));
 		this.response.addCookie(cookie);
 	}
 
@@ -79,7 +98,7 @@ public class BackUrl {
 		String[] arr = desUtil.decrypt(value).split(":");
 		if (arr != null) {
 			for (String s : arr) {
-				this.list.add(s);
+				this.list.add(DataUtil.urlDecoder(s));
 			}
 		}
 	}
