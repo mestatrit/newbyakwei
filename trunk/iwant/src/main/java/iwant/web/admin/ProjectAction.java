@@ -97,10 +97,10 @@ public class ProjectAction extends BaseAction {
 			req.setAttribute("backUrl", backUrl);
 			return this.getAdminPath("project/update.jsp");
 		}
-		project.setName(req.getString("name"));
-		project.setAddr(req.getString("addr"));
+		project.setName(req.getString("name", ""));
+		project.setAddr(req.getString("addr", ""));
 		project.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
-		project.setDescr(req.getString("descr"));
+		project.setDescr(req.getString("descr", ""));
 		project.setMarkerx(req.getDouble("markerx"));
 		project.setMarkery(req.getDouble("markery"));
 		project.setTel(req.getString("tel"));
@@ -111,19 +111,6 @@ public class ProjectAction extends BaseAction {
 		this.projectSvr.updateProject(project);
 		this.opUpdateSuccess(req);
 		return this.onSuccess(req, "updateok", null);
-	}
-
-	public String view(HkRequest req, HkResponse resp) throws Exception {
-		Project project = this.projectSvr.getProject(req
-				.getLongAndSetAttr("projectid"));
-		if (project == null) {
-			return null;
-		}
-		req.setAttribute("project", project);
-		BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
-		backUrl.push(req.getString("back_url"));
-		req.setAttribute("backUrl", backUrl);
-		return this.getAdminPath("project/view.jsp");
 	}
 
 	public String back(HkRequest req, HkResponse resp) throws Exception {
@@ -139,5 +126,18 @@ public class ProjectAction extends BaseAction {
 		this.projectSvr.deleteProject(req.getLong("projectid"));
 		this.opDeleteSuccess(req);
 		return null;
+	}
+
+	public String view(HkRequest req, HkResponse resp) throws Exception {
+		Project project = this.projectSvr.getProject(req
+				.getLongAndSetAttr("projectid"));
+		if (project == null) {
+			return null;
+		}
+		req.setAttribute("project", project);
+		BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+		backUrl.push(req.getString("back_url"));
+		req.setAttribute("backUrl", backUrl);
+		return this.getAdminPath("project/view.jsp");
 	}
 }
