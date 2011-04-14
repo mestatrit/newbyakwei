@@ -40,6 +40,7 @@ public class PptAction extends BaseAction {
 		if (project == null) {
 			return null;
 		}
+		req.setAttribute("op_project", true);
 		req.setAttribute("project", project);
 		SimplePage page = req.getSimplePage(20);
 		PptSearchCdn pptSearchCdn = new PptSearchCdn();
@@ -55,6 +56,7 @@ public class PptAction extends BaseAction {
 		long projectid = req.getLongAndSetAttr("projectid");
 		Project project = this.projectSvr.getProject(projectid);
 		if (this.isForwardPage(req)) {
+			req.setAttribute("op_project", true);
 			req.setAttribute("project", project);
 			return this.getAdminPath("ppt/create.jsp");
 		}
@@ -99,9 +101,13 @@ public class PptAction extends BaseAction {
 	public String update(HkRequest req, HkResponse resp) throws Exception {
 		Ppt ppt = this.pptSvr.getPpt(req.getLongAndSetAttr("pptid"));
 		if (this.isForwardPage(req)) {
+			req.setAttribute("op_project", true);
 			Project project = this.projectSvr.getProject(ppt.getProjectid());
 			req.setAttribute("project", project);
 			req.setAttribute("ppt", ppt);
+			BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+			backUrl.push(req.getString("back_url"));
+			req.setAttribute("backUrl", backUrl);
 			return this.getAdminPath("ppt/update.jsp");
 		}
 		ppt.setName(req.getStringRow("name"));
@@ -121,6 +127,7 @@ public class PptAction extends BaseAction {
 	}
 
 	public String view(HkRequest req, HkResponse resp) throws Exception {
+		req.setAttribute("op_project", true);
 		long pptid = req.getLongAndSetAttr("pptid");
 		Ppt ppt = this.pptSvr.getPpt(pptid);
 		if (ppt == null) {
@@ -129,6 +136,9 @@ public class PptAction extends BaseAction {
 		req.setAttribute("ppt", ppt);
 		List<Slide> list = this.pptSvr.getSlideListByPptidOrdered(pptid);
 		req.setAttribute("list", list);
+		BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+		backUrl.push(req.getString("back_url"));
+		req.setAttribute("backUrl", backUrl);
 		return this.getAdminPath("ppt/view.jsp");
 	}
 
