@@ -1,6 +1,5 @@
 package iwant.bean.validate;
 
-import iwant.bean.Ppt;
 import iwant.bean.Slide;
 import iwant.svr.PptSvr;
 import iwant.web.admin.util.Err;
