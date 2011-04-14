@@ -72,7 +72,11 @@ public class SlideAction extends BaseAction {
 	}
 
 	public String delete(HkRequest req, HkResponse resp) throws Exception {
-		this.pptSvr.deletePpt(req.getLong("pptid"));
+		Slide slide = this.pptSvr.getSlide(req.getLong("slideid"));
+		if (slide == null) {
+			return null;
+		}
+		this.pptSvr.deleteSlide(slide);
 		this.opDeleteSuccess(req);
 		return null;
 	}
