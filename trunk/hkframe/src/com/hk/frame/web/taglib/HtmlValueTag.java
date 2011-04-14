@@ -14,6 +14,12 @@ public class HtmlValueTag extends BaseBodyTag {
 
 	private boolean onerow;
 
+	private boolean textarea;
+
+	public void setTextarea(boolean textarea) {
+		this.textarea = textarea;
+	}
+
 	public void setOnerow(boolean onerow) {
 		this.onerow = onerow;
 	}
@@ -34,6 +40,11 @@ public class HtmlValueTag extends BaseBodyTag {
 		else {
 			tmp = this.value;
 		}
-		writer.append(DataUtil.toHtml(tmp));
+		if (this.textarea) {
+			tmp = DataUtil.toHtmlSimple(tmp).replaceAll("<br/>", "\n");
+			writer.append(tmp);
+			return;
+		}
+		writer.append(DataUtil.toHtmlSimple(tmp));
 	}
 }
