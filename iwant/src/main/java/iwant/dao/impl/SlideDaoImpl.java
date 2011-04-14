@@ -32,8 +32,7 @@ public class SlideDaoImpl extends BaseDao<Slide> implements SlideDao {
 	}
 
 	@Override
-	public Slide getByPptidAndSlideid(long pptid, long slideid) {
-		return this.getObject(null, "pptid=? and slideid=?", new Object[] {
-				pptid, slideid });
+	public Slide getBySlideid(long slideid) {
+		return this.getById(null, slideid);
 	}
 }

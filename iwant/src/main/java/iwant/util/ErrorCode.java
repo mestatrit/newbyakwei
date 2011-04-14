@@ -9,8 +9,4 @@ public interface ErrorCode {
 	int err_createproject = 2;
 
 	int err_updateproject = 3;
-
-	int err_createslide = 4;
-
-	int err_updateslide = 5;
 }

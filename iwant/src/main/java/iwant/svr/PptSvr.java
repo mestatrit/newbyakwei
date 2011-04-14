@@ -26,7 +26,7 @@ public interface PptSvr {
 	 * @param slide
 	 * @param imgFile
 	 * @return OptStatus中error_code的值为 {@link ErrorCode#success},
-	 *         {@link ErrorCode#err_createslide}, {@link ErrorCode#err_image}
+	 *         {@link ErrorCode#err_image}
 	 */
 	OptStatus createSlide(Slide slide, File imgFile);
 
@@ -36,7 +36,6 @@ public interface PptSvr {
 	 * @param slide
 	 * @param imgFile
 	 * @return OptStatus中error_code的值为 {@link ErrorCode#success},
-	 *         {@link ErrorCode#err_updatemainslide},
 	 *         {@link ErrorCode#err_image}
 	 */
 	OptStatus updateSlide(Slide slide, File imgFile);
@@ -120,5 +119,5 @@ public interface PptSvr {
 
 	Map<Long, Ppt> getPptMapInId(List<Long> idList);
 
-	Slide getSlideByPptidAndSlideid(long pptid, long slideid);
+	Slide getSlide(long slideid);
 }

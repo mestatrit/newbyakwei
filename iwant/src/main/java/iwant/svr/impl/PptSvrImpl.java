@@ -143,6 +143,8 @@ public class PptSvrImpl implements PptSvr {
 		}
 		int count = this.slideDao.countByPptid(slide.getPptid());
 		slide.setOrder_flag(count + 1);
+		Ppt ppt = this.getPpt(slide.getPptid());
+		slide.setProjectid(ppt.getPptid());
 		long slideid = NumberUtil.getLong(this.slideDao.save(slide));
 		slide.setSlideid(slideid);
 		optStatus.setSuccess(true);
@@ -169,8 +171,8 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public Slide getSlideByPptidAndSlideid(long pptid, long slideid) {
-		return this.slideDao.getByPptidAndSlideid(pptid, slideid);
+	public Slide getSlide(long slideid) {
+		return this.slideDao.getBySlideid(slideid);
 	}
 
 	/**

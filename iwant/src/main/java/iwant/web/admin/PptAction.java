@@ -89,7 +89,6 @@ public class PptAction extends BaseAction {
 			return this.getAdminPath("ppt/update.jsp");
 		}
 		ppt.setName(req.getStringRow("name"));
-		ppt.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
 		List<String> errlist = PptValidator.validate(ppt);
 		if (!errlist.isEmpty()) {
 			return this.onErrorList(req, errlist, "updateerr");
