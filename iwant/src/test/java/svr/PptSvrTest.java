@@ -132,8 +132,7 @@ public class PptSvrTest {
 
 	@Test
 	public void updateSlide() {
-		Slide slide = this.pptSvr.getSlideByPptidAndSlideid(this.slide0
-				.getPptid(), this.slide0.getSlideid());
+		Slide slide = this.pptSvr.getSlide(this.slide0.getSlideid());
 		Assert.assertNotNull(slide);
 		slide.setDescr("slide desc dldld");
 		slide.setOrder_flag(99);
@@ -145,8 +144,7 @@ public class PptSvrTest {
 		OptStatus optStatus = this.pptSvr.updateSlide(slide, new File(
 				"d:/test/test7.jpg"));
 		Assert.assertEquals(true, optStatus.isSuccess());
-		Slide dbSlide = this.pptSvr.getSlideByPptidAndSlideid(this.slide0
-				.getPptid(), this.slide0.getSlideid());
+		Slide dbSlide = this.pptSvr.getSlide(this.slide0.getSlideid());
 		this.assertSlideData(slide, dbSlide);
 	}
 
