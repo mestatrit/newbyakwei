@@ -6,7 +6,7 @@ public class PptSearchCdn {
 
 	private int projectid;
 
-	private String title;
+	private String name;
 
 	public void setProjectid(int projectid) {
 		this.projectid = projectid;
@@ -16,23 +16,23 @@ public class PptSearchCdn {
 		return projectid;
 	}
 
-	public String getTitle() {
-		return title;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public String getName() {
+		return name;
 	}
 
-	private String encTitle;
+	private String encName;
 
-	public String getEncTitle() {
-		if (encTitle == null) {
-			this.encTitle = DataUtil.urlEncoder(this.title);
-			if (this.encTitle == null) {
-				this.encTitle = "";
+	public String getEncName() {
+		if (encName == null) {
+			this.encName = DataUtil.urlEncoder(this.name);
+			if (this.encName == null) {
+				this.encName = "";
 			}
 		}
-		return encTitle;
+		return encName;
 	}
 }
