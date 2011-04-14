@@ -9,6 +9,8 @@ import iwant.bean.validate.PptValidator;
 import iwant.dao.PptSearchCdn;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
+import iwant.util.BackUrl;
+import iwant.util.BackUrlUtil;
 import iwant.web.BaseAction;
 
 import java.util.Date;
@@ -128,5 +130,14 @@ public class PptAction extends BaseAction {
 		List<Slide> list = this.pptSvr.getSlideListByPptidOrdered(pptid);
 		req.setAttribute("list", list);
 		return this.getAdminPath("ppt/view.jsp");
+	}
+
+	public String back(HkRequest req, HkResponse resp) throws Exception {
+		BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+		String url = backUrl.getLastUrl();
+		if (DataUtil.isNotEmpty(url)) {
+			return "r:" + url;
+		}
+		return "r:/mgr/ppt.do?projectid=" + req.getLong("projectid");
 	}
 }
