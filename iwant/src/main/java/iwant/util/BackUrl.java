@@ -41,7 +41,7 @@ public class BackUrl {
 			return;
 		}
 		if (list.contains(url)) {
-			return;
+			list.remove(url);
 		}
 		list.add(0, url);
 		if (list.size() > this.size) {
