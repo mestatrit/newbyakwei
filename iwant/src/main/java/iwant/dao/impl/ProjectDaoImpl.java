@@ -41,7 +41,7 @@ public class ProjectDaoImpl extends BaseDao<Project> implements ProjectDao {
 			}
 			if (DataUtil.isNotEmpty(projectSearchCdn.getName())) {
 				sb.append(" and name like ?");
-				objlist.add(projectSearchCdn.getName());
+				objlist.add("%" + projectSearchCdn.getName() + "%");
 			}
 			if (projectSearchCdn.getActiveType() != null) {
 				sb.append(" and active_flag=?");
