@@ -25,5 +25,7 @@ public interface Err {
 
 	String PROJECT_CATID_ERR = "8";
 
+	String PPT_NAME_ERR = "9";
+
 	String PROCESS_IMAGEFILE_ERR = "pro1";
 }
