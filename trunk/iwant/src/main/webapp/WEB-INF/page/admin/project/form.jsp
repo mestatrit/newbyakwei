@@ -4,6 +4,7 @@
 <form id="frm" method="post" onsubmit="subfrm(this.id)" target="hideframe" action="${form_action }">
 <hk:hide name="ch" value="1"/>
 <hk:hide name="catid" value="${cat.catid }"/>
+<hk:hide name="projectid" value="${project.projectid }"/>
 <table class="formt" cellpadding="0" cellspacing="0">
 	<tr>
 		<td width="90" align="right">名称</td>
@@ -29,7 +30,7 @@
 	<tr>
 		<td width="90" align="right">描述</td>
 		<td>
-			<textarea name="descr" style="width: 270px;height: 80px;"><hk:value value="${project.descr}"/></textarea>
+			<textarea name="descr" style="width: 270px;height: 80px;"><hk:value value="${project.descr}" textarea="true"/></textarea>
 			<div class="infowarn" id="err_descr"></div>
 		</td>
 	</tr>
@@ -37,7 +38,7 @@
 		<td width="90" align="right"></td>
 		<td>
 			<input type="submit" value="提交" class="btn split-r"/>
-			<a href="${appctx_path }/mgr/project.do">返回</a>
+			<a href="${appctx_path }/mgr/project_back.do">返回</a>
 		</td>
 	</tr>
 </table>
@@ -89,6 +90,11 @@ function createok(err,err_msg,v){
 }
 
 function updateok(err,err_msg,v){
-	tourl('${appctx_path}/mgr/project.do');
+	if(back_url.length==0){
+		tourl('${appctx_path}/mgr/project.do');
+		return;
+	}
+	tourl(decodeURIComponent(back_url)); 
 }
+var back_url="${backUrl.lastEncUrl}";
 </script>

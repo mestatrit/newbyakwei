@@ -55,7 +55,10 @@ function tocreate(){
 	tourl('${appctx_path}/mgr/project_create.do');
 }
 function toupdate(projectid){
-	tourl('${appctx_path}/mgr/project_update.do?projectid='+projectid);
+	tourl('${appctx_path}/mgr/project_update.do?projectid='+projectid+"&back_url="+encodeLocalURL());
+}
+function view(projectid){
+	tourl('${appctx_path}/mgr/project_view.do?projectid='+projectid+"&back_url="+encodeLocalURL());
 }
 function opdel(projectid){
 	if(window.confirm('确实要删除？')){
