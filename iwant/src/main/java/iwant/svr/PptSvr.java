@@ -4,6 +4,7 @@ import iwant.bean.MainPpt;
 import iwant.bean.Ppt;
 import iwant.bean.Slide;
 import iwant.bean.enumtype.ActiveType;
+import iwant.dao.PptSearchCdn;
 import iwant.util.ErrorCode;
 
 import java.io.File;
@@ -95,6 +96,9 @@ public interface PptSvr {
 	Ppt getPpt(long pptid);
 
 	List<Ppt> getPptListByProjectid(long projectid, int begin, int size);
+
+	List<Ppt> getPptListByCdn(long projectid, PptSearchCdn pptSearchCdn,
+			int begin, int size);
 
 	List<Slide> getSlideListByPptid(long pptid);
 
