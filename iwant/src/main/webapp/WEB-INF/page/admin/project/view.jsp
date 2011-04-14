@@ -37,6 +37,7 @@
 				<tr>
 					<td width="90" align="right"></td>
 					<td>
+						<a href="javascript:viewppt()" class="split-r">查看PPT</a>
 						<a href="javascript:toupdate()" class="split-r">修改</a>
 						<a href="${appctx_path }/mgr/project_back.do">返回</a>
 					</td>
@@ -48,6 +49,9 @@
 <script type="text/javascript">
 function toupdate(projectid){
 	tourl('${appctx_path}/mgr/project_update.do?projectid=${project.projectid}&back_url='+encodeLocalURL());
+}
+function viewppt(projectid){
+	tourl('${appctx_path}/mgr/ppt.do?projectid=${project.projectid}');
 }
 </script>
 </c:set><jsp:include page="../inc/mgrframe.jsp"></jsp:include>

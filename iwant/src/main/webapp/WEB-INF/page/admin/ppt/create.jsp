@@ -4,11 +4,11 @@
 %><c:set scope="request" var="mgr_body_content">
 <div class="mod">
 	<div class="mod_title">
-		创建项目
+		 <hk:value value="${project.name}"/> - 创建PPT
 	</div>
 	<div class="mod_content">
 		<div>
-			<c:set var="form_action" scope="request">${appctx_path}/mgr/project_create.do</c:set>
+			<c:set var="form_action" scope="request">${appctx_path}/mgr/ppt_create.do</c:set>
 			<jsp:include page="form.jsp"></jsp:include>
 		</div>
 	</div>
