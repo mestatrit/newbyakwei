@@ -38,7 +38,7 @@ public class CatAction extends BaseAction {
 			return this.getAdminPath("cat/create.jsp");
 		}
 		Category category = new Category();
-		category.setName(req.getString("name"));
+		category.setName(req.getStringRow("name"));
 		List<String> errlist = CategoryValidate.validate(category);
 		if (errlist.size() > 0) {
 			return this.onErrorList(req, errlist, "createerr");
@@ -62,7 +62,7 @@ public class CatAction extends BaseAction {
 			req.setAttribute("op_cat", true);
 			return this.getAdminPath("cat/update.jsp");
 		}
-		category.setName(req.getString("name"));
+		category.setName(req.getStringRow("name"));
 		List<String> errlist = CategoryValidate.validate(category);
 		if (errlist.size() > 0) {
 			return this.onErrorList(req, errlist, "createerr");

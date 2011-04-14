@@ -51,11 +51,12 @@ public class PptAction extends BaseAction {
 		if (project == null) {
 			return null;
 		}
+		long pptid = 0;
 		if (list.size() == 0) {
 			MainPpt mainPpt = new MainPpt();
 			mainPpt.setCatid(project.getCatid());
 			mainPpt.setActive_flag(ActiveType.ACTIVE.getValue());
-			mainPpt.setName(req.getString("name"));
+			mainPpt.setName(req.getStringRow("name"));
 			mainPpt.setProjectid(projectid);
 			mainPpt.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
 			List<String> errlist = PptValidator.validateMainPpt(mainPpt);
@@ -63,10 +64,11 @@ public class PptAction extends BaseAction {
 				return this.onErrorList(req, errlist, "createerr");
 			}
 			this.pptSvr.createMainPpt(mainPpt);
+			pptid = mainPpt.getPptid();
 		}
 		else {
 			Ppt ppt = new Ppt();
-			ppt.setName(req.getString("name"));
+			ppt.setName(req.getStringRow("name"));
 			ppt.setProjectid(projectid);
 			ppt.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
 			List<String> errlist = PptValidator.validate(ppt);
@@ -74,9 +76,10 @@ public class PptAction extends BaseAction {
 				return this.onErrorList(req, errlist, "createerr");
 			}
 			this.pptSvr.createPpt(ppt);
+			pptid = ppt.getPptid();
 		}
 		this.opCreateSuccess(req);
-		return this.onSuccess(req, "createok", null);
+		return this.onSuccess(req, "createok", pptid);
 	}
 
 	public String update(HkRequest req, HkResponse resp) throws Exception {
@@ -85,7 +88,7 @@ public class PptAction extends BaseAction {
 			req.setAttribute("ppt", ppt);
 			return this.getAdminPath("ppt/update.jsp");
 		}
-		ppt.setName(req.getString("name"));
+		ppt.setName(req.getStringRow("name"));
 		ppt.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
 		List<String> errlist = PptValidator.validate(ppt);
 		if (!errlist.isEmpty()) {

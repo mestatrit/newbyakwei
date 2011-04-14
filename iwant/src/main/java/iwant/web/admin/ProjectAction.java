@@ -45,7 +45,7 @@ public class ProjectAction extends BaseAction {
 		SimplePage page = req.getSimplePage(1);
 		ProjectSearchCdn projectSearchCdn = new ProjectSearchCdn();
 		projectSearchCdn.setCatid(category.getCatid());
-		projectSearchCdn.setName(req.getString("name"));
+		projectSearchCdn.setName(req.getStringRow("name"));
 		projectSearchCdn.setActiveType(ActiveTypeCreater.getActiveType(req
 				.getIntAndSetAttr("active_flag")));
 		List<Project> list = this.projectSvr.getProjectListByCdn(
@@ -66,8 +66,8 @@ public class ProjectAction extends BaseAction {
 			return this.getAdminPath("project/create.jsp");
 		}
 		Project project = new Project();
-		project.setName(req.getString("name"));
-		project.setAddr(req.getString("addr", ""));
+		project.setName(req.getStringRow("name"));
+		project.setAddr(req.getStringRow("addr", ""));
 		project.setCatid(req.getInt("catid"));
 		project.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
 		project.setDescr(req.getString("descr", ""));
@@ -97,8 +97,8 @@ public class ProjectAction extends BaseAction {
 			req.setAttribute("backUrl", backUrl);
 			return this.getAdminPath("project/update.jsp");
 		}
-		project.setName(req.getString("name", ""));
-		project.setAddr(req.getString("addr", ""));
+		project.setName(req.getStringRow("name"));
+		project.setAddr(req.getStringRow("addr", ""));
 		project.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
 		project.setDescr(req.getString("descr", ""));
 		project.setMarkerx(req.getDouble("markerx"));
