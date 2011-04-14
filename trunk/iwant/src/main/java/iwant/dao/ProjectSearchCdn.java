@@ -2,6 +2,8 @@ package iwant.dao;
 
 import iwant.bean.enumtype.ActiveType;
 
+import com.hk.frame.util.DataUtil;
+
 public class ProjectSearchCdn {
 
 	private String name;
@@ -32,5 +34,17 @@ public class ProjectSearchCdn {
 
 	public void setActiveType(ActiveType activeType) {
 		this.activeType = activeType;
+	}
+
+	private String encName;
+
+	public String getEncName() {
+		if (encName == null) {
+			this.encName = DataUtil.urlEncoder(this.name);
+			if (this.encName == null) {
+				this.encName = "";
+			}
+		}
+		return encName;
 	}
 }

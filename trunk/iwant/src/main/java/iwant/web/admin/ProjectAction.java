@@ -40,7 +40,7 @@ public class ProjectAction extends BaseAction {
 		List<Category> catlist = this.categorySvr.getCategoryListForAll();
 		req.setAttribute("catlist", catlist);
 		Category category = catlist.get(0);
-		SimplePage page = req.getSimplePage(20);
+		SimplePage page = req.getSimplePage(1);
 		ProjectSearchCdn projectSearchCdn = new ProjectSearchCdn();
 		projectSearchCdn.setCatid(category.getCatid());
 		projectSearchCdn.setName(req.getString("name"));
@@ -90,7 +90,7 @@ public class ProjectAction extends BaseAction {
 		req.setAttribute("project", project);
 		if (this.isForwardPage(req)) {
 			req.setAttribute("op_project", true);
-			return this.getAdminPath("project/create.jsp");
+			return this.getAdminPath("project/update.jsp");
 		}
 		project.setName(req.getString("name"));
 		project.setAddr(req.getString("addr"));
