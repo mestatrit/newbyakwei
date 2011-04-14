@@ -1,11 +1,20 @@
 <%@ page language="java" pageEncoding="UTF-8"%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"
 %><%@ taglib uri="/WEB-INF/waphk.tld" prefix="hk"
-%><c:set scope="request" var="mgr_body_content">
+%>
+<c:set var="html_head_title" scope="request">项目管理</c:set>
+<c:set scope="request" var="mgr_body_content">
 <div class="mod">
 	<div class="mod_title">项目管理</div>
 	<div class="mod_content">
 		<div>
 		<input type="button" class="btn" value="创建项目" onclick="tocreate()"/>
+		</div>
+		<div style="padding-left: 50">
+		<form method="get" action="${appctx_path}/mgr/project.do">
+			<input type="hidden" name="catid" value="${projectSearchCdn.catid}"/>
+			<input type="text" class="text" name="name" value="<hk:value value="${projectSearchCdn.name}" onerow="true"/>"/>
+			<input type="button" value="模糊搜索" class="btn"/>
+		</form>
 		</div>
 		<ul class="rowlist">
 			<li>
@@ -29,7 +38,7 @@
 			</c:if>
 		</ul>
 		<div>
-			<c:set var="page_url" scope="request">${appctx_path }/mgr/project?catid=${catid }&name=${enc_name }</c:set>
+			<c:set var="page_url" scope="request">${appctx_path }/mgr/project.do?catid=${catid }&amp;name=${projectSearchCdn.encName }</c:set>
 			<jsp:include page="../../inc/pagesupport_inc.jsp"></jsp:include>
 		</div>
 	</div>
@@ -45,15 +54,15 @@ $(document).ready(function(){
 function tocreate(){
 	tourl('${appctx_path}/mgr/project_create.do');
 }
-function toupdate(catid){
+function toupdate(projectid){
 	tourl('${appctx_path}/mgr/project_update.do?projectid='+projectid);
 }
-function opdel(cid){
+function opdel(projectid){
 	if(window.confirm('确实要删除？')){
-		var glassid_op=addGlass('op_delete_'+cid,false);
+		var glassid_op=addGlass('op_delete_'+projectid,false);
 		$.ajax({
 			type:"POST",
-			url:"${appctx_path}/mgr/project_delete.do?catid="+cid,
+			url:"${appctx_path}/mgr/project_delete.do?projectid="+projectid,
 			cache:false,
 	    	dataType:"html",
 			success:function(data){
