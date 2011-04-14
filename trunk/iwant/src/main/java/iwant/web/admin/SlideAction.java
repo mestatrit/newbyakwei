@@ -47,6 +47,7 @@ public class SlideAction extends BaseAction {
 		Slide slide = this.pptSvr.getSlide(req.getLong("slideid"));
 		if (this.isForwardPage(req)) {
 			req.setAttribute("slid", slide);
+			req.setAttribute("op_project", true);
 			return this.getAdminPath("slide/update.jsp");
 		}
 		slide.setTitle(req.getStringRow("title"));
