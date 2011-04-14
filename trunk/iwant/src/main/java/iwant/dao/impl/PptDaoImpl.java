@@ -48,9 +48,9 @@ public class PptDaoImpl extends BaseDao<Ppt> implements PptDao {
 		List<Object> objlist = new ArrayList<Object>();
 		StringBuilder sb = new StringBuilder("projectid=?");
 		objlist.add(projectid);
-		if (pptSearchCdn.getTitle() != null) {
+		if (pptSearchCdn.getName() != null) {
 			sb.append(" and title like ?");
-			objlist.add("%" + pptSearchCdn.getTitle() + "%");
+			objlist.add("%" + pptSearchCdn.getName() + "%");
 		}
 		return this
 				.getList(null, sb.toString(), objlist

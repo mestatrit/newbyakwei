@@ -100,7 +100,7 @@ public interface PptSvr {
 	List<Ppt> getPptListByCdn(long projectid, PptSearchCdn pptSearchCdn,
 			int begin, int size);
 
-	List<Slide> getSlideListByPptid(long pptid);
+	List<Slide> getSlideListByPptidOrdered(long pptid);
 
 	/**
 	 * 为了删除slide时使用，由于存在图片等文件数据，需要一个个删除

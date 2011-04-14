@@ -3,6 +3,7 @@ package iwant.web.admin;
 import iwant.bean.MainPpt;
 import iwant.bean.Ppt;
 import iwant.bean.Project;
+import iwant.bean.Slide;
 import iwant.bean.enumtype.ActiveType;
 import iwant.bean.validate.PptValidator;
 import iwant.dao.PptSearchCdn;
@@ -32,12 +33,17 @@ public class PptAction extends BaseAction {
 
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
+		Project project = this.projectSvr.getProject(req
+				.getLongAndSetAttr("projectid"));
+		if (project == null) {
+			return null;
+		}
+		req.setAttribute("project", project);
 		SimplePage page = req.getSimplePage(20);
 		PptSearchCdn pptSearchCdn = new PptSearchCdn();
-		pptSearchCdn.setTitle(req.getStringRow("title"));
-		List<Ppt> list = this.pptSvr.getPptListByCdn(req
-				.getLongAndSetAttr("projectid"), pptSearchCdn, page.getBegin(),
-				page.getSize());
+		pptSearchCdn.setName(req.getStringRow("name"));
+		List<Ppt> list = this.pptSvr.getPptListByCdn(project.getProjectid(),
+				pptSearchCdn, page.getBegin(), page.getSize());
 		req.setAttribute("pptSearchCdn", pptSearchCdn);
 		req.setAttribute("list", list);
 		return this.getAdminPath("ppt/list.jsp");
@@ -61,6 +67,7 @@ public class PptAction extends BaseAction {
 			mainPpt.setCatid(project.getCatid());
 			mainPpt.setActive_flag(ActiveType.ACTIVE.getValue());
 			mainPpt.setName(req.getStringRow("name"));
+			mainPpt.setPic_path("");
 			mainPpt.setProjectid(projectid);
 			mainPpt.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
 			List<String> errlist = PptValidator.validateMainPpt(mainPpt);
@@ -73,6 +80,7 @@ public class PptAction extends BaseAction {
 		else {
 			Ppt ppt = new Ppt();
 			ppt.setName(req.getStringRow("name"));
+			ppt.setPic_path("");
 			ppt.setProjectid(projectid);
 			ppt.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
 			List<String> errlist = PptValidator.validate(ppt);
@@ -89,6 +97,8 @@ public class PptAction extends BaseAction {
 	public String update(HkRequest req, HkResponse resp) throws Exception {
 		Ppt ppt = this.pptSvr.getPpt(req.getLongAndSetAttr("pptid"));
 		if (this.isForwardPage(req)) {
+			Project project = this.projectSvr.getProject(ppt.getProjectid());
+			req.setAttribute("project", project);
 			req.setAttribute("ppt", ppt);
 			return this.getAdminPath("ppt/update.jsp");
 		}
@@ -106,5 +116,17 @@ public class PptAction extends BaseAction {
 		this.pptSvr.deletePpt(req.getLong("pptid"));
 		this.opDeleteSuccess(req);
 		return null;
+	}
+
+	public String view(HkRequest req, HkResponse resp) throws Exception {
+		long pptid = req.getLongAndSetAttr("pptid");
+		Ppt ppt = this.pptSvr.getPpt(pptid);
+		if (ppt == null) {
+			return null;
+		}
+		req.setAttribute("ppt", ppt);
+		List<Slide> list = this.pptSvr.getSlideListByPptidOrdered(pptid);
+		req.setAttribute("list", list);
+		return this.getAdminPath("ppt/view.jsp");
 	}
 }

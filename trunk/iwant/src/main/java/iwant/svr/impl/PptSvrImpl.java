@@ -118,7 +118,7 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public List<Slide> getSlideListByPptid(long pptid) {
+	public List<Slide> getSlideListByPptidOrdered(long pptid) {
 		return this.slideDao.getListByPptidOrdered(pptid);
 	}
 
