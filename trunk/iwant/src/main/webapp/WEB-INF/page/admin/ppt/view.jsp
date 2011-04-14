@@ -5,7 +5,7 @@
 <c:set scope="request" var="mgr_body_content">
 <div class="mod">
 	<div class="mod_title">
-		查看项目 - <hk:value value="${project.name}"/>
+		查看项目 - <hk:value value="${ppt.name}"/>
 	</div>
 	<div class="mod_content">
 		<div>
@@ -13,7 +13,7 @@
 				<tr>
 					<td width="90" align="right">名称</td>
 					<td>
-						<hk:value value="${project.name }" onerow="true"/>
+						<hk:value value="${ppt.name }" onerow="true"/>
 					</td>
 				</tr>
 				<tr>
@@ -29,7 +29,7 @@
 </div>
 <div class="mod">
 	<div class="mod_title">
-		Slide
+		<hk:value value="${ppt.name}"/>的Slide
 	</div>
 	<div class="mod_content">
 		<ul class="rowlist">
