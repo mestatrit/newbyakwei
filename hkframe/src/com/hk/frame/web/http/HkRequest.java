@@ -24,6 +24,10 @@ public interface HkRequest extends HttpServletRequest {
 
 	String getString(String key);
 
+	String getStringRow(String key);
+
+	String getStringRow(String key, String def);
+
 	String getStringWithoutBeginTrim(String key);
 
 	String getHtmlWithoutBeginTrim(String key);
