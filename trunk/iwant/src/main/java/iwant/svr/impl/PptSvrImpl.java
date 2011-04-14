@@ -7,6 +7,7 @@ import iwant.bean.Slide;
 import iwant.bean.enumtype.ActiveType;
 import iwant.dao.MainPptDao;
 import iwant.dao.PptDao;
+import iwant.dao.PptSearchCdn;
 import iwant.dao.PptidCreatorDao;
 import iwant.dao.SlideDao;
 import iwant.svr.OptStatus;
@@ -189,6 +190,12 @@ public class PptSvrImpl implements PptSvr {
 	@Override
 	public List<Ppt> getPptListByProjectid(long projectid, int begin, int size) {
 		return this.pptDao.getListByProjectid(projectid, begin, size);
+	}
+
+	@Override
+	public List<Ppt> getPptListByCdn(long projectid, PptSearchCdn pptSearchCdn,
+			int begin, int size) {
+		return this.pptDao.getListByCdn(projectid, pptSearchCdn, begin, size);
 	}
 
 	private void processSlideImage(File imgFile, OptStatus optStatus) {

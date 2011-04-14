@@ -2,7 +2,9 @@ package iwant.dao.impl;
 
 import iwant.bean.Ppt;
 import iwant.dao.PptDao;
+import iwant.dao.PptSearchCdn;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,5 +37,24 @@ public class PptDaoImpl extends BaseDao<Ppt> implements PptDao {
 	public List<Ppt> getListByProjectid(long projectid, int begin, int size) {
 		return this.getList(null, "projectid=?", new Object[] { projectid },
 				"pptid desc", begin, size);
+	}
+
+	@Override
+	public List<Ppt> getListByCdn(long projectid, PptSearchCdn pptSearchCdn,
+			int begin, int size) {
+		if (pptSearchCdn == null) {
+			return this.getListByProjectid(projectid, begin, size);
+		}
+		List<Object> objlist = new ArrayList<Object>();
+		StringBuilder sb = new StringBuilder("projectid=?");
+		objlist.add(projectid);
+		if (pptSearchCdn.getTitle() != null) {
+			sb.append(" and title like ?");
+			objlist.add("%" + pptSearchCdn.getTitle() + "%");
+		}
+		return this
+				.getList(null, sb.toString(), objlist
+						.toArray(new Object[objlist.size()]), "pptid desc",
+						begin, size);
 	}
 }

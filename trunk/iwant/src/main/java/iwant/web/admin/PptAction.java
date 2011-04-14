@@ -5,6 +5,7 @@ import iwant.bean.Ppt;
 import iwant.bean.Project;
 import iwant.bean.enumtype.ActiveType;
 import iwant.bean.validate.PptValidator;
+import iwant.dao.PptSearchCdn;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
 import iwant.web.BaseAction;
@@ -32,9 +33,12 @@ public class PptAction extends BaseAction {
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
 		SimplePage page = req.getSimplePage(20);
-		List<Ppt> list = this.pptSvr.getPptListByProjectid(req
-				.getLongAndSetAttr("projectid"), page.getBegin(), page
-				.getSize());
+		PptSearchCdn pptSearchCdn = new PptSearchCdn();
+		pptSearchCdn.setTitle(req.getStringRow("title"));
+		List<Ppt> list = this.pptSvr.getPptListByCdn(req
+				.getLongAndSetAttr("projectid"), pptSearchCdn, page.getBegin(),
+				page.getSize());
+		req.setAttribute("pptSearchCdn", pptSearchCdn);
 		req.setAttribute("list", list);
 		return this.getAdminPath("ppt/list.jsp");
 	}
