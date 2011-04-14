@@ -1,5 +1,6 @@
 package iwant.web.admin;
 
+import iwant.bean.Ppt;
 import iwant.bean.Slide;
 import iwant.bean.validate.SlideValidator;
 import iwant.svr.OptStatus;
@@ -24,6 +25,12 @@ public class SlideAction extends BaseAction {
 
 	public String create(HkRequest req, HkResponse resp) throws Exception {
 		long pptid = req.getLongAndSetAttr("pptid");
+		Ppt ppt = this.pptSvr.getPpt(pptid);
+		if (this.isForwardPage(req)) {
+			req.setAttribute("ppt", ppt);
+			req.setAttribute("op_project", true);
+			return this.getAdminPath("slide/crate.jsp");
+		}
 		Slide slide = new Slide();
 		slide.setTitle(req.getStringRow("title"));
 		slide.setSubtitle(req.getStringRow("subTitle"));
