@@ -10,9 +10,9 @@
 		<input type="button" class="btn" value="创建PPT" onclick="tocreate()"/>
 		</div>
 		<div style="padding-left: 50">
-		<form method="get" action="${appctx_path}/mgr/project.do">
+		<form method="get" action="${appctx_path}/mgr/ppt.do">
 			<input type="hidden" name="projectid" value="${projectid}"/>
-			<input type="text" class="text" name="name" value="<hk:value value="${ppt.name}" onerow="true"/>"/>
+			<input type="text" class="text" name="name" value="<hk:value value="${pptSearchCdn.title}" onerow="true"/>"/>
 			<input type="button" value="模糊搜索" class="btn"/>
 		</form>
 		</div>
@@ -21,14 +21,14 @@
 				<div class="f_l" style="width: 150px;margin-right: 20px">名称</div>
 				<div class="clr"></div>
 			</li>
-			<c:forEach var="project" items="${list }" varStatus="idx">
+			<c:forEach var="ppt" items="${list }" varStatus="idx">
 			<li>
 				<div class="f_l" style="width: 150px;margin-right: 20px">
-					<a href="javascript:view(${ppt})"><hk:value value="${project.name }" onerow="true"/></a>
+					<a href="javascript:view(${ppt.pptid})"><hk:value value="${ppt.title }" onerow="true"/></a>
 				</div>
 				<div class="f_l">
-					<a href="javascript:toupdate(${project.projectid })" class="split-r" id="op_update_${project.projectid }">修改</a>
-					<a href="javascript:opdel(${project.projectid })" class="split-r" id="op_delete_${project.projectid }">删除</a>
+					<a href="javascript:toupdate(${ppt.pptid })" class="split-r" id="op_update_${ppt.pptid }">修改</a>
+					<a href="javascript:opdel(${ppt.pptid })" class="split-r" id="op_delete_${ppt.pptid }">删除</a>
 				</div>
 				<div class="clr"></div>
 			</li>
@@ -38,7 +38,7 @@
 			</c:if>
 		</ul>
 		<div>
-			<c:set var="page_url" scope="request">${appctx_path }/mgr/project.do?catid=${catid }&amp;name=${projectSearchCdn.encName }</c:set>
+			<c:set var="page_url" scope="request">${appctx_path }/mgr/project.do?projectid=${projectid }&amp;name=${pptSearchCdn.encTitle }</c:set>
 			<jsp:include page="../../inc/pagesupport_inc.jsp"></jsp:include>
 		</div>
 	</div>
@@ -52,20 +52,20 @@ $(document).ready(function(){
 	});
 });
 function tocreate(){
-	tourl('${appctx_path}/mgr/project_create.do');
+	tourl('${appctx_path}/mgr/ppt_create.do');
 }
-function toupdate(projectid){
-	tourl('${appctx_path}/mgr/project_update.do?projectid='+projectid+"&back_url="+encodeLocalURL());
+function toupdate(pptid){
+	tourl('${appctx_path}/mgr/ppt_update.do?pptid='+pptid+"&back_url="+encodeLocalURL());
 }
 function view(projectid){
-	tourl('${appctx_path}/mgr/project_view.do?projectid='+projectid+"&back_url="+encodeLocalURL());
+	tourl('${appctx_path}/mgr/project_view.do?pptid='+pptid+"&back_url="+encodeLocalURL());
 }
-function opdel(projectid){
+function opdel(pptid){
 	if(window.confirm('确实要删除？')){
-		var glassid_op=addGlass('op_delete_'+projectid,false);
+		var glassid_op=addGlass('op_delete_'+pptid,false);
 		$.ajax({
 			type:"POST",
-			url:"${appctx_path}/mgr/project_delete.do?projectid="+projectid,
+			url:"${appctx_path}/mgr/ppt_delete.do?pptid="+pptid,
 			cache:false,
 	    	dataType:"html",
 			success:function(data){

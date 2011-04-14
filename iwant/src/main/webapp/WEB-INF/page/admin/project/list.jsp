@@ -27,6 +27,7 @@
 					<a href="javascript:view(${project.projectid})"><hk:value value="${project.name }" onerow="true"/></a>
 				</div>
 				<div class="f_l">
+					<a href="javascript:viewppt(${project.projectid})" class="split-r">查看PPT</a>
 					<a href="javascript:toupdate(${project.projectid })" class="split-r" id="op_update_${project.projectid }">修改</a>
 					<a href="javascript:opdel(${project.projectid })" class="split-r" id="op_delete_${project.projectid }">删除</a>
 				</div>
@@ -59,6 +60,9 @@ function toupdate(projectid){
 }
 function view(projectid){
 	tourl('${appctx_path}/mgr/project_view.do?projectid='+projectid+"&back_url="+encodeLocalURL());
+}
+function viewppt(projectid){
+	tourl('${appctx_path}/mgr/ppt.do?projectid='+projectid);
 }
 function opdel(projectid){
 	if(window.confirm('确实要删除？')){
