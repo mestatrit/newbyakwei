@@ -9,7 +9,6 @@ import magick.MagickException;
 import magick.MagickImage;
 import magick.PreviewType;
 
-import com.hk.frame.util.P;
 import com.hk.frame.util.image.ImageException;
 
 public class ImageProcessor {
@@ -315,14 +314,15 @@ public class ImageProcessor {
 	}
 
 	public static void main(String[] args) throws ImageException {
-		ImgFileInfo imgFileInfo = ImgFileInfo.getImageFileInfo(new File(
-				"d:/test/test2.jpg"));
-		if (imgFileInfo != null) {
-			ImageProcessor imageProcessor = new ImageProcessor(imgFileInfo);
-			imageProcessor.makeImage("d:/test/create/", "square.jpg", true, 70);
-			imageProcessor.makeImage("d:/test/create/", "oblong.jpg", false,
-					480);
-		}
-		P.println("ok");
+		// System.out.println(System.getProperty("java.library.path"));
+		// ImgFileInfo imgFileInfo = ImgFileInfo.getImageFileInfo(new File(
+		// "d:/test/test2.jpg"));
+		// if (imgFileInfo != null) {
+		// ImageProcessor imageProcessor = new ImageProcessor(imgFileInfo);
+		// imageProcessor.makeImage("d:/test/create/", "square.jpg", true, 70);
+		// imageProcessor.makeImage("d:/test/create/", "oblong.jpg", false,
+		// 480);
+		// }
+		// P.println("ok");
 	}
 }
