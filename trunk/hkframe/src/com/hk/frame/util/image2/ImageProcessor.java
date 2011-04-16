@@ -313,7 +313,7 @@ public class ImageProcessor {
 		return info;
 	}
 
-	public static void main(String[] args) throws ImageException {
+	public static void main(String[] args) {
 		// System.out.println(System.getProperty("java.library.path"));
 		// ImgFileInfo imgFileInfo = ImgFileInfo.getImageFileInfo(new File(
 		// "d:/test/test2.jpg"));
