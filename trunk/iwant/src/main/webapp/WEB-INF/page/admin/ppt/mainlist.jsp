@@ -4,7 +4,7 @@
 <c:set var="html_head_title" scope="request">PPT管理</c:set>
 <c:set scope="request" var="mgr_body_content">
 <div class="mod">
-	<div class="mod_title"> <hk:value value="${project.name}"/> - PPT管理</div>
+	<div class="mod_title">PPT管理</div>
 	<div class="mod_content">
 		<div>
 		<input type="button" class="btn" value="创建PPT" onclick="tocreate()"/>
@@ -27,10 +27,14 @@
 					</a>
 				</div>
 				<div class="f_l">
-					<a href="javascript:chgposfirst(${ppt.pptid })" class="split-r" id="op_chgposfirst${ppt.pptid }">移到首位</a>
-					<a href="javascript:chgposup(${ppt.pptid })" class="split-r" id="op_chgposup${ppt.pptid }">上移</a>
-					<a href="javascript:chgposdown(${ppt.pptid })" class="split-r" id="op_chgposdown${ppt.pptid }">下移</a>
-					<a href="javascript:chgposlast(${ppt.pptid })" class="split-r" id="op_chgposlast${ppt.pptid }">移到末位</a>
+					<c:if test="${(page_size * (page - 1) + idx.count) > 1}">
+						<a href="javascript:chgposfirst(${ppt.pptid })" class="split-r" id="op_chgposfirst${ppt.pptid }">移到首位</a>
+						<a href="javascript:chgposup(${ppt.pptid })" class="split-r" id="op_chgposup${ppt.pptid }">上移</a>
+					</c:if>
+					<c:if test="${(page_size * (page - 1) + idx.count) < count}">
+						<a href="javascript:chgposdown(${ppt.pptid })" class="split-r" id="op_chgposdown${ppt.pptid }">下移</a>
+						<a href="javascript:chgposlast(${ppt.pptid })" class="split-r" id="op_chgposlast${ppt.pptid }">移到末位</a>
+					</c:if>
 				</div>
 				<div class="clr"></div>
 			</li>
@@ -46,6 +50,10 @@
 	</div>
 </div>
 <script type="text/javascript">
+var pptids=new Array();
+<c:forEach var="id" items="${idList}" varStatus="idx">
+pptids[${idx.index}]=${id};
+</c:forEach>
 $(document).ready(function(){
 	$('ul.rowlist li').bind('mouseenter', function(){
 		$(this).addClass('enter');
@@ -79,6 +87,86 @@ function opdel(pptid){
 			}
 		});
 	}
+}
+function chgposup(pptid){
+	chgpos(pptid,getPrevSlideid(pptid),'op_chgposup'+pptid);
+}
+function chgposdown(pptid){
+	chgpos(pptid,getNextSlideid(pptid),'op_chgposdown'+pptid);
+}
+function chgpos(pptid,pos_pptid,opobjid){
+	var glassid_op=addGlass(opobjid,false);
+	$.ajax({
+		type:"POST",
+		url:"${appctx_path}/mgr/ppt_chgmainpos.do?pptid="+pptid+"&pos_pptid="+pos_pptid,
+		cache:false,
+    	dataType:"html",
+		success:function(data){
+			refreshurl();
+		},
+		error:function(data){
+			removeGlass(glassid_op);
+			alert('服务器出错，请刷新页面稍后继续操作');
+		}
+	});
+}
+function getPrevPptid(pptid){
+	var prev_idx=-1;
+	for(var i=0;i<pptids.length;i++){
+		if(pptids[i]==pptid){
+			prev_idx=i-1;
+			break;
+		}
+	}
+	if(prev_idx>-1){
+		return pptids[prev_idx];
+	}
+	return 0;
+}
+function getNextPptid(pptid){
+	var next_idx=-1;
+	for(var i=0;i<pptids.length;i++){
+		if(pptids[i]==pptid){
+			next_idx=i+1;
+			break;
+		}
+	}
+	if(next_idx>-1 && next_idx<pptids.length ){
+		return pptids[next_idx];
+	}
+	return 0;
+}
+function chgposfirst(pptid{
+	var glassid_op=addGlass('op_chgposfirst',false);
+	$.ajax({
+		type:"POST",
+		url:"${appctx_path}/mgr/ppt_chgmainposfirst.do?pptid="+pptid,
+		cache:false,
+    	dataType:"html",
+		success:function(data){
+			refreshurl();
+		},
+		error:function(data){
+			removeGlass(glassid_op);
+			alert('服务器出错，请刷新页面稍后继续操作');
+		}
+	});
+}
+function chgposlast(pptid{
+	var glassid_op=addGlass('op_chgposlast',false);
+	$.ajax({
+		type:"POST",
+		url:"${appctx_path}/mgr/ppt_chgmainposlast.do?pptid="+pptid,
+		cache:false,
+    	dataType:"html",
+		success:function(data){
+			refreshurl();
+		},
+		error:function(data){
+			removeGlass(glassid_op);
+			alert('服务器出错，请刷新页面稍后继续操作');
+		}
+	});
 }
 </script>
 </c:set><jsp:include page="../inc/mgrframe.jsp"></jsp:include>
