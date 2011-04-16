@@ -56,6 +56,12 @@ public class ProjectAction extends BaseAction {
 		return this.getAdminPath("project/list.jsp");
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String create(HkRequest req, HkResponse resp) throws Exception {
 		if (this.isForwardPage(req)) {
 			List<Category> catlist = this.categorySvr.getCategoryListForAll();
@@ -122,6 +128,12 @@ public class ProjectAction extends BaseAction {
 		return "r:/mgr/project.do";
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String delete(HkRequest req, HkResponse resp) throws Exception {
 		this.projectSvr.deleteProject(req.getLong("projectid"));
 		this.opDeleteSuccess(req);

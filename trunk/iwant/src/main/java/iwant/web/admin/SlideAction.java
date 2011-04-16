@@ -23,6 +23,12 @@ public class SlideAction extends BaseAction {
 	@Autowired
 	private PptSvr pptSvr;
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String create(HkRequest req, HkResponse resp) throws Exception {
 		long pptid = req.getLongAndSetAttr("pptid");
 		Ppt ppt = this.pptSvr.getPpt(pptid);
@@ -50,6 +56,12 @@ public class SlideAction extends BaseAction {
 		return this.onSuccess(req, "createok", pptid);
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String update(HkRequest req, HkResponse resp) throws Exception {
 		Slide slide = this.pptSvr.getSlide(req.getLongAndSetAttr("slideid"));
 		if (slide == null) {
@@ -79,6 +91,12 @@ public class SlideAction extends BaseAction {
 		return this.onSuccess(req, "updateok", null);
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String chgpos(HkRequest req, HkResponse resp) throws Exception {
 		long slideid = req.getLong("slideid");
 		long pos_slideid = req.getLong("pos_slideid");
@@ -96,6 +114,12 @@ public class SlideAction extends BaseAction {
 		return null;
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String delete(HkRequest req, HkResponse resp) throws Exception {
 		Slide slide = this.pptSvr.getSlide(req.getLong("slideid"));
 		if (slide == null) {
