@@ -59,6 +59,12 @@ public class PptAction extends BaseAction {
 		return this.getAdminPath("ppt/list.jsp");
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String create(HkRequest req, HkResponse resp) throws Exception {
 		long projectid = req.getLongAndSetAttr("projectid");
 		Project project = this.projectSvr.getProject(projectid);
@@ -127,6 +133,12 @@ public class PptAction extends BaseAction {
 		return this.onSuccess(req, "updateok", null);
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String delete(HkRequest req, HkResponse resp) throws Exception {
 		this.pptSvr.deletePpt(req.getLong("pptid"));
 		this.opDeleteSuccess(req);
@@ -158,6 +170,12 @@ public class PptAction extends BaseAction {
 		return "r:/mgr/ppt.do?projectid=" + req.getLong("projectid");
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String mainlist(HkRequest req, HkResponse resp) throws Exception {
 		List<Category> catlist = this.categorySvr.getCategoryListForAll();
 		if (catlist.isEmpty()) {
@@ -180,6 +198,12 @@ public class PptAction extends BaseAction {
 		return this.getAdminPath("ppt/mainlist.jsp");
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String setactive(HkRequest req, HkResponse resp) throws Exception {
 		long pptid = req.getLong("pptid");
 		MainPpt mainPpt = this.pptSvr.getMainPpt(pptid);
@@ -189,6 +213,12 @@ public class PptAction extends BaseAction {
 		return null;
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String setnotactive(HkRequest req, HkResponse resp) throws Exception {
 		long pptid = req.getLong("pptid");
 		MainPpt mainPpt = this.pptSvr.getMainPpt(pptid);
@@ -198,6 +228,12 @@ public class PptAction extends BaseAction {
 		return null;
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String chgpos(HkRequest req, HkResponse resp) throws Exception {
 		long pptid = req.getLong("pptid");
 		long pos_pptid = req.getLong("pos_pptid");
@@ -211,6 +247,12 @@ public class PptAction extends BaseAction {
 		return null;
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String chgposfirst(HkRequest req, HkResponse resp) throws Exception {
 		long pptid = req.getLong("pptid");
 		MainPpt mainPpt = this.pptSvr.getMainPpt(pptid);
@@ -223,10 +265,16 @@ public class PptAction extends BaseAction {
 			return null;
 		}
 		MainPpt pos_mainPpt = list.get(0);
-		this.chgpos(req, resp, mainPpt, pos_mainPpt);
+		this.chgpos(mainPpt, pos_mainPpt);
 		return null;
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String chgposlast(HkRequest req, HkResponse resp) throws Exception {
 		long pptid = req.getLong("pptid");
 		MainPpt mainPpt = this.pptSvr.getMainPpt(pptid);
@@ -239,12 +287,12 @@ public class PptAction extends BaseAction {
 			return null;
 		}
 		MainPpt pos_mainPpt = list.get(0);
-		this.chgpos(req, resp, mainPpt, pos_mainPpt);
+		this.chgpos(mainPpt, pos_mainPpt);
 		return null;
 	}
 
-	private String chgpos(HkRequest req, HkResponse resp, MainPpt mainPpt,
-			MainPpt pos_mainPpt) throws Exception {
+	private String chgpos(MainPpt mainPpt, MainPpt pos_mainPpt)
+			throws Exception {
 		long order_flag = mainPpt.getOrder_flag();
 		mainPpt.setOrder_flag(pos_mainPpt.getOrder_flag());
 		pos_mainPpt.setOrder_flag(order_flag);

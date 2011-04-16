@@ -32,6 +32,12 @@ public class CatAction extends BaseAction {
 		return this.getAdminPath("cat/list.jsp");
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String create(HkRequest req, HkResponse resp) throws Exception {
 		if (this.isForwardPage(req)) {
 			req.setAttribute("op_cat", true);
@@ -51,6 +57,12 @@ public class CatAction extends BaseAction {
 		return this.onSuccess(req, "createok", null);
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String update(HkRequest req, HkResponse resp) throws Exception {
 		Category category = this.categorySvr.getCategory(req
 				.getIntAndSetAttr("catid"));
@@ -75,11 +87,23 @@ public class CatAction extends BaseAction {
 		return this.onSuccess(req, "updateok", null);
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String delete(HkRequest req, HkResponse resp) throws Exception {
 		this.categorySvr.deleteCategory(req.getInt("catid"));
 		return null;
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String toup(HkRequest req, HkResponse resp) throws Exception {
 		Category category2 = this.categorySvr.getCategory(req.getInt("toid"));
 		if (category2 == null) {

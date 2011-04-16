@@ -189,9 +189,7 @@ public class PptSvrImpl implements PptSvr {
 			if (!optStatus.isSuccess()) {
 				return optStatus;
 			}
-			else {
-				this.deleteSlideOldPic(slide.getPic_path());
-			}
+			this.deleteSlideOldPic(slide.getPic_path());
 		}
 		this.slideDao.update(slide);
 		optStatus.setSuccess(true);
