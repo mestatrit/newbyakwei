@@ -67,6 +67,8 @@ public interface PptSvr {
 	List<MainPpt> getMainPptListOrderedByCdn(MainPptSearchCdn mainPptSearchCdn,
 			int begin, int size);
 
+	int countMainPptByCdn(MainPptSearchCdn mainPptSearchCdn);
+
 	/**
 	 * 创建ppt
 	 * 

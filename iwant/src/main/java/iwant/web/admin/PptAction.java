@@ -17,6 +17,7 @@ import iwant.util.BackUrl;
 import iwant.util.BackUrlUtil;
 import iwant.web.BaseAction;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -177,6 +178,7 @@ public class PptAction extends BaseAction {
 	 * @throws Exception
 	 */
 	public String mainlist(HkRequest req, HkResponse resp) throws Exception {
+		req.setAttribute("op_mianppt", true);
 		List<Category> catlist = this.categorySvr.getCategoryListForAll();
 		if (catlist.isEmpty()) {
 			return null;
@@ -191,10 +193,24 @@ public class PptAction extends BaseAction {
 		mainPptSearchCdn.setName(req.getStringRow("name"));
 		mainPptSearchCdn.setActiveType(ActiveTypeCreater
 				.getActiveType(active_flag));
+		// 此集合多包含2条数据为了方便进行移动操作，所记录的当页中首条和最后一条可换位置的pptid
 		List<MainPpt> list = this.pptSvr.getMainPptListOrderedByCdn(
-				mainPptSearchCdn, page.getBegin(), page.getSize() + 1);
+				mainPptSearchCdn, page.getBegin() - 1, page.getSize() + 1);
+		if (!list.isEmpty()) {
+			List<Long> idList = new ArrayList<Long>();
+			for (MainPpt o : list) {
+				idList.add(o.getPptid());
+			}
+			list.remove(0);
+			req.setAttribute("idList", idList);
+		}
+		this.processListForPage(page, list);
 		req.setAttribute("list", list);
 		req.setAttribute("mainPptSearchCdn", mainPptSearchCdn);
+		mainPptSearchCdn.setName(null);
+		int count = this.pptSvr.countMainPptByCdn(mainPptSearchCdn);
+		req.setAttribute("count", count);
+		req.setAttribute("page_size", page.getSize());
 		return this.getAdminPath("ppt/mainlist.jsp");
 	}
 
@@ -234,7 +250,7 @@ public class PptAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String chgpos(HkRequest req, HkResponse resp) throws Exception {
+	public String chgmainpos(HkRequest req, HkResponse resp) throws Exception {
 		long pptid = req.getLong("pptid");
 		long pos_pptid = req.getLong("pos_pptid");
 		MainPpt mainPpt = this.pptSvr.getMainPpt(pptid);
@@ -253,7 +269,8 @@ public class PptAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String chgposfirst(HkRequest req, HkResponse resp) throws Exception {
+	public String chgmainposfirst(HkRequest req, HkResponse resp)
+			throws Exception {
 		long pptid = req.getLong("pptid");
 		MainPpt mainPpt = this.pptSvr.getMainPpt(pptid);
 		MainPptSearchCdn mainPptSearchCdn = new MainPptSearchCdn();
@@ -265,7 +282,7 @@ public class PptAction extends BaseAction {
 			return null;
 		}
 		MainPpt pos_mainPpt = list.get(0);
-		this.chgpos(mainPpt, pos_mainPpt);
+		this.chgmainpos(mainPpt, pos_mainPpt);
 		return null;
 	}
 
@@ -275,7 +292,8 @@ public class PptAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String chgposlast(HkRequest req, HkResponse resp) throws Exception {
+	public String chgmainposlast(HkRequest req, HkResponse resp)
+			throws Exception {
 		long pptid = req.getLong("pptid");
 		MainPpt mainPpt = this.pptSvr.getMainPpt(pptid);
 		MainPptSearchCdn mainPptSearchCdn = new MainPptSearchCdn();
@@ -287,11 +305,11 @@ public class PptAction extends BaseAction {
 			return null;
 		}
 		MainPpt pos_mainPpt = list.get(0);
-		this.chgpos(mainPpt, pos_mainPpt);
+		this.chgmainpos(mainPpt, pos_mainPpt);
 		return null;
 	}
 
-	private String chgpos(MainPpt mainPpt, MainPpt pos_mainPpt)
+	private String chgmainpos(MainPpt mainPpt, MainPpt pos_mainPpt)
 			throws Exception {
 		long order_flag = mainPpt.getOrder_flag();
 		mainPpt.setOrder_flag(pos_mainPpt.getOrder_flag());

@@ -1,6 +1,7 @@
 package iwant.bean;
 
 import iwant.bean.enumtype.ActiveType;
+import iwant.util.PicUtil;
 
 import java.util.Date;
 
@@ -133,5 +134,13 @@ public class MainPpt {
 			return true;
 		}
 		return false;
+	}
+
+	public String getPic1Url() {
+		return PicUtil.getSlidePic1Url(this.pic_path);
+	}
+
+	public String getPic2Url() {
+		return PicUtil.getSlidePic2Url(this.pic_path);
 	}
 }
