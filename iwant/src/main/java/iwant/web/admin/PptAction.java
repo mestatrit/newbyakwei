@@ -216,12 +216,35 @@ public class PptAction extends BaseAction {
 		MainPpt mainPpt = this.pptSvr.getMainPpt(pptid);
 		MainPptSearchCdn mainPptSearchCdn = new MainPptSearchCdn();
 		mainPptSearchCdn.setCatid(req.getInt("catid"));
+		mainPptSearchCdn.setOrder("order_flag desc");
 		List<MainPpt> list = this.pptSvr.getMainPptListOrderedByCdn(
 				mainPptSearchCdn, 0, 1);
 		if (list.isEmpty()) {
 			return null;
 		}
 		MainPpt pos_mainPpt = list.get(0);
+		this.chgpos(req, resp, mainPpt, pos_mainPpt);
+		return null;
+	}
+
+	public String chgposlast(HkRequest req, HkResponse resp) throws Exception {
+		long pptid = req.getLong("pptid");
+		MainPpt mainPpt = this.pptSvr.getMainPpt(pptid);
+		MainPptSearchCdn mainPptSearchCdn = new MainPptSearchCdn();
+		mainPptSearchCdn.setCatid(req.getInt("catid"));
+		mainPptSearchCdn.setOrder("order_flag asc");
+		List<MainPpt> list = this.pptSvr.getMainPptListOrderedByCdn(
+				mainPptSearchCdn, 0, 1);
+		if (list.isEmpty()) {
+			return null;
+		}
+		MainPpt pos_mainPpt = list.get(0);
+		this.chgpos(req, resp, mainPpt, pos_mainPpt);
+		return null;
+	}
+
+	private String chgpos(HkRequest req, HkResponse resp, MainPpt mainPpt,
+			MainPpt pos_mainPpt) throws Exception {
 		long order_flag = mainPpt.getOrder_flag();
 		mainPpt.setOrder_flag(pos_mainPpt.getOrder_flag());
 		pos_mainPpt.setOrder_flag(order_flag);
