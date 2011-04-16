@@ -131,6 +131,11 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
+	public int countMainPptByCdn(MainPptSearchCdn mainPptSearchCdn) {
+		return this.mainPptDao.countByCdn(mainPptSearchCdn);
+	}
+
+	@Override
 	public Ppt getPpt(long pptid) {
 		return this.pptDao.getById(null, pptid);
 	}
