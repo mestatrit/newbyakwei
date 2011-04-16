@@ -7,6 +7,7 @@ import iwant.web.admin.util.Err;
 
 import org.springframework.stereotype.Component;
 
+import com.hk.frame.util.DataUtil;
 import com.hk.frame.web.http.HkRequest;
 import com.hk.frame.web.http.HkResponse;
 
@@ -18,8 +19,12 @@ public class LoginAction extends BaseAction {
 		if (this.isForwardPage(req)) {
 			return this.getAdminPath("login.jsp");
 		}
-		if (!AdminUtil.isLogined(req.getHtmlRow("username"), req
-				.getHtmlRow("pwd"))) {
+		String username = req.getHtmlRow("username");
+		String pwd = req.getHtmlRow("pwd");
+		if (DataUtil.isEmpty(username) || DataUtil.isEmpty(pwd)) {
+			return this.onError(req, Err.ADMIN_LOGIN_ERR, "loginerr", null);
+		}
+		if (!AdminUtil.isLogined(username, pwd)) {
 			return this.onError(req, Err.ADMIN_LOGIN_ERR, "loginerr", null);
 		}
 		Admin admin = new Admin();

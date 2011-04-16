@@ -64,6 +64,13 @@ public class AdminUtil {
 		response.addCookie(cookie);
 	}
 
+	public static void clearLoginAdmin(HttpServletResponse response) {
+		Cookie cookie = new Cookie(mgr_cookie_name, "");
+		cookie.setMaxAge(0);
+		cookie.setPath("/");
+		response.addCookie(cookie);
+	}
+
 	/**
 	 * 获得管理员用户状态
 	 * 
