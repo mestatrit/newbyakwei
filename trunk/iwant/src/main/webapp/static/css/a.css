@@ -77,6 +77,19 @@ a:hover {
 	position: relative;
 }
 
+#header #location {
+    color: #FFFFFF;
+    position: absolute;
+    right: 10px;
+    top: 12px;
+}
+
+#header #location a {
+    font-weight: bold;
+    border-bottom: 1px dotted;
+    color: #FFFFFF;
+}
+
 #body {
 	padding: 20px;
 	padding-top: 20px;
