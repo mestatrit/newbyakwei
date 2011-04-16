@@ -201,7 +201,9 @@ public class PptAction extends BaseAction {
 			for (MainPpt o : list) {
 				idList.add(o.getPptid());
 			}
-			list.remove(0);
+			if (page.getBegin() > 0) {
+				list.remove(0);
+			}
 			req.setAttribute("idList", idList);
 		}
 		this.processListForPage(page, list);

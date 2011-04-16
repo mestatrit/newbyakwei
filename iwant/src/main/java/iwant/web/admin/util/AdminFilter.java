@@ -22,9 +22,11 @@ public class AdminFilter extends HkFilter {
 			HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		if (!AdminUtil.isAdminLogined(request)) {
-			PathProcesser.proccessResult("r:/sitemgrlogin", request, response);
+			PathProcesser.proccessResult("r:/sitemgrlogin.do", request,
+					response);
 			return;
 		}
+		request.setAttribute("admin_login", true);
 		chain.doFilter(request, response);
 	}
 }
