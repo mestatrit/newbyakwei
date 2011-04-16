@@ -72,7 +72,7 @@ function view(pptid){
 }
 function opdel(pptid){
 	if(window.confirm('确实要删除？')){
-		var glassid_op=addGlass('op_delete_'+pptid,false);
+		var glassid_op=addGlass('op_delete_'+pptid,true);
 		$.ajax({
 			type:"POST",
 			url:"${appctx_path}/mgr/ppt_delete.do?pptid="+pptid,
@@ -89,13 +89,13 @@ function opdel(pptid){
 	}
 }
 function chgposup(pptid){
-	chgpos(pptid,getPrevSlideid(pptid),'op_chgposup'+pptid);
+	chgpos(pptid,getPrevPptid(pptid),'op_chgposup'+pptid);
 }
 function chgposdown(pptid){
-	chgpos(pptid,getNextSlideid(pptid),'op_chgposdown'+pptid);
+	chgpos(pptid,getNextPptid(pptid),'op_chgposdown'+pptid);
 }
 function chgpos(pptid,pos_pptid,opobjid){
-	var glassid_op=addGlass(opobjid,false);
+	var glassid_op=addGlass(opobjid,true);
 	$.ajax({
 		type:"POST",
 		url:"${appctx_path}/mgr/ppt_chgmainpos.do?pptid="+pptid+"&pos_pptid="+pos_pptid,
@@ -136,8 +136,8 @@ function getNextPptid(pptid){
 	}
 	return 0;
 }
-function chgposfirst(pptid{
-	var glassid_op=addGlass('op_chgposfirst',false);
+function chgposfirst(pptid){
+	var glassid_op=addGlass('op_chgposfirst'+pptid,true);
 	$.ajax({
 		type:"POST",
 		url:"${appctx_path}/mgr/ppt_chgmainposfirst.do?pptid="+pptid,
@@ -152,8 +152,8 @@ function chgposfirst(pptid{
 		}
 	});
 }
-function chgposlast(pptid{
-	var glassid_op=addGlass('op_chgposlast',false);
+function chgposlast(pptid){
+	var glassid_op=addGlass('op_chgposlast'+pptid,true);
 	$.ajax({
 		type:"POST",
 		url:"${appctx_path}/mgr/ppt_chgmainposlast.do?pptid="+pptid,

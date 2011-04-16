@@ -18,11 +18,11 @@ var loading_path = "${appctx_path }/static/img/blue-loading.gif";</script>
 			<div id="hkinner">
 				<div id="header">
 					<div id="top">
-						<div id="logo">
-						</div>
+						<div id="logo"></div>
 						<div class="clr"></div>
 					</div>
 					<div id="bottom">
+						<c:if test="${admin_login}"><div id="location"><a href="${appctx_path}/sitemgrlogout.do">退出</a></div></c:if>
 					</div>
 					<div id="bottomGrad"></div>
 				</div>

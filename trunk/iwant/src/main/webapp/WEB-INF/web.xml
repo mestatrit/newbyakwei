@@ -48,7 +48,7 @@
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>AdminFilter</filter-name>
-		<url-pattern>/sitemgr/*</url-pattern>
+		<url-pattern>/mgr/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>ActionFilter</filter-name>

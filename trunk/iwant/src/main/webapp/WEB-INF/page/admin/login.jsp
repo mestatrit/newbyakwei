@@ -27,12 +27,15 @@
 	</div>
 </div>
 <script type="text/javascript">
+var glassid_op=null;
 function subfrm(frmid){
+	glassid_op=addGlass('frm',false);
 	setHtml('errmsg','');
 	return true;
 }
 function loginerr(err,err_msg,v){
 	setHtml('errmsg',err_msg);
+	removeGlass(glassid_op);
 }
 function loginok(err,err_msg,v){
 	tourl('${appctx_path}/mgr/cat.do');
