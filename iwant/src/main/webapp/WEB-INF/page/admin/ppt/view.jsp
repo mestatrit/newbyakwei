@@ -104,7 +104,7 @@ function chgposdown(slideid){
 	chgpos(slideid,getNextSlideid(slideid),'op_chgposdown'+slideid);
 }
 function chgpos(slideid,pos_slideid,opobjid){
-	var glassid_op=addGlass(opobjid,false);
+	var glassid_op=addGlass(opobjid,true);
 	$.ajax({
 		type:"POST",
 		url:"${appctx_path}/mgr/slide_chgpos.do?slideid="+slideid+"&pos_slideid="+pos_slideid,
@@ -150,7 +150,7 @@ function toupdate(){
 }
 function opdel(){
 	if(window.confirm('确实要删除？')){
-		var glassid_op=addGlass('op_delete',false);
+		var glassid_op=addGlass('op_delete',true);
 		$.ajax({
 			type:"POST",
 			url:"${appctx_path}/mgr/ppt_delete.do?pptid=${pptid}",
@@ -174,7 +174,7 @@ function toupdateslide(slideid){
 }
 function opdelslide(slideid){
 	if(window.confirm('确实要删除？')){
-		var glassid_op=addGlass('op_deleteslide_'+slideid,false);
+		var glassid_op=addGlass('op_deleteslide_'+slideid,true);
 		$.ajax({
 			type:"POST",
 			url:"${appctx_path}/mgr/slide_delete.do?slideid="+slideid,
