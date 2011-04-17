@@ -45,4 +45,6 @@ public interface ProjectSvr {
 
 	List<Project> getProjectListByCdn(ProjectSearchCdn projectSearchCdn,
 			int begin, int size);
+
+	void deleteProjectRecycle(ProjectRecycle projectRecycle);
 }
