@@ -1,4 +1,4 @@
-package iwant.web.admin;
+package iwant.web.admin.job;
 
 import iwant.bean.User;
 import iwant.bean.UserNotice;
@@ -37,6 +37,7 @@ public class SendNoticeJob {
 			return;
 		}
 		this.processing = true;
+		// 发送通知
 		List<UserNotice> list = this.noticeSvr.getUserNoticeList(true, 0, 100);
 		User user = null;
 		PayLoad payLoad = null;

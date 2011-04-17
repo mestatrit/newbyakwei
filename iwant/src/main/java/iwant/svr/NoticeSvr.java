@@ -1,6 +1,7 @@
 package iwant.svr;
 
 import iwant.bean.Notice;
+import iwant.bean.NoticeQueue;
 import iwant.bean.UserNotice;
 
 import java.util.List;
@@ -56,4 +57,8 @@ public interface NoticeSvr {
 	void deleteUserNotice(UserNotice userNotice);
 
 	UserNotice getUserNoticeByUseridAndNoticeid(long userid, long noticeid);
+
+	List<NoticeQueue> getNoticeQueueList(int begin, int size);
+
+	void deleteNoticeQueue(NoticeQueue noticeQueue);
 }
