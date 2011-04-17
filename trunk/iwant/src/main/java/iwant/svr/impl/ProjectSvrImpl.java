@@ -39,17 +39,16 @@ public class ProjectSvrImpl implements ProjectSvr {
 	}
 
 	@Override
-	public boolean deleteProject(long projectid) {
+	public void deleteProject(long projectid) {
 		Project project = this.getProject(projectid);
 		if (project == null) {
-			return true;
+			return;
 		}
 		this.pptSvr.deletePptByProjectid(projectid);
 		ProjectRecycle projectRecycle = new ProjectRecycle();
 		projectRecycle.setProjectid(projectid);
 		this.projectRecycleDao.save(projectRecycle);
 		this.projectDao.deleteById(null, projectid);
-		return true;
 	}
 
 	@Override
@@ -71,5 +70,9 @@ public class ProjectSvrImpl implements ProjectSvr {
 	public List<Project> getProjectListByCdn(ProjectSearchCdn projectSearchCdn,
 			int begin, int size) {
 		return this.projectDao.getListByCdn(projectSearchCdn, begin, size);
+	}
+
+	public List<ProjectRecycle> getProjectRecycleList(int begin, int size) {
+		return this.projectRecycleDao.getList(begin, size);
 	}
 }

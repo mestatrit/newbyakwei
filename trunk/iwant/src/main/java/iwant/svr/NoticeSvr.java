@@ -17,7 +17,7 @@ public interface NoticeSvr {
 	void createNotice(Notice notice);
 
 	/**
-	 * 删除通知，并不能取消通知对用户的发送
+	 * 删除通知
 	 * 
 	 * @param noticeid
 	 */
@@ -54,4 +54,6 @@ public interface NoticeSvr {
 	List<UserNotice> getUserNoticeList(boolean buildNotice, int begin, int size);
 
 	void deleteUserNotice(UserNotice userNotice);
+
+	UserNotice getUserNoticeByUseridAndNoticeid(long userid, long noticeid);
 }

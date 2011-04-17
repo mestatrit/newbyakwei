@@ -13,4 +13,6 @@ public interface UserNoticeDao extends IDao<UserNotice> {
 	boolean isExistByUseridAndNoticeid(long userid, long noticeid);
 
 	List<UserNotice> getList(int begin, int size);
+
+	UserNotice getByUseridAndNoticeid(long userid, long noticeid);
 }

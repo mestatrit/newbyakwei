@@ -1,6 +1,7 @@
 package svr;
 
 import iwant.bean.FollowProject;
+import iwant.bean.ProjectFans;
 import iwant.svr.FollowProjectSvr;
 
 import java.util.List;
@@ -10,19 +11,14 @@ import javax.annotation.Resource;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration( { "/app-ds.xml", "/app-dao.xml", "/app-svr.xml" })
-@Transactional
-public class FollowProjectSvrTest {
+public class FollowProjectSvrTest extends BaseSvrTest {
 
 	FollowProject followProject0;
 
 	FollowProject followProject1;
+
+	FollowProject followProject2;
 
 	@Resource
 	private FollowProjectSvr followProjectSvr;
@@ -35,6 +31,9 @@ public class FollowProjectSvrTest {
 		userid = 1;
 		projectid = 5;
 		followProject1 = this.followProjectSvr.createFollow(userid, projectid);
+		userid = 2;
+		projectid = 2;
+		followProject2 = this.followProjectSvr.createFollow(userid, projectid);
 	}
 
 	private void assertData(FollowProject expected, FollowProject actual) {
@@ -73,5 +72,13 @@ public class FollowProjectSvrTest {
 		List<FollowProject> list = this.followProjectSvr
 				.getFollowProjectListByUserid(userid, 0, -1, false);
 		Assert.assertEquals(2, list.size());
+	}
+
+	@Test
+	public void deleteFollowProjectByProjectid() {
+		this.followProjectSvr.deleteFollowProjectByProjectid(2);
+		List<ProjectFans> list = this.followProjectSvr
+				.getProjectFansListByProjectid(2, 0, 100);
+		Assert.assertEquals(0, list.size());
 	}
 }

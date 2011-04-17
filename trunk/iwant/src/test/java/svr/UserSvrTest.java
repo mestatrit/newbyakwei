@@ -11,17 +11,10 @@ import javax.annotation.Resource;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.frame.util.DataUtil;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration( { "/app-ds.xml", "/app-dao.xml", "/app-svr.xml" })
-@Transactional
-public class UserSvrTest {
+public class UserSvrTest extends BaseSvrTest {
 
 	@Resource
 	private UserSvr userSvr;
