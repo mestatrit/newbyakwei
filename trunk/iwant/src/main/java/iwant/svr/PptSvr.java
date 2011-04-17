@@ -110,14 +110,6 @@ public interface PptSvr {
 
 	List<Slide> getSlideListByPptidOrdered(long pptid);
 
-	/**
-	 * 为了删除slide时使用，由于存在图片等文件数据，需要一个个删除
-	 * 
-	 * @param projectid
-	 * @param begin
-	 * @param size
-	 * @return
-	 */
 	List<Slide> getSlideListByProjectid(long projectid, int begin, int size);
 
 	void deleteSlide(Slide slide);
