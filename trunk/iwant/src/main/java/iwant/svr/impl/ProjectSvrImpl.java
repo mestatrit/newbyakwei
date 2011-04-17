@@ -75,4 +75,9 @@ public class ProjectSvrImpl implements ProjectSvr {
 	public List<ProjectRecycle> getProjectRecycleList(int begin, int size) {
 		return this.projectRecycleDao.getList(begin, size);
 	}
+
+	@Override
+	public void deleteProjectRecycle(ProjectRecycle projectRecycle) {
+		this.projectRecycleDao.delete(projectRecycle);
+	}
 }

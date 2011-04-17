@@ -49,6 +49,7 @@ public class DeleteProjectJob {
 				for (Slide slide : slideList) {
 					this.pptSvr.deleteSlide(slide);
 				}
+				this.projectSvr.deleteProjectRecycle(o);
 			}
 		}
 		catch (Exception e) {

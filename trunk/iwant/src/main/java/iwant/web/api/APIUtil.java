@@ -53,7 +53,8 @@ public class APIUtil {
 		for (Entry<String, Object> e : set) {
 			context.put(e.getKey(), e.getValue());
 		}
-		context.put("err", Err.SUCCESS);
+		context.put("errcode", Err.SUCCESS);
+		context.put("err_msg", "");
 		APIUtil.write(response, vmPath, context);
 	}
 }
