@@ -1,4 +1,4 @@
-package iwant.web.admin.util;
+package iwant.util.apns;
 
 import javapns.back.PushNotificationManager;
 import javapns.back.SSLConnectionHelper;

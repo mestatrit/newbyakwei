@@ -5,6 +5,8 @@ import iwant.bean.UserNotice;
 
 import java.util.List;
 
+import javapns.data.PayLoad;
+
 public interface NoticeSvr {
 
 	/**
@@ -30,16 +32,7 @@ public interface NoticeSvr {
 	 */
 	UserNotice createUserNotice(long noticeid, long userid);
 
-	/**
-	 * 发送推送信息到APNS
-	 * 
-	 * @param noticeid
-	 * @param userid
-	 * @return
-	 */
-	boolean sendApnsNotice(String content, long userid);
-
-	boolean sendApnsNotice(String device_token, String content);
+	void sendApnsNotice(String device_token, PayLoad payLoad) throws Exception;
 
 	/**
 	 * 获取所有通知信息，按照时间倒序

@@ -7,6 +7,10 @@ import iwant.svr.UserSvr;
 
 import java.util.List;
 
+import javapns.data.PayLoad;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hk.frame.util.DataUtil;
@@ -21,6 +25,8 @@ public class SendNoticeJob {
 
 	private boolean processing;
 
+	private final Log log = LogFactory.getLog(SendNoticeJob.class);
+
 	public void invoke() {
 		if (this.processing) {
 			return;
@@ -28,12 +34,21 @@ public class SendNoticeJob {
 		this.processing = true;
 		List<UserNotice> list = this.noticeSvr.getUserNoticeList(true, 0, 100);
 		User user = null;
+		PayLoad payLoad = null;
 		for (UserNotice o : list) {
 			user = this.userSvr.getUserByUserid(o.getUserid());
 			if (user != null && DataUtil.isNotEmpty(user.getDevice_token())) {
-				// send apns notice
-				this.noticeSvr.sendApnsNotice(o.getNotice().getContent(), user
-						.getDevice_token());
+				payLoad = new PayLoad();
+				try {
+					payLoad.addBadge(1);
+					payLoad.addAlert(o.getNotice().getContent());
+					payLoad.addSound("default");
+					this.noticeSvr.sendApnsNotice(user.getDevice_token(),
+							payLoad);
+				}
+				catch (Exception e) {
+					log.error(e.getMessage());
+				}
 			}
 			// 删除已发送的通知记录
 			this.noticeSvr.deleteUserNotice(o);
