@@ -7,10 +7,13 @@ import iwant.dao.NoticeDao;
 import iwant.dao.NoticeidCreatorDao;
 import iwant.dao.UserNoticeDao;
 import iwant.svr.NoticeSvr;
+import iwant.util.apns.ApnsTool;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javapns.data.PayLoad;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,11 +30,8 @@ public class NoticeSvrImpl implements NoticeSvr {
 	@Autowired
 	private UserNoticeDao userNoticeDao;
 
-	private String p12FilePath;
-
-	public void setP12FilePath(String p12FilePath) {
-		this.p12FilePath = p12FilePath;
-	}
+	@Autowired
+	private ApnsTool apnsTool;
 
 	@Override
 	public void createNotice(Notice notice) {
@@ -71,12 +71,6 @@ public class NoticeSvrImpl implements NoticeSvr {
 	}
 
 	@Override
-	public boolean sendApnsNotice(String content, long userid) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public List<UserNotice> getUserNoticeList(boolean buildNotice, int begin,
 			int size) {
 		List<UserNotice> list = this.userNoticeDao.getList(begin, size);
@@ -99,8 +93,9 @@ public class NoticeSvrImpl implements NoticeSvr {
 	}
 
 	@Override
-	public boolean sendApnsNotice(String deviceToken, String content) {
-		// TODO Auto-generated method stub
-		return false;
+	public void sendApnsNotice(String deviceToken, PayLoad payLoad)
+			throws Exception {
+		this.apnsTool.sendNotification(
+				"iphone_id" + System.currentTimeMillis(), deviceToken, payLoad);
 	}
 }
