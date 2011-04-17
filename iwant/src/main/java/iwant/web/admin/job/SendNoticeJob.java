@@ -37,7 +37,6 @@ public class SendNoticeJob {
 			return;
 		}
 		this.processing = true;
-		log.info("begin invoke");
 		// 发送通知
 		List<UserNotice> list = this.noticeSvr.getUserNoticeList(true, 0, 100);
 		User user = null;
