@@ -1,0 +1,20 @@
+<resp errcode="$!{errcode}" err_msg="$!{err_msg}">
+<project>
+<projectid>$!{project.projectid}</projectid>
+<title><![CDATA[$!{project.name}]]></title>
+</project>
+<list>
+#foreach($ppt in $list)
+<slide>
+<slideid>$!{slide.pptid}</slideid>
+<title><![CDATA[$!{slide.name}]]></title>
+<subtitle><![CDATA[$!{slide.name}]]></subtitle>
+<descr><![CDATA[$!{slide.descr}]]></descr>
+<projectid>$!{slide.projectid}</projectid>
+<pptid>$!{slide.pptid}</pptid>
+<pic1url><![CDATA[$!{slide.getPic1Url()}]]></pic1url>
+<pic2url><![CDATA[$!{slide.getPic2Url()}]]></pic2url>
+</slide>
+#end
+</list>
+</resp>
