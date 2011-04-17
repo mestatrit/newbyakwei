@@ -37,9 +37,11 @@ public interface ProjectSvr {
 	 * @param projectid
 	 * @return
 	 */
-	boolean deleteProject(long projectid);
+	void deleteProject(long projectid);
 
 	ProjectRecycle getProjectRecycle(long projectid);
+
+	List<ProjectRecycle> getProjectRecycleList(int begin, int size);
 
 	List<Project> getProjectListByCdn(ProjectSearchCdn projectSearchCdn,
 			int begin, int size);

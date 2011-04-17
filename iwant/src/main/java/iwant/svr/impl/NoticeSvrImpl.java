@@ -98,4 +98,10 @@ public class NoticeSvrImpl implements NoticeSvr {
 		this.apnsTool.sendNotification(
 				"iphone_id" + System.currentTimeMillis(), deviceToken, payLoad);
 	}
+
+	@Override
+	public UserNotice getUserNoticeByUseridAndNoticeid(long userid,
+			long noticeid) {
+		return this.userNoticeDao.getByUseridAndNoticeid(userid, noticeid);
+	}
 }

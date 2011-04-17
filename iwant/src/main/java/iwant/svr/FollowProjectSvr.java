@@ -1,6 +1,7 @@
 package iwant.svr;
 
 import iwant.bean.FollowProject;
+import iwant.bean.ProjectFans;
 
 import java.util.List;
 
@@ -49,4 +50,9 @@ public interface FollowProjectSvr {
 	 */
 	List<FollowProject> getFollowProjectListByUserid(long userid, int begin,
 			int size, boolean buildProject);
+
+	void deleteFollowProjectByProjectid(long projectid);
+
+	List<ProjectFans> getProjectFansListByProjectid(long projectid, int begin,
+			int size);
 }

@@ -18,4 +18,9 @@ public class FollowProjectDaoImpl extends BaseDao<FollowProject> implements
 		return this.getObject(null, "userid=? and projectid=?", new Object[] {
 				userid, projectid });
 	}
+
+	@Override
+	public void deleteByProjectid(long projectid) {
+		this.delete(null, "projectid=?", new Object[] { projectid });
+	}
 }

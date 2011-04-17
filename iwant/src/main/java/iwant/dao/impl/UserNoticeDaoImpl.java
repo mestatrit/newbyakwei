@@ -33,4 +33,10 @@ public class UserNoticeDaoImpl extends BaseDao<UserNotice> implements
 	public List<UserNotice> getList(int begin, int size) {
 		return this.getList(null, null, null, "noticeid asc", begin, size);
 	}
+
+	@Override
+	public UserNotice getByUseridAndNoticeid(long userid, long noticeid) {
+		return this.getObject(null, "userid=? and noticeid=?", new Object[] {
+				userid, noticeid });
+	}
 }

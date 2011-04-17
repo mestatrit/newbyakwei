@@ -63,4 +63,16 @@ public class FollowProjectSvrImpl implements FollowProjectSvr {
 				"userid=?", new Object[] { userid }, "sysid desc", begin, size);
 		return list;
 	}
+
+	@Override
+	public void deleteFollowProjectByProjectid(long projectid) {
+		this.projectFansDao.deleteByProjectid(projectid);
+		this.followProjectDao.deleteByProjectid(projectid);
+	}
+
+	@Override
+	public List<ProjectFans> getProjectFansListByProjectid(long projectid,
+			int begin, int size) {
+		return this.projectFansDao.getListByProjectid(projectid, begin, size);
+	}
 }

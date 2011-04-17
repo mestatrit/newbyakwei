@@ -15,6 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hk.frame.util.DataUtil;
 
+/**
+ * 发送apns通知
+ * 
+ * @author akwei
+ */
 public class SendNoticeJob {
 
 	@Autowired

@@ -5,23 +5,17 @@ import iwant.bean.UserNotice;
 import iwant.svr.NoticeSvr;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.frame.util.DataUtil;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration( { "/app-ds.xml", "/app-dao.xml", "/app-svr.xml" })
-@Transactional
-public class NoticeSvrTest {
+public class NoticeSvrTest extends BaseSvrTest {
 
 	@Resource
 	private NoticeSvr noticeSvr;
@@ -91,5 +85,28 @@ public class NoticeSvrTest {
 		Assert.assertNull(userNotice);
 		userNotice = this.noticeSvr.createUserNotice(5, 2);
 		Assert.assertNotNull(userNotice);
+	}
+
+	@Test
+	public void deleteUserNotice() {
+		this.noticeSvr.deleteUserNotice(this.userNotice0);
+		UserNotice userNotice = this.noticeSvr
+				.getUserNoticeByUseridAndNoticeid(this.userNotice0.getUserid(),
+						this.userNotice0.getNoticeid());
+		Assert.assertNull(userNotice);
+	}
+
+	@Test
+	public void getNoticeList() {
+		List<Notice> list = this.noticeSvr.getNoticeList(0, 100);
+		Assert.assertNotNull(list);
+		Assert.assertEquals(2, list.size());
+	}
+
+	@Test
+	public void getUserNoticeList() {
+		List<UserNotice> list = this.noticeSvr.getUserNoticeList(false, 0, 100);
+		Assert.assertNotNull(list);
+		Assert.assertEquals(2, list.size());
 	}
 }
