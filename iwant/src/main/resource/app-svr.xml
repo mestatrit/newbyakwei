@@ -18,7 +18,7 @@
 		<property name="directory" value="a/" />
 		<property name="suburl" value="http://www.iwant.com/pic/slidepic/" />
 	</bean>
-	<bean id="apnsTool" class="iwant.util.apns.ApnsTool">
+	<bean id="apnsTool" class="iwant.util.apns.ApnsToolMock">
 		<property name="host" value="gateway.sandbox.push.apple.com" />
 		<property name="port" value="2195" />
 		<property name="p12FilePath" value="" />

@@ -11,8 +11,31 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
-	<!-- 发送通知 -->
-	<bean id="sendNoticeJob" class="iwant.web.admin.SendNoticeJob" />
+	<bean id="deleteProjectJob" class="iwant.web.admin.job.DeleteProjectJob" />
+	<bean id="createUserNoticeJob" class="iwant.web.admin.job.CreateUserNoticeJob" />
+	<bean id="sendNoticeJob" class="iwant.web.admin.job.SendNoticeJob" />
+	<bean id="deleteProjectJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject" ref="deleteProjectJob" />
+				<property name="targetMethod" value="invoke" />
+			</bean>
+		</property>
+		<property name="startDelay" value="120000" />
+		<!-- 间隔时间 1分钟-->
+		<property name="repeatInterval" value="60000" />
+	</bean>
+	<bean id="createUserNoticeJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject" ref="createUserNoticeJob" />
+				<property name="targetMethod" value="invoke" />
+			</bean>
+		</property>
+		<property name="startDelay" value="120000" />
+		<!-- 间隔时间 -->
+		<property name="repeatInterval" value="2000" />
+	</bean>
 	<bean id="sendNoticeJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
 		<property name="jobDetail">
 			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -27,6 +50,8 @@
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
+				<ref bean="deleteProjectJobTrigger" />
+				<ref bean="createUserNoticeJobTrigger" />
 				<ref bean="sendNoticeJobTrigger" />
 			</list>
 		</property>
