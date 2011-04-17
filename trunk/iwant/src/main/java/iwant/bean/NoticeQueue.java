@@ -1,7 +1,9 @@
 package iwant.bean;
 
 import com.hk.frame.dao.annotation.Id;
+import com.hk.frame.dao.annotation.Table;
 
+@Table(name = "noticequeue")
 public class NoticeQueue {
 
 	@Id
