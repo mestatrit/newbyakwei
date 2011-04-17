@@ -2,7 +2,10 @@ package iwant.bean;
 
 import iwant.util.PicUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import com.hk.frame.dao.annotation.Column;
 import com.hk.frame.dao.annotation.Id;
@@ -15,6 +18,14 @@ import com.hk.frame.dao.annotation.Table;
  */
 @Table(name = "ppt")
 public class Ppt {
+
+	private static final String DATE_FMT = "EEE MMM d HH:mm:ss Z yyyy";
+
+	private static SimpleDateFormat sdf = new SimpleDateFormat(DATE_FMT,
+			Locale.ENGLISH);
+	static {
+		sdf.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+	}
 
 	/**
 	 * ppt id
