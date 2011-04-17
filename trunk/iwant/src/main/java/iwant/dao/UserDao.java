@@ -15,4 +15,6 @@ public interface UserDao extends IDao<User> {
 	boolean isExistByDevice_token(String device_token);
 
 	User getByDevice_tokenAnsNotUserid(String device_token, long userid);
+
+	User getByDevice_token(String device_token);
 }

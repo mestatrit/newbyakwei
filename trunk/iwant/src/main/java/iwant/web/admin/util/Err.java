@@ -39,5 +39,15 @@ public interface Err {
 
 	String SLIDE_PPTID_ERR = "15";
 
+	String PROJECT_NOT_EXIST = "16";
+
+	String USER_NOT_EXIST = "17";
+
+	String FOLLOWPROJECT_CREATE_ERR = "18";
+
+	String USER_CREATE_ERR = "19";
+
+	String RESOURCE_NOT_EXIST = "20";
+
 	String PROCESS_IMAGEFILE_ERR = "pro1";
 }

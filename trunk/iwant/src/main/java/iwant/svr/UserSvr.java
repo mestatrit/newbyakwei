@@ -19,4 +19,6 @@ public interface UserSvr {
 	boolean updateUser(User user);
 
 	User getUserByUserid(long userid);
+
+	User getUserByDevice_token(String device_token);
 }

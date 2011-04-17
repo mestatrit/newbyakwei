@@ -50,4 +50,9 @@ public class UserSvrImpl implements UserSvr {
 		this.userDao.update(user);
 		return true;
 	}
+
+	@Override
+	public User getUserByDevice_token(String deviceToken) {
+		return this.userDao.getByDevice_token(deviceToken);
+	}
 }
