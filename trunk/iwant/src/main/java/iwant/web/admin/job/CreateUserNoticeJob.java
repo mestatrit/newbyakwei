@@ -18,6 +18,8 @@ import iwant.svr.ProjectSvr;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -44,11 +46,14 @@ public class CreateUserNoticeJob {
 
 	private boolean processing;
 
+	private final Log log = LogFactory.getLog(CreateUserNoticeJob.class);
+
 	public void invoke() {
 		if (this.processing) {
 			return;
 		}
 		this.processing = true;
+		log.info("begin invoke");
 		this.processTimeline();
 		this.processCreateUserNotice();
 		this.processing = false;

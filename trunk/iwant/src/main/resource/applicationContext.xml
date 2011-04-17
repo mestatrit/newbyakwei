@@ -26,4 +26,5 @@
 	<import resource="app-ds.xml" />
 	<import resource="app-dao.xml" />
 	<import resource="app-svr.xml" />
+	<import resource="app-job.xml" />
 </beans>
