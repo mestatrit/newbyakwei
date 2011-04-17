@@ -1,7 +1,6 @@
 package iwant.dao.impl;
 
 import iwant.bean.MainPpt;
-import iwant.bean.enumtype.ActiveType;
 import iwant.dao.MainPptDao;
 import iwant.dao.MainPptSearchCdn;
 
@@ -19,14 +18,9 @@ public class MainPptDaoImpl extends BaseDao<MainPpt> implements MainPptDao {
 	}
 
 	@Override
-	public List<MainPpt> getListOrderedByCatid(int catid,
-			ActiveType activeType, int begin, int size) {
-		if (activeType.getValue() == ActiveType.ALL.getValue()) {
-			return this.getList(null, null, null, "order_flag desc", begin,
-					size);
-		}
-		return this.getList(null, "active_flag=?", new Object[] { activeType
-				.getValue() }, "order_flag desc", begin, size);
+	public List<MainPpt> getListOrderedByCatid(int catid, int begin, int size) {
+		return this.getList(null, "catid=?", new Object[] { catid },
+				"order_flag desc", begin, size);
 	}
 
 	@Override

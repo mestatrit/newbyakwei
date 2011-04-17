@@ -25,4 +25,10 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao {
 		}
 		return false;
 	}
+
+	@Override
+	public User getByDevice_token(String deviceToken) {
+		return this.getObject(null, "device_token=?",
+				new Object[] { deviceToken });
+	}
 }

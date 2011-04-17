@@ -5,7 +5,6 @@ import iwant.bean.Ppt;
 import iwant.bean.PptQueue;
 import iwant.bean.PptidCreator;
 import iwant.bean.Slide;
-import iwant.bean.enumtype.ActiveType;
 import iwant.dao.MainPptDao;
 import iwant.dao.MainPptSearchCdn;
 import iwant.dao.PptDao;
@@ -127,10 +126,9 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public List<MainPpt> getMainPptListOrderedByCatid(int catid,
-			ActiveType activeType, int begin, int size) {
-		return this.mainPptDao.getListOrderedByCatid(catid, activeType, begin,
-				size);
+	public List<MainPpt> getMainPptListOrderedByCatid(int catid, int begin,
+			int size) {
+		return this.mainPptDao.getListOrderedByCatid(catid, begin, size);
 	}
 
 	@Override
