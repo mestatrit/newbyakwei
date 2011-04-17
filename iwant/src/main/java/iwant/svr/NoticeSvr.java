@@ -37,7 +37,9 @@ public interface NoticeSvr {
 	 * @param userid
 	 * @return
 	 */
-	boolean sendAPNSNotice(String content, long userid);
+	boolean sendApnsNotice(String content, long userid);
+
+	boolean sendApnsNotice(String device_token, String content);
 
 	/**
 	 * 获取所有通知信息，按照时间倒序
@@ -55,4 +57,8 @@ public interface NoticeSvr {
 	 * @return
 	 */
 	Notice getNotice(long noticeid);
+
+	List<UserNotice> getUserNoticeList(boolean buildNotice, int begin, int size);
+
+	void deleteUserNotice(UserNotice userNotice);
 }
