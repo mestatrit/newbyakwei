@@ -4,11 +4,11 @@
 <title><![CDATA[$!{project.name}]]></title>
 </project>
 <list>
-#foreach($ppt in $list)
+#foreach($slide in $list)
 <slide>
 <slideid>$!{slide.pptid}</slideid>
-<title><![CDATA[$!{slide.name}]]></title>
-<subtitle><![CDATA[$!{slide.name}]]></subtitle>
+<title><![CDATA[$!{slide.title}]]></title>
+<subtitle><![CDATA[$!{slide.subtitle}]]></subtitle>
 <descr><![CDATA[$!{slide.descr}]]></descr>
 <projectid>$!{slide.projectid}</projectid>
 <pptid>$!{slide.pptid}</pptid>
