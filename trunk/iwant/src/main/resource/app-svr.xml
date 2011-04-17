@@ -18,13 +18,17 @@
 		<property name="directory" value="a/" />
 		<property name="suburl" value="http://www.iwant.com/pic/slidepic/" />
 	</bean>
+	<bean id="apnsTool" class="iwant.util.apns.ApnsTool">
+		<property name="host" value="gateway.sandbox.push.apple.com" />
+		<property name="port" value="2195" />
+		<property name="p12FilePath" value="" />
+		<property name="p12FileKey" value="" />
+	</bean>
 	<bean id="categorySvr" class="iwant.svr.impl.CategorySvrImpl" />
 	<bean id="followProjectSvr" class="iwant.svr.impl.FollowProjectSvrImpl" />
 	<bean id="noticeSvr" class="iwant.svr.impl.NoticeSvrImpl" />
 	<bean id="pptSvr" class="iwant.svr.impl.PptSvrImpl">
-		<!-- ppt slide 图片配置 -->
-		<property name="fileCnf" ref="slideFileCnf">
-		</property>
+		<property name="fileCnf" ref="slideFileCnf" />
 	</bean>
 	<bean id="pptTimelineSvr" class="iwant.svr.impl.PptTimelineSvrImpl" />
 	<bean id="projectSvr" class="iwant.svr.impl.ProjectSvrImpl"></bean>
