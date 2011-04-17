@@ -28,8 +28,7 @@ public class APIUtil {
 					context));
 		}
 		catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -37,14 +36,14 @@ public class APIUtil {
 		VelocityContext context = new VelocityContext();
 		context.put("errcode", err);
 		context.put("err_msg", req.getText(err));
-		APIUtil.write(resp, "vm/sinaerr.vm", context);
+		APIUtil.write(resp, "vm/syserr.vm", context);
 	}
 
 	public static void writeSuccess(HkRequest req, HkResponse resp) {
 		VelocityContext context = new VelocityContext();
 		context.put("errcode", Err.SUCCESS);
 		context.put("err_msg", req.getText(String.valueOf(Err.SUCCESS)));
-		APIUtil.write(resp, "vm/sinaerr.vm", context);
+		APIUtil.write(resp, "vm/syserr.vm", context);
 	}
 
 	public static void writeData(HttpServletResponse response,
