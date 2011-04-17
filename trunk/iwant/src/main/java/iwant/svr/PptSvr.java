@@ -2,6 +2,7 @@ package iwant.svr;
 
 import iwant.bean.MainPpt;
 import iwant.bean.Ppt;
+import iwant.bean.PptQueue;
 import iwant.bean.Slide;
 import iwant.bean.enumtype.ActiveType;
 import iwant.dao.MainPptSearchCdn;
@@ -124,4 +125,8 @@ public interface PptSvr {
 	Map<Long, Ppt> getPptMapInId(List<Long> idList);
 
 	Slide getSlide(long slideid);
+
+	List<PptQueue> getPptQueueList(int begin, int size);
+
+	void deletePptQueue(PptQueue pptQueue);
 }

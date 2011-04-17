@@ -1,9 +1,11 @@
 package iwant.svr.impl;
 
 import iwant.bean.Notice;
+import iwant.bean.NoticeQueue;
 import iwant.bean.NoticeidCreator;
 import iwant.bean.UserNotice;
 import iwant.dao.NoticeDao;
+import iwant.dao.NoticeQueueDao;
 import iwant.dao.NoticeidCreatorDao;
 import iwant.dao.UserNoticeDao;
 import iwant.svr.NoticeSvr;
@@ -33,18 +35,25 @@ public class NoticeSvrImpl implements NoticeSvr {
 	@Autowired
 	private ApnsTool apnsTool;
 
+	@Autowired
+	private NoticeQueueDao noticeQueueDao;
+
 	@Override
 	public void createNotice(Notice notice) {
 		long noticeid = NumberUtil.getLong(this.noticeidCreatorDao
 				.save(new NoticeidCreator()));
 		notice.setNoticeid(noticeid);
 		this.noticeDao.save(notice);
+		NoticeQueue noticeQueue = new NoticeQueue();
+		noticeQueue.setNoticeid(noticeid);
+		this.noticeQueueDao.save(noticeQueue);
 	}
 
 	@Override
 	public void deleteNotice(long noticeid) {
 		this.noticeDao.deleteById(null, noticeid);
 		this.userNoticeDao.deleteByNoticeid(noticeid);
+		this.noticeQueueDao.deleteById(null, noticeid);
 	}
 
 	@Override
@@ -103,5 +112,15 @@ public class NoticeSvrImpl implements NoticeSvr {
 	public UserNotice getUserNoticeByUseridAndNoticeid(long userid,
 			long noticeid) {
 		return this.userNoticeDao.getByUseridAndNoticeid(userid, noticeid);
+	}
+
+	@Override
+	public void deleteNoticeQueue(NoticeQueue noticeQueue) {
+		this.noticeQueueDao.delete(noticeQueue);
+	}
+
+	@Override
+	public List<NoticeQueue> getNoticeQueueList(int begin, int size) {
+		return this.noticeQueueDao.getList(begin, size);
 	}
 }

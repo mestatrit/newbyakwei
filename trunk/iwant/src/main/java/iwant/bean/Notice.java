@@ -32,6 +32,9 @@ public class Notice {
 	@Column
 	private String content;
 
+	@Column
+	private long pptid;
+
 	/**
 	 * 通知创建时间
 	 */
@@ -68,5 +71,13 @@ public class Notice {
 
 	public void setProjectid(long projectid) {
 		this.projectid = projectid;
+	}
+
+	public long getPptid() {
+		return pptid;
+	}
+
+	public void setPptid(long pptid) {
+		this.pptid = pptid;
 	}
 }

@@ -2,12 +2,14 @@ package iwant.svr.impl;
 
 import iwant.bean.MainPpt;
 import iwant.bean.Ppt;
+import iwant.bean.PptQueue;
 import iwant.bean.PptidCreator;
 import iwant.bean.Slide;
 import iwant.bean.enumtype.ActiveType;
 import iwant.dao.MainPptDao;
 import iwant.dao.MainPptSearchCdn;
 import iwant.dao.PptDao;
+import iwant.dao.PptQueueDao;
 import iwant.dao.PptSearchCdn;
 import iwant.dao.PptidCreatorDao;
 import iwant.dao.SlideDao;
@@ -45,6 +47,9 @@ public class PptSvrImpl implements PptSvr {
 	@Autowired
 	private PptidCreatorDao pptidCreatorDao;
 
+	@Autowired
+	private PptQueueDao pptQueueDao;
+
 	private FileCnf fileCnf;
 
 	private Log log = LogFactory.getLog(PptSvrImpl.class);
@@ -72,6 +77,10 @@ public class PptSvrImpl implements PptSvr {
 				.save(new PptidCreator()));
 		ppt.setPptid(pptid);
 		this.pptDao.save(ppt);
+		PptQueue pptQueue = new PptQueue();
+		pptQueue.setPptid(ppt.getPptid());
+		pptQueue.setProjectid(ppt.getProjectid());
+		this.pptQueueDao.save(pptQueue);
 	}
 
 	@Override
@@ -97,6 +106,7 @@ public class PptSvrImpl implements PptSvr {
 		for (Slide slide : list) {
 			this.deleteSlide(slide);
 		}
+		this.pptQueueDao.deleteById(null, pptid);
 		this.pptDao.deleteById(null, pptid);
 	}
 
@@ -266,5 +276,15 @@ public class PptSvrImpl implements PptSvr {
 				optStatus.setError_code(ErrorCode.err_image);
 			}
 		}
+	}
+
+	@Override
+	public List<PptQueue> getPptQueueList(int begin, int size) {
+		return this.pptQueueDao.getList(begin, size);
+	}
+
+	@Override
+	public void deletePptQueue(PptQueue pptQueue) {
+		this.pptQueueDao.delete(pptQueue);
 	}
 }
