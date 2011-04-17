@@ -21,7 +21,7 @@
 				<property name="targetMethod" value="invoke" />
 			</bean>
 		</property>
-		<property name="startDelay" value="120000" />
+		<property name="startDelay" value="30000" />
 		<!-- 间隔时间 1分钟-->
 		<property name="repeatInterval" value="60000" />
 	</bean>
@@ -32,7 +32,7 @@
 				<property name="targetMethod" value="invoke" />
 			</bean>
 		</property>
-		<property name="startDelay" value="120000" />
+		<property name="startDelay" value="30000" />
 		<!-- 间隔时间 -->
 		<property name="repeatInterval" value="2000" />
 	</bean>
@@ -43,7 +43,7 @@
 				<property name="targetMethod" value="invoke" />
 			</bean>
 		</property>
-		<property name="startDelay" value="120000" />
+		<property name="startDelay" value="30000" />
 		<!-- 间隔时间 -->
 		<property name="repeatInterval" value="2000" />
 	</bean>
