@@ -27,6 +27,16 @@ public class UserNotice {
 	@Column
 	private long userid;
 
+	private Notice notice;
+
+	public void setNotice(Notice notice) {
+		this.notice = notice;
+	}
+
+	public Notice getNotice() {
+		return notice;
+	}
+
 	public long getSysid() {
 		return sysid;
 	}

@@ -8,7 +8,9 @@ import iwant.dao.NoticeidCreatorDao;
 import iwant.dao.UserNoticeDao;
 import iwant.svr.NoticeSvr;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,6 +26,12 @@ public class NoticeSvrImpl implements NoticeSvr {
 
 	@Autowired
 	private UserNoticeDao userNoticeDao;
+
+	private String p12FilePath;
+
+	public void setP12FilePath(String p12FilePath) {
+		this.p12FilePath = p12FilePath;
+	}
 
 	@Override
 	public void createNotice(Notice notice) {
@@ -50,12 +58,6 @@ public class NoticeSvrImpl implements NoticeSvr {
 	}
 
 	@Override
-	public boolean sendAPNSNotice(String content, long userid) {
-		// TODO 发送apple通知
-		return false;
-	}
-
-	@Override
 	public UserNotice createUserNotice(long noticeid, long userid) {
 		if (this.userNoticeDao.isExistByUseridAndNoticeid(userid, noticeid)) {
 			return null;
@@ -66,5 +68,39 @@ public class NoticeSvrImpl implements NoticeSvr {
 		long sysid = NumberUtil.getLong(this.userNoticeDao.save(userNotice));
 		userNotice.setSysid(sysid);
 		return userNotice;
+	}
+
+	@Override
+	public boolean sendApnsNotice(String content, long userid) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<UserNotice> getUserNoticeList(boolean buildNotice, int begin,
+			int size) {
+		List<UserNotice> list = this.userNoticeDao.getList(begin, size);
+		if (buildNotice) {
+			List<Long> idList = new ArrayList<Long>();
+			for (UserNotice o : list) {
+				idList.add(o.getNoticeid());
+			}
+			Map<Long, Notice> map = this.noticeDao.getNoticeMapInId(idList);
+			for (UserNotice o : list) {
+				o.setNotice(map.get(o.getNoticeid()));
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public void deleteUserNotice(UserNotice userNotice) {
+		this.userNoticeDao.delete(userNotice);
+	}
+
+	@Override
+	public boolean sendApnsNotice(String deviceToken, String content) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
