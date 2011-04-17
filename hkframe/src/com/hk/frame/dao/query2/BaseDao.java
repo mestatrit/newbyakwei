@@ -148,6 +148,9 @@ public abstract class BaseDao<T> implements IDao<T> {
 
 	public <E> List<T> getListInField(Object keyValue, String where,
 			Object[] params, String field, List<E> fieldValueList) {
+		if (fieldValueList.isEmpty()) {
+			return new ArrayList<T>();
+		}
 		QueryParam queryParam = this.hkObjQuery.createQueryParam(getClazz(),
 				getKey(), keyValue);
 		StringBuilder sb = new StringBuilder();
