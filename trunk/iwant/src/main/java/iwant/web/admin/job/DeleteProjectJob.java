@@ -37,7 +37,6 @@ public class DeleteProjectJob {
 			return;
 		}
 		this.processing = true;
-		log.info("begin invoke");
 		try {
 			List<ProjectRecycle> list = this.projectSvr.getProjectRecycleList(
 					0, 100);
