@@ -24,6 +24,11 @@ public class MainPptDaoImpl extends BaseDao<MainPpt> implements MainPptDao {
 	}
 
 	@Override
+	public void deleteByProjectid(long projectid) {
+		this.delete(null, "projectid=?", new Object[] { projectid });
+	}
+
+	@Override
 	public List<MainPpt> getListOrderedByCdn(MainPptSearchCdn mainPptSearchCdn,
 			int begin, int size) {
 		StringBuilder sb = new StringBuilder("1=1");

@@ -118,6 +118,7 @@ public class PptSvrImpl implements PptSvr {
 	@Override
 	public void deletePptByProjectid(long projectid) {
 		this.pptDao.deleteByProjectid(projectid);
+		this.mainPptDao.deleteByProjectid(projectid);
 	}
 
 	@Override
