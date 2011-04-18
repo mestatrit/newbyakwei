@@ -14,4 +14,6 @@ public interface MainPptDao extends IDao<MainPpt> {
 
 	List<MainPpt> getListOrderedByCdn(MainPptSearchCdn mainPptSearchCdn,
 			int begin, int size);
+
+	void deleteByProjectid(long projectid);
 }
