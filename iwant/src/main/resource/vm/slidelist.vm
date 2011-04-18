@@ -6,7 +6,7 @@
 <list>
 #foreach($slide in $list)
 <slide>
-<slideid>$!{slide.pptid}</slideid>
+<slideid>$!{slide.slideid}</slideid>
 <title><![CDATA[$!{slide.title}]]></title>
 <subtitle><![CDATA[$!{slide.subtitle}]]></subtitle>
 <descr><![CDATA[$!{slide.descr}]]></descr>
