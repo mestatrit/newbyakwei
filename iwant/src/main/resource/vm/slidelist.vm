@@ -1,7 +1,7 @@
 <resp errcode="$!{errcode}" err_msg="$!{err_msg}">
 <project>
 <projectid>$!{project.projectid}</projectid>
-<title><![CDATA[$!{project.name}]]></title>
+<name><![CDATA[$!{project.name}]]></name>
 </project>
 <list>
 #foreach($slide in $list)
