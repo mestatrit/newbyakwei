@@ -17,6 +17,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.hk.frame.util.P;
 import com.hk.frame.util.page.SimplePage;
 import com.hk.frame.web.http.HkRequest;
 import com.hk.frame.web.http.HkResponse;
@@ -87,5 +88,10 @@ public class PptAction extends BaseApiAction {
 		map.put("list", list);
 		APIUtil.writeData(resp, map, "vm/slidelist.vm");
 		return null;
+	}
+
+	public static void main(String[] args) {
+		P.println(Integer.MAX_VALUE);
+		P.println(Long.MAX_VALUE);
 	}
 }
