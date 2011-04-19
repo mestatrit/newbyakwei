@@ -37,7 +37,7 @@
 				<tr>
 					<td width="90" align="right"></td>
 					<td>
-						<a href="javascript:viewppt()" class="split-r">查看PPT</a>
+						<a href="javascript:viewppt()" class="split-r">查看项目简介</a>
 						<a href="javascript:toupdate()" class="split-r">修改</a>
 						<a href="${appctx_path }/mgr/project_back.do">返回</a>
 					</td>

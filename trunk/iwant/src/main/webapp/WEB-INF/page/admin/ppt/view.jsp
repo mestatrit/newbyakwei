@@ -10,7 +10,7 @@
 <c:set scope="request" var="mgr_body_content">
 <div class="mod">
 	<div class="mod_title">
-		查看PPT - <hk:value value="${ppt.name}"/>
+		查看项目简介 - <hk:value value="${ppt.name}"/>
 	</div>
 	<div class="mod_content">
 		<div>
@@ -47,7 +47,7 @@
 	</div>
 	<div class="mod_content">
 		<div>
-			<input type="button" class="btn" onclick="tocreateslide()" value="创建Slide"/>
+			<input type="button" class="btn" onclick="tocreateslide()" value="创建简介内容"/>
 		</div>
 		<ul class="rowlist">
 			<c:forEach var="slide" items="${list }" varStatus="idx">
