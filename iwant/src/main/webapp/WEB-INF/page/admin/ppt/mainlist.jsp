@@ -1,13 +1,13 @@
 <%@ page language="java" pageEncoding="UTF-8"%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"
 %><%@ taglib uri="/WEB-INF/waphk.tld" prefix="hk"
 %>
-<c:set var="html_head_title" scope="request">PPT管理</c:set>
+<c:set var="html_head_title" scope="request">项目简介管理</c:set>
 <c:set scope="request" var="mgr_body_content">
 <div class="mod">
-	<div class="mod_title">PPT管理</div>
+	<div class="mod_title">项目简介管理</div>
 	<div class="mod_content">
 		<div>
-		<input type="button" class="btn" value="创建PPT" onclick="tocreate()"/>
+		<input type="button" class="btn" value="创建项目简介" onclick="tocreate()"/>
 		</div>
 		<div style="padding-left: 50">
 		<form method="get" action="${appctx_path}/mgr/ppt_mainlist.do">
