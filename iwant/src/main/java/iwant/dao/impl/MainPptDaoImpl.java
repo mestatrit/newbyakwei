@@ -69,4 +69,9 @@ public class MainPptDaoImpl extends BaseDao<MainPpt> implements MainPptDao {
 		return this.count(null, sb.toString(), objlist
 				.toArray(new Object[objlist.size()]));
 	}
+
+	@Override
+	public MainPpt getByProjectid(long projectid) {
+		return this.getObject(null, "projectid=?", new Object[] { projectid });
+	}
 }

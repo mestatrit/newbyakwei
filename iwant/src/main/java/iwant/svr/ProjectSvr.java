@@ -5,6 +5,7 @@ import iwant.bean.ProjectRecycle;
 import iwant.dao.ProjectSearchCdn;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProjectSvr {
 
@@ -47,4 +48,6 @@ public interface ProjectSvr {
 			int begin, int size);
 
 	void deleteProjectRecycle(ProjectRecycle projectRecycle);
+
+	Map<Long, Project> getProjectMap(List<Long> idList);
 }

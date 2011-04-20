@@ -86,7 +86,7 @@ public class ProjectAction extends BaseAction {
 		}
 		this.projectSvr.createProject(project);
 		this.opCreateSuccess(req);
-		return this.onSuccess(req, "createok", null);
+		return this.onSuccess(req, "createok", project.getProjectid());
 	}
 
 	public String update(HkRequest req, HkResponse resp) throws Exception {

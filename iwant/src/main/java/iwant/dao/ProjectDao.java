@@ -4,6 +4,7 @@ import iwant.bean.Project;
 import iwant.bean.enumtype.ActiveType;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hk.frame.dao.query2.IDao;
 
@@ -14,4 +15,6 @@ public interface ProjectDao extends IDao<Project> {
 
 	List<Project> getListByCdn(ProjectSearchCdn projectSearchCdn, int begin,
 			int size);
+
+	Map<Long, Project> getMapInId(List<Long> idList);
 }

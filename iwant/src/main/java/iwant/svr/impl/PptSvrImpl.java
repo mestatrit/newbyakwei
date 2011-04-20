@@ -4,6 +4,7 @@ import iwant.bean.MainPpt;
 import iwant.bean.Ppt;
 import iwant.bean.PptQueue;
 import iwant.bean.PptidCreator;
+import iwant.bean.Project;
 import iwant.bean.Slide;
 import iwant.dao.MainPptDao;
 import iwant.dao.MainPptSearchCdn;
@@ -14,11 +15,13 @@ import iwant.dao.PptidCreatorDao;
 import iwant.dao.SlideDao;
 import iwant.svr.OptStatus;
 import iwant.svr.PptSvr;
+import iwant.svr.ProjectSvr;
 import iwant.util.ErrorCode;
 import iwant.util.FileCnf;
 import iwant.util.PicUtil;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +51,9 @@ public class PptSvrImpl implements PptSvr {
 
 	@Autowired
 	private PptQueueDao pptQueueDao;
+
+	@Autowired
+	private ProjectSvr projectSvr;
 
 	private FileCnf fileCnf;
 
@@ -127,16 +133,42 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public List<MainPpt> getMainPptListOrderedByCatid(int catid, int begin,
-			int size) {
-		return this.mainPptDao.getListOrderedByCatid(catid, begin, size);
+	public MainPpt getMainPptByProjectid(long projectid) {
+		return this.mainPptDao.getByProjectid(projectid);
+	}
+
+	@Override
+	public List<MainPpt> getMainPptListOrderedByCatid(int catid,
+			boolean buildProject, int begin, int size) {
+		List<MainPpt> list = this.mainPptDao.getListOrderedByCatid(catid,
+				begin, size);
+		if (buildProject) {
+			this.buildProject(list);
+		}
+		return list;
 	}
 
 	@Override
 	public List<MainPpt> getMainPptListOrderedByCdn(
-			MainPptSearchCdn mainPptSearchCdn, int begin, int size) {
-		return this.mainPptDao.getListOrderedByCdn(mainPptSearchCdn, begin,
-				size);
+			MainPptSearchCdn mainPptSearchCdn, boolean buildProject, int begin,
+			int size) {
+		List<MainPpt> list = this.mainPptDao.getListOrderedByCdn(
+				mainPptSearchCdn, begin, size);
+		if (buildProject) {
+			this.buildProject(list);
+		}
+		return list;
+	}
+
+	private void buildProject(List<MainPpt> list) {
+		List<Long> idList = new ArrayList<Long>();
+		for (MainPpt o : list) {
+			idList.add(o.getProjectid());
+		}
+		Map<Long, Project> map = this.projectSvr.getProjectMap(idList);
+		for (MainPpt o : list) {
+			o.setProject(map.get(o.getProjectid()));
+		}
 	}
 
 	@Override

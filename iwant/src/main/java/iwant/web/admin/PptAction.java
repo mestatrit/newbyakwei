@@ -69,13 +69,16 @@ public class PptAction extends BaseAction {
 	public String create(HkRequest req, HkResponse resp) throws Exception {
 		long projectid = req.getLongAndSetAttr("projectid");
 		Project project = this.projectSvr.getProject(projectid);
+		List<Ppt> list = this.pptSvr.getPptListByProjectid(req
+				.getLongAndSetAttr("projectid"), 0, 0);
 		if (this.isForwardPage(req)) {
+			if (list.isEmpty()) {
+				req.setAttribute("first_create", true);
+			}
 			req.setAttribute("op_project", true);
 			req.setAttribute("project", project);
 			return this.getAdminPath("ppt/create.jsp");
 		}
-		List<Ppt> list = this.pptSvr.getPptListByProjectid(req
-				.getLongAndSetAttr("projectid"), 0, 0);
 		if (project == null) {
 			return null;
 		}
@@ -194,8 +197,9 @@ public class PptAction extends BaseAction {
 		mainPptSearchCdn.setActiveType(ActiveTypeCreater
 				.getActiveType(active_flag));
 		// 此集合多包含2条数据为了方便进行移动操作，所记录的当页中首条和最后一条可换位置的pptid
-		List<MainPpt> list = this.pptSvr.getMainPptListOrderedByCdn(
-				mainPptSearchCdn, page.getBegin() - 1, page.getSize() + 1);
+		List<MainPpt> list = this.pptSvr
+				.getMainPptListOrderedByCdn(mainPptSearchCdn, true, page
+						.getBegin() - 1, page.getSize() + 1);
 		if (!list.isEmpty()) {
 			List<Long> idList = new ArrayList<Long>();
 			for (MainPpt o : list) {
@@ -279,7 +283,7 @@ public class PptAction extends BaseAction {
 		mainPptSearchCdn.setCatid(req.getInt("catid"));
 		mainPptSearchCdn.setOrder("order_flag desc");
 		List<MainPpt> list = this.pptSvr.getMainPptListOrderedByCdn(
-				mainPptSearchCdn, 0, 1);
+				mainPptSearchCdn, false, 0, 1);
 		if (list.isEmpty()) {
 			return null;
 		}
@@ -302,7 +306,7 @@ public class PptAction extends BaseAction {
 		mainPptSearchCdn.setCatid(req.getInt("catid"));
 		mainPptSearchCdn.setOrder("order_flag asc");
 		List<MainPpt> list = this.pptSvr.getMainPptListOrderedByCdn(
-				mainPptSearchCdn, 0, 1);
+				mainPptSearchCdn, false, 0, 1);
 		if (list.isEmpty()) {
 			return null;
 		}
