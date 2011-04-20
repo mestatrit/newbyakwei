@@ -53,5 +53,9 @@ public interface Err {
 
 	String SLIDE_CREATE_LIMIT_ERR = "22";
 
+	String NOTICE_CONTENT_ERR = "23";
+
+	String PPT_NOT_EXIST = "24";
+
 	String PROCESS_IMAGEFILE_ERR = "pro1";
 }
