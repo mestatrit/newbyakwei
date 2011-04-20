@@ -46,9 +46,11 @@
 		<hk:value value="${ppt.name}"/>的内容
 	</div>
 	<div class="mod_content">
-		<div>
-			<input type="button" class="btn" onclick="tocreateslide()" value="添加内容"/>
-		</div>
+		<c:if test="${canaddslide}">
+			<div>
+				<input type="button" class="btn" onclick="tocreateslide()" value="添加内容"/>
+			</div>
+		</c:if>
 		<ul class="rowlist">
 			<c:forEach var="slide" items="${list }" varStatus="idx">
 			<li id="row_${slide.slideid}">
@@ -68,7 +70,7 @@
 			</li>
 			</c:forEach>
 			<c:if test="${(fn:length(list)==0) }">
-				<li><div class="nodata">本页没有数据</div></li>
+				<li><div class="nodata">目前还没有添加内容</div></li>
 			</c:if>
 		</ul>
 	</div>
