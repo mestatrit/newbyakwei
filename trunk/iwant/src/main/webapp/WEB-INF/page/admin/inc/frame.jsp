@@ -19,6 +19,7 @@ var loading_path = "${appctx_path }/static/img/blue-loading.gif";</script>
 				<div id="header">
 					<div id="top">
 						<div id="logo"></div>
+						<div style="font-size: 70px;float: left;line-height: 80px;font-weight: bold;">我想 后台管理</div>
 						<div class="clr"></div>
 					</div>
 					<div id="bottom">
