@@ -59,4 +59,35 @@ public class ProjectAction extends BaseApiAction {
 			return null;
 		}
 	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String unfollow(HkRequest req, HkResponse resp) {
+		try {
+			long projectid = req.getLong("projectid");
+			String device_token = req.getStringRow("device_token");
+			User user = this.userSvr.getUserByDevice_token(device_token);
+			if (user == null) {
+				APIUtil.writeErr(req, resp, Err.USER_NOT_EXIST);
+				return null;
+			}
+			Project project = this.projectSvr.getProject(projectid);
+			if (project == null) {
+				APIUtil.writeErr(req, resp, Err.PROJECT_NOT_EXIST);
+				return null;
+			}
+			this.followProjectSvr.deleteFollow(user.getUserid(), projectid);
+			APIUtil.writeSuccess(req, resp);
+			return null;
+		}
+		catch (Exception e) {
+			log.error(e.getMessage());
+			APIUtil.writeErr(req, resp, Err.FOLLOWPROJECT_CREATE_ERR);
+			return null;
+		}
+	}
 }

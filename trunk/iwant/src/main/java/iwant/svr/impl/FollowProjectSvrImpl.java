@@ -43,10 +43,9 @@ public class FollowProjectSvrImpl implements FollowProjectSvr {
 	}
 
 	@Override
-	public boolean deleteFollow(long userid, long projectid) {
+	public void deleteFollow(long userid, long projectid) {
 		this.followProjectDao.delete(null, "userid=? and projectid=?",
 				new Object[] { userid, projectid });
-		return true;
 	}
 
 	@Override

@@ -25,9 +25,8 @@ public interface FollowProjectSvr {
 	 *            订阅者id
 	 * @param projectid
 	 *            订阅的项目id
-	 * @return true:操作成功,false:失败
 	 */
-	boolean deleteFollow(long userid, long projectid);
+	void deleteFollow(long userid, long projectid);
 
 	/**
 	 * 获取用户订阅的项目信息
