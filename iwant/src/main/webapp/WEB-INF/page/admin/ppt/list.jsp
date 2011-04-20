@@ -30,6 +30,9 @@
 				<div class="f_l">
 					<a href="javascript:toupdate(${ppt.pptid })" class="split-r" id="op_update_${ppt.pptid }">修改</a>
 					<a href="javascript:opdel(${ppt.pptid })" class="split-r" id="op_delete_${ppt.pptid }">删除</a>
+					<c:if test="${mainPpt==null}">
+					<a id="op_setmain_${ppt.pptid}" href="javascript:setmain(${ppt.pptid})">设为主要项目简介</a>
+					</c:if>
 				</div>
 				<div class="clr"></div>
 			</li>
@@ -78,6 +81,22 @@ function opdel(pptid){
 			}
 		});
 	}
+}
+function setmain(pptid){
+	var glassid_op=addGlass('op_setmain_'+pptid,false);
+	$.ajax({
+		type:"POST",
+		url:"${appctx_path}/mgr/ppt_setmain.do?pptid="+pptid,
+		cache:false,
+    	dataType:"html",
+		success:function(data){
+			refreshurl();
+		},
+		error:function(data){
+			removeGlass(glassid_op);
+			alert('服务器出错，请刷新页面稍后继续操作');
+		}
+	});
 }
 </script>
 </c:set><jsp:include page="../inc/mgrframe.jsp"></jsp:include>
