@@ -75,11 +75,11 @@ public class PptAction extends BaseAction {
 		List<Ppt> list = this.pptSvr.getPptListByProjectid(req
 				.getLongAndSetAttr("projectid"), 0, 0);
 		if (this.isForwardPage(req)) {
-			if (list.isEmpty()) {
-				req.setAttribute("first_create", true);
-			}
 			req.setAttribute("op_project", true);
 			req.setAttribute("project", project);
+			if (list.isEmpty()) {
+				return this.getAdminPath("ppt/createmain.jsp");
+			}
 			return this.getAdminPath("ppt/create.jsp");
 		}
 		if (project == null) {
@@ -165,6 +165,7 @@ public class PptAction extends BaseAction {
 		BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
 		backUrl.push(req.getString("back_url"));
 		req.setAttribute("backUrl", backUrl);
+		req.setAttribute("canaddslide", this.pptSvr.isCanAddSlide(pptid));
 		return this.getAdminPath("ppt/view.jsp");
 	}
 

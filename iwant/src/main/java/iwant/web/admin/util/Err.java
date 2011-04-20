@@ -51,5 +51,7 @@ public interface Err {
 
 	String FOLLOWPROJECT_DELETE_ERR = "21";
 
+	String SLIDE_CREATE_LIMIT_ERR = "22";
+
 	String PROCESS_IMAGEFILE_ERR = "pro1";
 }

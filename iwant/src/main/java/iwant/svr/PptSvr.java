@@ -118,6 +118,8 @@ public interface PptSvr {
 
 	List<Slide> getSlideListByPptidOrdered(long pptid);
 
+	int countSlideByPptid(long pptid);
+
 	List<Slide> getSlideListByProjectid(long projectid, int begin, int size);
 
 	void deleteSlide(Slide slide);
@@ -136,4 +138,6 @@ public interface PptSvr {
 	List<PptQueue> getPptQueueList(int begin, int size);
 
 	void deletePptQueue(PptQueue pptQueue);
+
+	boolean isCanAddSlide(long pptid);
 }
