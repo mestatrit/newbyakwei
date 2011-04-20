@@ -3,12 +3,7 @@
 %><%@ taglib uri="/WEB-INF/waphk.tld" prefix="hk"
 %>
 <c:set var="page_title" scope="request">
-<c:if test="${first_create}">
-<hk:value value="${project.name}"/> - 创建项目简介
-</c:if>
-<c:if test="${!first_create}">
 <hk:value value="${project.name}"/> - 创建客户简报
-</c:if>
 </c:set>
 <c:set var="html_head_title" scope="request">
 ${page_title }

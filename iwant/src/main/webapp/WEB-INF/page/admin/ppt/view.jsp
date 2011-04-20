@@ -47,7 +47,7 @@
 	</div>
 	<div class="mod_content">
 		<div>
-			<input type="button" class="btn" onclick="tocreateslide()" value="创建简介内容"/>
+			<input type="button" class="btn" onclick="tocreateslide()" value="添加内容"/>
 		</div>
 		<ul class="rowlist">
 			<c:forEach var="slide" items="${list }" varStatus="idx">
