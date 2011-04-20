@@ -236,6 +236,7 @@ public class PptSvrImpl implements PptSvr {
 	public OptStatus updateSlide(Slide slide, File imgFile) {
 		OptStatus optStatus = new OptStatus();
 		Ppt ppt = this.getPpt(slide.getPptid());
+		String oldPic = slide.getPic_path();
 		boolean chgpptpic = false;
 		if (ppt.getPic_path().equals(slide.getPic_path())
 				|| DataUtil.isEmpty(ppt.getPic_path())) {
@@ -246,7 +247,7 @@ public class PptSvrImpl implements PptSvr {
 			if (!optStatus.isSuccess()) {
 				return optStatus;
 			}
-			this.deleteSlideOldPic(slide.getPic_path());
+			this.deleteSlideOldPic(oldPic);
 		}
 		this.slideDao.update(slide);
 		optStatus.setSuccess(true);
@@ -353,6 +354,20 @@ public class PptSvrImpl implements PptSvr {
 		mainPpt.setPic_path(ppt.getPic_path());
 		mainPpt.setProjectid(ppt.getProjectid());
 		this.mainPptDao.save(mainPpt);
+		return true;
+	}
+
+	@Override
+	public int countSlideByPptid(long pptid) {
+		return this.slideDao.countByPptid(pptid);
+	}
+
+	@Override
+	public boolean isCanAddSlide(long pptid) {
+		int count = this.countSlideByPptid(pptid);
+		if (count >= 50) {
+			return false;
+		}
 		return true;
 	}
 }

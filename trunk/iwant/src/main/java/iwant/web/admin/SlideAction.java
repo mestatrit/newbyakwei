@@ -5,6 +5,8 @@ import iwant.bean.Slide;
 import iwant.bean.validate.SlideValidator;
 import iwant.svr.OptStatus;
 import iwant.svr.PptSvr;
+import iwant.util.BackUrl;
+import iwant.util.BackUrlUtil;
 import iwant.web.BaseAction;
 import iwant.web.admin.util.Err;
 
@@ -14,6 +16,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.hk.frame.util.DataUtil;
 import com.hk.frame.web.http.HkRequest;
 import com.hk.frame.web.http.HkResponse;
 
@@ -44,6 +47,10 @@ public class SlideAction extends BaseAction {
 		slide.setPptid(req.getLong("pptid"));
 		slide.setSubtitle(req.getStringRow("subtitle", ""));
 		File imgFile = req.getFile("f");
+		if (!this.pptSvr.isCanAddSlide(pptid)) {
+			return this.onError(req, Err.SLIDE_CREATE_LIMIT_ERR, "createerr2",
+					null);
+		}
 		List<String> errlist = SlideValidator.validate(slide, imgFile, true);
 		if (!errlist.isEmpty()) {
 			return this.onErrorList(req, errlist, "createerr");
@@ -71,7 +78,11 @@ public class SlideAction extends BaseAction {
 			req.setAttribute("slide", slide);
 			Ppt ppt = this.pptSvr.getPpt(slide.getPptid());
 			req.setAttribute("ppt", ppt);
+			req.setAttribute("pptid", ppt.getPptid());
 			req.setAttribute("op_project", true);
+			BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+			backUrl.push(req.getString("back_url"));
+			req.setAttribute("backUrl", backUrl);
 			return this.getAdminPath("slide/update.jsp");
 		}
 		slide.setTitle(req.getStringRow("title"));
@@ -128,5 +139,14 @@ public class SlideAction extends BaseAction {
 		this.pptSvr.deleteSlide(slide);
 		this.opDeleteSuccess(req);
 		return null;
+	}
+
+	public String back(HkRequest req, HkResponse resp) throws Exception {
+		BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+		String url = backUrl.getLastUrl();
+		if (DataUtil.isNotEmpty(url)) {
+			return "r:" + url;
+		}
+		return "r:/mgr/ppt_view.do?pptid=" + req.getLong("pptid");
 	}
 }

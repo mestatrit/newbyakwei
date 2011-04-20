@@ -45,8 +45,7 @@ public class BaseAction implements Action {
 		Map<String, String> map = new HashMap<String, String>();
 		StringBuilder sb = new StringBuilder();
 		for (String i : list) {
-			map.put(String.valueOf("error_" + i), req
-					.getText(String.valueOf(i)));
+			map.put(String.valueOf("error_" + i), req.getText(i));
 			sb.append(i).append(",");
 		}
 		sb.deleteCharAt(sb.length() - 1);

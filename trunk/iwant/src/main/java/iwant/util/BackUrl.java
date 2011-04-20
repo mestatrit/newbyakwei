@@ -59,6 +59,11 @@ public class BackUrl {
 		return null;
 	}
 
+	public void clearAll() {
+		this.list.clear();
+		this.save();
+	}
+
 	public String getLastEncUrl() {
 		return DataUtil.urlEncoder(getLastUrl());
 	}
