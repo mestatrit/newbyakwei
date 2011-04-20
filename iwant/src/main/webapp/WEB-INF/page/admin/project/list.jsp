@@ -12,8 +12,8 @@
 		<div style="padding-left: 50">
 		<form method="get" action="${appctx_path}/mgr/project.do">
 			<input type="hidden" name="catid" value="${projectSearchCdn.catid}"/>
-			<input type="text" class="text" name="name" value="<hk:value value="${projectSearchCdn.name}" onerow="true"/>"/>
-			<input type="submit" value="模糊搜索" class="btn"/>
+			名称：<input type="text" class="text" name="name" value="<hk:value value="${projectSearchCdn.name}" onerow="true"/>"/>
+			<input type="submit" value="搜索" class="btn"/>
 		</form>
 		</div>
 		<ul class="rowlist">

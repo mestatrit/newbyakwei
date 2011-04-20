@@ -17,7 +17,7 @@
 		<td width="90" align="right"></td>
 		<td>
 			<input type="submit" value="提交" class="btn split-r"/>
-			<a href="${appctx_path }/mgr/ppt_back.do">返回</a>
+			<a href="${appctx_path }/mgr/ppt_back.do?projectid=${projectid}">返回</a>
 		</td>
 	</tr>
 </table>

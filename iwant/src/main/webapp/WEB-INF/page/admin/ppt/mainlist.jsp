@@ -11,8 +11,8 @@
 		</div>
 		<div style="padding-left: 50">
 		<form method="get" action="${appctx_path}/mgr/ppt_mainlist.do">
-			<input type="text" class="text" name="name" value="<hk:value value="${pptSearchCdn.name}" onerow="true"/>"/>
-			<input type="submit" value="模糊搜索" class="btn"/>
+			名称：<input type="text" class="text" name="name" value="<hk:value value="${pptSearchCdn.name}" onerow="true"/>"/>
+			<input type="submit" value="搜索" class="btn"/>
 		</form>
 		</div>
 		<ul class="rowlist">
@@ -23,7 +23,7 @@
 				</div>
 				<div class="f_l" style="width: 300px;margin-right: 20px">
 					<a href="javascript:view(${ppt.pptid})">
-					<hk:value value="${ppt.name }" onerow="true"/>
+					<hk:value value="${ppt.project.name}"/> - <hk:value value="${ppt.name }" onerow="true"/>
 					</a>
 				</div>
 				<div class="f_l">

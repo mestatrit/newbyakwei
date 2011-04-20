@@ -86,7 +86,7 @@ function updateerr(err,err_msg,v){
 }
 
 function createok(err,err_msg,v){
-	tourl('${appctx_path}/mgr/project.do');
+	tourl('${appctx_path}/mgr/ppt_create.do?projectid='+v);
 }
 
 function updateok(err,err_msg,v){
