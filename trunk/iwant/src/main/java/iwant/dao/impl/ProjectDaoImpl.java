@@ -6,7 +6,9 @@ import iwant.dao.ProjectDao;
 import iwant.dao.ProjectSearchCdn;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.hk.frame.dao.query2.BaseDao;
 import com.hk.frame.util.DataUtil;
@@ -51,5 +53,15 @@ public class ProjectDaoImpl extends BaseDao<Project> implements ProjectDao {
 		return this.getList(null, sb.toString(), objlist
 				.toArray(new Object[objlist.size()]), "projectid desc", begin,
 				size);
+	}
+
+	@Override
+	public Map<Long, Project> getMapInId(List<Long> idList) {
+		List<Project> list = this.getListInField(null, "projectid", idList);
+		Map<Long, Project> map = new HashMap<Long, Project>();
+		for (Project o : list) {
+			map.put(o.getProjectid(), o);
+		}
+		return map;
 	}
 }

@@ -16,4 +16,6 @@ public interface MainPptDao extends IDao<MainPpt> {
 			int begin, int size);
 
 	void deleteByProjectid(long projectid);
+
+	MainPpt getByProjectid(long projectid);
 }

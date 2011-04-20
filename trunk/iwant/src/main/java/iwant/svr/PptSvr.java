@@ -50,6 +50,8 @@ public interface PptSvr {
 	 */
 	MainPpt getMainPpt(long pptid);
 
+	MainPpt getMainPptByProjectid(long projectid);
+
 	/**
 	 * 获取已激活的mainppt集合，按照定义的顺序排列
 	 * 
@@ -59,10 +61,11 @@ public interface PptSvr {
 	 * @param size
 	 * @return
 	 */
-	List<MainPpt> getMainPptListOrderedByCatid(int catid, int begin, int size);
+	List<MainPpt> getMainPptListOrderedByCatid(int catid, boolean buildProject,
+			int begin, int size);
 
 	List<MainPpt> getMainPptListOrderedByCdn(MainPptSearchCdn mainPptSearchCdn,
-			int begin, int size);
+			boolean buildProject, int begin, int size);
 
 	int countMainPptByCdn(MainPptSearchCdn mainPptSearchCdn);
 

@@ -65,6 +65,16 @@ public class MainPpt {
 	@Column
 	private int active_flag;
 
+	private Project project;
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
 	public long getPptid() {
 		return pptid;
 	}

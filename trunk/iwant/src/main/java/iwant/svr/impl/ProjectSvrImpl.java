@@ -11,6 +11,7 @@ import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -79,5 +80,10 @@ public class ProjectSvrImpl implements ProjectSvr {
 	@Override
 	public void deleteProjectRecycle(ProjectRecycle projectRecycle) {
 		this.projectRecycleDao.delete(projectRecycle);
+	}
+
+	@Override
+	public Map<Long, Project> getProjectMap(List<Long> idList) {
+		return this.projectDao.getMapInId(idList);
 	}
 }
