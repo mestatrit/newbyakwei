@@ -34,6 +34,7 @@
 					<td>
 						<a href="javascript:toupdate()" class="split-r">修改</a>
 						<a href="javascript:opdel()" class="split-r">删除</a>
+						<a href="javascript:writenotice()" class="split-r">发送通知</a>
 						<a href="${appctx_path }/mgr/ppt_back.do?projectid=${ppt.projectid}">返回</a>
 					</td>
 				</tr>
@@ -80,6 +81,55 @@ var slideidarr=new Array();
 <c:forEach var="slide" items="${list }" varStatus="idx">
 slideidarr[${idx.index}]=${slide.slideid};
 </c:forEach>
+var submited=false;
+var glassid=null;
+function writenotice(){
+	var title = "填写通知内容";
+	var html = "<div>";
+	html+='<form id="noticefrm" method="post" onsubmit="return subnoticefrm(this.id);" action="${appctx_path}/mgr/notice_create.do" target="hideframe">';
+	html+='<input type="hidden" name="pptid" value="${pptid}"/>';
+	html+='<div class="row"><textarea id="id_content" name="content" style="width: 410px;height: 100px"></textarea></div>';
+	html+='<div class="infowarn" id="err_content"></div>';
+	html+='<div class="row" align="right"><input type="submit" value="发送" class="btn"/></div>';
+	html+='</form>';
+	html += '</div>';
+	createWin('write_notice', 480, 300, title, html, "hidenoticewin()");
+}
+
+function subnoticefrm(frmid){
+	if(submited){
+		return false;
+	}
+	glassid=addGlass(frmid,false);
+	submited=true;
+	setHtml('err_content','');
+	return true;
+}
+
+function createnoticeok(err,err_msg,v){
+	removeGlass(glassid);
+	hidenoticewin()
+	var title = "提醒";
+	var html = "<div>";
+	html += '通知已经提交，稍后会发送到用后手机中';
+	html += '</div>';
+	createWin('alertview', 400, 180, title, html, "hidealertwin()");
+}
+
+function createnoticeerr(err,err_msg,v){
+	setHtml('err_content',err_msg);
+	submited=false;
+	removeGlass(glassid);
+}
+
+function hidenoticewin(){
+	hideWindow('write_notice');
+}
+
+function hidealertwin(){
+	hideWindow('alertview');
+}
+
 function chgimgwidth(imgid){
 	var img=new Image();
 	img.src=getObj(imgid).src;
