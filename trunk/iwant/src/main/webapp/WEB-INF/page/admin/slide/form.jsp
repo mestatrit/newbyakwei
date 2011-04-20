@@ -10,7 +10,7 @@
 		<td width="90" align="right">标题</td>
 		<td>
 			<input maxlength="20" name="title" value="<hk:value value="${slide.title }"/>" class="text"/>
-			<div><hk:data key="10"/></div>
+			<div class="ruo"><hk:data key="10"/></div>
 			<div class="infowarn" id="err_title"></div>
 		</td>
 	</tr>
@@ -18,7 +18,7 @@
 		<td width="90" align="right">副标题</td>
 		<td>
 			<input maxlength="30" name="subtitle" value="<hk:value value="${slide.subtitle }" onerow="true"/>" class="text"/>
-			<div><hk:data key="11"/></div>
+			<div class="ruo"><hk:data key="11"/></div>
 			<div class="infowarn" id="err_subtitle"></div>
 		</td>
 	</tr>
@@ -26,7 +26,7 @@
 		<td width="90" align="right">描述</td>
 		<td>
 			<textarea name="descr" style="width: 270px;height: 80px;"><hk:value value="${slide.descr}" textarea="true"/></textarea>
-			<div><hk:data key="12"/></div>
+			<div class="ruo"><hk:data key="12"/></div>
 			<div class="infowarn" id="err_descr"></div>
 		</td>
 	</tr>
@@ -85,6 +85,12 @@ function createerr(json,errorlist){
 	}
 	removeGlass(glassid);
 	submited=false;
+}
+
+function createerr2(err,err_msg,v){
+	removeGlass(glassid);
+	submited=false;
+	alert(err_msg);
 }
 
 function updateerr(json,errorlist){

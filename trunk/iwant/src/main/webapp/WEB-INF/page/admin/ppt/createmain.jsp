@@ -16,6 +16,8 @@ ${page_title }
 	<div class="mod_content">
 		<div>
 			<c:set var="form_action" scope="request">${appctx_path}/mgr/ppt_create.do</c:set>
+			<p>该项目还没有项目简介，请先创建。</p>
+			<p>创建后的项目简介同样成为该项目的客户简报。</p>
 			<jsp:include page="form.jsp"></jsp:include>
 		</div>
 	</div>
