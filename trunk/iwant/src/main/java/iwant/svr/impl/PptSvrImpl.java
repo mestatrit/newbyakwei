@@ -6,6 +6,7 @@ import iwant.bean.PptQueue;
 import iwant.bean.PptidCreator;
 import iwant.bean.Project;
 import iwant.bean.Slide;
+import iwant.bean.enumtype.ActiveType;
 import iwant.dao.MainPptDao;
 import iwant.dao.MainPptSearchCdn;
 import iwant.dao.PptDao;
@@ -101,6 +102,11 @@ public class PptSvrImpl implements PptSvr {
 			}
 			ppt.setPic_path(list.get(0).getPic_path());
 			this.updatePpt(ppt);
+			MainPpt mainPpt = this.getMainPpt(slide.getPptid());
+			if (mainPpt != null) {
+				mainPpt.setPic_path(slide.getPic_path());
+				this.updateMainPpt(mainPpt);
+			}
 		}
 	}
 
@@ -217,6 +223,11 @@ public class PptSvrImpl implements PptSvr {
 		if (DataUtil.isEmpty(ppt.getPic_path())) {
 			ppt.setPic_path(slide.getPic_path());
 			this.updatePpt(ppt);
+			MainPpt mainPpt = this.getMainPpt(slide.getPptid());
+			if (mainPpt != null) {
+				mainPpt.setPic_path(slide.getPic_path());
+				this.updateMainPpt(mainPpt);
+			}
 		}
 		return optStatus;
 	}
@@ -243,6 +254,11 @@ public class PptSvrImpl implements PptSvr {
 		if (chgpptpic) {
 			ppt.setPic_path(slide.getPic_path());
 			this.updatePpt(ppt);
+			MainPpt mainPpt = this.getMainPpt(slide.getPptid());
+			if (mainPpt != null) {
+				mainPpt.setPic_path(slide.getPic_path());
+				this.updateMainPpt(mainPpt);
+			}
 		}
 		return optStatus;
 	}
@@ -317,5 +333,26 @@ public class PptSvrImpl implements PptSvr {
 	@Override
 	public void deletePptQueue(PptQueue pptQueue) {
 		this.pptQueueDao.delete(pptQueue);
+	}
+
+	@Override
+	public boolean changePptToMainPpt(long pptid) {
+		Ppt ppt = this.getPpt(pptid);
+		MainPpt mainPpt = this.getMainPptByProjectid(ppt.getProjectid());
+		if (mainPpt != null) {
+			return false;
+		}
+		Project project = this.projectSvr.getProject(ppt.getProjectid());
+		mainPpt = new MainPpt();
+		mainPpt.setPptid(ppt.getPptid());
+		mainPpt.setActive_flag(ActiveType.ACTIVE.getValue());
+		mainPpt.setCatid(project.getCatid());
+		mainPpt.setCreatetime(ppt.getCreatetime());
+		mainPpt.setName(ppt.getName());
+		mainPpt.setOrder_flag(ppt.getPptid());
+		mainPpt.setPic_path(ppt.getPic_path());
+		mainPpt.setProjectid(ppt.getProjectid());
+		this.mainPptDao.save(mainPpt);
+		return true;
 	}
 }
