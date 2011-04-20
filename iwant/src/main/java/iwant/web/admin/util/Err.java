@@ -49,5 +49,7 @@ public interface Err {
 
 	String RESOURCE_NOT_EXIST = "20";
 
+	String FOLLOWPROJECT_DELETE_ERR = "21";
+
 	String PROCESS_IMAGEFILE_ERR = "pro1";
 }
