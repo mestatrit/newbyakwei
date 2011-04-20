@@ -6,9 +6,6 @@
 <div class="mod">
 	<div class="mod_title">项目简介管理</div>
 	<div class="mod_content">
-		<div>
-		<input type="button" class="btn" value="创建项目简介" onclick="tocreate()"/>
-		</div>
 		<div style="padding-left: 50">
 		<form method="get" action="${appctx_path}/mgr/ppt_mainlist.do">
 			名称：<input type="text" class="text" name="name" value="<hk:value value="${pptSearchCdn.name}" onerow="true"/>"/>
@@ -61,9 +58,6 @@ $(document).ready(function(){
 		$(this).removeClass('enter');
 	});
 });
-function tocreate(){
-	tourl('${appctx_path}/mgr/ppt_create.do?projectid=${projectid}');
-}
 function toupdate(pptid){
 	tourl('${appctx_path}/mgr/ppt_update.do?pptid='+pptid+"&back_url="+encodeLocalURL());
 }

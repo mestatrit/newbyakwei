@@ -1,13 +1,13 @@
 <%@ page language="java" pageEncoding="UTF-8"%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"
 %><%@ taglib uri="/WEB-INF/waphk.tld" prefix="hk"
 %>
-<c:set var="html_head_title" scope="request">项目简介管理</c:set>
+<c:set var="html_head_title" scope="request">客户简报管理</c:set>
 <c:set scope="request" var="mgr_body_content">
 <div class="mod">
-	<div class="mod_title"> <hk:value value="${project.name}"/> - 项目简介管理</div>
+	<div class="mod_title"> <hk:value value="${project.name}"/> - 客户简报管理</div>
 	<div class="mod_content">
 		<div>
-		<input type="button" class="btn" value="创建项目简介" onclick="tocreate()"/>
+		<input type="button" class="btn" value="创建客户简报" onclick="tocreate()"/>
 		</div>
 		<div style="padding-left: 50">
 		<form method="get" action="${appctx_path}/mgr/ppt.do">
@@ -31,7 +31,7 @@
 					<a href="javascript:toupdate(${ppt.pptid })" class="split-r" id="op_update_${ppt.pptid }">修改</a>
 					<a href="javascript:opdel(${ppt.pptid })" class="split-r" id="op_delete_${ppt.pptid }">删除</a>
 					<c:if test="${mainPpt==null}">
-					<a id="op_setmain_${ppt.pptid}" href="javascript:setmain(${ppt.pptid})">设为主要项目简介</a>
+					<a id="op_setmain_${ppt.pptid}" href="javascript:setmain(${ppt.pptid})">设为项目简介</a>
 					</c:if>
 				</div>
 				<div class="clr"></div>

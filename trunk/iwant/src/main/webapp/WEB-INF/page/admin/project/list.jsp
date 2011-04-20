@@ -27,7 +27,7 @@
 					<a href="javascript:view(${project.projectid})"><hk:value value="${project.name }" onerow="true"/></a>
 				</div>
 				<div class="f_l">
-					<a href="javascript:viewppt(${project.projectid})" class="split-r">查看项目简介</a>
+					<a href="javascript:viewppt(${project.projectid})" class="split-r">查看客户简报</a>
 					<a href="javascript:toupdate(${project.projectid })" class="split-r" id="op_update_${project.projectid }">修改</a>
 					<a href="javascript:opdel(${project.projectid })" class="split-r" id="op_delete_${project.projectid }">删除</a>
 				</div>
