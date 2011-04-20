@@ -10,6 +10,7 @@
 		<td width="90" align="right">标题</td>
 		<td>
 			<input maxlength="20" name="title" value="<hk:value value="${slide.title }"/>" class="text"/>
+			<div><hk:data key="10"/></div>
 			<div class="infowarn" id="err_title"></div>
 		</td>
 	</tr>
@@ -17,6 +18,7 @@
 		<td width="90" align="right">副标题</td>
 		<td>
 			<input maxlength="30" name="subtitle" value="<hk:value value="${slide.subtitle }" onerow="true"/>" class="text"/>
+			<div><hk:data key="11"/></div>
 			<div class="infowarn" id="err_subtitle"></div>
 		</td>
 	</tr>
@@ -24,6 +26,7 @@
 		<td width="90" align="right">描述</td>
 		<td>
 			<textarea name="descr" style="width: 270px;height: 80px;"><hk:value value="${slide.descr}" textarea="true"/></textarea>
+			<div><hk:data key="12"/></div>
 			<div class="infowarn" id="err_descr"></div>
 		</td>
 	</tr>
@@ -31,6 +34,7 @@
 		<td width="90" align="right">图片文件</td>
 		<td>
 			<input type="file" class="text" size="20" name="f"/>
+			<div>图片文件像素建议为960px*640px，建议图片格式jpg,png，图片文件大小不要超过3M</div>
 			<div class="infowarn" id="err_f"></div>
 		</td>
 	</tr>
