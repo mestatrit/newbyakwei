@@ -6,7 +6,7 @@
 <c:set scope="request" var="mgr_body_content">
 <div class="mod">
 	<div class="mod_title">
-		<hk:value value="${ppt.name}"/> - 修改Slide
+		<hk:value value="${ppt.name}"/> - 修改简介内容
 	</div>
 	<div class="mod_content">
 		<div>

@@ -10,7 +10,7 @@
 <c:set scope="request" var="mgr_body_content">
 <div class="mod">
 	<div class="mod_title">
-		查看项目简介 - <hk:value value="${ppt.name}"/>
+		<hk:value value="${ppt.name}"/>
 	</div>
 	<div class="mod_content">
 		<div>
@@ -43,7 +43,7 @@
 </div>
 <div class="mod">
 	<div class="mod_title">
-		<hk:value value="${ppt.name}"/>的Slide
+		<hk:value value="${ppt.name}"/>的内容
 	</div>
 	<div class="mod_content">
 		<div>
