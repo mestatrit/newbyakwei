@@ -23,6 +23,14 @@ public interface PptSvr {
 	void createMainPpt(MainPpt mainPpt);
 
 	/**
+	 * 转为主要项目简介
+	 * 
+	 * @param pptid
+	 * @return true:成功,false:已经存在项目简介
+	 */
+	boolean changePptToMainPpt(long pptid);
+
+	/**
 	 * 创建幻灯页数据
 	 * 
 	 * @param slide

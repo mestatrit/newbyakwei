@@ -57,6 +57,9 @@ public class PptAction extends BaseAction {
 				pptSearchCdn, page.getBegin(), page.getSize());
 		req.setAttribute("pptSearchCdn", pptSearchCdn);
 		req.setAttribute("list", list);
+		MainPpt mainPpt = this.pptSvr.getMainPptByProjectid(project
+				.getProjectid());
+		req.setAttribute("mainPpt", mainPpt);
 		return this.getAdminPath("ppt/list.jsp");
 	}
 
@@ -322,6 +325,19 @@ public class PptAction extends BaseAction {
 		pos_mainPpt.setOrder_flag(order_flag);
 		this.pptSvr.updateMainPpt(mainPpt);
 		this.pptSvr.updateMainPpt(pos_mainPpt);
+		return null;
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String setmain(HkRequest req, HkResponse resp) throws Exception {
+		long pptid = req.getLong("pptid");
+		this.pptSvr.changePptToMainPpt(pptid);
+		req.setSessionText("op.change_mainppt.success");
 		return null;
 	}
 }
