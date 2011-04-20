@@ -10,6 +10,7 @@
 		<td width="90" align="right">名称</td>
 		<td>
 			<input maxlength="20" name="name" value="<hk:value value="${ppt.name }" onerow="true"/>" class="text"/>
+			<div><hk:data key="9"/></div>
 			<div class="infowarn" id="err_name"></div>
 		</td>
 	</tr>

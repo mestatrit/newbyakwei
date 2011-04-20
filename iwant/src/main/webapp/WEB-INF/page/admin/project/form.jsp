@@ -10,6 +10,7 @@
 		<td width="90" align="right">名称</td>
 		<td>
 			<input maxlength="20" name="name" value="<hk:value value="${project.name }" onerow="true"/>" class="text"/>
+			<div><hk:data key="4"/></div>
 			<div class="infowarn" id="err_name"></div>
 		</td>
 	</tr>
@@ -17,6 +18,7 @@
 		<td width="90" align="right">电话</td>
 		<td>
 			<input maxlength="30" name="tel" value="<hk:value value="${project.tel }" onerow="true"/>" class="text"/>
+			<div><hk:data key="6"/></div>
 			<div class="infowarn" id="err_tel"></div>
 		</td>
 	</tr>
@@ -24,6 +26,7 @@
 		<td width="90" align="right">地址</td>
 		<td>
 			<input maxlength="100" name="addr" value="<hk:value value="${project.addr }" onerow="true"/>" class="text"/>
+			<div><hk:data key="5"/></div>
 			<div class="infowarn" id="err_addr"></div>
 		</td>
 	</tr>
@@ -31,6 +34,7 @@
 		<td width="90" align="right">描述</td>
 		<td>
 			<textarea name="descr" style="width: 270px;height: 80px;"><hk:value value="${project.descr}" textarea="true"/></textarea>
+			<div><hk:data key="7"/></div>
 			<div class="infowarn" id="err_descr"></div>
 		</td>
 	</tr>
