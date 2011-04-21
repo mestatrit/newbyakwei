@@ -41,6 +41,9 @@ public class ProjectAction extends BaseAction {
 		req.setAttribute("op_project", true);
 		List<Category> catlist = this.categorySvr.getCategoryListForAll();
 		req.setAttribute("catlist", catlist);
+		if (catlist.isEmpty()) {
+			return "r:/mgr/cat_create.do";
+		}
 		Category category = catlist.get(0);
 		SimplePage page = req.getSimplePage(20);
 		ProjectSearchCdn projectSearchCdn = new ProjectSearchCdn();
