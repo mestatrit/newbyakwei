@@ -27,7 +27,8 @@
 					<a href="javascript:view(${project.projectid})"><hk:value value="${project.name }" onerow="true"/></a>
 				</div>
 				<div class="f_l">
-					<a href="javascript:viewppt(${project.projectid})" class="split-r">查看客户简报</a>
+					<a href="javascript:viewmainppt(${project.projectid})" class="split-r">项目简介</a>
+					<a href="javascript:viewppt(${project.projectid})" class="split-r">客户简报</a>
 					<a href="javascript:toupdate(${project.projectid })" class="split-r" id="op_update_${project.projectid }">修改</a>
 					<a href="javascript:opdel(${project.projectid })" class="split-r" id="op_delete_${project.projectid }">删除</a>
 				</div>
@@ -60,6 +61,9 @@ function toupdate(projectid){
 }
 function view(projectid){
 	tourl('${appctx_path}/mgr/project_view.do?projectid='+projectid+"&back_url="+encodeLocalURL());
+}
+function viewmainppt(projectid){
+	tourl('${appctx_path}/mgr/ppt_viewmain.do?projectid='+projectid);
 }
 function viewppt(projectid){
 	tourl('${appctx_path}/mgr/ppt.do?projectid='+projectid);

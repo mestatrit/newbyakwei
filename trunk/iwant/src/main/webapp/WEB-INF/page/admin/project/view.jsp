@@ -37,6 +37,7 @@
 				<tr>
 					<td width="90" align="right"></td>
 					<td>
+						<a href="javascript:viewmainppt()" class="split-r">查看项目简介</a>
 						<a href="javascript:viewppt()" class="split-r">查看客户简报</a>
 						<a href="javascript:toupdate()" class="split-r">修改</a>
 						<a href="${appctx_path }/mgr/project_back.do">返回</a>
@@ -52,6 +53,9 @@ function toupdate(projectid){
 }
 function viewppt(projectid){
 	tourl('${appctx_path}/mgr/ppt.do?projectid=${project.projectid}');
+}
+function viewmainppt(projectid){
+	tourl('${appctx_path}/mgr/ppt_viewmain.do?projectid=${project.projectid}');
 }
 </script>
 </c:set><jsp:include page="../inc/mgrframe.jsp"></jsp:include>

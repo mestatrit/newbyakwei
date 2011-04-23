@@ -59,10 +59,20 @@ function updateerr(err,err_msg,v){
 function createok(err,err_msg,v){
 	tourl('${appctx_path}/mgr/ppt_view.do?pptid='+v);
 }
+function createmainok(err,err_msg,v){
+	tourl('${appctx_path}/mgr/ppt_viewmain.do?pptid='+v);
+}
 
 function updateok(err,err_msg,v){
 	if(back_url.length==0){
 		tourl('${appctx_path}/mgr/ppt_view.do?pptid=${ppt.pptid}');
+		return;
+	}
+	tourl(decodeURIComponent(back_url)); 
+}
+function updatemainok(err,err_msg,v){
+	if(back_url.length==0){
+		tourl('${appctx_path}/mgr/ppt_viewmain.do?pptid=${ppt.pptid}');
 		return;
 	}
 	tourl(decodeURIComponent(back_url)); 
