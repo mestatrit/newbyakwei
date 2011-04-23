@@ -1,10 +1,12 @@
 package iwant.web.admin;
 
+import iwant.bean.MainPpt;
 import iwant.bean.Ppt;
 import iwant.bean.Slide;
 import iwant.bean.validate.SlideValidator;
 import iwant.svr.OptStatus;
 import iwant.svr.PptSvr;
+import iwant.svr.statusenum.UpdateSldePic0Result;
 import iwant.util.BackUrl;
 import iwant.util.BackUrlUtil;
 import iwant.web.BaseAction;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.hk.frame.util.DataUtil;
+import com.hk.frame.util.image2.PicRect;
 import com.hk.frame.web.http.HkRequest;
 import com.hk.frame.web.http.HkResponse;
 
@@ -34,10 +37,15 @@ public class SlideAction extends BaseAction {
 	 */
 	public String create(HkRequest req, HkResponse resp) throws Exception {
 		long pptid = req.getLongAndSetAttr("pptid");
-		Ppt ppt = this.pptSvr.getPpt(pptid);
 		if (this.isForwardPage(req)) {
+			Ppt ppt = this.pptSvr.getPpt(pptid);
 			req.setAttribute("ppt", ppt);
+			if (ppt == null) {
+				MainPpt mainPpt = this.pptSvr.getMainPpt(pptid);
+				req.setAttribute("ppt", mainPpt);
+			}
 			req.setAttribute("op_project", true);
+			req.reSetAttribute("from");
 			return this.getAdminPath("slide/create.jsp");
 		}
 		Slide slide = new Slide();
@@ -60,7 +68,7 @@ public class SlideAction extends BaseAction {
 			errlist.add(Err.PROCESS_IMAGEFILE_ERR);
 		}
 		this.opCreateSuccess(req);
-		return this.onSuccess(req, "createok", pptid);
+		return this.onSuccess(req, "createok", slide.getSlideid());
 	}
 
 	/**
@@ -78,7 +86,14 @@ public class SlideAction extends BaseAction {
 			req.setAttribute("slide", slide);
 			Ppt ppt = this.pptSvr.getPpt(slide.getPptid());
 			req.setAttribute("ppt", ppt);
-			req.setAttribute("pptid", ppt.getPptid());
+			if (ppt == null) {
+				MainPpt mainPpt = this.pptSvr.getMainPpt(slide.getPptid());
+				req.setAttribute("ppt", mainPpt);
+				req.setAttribute("pptid", mainPpt.getPptid());
+			}
+			else {
+				req.setAttribute("pptid", ppt.getPptid());
+			}
 			req.setAttribute("op_project", true);
 			BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
 			backUrl.push(req.getString("back_url"));
@@ -100,6 +115,46 @@ public class SlideAction extends BaseAction {
 		}
 		this.opCreateSuccess(req);
 		return this.onSuccess(req, "updateok", null);
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String setpic1(HkRequest req, HkResponse resp) throws Exception {
+		Slide slide = this.pptSvr.getSlide(req.getLongAndSetAttr("slideid"));
+		if (slide == null) {
+			return null;
+		}
+		if (this.isForwardPage(req)) {
+			req.setAttribute("slide", slide);
+			Ppt ppt = this.pptSvr.getPpt(slide.getPptid());
+			req.setAttribute("ppt", ppt);
+			if (ppt == null) {
+				MainPpt mainPpt = this.pptSvr.getMainPpt(slide.getPptid());
+				req.setAttribute("ppt", mainPpt);
+				req.setAttribute("pptid", mainPpt.getPptid());
+			}
+			else {
+				req.setAttribute("pptid", ppt.getPptid());
+			}
+			req.setAttribute("op_project", true);
+			BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+			backUrl.push(req.getString("back_url"));
+			req.setAttribute("backUrl", backUrl);
+			return this.getAdminPath("slide/setpic1.jsp");
+		}
+		PicRect picRect = new PicRect(req.getInt("x0"), req.getInt("y0"), req
+				.getInt("x1"), req.getInt("y1"));
+		UpdateSldePic0Result updateSlidePic0Result = this.pptSvr
+				.updateSldePic1(slide.getSlideid(), picRect);
+		if (updateSlidePic0Result == UpdateSldePic0Result.SUCCESS) {
+			this.opCreateSuccess(req);
+			return this.onSuccess(req, "updateok", null);
+		}
+		return this.onError(req, Err.PROCESS_IMAGEFILE_ERR, "updateerr", null);
 	}
 
 	/**

@@ -235,7 +235,7 @@ public class PptSvrTest extends BaseSvrTest {
 	@Test
 	public void updateSldePic0() {
 		PicRect picRect = new PicRect(0, 0, 70, 70);
-		this.pptSvr.updateSldePic0(this.slide0.getSlideid(), picRect);
+		this.pptSvr.updateSldePic1(this.slide0.getSlideid(), picRect);
 	}
 
 	private void assertSlideData(Slide expected, Slide actual) {

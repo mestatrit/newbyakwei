@@ -69,53 +69,84 @@ public class PptAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String create(HkRequest req, HkResponse resp) throws Exception {
+	public String createmain(HkRequest req, HkResponse resp) throws Exception {
 		long projectid = req.getLongAndSetAttr("projectid");
 		Project project = this.projectSvr.getProject(projectid);
-		List<Ppt> list = this.pptSvr.getPptListByProjectid(req
-				.getLongAndSetAttr("projectid"), 0, 0);
 		if (this.isForwardPage(req)) {
 			req.setAttribute("op_project", true);
 			req.setAttribute("project", project);
-			if (list.isEmpty()) {
-				return this.getAdminPath("ppt/createmain.jsp");
-			}
+			return this.getAdminPath("ppt/createmain.jsp");
+		}
+		if (project == null) {
+			return null;
+		}
+		MainPpt mainPpt = new MainPpt();
+		mainPpt.setCatid(project.getCatid());
+		mainPpt.setActive_flag(ActiveType.ACTIVE.getValue());
+		mainPpt.setName(req.getStringRow("name"));
+		mainPpt.setPic_path("");
+		mainPpt.setProjectid(projectid);
+		mainPpt.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		List<String> errlist = PptValidator.validateMainPpt(mainPpt);
+		if (!errlist.isEmpty()) {
+			return this.onErrorList(req, errlist, "createerr");
+		}
+		this.pptSvr.createMainPpt(mainPpt);
+		this.opCreateSuccess(req);
+		return this.onSuccess(req, "createmainok", mainPpt.getPptid());
+	}
+
+	public String updatemain(HkRequest req, HkResponse resp) throws Exception {
+		MainPpt ppt = this.pptSvr.getMainPpt(req.getLongAndSetAttr("pptid"));
+		if (this.isForwardPage(req)) {
+			req.setAttribute("op_project", true);
+			Project project = this.projectSvr.getProject(ppt.getProjectid());
+			req.setAttribute("project", project);
+			req.setAttribute("ppt", ppt);
+			BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+			backUrl.push(req.getString("back_url"));
+			req.setAttribute("backUrl", backUrl);
+			return this.getAdminPath("ppt/updatemain.jsp");
+		}
+		ppt.setName(req.getStringRow("name"));
+		List<String> errlist = PptValidator.validateMainPpt(ppt);
+		if (!errlist.isEmpty()) {
+			return this.onErrorList(req, errlist, "updateerr");
+		}
+		this.pptSvr.updateMainPpt(ppt);
+		this.opUpdateSuccess(req);
+		return this.onSuccess(req, "updatemainok", null);
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String create(HkRequest req, HkResponse resp) throws Exception {
+		long projectid = req.getLongAndSetAttr("projectid");
+		Project project = this.projectSvr.getProject(projectid);
+		if (this.isForwardPage(req)) {
+			req.setAttribute("op_project", true);
+			req.setAttribute("project", project);
 			return this.getAdminPath("ppt/create.jsp");
 		}
 		if (project == null) {
 			return null;
 		}
-		long pptid = 0;
-		if (list.size() == 0) {
-			MainPpt mainPpt = new MainPpt();
-			mainPpt.setCatid(project.getCatid());
-			mainPpt.setActive_flag(ActiveType.ACTIVE.getValue());
-			mainPpt.setName(req.getStringRow("name"));
-			mainPpt.setPic_path("");
-			mainPpt.setProjectid(projectid);
-			mainPpt.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
-			List<String> errlist = PptValidator.validateMainPpt(mainPpt);
-			if (!errlist.isEmpty()) {
-				return this.onErrorList(req, errlist, "createerr");
-			}
-			this.pptSvr.createMainPpt(mainPpt);
-			pptid = mainPpt.getPptid();
+		Ppt ppt = new Ppt();
+		ppt.setName(req.getStringRow("name"));
+		ppt.setPic_path("");
+		ppt.setProjectid(projectid);
+		ppt.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		List<String> errlist = PptValidator.validate(ppt);
+		if (!errlist.isEmpty()) {
+			return this.onErrorList(req, errlist, "createerr");
 		}
-		else {
-			Ppt ppt = new Ppt();
-			ppt.setName(req.getStringRow("name"));
-			ppt.setPic_path("");
-			ppt.setProjectid(projectid);
-			ppt.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
-			List<String> errlist = PptValidator.validate(ppt);
-			if (!errlist.isEmpty()) {
-				return this.onErrorList(req, errlist, "createerr");
-			}
-			this.pptSvr.createPpt(ppt);
-			pptid = ppt.getPptid();
-		}
+		this.pptSvr.createPpt(ppt);
 		this.opCreateSuccess(req);
-		return this.onSuccess(req, "createok", pptid);
+		return this.onSuccess(req, "createok", ppt.getPptid());
 	}
 
 	public String update(HkRequest req, HkResponse resp) throws Exception {
@@ -152,12 +183,24 @@ public class PptAction extends BaseAction {
 		return null;
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String deletemain(HkRequest req, HkResponse resp) throws Exception {
+		this.pptSvr.deleteMainPpt(req.getLong("pptid"));
+		this.opDeleteSuccess(req);
+		return null;
+	}
+
 	public String view(HkRequest req, HkResponse resp) throws Exception {
 		req.setAttribute("op_project", true);
 		long pptid = req.getLongAndSetAttr("pptid");
 		Ppt ppt = this.pptSvr.getPpt(pptid);
 		if (ppt == null) {
-			return null;
+			return "r:/mgr/ppt_viewmain.do?pptid=" + pptid;
 		}
 		req.setAttribute("ppt", ppt);
 		List<Slide> list = this.pptSvr.getSlideListByPptidOrdered(pptid);
@@ -167,6 +210,31 @@ public class PptAction extends BaseAction {
 		req.setAttribute("backUrl", backUrl);
 		req.setAttribute("canaddslide", this.pptSvr.isCanAddSlide(pptid));
 		return this.getAdminPath("ppt/view.jsp");
+	}
+
+	public String viewmain(HkRequest req, HkResponse resp) throws Exception {
+		req.setAttribute("op_project", true);
+		long pptid = req.getLong("pptid");
+		MainPpt ppt = this.pptSvr.getMainPpt(pptid);
+		if (ppt == null) {
+			ppt = this.pptSvr.getMainPptByProjectid(req.getLong("projectid"));
+		}
+		if (ppt == null) {
+			return "r:/mgr/ppt_createmain.do?projectid="
+					+ req.getLong("projectid");
+		}
+		pptid = ppt.getPptid();
+		Project project = this.projectSvr.getProject(ppt.getProjectid());
+		req.setAttribute("ppt", ppt);
+		req.setAttribute("project", project);
+		req.setAttribute("pptid", pptid);
+		List<Slide> list = this.pptSvr.getSlideListByPptidOrdered(pptid);
+		req.setAttribute("list", list);
+		BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+		backUrl.push(req.getString("back_url"));
+		req.setAttribute("backUrl", backUrl);
+		req.setAttribute("canaddslide", this.pptSvr.isCanAddSlide(pptid));
+		return this.getAdminPath("ppt/viewmain.jsp");
 	}
 
 	public String back(HkRequest req, HkResponse resp) throws Exception {
