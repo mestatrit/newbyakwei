@@ -43,7 +43,8 @@ public class SlideValidator {
 			}
 		}
 		PptSvr pptSvr = (PptSvr) HkUtil.getBean("pptSvr");
-		if (pptSvr.getPpt(slide.getPptid()) == null) {
+		if (pptSvr.getPpt(slide.getPptid()) == null
+				&& pptSvr.getMainPpt(slide.getPptid()) == null) {
 			list.add(Err.SLIDE_PPTID_ERR);
 		}
 		return list;

@@ -150,5 +150,5 @@ public interface PptSvr {
 
 	boolean isCanAddSlide(long pptid);
 
-	UpdateSldePic0Result updateSldePic0(long slideid, PicRect picRect);
+	UpdateSldePic0Result updateSldePic1(long slideid, PicRect picRect);
 }
