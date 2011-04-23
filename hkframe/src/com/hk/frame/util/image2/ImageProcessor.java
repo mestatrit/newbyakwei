@@ -197,29 +197,29 @@ public class ImageProcessor {
 	}
 
 	/**
-	 * 裁剪选定区域图片
+	 * 根据指定区域裁剪图片
 	 * 
 	 * @param filePath
 	 * @param fileName
-	 * @param x1
-	 * @param y1
-	 * @param x2
-	 * @param y2
+	 * @param picRect
 	 * @throws ImageException
 	 */
-	protected void cutImage(String filePath, String fileName, int x1, int y1,
-			int x2, int y2) throws ImageException {
+	public void cutImage(String filePath, String fileName, PicRect picRect)
+			throws ImageException {
 		File f = new File(filePath);
 		if (!f.exists()) {
 			f.mkdirs();
 		}
 		String newFile = filePath + fileName;
-		int new_width = x2 - x1;
-		int new_height = y2 - y1;
+		int new_width = picRect.getX1() - picRect.getX0();
+		int new_height = picRect.getY1() - picRect.getY0();
 		try {
-			Rectangle rect = new Rectangle(x1, y1, new_width, new_height);
+			Rectangle rect = new Rectangle(picRect.getX0(), picRect.getY0(),
+					new_width, new_height);
 			ImageInfo info = this.createImageInfo();
-			info.setQuality(95);
+			if (this.quality > 0) {
+				info.setQuality(this.quality);
+			}
 			MagickImage image = new MagickImage(info);
 			this.processClearExif(image);
 			MagickImage cropped = image.cropImage(rect);
