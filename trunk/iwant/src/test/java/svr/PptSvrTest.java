@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.hk.frame.util.DataUtil;
+import com.hk.frame.util.image2.PicRect;
 
 public class PptSvrTest extends BaseSvrTest {
 
@@ -89,7 +90,8 @@ public class PptSvrTest extends BaseSvrTest {
 		this.slide0.setSubtitle("sub 3");
 		this.slide0.setTitle("title 3");
 		this.slide0.setPic_path("");
-		this.pptSvr.createSlide(this.slide0, new File("d:/test/test7.jpg"));
+		this.pptSvr.createSlide(this.slide0, new File("d:/test/test7.jpg"),
+				null);
 		// data 1
 		this.slide1 = new Slide();
 		this.slide1.setDescr("slide desc 4");
@@ -98,7 +100,8 @@ public class PptSvrTest extends BaseSvrTest {
 		this.slide1.setSubtitle("sub 4");
 		this.slide1.setTitle("title 4");
 		this.slide1.setPic_path("");
-		this.pptSvr.createSlide(this.slide1, new File("d:/test/test7.jpg"));
+		this.pptSvr.createSlide(this.slide1, new File("d:/test/test7.jpg"),
+				null);
 	}
 
 	@Test
@@ -122,7 +125,7 @@ public class PptSvrTest extends BaseSvrTest {
 		slide.setTitle("title 3");
 		slide.setPic_path("");
 		OptStatus optStatus = this.pptSvr.createSlide(slide, new File(
-				"d:/test/test7.jpg"));
+				"d:/test/test7.jpg"), null);
 		Assert.assertEquals(true, optStatus.isSuccess());
 	}
 
@@ -136,7 +139,7 @@ public class PptSvrTest extends BaseSvrTest {
 		slide.setSubtitle("dkkk");
 		slide.setTitle("tititi");
 		OptStatus optStatus = this.pptSvr.updateSlide(slide, new File(
-				"d:/test/test7.jpg"));
+				"d:/test/test7.jpg"), null);
 		Assert.assertEquals(true, optStatus.isSuccess());
 		Slide dbSlide = this.pptSvr.getSlide(this.slide0.getSlideid());
 		this.assertSlideData(slide, dbSlide);
@@ -181,7 +184,8 @@ public class PptSvrTest extends BaseSvrTest {
 
 	@Test
 	public void getSlideListByPptid() {
-		List<Slide> list = this.pptSvr.getSlideListByPptidOrdered(this.ppt0.getPptid());
+		List<Slide> list = this.pptSvr.getSlideListByPptidOrdered(this.ppt0
+				.getPptid());
 		Assert.assertEquals(1, list.size());
 	}
 
@@ -228,6 +232,12 @@ public class PptSvrTest extends BaseSvrTest {
 		this.assertMainPptData(this.mainPpt0, mainPpt);
 	}
 
+	@Test
+	public void updateSldePic0() {
+		PicRect picRect = new PicRect(0, 0, 70, 70);
+		this.pptSvr.updateSldePic0(this.slide0.getSlideid(), picRect);
+	}
+
 	private void assertSlideData(Slide expected, Slide actual) {
 		Assert.assertEquals(expected.getDescr(), actual.getDescr());
 		Assert.assertEquals(expected.getPic_path(), actual.getPic_path());
@@ -253,7 +263,7 @@ public class PptSvrTest extends BaseSvrTest {
 
 	private void assertPptData(Ppt expected, Ppt actual) {
 		Assert.assertEquals(expected.getName(), actual.getName());
-//		Assert.assertEquals(expected.getPic_path(), actual.getPic_path());
+		// Assert.assertEquals(expected.getPic_path(), actual.getPic_path());
 		Assert.assertEquals(expected.getPptid(), actual.getPptid());
 		Assert.assertEquals(expected.getProjectid(), actual.getProjectid());
 		Assert.assertEquals(expected.getCreatetime().getTime(), actual

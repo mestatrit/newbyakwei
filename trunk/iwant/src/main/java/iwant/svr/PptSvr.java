@@ -6,11 +6,14 @@ import iwant.bean.PptQueue;
 import iwant.bean.Slide;
 import iwant.dao.MainPptSearchCdn;
 import iwant.dao.PptSearchCdn;
+import iwant.svr.statusenum.UpdateSldePic0Result;
 import iwant.util.ErrorCode;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+
+import com.hk.frame.util.image2.PicRect;
 
 public interface PptSvr {
 
@@ -35,20 +38,24 @@ public interface PptSvr {
 	 * 
 	 * @param slide
 	 * @param imgFile
+	 * @param picRect
+	 *            小方图图片区域,可以为空，为空时，自动切小方图
 	 * @return OptStatus中error_code的值为 {@link ErrorCode#success},
 	 *         {@link ErrorCode#err_image}
 	 */
-	OptStatus createSlide(Slide slide, File imgFile);
+	OptStatus createSlide(Slide slide, File imgFile, PicRect picRect);
 
 	/**
 	 * 更新幻灯页数据
 	 * 
 	 * @param slide
 	 * @param imgFile
+	 * @param picRect
+	 *            小方图图片区域 ,可以为空，为空时，自动切小方图
 	 * @return OptStatus中error_code的值为 {@link ErrorCode#success},
 	 *         {@link ErrorCode#err_image}
 	 */
-	OptStatus updateSlide(Slide slide, File imgFile);
+	OptStatus updateSlide(Slide slide, File imgFile, PicRect picRect);
 
 	/**
 	 * 获得mainppt
@@ -103,6 +110,8 @@ public interface PptSvr {
 	 */
 	void deletePpt(long pptid);
 
+	void deleteMainPpt(long pptid);
+
 	/**
 	 * 获得ppt
 	 * 
@@ -140,4 +149,6 @@ public interface PptSvr {
 	void deletePptQueue(PptQueue pptQueue);
 
 	boolean isCanAddSlide(long pptid);
+
+	UpdateSldePic0Result updateSldePic0(long slideid, PicRect picRect);
 }
