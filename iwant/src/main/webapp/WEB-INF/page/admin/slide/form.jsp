@@ -33,7 +33,7 @@
 	<tr>
 		<td width="90" align="right">图片文件</td>
 		<td>
-			<input type="file" class="text" size="20" name="f"/>
+			<input id="file_" type="file" class="text" size="20" name="f"/>
 			<div>图片文件像素建议为960px*640px，建议图片格式jpg,png，图片文件大小不要超过3M</div>
 			<div class="infowarn" id="err_f"></div>
 		</td>
@@ -55,6 +55,7 @@
 	</tr>
 </table>
 </form>
+
 <script type="text/javascript">
 var err_code_<%=Err.SLIDE_TITLE_ERR %>={objid:"err_title"};
 var err_code_<%=Err.SLIDE_SUBTITLE_ERR%>={objid:"err_subtitle"};
@@ -62,7 +63,7 @@ var err_code_<%=Err.SLIDE_DESCR_ERR%>={objid:"err_descr"};
 var err_code_<%=Err.SLIDE_IMG_FORMAT_ERR%>={objid:"err_f"};
 var err_code_<%=Err.SLIDE_IMG_SIZE_ERR%>={objid:"err_f"};
 var err_code_<%=Err.PROCESS_IMAGEFILE_ERR%>={objid:"err_f"};
-
+var from='<hk:value value="${from}"/>';
 var glassid=null;
 var submited=false;
 function subfrm(frmid){
@@ -103,10 +104,26 @@ function updateerr(json,errorlist){
 }
 
 function createok(err,err_msg,v){
+	if(getObj('file_').value.length>0){
+		tourl('${appctx_path}/mgr/slide_setpic1.do?pptid=${pptid}&slideid='+v);
+		return;
+	}
+	if(from=='mainppt'){
+		tourl('${appctx_path}/mgr/ppt_viewmain.do?pptid=${pptid}');
+		return;
+	}
 	tourl('${appctx_path}/mgr/ppt_view.do?pptid=${pptid}');
 }
 
 function updateok(err,err_msg,v){
+	if(getObj('file_').value.length>0){
+		tourl('${appctx_path}/mgr/slide_setpic1.do?pptid=${pptid}&slideid=${slideid}');
+		return;
+	}
+	if(from=='mainppt'){
+		tourl('${appctx_path}/mgr/ppt_viewmain.do?pptid=${pptid}');
+		return;
+	}
 	tourl('${appctx_path}/mgr/ppt_view.do?pptid=${slide.pptid}');
 }
 </script>
