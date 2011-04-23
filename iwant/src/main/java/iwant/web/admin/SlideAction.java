@@ -55,7 +55,7 @@ public class SlideAction extends BaseAction {
 		if (!errlist.isEmpty()) {
 			return this.onErrorList(req, errlist, "createerr");
 		}
-		OptStatus optStatus = this.pptSvr.createSlide(slide, imgFile);
+		OptStatus optStatus = this.pptSvr.createSlide(slide, imgFile, null);
 		if (!optStatus.isSuccess()) {
 			errlist.add(Err.PROCESS_IMAGEFILE_ERR);
 		}
@@ -94,7 +94,7 @@ public class SlideAction extends BaseAction {
 		if (!errlist.isEmpty()) {
 			return this.onErrorList(req, errlist, "updateerr");
 		}
-		OptStatus optStatus = this.pptSvr.updateSlide(slide, imgFile);
+		OptStatus optStatus = this.pptSvr.updateSlide(slide, imgFile, null);
 		if (!optStatus.isSuccess()) {
 			errlist.add(Err.PROCESS_IMAGEFILE_ERR);
 		}
@@ -119,8 +119,8 @@ public class SlideAction extends BaseAction {
 		int slide_order_flag = slide.getOrder_flag();
 		slide.setOrder_flag(pos_slide.getOrder_flag());
 		pos_slide.setOrder_flag(slide_order_flag);
-		this.pptSvr.updateSlide(slide, null);
-		this.pptSvr.updateSlide(pos_slide, null);
+		this.pptSvr.updateSlide(slide, null, null);
+		this.pptSvr.updateSlide(pos_slide, null, null);
 		req.setSessionValue("myslideid", slideid);
 		return null;
 	}

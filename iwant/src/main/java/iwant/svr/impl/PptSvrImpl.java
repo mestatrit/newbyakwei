@@ -17,6 +17,7 @@ import iwant.dao.SlideDao;
 import iwant.svr.OptStatus;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
+import iwant.svr.statusenum.UpdateSldePic0Result;
 import iwant.util.ErrorCode;
 import iwant.util.FileCnf;
 import iwant.util.PicUtil;
@@ -35,6 +36,7 @@ import com.hk.frame.util.NumberUtil;
 import com.hk.frame.util.image.ImageException;
 import com.hk.frame.util.image2.ImageProcessor;
 import com.hk.frame.util.image2.ImgFileInfo;
+import com.hk.frame.util.image2.PicRect;
 
 public class PptSvrImpl implements PptSvr {
 
@@ -66,13 +68,9 @@ public class PptSvrImpl implements PptSvr {
 
 	@Override
 	public void createMainPpt(MainPpt mainPpt) {
-		Ppt ppt = new Ppt();
-		ppt.setCreatetime(mainPpt.getCreatetime());
-		ppt.setName(mainPpt.getName());
-		ppt.setPic_path(mainPpt.getPic_path());
-		ppt.setProjectid(mainPpt.getProjectid());
-		this.createPpt(ppt);
-		mainPpt.setPptid(ppt.getPptid());
+		long pptid = NumberUtil.getLong(this.pptidCreatorDao
+				.save(new PptidCreator()));
+		mainPpt.setPptid(pptid);
 		mainPpt.setOrder_flag(mainPpt.getPptid());
 		this.mainPptDao.save(mainPpt);
 	}
@@ -112,13 +110,21 @@ public class PptSvrImpl implements PptSvr {
 
 	@Override
 	public void deletePpt(long pptid) {
-		this.mainPptDao.deleteById(null, pptid);
 		List<Slide> list = this.slideDao.getListByPptidOrdered(pptid);
 		for (Slide slide : list) {
 			this.deleteSlide(slide);
 		}
 		this.pptQueueDao.deleteById(null, pptid);
 		this.pptDao.deleteById(null, pptid);
+	}
+
+	@Override
+	public void deleteMainPpt(long pptid) {
+		List<Slide> list = this.slideDao.getListByPptidOrdered(pptid);
+		for (Slide slide : list) {
+			this.deleteSlide(slide);
+		}
+		this.mainPptDao.deleteById(null, pptid);
 	}
 
 	@Override
@@ -195,20 +201,12 @@ public class PptSvrImpl implements PptSvr {
 	@Override
 	public void updatePpt(Ppt ppt) {
 		this.pptDao.update(ppt);
-		MainPpt mainPpt = this.getMainPpt(ppt.getPptid());
-		if (mainPpt != null) {
-			mainPpt.setCreatetime(ppt.getCreatetime());
-			mainPpt.setName(ppt.getName());
-			mainPpt.setPic_path(ppt.getPic_path());
-			mainPpt.setProjectid(ppt.getProjectid());
-			this.mainPptDao.update(mainPpt);
-		}
 	}
 
 	@Override
-	public OptStatus createSlide(Slide slide, File imgFile) {
+	public OptStatus createSlide(Slide slide, File imgFile, PicRect picRect) {
 		OptStatus optStatus = new OptStatus();
-		this.processSlideImage(slide, imgFile, optStatus);
+		this.processSlideImage(slide, imgFile, picRect, optStatus);
 		if (!optStatus.isSuccess()) {
 			return optStatus;
 		}
@@ -233,7 +231,7 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public OptStatus updateSlide(Slide slide, File imgFile) {
+	public OptStatus updateSlide(Slide slide, File imgFile, PicRect picRect) {
 		OptStatus optStatus = new OptStatus();
 		Ppt ppt = this.getPpt(slide.getPptid());
 		String oldPic = slide.getPic_path();
@@ -243,7 +241,7 @@ public class PptSvrImpl implements PptSvr {
 			chgpptpic = true;
 		}
 		if (imgFile != null) {
-			this.processSlideImage(slide, imgFile, optStatus);
+			this.processSlideImage(slide, imgFile, picRect, optStatus);
 			if (!optStatus.isSuccess()) {
 				return optStatus;
 			}
@@ -301,7 +299,7 @@ public class PptSvrImpl implements PptSvr {
 		this.mainPptDao.update(mainPpt);
 	}
 
-	private void processSlideImage(Slide slide, File imgFile,
+	private void processSlideImage(Slide slide, File imgFile, PicRect picRect,
 			OptStatus optStatus) {
 		ImgFileInfo imgFileInfo = ImgFileInfo.getImageFileInfo(imgFile);
 		if (imgFileInfo != null) {
@@ -312,8 +310,14 @@ public class PptSvrImpl implements PptSvr {
 			String filePath = fileCnf.getFilePath(dbPath);
 			slide.setPic_path(dbPath);
 			try {
-				imageProcessor.makeImage(filePath, PicUtil.SLIDE_PIC1_NAME,
-						false, 70);
+				if (picRect == null) {
+					imageProcessor.makeImage(filePath, PicUtil.SLIDE_PIC1_NAME,
+							false, 70);
+				}
+				else {
+					imageProcessor.cutImage(filePath, PicUtil.SLIDE_PIC1_NAME,
+							picRect);
+				}
 				imageProcessor.makeImage(filePath, PicUtil.SLIDE_PIC2_NAME,
 						false, 960);
 				optStatus.setSuccess(true);
@@ -369,5 +373,27 @@ public class PptSvrImpl implements PptSvr {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public UpdateSldePic0Result updateSldePic0(long slideid, PicRect picRect) {
+		Slide slide = this.getSlide(slideid);
+		if (slide == null) {
+			return UpdateSldePic0Result.FILE_NOT_FOUND;
+		}
+		String realPath = this.fileCnf.getFilePath(slide.getPic_path());
+		File file = new File(realPath + PicUtil.SLIDE_PIC2_NAME);
+		ImgFileInfo imgFileInfo = ImgFileInfo.getImageFileInfo(file);
+		if (imgFileInfo == null) {
+			return UpdateSldePic0Result.FILE_NOT_FOUND;
+		}
+		ImageProcessor imageProcessor = new ImageProcessor(imgFileInfo);
+		try {
+			imageProcessor.cutImage(realPath, PicUtil.SLIDE_PIC1_NAME, picRect);
+			return UpdateSldePic0Result.SUCCESS;
+		}
+		catch (ImageException e) {
+			return UpdateSldePic0Result.IMAGE_PROCESS_ERR;
+		}
 	}
 }
