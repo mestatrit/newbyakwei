@@ -81,4 +81,14 @@ public class ApnsTool {
 			pushManager.removeDevice(id);
 		}
 	}
+
+	public static void main(String[] args) throws Exception {
+		ApnsTool apnsTool = new ApnsTool();
+		apnsTool.setHost("gateway.sandbox.push.apple.com");
+		apnsTool.setPort(2195);
+		apnsTool.setP12FileKey("");
+		apnsTool.setP12FileName("devpush.p12");
+		PayLoad payLoad = new PayLoad();
+		apnsTool.sendNotification("akwei", "", payLoad);
+	}
 }
