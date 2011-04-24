@@ -1,0 +1,34 @@
+<resp errcode="$!{errcode}" err_msg="$!{err_msg}">
+<list>
+#foreach($o in $list)
+<ppt>
+<pptid>$!{o.ppt.pptid}</pptid>
+<projectid>$!{o.ppt.projectid}</projectid>
+<name><![CDATA[$!{o.ppt.name}]]></name>
+<pic1url><![CDATA[$!{o.ppt.getPic1Url()}]]></pic1url>
+<pic2url><![CDATA[$!{o.ppt.getPic2Url()}]]></pic2url>
+</ppt>
+<ppt>
+<pptid>$!{o.ppt.pptid}</pptid>
+<projectid>$!{o.ppt.projectid}</projectid>
+<name><![CDATA[$!{o.ppt.name}]]></name>
+<pic1url><![CDATA[$!{o.ppt.getPic1Url()}]]></pic1url>
+<pic2url><![CDATA[$!{o.ppt.getPic2Url()}]]></pic2url>
+</ppt>
+<ppt>
+<pptid>$!{o.ppt.pptid}</pptid>
+<projectid>$!{o.ppt.projectid}</projectid>
+<name><![CDATA[$!{o.ppt.name}]]></name>
+<pic1url><![CDATA[$!{o.ppt.getPic1Url()}]]></pic1url>
+<pic2url><![CDATA[$!{o.ppt.getPic2Url()}]]></pic2url>
+</ppt>
+<ppt>
+<pptid>$!{o.ppt.pptid}</pptid>
+<projectid>$!{o.ppt.projectid}</projectid>
+<name><![CDATA[$!{o.ppt.name}]]></name>
+<pic1url><![CDATA[$!{o.ppt.getPic1Url()}]]></pic1url>
+<pic2url><![CDATA[$!{o.ppt.getPic2Url()}]]></pic2url>
+</ppt>
+#end
+</list>
+</resp>
