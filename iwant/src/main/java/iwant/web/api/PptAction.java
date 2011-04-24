@@ -3,11 +3,15 @@ package iwant.web.api;
 import iwant.bean.Category;
 import iwant.bean.MainPpt;
 import iwant.bean.Ppt;
+import iwant.bean.PptTimeline;
 import iwant.bean.Project;
 import iwant.bean.Slide;
+import iwant.bean.User;
 import iwant.svr.CategorySvr;
 import iwant.svr.PptSvr;
+import iwant.svr.PptTimelineSvr;
 import iwant.svr.ProjectSvr;
+import iwant.svr.UserSvr;
 import iwant.web.admin.util.Err;
 
 import java.util.HashMap;
@@ -17,6 +21,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.hk.frame.util.DataUtil;
 import com.hk.frame.util.P;
 import com.hk.frame.util.page.SimplePage;
 import com.hk.frame.web.http.HkRequest;
@@ -33,6 +38,12 @@ public class PptAction extends BaseApiAction {
 
 	@Autowired
 	private ProjectSvr projectSvr;
+
+	@Autowired
+	private UserSvr userSvr;
+
+	@Autowired
+	private PptTimelineSvr pptTimelineSvr;
 
 	/**
 	 * @param req
@@ -87,6 +98,32 @@ public class PptAction extends BaseApiAction {
 		map.put("project", project);
 		map.put("list", list);
 		APIUtil.writeData(resp, map, "vm/slidelist.vm");
+		return null;
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String pptlistforfollowed(HkRequest req, HkResponse resp)
+			throws Exception {
+		String device_token = req.getStringRow("device_token");
+		if (DataUtil.isEmpty(device_token)) {
+			APIUtil.writeErr(req, resp, Err.USER_NOT_EXIST);
+			return null;
+		}
+		User user = this.userSvr.getUserByDevice_token(device_token);
+		if (user == null) {
+			APIUtil.writeErr(req, resp, Err.USER_NOT_EXIST);
+			return null;
+		}
+		List<PptTimeline> list = this.pptTimelineSvr
+				.getPptTimelineListByUserid(user.getUserid(), 0, 20, true);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		APIUtil.writeData(resp, map, "vm/ppttimelinelist.vm");
 		return null;
 	}
 
