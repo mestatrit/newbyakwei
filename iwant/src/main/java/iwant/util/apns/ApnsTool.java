@@ -1,11 +1,18 @@
 package iwant.util.apns;
 
+import java.net.URL;
+
 import javapns.back.PushNotificationManager;
 import javapns.back.SSLConnectionHelper;
 import javapns.data.Device;
 import javapns.data.PayLoad;
 
 public class ApnsTool {
+
+	public ApnsTool() {
+	}
+
+	private String p12FileName;
 
 	private String p12FilePath;
 
@@ -15,12 +22,12 @@ public class ApnsTool {
 
 	private String p12FileKey;
 
-	public String getP12FilePath() {
-		return p12FilePath;
+	public void setP12FileName(String p12FileName) {
+		this.p12FileName = p12FileName;
 	}
 
-	public void setP12FilePath(String p12FilePath) {
-		this.p12FilePath = p12FilePath;
+	public String getP12FilePath() {
+		return p12FilePath;
 	}
 
 	public int getPort() {
@@ -49,6 +56,12 @@ public class ApnsTool {
 
 	public void sendNotification(String id, String deviceToken, PayLoad payLoad)
 			throws Exception {
+		if (this.p12FilePath == null) {
+			URL url = Thread.currentThread().getContextClassLoader()
+					.getResource("");
+			String path = url.getPath();
+			this.p12FilePath = path + this.p12FileName;
+		}
 		Device client = null;
 		PushNotificationManager pushManager = PushNotificationManager
 				.getInstance();
