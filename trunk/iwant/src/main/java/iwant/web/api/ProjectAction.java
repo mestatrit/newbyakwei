@@ -2,10 +2,13 @@ package iwant.web.api;
 
 import iwant.bean.Project;
 import iwant.bean.User;
+import iwant.bean.enumtype.GenderType;
 import iwant.svr.FollowProjectSvr;
 import iwant.svr.ProjectSvr;
 import iwant.svr.UserSvr;
 import iwant.web.admin.util.Err;
+
+import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,11 +42,7 @@ public class ProjectAction extends BaseApiAction {
 		try {
 			long projectid = req.getLong("projectid");
 			String device_token = req.getStringRow("device_token");
-			User user = this.userSvr.getUserByDevice_token(device_token);
-			if (user == null) {
-				APIUtil.writeErr(req, resp, Err.USER_NOT_EXIST);
-				return null;
-			}
+			User user = this.loadUser(device_token);
 			Project project = this.projectSvr.getProject(projectid);
 			if (project == null) {
 				APIUtil.writeErr(req, resp, Err.PROJECT_NOT_EXIST);
@@ -89,5 +88,20 @@ public class ProjectAction extends BaseApiAction {
 			APIUtil.writeErr(req, resp, Err.FOLLOWPROJECT_CREATE_ERR);
 			return null;
 		}
+	}
+
+	private User loadUser(String device_token) {
+		User user = this.userSvr.getUserByDevice_token(device_token);
+		if (user == null) {
+			user = new User();
+			user.setDevice_token(device_token);
+			user.setCreatetime(new Date());
+			user.setEmail("");
+			user.setMobile("");
+			user.setGender(GenderType.NONE.getValue());
+			user.setName("");
+			this.userSvr.createUser(user);
+		}
+		return user;
 	}
 }
