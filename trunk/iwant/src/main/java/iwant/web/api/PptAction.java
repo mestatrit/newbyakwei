@@ -120,7 +120,7 @@ public class PptAction extends BaseApiAction {
 			return null;
 		}
 		List<PptTimeline> list = this.pptTimelineSvr
-				.getPptTimelineListByUserid(user.getUserid(), 0, 20, true);
+				.getPptTimelineListByUserid(user.getUserid(), 0, 20, true, true);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
 		APIUtil.writeData(resp, map, "vm/ppttimelinelist.vm");

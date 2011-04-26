@@ -2,10 +2,12 @@ package iwant.svr.impl;
 
 import iwant.bean.Ppt;
 import iwant.bean.PptTimeline;
+import iwant.bean.Project;
 import iwant.bean.enumtype.ReadFlagType;
 import iwant.dao.PptTimelineDao;
 import iwant.svr.PptSvr;
 import iwant.svr.PptTimelineSvr;
+import iwant.svr.ProjectSvr;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +25,9 @@ public class PptTimelineSvrImpl implements PptTimelineSvr {
 
 	@Autowired
 	private PptSvr pptSvr;
+
+	@Autowired
+	private ProjectSvr projectSvr;
 
 	@Override
 	public boolean createPptTimeline(PptTimeline pptTimeline) {
@@ -52,7 +57,7 @@ public class PptTimelineSvrImpl implements PptTimelineSvr {
 
 	@Override
 	public List<PptTimeline> getPptTimelineListByUserid(long userid, int begin,
-			int size, boolean buildPpt) {
+			int size, boolean buildPpt, boolean buildProject) {
 		List<PptTimeline> list = this.pptTimelineDao.getListByUserid(userid,
 				begin, size);
 		if (buildPpt) {
@@ -63,6 +68,18 @@ public class PptTimelineSvrImpl implements PptTimelineSvr {
 			Map<Long, Ppt> map = this.pptSvr.getPptMapInId(idList);
 			for (PptTimeline o : list) {
 				o.setPpt(map.get(o.getPptid()));
+			}
+		}
+		if (buildProject) {
+			List<Long> idList = new ArrayList<Long>();
+			for (PptTimeline o : list) {
+				idList.add(o.getProjectid());
+			}
+			Map<Long, Project> map = this.projectSvr.getProjectMap(idList);
+			for (PptTimeline o : list) {
+				if (o.getPpt() != null) {
+					o.getPpt().setProject(map.get(o.getProjectid()));
+				}
 			}
 		}
 		return list;

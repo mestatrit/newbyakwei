@@ -57,6 +57,16 @@ public class Ppt {
 	@Column
 	private String pic_path;
 
+	private Project project;
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
 	public long getPptid() {
 		return pptid;
 	}

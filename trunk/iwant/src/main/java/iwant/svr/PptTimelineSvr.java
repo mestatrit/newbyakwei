@@ -19,5 +19,5 @@ public interface PptTimelineSvr {
 	void updateForReaded(long userid, long pptid);
 
 	List<PptTimeline> getPptTimelineListByUserid(long userid, int begin,
-			int size, boolean buildPpt);
+			int size, boolean buildPpt, boolean buildProject);
 }
