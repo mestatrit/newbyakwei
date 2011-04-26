@@ -85,11 +85,19 @@ public class PptAction extends BaseApiAction {
 		long pptid = req.getLong("pptid");
 		List<Slide> list = this.pptSvr.getSlideListByPptidOrdered(pptid);
 		Ppt ppt = this.pptSvr.getPpt(pptid);
+		long projectid = 0;
 		if (ppt == null) {
-			APIUtil.writeErr(req, resp, Err.RESOURCE_NOT_EXIST);
-			return null;
+			MainPpt mainPpt = this.pptSvr.getMainPpt(pptid);
+			if (mainPpt == null) {
+				APIUtil.writeErr(req, resp, Err.RESOURCE_NOT_EXIST);
+				return null;
+			}
+			projectid = mainPpt.getProjectid();
 		}
-		Project project = this.projectSvr.getProject(ppt.getProjectid());
+		else {
+			projectid = ppt.getProjectid();
+		}
+		Project project = this.projectSvr.getProject(projectid);
 		if (project == null) {
 			APIUtil.writeErr(req, resp, Err.RESOURCE_NOT_EXIST);
 			return null;
