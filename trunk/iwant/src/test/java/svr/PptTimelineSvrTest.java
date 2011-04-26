@@ -110,13 +110,13 @@ public class PptTimelineSvrTest extends BaseSvrTest {
 	public void getPptTimelineListByUserid() {
 		List<PptTimeline> list = this.pptTimelineSvr
 				.getPptTimelineListByUserid(this.pptTimeline0.getUserid(), 0,
-						-1, false);
+						-1, false, false);
 		Assert.assertEquals(2, list.size());
 		list = this.pptTimelineSvr.getPptTimelineListByUserid(this.pptTimeline0
-				.getUserid(), 0, 1, false);
+				.getUserid(), 0, 1, false, false);
 		Assert.assertEquals(1, list.size());
 		list = this.pptTimelineSvr.getPptTimelineListByUserid(this.pptTimeline0
-				.getUserid(), 0, -1, false);
+				.getUserid(), 0, -1, false, false);
 		Assert.assertEquals(2, list.size());
 		this.assertData(this.pptTimeline1, list.get(0));
 		this.assertData(this.pptTimeline0, list.get(1));
