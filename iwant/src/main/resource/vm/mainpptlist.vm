@@ -8,7 +8,7 @@
 <pic1url><![CDATA[$!{ppt.getPic1Url()}]]></pic1url>
 <pic2url><![CDATA[$!{ppt.getPic2Url()}]]></pic2url>
 <project>
-<projectid>$!{ppt.projectid.projectid}</projectid>
+<projectid>$!{ppt.project.projectid}</projectid>
 <name><![CDATA[$!{ppt.project.name}]]></name>
 </project>
 </ppt>
