@@ -57,5 +57,7 @@ public interface Err {
 
 	String PPT_NOT_EXIST = "24";
 
+	String DEVICE_TOKEN_ERR = "25";
+
 	String PROCESS_IMAGEFILE_ERR = "pro1";
 }
