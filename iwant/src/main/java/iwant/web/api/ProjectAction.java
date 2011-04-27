@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.hk.frame.util.DataUtil;
 import com.hk.frame.web.http.HkRequest;
 import com.hk.frame.web.http.HkResponse;
 
@@ -42,6 +43,10 @@ public class ProjectAction extends BaseApiAction {
 		try {
 			long projectid = req.getLong("projectid");
 			String device_token = req.getStringRow("device_token");
+			if (DataUtil.isEmpty(device_token)) {
+				APIUtil.writeErr(req, resp, Err.DEVICE_TOKEN_ERR);
+				return null;
+			}
 			User user = this.loadUser(device_token);
 			Project project = this.projectSvr.getProject(projectid);
 			if (project == null) {
