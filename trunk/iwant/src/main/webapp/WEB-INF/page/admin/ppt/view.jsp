@@ -84,6 +84,7 @@ slideidarr[${idx.index}]=${slide.slideid};
 var submited=false;
 var glassid=null;
 function writenotice(){
+	submited=false;
 	var title = "填写通知内容";
 	var html = "<div>";
 	html+='<form id="noticefrm" method="post" onsubmit="return subnoticefrm(this.id);" action="${appctx_path}/mgr/notice_create.do" target="hideframe">';
@@ -107,6 +108,7 @@ function subnoticefrm(frmid){
 }
 
 function createnoticeok(err,err_msg,v){
+	submited=false;
 	removeGlass(glassid);
 	hidenoticewin()
 	var title = "提醒";
