@@ -49,8 +49,10 @@ public class SendNoticeJob {
 					payLoad.addBadge(1);
 					payLoad.addAlert(o.getNotice().getContent());
 					payLoad.addSound("default");
+					log.info("send user notice");
 					this.noticeSvr.sendApnsNotice(user.getDevice_token(),
 							payLoad);
+					log.info("send ok ... ...");
 				}
 				catch (Exception e) {
 					log.error(e.getMessage());
