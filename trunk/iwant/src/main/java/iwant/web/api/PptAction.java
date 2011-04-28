@@ -126,8 +126,11 @@ public class PptAction extends BaseApiAction {
 			APIUtil.writeErr(req, resp, Err.USER_NOT_EXIST);
 			return null;
 		}
+		SimplePage simplePage = new SimplePage(req.getInt("size", 10), req
+				.getInt("page", 1));
 		List<PptTimeline> list = this.pptTimelineSvr
-				.getPptTimelineListByUserid(user.getUserid(), 0, 20, true, true);
+				.getPptTimelineListByUserid(user.getUserid(), simplePage
+						.getBegin(), simplePage.getSize(), true, true);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
 		APIUtil.writeData(resp, map, "vm/ppttimelinelist.vm");
