@@ -7,7 +7,6 @@ import iwant.bean.PptQueue;
 import iwant.bean.PptTimeline;
 import iwant.bean.Project;
 import iwant.bean.ProjectFans;
-import iwant.bean.UserNotice;
 import iwant.bean.enumtype.ReadFlagType;
 import iwant.svr.FollowProjectSvr;
 import iwant.svr.NoticeSvr;
@@ -57,7 +56,6 @@ public class CreateUserNoticeJob {
 	private void processCreateUserNotice() {
 		List<NoticeQueue> list = this.noticeSvr.getNoticeQueueList(0, 50);
 		Notice notice = null;
-		UserNotice userNotice = null;
 		for (NoticeQueue o : list) {
 			notice = this.noticeSvr.getNotice(o.getNoticeid());
 			if (notice != null) {
@@ -65,10 +63,8 @@ public class CreateUserNoticeJob {
 						.getProjectFansListByProjectid(notice.getProjectid(),
 								0, -1);
 				for (ProjectFans fans : fanslist) {
-					userNotice = new UserNotice();
-					userNotice.setUserid(fans.getUserid());
-					userNotice.setNoticeid(o.getNoticeid());
-					this.noticeSvr.createNotice(notice);
+					this.noticeSvr.createUserNotice(o.getNoticeid(), fans
+							.getUserid());
 				}
 			}
 			this.noticeSvr.deleteNoticeQueue(o);
