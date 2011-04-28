@@ -89,6 +89,13 @@ public class ApnsTool {
 		apnsTool.setP12FileKey("");
 		apnsTool.setP12FileName("devpush.p12");
 		PayLoad payLoad = new PayLoad();
-		apnsTool.sendNotification("akwei", "", payLoad);
+		payLoad.addBadge(1);
+		payLoad.addSound("default");
+		payLoad.addAlert("hello 袁伟，我发送的消息，你收到了么");
+		apnsTool
+				.sendNotification(
+						"akwei",
+						"",
+						payLoad);
 	}
 }
