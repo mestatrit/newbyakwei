@@ -115,7 +115,7 @@ public class PptAction extends BaseApiAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String pptlistforfollowed(HkRequest req, HkResponse resp)
+	public String timelinelist(HkRequest req, HkResponse resp)
 			throws Exception {
 		String device_token = req.getStringRow("device_token");
 		if (DataUtil.isEmpty(device_token)) {
