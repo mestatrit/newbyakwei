@@ -123,10 +123,12 @@ function createnoticeerr(err,err_msg,v){
 }
 
 function hidenoticewin(){
+	submited=false;
 	hideWindow('write_notice');
 }
 
 function hidealertwin(){
+	submited=false;
 	hideWindow('alertview');
 }
 
