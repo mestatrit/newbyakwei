@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.jdbc.core.RowMapper;
+
 /**
  * 初始化类与数据表的对应关系配置信息，存储类与数据表的映射对象的数据
  * 
@@ -39,6 +41,16 @@ public class ObjectSqlInfoCreater {
 					+ clazz.getName() + " ]");
 		}
 		return o;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> RowMapper<T> getRowMapper(Class<T> clazz) {
+		ObjectSqlInfo<T> o = (ObjectSqlInfo<T>) this.objectSqlInfoMap.get(clazz
+				.getName());
+		if (o != null) {
+			return o.getRowMapper();
+		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")

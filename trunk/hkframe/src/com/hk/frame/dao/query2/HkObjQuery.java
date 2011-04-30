@@ -34,10 +34,10 @@ public class HkObjQuery extends HkQuery {
 	 * @return
 	 */
 	public <T> RowMapper<T> getRowMapper(Class<T> clazz) {
-		ObjectSqlInfo<T> objectSqlInfo = this.getObjectSqlInfoCreater()
-				.getObjectSqlInfo(clazz);
-		if (objectSqlInfo != null) {
-			return objectSqlInfo.getRowMapper();
+		RowMapper<T> mapper = this.getObjectSqlInfoCreater()
+				.getRowMapper(clazz);
+		if (mapper != null) {
+			return mapper;
 		}
 		ResultSetDataInfo<T> resultSetDataInfo = this.resultSetDataInfoCreater
 				.getResultSetDataInfo(clazz);
