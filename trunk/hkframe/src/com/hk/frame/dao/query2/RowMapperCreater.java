@@ -90,9 +90,8 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 		}
 	}
 
-	private static <T> void createResultSetGetValue(
-			MethodVisitor methodVisitor, ObjectSqlInfo<T> objectSqlInfo,
-			Field field) {
+	private <T> void createResultSetGetValue(MethodVisitor methodVisitor,
+			ObjectSqlInfo<T> objectSqlInfo, Field field) {
 		String[] info = createMethodNameAndDesc(field);
 		methodVisitor.visitVarInsn(ALOAD, 1);
 		methodVisitor.visitLdcInsn(objectSqlInfo.getTableName() + "."
@@ -104,7 +103,7 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 		methodVisitor.visitVarInsn(ALOAD, 3);
 	}
 
-	private static String[] createMethodNameAndDesc(Field field) {
+	private String[] createMethodNameAndDesc(Field field) {
 		FieldTypeUtil.checkFieldType(field);
 		String type = field.getType().getName();
 		String fieldName = field.getName();
@@ -158,12 +157,12 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 		return a;
 	}
 
-	private static String createSetMethodString(String fieldName) {
+	private String createSetMethodString(String fieldName) {
 		return "set" + fieldName.substring(0, 1).toUpperCase()
 				+ fieldName.substring(1);
 	}
 
-	private static String createMapperClassName(Class<?> clazz) {
+	private String createMapperClassName(Class<?> clazz) {
 		int idx = clazz.getName().lastIndexOf(".");
 		String shortName = clazz.getName().substring(idx + 1);
 		String pkgName = clazz.getName().substring(0, idx);
