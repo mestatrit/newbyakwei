@@ -92,69 +92,98 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 
 	private <T> void createResultSetGetValue(MethodVisitor methodVisitor,
 			ObjectSqlInfo<T> objectSqlInfo, Field field) {
-		String[] info = createMethodNameAndDesc(field);
 		methodVisitor.visitVarInsn(ALOAD, 1);
 		methodVisitor.visitLdcInsn(objectSqlInfo.getTableName() + "."
 				+ objectSqlInfo.getColumn(field.getName()));
+		MethodInfo resultSetMethodInfo = this.createResultSetMethodInfo(field);
 		methodVisitor.visitMethodInsn(INVOKEINTERFACE, Type
-				.getInternalName(ResultSet.class), info[0], info[1]);
+				.getInternalName(ResultSet.class), resultSetMethodInfo
+				.getMethodName(), resultSetMethodInfo.getMethodDescr());
+		MethodInfo setterMethodInfo = this.createSetterMethodInfo(field);
 		methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-				.getInternalName(objectSqlInfo.getClazz()), info[2], info[3]);
+				.getInternalName(objectSqlInfo.getClazz()), setterMethodInfo
+				.getMethodName(), setterMethodInfo.getMethodDescr());
 		methodVisitor.visitVarInsn(ALOAD, 3);
 	}
 
-	private String[] createMethodNameAndDesc(Field field) {
+	private MethodInfo createSetterMethodInfo(Field field) {
 		FieldTypeUtil.checkFieldType(field);
 		String type = field.getType().getName();
-		String fieldName = field.getName();
-		String[] a = new String[4];
-		a[2] = createSetMethodString(fieldName);
+		MethodInfo methodInfo = new MethodInfo();
+		methodInfo.setMethodName(this.createSetMethodString(field.getName()));
 		if (type.equals(TYPE_INT)) {
-			a[0] = "getInt";
-			a[1] = "(Ljava/lang/String;)I";
-			a[3] = "(I)V";
+			methodInfo.setMethodDescr("(I)V");
 		}
 		if (type.equals(TYPE_SHORT)) {
-			a[0] = "getShort";
-			a[1] = "(Ljava/lang/String;)S";
-			a[3] = "(S)V";
+			methodInfo.setMethodDescr("(S)V");
 		}
 		if (type.equals(TYPE_BYTE)) {
-			a[0] = "getByte";
-			a[1] = "(Ljava/lang/String;)B";
-			a[3] = "(B)V";
+			methodInfo.setMethodDescr("(B)V");
 		}
 		if (type.equals(TYPE_LONG)) {
-			a[0] = "getLong";
-			a[1] = "(Ljava/lang/String;)J";
-			a[3] = "(J)V";
+			methodInfo.setMethodDescr("(J)V");
 		}
 		if (type.equals(TYPE_FLOAT)) {
-			a[0] = "getFloat";
-			a[1] = "(Ljava/lang/String;)F";
-			a[3] = "(F)V";
+			methodInfo.setMethodDescr("(F)V");
 		}
 		if (type.equals(TYPE_DOUBLE)) {
-			a[0] = "getDouble";
-			a[1] = "(Ljava/lang/String;)D";
-			a[3] = "(D)V";
+			methodInfo.setMethodDescr("(D)V");
 		}
 		if (type.equals(TYPE_CHAR)) {
-			a[0] = "getChar";
-			a[1] = "(Ljava/lang/String;)C";
-			a[3] = "(C)V";
+			methodInfo.setMethodDescr("(C)V");
 		}
 		if (type.equals(TYPE_STRING)) {
-			a[0] = "getString";
-			a[1] = "(Ljava/lang/String;)Ljava/lang/String;";
-			a[3] = "(Ljava/lang/String;)V";
+			methodInfo.setMethodDescr("(Ljava/lang/String;)V");
 		}
 		if (type.equals(TYPE_DATE)) {
-			a[0] = "getTimestamp";
-			a[1] = "(Ljava/lang/String;)Ljava/sql/Timestamp;";
-			a[3] = "(" + Type.getDescriptor(Date.class) + ")V";
+			methodInfo.setMethodDescr("(" + Type.getDescriptor(Date.class)
+					+ ")V");
 		}
-		return a;
+		return methodInfo;
+	}
+
+	private MethodInfo createResultSetMethodInfo(Field field) {
+		FieldTypeUtil.checkFieldType(field);
+		MethodInfo methodInfo = new MethodInfo();
+		String type = field.getType().getName();
+		if (type.equals(TYPE_INT)) {
+			methodInfo.setMethodName("getInt");
+			methodInfo.setMethodDescr("(Ljava/lang/String;)I");
+		}
+		if (type.equals(TYPE_SHORT)) {
+			methodInfo.setMethodName("getShort");
+			methodInfo.setMethodDescr("(Ljava/lang/String;)S");
+		}
+		if (type.equals(TYPE_BYTE)) {
+			methodInfo.setMethodName("getByte");
+			methodInfo.setMethodDescr("(Ljava/lang/String;)B");
+		}
+		if (type.equals(TYPE_LONG)) {
+			methodInfo.setMethodName("getLong");
+			methodInfo.setMethodDescr("(Ljava/lang/String;)J");
+		}
+		if (type.equals(TYPE_FLOAT)) {
+			methodInfo.setMethodName("getFloat");
+			methodInfo.setMethodDescr("(Ljava/lang/String;)F");
+		}
+		if (type.equals(TYPE_DOUBLE)) {
+			methodInfo.setMethodName("getDouble");
+			methodInfo.setMethodDescr("(Ljava/lang/String;)D");
+		}
+		if (type.equals(TYPE_CHAR)) {
+			methodInfo.setMethodName("getChar");
+			methodInfo.setMethodDescr("(Ljava/lang/String;)C");
+		}
+		if (type.equals(TYPE_STRING)) {
+			methodInfo.setMethodName("getString");
+			methodInfo.setMethodDescr("(Ljava/lang/String;)Ljava/lang/String;");
+		}
+		if (type.equals(TYPE_DATE)) {
+			methodInfo.setMethodName("getTimestamp");
+			methodInfo
+					.setMethodDescr("(Ljava/lang/String;)Ljava/sql/Timestamp;");
+		}
+		return methodInfo;
 	}
 
 	private String createSetMethodString(String fieldName) {
@@ -167,5 +196,28 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 		String shortName = clazz.getName().substring(idx + 1);
 		String pkgName = clazz.getName().substring(0, idx);
 		return pkgName + "." + shortName + "AsmMapper";
+	}
+
+	private class MethodInfo {
+
+		private String methodName;
+
+		private String methodDescr;
+
+		public void setMethodDescr(String methodDescr) {
+			this.methodDescr = methodDescr;
+		}
+
+		public String getMethodDescr() {
+			return methodDescr;
+		}
+
+		public void setMethodName(String methodName) {
+			this.methodName = methodName;
+		}
+
+		public String getMethodName() {
+			return methodName;
+		}
 	}
 }
