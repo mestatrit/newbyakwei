@@ -14,8 +14,6 @@ public interface HkRequest extends HttpServletRequest {
 
 	String UTF_8 = "UTF-8";
 
-	void setSessionValue(String name, Object value);
-
 	Object getSessionValue(String name);
 
 	Number getNumber(String key);
@@ -106,6 +104,8 @@ public interface HkRequest extends HttpServletRequest {
 
 	void setSessionMessage(String msg);
 
+	void setSessionValue(String name, Object value);
+
 	void removeSessionvalue(String name);
 
 	void invalidateSession();
@@ -116,5 +116,5 @@ public interface HkRequest extends HttpServletRequest {
 
 	void reSetEncodeAttribute(String name);
 
-	void setEncodeAttribute(String name, Object value);
+	void setEncodeAttribute(String name, String value);
 }

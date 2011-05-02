@@ -65,7 +65,7 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 	@Override
 	public double getDoubleAndSetAttr(String key) {
 		double v = this.getDouble(key);
-		this.getHttpServletRequest().setAttribute(key, v);
+		this.setAttribute(key, v);
 		return v;
 	}
 
@@ -340,23 +340,22 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 		}
 		String o = this.getString(name);
 		if (o != null) {
-			getHttpServletRequest().setAttribute(name, o);
+			this.setAttribute(name, o);
 		}
 	}
 
 	@Override
-	public void setEncodeAttribute(String name, Object value) {
-		getHttpServletRequest().setAttribute(name, value);
+	public void setEncodeAttribute(String name, String value) {
+		this.setAttribute(name, value);
 		if (value != null) {
-			getHttpServletRequest().setAttribute("enc_" + name,
-					DataUtil.urlEncoder(value.toString()));
+			this.setAttribute("enc_" + name, DataUtil.urlEncoder(value));
 		}
 	}
 
 	@Override
 	public void reSetEncodeAttribute(String name) {
 		String value = this.getString(name, "");
-		getHttpServletRequest().setAttribute(name, value);
+		this.setAttribute(name, value);
 		this.setEncodeAttribute("enc_" + name, value);
 	}
 
@@ -368,28 +367,28 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 	@Override
 	public byte getByteAndSetAttr(String key) {
 		byte v = this.getByte(key);
-		this.getHttpServletRequest().setAttribute(key, v);
+		this.setAttribute(key, v);
 		return v;
 	}
 
 	@Override
 	public byte getByteAndSetAttr(String key, byte num) {
 		byte v = this.getByte(key, num);
-		this.getHttpServletRequest().setAttribute(key, v);
+		this.setAttribute(key, v);
 		return v;
 	}
 
 	@Override
 	public int getIntAndSetAttr(String key) {
 		int v = this.getInt(key);
-		this.getHttpServletRequest().setAttribute(key, v);
+		this.setAttribute(key, v);
 		return v;
 	}
 
 	@Override
 	public long getLongAndSetAttr(String key) {
 		long v = this.getLong(key);
-		this.getHttpServletRequest().setAttribute(key, v);
+		this.setAttribute(key, v);
 		return v;
 	}
 }
