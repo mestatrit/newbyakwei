@@ -87,7 +87,7 @@ public class ActionExe {
 	public void proccess(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		try {
-			PathProcessor.proccessResult(this.invoke(request, response),
+			PathProcessor.processResult(this.invoke(request, response),
 					request, response);
 		}
 		catch (Exception e) {
