@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cactus.util.ExceptionConfig;
 
-public class PathProcesser {
+public class PathProcessor {
 
 	protected static final String HTTP_BEGIN = "http://";
 
