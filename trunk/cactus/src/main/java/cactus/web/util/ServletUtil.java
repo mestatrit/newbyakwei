@@ -104,7 +104,7 @@ public class ServletUtil {
 	public static void writeValue(HttpServletResponse resp, String vmpath,
 			VelocityContext context) {
 		try {
-			sendXml2(resp, VelocityUtil.writeToString(vmpath, context));
+			sendXml(resp, VelocityUtil.writeToString(vmpath, context));
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
@@ -357,7 +357,7 @@ public class ServletUtil {
 		setSessionValue(request, HkUtil.MESSAGE_NAME, msg);
 	}
 
-	public static void sendXml2(HttpServletResponse response, String value) {
+	public static void sendXml(HttpServletResponse response, String value) {
 		response.setContentType("text/xml;charset=UTF-8");
 		StringBuilder sb = new StringBuilder(
 				"<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
