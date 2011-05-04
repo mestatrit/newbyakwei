@@ -33,7 +33,6 @@ public class ActionFilter implements Filter {
 	private ActionExe actionExe;
 
 	public void init(FilterConfig config) throws ServletException {
-
 		String actionExeClass = config.getInitParameter("actionExeClass");
 		if (DataUtil.isNotEmpty(actionExeClass)) {
 			try {
@@ -68,7 +67,6 @@ public class ActionFilter implements Filter {
 
 	public void doFilter(ServletRequest arg0, ServletResponse arg1,
 			FilterChain arg2) throws IOException, ServletException {
-
 		HttpServletRequest req = (HttpServletRequest) arg0;
 		String uri = req.getRequestURI();
 		if (uri.endsWith(".jsp")) {// 默认不对jsp进行过滤
@@ -92,6 +90,5 @@ public class ActionFilter implements Filter {
 
 	@Override
 	public void destroy() {
-
 	}
 }
