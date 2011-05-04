@@ -16,6 +16,10 @@ public class PathProcessor {
 
 	protected static final String PATH_SEPARATOR = "/";
 
+	protected static final String CMD_REDIRECT_INAPP = "r:";
+
+	protected static final String CMD_REDIRECT_OUTOFAPP = "rr:";
+
 	public static void doExceptionForward(Exception exception,
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -28,7 +32,7 @@ public class PathProcessor {
 			exception.printStackTrace();
 			throw new RuntimeException(exception);
 		}
-		proccessResult(result, request, response);
+		processResult(result, request, response);
 	}
 
 	/**
@@ -44,20 +48,19 @@ public class PathProcessor {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public static void proccessResult(String result,
-			HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public static void processResult(String result, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		boolean containCtxPath = true;
 		if (result == null) {
 			return;
 		}
 		String path = null;
 		boolean redirect = false;
-		if (result.startsWith("r:")) {
+		if (result.startsWith(CMD_REDIRECT_INAPP)) {
 			path = result.substring(2);
 			redirect = true;
 		}
-		else if (result.startsWith("rr:")) {
+		else if (result.startsWith(CMD_REDIRECT_OUTOFAPP)) {
 			path = result.substring(3);
 			redirect = true;
 			containCtxPath = false;
@@ -72,7 +75,7 @@ public class PathProcessor {
 		doForward(redirect, path, containCtxPath, request, response);
 	}
 
-	public static void doStartWithHTTPForward(String path,
+	private static void doStartWithHTTPForward(String path,
 			HttpServletResponse response) throws IOException {
 		response.sendRedirect(path);
 	}
@@ -91,7 +94,7 @@ public class PathProcessor {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public static void doForward(boolean isRedirect, String path,
+	private static void doForward(boolean isRedirect, String path,
 			boolean containCtxPath, HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		if (path.startsWith(PATH_SEPARATOR)) {
