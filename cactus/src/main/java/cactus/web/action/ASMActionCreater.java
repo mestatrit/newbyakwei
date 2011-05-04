@@ -7,7 +7,7 @@ import org.objectweb.asm.Type;
 import org.springframework.jdbc.core.RowMapper;
 
 /**
- * 动态生成Action类的子类
+ * 动态生成Action类的子类，目的是为了避免使用反射来进行方法
  * 
  * @author akwei
  */

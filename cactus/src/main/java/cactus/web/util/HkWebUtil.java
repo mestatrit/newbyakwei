@@ -14,10 +14,16 @@ public class HkWebUtil {
 
 	public static HkRequest getHkRequest(HttpServletRequest request)
 			throws IOException {
+		if (request instanceof HkRequest) {
+			return (HkRequest) request;
+		}
 		return new HkRequestImpl(request);
 	}
 
 	public static HkResponse getHkResponse(HttpServletResponse response) {
+		if (response instanceof HkResponse) {
+			return (HkResponse) response;
+		}
 		return new HkResponseImpl(response);
 	}
 }

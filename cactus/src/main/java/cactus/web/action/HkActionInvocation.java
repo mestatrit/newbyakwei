@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
 /**
  * Action调用器,每次请求都会创建一个新的调用器，负责把ActionMapping与拦截器进行拼装并运行
  * 
@@ -25,20 +24,13 @@ public class HkActionInvocation {
 
 	private HkResponse response;
 
-	public HkRequest getRequest() {
-		return request;
-	}
-
-	public HkResponse getResponse() {
-		return response;
-	}
-
-	public ActionMapping getActionMapping() {
-		return actionMapping;
-	}
-
-	public void setActionMapping(ActionMapping actionMapping) {
+	public HkActionInvocation(ActionMapping actionMapping, HkRequest request,
+			HkResponse response, HkInterceptor hkInterceptor) {
+		super();
 		this.actionMapping = actionMapping;
+		this.request = request;
+		this.response = response;
+		this.setInterceptor(hkInterceptor);
 	}
 
 	/**
@@ -47,7 +39,7 @@ public class HkActionInvocation {
 	 * @param hkInterceptor
 	 *            2010-11-20
 	 */
-	public void addInterceptor(HkInterceptor hkInterceptor) {
+	private void setInterceptor(HkInterceptor hkInterceptor) {
 		if (hkInterceptor == null) {
 			return;
 		}
@@ -57,14 +49,6 @@ public class HkActionInvocation {
 		}
 		hkInterceptorList.add(hkInterceptor);
 		this.it = this.hkInterceptorList.iterator();
-	}
-
-	public void setRequest(HkRequest request) {
-		this.request = request;
-	}
-
-	public void setResponse(HkResponse response) {
-		this.response = response;
 	}
 
 	public String getResult() {

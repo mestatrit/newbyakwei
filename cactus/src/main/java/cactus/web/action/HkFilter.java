@@ -13,20 +13,19 @@ import javax.servlet.http.HttpServletResponse;
 
 public abstract class HkFilter implements Filter {
 
-	public void destroy() {//
+	public void destroy() {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest req = (HttpServletRequest) request;
-		HttpServletResponse resp = (HttpServletResponse) response;
-		this.doFilter(req, resp, chain);
+		this.doFilter((HttpServletRequest) request,
+				(HttpServletResponse) response, chain);
 	}
 
 	public abstract void doFilter(HttpServletRequest request,
 			HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException;
 
-	public void init(FilterConfig filterConfig) throws ServletException {//
+	public void init(FilterConfig filterConfig) throws ServletException {
 	}
 }

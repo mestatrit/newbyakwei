@@ -1,14 +1,11 @@
 package cactus.util;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -25,7 +22,6 @@ public class HkUtil implements ApplicationContextAware, InitializingBean {
 
 	public static final String CLOUD_IMAGE_AUTH = "cloud_imgrand_auth";
 
-	// private static final String EMPTY_CONTENT = "";
 	public static final String JSESSIONID = "sid";
 
 	public static final String COM_HK_JSESSIONID_IN_ATTRIBUTE = "com_hk_jsessionid_in_attribute";
@@ -56,17 +52,20 @@ public class HkUtil implements ApplicationContextAware, InitializingBean {
 
 	private static final AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext();
 
-	public void setScanPathList(List<String> scanPathList) {
-		HkUtil.scanPathList = scanPathList;
-	}
-
 	public static final Map<String, Object> objMap = new HashMap<String, Object>();
 
 	public static ApplicationContext getWebApplicationContext() {
+
 		return webApplicationContext;
 	}
 
+	public void setScanPathList(List<String> scanPathList) {
+
+		HkUtil.scanPathList = scanPathList;
+	}
+
 	public static Object getBean(String name) {
+
 		Object obj = objMap.get(name);
 		if (obj == null) {
 			obj = getBeanFromSpring(name);
@@ -77,11 +76,8 @@ public class HkUtil implements ApplicationContextAware, InitializingBean {
 		return obj;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(HkUtil.class.getName());
-	}
-
 	private static synchronized Object getBeanFromSpring(String name) {
+
 		Object obj = objMap.get(name);
 		if (obj != null) {
 			return obj;
@@ -96,12 +92,12 @@ public class HkUtil implements ApplicationContextAware, InitializingBean {
 	}
 
 	private static synchronized Object getBeanFromSpring3(String name) {
+
 		try {
 			Object obj = annotationConfigApplicationContext.getBean(name);
 			if (obj == null) {
 				return null;
 			}
-			processObjectAutowiredField(obj);
 			return obj;
 		}
 		catch (BeansException e) {
@@ -112,85 +108,28 @@ public class HkUtil implements ApplicationContextAware, InitializingBean {
 		}
 	}
 
-	/**
-	 * 由于通过anntion lazy 注入的bean autowired的属性无值，特此注入
-	 * 
-	 * @param obj
-	 *            2010-6-28
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 */
-	private static void processObjectAutowiredField(Object obj)
-			throws IllegalArgumentException, IllegalAccessException {
-		Field[] fields = obj.getClass().getDeclaredFields();
-		for (Field field : fields) {
-			field.setAccessible(true);
-			if (field.get(obj) == null) {
-				if (field.getAnnotation(Autowired.class) != null) {
-					Class<?> clazz = field.getType();
-					try {
-						Object fieldObj = webApplicationContext.getBean(clazz);
-						field.set(obj, fieldObj);
-					}
-					catch (BeansException e) {
-					}
-				}
-			}
-		}
-	}
-
-	public static String buildString(String... args) {
-		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < args.length; i++) {
-			builder.append(args[i]);
-		}
-		return builder.toString();
-	}
-
-	public static int getRandomPageBegin(int count, int size) {
-		Random r = new Random();
-		int begin = 0;
-		if (count > size) {
-			while ((begin = r.nextInt(count - size + 1)) < 0) {
-				//				
-			}
-		}
-		return begin;
-	}
-
-	public static String randColor() {
-		int len = 3;
-		char[] array = { '0', '3', '6', '9', 'C', 'F' };
-		String color = null;
-		boolean ok = false;
-		while (!ok) {
-			StringBuilder temp = new StringBuilder("#");
-			Random r = new Random();
-			for (int i = 0; i < 3; i++) {
-				temp.append(array[r.nextInt(len)]);
-			}
-			color = temp.toString();
-			if (!color.equals("#FFF") || !color.equals("#CCC")) {
-				ok = true;
-			}
-		}
-		return color;
-	}
-
 	public void setApplicationContext(ApplicationContext applicationContext)
 			throws BeansException {
+
 		webApplicationContext = applicationContext;
 	}
 
 	public static AnnotationConfigApplicationContext getAnnotationconfigapplicationcontext() {
+
 		return annotationConfigApplicationContext;
 	}
 
 	public void afterPropertiesSet() throws Exception {
+
 		if (scanPathList != null) {
 			for (String path : scanPathList) {
 				annotationConfigApplicationContext.scan(path);
 			}
 		}
+	}
+
+	public static void main(String[] args) {
+
+		System.out.println(HkUtil.class.getName());
 	}
 }
