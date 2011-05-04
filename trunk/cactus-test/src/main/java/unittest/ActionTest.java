@@ -1,9 +1,5 @@
 package unittest;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -22,7 +18,8 @@ import cactus.web.action.HkResponseImpl;
 public class ActionTest {
 
 	@Test
-	public void testInvokeExecute() throws IOException, ServletException {
+	public void testInvokeExecute() throws Exception {
+
 		ActionExe actionExe = new ActionExe();
 		actionExe.setUrl_extension(".do");
 		MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest(
@@ -34,7 +31,8 @@ public class ActionTest {
 	}
 
 	@Test
-	public void testInvokeHello() throws IOException, ServletException {
+	public void testInvokeHello() throws Exception {
+
 		ActionExe actionExe = new ActionExe();
 		actionExe.setUrl_extension(".do");
 		MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest(
@@ -46,7 +44,8 @@ public class ActionTest {
 	}
 
 	@Test
-	public void testInvokeHello2() throws IOException, ServletException {
+	public void testInvokeHello2() throws Exception {
+
 		ActionExe actionExe = new ActionExe();
 		actionExe.setUrl_extension(".do");
 		MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest(
