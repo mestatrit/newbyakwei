@@ -121,7 +121,7 @@ public class PptAction extends BaseApiAction {
 			APIUtil.writeErr(req, resp, Err.USER_NOT_EXIST);
 			return null;
 		}
-		User user = this.userSvr.getUserByDevice_token(device_token);
+		User user = this.loadUser(device_token);
 		if (user == null) {
 			APIUtil.writeErr(req, resp, Err.USER_NOT_EXIST);
 			return null;
