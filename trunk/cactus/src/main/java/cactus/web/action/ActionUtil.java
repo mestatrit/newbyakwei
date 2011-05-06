@@ -30,11 +30,11 @@ public class ActionUtil {
 			return obj;
 		}
 		try {
-			// spring3 annotation 获取方式
-			return getBeanFromSpring3(name);
+			return (Action) HkUtil.getWebApplicationContext().getBean(name);
 		}
 		catch (BeansException e) {
-			return (Action) HkUtil.getWebApplicationContext().getBean(name);
+			// spring3 annotation 获取方式
+			return getBeanFromSpring3(name);
 		}
 	}
 
