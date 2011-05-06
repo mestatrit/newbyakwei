@@ -29,8 +29,8 @@ public class HelloAction extends BaseAction {
 			return "input.jsp";
 		}
 		req.setAttribute("uid", req.getInt("uid"));// 限定数字
-		req.setAttribute("name", req.getHtmlRow("name"));// 限定单行字符
-		req.setAttribute("intro", req.getHtml("intro"));// 限定多行字符
+		req.setAttribute("name", req.getString("name"));// 限定单行字符
+		req.setAttribute("intro", req.getString("intro"));// 限定多行字符
 		req.setAttribute("aihao", req.getInt("aihao"));// radio
 		req.setAttribute("gender", req.getInt("gender"));// select
 		int[] languages = req.getInts("language");

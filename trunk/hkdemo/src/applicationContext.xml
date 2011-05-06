@@ -14,10 +14,10 @@
 	<!-- annotation启动，方便action查找 -->
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 	<!-- 语言配置 -->
-	<bean id="resourceConfig" class="com.hk.frame.util.ResourceConfig" lazy-init="false">
+	<bean id="resourceConfig" class="cactus.util.ResourceConfig" lazy-init="false">
 		<property name="resource" value="err" />
 	</bean>
-	<bean id="hkUtil" class="com.hk.frame.util.HkUtil">
+	<bean id="hkUtil" class="cactus.util.HkUtil">
 		<property name="scanPathList">
 			<list>
 				<!-- 配置到哪里进行action查找，可深入目录查找 -->
