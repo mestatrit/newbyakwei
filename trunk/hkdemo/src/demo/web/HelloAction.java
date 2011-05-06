@@ -1,12 +1,25 @@
 package demo.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import cactus.util.P;
 import cactus.web.action.HkRequest;
 import cactus.web.action.HkResponse;
+import demo.bean.UserInfo;
+import demo.svr.UserInfoService;
 
+@Lazy
 @Component("/hello")
 public class HelloAction extends BaseAction {
+
+	@Autowired
+	private UserInfoService userInfoService;
+
+	public HelloAction() {
+		P.println("inovke helloAction");
+	}
 
 	/**
 	 * 向页面输出数据,url:http://localhost:8080/hkdemo/hello
@@ -14,6 +27,7 @@ public class HelloAction extends BaseAction {
 	@Override
 	public String execute(HkRequest req, HkResponse resp) {
 		resp.sendHtml("你好");
+		this.userInfoService.createUserInfo(new UserInfo());
 		return null;
 	}
 
