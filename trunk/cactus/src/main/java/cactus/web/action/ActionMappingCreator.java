@@ -73,7 +73,6 @@ public class ActionMappingCreator {
 			mapping = new ActionMapping();
 			// action通过lazy方式加载
 			Action action = ActionUtil.getAction(actionName);
-			// (Action) HkUtil.getBean(actionName);
 			if (action == null) {
 				throw new NoActionException("no action [ " + actionName
 						+ " ] is exist");

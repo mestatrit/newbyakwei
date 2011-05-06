@@ -13,8 +13,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cactus.util.DataUtil;
-
 /**
  * web运行的入口
  * 
@@ -33,21 +31,7 @@ public class ActionFilter implements Filter {
 	private ActionExe actionExe;
 
 	public void init(FilterConfig config) throws ServletException {
-		String actionExeClass = config.getInitParameter("actionExeClass");
-		if (DataUtil.isNotEmpty(actionExeClass)) {
-			try {
-				Class<?> clazz = Thread.currentThread().getContextClassLoader()
-						.loadClass(actionExeClass);
-				this.actionExe = (ActionExe) clazz.getConstructor()
-						.newInstance();
-			}
-			catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		}
-		else {
-			this.actionExe = new ActionExe();
-		}
+		this.actionExe = new ActionExe();
 		String url_extension = config.getInitParameter("url-extension");
 		String v = config.getInitParameter("debug");
 		if (v != null && v.equals("true")) {
