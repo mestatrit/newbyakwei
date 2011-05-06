@@ -11,7 +11,6 @@ import iwant.svr.CategorySvr;
 import iwant.svr.PptSvr;
 import iwant.svr.PptTimelineSvr;
 import iwant.svr.ProjectSvr;
-import iwant.svr.UserSvr;
 import iwant.web.admin.util.Err;
 
 import java.util.HashMap;
@@ -38,9 +37,6 @@ public class PptAction extends BaseApiAction {
 
 	@Autowired
 	private ProjectSvr projectSvr;
-
-	@Autowired
-	private UserSvr userSvr;
 
 	@Autowired
 	private PptTimelineSvr pptTimelineSvr;
