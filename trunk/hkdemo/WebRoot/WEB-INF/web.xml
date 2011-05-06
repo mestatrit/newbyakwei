@@ -21,12 +21,12 @@
 	<!-- 配置web框架request,response转换器 -->
 	<filter>
 		<filter-name>HttpWrapperFilter</filter-name>
-		<filter-class>com.hk.frame.web.action.HttpWrapperFilter</filter-class>
+		<filter-class>cactus.web.action.HttpWrapperFilter</filter-class>
 	</filter>
 	<!-- 配置web框架转发器 -->
 	<filter>
 		<filter-name>ActionFilter</filter-name>
-		<filter-class>com.hk.frame.web.action.ActionFilter</filter-class>
+		<filter-class>cactus.web.action.ActionFilter</filter-class>
 		<init-param>
 			<param-name>debug</param-name>
 			<param-value>true</param-value>
