@@ -1,14 +1,12 @@
 package cactus.util;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class HkUtil implements ApplicationContextAware, InitializingBean {
 
@@ -46,26 +44,15 @@ public class HkUtil implements ApplicationContextAware, InitializingBean {
 
 	public static final String SESSION_TOKEN_KEY = "session_com_hk_form_token_key";
 
-	private static List<String> scanPathList;
-
 	public static final String ACTION_EXE_ATTR_KEY = "com.hk.action_exe_attr_key";
-
-	private static final AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext();
 
 	public static final Map<String, Object> objMap = new HashMap<String, Object>();
 
 	public static ApplicationContext getWebApplicationContext() {
-
 		return webApplicationContext;
 	}
 
-	public void setScanPathList(List<String> scanPathList) {
-
-		HkUtil.scanPathList = scanPathList;
-	}
-
 	public static Object getBean(String name) {
-
 		Object obj = objMap.get(name);
 		if (obj == null) {
 			obj = getBeanFromSpring(name);
@@ -77,59 +64,27 @@ public class HkUtil implements ApplicationContextAware, InitializingBean {
 	}
 
 	private static synchronized Object getBeanFromSpring(String name) {
-
 		Object obj = objMap.get(name);
 		if (obj != null) {
 			return obj;
 		}
-		// spring3 annotation 获取方式
 		try {
 			return webApplicationContext.getBean(name);
 		}
 		catch (BeansException e) {
-			return getBeanFromSpring3(name);
-		}
-	}
-
-	private static synchronized Object getBeanFromSpring3(String name) {
-
-		try {
-			Object obj = annotationConfigApplicationContext.getBean(name);
-			if (obj == null) {
-				return null;
-			}
-			return obj;
-		}
-		catch (BeansException e) {
 			return null;
-		}
-		catch (Exception e) {
-			return new RuntimeException(e);
 		}
 	}
 
 	public void setApplicationContext(ApplicationContext applicationContext)
 			throws BeansException {
-
 		webApplicationContext = applicationContext;
 	}
 
-	public static AnnotationConfigApplicationContext getAnnotationconfigapplicationcontext() {
-
-		return annotationConfigApplicationContext;
-	}
-
 	public void afterPropertiesSet() throws Exception {
-
-		if (scanPathList != null) {
-			for (String path : scanPathList) {
-				annotationConfigApplicationContext.scan(path);
-			}
-		}
 	}
 
 	public static void main(String[] args) {
-
 		System.out.println(HkUtil.class.getName());
 	}
 }
