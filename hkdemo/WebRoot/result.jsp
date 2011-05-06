@@ -14,7 +14,7 @@
 		<input type="text" name="name" value="<hk:value value="${name}" onerow="true"/>"/>
 		<br />
 		intro:
-		<textarea rows="5" cols="50"><hk:value value="${intro}"/> </textarea>
+		<textarea rows="5" cols="50"><hk:value value="${intro}" textarea="true"/> </textarea>
 		<br />
 		select:
 		<hk:select name="gender" checkedvalue="${gender}">

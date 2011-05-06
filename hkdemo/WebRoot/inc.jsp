@@ -11,5 +11,5 @@
 <br />
 <a href="<%=request.getContextPath()%>/hello_method4">页面调用action</a>
 <br />
-<a href="<%=request.getContextPath()%>/hello_method4">连接到外部网站163.com</a>
+<a href="<%=request.getContextPath()%>/hello_method5">连接到外部网站163.com</a>
 <br />
