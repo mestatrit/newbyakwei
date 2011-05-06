@@ -8,13 +8,13 @@
 		输入数据:
 		<br />
 		uid:
-		<hk:text name="uid" value="${uid}" />
+		<input type="text" name="name" value="<hk:value value="${uid}" onerow="true"/>"/>
 		<br />
 		name:
-		<hk:text name="name" value="${name}" />
+		<input type="text" name="name" value="<hk:value value="${name}" onerow="true"/>"/>
 		<br />
 		intro:
-		<hk:textarea name="intro" rows="5" cols="50" value="${intro}" />
+		<textarea rows="5" cols="50"><hk:value value="${intro}"/> </textarea>
 		<br />
 		select:
 		<hk:select name="gender" checkedvalue="${gender}">
