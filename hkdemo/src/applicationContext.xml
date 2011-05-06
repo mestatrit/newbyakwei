@@ -14,18 +14,10 @@
 	<!-- annotation启动，方便action查找 -->
 	<context:annotation-config />
 	<context:component-scan base-package="demo.web" />
-
+	<bean id="hkUtil" class="cactus.util.HkUtil" />
 	<!-- 语言配置 -->
 	<bean id="resourceConfig" class="cactus.util.ResourceConfig" lazy-init="false">
 		<property name="resource" value="err" />
 	</bean>
 	<bean id="userInfoService" class="demo.svr.impl.UserInfoSvrviceImpl"></bean>
-	<bean id="hkUtil" class="cactus.util.HkUtil">
-		<property name="scanPathList">
-			<list>
-				<!-- 配置到哪里进行action查找，可深入目录查找 -->
-				<value>demo.web</value>
-			</list>
-		</property>
-	</bean>
 </beans>
