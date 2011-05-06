@@ -7,8 +7,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import cactus.util.HkUtil;
-
 public class ActionMappingCreator {
 
 	private String endpfix = "/";
