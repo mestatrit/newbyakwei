@@ -2,10 +2,10 @@ package demo.svr.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.hk.frame.dao.query2.BaseParam;
-import com.hk.frame.dao.query2.HkObjQuery;
-import com.hk.frame.dao.query2.QueryParam;
-import com.hk.frame.dao.query2.UpdateParam;
+import cactus.dao.query.BaseParam;
+import cactus.dao.query.HkObjQuery;
+import cactus.dao.query.QueryParam;
+import cactus.dao.query.UpdateParam;
 
 public abstract class BaseDao<T> {
 
