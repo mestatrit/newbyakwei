@@ -1,6 +1,6 @@
 package iwant.util;
 
-import com.hk.frame.util.HkUtil;
+import cactus.util.HkUtil;
 
 public class PicUtil {
 

@@ -10,21 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.VelocityContext;
 
-import com.hk.frame.util.ServletUtil;
-import com.hk.frame.util.VelocityUtil;
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
+import cactus.util.ResourceConfig;
+import cactus.util.VelocityUtil;
+import cactus.web.action.HkResponse;
+import cactus.web.util.ServletUtil;
 
 public class APIUtil {
-
-	public static String getErrMsg(HkRequest req, int err) {
-		return req.getText(String.valueOf(err));
-	}
 
 	public static void write(HttpServletResponse response, String vmpath,
 			VelocityContext context) {
 		try {
-			ServletUtil.sendXml2(response, VelocityUtil.writeToString(vmpath,
+			ServletUtil.sendXml(response, VelocityUtil.writeToString(vmpath,
 					context));
 		}
 		catch (Exception e) {
@@ -32,17 +28,17 @@ public class APIUtil {
 		}
 	}
 
-	public static void writeErr(HkRequest req, HkResponse resp, String err) {
+	public static void writeErr(HkResponse resp, String err) {
 		VelocityContext context = new VelocityContext();
 		context.put("errcode", err);
-		context.put("err_msg", req.getText(err));
+		context.put("err_msg", ResourceConfig.getText(err));
 		APIUtil.write(resp, "vm/syserr.vm", context);
 	}
 
-	public static void writeSuccess(HkRequest req, HkResponse resp) {
+	public static void writeSuccess(HkResponse resp) {
 		VelocityContext context = new VelocityContext();
 		context.put("errcode", Err.SUCCESS);
-		context.put("err_msg", req.getText(String.valueOf(Err.SUCCESS)));
+		context.put("err_msg", ResourceConfig.getText(Err.SUCCESS));
 		APIUtil.write(resp, "vm/syserr.vm", context);
 	}
 

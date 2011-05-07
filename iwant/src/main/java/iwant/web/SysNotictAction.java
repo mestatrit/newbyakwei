@@ -2,10 +2,10 @@ package iwant.web;
 
 import org.springframework.stereotype.Component;
 
-import com.hk.frame.util.HkUtil;
-import com.hk.frame.util.MessageUtil;
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
+import cactus.util.HkUtil;
+import cactus.web.action.HkRequest;
+import cactus.web.action.HkResponse;
+import cactus.web.util.MessageUtil;
 
 /**
  * 系统信息提示，通过页面调用，不会经过webFilter

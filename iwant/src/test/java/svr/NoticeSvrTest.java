@@ -13,7 +13,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.hk.frame.util.DataUtil;
+import cactus.util.DateUtil;
 
 public class NoticeSvrTest extends BaseSvrTest {
 
@@ -43,14 +43,14 @@ public class NoticeSvrTest extends BaseSvrTest {
 		this.notice0.setContent("notice 0");
 		this.notice0.setProjectid(10);
 		this.notice0
-				.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+				.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		this.noticeSvr.createNotice(this.notice0);
 		// data 1
 		this.notice1 = new Notice();
 		this.notice1.setContent("notice 1");
 		this.notice1.setProjectid(10);
 		this.notice1
-				.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+				.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		this.noticeSvr.createNotice(this.notice1);
 		// usernotice
 		this.userNotice0 = this.noticeSvr.createUserNotice(1, 2);
@@ -62,7 +62,7 @@ public class NoticeSvrTest extends BaseSvrTest {
 		Notice notice = new Notice();
 		notice.setContent("notice 5");
 		notice.setProjectid(12);
-		notice.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		notice.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		this.noticeSvr.createNotice(notice);
 		if (notice.getNoticeid() <= 0) {
 			Assert.fail("no noticeid");

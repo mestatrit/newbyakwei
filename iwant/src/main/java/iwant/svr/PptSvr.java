@@ -13,7 +13,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import com.hk.frame.util.image2.PicRect;
+import cactus.util.image.jmagick.PicRect;
 
 public interface PptSvr {
 

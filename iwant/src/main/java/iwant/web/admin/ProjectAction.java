@@ -17,10 +17,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.hk.frame.util.DataUtil;
-import com.hk.frame.util.page.SimplePage;
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
+import cactus.util.DataUtil;
+import cactus.util.DateUtil;
+import cactus.web.action.HkRequest;
+import cactus.web.action.HkResponse;
+import cactus.web.util.SimplePage;
 
 /**
  * 项目管理
@@ -78,7 +79,7 @@ public class ProjectAction extends BaseAction {
 		project.setName(req.getStringRow("name"));
 		project.setAddr(req.getStringRow("addr", ""));
 		project.setCatid(req.getInt("catid"));
-		project.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		project.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		project.setDescr(req.getString("descr", ""));
 		project.setMarkerx(req.getDouble("markerx"));
 		project.setMarkery(req.getDouble("markery"));
@@ -108,7 +109,7 @@ public class ProjectAction extends BaseAction {
 		}
 		project.setName(req.getStringRow("name"));
 		project.setAddr(req.getStringRow("addr", ""));
-		project.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		project.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		project.setDescr(req.getString("descr", ""));
 		project.setMarkerx(req.getDouble("markerx"));
 		project.setMarkery(req.getDouble("markery"));

@@ -5,7 +5,7 @@ import iwant.dao.ProjectFansDao;
 
 import java.util.List;
 
-import com.hk.frame.dao.query2.BaseDao;
+import cactus.dao.query.BaseDao;
 
 public class ProjectFansDaoImpl extends BaseDao<ProjectFans> implements
 		ProjectFansDao {

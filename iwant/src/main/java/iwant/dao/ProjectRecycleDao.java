@@ -4,7 +4,7 @@ import iwant.bean.ProjectRecycle;
 
 import java.util.List;
 
-import com.hk.frame.dao.query2.IDao;
+import cactus.dao.query.IDao;
 
 public interface ProjectRecycleDao extends IDao<ProjectRecycle> {
 

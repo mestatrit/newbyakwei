@@ -2,9 +2,9 @@ package iwant.bean;
 
 import java.util.Date;
 
-import com.hk.frame.dao.annotation.Column;
-import com.hk.frame.dao.annotation.Id;
-import com.hk.frame.dao.annotation.Table;
+import cactus.dao.annotation.Column;
+import cactus.dao.annotation.Id;
+import cactus.dao.annotation.Table;
 
 /**
  * 用户信息

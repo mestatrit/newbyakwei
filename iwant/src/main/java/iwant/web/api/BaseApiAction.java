@@ -6,10 +6,10 @@ import iwant.svr.UserSvr;
 
 import java.util.Date;
 
-import com.hk.frame.util.HkUtil;
-import com.hk.frame.web.action.Action;
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
+import cactus.util.HkUtil;
+import cactus.web.action.Action;
+import cactus.web.action.HkRequest;
+import cactus.web.action.HkResponse;
 
 public class BaseApiAction implements Action {
 

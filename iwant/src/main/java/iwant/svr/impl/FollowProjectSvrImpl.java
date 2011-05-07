@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.hk.frame.util.NumberUtil;
+import cactus.util.NumberUtil;
 
 public class FollowProjectSvrImpl implements FollowProjectSvr {
 

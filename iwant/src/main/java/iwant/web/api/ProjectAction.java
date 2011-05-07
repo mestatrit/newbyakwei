@@ -12,9 +12,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.hk.frame.util.DataUtil;
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
+import cactus.util.DataUtil;
+import cactus.web.action.HkRequest;
+import cactus.web.action.HkResponse;
 
 @Component("/api/project")
 public class ProjectAction extends BaseApiAction {
@@ -41,22 +41,22 @@ public class ProjectAction extends BaseApiAction {
 			long projectid = req.getLong("projectid");
 			String device_token = req.getStringRow("device_token");
 			if (DataUtil.isEmpty(device_token)) {
-				APIUtil.writeErr(req, resp, Err.DEVICE_TOKEN_ERR);
+				APIUtil.writeErr(resp, Err.DEVICE_TOKEN_ERR);
 				return null;
 			}
 			User user = this.loadUser(device_token);
 			Project project = this.projectSvr.getProject(projectid);
 			if (project == null) {
-				APIUtil.writeErr(req, resp, Err.PROJECT_NOT_EXIST);
+				APIUtil.writeErr(resp, Err.PROJECT_NOT_EXIST);
 				return null;
 			}
 			this.followProjectSvr.createFollow(user.getUserid(), projectid);
-			APIUtil.writeSuccess(req, resp);
+			APIUtil.writeSuccess(resp);
 			return null;
 		}
 		catch (Exception e) {
 			log.error(e.getMessage());
-			APIUtil.writeErr(req, resp, Err.FOLLOWPROJECT_CREATE_ERR);
+			APIUtil.writeErr(resp, Err.FOLLOWPROJECT_CREATE_ERR);
 			return null;
 		}
 	}
@@ -73,21 +73,21 @@ public class ProjectAction extends BaseApiAction {
 			String device_token = req.getStringRow("device_token");
 			User user = this.userSvr.getUserByDevice_token(device_token);
 			if (user == null) {
-				APIUtil.writeErr(req, resp, Err.USER_NOT_EXIST);
+				APIUtil.writeErr(resp, Err.USER_NOT_EXIST);
 				return null;
 			}
 			Project project = this.projectSvr.getProject(projectid);
 			if (project == null) {
-				APIUtil.writeErr(req, resp, Err.PROJECT_NOT_EXIST);
+				APIUtil.writeErr(resp, Err.PROJECT_NOT_EXIST);
 				return null;
 			}
 			this.followProjectSvr.deleteFollow(user.getUserid(), projectid);
-			APIUtil.writeSuccess(req, resp);
+			APIUtil.writeSuccess(resp);
 			return null;
 		}
 		catch (Exception e) {
 			log.error(e.getMessage());
-			APIUtil.writeErr(req, resp, Err.FOLLOWPROJECT_CREATE_ERR);
+			APIUtil.writeErr(resp, Err.FOLLOWPROJECT_CREATE_ERR);
 			return null;
 		}
 	}

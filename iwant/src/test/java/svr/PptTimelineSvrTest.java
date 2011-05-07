@@ -13,7 +13,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.hk.frame.util.DataUtil;
+import cactus.util.DateUtil;
 
 public class PptTimelineSvrTest extends BaseSvrTest {
 
@@ -44,24 +44,24 @@ public class PptTimelineSvrTest extends BaseSvrTest {
 		// data 0
 		this.pptTimeline0 = new PptTimeline();
 		this.pptTimeline0.setCatid(5);
-		this.pptTimeline0.setCreatetime(DataUtil
+		this.pptTimeline0.setCreatetime(DateUtil
 				.createNoMillisecondTime(new Date()));
 		this.pptTimeline0.setPptid(9);
 		this.pptTimeline0.setProjectid(10);
 		this.pptTimeline0.setRead_flag(ReadFlagType.NOTREAD.getValue());
-		this.pptTimeline0.setReadtime(DataUtil
+		this.pptTimeline0.setReadtime(DateUtil
 				.createNoMillisecondTime(new Date()));
 		this.pptTimeline0.setUserid(2);
 		this.pptTimelineSvr.createPptTimeline(this.pptTimeline0);
 		// data 1
 		this.pptTimeline1 = new PptTimeline();
 		this.pptTimeline1.setCatid(8);
-		this.pptTimeline1.setCreatetime(DataUtil
+		this.pptTimeline1.setCreatetime(DateUtil
 				.createNoMillisecondTime(new Date()));
 		this.pptTimeline1.setPptid(10);
 		this.pptTimeline1.setProjectid(11);
 		this.pptTimeline1.setRead_flag(ReadFlagType.NOTREAD.getValue());
-		this.pptTimeline1.setReadtime(DataUtil
+		this.pptTimeline1.setReadtime(DateUtil
 				.createNoMillisecondTime(new Date()));
 		this.pptTimeline1.setUserid(2);
 		this.pptTimelineSvr.createPptTimeline(this.pptTimeline1);
@@ -72,11 +72,11 @@ public class PptTimelineSvrTest extends BaseSvrTest {
 		// Assert.fail();
 		PptTimeline pptTimeline = new PptTimeline();
 		pptTimeline.setCatid(59);
-		pptTimeline.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		pptTimeline.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		pptTimeline.setPptid(9);
 		pptTimeline.setProjectid(1000);
 		pptTimeline.setRead_flag(ReadFlagType.NOTREAD.getValue());
-		pptTimeline.setReadtime(DataUtil.createNoMillisecondTime(new Date()));
+		pptTimeline.setReadtime(DateUtil.createNoMillisecondTime(new Date()));
 		pptTimeline.setUserid(2);
 		boolean result = this.pptTimelineSvr.createPptTimeline(pptTimeline);
 		Assert.assertEquals(false, result);

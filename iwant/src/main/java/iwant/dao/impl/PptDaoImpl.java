@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.hk.frame.dao.query2.BaseDao;
+import cactus.dao.query.BaseDao;
 
 public class PptDaoImpl extends BaseDao<Ppt> implements PptDao {
 

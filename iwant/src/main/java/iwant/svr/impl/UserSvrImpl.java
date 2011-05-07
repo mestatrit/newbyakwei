@@ -10,8 +10,8 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.hk.frame.util.DataUtil;
-import com.hk.frame.util.NumberUtil;
+import cactus.util.DateUtil;
+import cactus.util.NumberUtil;
 
 public class UserSvrImpl implements UserSvr {
 
@@ -27,7 +27,7 @@ public class UserSvrImpl implements UserSvr {
 			return false;
 		}
 		if (user.getCreatetime() == null) {
-			user.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+			user.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		}
 		long userid = NumberUtil.getLong(this.useridCreatorDao
 				.save(new UseridCreator()));

@@ -13,16 +13,10 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 	<!-- 语言配置 -->
-	<bean id="resourceConfig" class="com.hk.frame.util.ResourceConfig" lazy-init="false">
+	<bean id="resourceConfig" class="cactus.util.ResourceConfig" lazy-init="false">
 		<property name="resource" value="admin_err" />
 	</bean>
-	<bean id="hkUtil" class="com.hk.frame.util.HkUtil">
-		<property name="scanPathList">
-			<list>
-				<value>iwant.web</value>
-			</list>
-		</property>
-	</bean>
+	<bean id="hkUtil" class="cactus.util.HkUtil" />
 	<import resource="app-ds.xml" />
 	<import resource="app-dao.xml" />
 	<import resource="app-svr.xml" />

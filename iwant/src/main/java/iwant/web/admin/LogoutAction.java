@@ -5,8 +5,8 @@ import iwant.web.admin.util.AdminUtil;
 
 import org.springframework.stereotype.Component;
 
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
+import cactus.web.action.HkRequest;
+import cactus.web.action.HkResponse;
 
 @Component("/sitemgrlogout")
 public class LogoutAction extends BaseAction {

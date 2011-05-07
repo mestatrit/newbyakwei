@@ -12,7 +12,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.hk.frame.util.DataUtil;
+import cactus.util.DateUtil;
 
 public class UserSvrTest extends BaseSvrTest {
 
@@ -38,7 +38,7 @@ public class UserSvrTest extends BaseSvrTest {
 	@Before
 	public void init() {
 		this.user0 = new User();
-		this.user0.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		this.user0.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		this.user0.setDevice_token("a");
 		this.user0.setEmail("");
 		this.user0.setGender(GenderType.MALE.getValue());
@@ -46,7 +46,7 @@ public class UserSvrTest extends BaseSvrTest {
 		this.user0.setName("");
 		this.userSvr.createUser(this.user0);
 		this.user1 = new User();
-		this.user1.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		this.user1.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		this.user1.setDevice_token("b");
 		this.user1.setEmail("");
 		this.user1.setGender(GenderType.MALE.getValue());
@@ -59,7 +59,7 @@ public class UserSvrTest extends BaseSvrTest {
 	public void createUser() {
 		// Assert.fail();
 		User user = new User();
-		user.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		user.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		user.setDevice_token("c");
 		user.setEmail("");
 		user.setGender(GenderType.MALE.getValue());
@@ -78,7 +78,7 @@ public class UserSvrTest extends BaseSvrTest {
 		user.setEmail("a@1.com");
 		user.setGender(GenderType.FEMALE.getValue());
 		user.setMobile("111");
-		user.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		user.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		user.setDevice_token("b");
 		boolean result = this.userSvr.updateUser(user);
 		Assert.assertEquals(false, result);

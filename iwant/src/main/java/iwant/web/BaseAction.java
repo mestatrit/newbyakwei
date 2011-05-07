@@ -5,11 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.hk.frame.util.DataUtil;
-import com.hk.frame.util.page.SimplePage;
-import com.hk.frame.web.action.Action;
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
+import cactus.util.JsonUtil;
+import cactus.util.ResourceConfig;
+import cactus.web.action.Action;
+import cactus.web.action.HkRequest;
+import cactus.web.action.HkResponse;
+import cactus.web.util.SimplePage;
 
 public class BaseAction implements Action {
 
@@ -32,7 +33,7 @@ public class BaseAction implements Action {
 	protected String onError(HkRequest req, String code, String functionName,
 			Object respValue) {
 		req.setAttribute("error", code);
-		req.setAttribute("error_msg", req.getText(String.valueOf(code)));
+		req.setAttribute("error_msg", ResourceConfig.getText(code));
 		req.setAttribute("functionName", functionName);
 		if (respValue != null) {
 			req.setAttribute("respValue", respValue);
@@ -45,11 +46,11 @@ public class BaseAction implements Action {
 		Map<String, String> map = new HashMap<String, String>();
 		StringBuilder sb = new StringBuilder();
 		for (String i : list) {
-			map.put(String.valueOf("error_" + i), req.getText(i));
+			map.put(String.valueOf("error_" + i), ResourceConfig.getText(i));
 			sb.append(i).append(",");
 		}
 		sb.deleteCharAt(sb.length() - 1);
-		String json = DataUtil.toJson(map);
+		String json = JsonUtil.toJson(map);
 		req.setAttribute("json", json);
 		req.setAttribute("errorlist", sb.toString());
 		req.setAttribute("functionName", functionName);
@@ -62,15 +63,15 @@ public class BaseAction implements Action {
 	}
 
 	protected void opCreateSuccess(HkRequest req) {
-		req.setSessionText("op.create.success");
+		req.setSessionMessage(ResourceConfig.getText("op.create.success"));
 	}
 
 	protected void opUpdateSuccess(HkRequest req) {
-		req.setSessionText("op.update.success");
+		req.setSessionMessage(ResourceConfig.getText("op.update.success"));
 	}
 
 	protected void opDeleteSuccess(HkRequest req) {
-		req.setSessionText("op.delete.success");
+		req.setSessionMessage(ResourceConfig.getText("op.delete.success"));
 	}
 
 	protected void processListForPage(SimplePage page, List<?> list) {

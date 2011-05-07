@@ -4,7 +4,7 @@ import iwant.bean.UserNotice;
 
 import java.util.List;
 
-import com.hk.frame.dao.query2.IDao;
+import cactus.dao.query.IDao;
 
 public interface UserNoticeDao extends IDao<UserNotice> {
 

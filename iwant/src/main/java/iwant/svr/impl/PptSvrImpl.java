@@ -31,12 +31,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.hk.frame.util.DataUtil;
-import com.hk.frame.util.NumberUtil;
-import com.hk.frame.util.image.ImageException;
-import com.hk.frame.util.image2.ImageProcessor;
-import com.hk.frame.util.image2.ImgFileInfo;
-import com.hk.frame.util.image2.PicRect;
+import cactus.util.DataUtil;
+import cactus.util.FileUtil;
+import cactus.util.NumberUtil;
+import cactus.util.image.jmagick.ImageException;
+import cactus.util.image.jmagick.ImageProcessor;
+import cactus.util.image.jmagick.ImgFileInfo;
+import cactus.util.image.jmagick.PicRect;
 
 public class PptSvrImpl implements PptSvr {
 
@@ -294,7 +295,7 @@ public class PptSvrImpl implements PptSvr {
 	 */
 	private void deleteSlideOldPic(String oldPath) {
 		if (DataUtil.isNotEmpty(oldPath)) {
-			DataUtil.deleteAllFile(fileCnf.getFilePath(oldPath));
+			FileUtil.deleteAllFile(fileCnf.getFilePath(oldPath));
 		}
 	}
 

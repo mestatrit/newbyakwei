@@ -2,8 +2,7 @@ package iwant.dao.impl;
 
 import iwant.bean.User;
 import iwant.dao.UserDao;
-
-import com.hk.frame.dao.query2.BaseDao;
+import cactus.dao.query.BaseDao;
 
 public class UserDaoImpl extends BaseDao<User> implements UserDao {
 

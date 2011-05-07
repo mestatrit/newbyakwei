@@ -1,8 +1,8 @@
 package iwant.bean;
 
-import com.hk.frame.dao.annotation.Column;
-import com.hk.frame.dao.annotation.Id;
-import com.hk.frame.dao.annotation.Table;
+import cactus.dao.annotation.Column;
+import cactus.dao.annotation.Id;
+import cactus.dao.annotation.Table;
 
 @Table(name = "pptqueue")
 public class PptQueue {

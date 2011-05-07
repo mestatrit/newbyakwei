@@ -2,8 +2,7 @@ package iwant.dao.impl;
 
 import iwant.bean.NoticeidCreator;
 import iwant.dao.NoticeidCreatorDao;
-
-import com.hk.frame.dao.query2.BaseDao;
+import cactus.dao.query.BaseDao;
 
 public class NoticeidCreatorDaoImpl extends BaseDao<NoticeidCreator> implements
 		NoticeidCreatorDao {
