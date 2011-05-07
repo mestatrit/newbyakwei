@@ -2,9 +2,9 @@
 %><%@page import="iwant.web.admin.util.Err"%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%><%@ taglib uri="/WEB-INF/waphk.tld" prefix="hk"
 %>
 <form id="frm" method="post" enctype="multipart/form-data" onsubmit="subfrm(this.id)" target="hideframe" action="${form_action }">
-<hk:hide name="ch" value="1"/>
-<hk:hide name="pptid" value="${pptid }"/>
-<hk:hide name="slideid" value="${slideid }"/>
+<input type="hidden" name="ch" value="1"/>
+<input type="hidden" name="pptid" value="${pptid}"/>
+<input type="hidden" name="slideid" value="${slideid}"/>
 <table class="formt" cellpadding="0" cellspacing="0">
 	<tr>
 		<td width="90" align="right">标题</td>
