@@ -2,9 +2,9 @@
 %><%@page import="iwant.web.admin.util.Err"%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%><%@ taglib uri="/WEB-INF/waphk.tld" prefix="hk"
 %>
 <form id="frm" method="post" onsubmit="subfrm(this.id)" target="hideframe" action="${form_action }">
-<hk:hide name="ch" value="1"/>
-<hk:hide name="catid" value="${cat.catid }"/>
-<hk:hide name="projectid" value="${project.projectid }"/>
+<input type="hidden" name="ch" value="1"/>
+<input type="hidden" name="catid" value="${cat.catid }"/>
+<input type="hidden" name="projectid" value="${project.projectid }"/>
 <table class="formt" cellpadding="0" cellspacing="0">
 	<tr>
 		<td width="90" align="right">名称</td>
