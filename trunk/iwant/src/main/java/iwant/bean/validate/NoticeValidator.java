@@ -8,8 +8,8 @@ import iwant.web.admin.util.Err;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hk.frame.util.HkUtil;
-import com.hk.frame.util.HkValidate;
+import cactus.util.HkUtil;
+import cactus.util.HkValidate;
 
 public class NoticeValidator {
 

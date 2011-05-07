@@ -8,9 +8,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hk.frame.util.HkUtil;
-import com.hk.frame.util.HkValidate;
-import com.hk.frame.util.image2.ImgFileInfo;
+import cactus.util.HkUtil;
+import cactus.util.HkValidate;
+import cactus.util.image.jmagick.ImgFileInfo;
 
 public class SlideValidator {
 

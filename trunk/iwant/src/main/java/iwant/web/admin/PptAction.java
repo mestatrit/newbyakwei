@@ -24,10 +24,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.hk.frame.util.DataUtil;
-import com.hk.frame.util.page.SimplePage;
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
+import cactus.util.DataUtil;
+import cactus.util.DateUtil;
+import cactus.util.ResourceConfig;
+import cactus.web.action.HkRequest;
+import cactus.web.action.HkResponse;
+import cactus.web.util.SimplePage;
 
 @Component("/mgr/ppt")
 public class PptAction extends BaseAction {
@@ -86,7 +88,7 @@ public class PptAction extends BaseAction {
 		mainPpt.setName(req.getStringRow("name"));
 		mainPpt.setPic_path("");
 		mainPpt.setProjectid(projectid);
-		mainPpt.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		mainPpt.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		List<String> errlist = PptValidator.validateMainPpt(mainPpt);
 		if (!errlist.isEmpty()) {
 			return this.onErrorList(req, errlist, "createerr");
@@ -139,7 +141,7 @@ public class PptAction extends BaseAction {
 		ppt.setName(req.getStringRow("name"));
 		ppt.setPic_path("");
 		ppt.setProjectid(projectid);
-		ppt.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		ppt.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		List<String> errlist = PptValidator.validate(ppt);
 		if (!errlist.isEmpty()) {
 			return this.onErrorList(req, errlist, "createerr");
@@ -406,7 +408,8 @@ public class PptAction extends BaseAction {
 	public String setmain(HkRequest req, HkResponse resp) throws Exception {
 		long pptid = req.getLong("pptid");
 		this.pptSvr.changePptToMainPpt(pptid);
-		req.setSessionText("op.change_mainppt.success");
+		req.setSessionMessage(ResourceConfig
+				.getText("op.change_mainppt.success"));
 		return null;
 	}
 }

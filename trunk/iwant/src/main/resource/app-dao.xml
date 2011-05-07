@@ -11,16 +11,16 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
-	<bean id="daoSupport" class="com.hk.frame.dao.query2.MysqlDaoSupport">
+	<bean id="daoSupport" class="cactus.dao.query.MysqlDaoSupport">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	<bean id="hkObjQuery" class="com.hk.frame.dao.query2.HkObjQuery">
+	<bean id="hkObjQuery" class="cactus.dao.query.HkObjQuery">
 		<property name="daoSupport" ref="daoSupport" />
 		<property name="resultSetDataInfoCreater">
-			<bean class="com.hk.frame.dao.query2.ResultSetDataInfoCreater" />
+			<bean class="cactus.dao.query.ResultSetDataInfoCreater" />
 		</property>
 		<property name="objectSqlInfoCreater">
-			<bean id="objectSqlInfoCreater" class="com.hk.frame.dao.query2.ObjectSqlInfoCreater">
+			<bean id="objectSqlInfoCreater" class="cactus.dao.query.ObjectSqlInfoCreater">
 				<property name="infos">
 					<list>
 						<value>iwant.bean.Category;iwant.dao.database.SingleDbPartitionHelper</value>

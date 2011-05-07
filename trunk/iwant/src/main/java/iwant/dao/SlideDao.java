@@ -4,7 +4,7 @@ import iwant.bean.Slide;
 
 import java.util.List;
 
-import com.hk.frame.dao.query2.IDao;
+import cactus.dao.query.IDao;
 
 public interface SlideDao extends IDao<Slide> {
 

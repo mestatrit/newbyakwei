@@ -18,14 +18,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import com.hk.frame.util.DataUtil;
-import com.hk.frame.util.P;
-import com.hk.frame.util.page.SimplePage;
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
+import cactus.util.DataUtil;
+import cactus.util.P;
+import cactus.web.action.HkRequest;
+import cactus.web.action.HkResponse;
+import cactus.web.util.SimplePage;
 
+@Lazy
 @Component("/api/ppt")
 public class PptAction extends BaseApiAction {
 
@@ -85,7 +87,7 @@ public class PptAction extends BaseApiAction {
 		if (ppt == null) {
 			MainPpt mainPpt = this.pptSvr.getMainPpt(pptid);
 			if (mainPpt == null) {
-				APIUtil.writeErr(req, resp, Err.RESOURCE_NOT_EXIST);
+				APIUtil.writeErr(resp, Err.RESOURCE_NOT_EXIST);
 				return null;
 			}
 			projectid = mainPpt.getProjectid();
@@ -95,7 +97,7 @@ public class PptAction extends BaseApiAction {
 		}
 		Project project = this.projectSvr.getProject(projectid);
 		if (project == null) {
-			APIUtil.writeErr(req, resp, Err.RESOURCE_NOT_EXIST);
+			APIUtil.writeErr(resp, Err.RESOURCE_NOT_EXIST);
 			return null;
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -114,12 +116,12 @@ public class PptAction extends BaseApiAction {
 	public String timeline(HkRequest req, HkResponse resp) throws Exception {
 		String device_token = req.getStringRow("device_token");
 		if (DataUtil.isEmpty(device_token)) {
-			APIUtil.writeErr(req, resp, Err.USER_NOT_EXIST);
+			APIUtil.writeErr(resp, Err.USER_NOT_EXIST);
 			return null;
 		}
 		User user = this.loadUser(device_token);
 		if (user == null) {
-			APIUtil.writeErr(req, resp, Err.USER_NOT_EXIST);
+			APIUtil.writeErr(resp, Err.USER_NOT_EXIST);
 			return null;
 		}
 		SimplePage simplePage = new SimplePage(req.getInt("size", 10), req

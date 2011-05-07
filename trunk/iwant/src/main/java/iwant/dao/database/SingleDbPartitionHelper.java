@@ -1,10 +1,9 @@
 package iwant.dao.database;
 
-
 import java.util.Map;
 
-import com.hk.frame.dao.query2.DbPartitionHelper;
-import com.hk.frame.dao.query2.PartitionTableInfo;
+import cactus.dao.query.DbPartitionHelper;
+import cactus.dao.query.PartitionTableInfo;
 
 /**
  * 单数据库解析

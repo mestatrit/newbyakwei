@@ -19,8 +19,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.hk.frame.util.DataUtil;
-import com.hk.frame.util.image2.PicRect;
+import cactus.util.DateUtil;
+import cactus.util.image.jmagick.PicRect;
 
 public class PptSvrTest extends BaseSvrTest {
 
@@ -52,7 +52,7 @@ public class PptSvrTest extends BaseSvrTest {
 		mainPpt0 = new MainPpt();
 		mainPpt0.setActive_flag(ActiveType.ACTIVE.getValue());
 		mainPpt0.setCatid(catid);
-		mainPpt0.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		mainPpt0.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		mainPpt0.setName("ppt 0");
 		mainPpt0.setPic_path("");
 		mainPpt0.setProjectid(projectid);
@@ -61,7 +61,7 @@ public class PptSvrTest extends BaseSvrTest {
 		mainPpt1 = new MainPpt();
 		mainPpt1.setActive_flag(ActiveType.ACTIVE.getValue());
 		mainPpt1.setCatid(catid);
-		mainPpt1.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		mainPpt1.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		mainPpt1.setName("ppt 1");
 		mainPpt1.setPic_path("");
 		mainPpt1.setProjectid(projectid);
@@ -69,14 +69,14 @@ public class PptSvrTest extends BaseSvrTest {
 		// *************ppt*************//
 		// data 0
 		this.ppt0 = new Ppt();
-		ppt0.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		ppt0.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		ppt0.setName("ppt 0");
 		ppt0.setPic_path("");
 		ppt0.setProjectid(projectid);
 		this.pptSvr.createPpt(ppt0);
 		// data 1
 		this.ppt1 = new Ppt();
-		ppt1.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		ppt1.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		ppt1.setName("ppt 0");
 		ppt1.setPic_path("");
 		ppt1.setProjectid(projectid);
@@ -109,7 +109,7 @@ public class PptSvrTest extends BaseSvrTest {
 		MainPpt mainPpt = new MainPpt();
 		mainPpt.setActive_flag(ActiveType.ACTIVE.getValue());
 		mainPpt.setCatid(catid);
-		mainPpt.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		mainPpt.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		mainPpt.setName("ppt 3");
 		mainPpt.setPic_path("");
 		mainPpt.setProjectid(this.projectid);
@@ -148,7 +148,7 @@ public class PptSvrTest extends BaseSvrTest {
 	@Test
 	public void createPpt() {
 		Ppt ppt = new Ppt();
-		ppt.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		ppt.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		ppt.setName("ppt 0");
 		ppt.setPic_path("");
 		ppt.setProjectid(this.projectid);
@@ -160,7 +160,7 @@ public class PptSvrTest extends BaseSvrTest {
 	@Test
 	public void updatePpt() {
 		Ppt ppt = this.pptSvr.getPpt(this.ppt0.getPptid());
-		ppt.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		ppt.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		ppt.setName("ppt 0");
 		ppt.setPic_path("");
 		ppt.setProjectid(this.projectid);

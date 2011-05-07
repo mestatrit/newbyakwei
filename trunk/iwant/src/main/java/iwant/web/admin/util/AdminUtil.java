@@ -6,9 +6,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.hk.frame.util.DesUtil;
-import com.hk.frame.util.P;
-import com.hk.frame.util.ServletUtil;
+import cactus.util.DesUtil;
+import cactus.util.P;
+import cactus.web.util.ServletUtil;
 
 /**
  * 后台权限相关工具类，从admin.properties文件加载username,pwd信息与后台登录用户的输入进行匹配

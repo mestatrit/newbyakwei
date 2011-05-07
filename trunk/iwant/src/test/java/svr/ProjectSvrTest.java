@@ -13,7 +13,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.hk.frame.util.DataUtil;
+import cactus.util.DateUtil;
 
 public class ProjectSvrTest extends BaseSvrTest {
 
@@ -28,7 +28,7 @@ public class ProjectSvrTest extends BaseSvrTest {
 		project0.setActive_flag(ActiveType.ACTIVE.getValue());
 		project0.setAddr("kakah");
 		project0.setCatid(5);
-		project0.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		project0.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		project0.setDescr("bbb");
 		project0.setFans_num(10);
 		project0.setName("project 1");
@@ -43,7 +43,7 @@ public class ProjectSvrTest extends BaseSvrTest {
 		project.setActive_flag(ActiveType.ACTIVE.getValue());
 		project.setAddr("kakah");
 		project.setCatid(5);
-		project.setCreatetime(DataUtil.createNoMillisecondTime(new Date()));
+		project.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		project.setDescr("bbb");
 		project.setFans_num(10);
 		project.setName("project 1");

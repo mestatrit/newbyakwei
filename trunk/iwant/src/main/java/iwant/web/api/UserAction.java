@@ -12,8 +12,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
+import cactus.web.action.HkRequest;
+import cactus.web.action.HkResponse;
 
 @Component("/api/user")
 public class UserAction extends BaseApiAction {
@@ -40,11 +40,11 @@ public class UserAction extends BaseApiAction {
 			user.setGender(GenderType.NONE.getValue());
 			user.setName("");
 			this.userSvr.createUser(user);
-			APIUtil.writeSuccess(req, resp);
+			APIUtil.writeSuccess(resp);
 		}
 		catch (Exception e) {
 			log.error(e.getMessage());
-			APIUtil.writeErr(req, resp, Err.USER_CREATE_ERR);
+			APIUtil.writeErr(resp, Err.USER_CREATE_ERR);
 		}
 		return null;
 	}

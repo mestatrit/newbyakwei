@@ -2,8 +2,7 @@ package iwant.dao.impl;
 
 import iwant.bean.ProjectidCreator;
 import iwant.dao.ProjectidCreatorDao;
-
-import com.hk.frame.dao.query2.BaseDao;
+import cactus.dao.query.BaseDao;
 
 public class ProjectidCreatorDaoImpl extends BaseDao<ProjectidCreator>
 		implements ProjectidCreatorDao {

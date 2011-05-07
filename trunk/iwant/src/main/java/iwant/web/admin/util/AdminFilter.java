@@ -7,8 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.hk.frame.web.action.PathProcesser;
-import com.hk.frame.web.http.HkFilter;
+import cactus.web.action.HkFilter;
+import cactus.web.action.PathProcessor;
 
 /**
  * 后台权限验证过滤器
@@ -22,8 +22,8 @@ public class AdminFilter extends HkFilter {
 			HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		if (!AdminUtil.isAdminLogined(request)) {
-			PathProcesser.proccessResult("r:/sitemgrlogin.do", request,
-					response);
+			PathProcessor
+					.processResult("r:/sitemgrlogin.do", request, response);
 			return;
 		}
 		request.setAttribute("admin_login", true);

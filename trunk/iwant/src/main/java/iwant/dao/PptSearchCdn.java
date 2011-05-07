@@ -1,6 +1,6 @@
 package iwant.dao;
 
-import com.hk.frame.util.DataUtil;
+import cactus.util.DataUtil;
 
 public class PptSearchCdn {
 

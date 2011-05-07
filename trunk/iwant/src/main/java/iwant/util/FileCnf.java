@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Random;
 
-import com.hk.frame.util.P;
+import cactus.util.P;
 
 public class FileCnf {
 
