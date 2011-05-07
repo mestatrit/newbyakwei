@@ -4,7 +4,23 @@ CREATE TABLE  iwant_test.category (
   name varchar(45) NOT NULL,
   order_flag int(10) unsigned NOT NULL,
   PRIMARY KEY  (catid)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS iwant_test.city;
+CREATE TABLE  iwant_test.city (
+  cityid int(10) unsigned NOT NULL auto_increment,
+  countryid int(10) unsigned NOT NULL default '0',
+  provinceid int(10) unsigned NOT NULL default '0',
+  name varchar(50) default NULL,
+  PRIMARY KEY  USING BTREE (cityid)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS iwant_test.country;
+CREATE TABLE  iwant_test.country (
+  countryid int(10) unsigned NOT NULL auto_increment,
+  name varchar(50) default NULL,
+  PRIMARY KEY  USING BTREE (countryid)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS iwant_test.followproject;
 CREATE TABLE  iwant_test.followproject (
@@ -27,7 +43,7 @@ CREATE TABLE  iwant_test.mainppt (
   catid int(10) unsigned NOT NULL,
   PRIMARY KEY  (pptid),
   KEY Index_2 (projectid)
-) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS iwant_test.notice;
 CREATE TABLE  iwant_test.notice (
@@ -44,7 +60,7 @@ DROP TABLE IF EXISTS iwant_test.noticeidcreator;
 CREATE TABLE  iwant_test.noticeidcreator (
   noticeid int(10) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (noticeid)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS iwant_test.noticequeue;
 CREATE TABLE  iwant_test.noticequeue (
@@ -67,7 +83,7 @@ DROP TABLE IF EXISTS iwant_test.pptidcreator;
 CREATE TABLE  iwant_test.pptidcreator (
   pptid bigint(20) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (pptid)
-) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS iwant_test.pptqueue;
 CREATE TABLE  iwant_test.pptqueue (
@@ -121,13 +137,21 @@ DROP TABLE IF EXISTS iwant_test.projectidcreator;
 CREATE TABLE  iwant_test.projectidcreator (
   projectid bigint(20) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (projectid)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS iwant_test.projectrecycle;
 CREATE TABLE  iwant_test.projectrecycle (
   projectid bigint(20) unsigned NOT NULL,
   PRIMARY KEY  (projectid)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS iwant_test.province;
+CREATE TABLE  iwant_test.province (
+  provinceid int(10) unsigned NOT NULL auto_increment,
+  countryid int(10) unsigned NOT NULL default '0',
+  name varchar(50) default NULL,
+  PRIMARY KEY  USING BTREE (provinceid)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS iwant_test.slide;
 CREATE TABLE  iwant_test.slide (
@@ -141,7 +165,7 @@ CREATE TABLE  iwant_test.slide (
   order_flag int(10) unsigned NOT NULL,
   PRIMARY KEY  (slideid),
   KEY Index_2 (pptid)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS iwant_test.user;
 CREATE TABLE  iwant_test.user (
@@ -160,7 +184,7 @@ DROP TABLE IF EXISTS iwant_test.useridcreator;
 CREATE TABLE  iwant_test.useridcreator (
   userid bigint(20) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (userid)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS iwant_test.usernotice;
 CREATE TABLE  iwant_test.usernotice (
