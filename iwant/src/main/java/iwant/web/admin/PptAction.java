@@ -12,6 +12,7 @@ import iwant.dao.PptSearchCdn;
 import iwant.svr.CategorySvr;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
+import iwant.svr.statusenum.CreateMainPptStatus;
 import iwant.util.ActiveTypeCreater;
 import iwant.util.BackUrl;
 import iwant.util.BackUrlUtil;
@@ -96,9 +97,13 @@ public class PptAction extends BaseAction {
 		if (!errlist.isEmpty()) {
 			return this.onErrorList(req, errlist, "createerr");
 		}
-		this.pptSvr.createMainPpt(mainPpt);
-		this.opCreateSuccess(req);
-		return this.onSuccess(req, "createmainok", mainPpt.getPptid());
+		CreateMainPptStatus createMainPptStatus = this.pptSvr
+				.createMainPpt(mainPpt);
+		if (createMainPptStatus == CreateMainPptStatus.SUCCESS) {
+			this.opCreateSuccess(req);
+			return this.onSuccess(req, "createmainok", mainPpt.getPptid());
+		}
+		return null;
 	}
 
 	public String updatemain(HkRequest req, HkResponse resp) throws Exception {

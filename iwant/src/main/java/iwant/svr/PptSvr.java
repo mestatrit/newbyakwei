@@ -6,6 +6,7 @@ import iwant.bean.PptQueue;
 import iwant.bean.Slide;
 import iwant.dao.MainPptSearchCdn;
 import iwant.dao.PptSearchCdn;
+import iwant.svr.statusenum.CreateMainPptStatus;
 import iwant.svr.statusenum.UpdateSldePic0Result;
 import iwant.util.ErrorCode;
 
@@ -23,7 +24,7 @@ public interface PptSvr {
 	 * @param mainPpt
 	 * @return
 	 */
-	void createMainPpt(MainPpt mainPpt);
+	CreateMainPptStatus createMainPpt(MainPpt mainPpt);
 
 	/**
 	 * 转为主要项目简介
