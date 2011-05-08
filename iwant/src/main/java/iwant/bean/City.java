@@ -14,7 +14,7 @@ public class City {
 	private String name;
 
 	@Column
-	private int provniceid;
+	private int provinceid;
 
 	@Column
 	private int countryid;
@@ -46,12 +46,12 @@ public class City {
 		this.name = name;
 	}
 
-	public int getProvniceid() {
-		return provniceid;
+	public void setProvinceid(int provinceid) {
+		this.provinceid = provinceid;
 	}
 
-	public void setProvniceid(int provniceid) {
-		this.provniceid = provniceid;
+	public int getProvinceid() {
+		return provinceid;
 	}
 
 	public int getCountryid() {

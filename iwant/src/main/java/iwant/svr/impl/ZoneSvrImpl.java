@@ -32,7 +32,7 @@ public class ZoneSvrImpl implements ZoneSvr {
 
 	@Override
 	public boolean createCity(City city) {
-		if (this.cityDao.isExistByProvinceidAndName(city.getProvniceid(), city
+		if (this.cityDao.isExistByProvinceidAndName(city.getProvinceid(), city
 				.getName())) {
 			return false;
 		}
@@ -90,7 +90,7 @@ public class ZoneSvrImpl implements ZoneSvr {
 	@Override
 	public boolean updateCity(City city) {
 		if (this.cityDao.isExistByProvinceidAndNameAndNotCityid(city
-				.getProvniceid(), city.getName(), city.getCityid())) {
+				.getProvinceid(), city.getName(), city.getCityid())) {
 			return false;
 		}
 		this.cityDao.update(city);
