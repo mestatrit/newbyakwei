@@ -1,6 +1,7 @@
 package iwant.svr;
 
 import iwant.bean.City;
+import iwant.bean.Country;
 import iwant.bean.Province;
 
 import java.util.List;
@@ -10,7 +11,9 @@ import java.util.List;
  * 
  * @author akwei
  */
-public interface ZoneService {
+public interface ZoneSvr {
+
+	Country getCountry(int countryid);
 
 	/**
 	 * 创建省
@@ -75,10 +78,10 @@ public interface ZoneService {
 	/**
 	 * 获得城市
 	 * 
-	 * @param city
+	 * @param cityid
 	 * @return
 	 */
-	City getCity(int city);
+	City getCity(int cityid);
 
 	/**
 	 * 获得省下的城市集合，按照字母正序排列

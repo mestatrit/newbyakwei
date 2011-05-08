@@ -15,4 +15,13 @@ public interface CityDao extends IDao<City> {
 	 * @return
 	 */
 	List<City> getListByProvinceid(int provinceid);
+
+	List<City> getList();
+
+	boolean isExistByProvinceidAndName(int provinceid, String name);
+
+	boolean isExistByProvinceidAndNameAndNotCityid(int provinceid, String name,
+			int cityid);
+
+	void deleteByProvinceid(int provinceid);
 }

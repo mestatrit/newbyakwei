@@ -19,6 +19,17 @@ public class City {
 	@Column
 	private int countryid;
 
+	@Column
+	private int order_flg;
+
+	public void setOrder_flg(int orderFlg) {
+		order_flg = orderFlg;
+	}
+
+	public int getOrder_flg() {
+		return order_flg;
+	}
+
 	public int getCityid() {
 		return cityid;
 	}
