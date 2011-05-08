@@ -17,8 +17,11 @@ public class ActionMappingCreator {
 	private final Map<String, ActionMapping> mappingMap = new HashMap<String, ActionMapping>();
 
 	public ActionMapping getActionMapping(HttpServletRequest request,
-			String url_extension) throws NoActionException,
-			NoSuchMethodException {
+			String spcMappingUri, String url_extension)
+			throws NoActionException, NoSuchMethodException {
+		if (spcMappingUri != null) {
+			return this.getActionMapping(spcMappingUri);
+		}
 		String mappingUri = this.getMappingString(request, url_extension);
 		return this.getActionMapping(mappingUri);
 	}
@@ -31,7 +34,7 @@ public class ActionMappingCreator {
 	 * @throws NoActionException
 	 * @throws NoSuchMethodException
 	 */
-	private ActionMapping getActionMapping(String mappingUri)
+	public ActionMapping getActionMapping(String mappingUri)
 			throws NoActionException, NoSuchMethodException {
 		ActionMapping mapping = mappingMap.get(mappingUri);
 		if (mapping == null) {

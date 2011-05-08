@@ -12,23 +12,20 @@ public class ActionInvokeTag extends BaseBodyTag {
 	private String mappinguri;
 
 	public void setMappinguri(String mappinguri) {
-
 		this.mappinguri = mappinguri;
 	}
 
 	public String getMappinguri() {
-
 		return mappinguri;
 	}
 
 	@Override
 	protected void adapter(JspWriter writer) throws Exception {
-
 		ActionExe actionExe = (ActionExe) this.getRequest().getAttribute(
 				HkUtil.ACTION_EXE_ATTR_KEY);
 		if (actionExe == null) {
 			return;
 		}
-		actionExe.invoke(this.getRequest(), this.getResponse());
+		actionExe.invoke(this.getRequest(), mappinguri, this.getResponse());
 	}
 }
