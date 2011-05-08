@@ -1,1 +1,1 @@
-<resp errcode="$!{errcode}" err_msg="$!{err_msg}"><city><cityid>${city.cityid}</cityid><name><![CDATA[$!{city.name}]]></name></city></resp>
+<resp errcode="$!{errcode}" err_msg="$!{err_msg}"><city><cityid>$!{city.cityid}</cityid><name><![CDATA[$!{city.name}]]></name></city></resp>
