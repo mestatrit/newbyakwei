@@ -29,7 +29,7 @@ public class PathProcessor {
 		String result = ExceptionConfig.getExceptionForward(type);
 		// 如果没有找到，就处理对应的servlet相应异常
 		if (result == null) {
-			exception.printStackTrace();
+			// exception.printStackTrace();
 			throw new RuntimeException(exception);
 		}
 		processResult(result, request, response);

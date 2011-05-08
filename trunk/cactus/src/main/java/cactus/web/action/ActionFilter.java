@@ -67,6 +67,10 @@ public class ActionFilter implements Filter {
 		try {
 			this.actionExe.proccess(req, (HttpServletResponse) arg1);
 		}
+		catch (NoActionException e) {
+		}
+		catch (NoSuchMethodException e) {
+		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
 		}

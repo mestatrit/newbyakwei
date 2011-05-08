@@ -45,24 +45,6 @@ public class ActionExe {
 			return new HkActionInvocation(mapping, hkRequest, hkResponse,
 					hkInterceptor).invoke();
 		}
-		catch (NoActionException e) {
-			if (debug) {
-				log.error("no action [ " + request.getRemoteAddr() + " ] [ "
-						+ request.getRequestURI() + " ] " + e.getMessage());
-				log.error("queryString [ " + request.getQueryString() + " ]");
-				log.error("===================== end =====================");
-			}
-			return null;
-		}
-		catch (NoSuchMethodException e) {
-			if (debug) {
-				log.error("no method [ " + request.getRemoteAddr() + " ] [ "
-						+ request.getRequestURI() + " ] " + e.getMessage());
-				log.error("queryString [ " + request.getQueryString() + " ]");
-				log.error("===================== end =====================");
-			}
-			return null;
-		}
 		catch (Exception e) {
 			throw e;
 		}
@@ -73,15 +55,9 @@ public class ActionExe {
 
 	public String invoke(HttpServletRequest request, String spcMappingUri,
 			HttpServletResponse response) throws Exception {
-		try {
-			String path = this.invokeInterceptor(this.actionMappingCreator
-					.getActionMapping(request, spcMappingUri,
-							this.url_extension), request, response);
-			return path;
-		}
-		catch (Exception e) {
-			throw e;
-		}
+		return this.invokeInterceptor(this.actionMappingCreator
+				.getActionMapping(request, spcMappingUri, this.url_extension),
+				request, response);
 	}
 
 	public void proccess(HttpServletRequest request,
@@ -89,6 +65,22 @@ public class ActionExe {
 		try {
 			PathProcessor.processResult(this.invoke(request, null, response),
 					request, response);
+		}
+		catch (NoActionException e) {
+			if (debug) {
+				log.error("no action [ " + request.getRemoteAddr() + " ] [ "
+						+ request.getRequestURI() + " ] " + e.getMessage());
+				log.error("queryString [ " + request.getQueryString() + " ]");
+				log.error("===================== end =====================");
+			}
+		}
+		catch (NoSuchMethodException e) {
+			if (debug) {
+				log.error("no method [ " + request.getRemoteAddr() + " ] [ "
+						+ request.getRequestURI() + " ] " + e.getMessage());
+				log.error("queryString [ " + request.getQueryString() + " ]");
+				log.error("===================== end =====================");
+			}
 		}
 		catch (Exception e) {
 			PathProcessor.doExceptionForward(e, request, response);
