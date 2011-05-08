@@ -3,11 +3,7 @@ package iwant.dao.impl;
 import iwant.bean.City;
 import iwant.dao.CityDao;
 
-import java.text.Collator;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 import cactus.dao.query.BaseDao;
 
@@ -20,16 +16,36 @@ public class CityDaoImpl extends BaseDao<City> implements CityDao {
 
 	@Override
 	public List<City> getListByProvinceid(int provinceid) {
-		List<City> list = this.getList(null, "provinceid=?",
-				new Object[] { provinceid }, null, 0, -1);
-		final Collator collator = Collator.getInstance(Locale.CHINA);
-		Collections.sort(list, new Comparator<City>() {
+		return this.getList(null, "provinceid=?", new Object[] { provinceid },
+				"order_flg asc", 0, -1);
+	}
 
-			@Override
-			public int compare(City o1, City o2) {
-				return collator.compare(o1.getName(), o2.getName());
-			}
-		});
-		return list;
+	@Override
+	public void deleteByProvinceid(int provinceid) {
+		this.delete("provinceid=?", new Object[] { provinceid });
+	}
+
+	@Override
+	public List<City> getList() {
+		return this.getList(null, null, null, null, 0, -1);
+	}
+
+	@Override
+	public boolean isExistByProvinceidAndName(int provinceid, String name) {
+		if (this.count("provinceid=? and name=?", new Object[] { provinceid,
+				name }) > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isExistByProvinceidAndNameAndNotCityid(int provinceid,
+			String name, int cityid) {
+		if (this.count("provinceid=? and name=? and cityid!=?", new Object[] {
+				provinceid, name, cityid }) > 0) {
+			return true;
+		}
+		return false;
 	}
 }
