@@ -20,7 +20,7 @@
 				<entry key="mysql_iwant">
 					<bean class="com.mchange.v2.c3p0.ComboPooledDataSource">
 						<property name="driverClass" value="com.mysql.jdbc.Driver" />
-						<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/iwant?useUnicode=true&amp;characterEncoding=UTF-8" />
+						<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/iwant?useUnicode=true&amp;characterEncoding=UTF-8" />
 						<property name="user" value="root" />
 						<property name="password" value="boseeandbokee" />
 						<property name="maxStatements" value="200" />
