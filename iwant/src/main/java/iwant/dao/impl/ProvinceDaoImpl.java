@@ -2,10 +2,7 @@ package iwant.dao.impl;
 
 import iwant.bean.Province;
 import iwant.dao.ProvinceDao;
-import iwant.util.PinyinComparator;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import cactus.dao.query.BaseDao;
@@ -19,17 +16,8 @@ public class ProvinceDaoImpl extends BaseDao<Province> implements ProvinceDao {
 
 	@Override
 	public List<Province> getListByCountryidOrderByOrder_flg(int countryid) {
-		List<Province> list = this.getList(null, "countryid=?",
-				new Object[] { countryid }, "order_flg asc", 0, -1);
-		Collections.sort(list, new Comparator<Province>() {
-
-			@Override
-			public int compare(Province o1, Province o2) {
-				return PinyinComparator.getInstance().compare(o1.getName(),
-						o2.getName());
-			}
-		});
-		return list;
+		return this.getList(null, "countryid=?", new Object[] { countryid },
+				"order_flg asc", 0, -1);
 	}
 
 	@Override
