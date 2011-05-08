@@ -35,7 +35,6 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 			return this.getJdbcTemplate().batchUpdate(sql, bpss);
 		}
 		catch (DataAccessException e) {
-			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -70,9 +69,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 			ps = null;
 			DataSourceUtils.releaseConnection(con, getDataSource());
 			con = null;
-			e.printStackTrace();
-			throw getExceptionTranslator().translate("StatementCallback", sql,
-					e);
+			throw new RuntimeException(e);
 		}
 		finally {
 			JdbcUtils.closeResultSet(rs);
@@ -106,9 +103,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 			ps = null;
 			DataSourceUtils.releaseConnection(con, getDataSource());
 			con = null;
-			e.printStackTrace();
-			throw getExceptionTranslator().translate("StatementCallback", sql,
-					e);
+			throw new RuntimeException(e);
 		}
 		finally {
 			JdbcUtils.closeResultSet(rs);
@@ -149,9 +144,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 			ps = null;
 			DataSourceUtils.releaseConnection(con, getDataSource());
 			con = null;
-			e.printStackTrace();
-			throw getExceptionTranslator().translate("StatementCallback", sql,
-					e);
+			throw new RuntimeException(e);
 		}
 		finally {
 			JdbcUtils.closeResultSet(rs);
@@ -180,9 +173,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 			ps = null;
 			DataSourceUtils.releaseConnection(con, getDataSource());
 			con = null;
-			e.printStackTrace();
-			throw getExceptionTranslator().translate("StatementCallback", sql,
-					e);
+			throw new RuntimeException(e);
 		}
 		finally {
 			JdbcUtils.closeResultSet(rs);
