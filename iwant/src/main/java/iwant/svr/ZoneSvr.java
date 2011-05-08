@@ -97,4 +97,6 @@ public interface ZoneSvr {
 	 * @return
 	 */
 	List<City> getCityList();
+
+	City getCityByNameLike(String name);
 }

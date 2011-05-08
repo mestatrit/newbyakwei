@@ -61,5 +61,7 @@ public interface Err {
 
 	String ADMIN_LOGIN_CITY_ERR = "26";
 
+	String CITY_NOT_EXIST = "27";
+
 	String PROCESS_IMAGEFILE_ERR = "pro1";
 }
