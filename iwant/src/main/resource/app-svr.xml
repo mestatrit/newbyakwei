@@ -33,4 +33,5 @@
 	<bean id="pptTimelineSvr" class="iwant.svr.impl.PptTimelineSvrImpl" />
 	<bean id="projectSvr" class="iwant.svr.impl.ProjectSvrImpl"></bean>
 	<bean id="userSvr" class="iwant.svr.impl.UserSvrImpl" />
+	<bean id="zoneSvr" class="iwant.svr.impl.ZoneSvrImpl" />
 </beans>

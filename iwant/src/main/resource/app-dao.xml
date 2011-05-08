@@ -41,6 +41,9 @@
 						<value>iwant.bean.PptTimeline;iwant.dao.database.SingleDbPartitionHelper</value>
 						<value>iwant.bean.PptQueue;iwant.dao.database.SingleDbPartitionHelper</value>
 						<value>iwant.bean.NoticeQueue;iwant.dao.database.SingleDbPartitionHelper</value>
+						<value>iwant.bean.Country;iwant.dao.database.SingleDbPartitionHelper</value>
+						<value>iwant.bean.Province;iwant.dao.database.SingleDbPartitionHelper</value>
+						<value>iwant.bean.City;iwant.dao.database.SingleDbPartitionHelper</value>
 					</list>
 				</property>
 			</bean>
@@ -111,6 +114,15 @@
 		<property name="hkObjQuery" ref="hkObjQuery" />
 	</bean>
 	<bean id="noticeQueueDao" class="iwant.dao.impl.NoticeQueueDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="countryDao" class="iwant.dao.impl.CountryDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="provinceDao" class="iwant.dao.impl.ProvinceDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="cityDao" class="iwant.dao.impl.CityDaoImpl">
 		<property name="hkObjQuery" ref="hkObjQuery" />
 	</bean>
 </beans>
