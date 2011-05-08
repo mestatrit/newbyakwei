@@ -5,12 +5,14 @@ import iwant.web.admin.util.Admin;
 import iwant.web.admin.util.AdminUtil;
 import iwant.web.admin.util.Err;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import cactus.util.DataUtil;
 import cactus.web.action.HkRequest;
 import cactus.web.action.HkResponse;
 
+@Lazy
 @Component("/sitemgrlogin")
 public class LoginAction extends BaseAction {
 
@@ -31,6 +33,7 @@ public class LoginAction extends BaseAction {
 		admin.setUsername(req.getHtmlRow("username"));
 		admin.setPwd(req.getHtmlRow("pwd"));
 		AdminUtil.setLoginAdmin(resp);
+		AdminUtil.setLoginCity(resp, req.getInt("cityid"));
 		return this.onSuccess(req, "loginok", null);
 	}
 }

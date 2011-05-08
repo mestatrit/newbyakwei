@@ -11,11 +11,13 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import cactus.web.action.HkRequest;
 import cactus.web.action.HkResponse;
 
+@Lazy
 @Component("/mgr/notice")
 public class NoticeAction extends BaseAction {
 

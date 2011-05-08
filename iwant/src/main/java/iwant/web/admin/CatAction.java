@@ -9,6 +9,7 @@ import iwant.web.admin.util.Err;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import cactus.web.action.HkRequest;
@@ -19,6 +20,7 @@ import cactus.web.action.HkResponse;
  * 
  * @author akwei
  */
+@Lazy
 @Component("/mgr/cat")
 public class CatAction extends BaseAction {
 
