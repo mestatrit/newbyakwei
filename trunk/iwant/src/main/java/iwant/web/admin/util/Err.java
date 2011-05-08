@@ -59,5 +59,7 @@ public interface Err {
 
 	String DEVICE_TOKEN_ERR = "25";
 
+	String ADMIN_LOGIN_CITY_ERR = "26";
+
 	String PROCESS_IMAGEFILE_ERR = "pro1";
 }
