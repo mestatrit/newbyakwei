@@ -49,6 +49,8 @@ public class ProjectDaoImpl extends BaseDao<Project> implements ProjectDao {
 				sb.append(" and active_flag=?");
 				objlist.add(projectSearchCdn.getActiveType().getValue());
 			}
+			sb.append(" and cityid=?");
+			objlist.add(projectSearchCdn.getCityid());
 		}
 		return this.getList(null, sb.toString(), objlist
 				.toArray(new Object[objlist.size()]), "projectid desc", begin,

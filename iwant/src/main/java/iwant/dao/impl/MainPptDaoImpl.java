@@ -18,9 +18,10 @@ public class MainPptDaoImpl extends BaseDao<MainPpt> implements MainPptDao {
 	}
 
 	@Override
-	public List<MainPpt> getListOrderedByCatid(int catid, int begin, int size) {
-		return this.getList(null, "catid=?", new Object[] { catid },
-				"order_flag desc", begin, size);
+	public List<MainPpt> getListOrderedByCatidAndCityid(int catid, int cityid,
+			int begin, int size) {
+		return this.getList(null, "catid=? and cityid=?", new Object[] { catid,
+				cityid }, "order_flag desc", begin, size);
 	}
 
 	@Override
@@ -45,6 +46,8 @@ public class MainPptDaoImpl extends BaseDao<MainPpt> implements MainPptDao {
 			sb.append(" and active_flag=?");
 			objlist.add(mainPptSearchCdn.getActiveType().getValue());
 		}
+		sb.append(" and cityid=?");
+		objlist.add(mainPptSearchCdn.getCityid());
 		return this.getList(null, sb.toString(), objlist
 				.toArray(new Object[objlist.size()]), mainPptSearchCdn
 				.getOrder(), begin, size);

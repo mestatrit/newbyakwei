@@ -80,6 +80,17 @@ public class Project {
 	@Column
 	private int fans_num;
 
+	@Column
+	private int cityid;
+
+	public void setCityid(int cityid) {
+		this.cityid = cityid;
+	}
+
+	public int getCityid() {
+		return cityid;
+	}
+
 	public long getProjectid() {
 		return projectid;
 	}

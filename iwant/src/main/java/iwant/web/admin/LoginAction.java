@@ -30,7 +30,7 @@ public class LoginAction extends BaseAction {
 		Admin admin = new Admin();
 		admin.setUsername(req.getHtmlRow("username"));
 		admin.setPwd(req.getHtmlRow("pwd"));
-		AdminUtil.setLoginAdmin(req, resp, admin);
+		AdminUtil.setLoginAdmin(resp);
 		return this.onSuccess(req, "loginok", null);
 	}
 }

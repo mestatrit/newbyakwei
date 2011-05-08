@@ -9,7 +9,17 @@ public class ProjectSearchCdn {
 
 	private int catid;
 
+	private int cityid;
+
 	private ActiveType activeType;
+
+	public void setCityid(int cityid) {
+		this.cityid = cityid;
+	}
+
+	public int getCityid() {
+		return cityid;
+	}
 
 	public String getName() {
 		return name;

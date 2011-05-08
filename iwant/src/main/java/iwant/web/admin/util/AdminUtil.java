@@ -28,6 +28,8 @@ public class AdminUtil {
 	private static String mgr_cookie_name = "usermgrcookie";
 
 	private static final String key_admin_login = "dminlogin";
+
+	private static String key_city = "city";
 	static {
 		ResourceBundle rb = ResourceBundle.getBundle("admin");
 		username = rb.getString("username");
@@ -51,17 +53,33 @@ public class AdminUtil {
 
 	/**
 	 * 设置用户登录状态
-	 * 
-	 * @param request
-	 * @param admin
 	 */
-	public static void setLoginAdmin(HttpServletRequest request,
-			HttpServletResponse response, Admin admin) {
+	public static void setLoginAdmin(HttpServletResponse response) {
 		Cookie cookie = new Cookie(mgr_cookie_name,
 				encodeValue(key_admin_login));
 		cookie.setMaxAge(24 * 60 * 60);
 		cookie.setPath("/");
 		response.addCookie(cookie);
+	}
+
+	public static void setLoginCity(HttpServletResponse response, int cityid) {
+		Cookie cookie = new Cookie(key_city, String.valueOf(cityid));
+		cookie.setMaxAge(24 * 60 * 60);
+		cookie.setPath("/");
+		response.addCookie(cookie);
+	}
+
+	public static int getLoginCityid(HttpServletRequest request) {
+		Cookie cookie = ServletUtil.getCookie(request, key_city);
+		if (cookie == null) {
+			return 0;
+		}
+		try {
+			return Integer.parseInt(cookie.getValue());
+		}
+		catch (NumberFormatException e) {
+			return 0;
+		}
 	}
 
 	public static void clearLoginAdmin(HttpServletResponse response) {
