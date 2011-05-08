@@ -71,12 +71,12 @@ public class ActionExe {
 		}
 	}
 
-	public String invoke(HttpServletRequest request,
+	public String invoke(HttpServletRequest request, String spcMappingUri,
 			HttpServletResponse response) throws Exception {
 		try {
 			String path = this.invokeInterceptor(this.actionMappingCreator
-					.getActionMapping(request, this.url_extension), request,
-					response);
+					.getActionMapping(request, spcMappingUri,
+							this.url_extension), request, response);
 			return path;
 		}
 		catch (Exception e) {
@@ -87,7 +87,7 @@ public class ActionExe {
 	public void proccess(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		try {
-			PathProcessor.processResult(this.invoke(request, response),
+			PathProcessor.processResult(this.invoke(request, null, response),
 					request, response);
 		}
 		catch (Exception e) {
