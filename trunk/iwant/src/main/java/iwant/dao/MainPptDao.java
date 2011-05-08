@@ -8,7 +8,8 @@ import cactus.dao.query.IDao;
 
 public interface MainPptDao extends IDao<MainPpt> {
 
-	List<MainPpt> getListOrderedByCatid(int catid, int begin, int size);
+	List<MainPpt> getListOrderedByCatidAndCityid(int catid, int cityid,
+			int begin, int size);
 
 	int countByCdn(MainPptSearchCdn mainPptSearchCdn);
 

@@ -16,6 +16,7 @@ import iwant.util.ActiveTypeCreater;
 import iwant.util.BackUrl;
 import iwant.util.BackUrlUtil;
 import iwant.web.BaseAction;
+import iwant.web.admin.util.AdminUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -268,6 +269,7 @@ public class PptAction extends BaseAction {
 		mainPptSearchCdn.setOrder("order_flag desc");
 		mainPptSearchCdn.setCatid(catid);
 		mainPptSearchCdn.setName(req.getStringRow("name"));
+		mainPptSearchCdn.setCityid(AdminUtil.getLoginCityid(req));
 		mainPptSearchCdn.setActiveType(ActiveTypeCreater
 				.getActiveType(active_flag));
 		// 此集合多包含2条数据为了方便进行移动操作，所记录的当页中首条和最后一条可换位置的pptid

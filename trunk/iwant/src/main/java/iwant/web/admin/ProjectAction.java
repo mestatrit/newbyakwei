@@ -10,6 +10,7 @@ import iwant.util.ActiveTypeCreater;
 import iwant.util.BackUrl;
 import iwant.util.BackUrlUtil;
 import iwant.web.BaseAction;
+import iwant.web.admin.util.AdminUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -50,6 +51,7 @@ public class ProjectAction extends BaseAction {
 		ProjectSearchCdn projectSearchCdn = new ProjectSearchCdn();
 		projectSearchCdn.setCatid(category.getCatid());
 		projectSearchCdn.setName(req.getStringRow("name"));
+		projectSearchCdn.setCityid(AdminUtil.getLoginCityid(req));
 		projectSearchCdn.setActiveType(ActiveTypeCreater.getActiveType(req
 				.getIntAndSetAttr("active_flag")));
 		List<Project> list = this.projectSvr.getProjectListByCdn(

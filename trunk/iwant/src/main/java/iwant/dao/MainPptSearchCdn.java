@@ -8,6 +8,8 @@ public class MainPptSearchCdn {
 
 	private String name;
 
+	private int cityid;
+
 	private ActiveType activeType;
 
 	private String order;
@@ -42,5 +44,13 @@ public class MainPptSearchCdn {
 
 	public void setActiveType(ActiveType activeType) {
 		this.activeType = activeType;
+	}
+
+	public int getCityid() {
+		return cityid;
+	}
+
+	public void setCityid(int cityid) {
+		this.cityid = cityid;
 	}
 }

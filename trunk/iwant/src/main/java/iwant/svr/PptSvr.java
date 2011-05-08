@@ -76,8 +76,8 @@ public interface PptSvr {
 	 * @param size
 	 * @return
 	 */
-	List<MainPpt> getMainPptListOrderedByCatid(int catid, boolean buildProject,
-			int begin, int size);
+	List<MainPpt> getMainPptListOrderedByCatid(int catid, int cityid,
+			boolean buildProject, int begin, int size);
 
 	List<MainPpt> getMainPptListOrderedByCdn(MainPptSearchCdn mainPptSearchCdn,
 			boolean buildProject, int begin, int size);

@@ -65,6 +65,17 @@ public class MainPpt {
 	@Column
 	private int active_flag;
 
+	@Column
+	private int cityid;
+
+	public void setCityid(int cityid) {
+		this.cityid = cityid;
+	}
+
+	public int getCityid() {
+		return cityid;
+	}
+
 	private Project project;
 
 	public void setProject(Project project) {

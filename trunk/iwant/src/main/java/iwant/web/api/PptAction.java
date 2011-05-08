@@ -52,6 +52,7 @@ public class PptAction extends BaseApiAction {
 	public String mainlist(HkRequest req, HkResponse resp) throws Exception {
 		int page = req.getInt("page", 1);
 		int size = req.getInt("size", 20);
+		int cityid = req.getInt("cityid");
 		if (size > 20) {
 			size = 20;
 		}
@@ -63,8 +64,8 @@ public class PptAction extends BaseApiAction {
 				catid = category.getCatid();
 				SimplePage simplePage = new SimplePage(size, page);
 				List<MainPpt> mainpptlist = this.pptSvr
-						.getMainPptListOrderedByCatid(catid, true, simplePage
-								.getBegin(), simplePage.getSize());
+						.getMainPptListOrderedByCatid(catid, cityid, true,
+								simplePage.getBegin(), simplePage.getSize());
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("list", mainpptlist);
 				APIUtil.writeData(resp, map, "vm/mainpptlist.vm");
