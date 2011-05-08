@@ -48,6 +48,11 @@ public abstract class BaseDao<T> implements IDao<T> {
 		return this.hkObjQuery.insertObj(baseParam, t);
 	}
 
+	@Override
+	public Object save(T t) {
+		return this.save(null, t);
+	}
+
 	/**
 	 * 更新对象
 	 * 
@@ -60,6 +65,11 @@ public abstract class BaseDao<T> implements IDao<T> {
 		BaseParam baseParam = this.hkObjQuery.createBaseParam(this.getClazz(),
 				this.getKey(), keyValue);
 		return this.hkObjQuery.updateObj(baseParam, t);
+	}
+
+	@Override
+	public int update(T t) {
+		return this.update(null, t);
 	}
 
 	public int updateBySQL(Object keyValue, String updateSqlSegment,
@@ -91,9 +101,19 @@ public abstract class BaseDao<T> implements IDao<T> {
 	}
 
 	@Override
+	public int delete(T t) {
+		return this.delete(null, t);
+	}
+
+	@Override
 	public int deleteById(Object keyValue, Object idValue) {
 		return this.hkObjQuery.deleteById(this.hkObjQuery.createBaseParam(this
 				.getClazz(), this.getKey(), keyValue), getClazz(), idValue);
+	}
+
+	@Override
+	public int deleteById(Object idValue) {
+		return this.deleteById(null, idValue);
 	}
 
 	public int delete(Object keyValue, String where, Object[] params) {
@@ -114,6 +134,11 @@ public abstract class BaseDao<T> implements IDao<T> {
 	public T getById(Object keyValue, Object idValue) {
 		return this.hkObjQuery.getObjectById(this.hkObjQuery.createQueryParam(
 				getClazz(), getKey(), keyValue), getClazz(), idValue);
+	}
+
+	@Override
+	public T getById(Object idValue) {
+		return this.getById(null, idValue);
 	}
 
 	/**
@@ -198,17 +223,44 @@ public abstract class BaseDao<T> implements IDao<T> {
 	}
 
 	@Override
-	public int delete(T t) {
-		return this.delete(null, t);
+	public T getObject(String where, Object[] params) {
+		return this.getObject(null, where, params);
 	}
 
 	@Override
-	public Object save(T t) {
-		return this.save(null, t);
+	public T getObject(String where, Object[] params, String order) {
+		return this.getObject(null, where, params, order);
+	}
+
+	public List<T> getList(String where, Object[] params, String order,
+			int begin, int size) {
+		return this.getList(null, where, params, order, begin, size);
 	}
 
 	@Override
-	public int update(T t) {
-		return this.update(null, t);
+	public <E> List<T> getListInField(String field, List<E> fieldValueList) {
+		return this.getListInField(null, field, fieldValueList);
+	}
+
+	@Override
+	public <E> List<T> getListInField(String where, Object[] params,
+			String field, List<E> fieldValueList) {
+		return this.getListInField(null, where, params, field, fieldValueList);
+	}
+
+	@Override
+	public int count(String where, Object[] params) {
+		return this.count(null, where, params);
+	}
+
+	@Override
+	public int updateBySQL(String updateSqlSegment, String where,
+			Object[] params) {
+		return this.updateBySQL(null, updateSqlSegment, where, params);
+	}
+
+	@Override
+	public int delete(String where, Object[] params) {
+		return this.delete(null, where, params);
 	}
 }
