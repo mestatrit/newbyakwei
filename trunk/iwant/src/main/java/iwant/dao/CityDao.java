@@ -24,4 +24,6 @@ public interface CityDao extends IDao<City> {
 			int cityid);
 
 	void deleteByProvinceid(int provinceid);
+
+	City getByNameLike(String name);
 }

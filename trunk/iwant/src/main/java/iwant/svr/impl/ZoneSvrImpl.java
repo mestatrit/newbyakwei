@@ -106,4 +106,9 @@ public class ZoneSvrImpl implements ZoneSvr {
 		this.provinceDao.update(province);
 		return true;
 	}
+
+	@Override
+	public City getCityByNameLike(String name) {
+		return this.cityDao.getByNameLike(name);
+	}
 }

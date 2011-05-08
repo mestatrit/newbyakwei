@@ -48,4 +48,9 @@ public class CityDaoImpl extends BaseDao<City> implements CityDao {
 		}
 		return false;
 	}
+
+	@Override
+	public City getByNameLike(String name) {
+		return this.getObject("name like ?", new Object[] { "%" + name + "%" });
+	}
 }

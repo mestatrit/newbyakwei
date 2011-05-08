@@ -28,21 +28,23 @@ public class APIUtil {
 		}
 	}
 
-	public static void writeErr(HkResponse resp, String err) {
+	public static String writeErr(HkResponse resp, String err) {
 		VelocityContext context = new VelocityContext();
 		context.put("errcode", err);
 		context.put("err_msg", ResourceConfig.getText(err));
 		APIUtil.write(resp, "vm/syserr.vm", context);
+		return null;
 	}
 
-	public static void writeSuccess(HkResponse resp) {
+	public static String writeSuccess(HkResponse resp) {
 		VelocityContext context = new VelocityContext();
 		context.put("errcode", Err.SUCCESS);
 		context.put("err_msg", ResourceConfig.getText(Err.SUCCESS));
 		APIUtil.write(resp, "vm/syserr.vm", context);
+		return null;
 	}
 
-	public static void writeData(HttpServletResponse response,
+	public static String writeData(HttpServletResponse response,
 			Map<String, Object> map, String vmPath) {
 		VelocityContext context = new VelocityContext();
 		Set<Entry<String, Object>> set = map.entrySet();
@@ -52,5 +54,6 @@ public class APIUtil {
 		context.put("errcode", Err.SUCCESS);
 		context.put("err_msg", "");
 		APIUtil.write(response, vmPath, context);
+		return null;
 	}
 }
