@@ -10,15 +10,21 @@
 				<div class="infowarn" id="errmsg"></div>
 				<table class="formt" cellpadding="0" cellspacing="0">
 					<tr>
-						<td width="90px">用户名：</td>
+						<td width="90">用户名：</td>
 						<td><input type="text" class="text" name="username" maxlength="20"/></td>
 					</tr>
 					<tr>
-						<td width="90px">密码：</td>
-						<td><input type="password"" class="text" name="pwd" maxlength="20"/></td>
+						<td width="90">密码：</td>
+						<td><input type="password" class="text" name="pwd" maxlength="20"/></td>
 					</tr>
 					<tr>
-						<td width="90px"></td>
+						<td width="90">地区：</td>
+						<td>
+							<div id="area"></div>
+						</td>
+					</tr>
+					<tr>
+						<td width="90"></td>
 						<td><input type="submit" class="btn" value="登录"/></td>
 					</tr>
 				</table>
@@ -26,7 +32,10 @@
 		</div>
 	</div>
 </div>
+<jsp:include page="inc/zone_inc.jsp"></jsp:include>
 <script type="text/javascript">
+var zone=new Zone('area','_pid','_cid');
+zone.init();
 var glassid_op=null;
 function subfrm(frmid){
 	glassid_op=addGlass('frm',false);
