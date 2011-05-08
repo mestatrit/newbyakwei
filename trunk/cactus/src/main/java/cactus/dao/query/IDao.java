@@ -32,6 +32,8 @@ public interface IDao<T> {
 	int updateBySQL(Object keyValue, String updateSqlSegment, String where,
 			Object[] params);
 
+	int updateBySQL(String updateSqlSegment, String where, Object[] params);
+
 	/**
 	 * 删除对象
 	 * 
@@ -46,7 +48,11 @@ public interface IDao<T> {
 
 	int deleteById(Object keyValue, Object idValue);
 
+	int deleteById(Object idValue);
+
 	int delete(Object keyValue, String where, Object[] params);
+
+	int delete(String where, Object[] params);
 
 	/**
 	 * 根据id查询对象
@@ -57,6 +63,8 @@ public interface IDao<T> {
 	 * @return
 	 */
 	T getById(Object keyValue, Object idValue);
+
+	T getById(Object idValue);
 
 	/**
 	 * @param keyValue
@@ -76,15 +84,29 @@ public interface IDao<T> {
 	List<T> getList(Object keyValue, String where, Object[] params,
 			String order, int begin, int size);
 
+	List<T> getList(String where, Object[] params, String order, int begin,
+			int size);
+
 	<E> List<T> getListInField(Object keyValue, String field,
 			List<E> fieldValueList);
+
+	<E> List<T> getListInField(String field, List<E> fieldValueList);
 
 	<E> List<T> getListInField(Object keyValue, String where, Object[] params,
 			String field, List<E> fieldValueList);
 
+	<E> List<T> getListInField(String where, Object[] params, String field,
+			List<E> fieldValueList);
+
 	int count(Object keyValue, String where, Object[] params);
+
+	int count(String where, Object[] params);
 
 	T getObject(Object keyValue, String where, Object[] params, String order);
 
+	T getObject(String where, Object[] params, String order);
+
 	T getObject(Object keyValue, String where, Object[] params);
+
+	T getObject(String where, Object[] params);
 }
