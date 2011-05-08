@@ -88,6 +88,7 @@ public class ProjectAction extends BaseAction {
 		project.setMarkerx(req.getDouble("markerx"));
 		project.setMarkery(req.getDouble("markery"));
 		project.setTel(req.getString("tel", ""));
+		project.setCityid(req.getInt("cityid"));
 		List<String> errlist = ProjectValidate.validate(project);
 		if (errlist.size() > 0) {
 			return this.onErrorList(req, errlist, "createerr");

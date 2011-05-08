@@ -17,6 +17,7 @@ import iwant.dao.SlideDao;
 import iwant.svr.OptStatus;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
+import iwant.svr.statusenum.CreateMainPptStatus;
 import iwant.svr.statusenum.UpdateSldePic0Result;
 import iwant.util.ErrorCode;
 import iwant.util.FileCnf;
@@ -68,12 +69,18 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public void createMainPpt(MainPpt mainPpt) {
+	public CreateMainPptStatus createMainPpt(MainPpt mainPpt) {
+		Project project = this.projectSvr.getProject(mainPpt.getProjectid());
+		if (project == null) {
+			return CreateMainPptStatus.NOPROJECT;
+		}
+		mainPpt.setCityid(project.getCityid());
 		long pptid = NumberUtil.getLong(this.pptidCreatorDao
 				.save(new PptidCreator()));
 		mainPpt.setPptid(pptid);
 		mainPpt.setOrder_flag(mainPpt.getPptid());
 		this.mainPptDao.save(mainPpt);
+		return CreateMainPptStatus.SUCCESS;
 	}
 
 	@Override
