@@ -28,6 +28,9 @@ public class ZoneAction extends BaseApiAction {
 			return APIUtil.writeErr(resp, Err.CITY_NOT_EXIST);
 		}
 		City city = this.zoneSvr.getCityByNameLike(name);
+		if (city == null) {
+			return APIUtil.writeErr(resp, Err.CITY_NOT_EXIST);
+		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("city", city);
 		return APIUtil.writeData(resp, map, "vm/city.vm");
