@@ -2,7 +2,11 @@ package iwant.svr;
 
 import iwant.bean.City;
 import iwant.bean.Country;
+import iwant.bean.District;
 import iwant.bean.Province;
+import iwant.svr.exception.DuplicateCityNameException;
+import iwant.svr.exception.DuplicateDistrictNameException;
+import iwant.svr.exception.DuplicateProvinceNameException;
 
 import java.util.List;
 
@@ -15,21 +19,11 @@ public interface ZoneSvr {
 
 	Country getCountry(int countryid);
 
-	/**
-	 * 创建省
-	 * 
-	 * @param province
-	 * @return true:创建成功;false:有重名，创建失败
-	 */
-	boolean createProvince(Province province);
+	void createProvince(Province province)
+			throws DuplicateProvinceNameException;
 
-	/**
-	 * 更新省
-	 * 
-	 * @param province
-	 * @return true:更新成功;false:有重名，更新失败
-	 */
-	boolean updateProvince(Province province);
+	void updateProvince(Province province)
+			throws DuplicateProvinceNameException;
 
 	/**
 	 * 删除省，并删除省下面的市
@@ -54,19 +48,9 @@ public interface ZoneSvr {
 	 */
 	List<Province> getProvinceListByCountryid(int countryid);
 
-	/**
-	 * 创建城市
-	 * 
-	 * @param city
-	 * @return true:创建成功;false:在同一个省下面存在相同城市名称，创建失败
-	 */
-	boolean createCity(City city);
+	void createCity(City city) throws DuplicateCityNameException;
 
-	/**
-	 * @param city
-	 * @return true:更新成功;false:在同一个省下面存在相同城市名称，更新失败
-	 */
-	boolean updateCity(City city);
+	void updateCity(City city) throws DuplicateCityNameException;
 
 	/**
 	 * 删除城市
@@ -99,4 +83,14 @@ public interface ZoneSvr {
 	List<City> getCityList();
 
 	City getCityByNameLike(String name);
+
+	void createDistrict(District district)
+			throws DuplicateDistrictNameException;
+
+	void updateDistrict(District district)
+			throws DuplicateDistrictNameException;
+
+	District getDistrict(int did);
+
+	List<District> getDistrictListByCityid(int cityid);
 }
