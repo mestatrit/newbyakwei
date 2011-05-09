@@ -63,5 +63,19 @@ public interface Err {
 
 	String CITY_NOT_EXIST = "27";
 
+	String DISTRICT_NOT_EXIST = "28";
+
+	String DISTRICT_NAME_DUPLICATE = "29";
+
+	String CITY_NAME_DUPLICATE = "30";
+
+	String PROVINCE_NAME_DUPLICATE = "31";
+
+	String PROVINCE_NAME_ERR = "32";
+
+	String CITY_NAME_ERR = "33";
+
+	String DISTRICT_NAME_ERR = "34";
+
 	String PROCESS_IMAGEFILE_ERR = "pro1";
 }

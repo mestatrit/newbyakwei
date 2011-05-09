@@ -27,7 +27,8 @@ public class GeocodeProcessor {
 	// which assembles your URL from user or web service input
 	// and plugs those values into its parameters.
 	private static final String GEOCODE_REQUEST_PREFIX = "http://maps.google.com/maps/api/geocode/xml";
-
+//http://maps.google.com/maps/api/geocode/xml 39.917,116.397
+	//http://maps.google.com/maps/api/geocode/xml?latlng=39.917,116.397&sensor=false
 	private static final String GEOCODE_QUERY = "New+York,+NY";
 
 	// Note: The default XPath expression "/" selects

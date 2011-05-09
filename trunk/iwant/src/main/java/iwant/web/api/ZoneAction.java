@@ -22,7 +22,7 @@ public class ZoneAction extends BaseApiAction {
 	@Autowired
 	private ZoneSvr zoneSvr;
 
-	public String findcityid(HkRequest req, HkResponse resp) throws Exception {
+	public String findcity(HkRequest req, HkResponse resp) throws Exception {
 		String name = req.getString("name");
 		if (DataUtil.isEmpty(name)) {
 			return APIUtil.writeErr(resp, Err.CITY_NOT_EXIST);
