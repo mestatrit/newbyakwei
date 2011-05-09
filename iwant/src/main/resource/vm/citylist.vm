@@ -1,0 +1,7 @@
+<resp errcode="$!{errcode}" err_msg="$!{err_msg}">
+<list>
+#foreach($city in $list)
+<city><cityid>$!{city.cityid}</cityid><name><![CDATA[$!{city.name}]]></name></city>
+#end
+</list>
+</resp>
