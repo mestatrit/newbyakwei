@@ -44,6 +44,7 @@
 						<value>iwant.bean.Country;iwant.dao.database.SingleDbPartitionHelper</value>
 						<value>iwant.bean.Province;iwant.dao.database.SingleDbPartitionHelper</value>
 						<value>iwant.bean.City;iwant.dao.database.SingleDbPartitionHelper</value>
+						<value>iwant.bean.District;iwant.dao.database.SingleDbPartitionHelper</value>
 					</list>
 				</property>
 			</bean>
@@ -123,6 +124,9 @@
 		<property name="hkObjQuery" ref="hkObjQuery" />
 	</bean>
 	<bean id="cityDao" class="iwant.dao.impl.CityDaoImpl">
+		<property name="hkObjQuery" ref="hkObjQuery" />
+	</bean>
+	<bean id="districtDao" class="iwant.dao.impl.DistrictDaoImpl">
 		<property name="hkObjQuery" ref="hkObjQuery" />
 	</bean>
 </beans>
