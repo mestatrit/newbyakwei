@@ -35,4 +35,29 @@ public class ZoneAction extends BaseApiAction {
 		map.put("city", city);
 		return APIUtil.writeData(resp, map, "vm/city.vm");
 	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String provincelist(HkRequest req, HkResponse resp) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", this.zoneSvr.getProvinceListByCountryid(1));
+		return APIUtil.writeData(resp, map, "vm/provincelist.vm");
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String citylist(HkRequest req, HkResponse resp) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", this.zoneSvr.getCityListByProvinceid(req
+				.getInt("provinceid")));
+		return APIUtil.writeData(resp, map, "vm/citylist.vm");
+	}
 }
