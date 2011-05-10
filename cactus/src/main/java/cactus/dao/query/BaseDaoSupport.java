@@ -40,8 +40,7 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 	}
 
 	protected Connection getCurrentConnection() {
-		Connection con = this.getConnection();
-		return con;
+		return this.getConnection();
 	}
 
 	public Object insertBySQL(String sql, Object[] values) {
