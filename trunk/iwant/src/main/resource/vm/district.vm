@@ -1,0 +1,10 @@
+<resp errcode="$!{errcode}" err_msg="$!{err_msg}">
+	<district>
+		<did>$!{district.did}</did>
+		<name><![CDATA[$!{district.name}]]></name>
+		<city>
+			<cityid>$!{city.cityid}</cityid>
+			<name><![CDATA[$!{city.name}]]></name>
+		</city>
+	</district>
+</resp>
