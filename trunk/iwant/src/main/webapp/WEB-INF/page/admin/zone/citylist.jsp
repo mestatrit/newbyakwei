@@ -2,10 +2,10 @@
 %><%@ taglib uri="/WEB-INF/waphk.tld" prefix="hk"
 %><c:set scope="request" var="mgr_body_content">
 <div class="mod">
-	<div class="mod_title">分类管理</div>
+	<div class="mod_title">地区管理</div>
 	<div class="mod_content">
 		<div>
-		<input type="button" class="btn" value="创建分类" onclick="tocreate()"/>
+		<input type="button" class="btn" value="创建城市" onclick="tocreate()"/>
 		</div>
 		<ul class="rowlist">
 			<li>
@@ -13,19 +13,22 @@
 				<div class="f_l" style="width: 80px;margin-right: 20px">顺序</div>
 				<div class="clr"></div>
 			</li>
-			<c:forEach var="cat" items="${list }" varStatus="idx">
+			<c:forEach var="c" items="${list }" varStatus="idx">
 			<li>
 				<div class="f_l" style="width: 150px;margin-right: 20px">
-					<hk:value value="${cat.name }" onerow="true"/>
+					<hk:value value="${c.name }" onerow="true"/>
+				</div>
+				<div class="f_l" style="width: 120px;margin-right: 20px">
+					<a href="javascript:toupdate(${c.cityid })" class="split-r" id="op_update_${c.cityid }">修改</a>
+					<a href="javascript:opdel(${c.cityid })" class="split-r" id="op_delete_${c.cityid }">删除</a>
 				</div>
 				<div class="f_l" style="width: 80px;margin-right: 20px">
 					<c:if test="${idx.index>0}">
-						<a id="optoup_${cat.catid}" href="javascript:toup(${cat.catid})">上移</a>
-					</c:if>&nbsp;
-				</div>
-				<div class="f_l">
-					<a href="javascript:toupdate(${cat.catid })" class="split-r" id="op_update_${cat.catid }">修改</a>
-					<a href="javascript:opdel(${cat.catid })" class="split-r" id="op_delete_${cat.catid }">删除</a>
+						<a id="optoup_${c.cityid}" class="split-r" href="javascript:toup(${c.cityid})">上移</a>
+					</c:if>
+					<c:if test="${idx.index<fn:length(list)}">
+						<a id="optoup_${c.cityid}" class="split-r" href="javascript:todown(${c.cityid})">下移</a>
+					</c:if>
 				</div>
 				<div class="clr"></div>
 			</li>
@@ -37,9 +40,9 @@
 	</div>
 </div>
 <script type="text/javascript">
-var catidarr=new Array();
-<c:forEach var="cat" items="${list }" varStatus="idx">
-catidarr[${idx.index}]=${cat.catid};
+var parr=new Array();
+<c:forEach var="c" items="${list }" varStatus="idx">
+parr[${idx.index}]=${c.cityid};
 </c:forEach>
 $(document).ready(function(){
 	$('ul.rowlist li').bind('mouseenter', function(){
@@ -49,17 +52,17 @@ $(document).ready(function(){
 	});
 });
 function tocreate(){
-	tourl('${appctx_path}/mgr/cat_create.do');
+	tourl('${appctx_path}/mgr/zone_createcity.do?provinceid=${provinceid}');
 }
-function toupdate(catid){
-	tourl('${appctx_path}/mgr/cat_update.do?catid='+catid);
+function toupdate(cid){
+	tourl('${appctx_path}/mgr/zone_updatecity.do?catid='+cid);
 }
 function opdel(cid){
 	if(window.confirm('确实要删除？')){
 		var glassid_op=addGlass('op_delete_'+cid,false);
 		$.ajax({
 			type:"POST",
-			url:"${appctx_path}/mgr/cat_delete.do?catid="+cid,
+			url:"${appctx_path}/mgr/zone_deletecity.do?cityid="+cid,
 			cache:false,
 	    	dataType:"html",
 			success:function(data){
@@ -72,24 +75,43 @@ function opdel(cid){
 		});
 	}
 }
-function getPrevCatid(catid){
+function getPrevId(cid){
 	var prev_idx=-1;
-	for(var i=0;i<catidarr.length;i++){
-		if(catidarr[i]==catid){
+	for(var i=0;i<parr.length;i++){
+		if(parr[i]==cid){
 			prev_idx=i-1;
 			break;
 		}
 	}
 	if(prev_idx>-1){
-		return catidarr[prev_idx];
+		return parr[prev_idx];
+	}
+	return 0;
+}
+function getNextId(cid){
+	var prev_idx=-1;
+	for(var i=0;i<parr.length;i++){
+		if(parr[i]==cid){
+			prev_idx=i+1;
+			break;
+		}
+	}
+	if(prev_idx<parr.length){
+		return parr[prev_idx];
 	}
 	return 0;
 }
 function toup(cid){
+	changePos(cid,getPrevId(cid));
+}
+function todown(cid){
+	changePos(cid,getNextId(cid));
+}
+function changePos(cid,toid){
 	var glassid_op=addGlass('optoup_'+cid,false);
 	$.ajax({
 		type:"POST",
-		url:"${appctx_path}/mgr/cat_toup.do?catid="+cid+"&toid="+getPrevCatid(cid),
+		url:"${appctx_path}/mgr/zone_changeposcity.do?cityid="+cid+"&toid="+toid,
 		cache:false,
     	dataType:"html",
 		success:function(data){

@@ -7,6 +7,9 @@
 			<a href="${appctx_path }/mgr/cat.do" class="<c:if test="${op_cat }">sel</c:if>">分类管理</a>
 		</li>
 		<li>
+			<a href="${appctx_path }/mgr/zone.do" class="<c:if test="${op_cat }">sel</c:if>">地区管理</a>
+		</li>
+		<li>
 			<a href="${appctx_path }/mgr/project.do" class="<c:if test="${op_project }">sel</c:if>">项目管理</a>
 		</li>
 		<li>
