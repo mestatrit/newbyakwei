@@ -52,6 +52,41 @@ public class ZoneAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
+	public String provincelist(HkRequest req, HkResponse resp) throws Exception {
+		req.setAttribute("list", this.zoneSvr.getProvinceListByCountryid(1));
+		return this.getAdminPath("zone/provincelist.jsp");
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String citylist(HkRequest req, HkResponse resp) throws Exception {
+		req.setAttribute("list", this.zoneSvr.getCityListByProvinceid(req
+				.getInt("provinceid")));
+		return this.getAdminPath("zone/citylist.jsp");
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String districtlist(HkRequest req, HkResponse resp) throws Exception {
+		req.setAttribute("list", this.zoneSvr.getDistrictListByCityid(req
+				.getInt("cityid")));
+		return this.getAdminPath("zone/districtlist.jsp");
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String createprovince(HkRequest req, HkResponse resp) {
 		if (this.isForwardPage(req)) {
 			return this.getAdminPath("zone/createprovince.jsp");
@@ -111,6 +146,18 @@ public class ZoneAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
+	public String deleteprovince(HkRequest req, HkResponse resp) {
+		this.zoneSvr.deleteProvince(req.getInt("provinceid"));
+		this.opDeleteSuccess(req);
+		return null;
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String createcity(HkRequest req, HkResponse resp) {
 		int provinceid = req.getIntAndSetAttr("provinceid");
 		if (this.isForwardPage(req)) {
@@ -139,22 +186,14 @@ public class ZoneAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String deleteprovince(HkRequest req, HkResponse resp) {
-		this.zoneSvr.deleteProvince(req.getInt("provinceid"));
-		this.opDeleteSuccess(req);
-		return null;
-	}
-
-	/**
-	 * @param req
-	 * @param resp
-	 * @return
-	 * @throws Exception
-	 */
 	public String updatecity(HkRequest req, HkResponse resp) {
 		City city = this.zoneSvr.getCity(req.getIntAndSetAttr("cityid"));
+		if (city == null) {
+			return null;
+		}
 		if (this.isForwardPage(req)) {
 			req.setAttribute("city", city);
+			req.setAttribute("provinceid", city.getProvinceid());
 			return this.getAdminPath("zone/updatecity.jsp");
 		}
 		city.setName(req.getString("name"));
@@ -221,7 +260,11 @@ public class ZoneAction extends BaseAction {
 	public String updatedistrict(HkRequest req, HkResponse resp) {
 		District district = this.zoneSvr.getDistrict(req
 				.getIntAndSetAttr("did"));
+		if (district == null) {
+			return null;
+		}
 		if (this.isForwardPage(req)) {
+			req.setAttribute("cityid", district);
 			return this.getAdminPath("zone/updatedistrict.jsp");
 		}
 		district.setName(req.getString("name"));
