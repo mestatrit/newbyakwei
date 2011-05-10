@@ -2,7 +2,9 @@
 %><%@ taglib uri="/WEB-INF/waphk.tld" prefix="hk"
 %><c:set scope="request" var="mgr_body_content">
 <div class="mod">
-	<div class="mod_title">地区管理</div>
+	<div class="mod_title">城市列表 - ${province.name}
+	<a class="more" href="${appctx_path}/mgr/zone_provincelist.do">返回</a>
+	</div>
 	<div class="mod_content">
 		<div>
 		<input type="button" class="btn" value="创建城市" onclick="tocreate()"/>
@@ -18,7 +20,8 @@
 				<div class="f_l" style="width: 150px;margin-right: 20px">
 					<hk:value value="${c.name }" onerow="true"/>
 				</div>
-				<div class="f_l" style="width: 120px;margin-right: 20px">
+				<div class="f_l" style="width: 160px;margin-right: 20px">
+				<a href="${appctx_path}/mgr/zone_districtlist.do?cityid=${c.cityid}" class="split-r">查看地区</a>
 					<a href="javascript:toupdate(${c.cityid })" class="split-r" id="op_update_${c.cityid }">修改</a>
 					<a href="javascript:opdel(${c.cityid })" class="split-r" id="op_delete_${c.cityid }">删除</a>
 				</div>
@@ -26,7 +29,7 @@
 					<c:if test="${idx.index>0}">
 						<a id="optoup_${c.cityid}" class="split-r" href="javascript:toup(${c.cityid})">上移</a>
 					</c:if>
-					<c:if test="${idx.index<fn:length(list)}">
+					<c:if test="${idx.index<fn:length(list)-1}">
 						<a id="optoup_${c.cityid}" class="split-r" href="javascript:todown(${c.cityid})">下移</a>
 					</c:if>
 				</div>
@@ -55,7 +58,7 @@ function tocreate(){
 	tourl('${appctx_path}/mgr/zone_createcity.do?provinceid=${provinceid}');
 }
 function toupdate(cid){
-	tourl('${appctx_path}/mgr/zone_updatecity.do?catid='+cid);
+	tourl('${appctx_path}/mgr/zone_updatecity.do?cityid='+cid);
 }
 function opdel(cid){
 	if(window.confirm('确实要删除？')){

@@ -15,6 +15,15 @@
 		</td>
 	</tr>
 	<tr>
+		<td width="90" align="right">地区</td>
+		<td>
+			<jsp:include page="../inc/zone_district_inc.jsp"></jsp:include>
+			城市：${syscnf_city.name}
+			${syscnf_districtlist}
+			<div class="infowarn" id="err_did"></div>
+		</td>
+	</tr>
+	<tr>
 		<td width="90" align="right">电话</td>
 		<td>
 			<input maxlength="30" name="tel" value="<hk:value value="${project.tel }" onerow="true"/>" class="text"/>
@@ -53,6 +62,7 @@ var err_code_<%=Err.PROJECT_ADDR_ERR%>={objid:"err_addr"};
 var err_code_<%=Err.PROJECT_TEL_ERR%>={objid:"err_tel"};
 var err_code_<%=Err.PROJECT_DESCR_ERR%>={objid:"err_descr"};
 var err_code_<%=Err.PROJECT_CATID_ERR%>={objid:"err_catid"};
+//var err_code_<%=Err.PROJECT_DID_ERR%>={objid:"err_did"};
 
 var glassid=null;
 var submited=false;

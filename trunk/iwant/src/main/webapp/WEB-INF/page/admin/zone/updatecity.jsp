@@ -8,7 +8,7 @@
 	</div>
 	<div class="mod_content">
 		<div>
-			<c:set var="form_action" scope="request">${appctx_path}/mgr/zone_updatectiy.do</c:set>
+			<c:set var="form_action" scope="request">${appctx_path}/mgr/zone_updatecity.do</c:set>
 			<jsp:include page="cityform.jsp"></jsp:include>
 		</div>
 	</div>

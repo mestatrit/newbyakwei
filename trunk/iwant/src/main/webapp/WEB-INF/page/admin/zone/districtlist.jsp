@@ -2,10 +2,12 @@
 %><%@ taglib uri="/WEB-INF/waphk.tld" prefix="hk"
 %><c:set scope="request" var="mgr_body_content">
 <div class="mod">
-	<div class="mod_title">地区管理</div>
+	<div class="mod_title">区列表 - ${city.name}
+	<a class="more" href="${appctx_path}/mgr/zone_citylist.do?provinceid=${city.provinceid}">返回</a>
+	</div>
 	<div class="mod_content">
 		<div>
-		<input type="button" class="btn" value="创建城市" onclick="tocreate()"/>
+		<input type="button" class="btn" value="创建区" onclick="tocreate()"/>
 		</div>
 		<ul class="rowlist">
 			<li>
@@ -21,14 +23,6 @@
 				<div class="f_l" style="width: 120px;margin-right: 20px">
 					<a href="javascript:toupdate(${d.did })" class="split-r" id="op_update_${d.did }">修改</a>
 					<a href="javascript:opdel(${d.did })" class="split-r" id="op_delete_${d.did }">删除</a>
-				</div>
-				<div class="f_l" style="width: 80px;margin-right: 20px">
-					<c:if test="${idx.index>0}">
-						<a id="optoup_${d.did}" class="split-r" href="javascript:toup(${d.did})">上移</a>
-					</c:if>
-					<c:if test="${idx.index<fn:length(list)}">
-						<a id="optoup_${d.did}" class="split-r" href="javascript:todown(${d.did})">下移</a>
-					</c:if>
 				</div>
 				<div class="clr"></div>
 			</li>
@@ -52,7 +46,7 @@ $(document).ready(function(){
 	});
 });
 function tocreate(){
-	tourl('${appctx_path}/mgr/zone_createdistrict.do?provinceid=${provinceid}');
+	tourl('${appctx_path}/mgr/zone_createdistrict.do?cityid=${cityid}');
 }
 function toupdate(did){
 	tourl('${appctx_path}/mgr/zone_updatedistrict.do?did='+did);
@@ -110,8 +104,8 @@ function todown(did){
 function changePos(did,toid){
 	var glassid_op=addGlass('optoup_'+did,false);
 	$.ajax({
-		type:"POST",did
-		url:"${appctx_path}/mgr/zone_changeposcity.do?did="+did+"&toid="+toid,
+		type:"POST",
+		url:"${appctx_path}/mgr/zone_changeposdistrict.do?did="+did+"&toid="+toid,
 		cache:false,
     	dataType:"html",
 		success:function(data){
