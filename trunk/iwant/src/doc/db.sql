@@ -247,6 +247,7 @@ CREATE TABLE project (
   fans_num int(10) unsigned NOT NULL,
   createtime datetime NOT NULL,
   cityid int(10) unsigned NOT NULL,
+  did int(10) unsigned NOT NULL,
   PRIMARY KEY  (projectid),
   KEY Index_2 USING BTREE (catid,cityid)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
