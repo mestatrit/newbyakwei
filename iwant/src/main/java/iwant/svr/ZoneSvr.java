@@ -90,7 +90,11 @@ public interface ZoneSvr {
 	void updateDistrict(District district)
 			throws DuplicateDistrictNameException;
 
+	void deleteDistrict(int did);
+
 	District getDistrict(int did);
+
+	District getDistrictByCityidAndNameLike(int cityid, String name);
 
 	List<District> getDistrictListByCityid(int cityid);
 }

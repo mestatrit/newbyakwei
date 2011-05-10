@@ -63,6 +63,7 @@ public class ZoneAction extends BaseAction {
 		if (errlist.isEmpty()) {
 			try {
 				this.zoneSvr.createProvince(province);
+				this.opCreateSuccess(req);
 				return this.onSuccess(req, "createok", null);
 			}
 			catch (DuplicateProvinceNameException e) {
@@ -94,6 +95,7 @@ public class ZoneAction extends BaseAction {
 		if (errlist.isEmpty()) {
 			try {
 				this.zoneSvr.updateProvince(province);
+				this.opUpdateSuccess(req);
 				return this.onSuccess(req, "updateok", null);
 			}
 			catch (DuplicateProvinceNameException e) {
@@ -121,6 +123,7 @@ public class ZoneAction extends BaseAction {
 		if (errlist.isEmpty()) {
 			try {
 				this.zoneSvr.createCity(city);
+				this.opCreateSuccess(req);
 				return this.onSuccess(req, "createok", null);
 			}
 			catch (DuplicateCityNameException e) {
@@ -128,6 +131,18 @@ public class ZoneAction extends BaseAction {
 			}
 		}
 		return this.onErrorList(req, errlist, "createerr");
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String deleteprovince(HkRequest req, HkResponse resp) {
+		this.zoneSvr.deleteProvince(req.getInt("provinceid"));
+		this.opDeleteSuccess(req);
+		return null;
 	}
 
 	/**
@@ -147,6 +162,7 @@ public class ZoneAction extends BaseAction {
 		if (errlist.isEmpty()) {
 			try {
 				this.zoneSvr.createCity(city);
+				this.opUpdateSuccess(req);
 				return this.onSuccess(req, "updateok", null);
 			}
 			catch (DuplicateCityNameException e) {
@@ -154,6 +170,18 @@ public class ZoneAction extends BaseAction {
 			}
 		}
 		return this.onErrorList(req, errlist, "updateerr");
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String deletecity(HkRequest req, HkResponse resp) {
+		this.zoneSvr.deleteCity(req.getInt("cityid"));
+		this.opDeleteSuccess(req);
+		return null;
 	}
 
 	/**
@@ -174,6 +202,7 @@ public class ZoneAction extends BaseAction {
 		if (errlist.isEmpty()) {
 			try {
 				this.zoneSvr.createDistrict(district);
+				this.opCreateSuccess(req);
 				return this.onSuccess(req, "createok", null);
 			}
 			catch (DuplicateDistrictNameException e) {
@@ -200,6 +229,7 @@ public class ZoneAction extends BaseAction {
 		if (errlist.isEmpty()) {
 			try {
 				this.zoneSvr.createDistrict(district);
+				this.opUpdateSuccess(req);
 				return this.onSuccess(req, "updateok", null);
 			}
 			catch (DuplicateDistrictNameException e) {
@@ -207,5 +237,17 @@ public class ZoneAction extends BaseAction {
 			}
 		}
 		return this.onErrorList(req, errlist, "updateerr");
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String deletedistrict(HkRequest req, HkResponse resp) {
+		this.zoneSvr.deleteDistrict(req.getInt("did"));
+		this.opDeleteSuccess(req);
+		return null;
 	}
 }

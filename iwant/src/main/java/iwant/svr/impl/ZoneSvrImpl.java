@@ -164,4 +164,14 @@ public class ZoneSvrImpl implements ZoneSvr {
 		district.setProvinceid(city.getProvinceid());
 		this.districtDao.update(district);
 	}
+
+	@Override
+	public void deleteDistrict(int did) {
+		this.districtDao.deleteById(did);
+	}
+
+	@Override
+	public District getDistrictByCityidAndNameLike(int cityid, String name) {
+		return this.districtDao.getByCityidAndNameLike(cityid, name);
+	}
 }

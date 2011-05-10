@@ -47,4 +47,10 @@ public class DistrictDaoImpl extends BaseDao<District> implements DistrictDao {
 		}
 		return false;
 	}
+
+	@Override
+	public District getByCityidAndNameLike(int cityid, String name) {
+		return this.getObject("cityid=? and name like ?", new Object[] {
+				cityid, "%" + name + "%" });
+	}
 }
