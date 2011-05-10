@@ -3,6 +3,8 @@ package iwant.svr;
 import iwant.bean.Project;
 import iwant.bean.ProjectRecycle;
 import iwant.dao.ProjectSearchCdn;
+import iwant.svr.exception.NoCategoryExistException;
+import iwant.svr.exception.NoDistrictExistException;
 
 import java.util.List;
 import java.util.Map;
@@ -14,14 +16,16 @@ public interface ProjectSvr {
 	 * 
 	 * @param project
 	 */
-	void createProject(Project project);
+	void createProject(Project project) throws NoCategoryExistException,
+			NoDistrictExistException;
 
 	/**
 	 * 更新project
 	 * 
 	 * @param project
 	 */
-	void updateProject(Project project);
+	void updateProject(Project project) throws NoCategoryExistException,
+			NoDistrictExistException;
 
 	/**
 	 * 获得project

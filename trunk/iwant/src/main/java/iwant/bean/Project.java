@@ -83,6 +83,9 @@ public class Project {
 	@Column
 	private int cityid;
 
+	@Column
+	private int did;
+
 	public void setCityid(int cityid) {
 		this.cityid = cityid;
 	}
@@ -185,5 +188,13 @@ public class Project {
 
 	public void setFans_num(int fansNum) {
 		fans_num = fansNum;
+	}
+
+	public int getDid() {
+		return did;
+	}
+
+	public void setDid(int did) {
+		this.did = did;
 	}
 }

@@ -10,6 +10,7 @@ import iwant.svr.ZoneSvr;
 import iwant.svr.exception.DuplicateCityNameException;
 import iwant.svr.exception.DuplicateDistrictNameException;
 import iwant.svr.exception.DuplicateProvinceNameException;
+import iwant.svr.exception.NoProvinceExistException;
 import iwant.web.BaseAction;
 import iwant.web.admin.util.AdminUtil;
 import iwant.web.admin.util.Err;
@@ -52,7 +53,31 @@ public class ZoneAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
+	public String changeposprovince(HkRequest req, HkResponse resp)
+			throws Exception {
+		int provinceid = req.getInt("provinceid");
+		int toid = req.getInt("toid");
+		Province province = this.zoneSvr.getProvince(provinceid);
+		Province toProvince = this.zoneSvr.getProvince(toid);
+		if (province == null || toProvince == null) {
+			return null;
+		}
+		int tmp = province.getOrder_flg();
+		province.setOrder_flg(toProvince.getOrder_flg());
+		toProvince.setOrder_flg(tmp);
+		this.zoneSvr.updateProvince(toProvince);
+		this.zoneSvr.updateProvince(province);
+		return null;
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String provincelist(HkRequest req, HkResponse resp) throws Exception {
+		req.setAttribute("op_zone", true);
 		req.setAttribute("list", this.zoneSvr.getProvinceListByCountryid(1));
 		return this.getAdminPath("zone/provincelist.jsp");
 	}
@@ -64,8 +89,11 @@ public class ZoneAction extends BaseAction {
 	 * @throws Exception
 	 */
 	public String citylist(HkRequest req, HkResponse resp) throws Exception {
-		req.setAttribute("list", this.zoneSvr.getCityListByProvinceid(req
-				.getInt("provinceid")));
+		req.setAttribute("op_zone", true);
+		int provinceid = req.getIntAndSetAttr("provinceid");
+		req.setAttribute("province", this.zoneSvr.getProvince(provinceid));
+		req.setAttribute("list", this.zoneSvr
+				.getCityListByProvinceid(provinceid));
 		return this.getAdminPath("zone/citylist.jsp");
 	}
 
@@ -76,8 +104,10 @@ public class ZoneAction extends BaseAction {
 	 * @throws Exception
 	 */
 	public String districtlist(HkRequest req, HkResponse resp) throws Exception {
-		req.setAttribute("list", this.zoneSvr.getDistrictListByCityid(req
-				.getInt("cityid")));
+		req.setAttribute("op_zone", true);
+		int cityid = req.getIntAndSetAttr("cityid");
+		req.setAttribute("city", this.zoneSvr.getCity(cityid));
+		req.setAttribute("list", this.zoneSvr.getDistrictListByCityid(cityid));
 		return this.getAdminPath("zone/districtlist.jsp");
 	}
 
@@ -89,6 +119,7 @@ public class ZoneAction extends BaseAction {
 	 */
 	public String createprovince(HkRequest req, HkResponse resp) {
 		if (this.isForwardPage(req)) {
+			req.setAttribute("op_zone", true);
 			return this.getAdminPath("zone/createprovince.jsp");
 		}
 		Province province = new Province();
@@ -121,6 +152,7 @@ public class ZoneAction extends BaseAction {
 			return null;
 		}
 		if (this.isForwardPage(req)) {
+			req.setAttribute("op_zone", true);
 			req.setAttribute("province", province);
 			return this.getAdminPath("zone/updateprovince.jsp");
 		}
@@ -161,6 +193,7 @@ public class ZoneAction extends BaseAction {
 	public String createcity(HkRequest req, HkResponse resp) {
 		int provinceid = req.getIntAndSetAttr("provinceid");
 		if (this.isForwardPage(req)) {
+			req.setAttribute("op_zone", true);
 			return this.getAdminPath("zone/createcity.jsp");
 		}
 		City city = new City();
@@ -175,6 +208,9 @@ public class ZoneAction extends BaseAction {
 			}
 			catch (DuplicateCityNameException e) {
 				errlist.add(Err.CITY_NAME_DUPLICATE);
+			}
+			catch (NoProvinceExistException e) {
+				errlist.add(Err.PROVINCE_NOT_EXIST);
 			}
 		}
 		return this.onErrorList(req, errlist, "createerr");
@@ -192,6 +228,7 @@ public class ZoneAction extends BaseAction {
 			return null;
 		}
 		if (this.isForwardPage(req)) {
+			req.setAttribute("op_zone", true);
 			req.setAttribute("city", city);
 			req.setAttribute("provinceid", city.getProvinceid());
 			return this.getAdminPath("zone/updatecity.jsp");
@@ -200,12 +237,15 @@ public class ZoneAction extends BaseAction {
 		List<String> errlist = CityValidator.validate(city);
 		if (errlist.isEmpty()) {
 			try {
-				this.zoneSvr.createCity(city);
+				this.zoneSvr.updateCity(city);
 				this.opUpdateSuccess(req);
 				return this.onSuccess(req, "updateok", null);
 			}
 			catch (DuplicateCityNameException e) {
 				errlist.add(Err.CITY_NAME_DUPLICATE);
+			}
+			catch (NoProvinceExistException e) {
+				errlist.add(Err.PROVINCE_NOT_EXIST);
 			}
 		}
 		return this.onErrorList(req, errlist, "updateerr");
@@ -229,9 +269,31 @@ public class ZoneAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
+	public String changeposcity(HkRequest req, HkResponse resp)
+			throws Exception {
+		City city = this.zoneSvr.getCity(req.getInt("cityid"));
+		City toCity = this.zoneSvr.getCity(req.getInt("toid"));
+		if (city == null || toCity == null) {
+			return null;
+		}
+		int tmp = city.getOrder_flg();
+		city.setOrder_flg(toCity.getOrder_flg());
+		toCity.setOrder_flg(tmp);
+		this.zoneSvr.updateCity(toCity);
+		this.zoneSvr.updateCity(city);
+		return null;
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	public String createdistrict(HkRequest req, HkResponse resp) {
 		int cityid = req.getIntAndSetAttr("cityid");
 		if (this.isForwardPage(req)) {
+			req.setAttribute("op_zone", true);
 			return this.getAdminPath("zone/createdistrict.jsp");
 		}
 		District district = new District();
@@ -264,6 +326,7 @@ public class ZoneAction extends BaseAction {
 			return null;
 		}
 		if (this.isForwardPage(req)) {
+			req.setAttribute("op_zone", true);
 			req.setAttribute("cityid", district);
 			return this.getAdminPath("zone/updatedistrict.jsp");
 		}
@@ -271,7 +334,7 @@ public class ZoneAction extends BaseAction {
 		List<String> errlist = DistrictValidator.validate(district);
 		if (errlist.isEmpty()) {
 			try {
-				this.zoneSvr.createDistrict(district);
+				this.zoneSvr.updateDistrict(district);
 				this.opUpdateSuccess(req);
 				return this.onSuccess(req, "updateok", null);
 			}

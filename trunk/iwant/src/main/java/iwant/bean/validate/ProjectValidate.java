@@ -1,13 +1,11 @@
 package iwant.bean.validate;
 
 import iwant.bean.Project;
-import iwant.svr.CategorySvr;
 import iwant.web.admin.util.Err;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cactus.util.HkUtil;
 import cactus.util.HkValidate;
 
 public class ProjectValidate {
@@ -29,12 +27,8 @@ public class ProjectValidate {
 		if (project.getCatid() <= 0) {
 			errlist.add(Err.PROJECT_CATID_ERR);
 		}
-		else {
-			CategorySvr categorySvr = (CategorySvr) HkUtil
-					.getBean("categorySvr");
-			if (categorySvr.getCategory(project.getCatid()) == null) {
-				errlist.add(Err.PROJECT_CATID_ERR);
-			}
+		if (project.getDid() <= 0) {
+			errlist.add(Err.PROJECT_DID_ERR);
 		}
 		return errlist;
 	}

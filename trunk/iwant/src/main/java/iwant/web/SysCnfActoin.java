@@ -19,12 +19,30 @@ public class SysCnfActoin extends BaseAction {
 	private ZoneSvr zoneSvr;
 
 	/**
+	 * @param req
 	 * @param resp
+	 * @return
+	 * @throws Exception
 	 */
 	public String zone(HkRequest req, HkResponse resp) throws Exception {
 		req.setAttribute("syscnf_provincelist", this.zoneSvr
 				.getProvinceListByCountryid(1));
 		req.setAttribute("syscnf_citylist", this.zoneSvr.getCityList());
+		return null;
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String districtlist(HkRequest req, HkResponse resp) throws Exception {
+		int cityid = AdminUtil.getLoginCityid(req);
+		City city = this.zoneSvr.getCity(cityid);
+		req.setAttribute("syscnf_city", city);
+		req.setAttribute("syscnf_districtlist", this.zoneSvr
+				.getDistrictListByCityid(cityid));
 		return null;
 	}
 

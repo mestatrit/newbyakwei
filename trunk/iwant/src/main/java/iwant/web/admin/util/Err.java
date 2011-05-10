@@ -77,5 +77,9 @@ public interface Err {
 
 	String DISTRICT_NAME_ERR = "34";
 
+	String PROJECT_DID_ERR = "35";
+
+	String PROVINCE_NOT_EXIST = "36";
+
 	String PROCESS_IMAGEFILE_ERR = "pro1";
 }
