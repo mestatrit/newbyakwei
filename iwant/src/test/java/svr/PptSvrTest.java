@@ -27,6 +27,8 @@ public class PptSvrTest extends BaseSvrTest {
 	@Resource
 	private PptSvr pptSvr;
 
+	String filePath = "/Users/fire9/test/test.png";
+
 	MainPpt mainPpt0;
 
 	MainPpt mainPpt1;
@@ -90,8 +92,7 @@ public class PptSvrTest extends BaseSvrTest {
 		this.slide0.setSubtitle("sub 3");
 		this.slide0.setTitle("title 3");
 		this.slide0.setPic_path("");
-		this.pptSvr.createSlide(this.slide0, new File("d:/test/test7.jpg"),
-				null);
+		this.pptSvr.createSlide(this.slide0, new File(filePath), null);
 		// data 1
 		this.slide1 = new Slide();
 		this.slide1.setDescr("slide desc 4");
@@ -100,8 +101,7 @@ public class PptSvrTest extends BaseSvrTest {
 		this.slide1.setSubtitle("sub 4");
 		this.slide1.setTitle("title 4");
 		this.slide1.setPic_path("");
-		this.pptSvr.createSlide(this.slide1, new File("d:/test/test7.jpg"),
-				null);
+		this.pptSvr.createSlide(this.slide1, new File(filePath), null);
 	}
 
 	@Test
@@ -124,8 +124,8 @@ public class PptSvrTest extends BaseSvrTest {
 		slide.setSubtitle("sub 3");
 		slide.setTitle("title 3");
 		slide.setPic_path("");
-		OptStatus optStatus = this.pptSvr.createSlide(slide, new File(
-				"d:/test/test7.jpg"), null);
+		OptStatus optStatus = this.pptSvr.createSlide(slide,
+				new File(filePath), null);
 		Assert.assertEquals(true, optStatus.isSuccess());
 	}
 
@@ -138,8 +138,8 @@ public class PptSvrTest extends BaseSvrTest {
 		slide.setPic_path("dd");
 		slide.setSubtitle("dkkk");
 		slide.setTitle("tititi");
-		OptStatus optStatus = this.pptSvr.updateSlide(slide, new File(
-				"d:/test/test7.jpg"), null);
+		OptStatus optStatus = this.pptSvr.updateSlide(slide,
+				new File(filePath), null);
 		Assert.assertEquals(true, optStatus.isSuccess());
 		Slide dbSlide = this.pptSvr.getSlide(this.slide0.getSlideid());
 		this.assertSlideData(slide, dbSlide);
