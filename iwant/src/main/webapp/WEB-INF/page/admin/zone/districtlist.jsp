@@ -2,10 +2,10 @@
 %><%@ taglib uri="/WEB-INF/waphk.tld" prefix="hk"
 %><c:set scope="request" var="mgr_body_content">
 <div class="mod">
-	<div class="mod_title">分类管理</div>
+	<div class="mod_title">地区管理</div>
 	<div class="mod_content">
 		<div>
-		<input type="button" class="btn" value="创建分类" onclick="tocreate()"/>
+		<input type="button" class="btn" value="创建城市" onclick="tocreate()"/>
 		</div>
 		<ul class="rowlist">
 			<li>
@@ -13,19 +13,22 @@
 				<div class="f_l" style="width: 80px;margin-right: 20px">顺序</div>
 				<div class="clr"></div>
 			</li>
-			<c:forEach var="cat" items="${list }" varStatus="idx">
+			<c:forEach var="d" items="${list }" varStatus="idx">
 			<li>
 				<div class="f_l" style="width: 150px;margin-right: 20px">
-					<hk:value value="${cat.name }" onerow="true"/>
+					<hk:value value="${d.name }" onerow="true"/>
+				</div>
+				<div class="f_l" style="width: 120px;margin-right: 20px">
+					<a href="javascript:toupdate(${d.did })" class="split-r" id="op_update_${d.did }">修改</a>
+					<a href="javascript:opdel(${d.did })" class="split-r" id="op_delete_${d.did }">删除</a>
 				</div>
 				<div class="f_l" style="width: 80px;margin-right: 20px">
 					<c:if test="${idx.index>0}">
-						<a id="optoup_${cat.catid}" href="javascript:toup(${cat.catid})">上移</a>
-					</c:if>&nbsp;
-				</div>
-				<div class="f_l">
-					<a href="javascript:toupdate(${cat.catid })" class="split-r" id="op_update_${cat.catid }">修改</a>
-					<a href="javascript:opdel(${cat.catid })" class="split-r" id="op_delete_${cat.catid }">删除</a>
+						<a id="optoup_${d.did}" class="split-r" href="javascript:toup(${d.did})">上移</a>
+					</c:if>
+					<c:if test="${idx.index<fn:length(list)}">
+						<a id="optoup_${d.did}" class="split-r" href="javascript:todown(${d.did})">下移</a>
+					</c:if>
 				</div>
 				<div class="clr"></div>
 			</li>
@@ -37,9 +40,9 @@
 	</div>
 </div>
 <script type="text/javascript">
-var catidarr=new Array();
-<c:forEach var="cat" items="${list }" varStatus="idx">
-catidarr[${idx.index}]=${cat.catid};
+var parr=new Array();
+<c:forEach var="d" items="${list }" varStatus="idx">
+parr[${idx.index}]=${d.did};
 </c:forEach>
 $(document).ready(function(){
 	$('ul.rowlist li').bind('mouseenter', function(){
@@ -49,17 +52,17 @@ $(document).ready(function(){
 	});
 });
 function tocreate(){
-	tourl('${appctx_path}/mgr/cat_create.do');
+	tourl('${appctx_path}/mgr/zone_createdistrict.do?provinceid=${provinceid}');
 }
-function toupdate(catid){
-	tourl('${appctx_path}/mgr/cat_update.do?catid='+catid);
+function toupdate(did){
+	tourl('${appctx_path}/mgr/zone_updatedistrict.do?did='+did);
 }
-function opdel(cid){
+function opdel(did){
 	if(window.confirm('确实要删除？')){
-		var glassid_op=addGlass('op_delete_'+cid,false);
+		var glassid_op=addGlass('op_delete_'+did,false);
 		$.ajax({
 			type:"POST",
-			url:"${appctx_path}/mgr/cat_delete.do?catid="+cid,
+			url:"${appctx_path}/mgr/zone_deletedistrict.do?did="+did,
 			cache:false,
 	    	dataType:"html",
 			success:function(data){
@@ -72,24 +75,43 @@ function opdel(cid){
 		});
 	}
 }
-function getPrevCatid(catid){
+function getPrevId(did){
 	var prev_idx=-1;
-	for(var i=0;i<catidarr.length;i++){
-		if(catidarr[i]==catid){
+	for(var i=0;i<parr.length;i++){
+		if(parr[i]==did){
 			prev_idx=i-1;
 			break;
 		}
 	}
 	if(prev_idx>-1){
-		return catidarr[prev_idx];
+		return parr[prev_idx];
 	}
 	return 0;
 }
-function toup(cid){
-	var glassid_op=addGlass('optoup_'+cid,false);
+function getNextId(did){
+	var prev_idx=-1;
+	for(var i=0;i<parr.length;i++){
+		if(parr[i]==did){
+			prev_idx=i+1;
+			break;
+		}
+	}
+	if(prev_idx<parr.length){
+		return parr[prev_idx];
+	}
+	return 0;
+}
+function toup(did){
+	changePos(did,getPrevId(did));
+}
+function todown(did){
+	changePos(did,getNextId(did));
+}
+function changePos(did,toid){
+	var glassid_op=addGlass('optoup_'+did,false);
 	$.ajax({
-		type:"POST",
-		url:"${appctx_path}/mgr/cat_toup.do?catid="+cid+"&toid="+getPrevCatid(cid),
+		type:"POST",did
+		url:"${appctx_path}/mgr/zone_changeposcity.do?did="+did+"&toid="+toid,
 		cache:false,
     	dataType:"html",
 		success:function(data){
