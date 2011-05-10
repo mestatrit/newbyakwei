@@ -17,4 +17,6 @@ public interface DistrictDao extends IDao<District> {
 	boolean isExistByCityidAndName(int cityid, String name);
 
 	boolean isExistByCityidAndNameAndNotDid(int cityid, String name, int did);
+
+	District getByCityidAndNameLike(int cityid, String name);
 }
