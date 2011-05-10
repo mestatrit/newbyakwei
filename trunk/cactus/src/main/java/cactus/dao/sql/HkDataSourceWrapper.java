@@ -26,7 +26,12 @@ public class HkDataSourceWrapper implements DataSource {
 	private final Log log = LogFactory.getLog(HkDataSourceWrapper.class);
 
 	public DataSource getCurrentDataSource() {
-		return this.dataSourceMap.get(DataSourceStatus.getCurrentDsName());
+		DataSource dsKey = this.dataSourceMap.get(DataSourceStatus
+				.getCurrentDsName());
+		if (dsKey == null) {
+			throw new RuntimeException("no datasource key");
+		}
+		return dsKey;
 	}
 
 	public void setDataSourceMap(Map<String, DataSource> dataSourceMap) {
