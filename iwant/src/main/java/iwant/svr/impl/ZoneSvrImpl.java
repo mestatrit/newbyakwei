@@ -13,6 +13,7 @@ import iwant.svr.exception.DuplicateCityNameException;
 import iwant.svr.exception.DuplicateDistrictNameException;
 import iwant.svr.exception.DuplicateProvinceNameException;
 import iwant.svr.exception.NoCityExistException;
+import iwant.svr.exception.NoProvinceExistException;
 
 import java.util.List;
 
@@ -40,12 +41,30 @@ public class ZoneSvrImpl implements ZoneSvr {
 	}
 
 	@Override
-	public void createCity(City city) throws DuplicateCityNameException {
+	public void createCountry(Country country) {
+		country.setCountryid(NumberUtil.getInt(this.countryDao.save(country)));
+	}
+
+	@Override
+	public void updateCountry(Country country) {
+		this.countryDao.update(country);
+	}
+
+	@Override
+	public void createCity(City city) throws DuplicateCityNameException,
+			NoProvinceExistException {
 		if (this.cityDao.isExistByProvinceidAndName(city.getProvinceid(), city
 				.getName())) {
 			throw new DuplicateCityNameException();
 		}
+		Province province = this.getProvince(city.getProvinceid());
+		if (province == null) {
+			throw new NoProvinceExistException();
+		}
+		city.setCountryid(province.getCountryid());
 		city.setCityid(NumberUtil.getInt(this.cityDao.save(city)));
+		city.setOrder_flg(city.getCityid());
+		this.cityDao.update(city);
 	}
 
 	@Override
@@ -57,6 +76,8 @@ public class ZoneSvrImpl implements ZoneSvr {
 		}
 		province.setProvinceid(NumberUtil.getInt(this.provinceDao
 				.save(province)));
+		province.setOrder_flg(province.getProvinceid());
+		this.provinceDao.update(province);
 	}
 
 	@Override
@@ -98,11 +119,17 @@ public class ZoneSvrImpl implements ZoneSvr {
 	}
 
 	@Override
-	public void updateCity(City city) throws DuplicateCityNameException {
+	public void updateCity(City city) throws DuplicateCityNameException,
+			NoProvinceExistException {
 		if (this.cityDao.isExistByProvinceidAndNameAndNotCityid(city
 				.getProvinceid(), city.getName(), city.getCityid())) {
 			throw new DuplicateCityNameException();
 		}
+		Province province = this.getProvince(city.getProvinceid());
+		if (province == null) {
+			throw new NoProvinceExistException();
+		}
+		city.setCountryid(province.getCountryid());
 		this.cityDao.update(city);
 	}
 
@@ -140,7 +167,7 @@ public class ZoneSvrImpl implements ZoneSvr {
 		}
 		district.setCountryid(city.getCountryid());
 		district.setProvinceid(city.getProvinceid());
-		this.districtDao.save(district);
+		district.setDid(NumberUtil.getInt(this.districtDao.save(district)));
 	}
 
 	@Override

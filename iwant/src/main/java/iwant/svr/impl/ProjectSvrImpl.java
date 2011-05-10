@@ -1,5 +1,6 @@
 package iwant.svr.impl;
 
+import iwant.bean.District;
 import iwant.bean.Project;
 import iwant.bean.ProjectRecycle;
 import iwant.bean.ProjectidCreator;
@@ -7,8 +8,12 @@ import iwant.dao.ProjectDao;
 import iwant.dao.ProjectRecycleDao;
 import iwant.dao.ProjectSearchCdn;
 import iwant.dao.ProjectidCreatorDao;
+import iwant.svr.CategorySvr;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
+import iwant.svr.ZoneSvr;
+import iwant.svr.exception.NoCategoryExistException;
+import iwant.svr.exception.NoDistrictExistException;
 
 import java.util.List;
 import java.util.Map;
@@ -31,8 +36,23 @@ public class ProjectSvrImpl implements ProjectSvr {
 	@Autowired
 	private PptSvr pptSvr;
 
+	@Autowired
+	private ZoneSvr zoneSvr;
+
+	@Autowired
+	private CategorySvr categorySvr;
+
 	@Override
-	public void createProject(Project project) {
+	public void createProject(Project project) throws NoCategoryExistException,
+			NoDistrictExistException {
+		if (this.categorySvr.getCategory(project.getCatid()) == null) {
+			throw new NoCategoryExistException();
+		}
+		District district = this.zoneSvr.getDistrict(project.getDid());
+		if (district == null) {
+			throw new NoDistrictExistException();
+		}
+		project.setCityid(district.getCityid());
 		long projectid = NumberUtil.getLong(this.projectidCreatorDao
 				.save(new ProjectidCreator()));
 		project.setProjectid(projectid);
@@ -58,7 +78,16 @@ public class ProjectSvrImpl implements ProjectSvr {
 	}
 
 	@Override
-	public void updateProject(Project project) {
+	public void updateProject(Project project) throws NoCategoryExistException,
+			NoDistrictExistException {
+		if (this.categorySvr.getCategory(project.getCatid()) == null) {
+			throw new NoCategoryExistException();
+		}
+		District district = this.zoneSvr.getDistrict(project.getDid());
+		if (district == null) {
+			throw new NoDistrictExistException();
+		}
+		project.setCityid(district.getCityid());
 		this.projectDao.update(project);
 	}
 
