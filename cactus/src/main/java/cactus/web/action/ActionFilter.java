@@ -13,6 +13,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cactus.util.HkUtil;
+
 /**
  * web运行的入口
  * 
@@ -27,11 +29,14 @@ public class ActionFilter implements Filter {
 
 	private ActionExe actionExe;
 
+	private MappingUriCreater mappingUriCreater;
+
+	private ActionResultProcessor actionResultProcessor;
+
 	public void init(FilterConfig config) throws ServletException {
-		this.actionExe = ActionExeHome.getActionExe();
-		if (actionExe == null) {
-			this.createActionExe();
-		}
+		this.initActionExe();
+		this.initMappingUriCreator();
+		this.initActionResultProcessor();
 		String endIngore = config.getInitParameter("endIngore");
 		if (endIngore != null) {
 			String[] t = endIngore.split(",");
@@ -46,6 +51,7 @@ public class ActionFilter implements Filter {
 	public void doFilter(ServletRequest arg0, ServletResponse arg1,
 			FilterChain arg2) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) arg0;
+		HttpServletResponse resp = (HttpServletResponse) arg1;
 		String uri = req.getRequestURI();
 		if (uri.endsWith(".jsp")) {// 默认不对jsp进行过滤
 			arg2.doFilter(arg0, arg1);
@@ -58,15 +64,50 @@ public class ActionFilter implements Filter {
 			}
 		}
 		req.setAttribute("appctx_path", req.getContextPath());
+		String mappingUri = this.mappingUriCreater.findMappingUri(req);
 		try {
-			this.actionExe.proccess(req, (HttpServletResponse) arg1);
+			this.actionResultProcessor.processResult(this.actionExe.invoke(
+					mappingUri, req, resp), req, resp);
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
+	private void initActionExe() {
+		this.actionExe = (ActionExe) HkUtil.getBean("actionExe");
+		if (actionExe == null) {
+			this.createActionExe();
+		}
+	}
+
+	private void initMappingUriCreator() {
+		this.mappingUriCreater = (MappingUriCreater) HkUtil
+				.getBean("mappingUriCreater");
+	}
+
+	private void initActionResultProcessor() {
+		this.actionResultProcessor = (ActionResultProcessor) HkUtil
+				.getBean("actionResultProcessor");
+		if (this.actionResultProcessor == null) {
+			this.actionResultProcessor = new ActionResultProcessor();
+		}
+	}
+
 	public void createActionExe() {
+		ActionFinder actionFinder = (ActionFinder) HkUtil
+				.getBean("actionFinder");
+		if (actionFinder == null) {
+			WebCnf webCnf = (WebCnf) HkUtil.getBean("webCnf");
+			actionFinder = new DefActionFinder();
+			((DefActionFinder) actionFinder).setScanPathList(webCnf
+					.getScanPathList());
+		}
+		ActionMappingCreator actionMappingCreator = new ActionMappingCreator(
+				actionFinder);
+		ActionExeImpl impl = new ActionExeImpl();
+		impl.setActionMappingCreator(actionMappingCreator);
+		this.actionExe = impl;
 	}
 
 	@Override
