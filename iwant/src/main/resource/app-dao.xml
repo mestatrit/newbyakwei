@@ -11,58 +11,6 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
-	<bean id="daoSupport" class="cactus.dao.query.MysqlDaoSupport">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	<bean id="hkObjQuery" class="cactus.dao.query.HkObjQuery">
-		<property name="daoSupport" ref="daoSupport" />
-		<property name="resultSetDataInfoCreater">
-			<bean class="cactus.dao.query.ResultSetDataInfoCreater" />
-		</property>
-		<property name="objectSqlInfoCreater">
-			<bean id="objectSqlInfoCreater" class="cactus.dao.query.ObjectSqlInfoCreater">
-				<property name="infos">
-					<list>
-						<value>iwant.bean.Category;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.FollowProject;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.MainPpt;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.Notice;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.NoticeidCreator;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.Ppt;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.PptidCreator;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.Project;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.ProjectRecycle;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.ProjectFans;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.ProjectidCreator;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.Slide;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.User;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.UseridCreator;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.UserNotice;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.PptTimeline;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.PptQueue;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.NoticeQueue;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.Country;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.Province;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.City;iwant.dao.database.SingleDbPartitionHelper</value>
-						<value>iwant.bean.District;iwant.dao.database.SingleDbPartitionHelper</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<tx:method name="*" rollback-for="java.lang.Exception" />
-		</tx:attributes>
-	</tx:advice>
-	<aop:config proxy-target-class="true">
-		<aop:pointcut id="tr" expression="execution(* iwant.svr.impl.*SvrImpl.*Tx(..)) 
-			" />
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="tr" />
-	</aop:config>
 	<bean id="categoryDao" class="iwant.dao.impl.CategoryDaoImpl">
 		<property name="hkObjQuery" ref="hkObjQuery" />
 	</bean>
