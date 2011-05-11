@@ -2,31 +2,16 @@ package svr;
 
 import iwant.bean.Notice;
 import iwant.bean.UserNotice;
-import iwant.svr.NoticeSvr;
 
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import cactus.util.DateUtil;
 
 public class NoticeSvrTest extends BaseSvrTest {
-
-	@Resource
-	private NoticeSvr noticeSvr;
-
-	Notice notice0;
-
-	Notice notice1;
-
-	UserNotice userNotice0;
-
-	UserNotice userNotice1;
 
 	private void assertNoticeData(Notice expected, Notice actual) {
 		Assert.assertEquals(expected.getNoticeid(), actual.getNoticeid());
@@ -36,32 +21,11 @@ public class NoticeSvrTest extends BaseSvrTest {
 				.getCreatetime().getTime());
 	}
 
-	@Before
-	public void init() {
-		// data 0
-		this.notice0 = new Notice();
-		this.notice0.setContent("notice 0");
-		this.notice0.setProjectid(10);
-		this.notice0
-				.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
-		this.noticeSvr.createNotice(this.notice0);
-		// data 1
-		this.notice1 = new Notice();
-		this.notice1.setContent("notice 1");
-		this.notice1.setProjectid(10);
-		this.notice1
-				.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
-		this.noticeSvr.createNotice(this.notice1);
-		// usernotice
-		this.userNotice0 = this.noticeSvr.createUserNotice(1, 2);
-		this.userNotice1 = this.noticeSvr.createUserNotice(2, 2);
-	}
-
 	@Test
 	public void createNotice() {
 		Notice notice = new Notice();
 		notice.setContent("notice 5");
-		notice.setProjectid(12);
+		notice.setProjectid(this.project0.getProjectid());
 		notice.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		this.noticeSvr.createNotice(notice);
 		if (notice.getNoticeid() <= 0) {
@@ -81,9 +45,11 @@ public class NoticeSvrTest extends BaseSvrTest {
 
 	@Test
 	public void createUserNotice() {
-		UserNotice userNotice = this.noticeSvr.createUserNotice(1, 2);
+		UserNotice userNotice = this.noticeSvr.createUserNotice(this.notice0
+				.getNoticeid(), this.user0.getUserid());
 		Assert.assertNull(userNotice);
-		userNotice = this.noticeSvr.createUserNotice(5, 2);
+		userNotice = this.noticeSvr.createUserNotice(
+				this.notice0.getNoticeid(), this.user1.getUserid());
 		Assert.assertNotNull(userNotice);
 	}
 
