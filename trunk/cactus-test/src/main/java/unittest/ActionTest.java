@@ -1,5 +1,7 @@
 package unittest;
 
+import javax.annotation.Resource;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -17,11 +19,11 @@ import cactus.web.action.HkResponseImpl;
 @ContextConfiguration( { "/hkframe-web.xml" })
 public class ActionTest {
 
+	@Resource
+	private ActionExe actionExe;
+
 	@Test
 	public void testInvokeExecute() throws Exception {
-
-		ActionExe actionExe = new ActionExe();
-		actionExe.setUrl_extension(".do");
 		MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest(
 				"get", "/test");
 		MockHttpServletResponse mockHttpServletResponse = new MockHttpServletResponse();
@@ -32,9 +34,6 @@ public class ActionTest {
 
 	@Test
 	public void testInvokeHello() throws Exception {
-
-		ActionExe actionExe = new ActionExe();
-		actionExe.setUrl_extension(".do");
 		MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest(
 				"get", "/test_hello");
 		MockHttpServletResponse mockHttpServletResponse = new MockHttpServletResponse();
@@ -45,9 +44,6 @@ public class ActionTest {
 
 	@Test
 	public void testInvokeHello2() throws Exception {
-
-		ActionExe actionExe = new ActionExe();
-		actionExe.setUrl_extension(".do");
 		MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest(
 				"get", "/test_hello2");
 		MockHttpServletResponse mockHttpServletResponse = new MockHttpServletResponse();
