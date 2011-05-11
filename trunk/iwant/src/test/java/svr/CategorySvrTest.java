@@ -2,8 +2,6 @@ package svr;
 
 import iwant.bean.Category;
 
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -46,13 +44,5 @@ public class CategorySvrTest extends BaseSvrTest {
 		Category dbCategory1 = this.categorySvr.getCategory(this.category1
 				.getCatid());
 		Assert.assertNull(dbCategory1);
-	}
-
-	@Test
-	public void getCategoryListForAll() {
-		List<Category> list = this.categorySvr.getCategoryListForAll();
-		Assert.assertEquals(2, list.size());
-		this.assertData(this.category2, list.get(0));
-		this.assertData(this.category1, list.get(1));
 	}
 }
