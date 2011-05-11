@@ -12,22 +12,16 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 	<context:annotation-config />
-	<bean id="actionFinder" class="cactus.web.action.DefActionFinder">
+	<!-- must config -->
+	<bean id="hkUtil" class="cactus.util.HkUtil" />
+	<bean id="webCnf" class="cactus.web.action.WebCnf">
 		<property name="scanPathList">
 			<list>
-				<value>iwant.web</value>
+				<value>action</value>
 			</list>
 		</property>
-	</bean>
-	<bean id="actionMappingCreator" class="cactus.web.action.ActionMappingCreator">
-		<constructor-arg index="0" ref="actionFinder" />
-	</bean>
-	<bean class="cactus.web.action.ActionExe">
-		<property name="actionMappingCreator" ref="actionMappingCreator" />
-		<property name="debug" value="false" />
 		<property name="url_extension" value=".do" />
 	</bean>
-	<bean id="hkUtil" class="cactus.util.HkUtil" />
 	<!-- 语言配置 -->
 	<bean id="resourceConfig" class="cactus.util.ResourceConfig" lazy-init="false">
 		<property name="resource" value="admin_err" />
