@@ -12,10 +12,4 @@ import java.lang.annotation.Target;
 public @interface Table {
 
 	String name();
-
-	String id() default "";
-
-	String mapper() default "";
-
-	String sequence() default "";
 }
