@@ -10,7 +10,6 @@ import iwant.svr.exception.ImageProcessException;
 import iwant.svr.exception.NoPptExistException;
 import iwant.svr.exception.NoProjectExistException;
 import iwant.svr.statusenum.UpdateSldePic0Result;
-import iwant.util.ErrorCode;
 
 import java.io.File;
 import java.util.List;
