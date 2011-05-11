@@ -1,37 +1,13 @@
 package svr;
 
 import iwant.bean.Category;
-import iwant.svr.CategorySvr;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class CategorySvrTest extends BaseSvrTest {
-
-	@Resource
-	private CategorySvr categorySvr;
-
-	private Category category1;
-
-	private Category category2;
-
-	@Before
-	public void init() {
-		this.categorySvr.clearAllData();
-		// data 1
-		category1 = new Category();
-		category1.setName("akwei");
-		this.categorySvr.createCategory(category1);
-		// data 2
-		category2 = new Category();
-		category2.setName("akweiwei");
-		this.categorySvr.createCategory(category2);
-	}
 
 	private void assertData(Category expected, Category actual) {
 		Assert.assertEquals(expected.getName(), actual.getName());

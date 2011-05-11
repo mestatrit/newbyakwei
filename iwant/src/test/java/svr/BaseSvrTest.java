@@ -4,15 +4,26 @@ import iwant.bean.Category;
 import iwant.bean.City;
 import iwant.bean.Country;
 import iwant.bean.District;
+import iwant.bean.FollowProject;
 import iwant.bean.MainPpt;
+import iwant.bean.Notice;
 import iwant.bean.Ppt;
+import iwant.bean.PptTimeline;
 import iwant.bean.Project;
 import iwant.bean.Province;
 import iwant.bean.Slide;
+import iwant.bean.User;
+import iwant.bean.UserNotice;
 import iwant.bean.enumtype.ActiveType;
+import iwant.bean.enumtype.GenderType;
+import iwant.bean.enumtype.ReadFlagType;
 import iwant.svr.CategorySvr;
+import iwant.svr.FollowProjectSvr;
+import iwant.svr.NoticeSvr;
 import iwant.svr.PptSvr;
+import iwant.svr.PptTimelineSvr;
 import iwant.svr.ProjectSvr;
+import iwant.svr.UserSvr;
 import iwant.svr.ZoneSvr;
 import iwant.svr.exception.DuplicateCityNameException;
 import iwant.svr.exception.DuplicateDistrictNameException;
@@ -44,18 +55,32 @@ import cactus.util.DateUtil;
 public class BaseSvrTest {
 
 	@Resource
-	ProjectSvr projectSvr;
+	UserSvr userSvr;
 
-	Project project0;
+	@Resource
+	NoticeSvr noticeSvr;
+
+	@Resource
+	ProjectSvr projectSvr;
 
 	@Resource
 	CategorySvr categorySvr;
 
 	@Resource
+	FollowProjectSvr followProjectSvr;
+
+	@Resource
 	ZoneSvr zoneSvr;
 
 	@Resource
+	PptTimelineSvr pptTimelineSvr;
+
+	@Resource
 	PptSvr pptSvr;
+
+	Project project0;
+
+	Project project1;
 
 	Category category;
 
@@ -64,6 +89,10 @@ public class BaseSvrTest {
 	Province province;
 
 	City city;
+
+	User user0;
+
+	User user1;
 
 	District district;
 
@@ -81,12 +110,60 @@ public class BaseSvrTest {
 
 	Slide slide1;
 
+	PptTimeline pptTimeline0;
+
+	PptTimeline pptTimeline1;
+
+	Category category1;
+
+	Category category2;
+
+	FollowProject followProject0;
+
+	FollowProject followProject1;
+
+	Notice notice0;
+
+	Notice notice1;
+
+	UserNotice userNotice0;
+
+	UserNotice userNotice1;
+
 	@Before
 	public void init() throws NoCategoryExistException,
 			NoDistrictExistException, DuplicateProvinceNameException,
 			DuplicateCityNameException, NoProvinceExistException,
 			DuplicateDistrictNameException, NoProjectExistException,
 			NoPptExistException, ImageProcessException {
+		// data 1
+		category1 = new Category();
+		category1.setName("akwei");
+		this.categorySvr.createCategory(category1);
+		// data 2
+		category2 = new Category();
+		category2.setName("akweiwei");
+		this.categorySvr.createCategory(category2);
+		this.user0 = new User();
+		this.user0.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
+		this.user0.setDevice_token("a");
+		this.user0.setEmail("");
+		this.user0.setGender(GenderType.MALE.getValue());
+		this.user0.setMobile("");
+		this.user0.setName("");
+		this.userSvr.createUser(this.user0);
+		this.user1 = new User();
+		this.user1.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
+		this.user1.setDevice_token("b");
+		this.user1.setEmail("");
+		this.user1.setGender(GenderType.MALE.getValue());
+		this.user1.setMobile("");
+		this.user1.setName("");
+		this.userSvr.createUser(this.user1);
+		followProject0 = this.followProjectSvr.createFollow(this.user0
+				.getUserid(), this.project0.getProjectid());
+		followProject1 = this.followProjectSvr.createFollow(this.user1
+				.getUserid(), this.project0.getProjectid());
 		category = new Category();
 		category.setName("abc");
 		this.categorySvr.createCategory(category);
@@ -117,6 +194,18 @@ public class BaseSvrTest {
 		project0.setTel("125");
 		project0.setDid(this.district.getDid());
 		this.projectSvr.createProject(project0);
+		project1 = new Project();
+		project1.setActive_flag(ActiveType.ACTIVE.getValue());
+		project1.setAddr("kakah");
+		project1.setCatid(this.category.getCatid());
+		project1.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
+		project1.setDescr("bbb");
+		project1.setFans_num(10);
+		project1.setName("project 1");
+		project1.setOrder_flag(100);
+		project1.setTel("125");
+		project1.setDid(this.district.getDid());
+		this.projectSvr.createProject(project1);
 		// *************mainppt*************//
 		// data 0
 		mainPpt0 = new MainPpt();
@@ -170,6 +259,49 @@ public class BaseSvrTest {
 		this.slide1.setTitle("title 4");
 		this.slide1.setPic_path("");
 		this.pptSvr.createSlide(this.slide1, new File(filePath), null);
+		// data 0
+		this.pptTimeline0 = new PptTimeline();
+		this.pptTimeline0.setCatid(this.category.getCatid());
+		this.pptTimeline0.setCreatetime(DateUtil
+				.createNoMillisecondTime(new Date()));
+		this.pptTimeline0.setPptid(this.ppt0.getPptid());
+		this.pptTimeline0.setProjectid(this.ppt0.getProjectid());
+		this.pptTimeline0.setRead_flag(ReadFlagType.NOTREAD.getValue());
+		this.pptTimeline0.setReadtime(DateUtil
+				.createNoMillisecondTime(new Date()));
+		this.pptTimeline0.setUserid(2);
+		this.pptTimelineSvr.createPptTimeline(this.pptTimeline0);
+		// data 1
+		this.pptTimeline1 = new PptTimeline();
+		this.pptTimeline1.setCatid(this.category.getCatid());
+		this.pptTimeline1.setCreatetime(DateUtil
+				.createNoMillisecondTime(new Date()));
+		this.pptTimeline1.setPptid(this.ppt0.getPptid());
+		this.pptTimeline1.setProjectid(this.ppt0.getProjectid());
+		this.pptTimeline1.setRead_flag(ReadFlagType.NOTREAD.getValue());
+		this.pptTimeline1.setReadtime(DateUtil
+				.createNoMillisecondTime(new Date()));
+		this.pptTimeline1.setUserid(2);
+		this.pptTimelineSvr.createPptTimeline(this.pptTimeline1);
+		// data 0
+		this.notice0 = new Notice();
+		this.notice0.setContent("notice 0");
+		this.notice0.setProjectid(this.project0.getProjectid());
+		this.notice0
+				.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
+		this.noticeSvr.createNotice(this.notice0);
+		// data 1
+		this.notice1 = new Notice();
+		this.notice1.setContent("notice 1");
+		this.notice1.setProjectid(this.project1.getProjectid());
+		this.notice1
+				.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
+		this.noticeSvr.createNotice(this.notice1);
+		// usernotice
+		this.userNotice0 = this.noticeSvr.createUserNotice(this.notice0
+				.getNoticeid(), this.user0.getUserid());
+		this.userNotice1 = this.noticeSvr.createUserNotice(this.notice1
+				.getNoticeid(), this.user1.getUserid());
 	}
 
 	@Test

@@ -2,27 +2,16 @@ package svr;
 
 import iwant.bean.PptTimeline;
 import iwant.bean.enumtype.ReadFlagType;
-import iwant.svr.PptTimelineSvr;
 
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import cactus.util.DateUtil;
 
 public class PptTimelineSvrTest extends BaseSvrTest {
-
-	@Resource
-	private PptTimelineSvr pptTimelineSvr;
-
-	private PptTimeline pptTimeline0;
-
-	private PptTimeline pptTimeline1;
 
 	private void assertData(PptTimeline expected, PptTimeline actual) {
 		Assert.assertEquals(expected.getSysid(), actual.getSysid());
@@ -37,34 +26,6 @@ public class PptTimelineSvrTest extends BaseSvrTest {
 				.getReadtime().getTime());
 		Assert.assertNull(actual.getPpt());
 		Assert.assertNull(expected.getPpt());
-	}
-
-	@Before
-	public void init() {
-		// data 0
-		this.pptTimeline0 = new PptTimeline();
-		this.pptTimeline0.setCatid(5);
-		this.pptTimeline0.setCreatetime(DateUtil
-				.createNoMillisecondTime(new Date()));
-		this.pptTimeline0.setPptid(9);
-		this.pptTimeline0.setProjectid(10);
-		this.pptTimeline0.setRead_flag(ReadFlagType.NOTREAD.getValue());
-		this.pptTimeline0.setReadtime(DateUtil
-				.createNoMillisecondTime(new Date()));
-		this.pptTimeline0.setUserid(2);
-		this.pptTimelineSvr.createPptTimeline(this.pptTimeline0);
-		// data 1
-		this.pptTimeline1 = new PptTimeline();
-		this.pptTimeline1.setCatid(8);
-		this.pptTimeline1.setCreatetime(DateUtil
-				.createNoMillisecondTime(new Date()));
-		this.pptTimeline1.setPptid(10);
-		this.pptTimeline1.setProjectid(11);
-		this.pptTimeline1.setRead_flag(ReadFlagType.NOTREAD.getValue());
-		this.pptTimeline1.setReadtime(DateUtil
-				.createNoMillisecondTime(new Date()));
-		this.pptTimeline1.setUserid(2);
-		this.pptTimelineSvr.createPptTimeline(this.pptTimeline1);
 	}
 
 	@Test
