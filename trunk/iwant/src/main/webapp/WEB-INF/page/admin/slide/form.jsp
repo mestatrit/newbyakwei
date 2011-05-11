@@ -126,4 +126,8 @@ function updateok(err,err_msg,v){
 	}
 	tourl('${appctx_path}/mgr/ppt_view.do?pptid=${slide.pptid}');
 }
+function noppterr(err,err_msg,v){
+	alert('简报不存在');
+	tourl('${appctx_path}/mgr/project.do');
+}
 </script>
