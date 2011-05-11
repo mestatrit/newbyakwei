@@ -7,25 +7,17 @@ import java.util.Map;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class DefActionFinder implements ActionFinder, ApplicationContextAware {
+import cactus.util.HkUtil;
+
+public class DefActionFinder implements ActionFinder {
 
 	private final Map<String, Action> actionMap = new HashMap<String, Action>();
 
 	private List<String> scanPathList;
 
 	public final AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext();
-
-	private ApplicationContext webApplicationContext;
-
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-		this.webApplicationContext = applicationContext;
-	}
 
 	public void setScanPathList(List<String> scanPathList) {
 		this.scanPathList = scanPathList;
@@ -56,7 +48,7 @@ public class DefActionFinder implements ActionFinder, ApplicationContextAware {
 		Action obj = actionMap.get(name);
 		if (obj == null) {
 			try {
-				obj = (Action) this.webApplicationContext.getBean(name);
+				obj = (Action) HkUtil.getWebApplicationContext().getBean(name);
 			}
 			catch (BeansException e) {
 				obj = getBeanFromSpring3(name);
@@ -100,7 +92,7 @@ public class DefActionFinder implements ActionFinder, ApplicationContextAware {
 				if (field.getAnnotation(Autowired.class) != null) {
 					Class<?> clazz = field.getType();
 					try {
-						Object fieldObj = this.webApplicationContext
+						Object fieldObj = HkUtil.getWebApplicationContext()
 								.getBean(clazz);
 						field.set(obj, fieldObj);
 					}
