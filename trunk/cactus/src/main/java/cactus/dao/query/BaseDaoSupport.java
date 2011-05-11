@@ -18,8 +18,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
 
-import cactus.dao.sql.DaoDebugMode;
-
 /**
  * mysql处理作为基础类，以此为扩展可以扩展到db2 oracle等
  * 
@@ -29,8 +27,16 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 
 	private final Log log = LogFactory.getLog(BaseDaoSupport.class);
 
+	public boolean debugSQL;
+
+	public void setDebugSQL(boolean debugSQL) {
+		this.debugSQL = debugSQL;
+	}
+
 	public int[] batchUpdate(String sql, BatchPreparedStatementSetter bpss) {
-		this.log("batchUpdate sql [ " + sql + " ]");
+		if (this.debugSQL) {
+			this.log("batchUpdate sql [ " + sql + " ]");
+		}
 		try {
 			return this.getJdbcTemplate().batchUpdate(sql, bpss);
 		}
@@ -44,7 +50,9 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 	}
 
 	public Object insertBySQL(String sql, Object[] values) {
-		this.log("insert sql [ " + sql + " ]");
+		if (this.debugSQL) {
+			this.log("insert sql [ " + sql + " ]");
+		}
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -78,7 +86,9 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 	}
 
 	public <T> List<T> getListBySQL(String sql, Object[] values, RowMapper<T> rm) {
-		this.log("query sql [ " + sql + " ]");
+		if (this.debugSQL) {
+			this.log("query sql [ " + sql + " ]");
+		}
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -112,7 +122,9 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 	}
 
 	public Number getNumberBySQL(String sql, Object[] values) {
-		this.log("queryForNumber sql [ " + sql + " ]");
+		if (this.debugSQL) {
+			this.log("queryForNumber sql [ " + sql + " ]");
+		}
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -153,7 +165,9 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 	}
 
 	public int updateBySQL(String sql, Object[] values) {
-		this.log("update sql [ " + sql + " ]");
+		if (this.debugSQL) {
+			this.log("update sql [ " + sql + " ]");
+		}
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = this.getCurrentConnection();
@@ -182,8 +196,6 @@ public class BaseDaoSupport extends SimpleJdbcDaoSupport {
 	}
 
 	protected void log(String v) {
-		if (DaoDebugMode.isSqlDeubg()) {
-			log.info(v);
-		}
+		log.info(v);
 	}
 }

@@ -11,6 +11,12 @@ public class ActionMappingCreator {
 
 	private String endpfix = "/";
 
+	private ActionFinder actionFinder;
+
+	public ActionMappingCreator(ActionFinder actionFinder) {
+		this.actionFinder = actionFinder;
+	}
+
 	/**
 	 * ActionMapping缓存
 	 */
@@ -74,14 +80,7 @@ public class ActionMappingCreator {
 			// 分解出Action的名字
 			String actionName = mappingUri.substring(0, idx);
 			mapping = new ActionMapping();
-			// action通过lazy方式加载
-			Action action = ActionUtil.getAction(actionName);
-			if (action == null) {
-				throw new NoActionException("no action [ " + actionName
-						+ " ] is exist");
-			}
-			// 创建一个新的ActionMapping，并放入缓存
-			mapping.setAction(action);
+			mapping.setAction(this.actionFinder.findAction(actionName));
 			mapping.setMappingUri(mappingUri);
 			mapping.setActionName(actionName);
 			mapping.setMethodName(methodName);
@@ -92,13 +91,7 @@ public class ActionMappingCreator {
 			return mapping;
 		}
 		mapping = new ActionMapping();
-		// action通过lazy方式加载
-		Action action = ActionUtil.getAction(mappingUri);
-		if (action == null) {
-			throw new NoActionException("no action [ " + mappingUri
-					+ " ] is exist");
-		}
-		mapping.setAction(action);
+		mapping.setAction(this.actionFinder.findAction(mappingUri));
 		mapping.setActionName(mappingUri);
 		mappingMap.put(mappingUri, mapping);
 		return mapping;

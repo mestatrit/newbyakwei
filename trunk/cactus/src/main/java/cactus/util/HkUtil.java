@@ -4,11 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class HkUtil implements ApplicationContextAware, InitializingBean {
+public class HkUtil implements ApplicationContextAware {
 
 	public static final String REQUEST_METHOD_GET = "get";
 
@@ -79,9 +78,6 @@ public class HkUtil implements ApplicationContextAware, InitializingBean {
 	public void setApplicationContext(ApplicationContext applicationContext)
 			throws BeansException {
 		webApplicationContext = applicationContext;
-	}
-
-	public void afterPropertiesSet() throws Exception {
 	}
 
 	public static void main(String[] args) {

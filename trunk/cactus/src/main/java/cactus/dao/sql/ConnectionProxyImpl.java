@@ -50,12 +50,12 @@ public class ConnectionProxyImpl implements ConnectionProxy {
 	}
 
 	public void close() throws SQLException {
-		if (DaoDebugMode.isInfoDeubg()) {
+		if (this.cloudDataSourceWrapper.isDebugConnection()) {
 			log.info("begin close connection");
 		}
 		Collection<Connection> c = this.conMap.values();
 		for (Connection con : c) {
-			if (DaoDebugMode.isInfoDeubg()) {
+			if (this.cloudDataSourceWrapper.isDebugConnection()) {
 				log.info("close  connection ");
 			}
 			con.close();
@@ -66,7 +66,7 @@ public class ConnectionProxyImpl implements ConnectionProxy {
 	public void commit() throws SQLException {
 		Collection<Connection> c = this.conMap.values();
 		for (Connection con : c) {
-			if (DaoDebugMode.isInfoDeubg()) {
+			if (this.cloudDataSourceWrapper.isDebugConnection()) {
 				log.info("commit connection ");
 			}
 			con.commit();
@@ -81,7 +81,7 @@ public class ConnectionProxyImpl implements ConnectionProxy {
 		String name = DataSourceStatus.getCurrentDsName();
 		Connection con = this.conMap.get(name);
 		if (con == null) {
-			if (DaoDebugMode.isInfoDeubg()) {
+			if (this.cloudDataSourceWrapper.isDebugConnection()) {
 				log.info("create database connection from datasource [ " + name
 						+ " ]");
 			}
@@ -99,7 +99,7 @@ public class ConnectionProxyImpl implements ConnectionProxy {
 	}
 
 	private void initCurrentConnection(Connection con) throws SQLException {
-		if (DaoDebugMode.isInfoDeubg()) {
+		if (this.cloudDataSourceWrapper.isDebugConnection()) {
 			log.info("init real connection info");
 		}
 		con.setAutoCommit(this.getAutoCommit());
@@ -217,7 +217,7 @@ public class ConnectionProxyImpl implements ConnectionProxy {
 	public void rollback() throws SQLException {
 		Collection<Connection> c = conMap.values();
 		for (Connection con : c) {
-			if (DaoDebugMode.isInfoDeubg()) {
+			if (this.cloudDataSourceWrapper.isDebugConnection()) {
 				log.info("rollback connection ");
 			}
 			con.rollback();
@@ -228,7 +228,7 @@ public class ConnectionProxyImpl implements ConnectionProxy {
 		this.autoCommit = autoCommit;
 		Collection<Connection> c = conMap.values();
 		for (Connection con : c) {
-			if (DaoDebugMode.isInfoDeubg()) {
+			if (this.cloudDataSourceWrapper.isDebugConnection()) {
 				log.info("autoCommit : [ " + this.autoCommit + " ]");
 			}
 			con.setAutoCommit(autoCommit);

@@ -19,7 +19,16 @@ public class ActionExe {
 
 	private boolean debug;
 
-	private ActionMappingCreator actionMappingCreator = new ActionMappingCreator();
+	private ActionMappingCreator actionMappingCreator;
+
+	public ActionExe() {
+		ActionExeHome.setActionExe(this);
+	}
+
+	public void setActionMappingCreator(
+			ActionMappingCreator actionMappingCreator) {
+		this.actionMappingCreator = actionMappingCreator;
+	}
 
 	/**
 	 * 执行uri对应的action以及方法
@@ -71,7 +80,7 @@ public class ActionExe {
 				log.error("no action [ " + request.getRemoteAddr() + " ] [ "
 						+ request.getRequestURI() + " ] " + e.getMessage());
 				log.error("queryString [ " + request.getQueryString() + " ]");
-				log.error("===================== end =====================");
+				log.error("=========== end ==============");
 			}
 		}
 		catch (NoSuchMethodException e) {
@@ -79,7 +88,7 @@ public class ActionExe {
 				log.error("no method [ " + request.getRemoteAddr() + " ] [ "
 						+ request.getRequestURI() + " ] " + e.getMessage());
 				log.error("queryString [ " + request.getQueryString() + " ]");
-				log.error("===================== end =====================");
+				log.error("=========== end ==============");
 			}
 		}
 		catch (Exception e) {

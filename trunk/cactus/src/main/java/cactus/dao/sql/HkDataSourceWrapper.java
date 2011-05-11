@@ -25,6 +25,16 @@ public class HkDataSourceWrapper implements DataSource {
 
 	private final Log log = LogFactory.getLog(HkDataSourceWrapper.class);
 
+	private boolean debugConnection;
+
+	public void setDebugConnection(boolean debugConnection) {
+		this.debugConnection = debugConnection;
+	}
+
+	public boolean isDebugConnection() {
+		return debugConnection;
+	}
+
 	public DataSource getCurrentDataSource() {
 		DataSource dsKey = this.dataSourceMap.get(DataSourceStatus
 				.getCurrentDsName());
@@ -39,7 +49,7 @@ public class HkDataSourceWrapper implements DataSource {
 	}
 
 	public Connection getConnection() throws SQLException {
-		if (DaoDebugMode.isInfoDeubg()) {
+		if (this.debugConnection) {
 			log.info("begin open connection");
 		}
 		return new ConnectionProxyImpl(this);

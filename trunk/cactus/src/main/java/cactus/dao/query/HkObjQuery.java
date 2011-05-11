@@ -14,12 +14,7 @@ public class HkObjQuery extends HkQuery {
 
 	private ObjectSqlInfoCreater objectSqlInfoCreater;
 
-	private ResultSetDataInfoCreater resultSetDataInfoCreater;
-
-	public void setResultSetDataInfoCreater(
-			ResultSetDataInfoCreater resultSetDataInfoCreater) {
-		this.resultSetDataInfoCreater = resultSetDataInfoCreater;
-	}
+	private ResultSetDataInfoCreater resultSetDataInfoCreater = new ResultSetDataInfoCreater();
 
 	public <T> String getAliasName(Class<T> clazz) {
 		return this.getObjectSqlInfoCreater().getObjectSqlInfo(clazz)
