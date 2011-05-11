@@ -18,24 +18,12 @@ public class ObjectSqlInfoCreater {
 	 */
 	private final Map<String, ObjectSqlInfo<?>> objectSqlInfoMap = new HashMap<String, ObjectSqlInfo<?>>();
 
-	/**
-	 * 类名与分析类的名称组合。格式为：className;helperClassName;
-	 */
-	private List<String> infos;
-
 	private List<TableCnf> tableCnfList;
 
-	public void setTableCnfList(List<TableCnf> tableCnfList) {
+	public void setTableCnfList(List<TableCnf> tableCnfList)
+			throws ClassNotFoundException {
 		this.tableCnfList = tableCnfList;
-	}
-
-	public void setInfos(List<String> infos) throws ClassNotFoundException {
-		this.infos = infos;
 		this.afterPropertiesSet();
-	}
-
-	public List<String> getInfos() {
-		return infos;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -59,11 +47,10 @@ public class ObjectSqlInfoCreater {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	public <T, D, E> void afterPropertiesSet() throws ClassNotFoundException {
 		ObjectSqlInfo<E> objectSqlInfo = null;
 		for (TableCnf cnf : this.tableCnfList) {
-			objectSqlInfo = new ObjectSqlInfo(cnf);
+			objectSqlInfo = new ObjectSqlInfo<E>(cnf);
 			objectSqlInfoMap.put(cnf.getClassName(), objectSqlInfo);
 		}
 	}
