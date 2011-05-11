@@ -17,7 +17,7 @@
 	<bean id="webCnf" class="cactus.web.action.WebCnf">
 		<property name="scanPathList">
 			<list>
-				<value>action</value>
+				<value>iwant.web</value>
 			</list>
 		</property>
 		<property name="url_extension" value=".do" />
