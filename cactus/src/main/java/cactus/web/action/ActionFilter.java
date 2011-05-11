@@ -25,19 +25,13 @@ public class ActionFilter implements Filter {
 	 */
 	private List<String> ingoreList = new ArrayList<String>();
 
-	/**
-	 * 程序运行器初始化
-	 */
 	private ActionExe actionExe;
 
 	public void init(FilterConfig config) throws ServletException {
-		this.actionExe = new ActionExe();
-		String url_extension = config.getInitParameter("url-extension");
-		String v = config.getInitParameter("debug");
-		if (v != null && v.equals("true")) {
-			actionExe.setDebug(true);
+		this.actionExe = ActionExeHome.getActionExe();
+		if (actionExe == null) {
+			this.createActionExe();
 		}
-		actionExe.setUrl_extension(url_extension);
 		String endIngore = config.getInitParameter("endIngore");
 		if (endIngore != null) {
 			String[] t = endIngore.split(",");
@@ -67,16 +61,16 @@ public class ActionFilter implements Filter {
 		try {
 			this.actionExe.proccess(req, (HttpServletResponse) arg1);
 		}
-		catch (NoActionException e) {
-		}
-		catch (NoSuchMethodException e) {
-		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
+	public void createActionExe() {
+	}
+
 	@Override
 	public void destroy() {
+		this.actionExe = null;
 	}
 }
