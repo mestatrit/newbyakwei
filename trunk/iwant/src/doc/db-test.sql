@@ -99,20 +99,24 @@ CREATE TABLE followproject (
 -- Table structure for table mainppt
 --
 
-DROP TABLE IF EXISTS mainppt;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE mainppt (
-  pptid bigint(20) unsigned NOT NULL auto_increment,
-  projectid bigint(20) unsigned NOT NULL,
-  name varchar(100) NOT NULL,
-  pic_path varchar(200) NOT NULL,
-  createtime datetime NOT NULL,
-  order_flag bigint(20) unsigned NOT NULL,
-  active_flag tinyint(1) unsigned NOT NULL,
-  catid int(10) unsigned NOT NULL,
-  PRIMARY KEY  (pptid),
-  KEY Index_2 (projectid)
+DROP TABLE IF EXISTS mainppt;
+CREATE TABLE  mainppt (
+  `pptid` bigint(20) unsigned NOT NULL auto_increment,
+  `projectid` bigint(20) unsigned NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `pic_path` varchar(200) NOT NULL,
+  `createtime` datetime NOT NULL,
+  `order_flag` bigint(20) unsigned NOT NULL,
+  `active_flag` tinyint(1) unsigned NOT NULL,
+  `catid` int(10) unsigned NOT NULL,
+  `cityid` int(10) unsigned NOT NULL,
+  `did` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`pptid`),
+  KEY `Index_2` (`projectid`),
+  KEY `Index_3` (`did`),
+  KEY `Index_4` (`cityid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
