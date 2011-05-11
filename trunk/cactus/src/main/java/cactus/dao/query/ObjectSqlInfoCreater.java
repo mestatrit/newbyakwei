@@ -23,7 +23,13 @@ public class ObjectSqlInfoCreater {
 	 */
 	private List<String> infos;
 
-	public void setInfos(List<String> infos) {
+	private List<TableCnf> tableCnfList;
+
+	public void setTableCnfList(List<TableCnf> tableCnfList) {
+		this.tableCnfList = tableCnfList;
+	}
+
+	public void setInfos(List<String> infos) throws ClassNotFoundException {
 		this.infos = infos;
 		this.afterPropertiesSet();
 	}
@@ -54,26 +60,11 @@ public class ObjectSqlInfoCreater {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T, D, E> void afterPropertiesSet() {
-		ClassLoader classLoader = Thread.currentThread()
-				.getContextClassLoader();
-		Class<T> clazz = null;
-		Class<D> dbPartitionHelperClazz = null;
+	public <T, D, E> void afterPropertiesSet() throws ClassNotFoundException {
 		ObjectSqlInfo<E> objectSqlInfo = null;
-		for (String s : infos) {
-			String[] tmp = s.split(";");
-			String className = tmp[0];
-			String dbPartitionHelperClassName = tmp[1];
-			try {
-				clazz = (Class<T>) classLoader.loadClass(className);
-				dbPartitionHelperClazz = (Class<D>) classLoader
-						.loadClass(dbPartitionHelperClassName);
-				objectSqlInfo = new ObjectSqlInfo(clazz, dbPartitionHelperClazz);
-				objectSqlInfoMap.put(className, objectSqlInfo);
-			}
-			catch (ClassNotFoundException e) {
-				throw new RuntimeException(e);
-			}
+		for (TableCnf cnf : this.tableCnfList) {
+			objectSqlInfo = new ObjectSqlInfo(cnf);
+			objectSqlInfoMap.put(cnf.getClassName(), objectSqlInfo);
 		}
 	}
 }

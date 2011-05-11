@@ -9,6 +9,16 @@ import java.util.Map;
  */
 public abstract class DbPartitionHelper {
 
+	private String baseDatasourceKey;
+
+	public void setBaseDatasourceKey(String baseDatasourceKey) {
+		this.baseDatasourceKey = baseDatasourceKey;
+	}
+
+	public String getBaseDatasourceKey() {
+		return baseDatasourceKey;
+	}
+
 	protected String get01(Number id) {
 		if (id.equals(0)) {
 			throw new IllegalArgumentException("Id is 0");
@@ -37,12 +47,12 @@ public abstract class DbPartitionHelper {
 	/**
 	 * 根据内容进行分析，创建表的分区信息
 	 * 
-	 * @param name
+	 * @param tableLogicName
 	 *            逻辑表名称，也将会成为表的别名
 	 * @param ctxMap
-	 *            上下文信息存储
+	 *            上下文信息存储,用来存储分区关键值
 	 * @return
 	 */
-	public abstract PartitionTableInfo parse(String name,
+	public abstract PartitionTableInfo parse(String tableLogicName,
 			Map<String, Object> ctxMap);
 }

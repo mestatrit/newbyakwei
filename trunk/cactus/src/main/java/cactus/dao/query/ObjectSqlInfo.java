@@ -79,18 +79,11 @@ public class ObjectSqlInfo<T> {
 	 */
 	private final Map<String, String> fieldColumnMap = new HashMap<String, String>();
 
-	public ObjectSqlInfo(Class<T> clazz, Class<T> dbPartitionHelperClazz) {
-		this(clazz);
-		this.buildDbPartitionHelper(dbPartitionHelperClazz);
-	}
-
-	/**
-	 * 创建对象，初始化数据
-	 * 
-	 * @param clazz
-	 */
-	public ObjectSqlInfo(Class<T> clazz) {
-		this.clazz = clazz;
+	@SuppressWarnings("unchecked")
+	public ObjectSqlInfo(TableCnf tableCnf) throws ClassNotFoundException {
+		ClassLoader classLoader = Thread.currentThread()
+				.getContextClassLoader();
+		this.clazz = (Class<T>) classLoader.loadClass(tableCnf.getClassName());
 		Table table = clazz.getAnnotation(Table.class);
 		if (table == null) {
 			throw new RuntimeException("tableName not set [ " + clazz.getName()
@@ -101,13 +94,10 @@ public class ObjectSqlInfo<T> {
 		for (Field f : fs) {
 			this.analyze(f);
 		}
-		// 不建议此写法，建议直接使用@Id
-		if (idColumn == null || idColumn.length() == 0) {
-			idColumn = table.id();
-		}
 		this.buildAllColumns();
 		this.buildMapper();
 		this.buildSqlUpdateMapper();
+		this.dbPartitionHelper = tableCnf.getDbPartitionHelper();
 	}
 
 	private void analyze(Field field) {
@@ -173,16 +163,6 @@ public class ObjectSqlInfo<T> {
 		try {
 			Object obj = clazz.getConstructor().newInstance();
 			this.sqlUpdateMapper = (SqlUpdateMapper<T>) obj;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private void buildDbPartitionHelper(Class<T> dbPartitionHelperClazz) {
-		try {
-			Object obj = dbPartitionHelperClazz.getConstructor().newInstance();
-			this.dbPartitionHelper = (DbPartitionHelper) obj;
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
