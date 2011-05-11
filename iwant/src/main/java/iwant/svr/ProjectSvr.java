@@ -3,8 +3,8 @@ package iwant.svr;
 import iwant.bean.Project;
 import iwant.bean.ProjectRecycle;
 import iwant.dao.ProjectSearchCdn;
-import iwant.svr.exception.NoCategoryExistException;
-import iwant.svr.exception.NoDistrictExistException;
+import iwant.svr.exception.CategoryNotFoundException;
+import iwant.svr.exception.DistrictNotFoundException;
 
 import java.util.List;
 import java.util.Map;
@@ -16,16 +16,16 @@ public interface ProjectSvr {
 	 * 
 	 * @param project
 	 */
-	void createProject(Project project) throws NoCategoryExistException,
-			NoDistrictExistException;
+	void createProject(Project project) throws CategoryNotFoundException,
+			DistrictNotFoundException;
 
 	/**
 	 * 更新project
 	 * 
 	 * @param project
 	 */
-	void updateProject(Project project) throws NoCategoryExistException,
-			NoDistrictExistException;
+	void updateProject(Project project) throws CategoryNotFoundException,
+			DistrictNotFoundException;
 
 	/**
 	 * 获得project

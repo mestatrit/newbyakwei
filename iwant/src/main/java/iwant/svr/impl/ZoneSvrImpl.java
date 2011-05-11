@@ -12,8 +12,8 @@ import iwant.svr.ZoneSvr;
 import iwant.svr.exception.DuplicateCityNameException;
 import iwant.svr.exception.DuplicateDistrictNameException;
 import iwant.svr.exception.DuplicateProvinceNameException;
-import iwant.svr.exception.NoCityExistException;
-import iwant.svr.exception.NoProvinceExistException;
+import iwant.svr.exception.CityNotFoundException;
+import iwant.svr.exception.ProvinceNotFoundException;
 
 import java.util.List;
 
@@ -52,14 +52,14 @@ public class ZoneSvrImpl implements ZoneSvr {
 
 	@Override
 	public void createCity(City city) throws DuplicateCityNameException,
-			NoProvinceExistException {
+			ProvinceNotFoundException {
 		if (this.cityDao.isExistByProvinceidAndName(city.getProvinceid(), city
 				.getName())) {
 			throw new DuplicateCityNameException();
 		}
 		Province province = this.getProvince(city.getProvinceid());
 		if (province == null) {
-			throw new NoProvinceExistException();
+			throw new ProvinceNotFoundException();
 		}
 		city.setCountryid(province.getCountryid());
 		city.setCityid(NumberUtil.getInt(this.cityDao.save(city)));
@@ -120,14 +120,14 @@ public class ZoneSvrImpl implements ZoneSvr {
 
 	@Override
 	public void updateCity(City city) throws DuplicateCityNameException,
-			NoProvinceExistException {
+			ProvinceNotFoundException {
 		if (this.cityDao.isExistByProvinceidAndNameAndNotCityid(city
 				.getProvinceid(), city.getName(), city.getCityid())) {
 			throw new DuplicateCityNameException();
 		}
 		Province province = this.getProvince(city.getProvinceid());
 		if (province == null) {
-			throw new NoProvinceExistException();
+			throw new ProvinceNotFoundException();
 		}
 		city.setCountryid(province.getCountryid());
 		this.cityDao.update(city);
@@ -162,7 +162,7 @@ public class ZoneSvrImpl implements ZoneSvr {
 		}
 		City city = this.getCity(district.getCityid());
 		if (city == null) {
-			throw new NoCityExistException("cityid : [ " + district.getCityid()
+			throw new CityNotFoundException("cityid : [ " + district.getCityid()
 					+ " ]");
 		}
 		district.setCountryid(city.getCountryid());
@@ -184,7 +184,7 @@ public class ZoneSvrImpl implements ZoneSvr {
 		}
 		City city = this.getCity(district.getCityid());
 		if (city == null) {
-			throw new NoCityExistException("cityid : [ " + district.getCityid()
+			throw new CityNotFoundException("cityid : [ " + district.getCityid()
 					+ " ]");
 		}
 		district.setCountryid(city.getCountryid());

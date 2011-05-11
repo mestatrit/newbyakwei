@@ -12,7 +12,7 @@ import iwant.dao.PptSearchCdn;
 import iwant.svr.CategorySvr;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
-import iwant.svr.exception.NoProjectExistException;
+import iwant.svr.exception.ProjectNotFoundException;
 import iwant.util.ActiveTypeCreater;
 import iwant.util.BackUrl;
 import iwant.util.BackUrlUtil;
@@ -103,7 +103,7 @@ public class PptAction extends BaseAction {
 			this.opCreateSuccess(req);
 			return this.onSuccess(req, "createmainok", mainPpt.getPptid());
 		}
-		catch (NoProjectExistException e) {
+		catch (ProjectNotFoundException e) {
 			return this.onError(req, Err.PROJECT_NOT_EXIST, "noprojecterr",
 					null);
 		}
@@ -131,7 +131,7 @@ public class PptAction extends BaseAction {
 			this.opUpdateSuccess(req);
 			return this.onSuccess(req, "updatemainok", null);
 		}
-		catch (NoProjectExistException e) {
+		catch (ProjectNotFoundException e) {
 			return this.onError(req, Err.PROJECT_NOT_EXIST, "noprojecterr",
 					null);
 		}
@@ -168,7 +168,7 @@ public class PptAction extends BaseAction {
 			this.opCreateSuccess(req);
 			return this.onSuccess(req, "createok", ppt.getPptid());
 		}
-		catch (NoProjectExistException e) {
+		catch (ProjectNotFoundException e) {
 			return this.onError(req, Err.PROJECT_NOT_EXIST, "noprojecterr",
 					null);
 		}
@@ -196,7 +196,7 @@ public class PptAction extends BaseAction {
 			this.opUpdateSuccess(req);
 			return this.onSuccess(req, "updateok", null);
 		}
-		catch (NoProjectExistException e) {
+		catch (ProjectNotFoundException e) {
 			return this.onError(req, Err.PROJECT_NOT_EXIST, "noprojecterr",
 					null);
 		}
