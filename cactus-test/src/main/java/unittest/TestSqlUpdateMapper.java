@@ -9,15 +9,17 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import query.TestUserDbPartitionHelper;
 import bean.TestUser;
 import cactus.dao.query.ObjectSqlInfo;
+import cactus.dao.query.TableCnf;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( { "/query-test.xml" })
 public class TestSqlUpdateMapper {
 
 	@Test
-	public void testCreateObjectInfo() {
+	public void testCreateObjectInfo() throws ClassNotFoundException {
 		Calendar calendar = Calendar.getInstance();
 		Date date = calendar.getTime();
 		TestUser testUser = new TestUser();
@@ -27,8 +29,13 @@ public class TestSqlUpdateMapper {
 		testUser.setMoney(25);
 		testUser.setPurchase(30f);
 		testUser.setCreatetime(date);
+		TestUserDbPartitionHelper dbPartitionHelper = new TestUserDbPartitionHelper();
+		dbPartitionHelper.setBaseDatasourceKey("mysql_test");
+		TableCnf tableCnf = new TableCnf();
+		tableCnf.setClassName(TestUser.class.getName());
+		tableCnf.setDbPartitionHelper(dbPartitionHelper);
 		ObjectSqlInfo<TestUser> objectSqlInfo = new ObjectSqlInfo<TestUser>(
-				TestUser.class);
+				tableCnf);
 		int want_fieldListSize = 5;
 		int want_allFieldListSize = 6;
 		Assert.assertEquals(want_fieldListSize, objectSqlInfo.getFieldList()
