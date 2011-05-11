@@ -2,6 +2,8 @@ package svr;
 
 import iwant.bean.PptTimeline;
 import iwant.bean.enumtype.ReadFlagType;
+import iwant.svr.exception.PptNotFoundException;
+import iwant.svr.exception.UserNotFoundException;
 
 import java.util.Date;
 
@@ -28,15 +30,14 @@ public class PptTimelineSvrTest extends BaseSvrTest {
 	}
 
 	@Test
-	public void createPptTimeline() {
+	public void createPptTimeline() throws PptNotFoundException,
+			UserNotFoundException {
 		// Assert.fail();
 		PptTimeline dbobj = this.pptTimelineSvr.getPptTimelineByUseridAndPptid(
 				this.user0.getUserid(), this.ppt0.getPptid());
 		PptTimeline pptTimeline = new PptTimeline();
-		pptTimeline.setCatid(59);
 		pptTimeline.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		pptTimeline.setPptid(this.ppt0.getPptid());
-		pptTimeline.setProjectid(this.project0.getProjectid());
 		pptTimeline.setRead_flag(ReadFlagType.NOTREAD.getValue());
 		pptTimeline.setReadtime(DateUtil.createNoMillisecondTime(new Date()));
 		pptTimeline.setUserid(this.user0.getUserid());

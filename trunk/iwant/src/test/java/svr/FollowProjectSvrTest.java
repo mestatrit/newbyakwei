@@ -2,6 +2,8 @@ package svr;
 
 import iwant.bean.FollowProject;
 import iwant.bean.ProjectFans;
+import iwant.svr.exception.ProjectNotFoundException;
+import iwant.svr.exception.UserNotFoundException;
 
 import java.util.List;
 
@@ -16,7 +18,8 @@ public class FollowProjectSvrTest extends BaseSvrTest {
 	}
 
 	@Test
-	public void createFollow() {
+	public void createFollow() throws UserNotFoundException,
+			ProjectNotFoundException {
 		FollowProject followProject = this.followProjectSvr
 				.getFollowProjectByUseridAndProjectid(this.user0.getUserid(),
 						this.project0.getProjectid());

@@ -3,8 +3,8 @@ package svr;
 import iwant.bean.Project;
 import iwant.bean.ProjectRecycle;
 import iwant.bean.enumtype.ActiveType;
-import iwant.svr.exception.NoCategoryExistException;
-import iwant.svr.exception.NoDistrictExistException;
+import iwant.svr.exception.CategoryNotFoundException;
+import iwant.svr.exception.DistrictNotFoundException;
 
 import java.util.Date;
 
@@ -16,8 +16,8 @@ import cactus.util.DateUtil;
 public class ProjectSvrTest extends BaseSvrTest {
 
 	@Test
-	public void createProject() throws NoCategoryExistException,
-			NoDistrictExistException {
+	public void createProject() throws CategoryNotFoundException,
+			DistrictNotFoundException {
 		Project project = new Project();
 		project.setActive_flag(ActiveType.ACTIVE.getValue());
 		project.setAddr("kakah");
@@ -35,8 +35,8 @@ public class ProjectSvrTest extends BaseSvrTest {
 	}
 
 	@Test
-	public void updateProject() throws NoCategoryExistException,
-			NoDistrictExistException {
+	public void updateProject() throws CategoryNotFoundException,
+			DistrictNotFoundException {
 		Project project = this.projectSvr.getProject(this.project0
 				.getProjectid());
 		Assert.assertNotNull(project);
