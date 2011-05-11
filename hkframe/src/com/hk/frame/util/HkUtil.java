@@ -110,7 +110,7 @@ public class HkUtil implements ApplicationContextAware, InitializingBean {
 			return null;
 		}
 		catch (Exception e) {
-			return new RuntimeException(e);
+			throw new RuntimeException(e);
 		}
 	}
 
