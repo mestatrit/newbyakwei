@@ -1,6 +1,8 @@
 package iwant.svr;
 
 import iwant.bean.PptTimeline;
+import iwant.svr.exception.PptNotFoundException;
+import iwant.svr.exception.UserNotFoundException;
 
 import java.util.List;
 
@@ -12,7 +14,8 @@ public interface PptTimelineSvr {
 	 * @param pptTimeline
 	 * @return true:创建成功,false:已经存在，创建失败
 	 */
-	boolean createPptTimeline(PptTimeline pptTimeline);
+	boolean createPptTimeline(PptTimeline pptTimeline)
+			throws PptNotFoundException, UserNotFoundException;
 
 	PptTimeline getPptTimelineByUseridAndPptid(long userid, long pptid);
 

@@ -13,6 +13,8 @@ import iwant.svr.NoticeSvr;
 import iwant.svr.PptSvr;
 import iwant.svr.PptTimelineSvr;
 import iwant.svr.ProjectSvr;
+import iwant.svr.exception.PptNotFoundException;
+import iwant.svr.exception.UserNotFoundException;
 
 import java.util.Date;
 import java.util.List;
@@ -87,14 +89,21 @@ public class CreateUserNoticeJob {
 					for (ProjectFans fans : fanslist) {
 						pptTimeline = new PptTimeline();
 						pptTimeline.setUserid(fans.getUserid());
-						pptTimeline.setCatid(project.getCatid());
 						pptTimeline.setCreatetime(new Date());
 						pptTimeline.setPptid(o.getPptid());
-						pptTimeline.setProjectid(o.getProjectid());
 						pptTimeline.setRead_flag(ReadFlagType.NOTREAD
 								.getValue());
 						pptTimeline.setReadtime(new Date());
-						this.pptTimelineSvr.createPptTimeline(pptTimeline);
+						try {
+							this.pptTimelineSvr.createPptTimeline(pptTimeline);
+						}
+						catch (PptNotFoundException e) {
+							e.printStackTrace();
+						}
+						catch (UserNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
 			}

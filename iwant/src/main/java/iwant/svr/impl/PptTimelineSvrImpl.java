@@ -3,11 +3,15 @@ package iwant.svr.impl;
 import iwant.bean.Ppt;
 import iwant.bean.PptTimeline;
 import iwant.bean.Project;
+import iwant.bean.User;
 import iwant.bean.enumtype.ReadFlagType;
 import iwant.dao.PptTimelineDao;
 import iwant.svr.PptSvr;
 import iwant.svr.PptTimelineSvr;
 import iwant.svr.ProjectSvr;
+import iwant.svr.UserSvr;
+import iwant.svr.exception.PptNotFoundException;
+import iwant.svr.exception.UserNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,12 +33,27 @@ public class PptTimelineSvrImpl implements PptTimelineSvr {
 	@Autowired
 	private ProjectSvr projectSvr;
 
+	@Autowired
+	private UserSvr userSvr;
+
 	@Override
-	public boolean createPptTimeline(PptTimeline pptTimeline) {
+	public boolean createPptTimeline(PptTimeline pptTimeline)
+			throws PptNotFoundException, UserNotFoundException {
+		Ppt ppt = this.pptSvr.getPpt(pptTimeline.getPptid());
+		if (ppt == null) {
+			throw new PptNotFoundException();
+		}
+		User user = this.userSvr.getUserByUserid(pptTimeline.getUserid());
+		if (user == null) {
+			throw new UserNotFoundException();
+		}
 		if (this.pptTimelineDao.isExistByUseridAndPptid(
 				pptTimeline.getUserid(), pptTimeline.getPptid())) {
 			return false;
 		}
+		Project project = this.projectSvr.getProject(ppt.getProjectid());
+		pptTimeline.setProjectid(ppt.getProjectid());
+		pptTimeline.setCatid(project.getCatid());
 		pptTimeline.setSysid(NumberUtil.getLong(this.pptTimelineDao
 				.save(pptTimeline)));
 		return true;
