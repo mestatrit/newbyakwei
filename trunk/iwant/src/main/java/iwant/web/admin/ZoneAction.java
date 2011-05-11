@@ -10,7 +10,7 @@ import iwant.svr.ZoneSvr;
 import iwant.svr.exception.DuplicateCityNameException;
 import iwant.svr.exception.DuplicateDistrictNameException;
 import iwant.svr.exception.DuplicateProvinceNameException;
-import iwant.svr.exception.NoProvinceExistException;
+import iwant.svr.exception.ProvinceNotFoundException;
 import iwant.web.BaseAction;
 import iwant.web.admin.util.AdminUtil;
 import iwant.web.admin.util.Err;
@@ -209,7 +209,7 @@ public class ZoneAction extends BaseAction {
 			catch (DuplicateCityNameException e) {
 				errlist.add(Err.CITY_NAME_DUPLICATE);
 			}
-			catch (NoProvinceExistException e) {
+			catch (ProvinceNotFoundException e) {
 				errlist.add(Err.PROVINCE_NOT_EXIST);
 			}
 		}
@@ -244,7 +244,7 @@ public class ZoneAction extends BaseAction {
 			catch (DuplicateCityNameException e) {
 				errlist.add(Err.CITY_NAME_DUPLICATE);
 			}
-			catch (NoProvinceExistException e) {
+			catch (ProvinceNotFoundException e) {
 				errlist.add(Err.PROVINCE_NOT_EXIST);
 			}
 		}

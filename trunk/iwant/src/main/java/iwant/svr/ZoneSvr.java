@@ -7,7 +7,7 @@ import iwant.bean.Province;
 import iwant.svr.exception.DuplicateCityNameException;
 import iwant.svr.exception.DuplicateDistrictNameException;
 import iwant.svr.exception.DuplicateProvinceNameException;
-import iwant.svr.exception.NoProvinceExistException;
+import iwant.svr.exception.ProvinceNotFoundException;
 
 import java.util.List;
 
@@ -54,10 +54,10 @@ public interface ZoneSvr {
 	List<Province> getProvinceListByCountryid(int countryid);
 
 	void createCity(City city) throws DuplicateCityNameException,
-			NoProvinceExistException;
+			ProvinceNotFoundException;
 
 	void updateCity(City city) throws DuplicateCityNameException,
-			NoProvinceExistException;
+			ProvinceNotFoundException;
 
 	/**
 	 * 删除城市

@@ -7,8 +7,8 @@ import iwant.bean.Slide;
 import iwant.dao.MainPptSearchCdn;
 import iwant.dao.PptSearchCdn;
 import iwant.svr.exception.ImageProcessException;
-import iwant.svr.exception.NoPptExistException;
-import iwant.svr.exception.NoProjectExistException;
+import iwant.svr.exception.PptNotFoundException;
+import iwant.svr.exception.ProjectNotFoundException;
 import iwant.svr.statusenum.UpdateSldePic0Result;
 
 import java.io.File;
@@ -25,7 +25,7 @@ public interface PptSvr {
 	 * @param mainPpt
 	 * @return
 	 */
-	void createMainPpt(MainPpt mainPpt) throws NoProjectExistException;
+	void createMainPpt(MainPpt mainPpt) throws ProjectNotFoundException;
 
 	/**
 	 * 转为主要项目简介
@@ -44,7 +44,7 @@ public interface PptSvr {
 	 *            小方图图片区域,可以为空，为空时，自动切小方图
 	 */
 	void createSlide(Slide slide, File imgFile, PicRect picRect)
-			throws NoPptExistException, ImageProcessException;
+			throws PptNotFoundException, ImageProcessException;
 
 	/**
 	 * 更新幻灯页数据
@@ -55,7 +55,7 @@ public interface PptSvr {
 	 *            小方图图片区域 ,可以为空，为空时，自动切小方图
 	 */
 	void updateSlide(Slide slide, File imgFile, PicRect picRect)
-			throws NoPptExistException, ImageProcessException;
+			throws PptNotFoundException, ImageProcessException;
 
 	/**
 	 * 获得mainppt
@@ -90,7 +90,7 @@ public interface PptSvr {
 	 * @param ppt
 	 * @return
 	 */
-	void createPpt(Ppt ppt) throws NoProjectExistException;
+	void createPpt(Ppt ppt) throws ProjectNotFoundException;
 
 	/**
 	 * 更新ppt
@@ -98,9 +98,9 @@ public interface PptSvr {
 	 * @param ppt
 	 * @return
 	 */
-	void updatePpt(Ppt ppt) throws NoProjectExistException;
+	void updatePpt(Ppt ppt) throws ProjectNotFoundException;
 
-	void updateMainPpt(MainPpt mainPpt) throws NoProjectExistException;
+	void updateMainPpt(MainPpt mainPpt) throws ProjectNotFoundException;
 
 	/**
 	 * 删除ppt

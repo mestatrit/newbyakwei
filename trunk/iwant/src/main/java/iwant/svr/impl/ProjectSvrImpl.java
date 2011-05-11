@@ -12,8 +12,8 @@ import iwant.svr.CategorySvr;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
 import iwant.svr.ZoneSvr;
-import iwant.svr.exception.NoCategoryExistException;
-import iwant.svr.exception.NoDistrictExistException;
+import iwant.svr.exception.CategoryNotFoundException;
+import iwant.svr.exception.DistrictNotFoundException;
 
 import java.util.List;
 import java.util.Map;
@@ -43,14 +43,14 @@ public class ProjectSvrImpl implements ProjectSvr {
 	private CategorySvr categorySvr;
 
 	@Override
-	public void createProject(Project project) throws NoCategoryExistException,
-			NoDistrictExistException {
+	public void createProject(Project project) throws CategoryNotFoundException,
+			DistrictNotFoundException {
 		if (this.categorySvr.getCategory(project.getCatid()) == null) {
-			throw new NoCategoryExistException();
+			throw new CategoryNotFoundException();
 		}
 		District district = this.zoneSvr.getDistrict(project.getDid());
 		if (district == null) {
-			throw new NoDistrictExistException();
+			throw new DistrictNotFoundException();
 		}
 		project.setCityid(district.getCityid());
 		long projectid = NumberUtil.getLong(this.projectidCreatorDao
@@ -78,14 +78,14 @@ public class ProjectSvrImpl implements ProjectSvr {
 	}
 
 	@Override
-	public void updateProject(Project project) throws NoCategoryExistException,
-			NoDistrictExistException {
+	public void updateProject(Project project) throws CategoryNotFoundException,
+			DistrictNotFoundException {
 		if (this.categorySvr.getCategory(project.getCatid()) == null) {
-			throw new NoCategoryExistException();
+			throw new CategoryNotFoundException();
 		}
 		District district = this.zoneSvr.getDistrict(project.getDid());
 		if (district == null) {
-			throw new NoDistrictExistException();
+			throw new DistrictNotFoundException();
 		}
 		project.setCityid(district.getCityid());
 		this.projectDao.update(project);

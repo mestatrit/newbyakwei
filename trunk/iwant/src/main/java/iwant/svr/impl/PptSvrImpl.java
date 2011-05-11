@@ -17,8 +17,8 @@ import iwant.dao.SlideDao;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
 import iwant.svr.exception.ImageProcessException;
-import iwant.svr.exception.NoPptExistException;
-import iwant.svr.exception.NoProjectExistException;
+import iwant.svr.exception.PptNotFoundException;
+import iwant.svr.exception.ProjectNotFoundException;
 import iwant.svr.statusenum.UpdateSldePic0Result;
 import iwant.util.FileCnf;
 import iwant.util.PicUtil;
@@ -69,10 +69,10 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public void createMainPpt(MainPpt mainPpt) throws NoProjectExistException {
+	public void createMainPpt(MainPpt mainPpt) throws ProjectNotFoundException {
 		Project project = this.projectSvr.getProject(mainPpt.getProjectid());
 		if (project == null) {
-			throw new NoProjectExistException();
+			throw new ProjectNotFoundException();
 		}
 		mainPpt.setCityid(project.getCityid());
 		mainPpt.setDid(project.getDid());
@@ -84,10 +84,10 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public void createPpt(Ppt ppt) throws NoProjectExistException {
+	public void createPpt(Ppt ppt) throws ProjectNotFoundException {
 		Project project = this.projectSvr.getProject(ppt.getProjectid());
 		if (project == null) {
-			throw new NoProjectExistException();
+			throw new ProjectNotFoundException();
 		}
 		long pptid = NumberUtil.getLong(this.pptidCreatorDao
 				.save(new PptidCreator()));
@@ -114,7 +114,7 @@ public class PptSvrImpl implements PptSvr {
 			try {
 				this.updatePpt(ppt);
 			}
-			catch (NoProjectExistException e1) {
+			catch (ProjectNotFoundException e1) {
 			}
 			MainPpt mainPpt = this.getMainPpt(slide.getPptid());
 			if (mainPpt != null) {
@@ -122,7 +122,7 @@ public class PptSvrImpl implements PptSvr {
 				try {
 					this.updateMainPpt(mainPpt);
 				}
-				catch (NoProjectExistException e) {
+				catch (ProjectNotFoundException e) {
 				}
 			}
 		}
@@ -219,17 +219,17 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public void updatePpt(Ppt ppt) throws NoProjectExistException {
+	public void updatePpt(Ppt ppt) throws ProjectNotFoundException {
 		Project project = this.projectSvr.getProject(ppt.getProjectid());
 		if (project == null) {
-			throw new NoProjectExistException();
+			throw new ProjectNotFoundException();
 		}
 		this.pptDao.update(ppt);
 	}
 
 	@Override
 	public void createSlide(Slide slide, File imgFile, PicRect picRect)
-			throws NoPptExistException, ImageProcessException {
+			throws PptNotFoundException, ImageProcessException {
 		Ppt ppt = this.getPpt(slide.getPptid());
 		MainPpt mainPpt = this.getMainPpt(slide.getPptid());
 		if (ppt != null) {
@@ -239,7 +239,7 @@ public class PptSvrImpl implements PptSvr {
 			slide.setProjectid(mainPpt.getProjectid());
 		}
 		if (mainPpt == null && ppt == null) {
-			throw new NoPptExistException();
+			throw new PptNotFoundException();
 		}
 		this.processSlideImage(slide, imgFile, picRect);
 		int count = this.slideDao.countByPptid(slide.getPptid());
@@ -251,7 +251,7 @@ public class PptSvrImpl implements PptSvr {
 			try {
 				this.updatePpt(ppt);
 			}
-			catch (NoProjectExistException e) {
+			catch (ProjectNotFoundException e) {
 			}
 		}
 		if (mainPpt != null && DataUtil.isEmpty(mainPpt.getPic_path())) {
@@ -259,18 +259,18 @@ public class PptSvrImpl implements PptSvr {
 			try {
 				this.updateMainPpt(mainPpt);
 			}
-			catch (NoProjectExistException e) {
+			catch (ProjectNotFoundException e) {
 			}
 		}
 	}
 
 	@Override
 	public void updateSlide(Slide slide, File imgFile, PicRect picRect)
-			throws NoPptExistException, ImageProcessException {
+			throws PptNotFoundException, ImageProcessException {
 		Ppt ppt = this.getPpt(slide.getPptid());
 		MainPpt mainPpt = this.getMainPpt(slide.getPptid());
 		if (mainPpt == null && ppt == null) {
-			throw new NoPptExistException();
+			throw new PptNotFoundException();
 		}
 		String oldPic = slide.getPic_path();
 		boolean chgpptpic = false;
@@ -297,7 +297,7 @@ public class PptSvrImpl implements PptSvr {
 				try {
 					this.updatePpt(ppt);
 				}
-				catch (NoProjectExistException e) {
+				catch (ProjectNotFoundException e) {
 				}
 			}
 			if (mainPpt != null) {
@@ -305,7 +305,7 @@ public class PptSvrImpl implements PptSvr {
 				try {
 					this.updateMainPpt(mainPpt);
 				}
-				catch (NoProjectExistException e) {
+				catch (ProjectNotFoundException e) {
 				}
 			}
 		}
@@ -344,10 +344,10 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public void updateMainPpt(MainPpt mainPpt) throws NoProjectExistException {
+	public void updateMainPpt(MainPpt mainPpt) throws ProjectNotFoundException {
 		Project project = this.projectSvr.getProject(mainPpt.getProjectid());
 		if (project == null) {
-			throw new NoProjectExistException();
+			throw new ProjectNotFoundException();
 		}
 		mainPpt.setCityid(project.getCityid());
 		mainPpt.setDid(project.getDid());
