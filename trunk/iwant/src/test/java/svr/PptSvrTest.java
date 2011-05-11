@@ -4,8 +4,9 @@ import iwant.bean.MainPpt;
 import iwant.bean.Ppt;
 import iwant.bean.Slide;
 import iwant.bean.enumtype.ActiveType;
-import iwant.svr.OptStatus;
-import iwant.svr.PptSvr;
+import iwant.svr.exception.ImageProcessException;
+import iwant.svr.exception.NoPptExistException;
+import iwant.svr.exception.NoProjectExistException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,10 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import cactus.util.DateUtil;
@@ -24,113 +22,31 @@ import cactus.util.image.jmagick.PicRect;
 
 public class PptSvrTest extends BaseSvrTest {
 
-	@Resource
-	private PptSvr pptSvr;
-
-	String filePath = "/Users/fire9/test/test.png";
-
-	MainPpt mainPpt0;
-
-	MainPpt mainPpt1;
-
-	Ppt ppt0;
-
-	Ppt ppt1;
-
-	Slide slide0;
-
-	Slide slide1;
-
-	final int catid = 2;
-
-	final int pptid = 3;
-
-	final int projectid = 5;
-
-	@Before
-	public void init() {
-		// *************mainppt*************//
-		// data 0
-		mainPpt0 = new MainPpt();
-		mainPpt0.setActive_flag(ActiveType.ACTIVE.getValue());
-		mainPpt0.setCatid(catid);
-		mainPpt0.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
-		mainPpt0.setName("ppt 0");
-		mainPpt0.setPic_path("");
-		mainPpt0.setProjectid(projectid);
-		this.pptSvr.createMainPpt(mainPpt0);
-		// data 1
-		mainPpt1 = new MainPpt();
-		mainPpt1.setActive_flag(ActiveType.ACTIVE.getValue());
-		mainPpt1.setCatid(catid);
-		mainPpt1.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
-		mainPpt1.setName("ppt 1");
-		mainPpt1.setPic_path("");
-		mainPpt1.setProjectid(projectid);
-		this.pptSvr.createMainPpt(mainPpt1);
-		// *************ppt*************//
-		// data 0
-		this.ppt0 = new Ppt();
-		ppt0.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
-		ppt0.setName("ppt 0");
-		ppt0.setPic_path("");
-		ppt0.setProjectid(projectid);
-		this.pptSvr.createPpt(ppt0);
-		// data 1
-		this.ppt1 = new Ppt();
-		ppt1.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
-		ppt1.setName("ppt 0");
-		ppt1.setPic_path("");
-		ppt1.setProjectid(projectid);
-		this.pptSvr.createPpt(ppt1);
-		// *************slide*************//
-		// data 0
-		this.slide0 = new Slide();
-		this.slide0.setDescr("slide desc 3");
-		this.slide0.setPptid(this.ppt0.getPptid());
-		this.slide0.setProjectid(this.ppt0.getProjectid());
-		this.slide0.setSubtitle("sub 3");
-		this.slide0.setTitle("title 3");
-		this.slide0.setPic_path("");
-		this.pptSvr.createSlide(this.slide0, new File(filePath), null);
-		// data 1
-		this.slide1 = new Slide();
-		this.slide1.setDescr("slide desc 4");
-		this.slide1.setPptid(this.ppt1.getPptid());
-		this.slide1.setProjectid(this.ppt1.getProjectid());
-		this.slide1.setSubtitle("sub 4");
-		this.slide1.setTitle("title 4");
-		this.slide1.setPic_path("");
-		this.pptSvr.createSlide(this.slide1, new File(filePath), null);
-	}
-
 	@Test
-	public void createMainPpt() {
+	public void createMainPpt() throws NoProjectExistException {
 		MainPpt mainPpt = new MainPpt();
 		mainPpt.setActive_flag(ActiveType.ACTIVE.getValue());
-		mainPpt.setCatid(catid);
+		mainPpt.setCatid(this.category.getCatid());
 		mainPpt.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		mainPpt.setName("ppt 3");
 		mainPpt.setPic_path("");
-		mainPpt.setProjectid(this.projectid);
+		mainPpt.setProjectid(this.project0.getProjectid());
 		this.pptSvr.createMainPpt(mainPpt);
 	}
 
 	@Test
-	public void createSlide() {
+	public void createSlide() throws NoPptExistException, ImageProcessException {
 		Slide slide = new Slide();
 		slide.setDescr("slide desc 3");
 		slide.setPptid(this.ppt0.getPptid());
 		slide.setSubtitle("sub 3");
 		slide.setTitle("title 3");
 		slide.setPic_path("");
-		OptStatus optStatus = this.pptSvr.createSlide(slide,
-				new File(filePath), null);
-		Assert.assertEquals(true, optStatus.isSuccess());
+		this.pptSvr.createSlide(slide, new File(filePath), null);
 	}
 
 	@Test
-	public void updateSlide() {
+	public void updateSlide() throws NoPptExistException, ImageProcessException {
 		Slide slide = this.pptSvr.getSlide(this.slide0.getSlideid());
 		Assert.assertNotNull(slide);
 		slide.setDescr("slide desc dldld");
@@ -138,32 +54,30 @@ public class PptSvrTest extends BaseSvrTest {
 		slide.setPic_path("dd");
 		slide.setSubtitle("dkkk");
 		slide.setTitle("tititi");
-		OptStatus optStatus = this.pptSvr.updateSlide(slide,
-				new File(filePath), null);
-		Assert.assertEquals(true, optStatus.isSuccess());
+		this.pptSvr.updateSlide(slide, new File(filePath), null);
 		Slide dbSlide = this.pptSvr.getSlide(this.slide0.getSlideid());
 		this.assertSlideData(slide, dbSlide);
 	}
 
 	@Test
-	public void createPpt() {
+	public void createPpt() throws NoProjectExistException {
 		Ppt ppt = new Ppt();
 		ppt.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		ppt.setName("ppt 0");
 		ppt.setPic_path("");
-		ppt.setProjectid(this.projectid);
+		ppt.setProjectid(this.project0.getProjectid());
 		this.pptSvr.createPpt(ppt);
 		Ppt dbPpt = this.pptSvr.getPpt(ppt.getPptid());
 		this.assertPptData(ppt, dbPpt);
 	}
 
 	@Test
-	public void updatePpt() {
+	public void updatePpt() throws NoProjectExistException {
 		Ppt ppt = this.pptSvr.getPpt(this.ppt0.getPptid());
 		ppt.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		ppt.setName("ppt 0");
 		ppt.setPic_path("");
-		ppt.setProjectid(this.projectid);
+		ppt.setProjectid(this.project0.getProjectid());
 		this.pptSvr.updatePpt(ppt);
 		Ppt dbPpt = this.pptSvr.getPpt(ppt.getPptid());
 		this.assertPptData(ppt, dbPpt);
@@ -191,8 +105,8 @@ public class PptSvrTest extends BaseSvrTest {
 
 	@Test
 	public void getSlideListByProjectid() {
-		List<Slide> list = this.pptSvr.getSlideListByProjectid(projectid, 0,
-				100);
+		List<Slide> list = this.pptSvr.getSlideListByProjectid(this.project0
+				.getProjectid(), 0, 100);
 		Assert.assertEquals(2, list.size());
 	}
 
