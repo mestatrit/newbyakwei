@@ -1,92 +1,19 @@
 package svr;
 
-import iwant.bean.Category;
-import iwant.bean.City;
-import iwant.bean.Country;
-import iwant.bean.District;
 import iwant.bean.Project;
 import iwant.bean.ProjectRecycle;
-import iwant.bean.Province;
 import iwant.bean.enumtype.ActiveType;
-import iwant.svr.CategorySvr;
-import iwant.svr.ProjectSvr;
-import iwant.svr.ZoneSvr;
-import iwant.svr.exception.DuplicateCityNameException;
-import iwant.svr.exception.DuplicateDistrictNameException;
-import iwant.svr.exception.DuplicateProvinceNameException;
 import iwant.svr.exception.NoCategoryExistException;
 import iwant.svr.exception.NoDistrictExistException;
-import iwant.svr.exception.NoProvinceExistException;
 
 import java.util.Date;
 
-import javax.annotation.Resource;
-
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import cactus.util.DateUtil;
 
 public class ProjectSvrTest extends BaseSvrTest {
-
-	@Resource
-	private ProjectSvr projectSvr;
-
-	Project project0;
-
-	@Resource
-	private CategorySvr categorySvr;
-
-	@Resource
-	private ZoneSvr zoneSvr;
-
-	Category category;
-
-	Country country;
-
-	Province province;
-
-	City city;
-
-	District district;
-
-	@Before
-	public void init() throws NoCategoryExistException,
-			NoDistrictExistException, DuplicateProvinceNameException,
-			DuplicateCityNameException, NoProvinceExistException,
-			DuplicateDistrictNameException {
-		category = new Category();
-		category.setName("abc");
-		this.categorySvr.createCategory(category);
-		this.country = new Country();
-		this.country.setName("abcc");
-		this.zoneSvr.createCountry(country);
-		this.province = new Province();
-		this.province.setCountryid(this.country.getCountryid());
-		this.province.setName("pro_abcc");
-		this.zoneSvr.createProvince(province);
-		this.city = new City();
-		this.city.setProvinceid(this.province.getProvinceid());
-		this.city.setName("city_pro_abcc");
-		this.zoneSvr.createCity(city);
-		this.district = new District();
-		this.district.setCityid(this.city.getCityid());
-		this.district.setName("district_city_pro_abcc");
-		this.zoneSvr.createDistrict(district);
-		project0 = new Project();
-		project0.setActive_flag(ActiveType.ACTIVE.getValue());
-		project0.setAddr("kakah");
-		project0.setCatid(this.category.getCatid());
-		project0.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
-		project0.setDescr("bbb");
-		project0.setFans_num(10);
-		project0.setName("project 1");
-		project0.setOrder_flag(100);
-		project0.setTel("125");
-		project0.setDid(this.district.getDid());
-		this.projectSvr.createProject(project0);
-	}
 
 	@Test
 	public void createProject() throws NoCategoryExistException,
