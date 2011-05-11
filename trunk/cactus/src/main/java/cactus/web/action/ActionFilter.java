@@ -34,9 +34,10 @@ public class ActionFilter implements Filter {
 	private ActionResultProcessor actionResultProcessor;
 
 	public void init(FilterConfig config) throws ServletException {
-		this.initActionExe();
-		this.initMappingUriCreator();
-		this.initActionResultProcessor();
+		WebCnf webCnf = (WebCnf) HkUtil.getBean("webCnf");
+		this.actionExe = webCnf.getActionExe();
+		this.mappingUriCreater = webCnf.getMappingUriCreater();
+		this.actionResultProcessor = webCnf.getActionResultProcessor();
 		String endIngore = config.getInitParameter("endIngore");
 		if (endIngore != null) {
 			String[] t = endIngore.split(",");
@@ -72,42 +73,6 @@ public class ActionFilter implements Filter {
 		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	private void initActionExe() {
-		this.actionExe = (ActionExe) HkUtil.getBean("actionExe");
-		if (actionExe == null) {
-			this.createActionExe();
-		}
-	}
-
-	private void initMappingUriCreator() {
-		this.mappingUriCreater = (MappingUriCreater) HkUtil
-				.getBean("mappingUriCreater");
-	}
-
-	private void initActionResultProcessor() {
-		this.actionResultProcessor = (ActionResultProcessor) HkUtil
-				.getBean("actionResultProcessor");
-		if (this.actionResultProcessor == null) {
-			this.actionResultProcessor = new ActionResultProcessor();
-		}
-	}
-
-	public void createActionExe() {
-		ActionFinder actionFinder = (ActionFinder) HkUtil
-				.getBean("actionFinder");
-		if (actionFinder == null) {
-			WebCnf webCnf = (WebCnf) HkUtil.getBean("webCnf");
-			actionFinder = new DefActionFinder();
-			((DefActionFinder) actionFinder).setScanPathList(webCnf
-					.getScanPathList());
-		}
-		ActionMappingCreator actionMappingCreator = new ActionMappingCreator(
-				actionFinder);
-		ActionExeImpl impl = new ActionExeImpl();
-		impl.setActionMappingCreator(actionMappingCreator);
-		this.actionExe = impl;
 	}
 
 	@Override
