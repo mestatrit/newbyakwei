@@ -6,7 +6,9 @@ import iwant.bean.PptQueue;
 import iwant.bean.Slide;
 import iwant.dao.MainPptSearchCdn;
 import iwant.dao.PptSearchCdn;
-import iwant.svr.statusenum.CreateMainPptStatus;
+import iwant.svr.exception.ImageProcessException;
+import iwant.svr.exception.NoPptExistException;
+import iwant.svr.exception.NoProjectExistException;
 import iwant.svr.statusenum.UpdateSldePic0Result;
 import iwant.util.ErrorCode;
 
@@ -24,7 +26,7 @@ public interface PptSvr {
 	 * @param mainPpt
 	 * @return
 	 */
-	CreateMainPptStatus createMainPpt(MainPpt mainPpt);
+	void createMainPpt(MainPpt mainPpt) throws NoProjectExistException;
 
 	/**
 	 * 转为主要项目简介
@@ -41,10 +43,9 @@ public interface PptSvr {
 	 * @param imgFile
 	 * @param picRect
 	 *            小方图图片区域,可以为空，为空时，自动切小方图
-	 * @return OptStatus中error_code的值为 {@link ErrorCode#success},
-	 *         {@link ErrorCode#err_image}
 	 */
-	OptStatus createSlide(Slide slide, File imgFile, PicRect picRect);
+	void createSlide(Slide slide, File imgFile, PicRect picRect)
+			throws NoPptExistException, ImageProcessException;
 
 	/**
 	 * 更新幻灯页数据
@@ -53,10 +54,9 @@ public interface PptSvr {
 	 * @param imgFile
 	 * @param picRect
 	 *            小方图图片区域 ,可以为空，为空时，自动切小方图
-	 * @return OptStatus中error_code的值为 {@link ErrorCode#success},
-	 *         {@link ErrorCode#err_image}
 	 */
-	OptStatus updateSlide(Slide slide, File imgFile, PicRect picRect);
+	void updateSlide(Slide slide, File imgFile, PicRect picRect)
+			throws NoPptExistException, ImageProcessException;
 
 	/**
 	 * 获得mainppt
@@ -91,7 +91,7 @@ public interface PptSvr {
 	 * @param ppt
 	 * @return
 	 */
-	void createPpt(Ppt ppt);
+	void createPpt(Ppt ppt) throws NoProjectExistException;
 
 	/**
 	 * 更新ppt
@@ -99,9 +99,9 @@ public interface PptSvr {
 	 * @param ppt
 	 * @return
 	 */
-	void updatePpt(Ppt ppt);
+	void updatePpt(Ppt ppt) throws NoProjectExistException;
 
-	void updateMainPpt(MainPpt mainPpt);
+	void updateMainPpt(MainPpt mainPpt) throws NoProjectExistException;
 
 	/**
 	 * 删除ppt
