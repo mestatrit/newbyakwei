@@ -5,8 +5,8 @@ import iwant.bean.Ppt;
 import iwant.bean.Slide;
 import iwant.bean.enumtype.ActiveType;
 import iwant.svr.exception.ImageProcessException;
-import iwant.svr.exception.NoPptExistException;
-import iwant.svr.exception.NoProjectExistException;
+import iwant.svr.exception.PptNotFoundException;
+import iwant.svr.exception.ProjectNotFoundException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import cactus.util.image.jmagick.PicRect;
 public class PptSvrTest extends BaseSvrTest {
 
 	@Test
-	public void createMainPpt() throws NoProjectExistException {
+	public void createMainPpt() throws ProjectNotFoundException {
 		MainPpt mainPpt = new MainPpt();
 		mainPpt.setActive_flag(ActiveType.ACTIVE.getValue());
 		mainPpt.setCatid(this.category.getCatid());
@@ -35,7 +35,7 @@ public class PptSvrTest extends BaseSvrTest {
 	}
 
 	@Test
-	public void createSlide() throws NoPptExistException, ImageProcessException {
+	public void createSlide() throws PptNotFoundException, ImageProcessException {
 		Slide slide = new Slide();
 		slide.setDescr("slide desc 3");
 		slide.setPptid(this.ppt0.getPptid());
@@ -46,7 +46,7 @@ public class PptSvrTest extends BaseSvrTest {
 	}
 
 	@Test
-	public void updateSlide() throws NoPptExistException, ImageProcessException {
+	public void updateSlide() throws PptNotFoundException, ImageProcessException {
 		Slide slide = this.pptSvr.getSlide(this.slide0.getSlideid());
 		Assert.assertNotNull(slide);
 		slide.setDescr("slide desc dldld");
@@ -60,7 +60,7 @@ public class PptSvrTest extends BaseSvrTest {
 	}
 
 	@Test
-	public void createPpt() throws NoProjectExistException {
+	public void createPpt() throws ProjectNotFoundException {
 		Ppt ppt = new Ppt();
 		ppt.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		ppt.setName("ppt 0");
@@ -72,7 +72,7 @@ public class PptSvrTest extends BaseSvrTest {
 	}
 
 	@Test
-	public void updatePpt() throws NoProjectExistException {
+	public void updatePpt() throws ProjectNotFoundException {
 		Ppt ppt = this.pptSvr.getPpt(this.ppt0.getPptid());
 		ppt.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		ppt.setName("ppt 0");

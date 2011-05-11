@@ -29,11 +29,12 @@ import iwant.svr.exception.DuplicateCityNameException;
 import iwant.svr.exception.DuplicateDistrictNameException;
 import iwant.svr.exception.DuplicateProvinceNameException;
 import iwant.svr.exception.ImageProcessException;
-import iwant.svr.exception.NoCategoryExistException;
-import iwant.svr.exception.NoDistrictExistException;
-import iwant.svr.exception.NoPptExistException;
-import iwant.svr.exception.NoProjectExistException;
-import iwant.svr.exception.NoProvinceExistException;
+import iwant.svr.exception.CategoryNotFoundException;
+import iwant.svr.exception.DistrictNotFoundException;
+import iwant.svr.exception.PptNotFoundException;
+import iwant.svr.exception.ProjectNotFoundException;
+import iwant.svr.exception.ProvinceNotFoundException;
+import iwant.svr.exception.UserNotFoundException;
 
 import java.io.File;
 import java.util.Date;
@@ -131,11 +132,11 @@ public class BaseSvrTest {
 	UserNotice userNotice1;
 
 	@Before
-	public void init() throws NoCategoryExistException,
-			NoDistrictExistException, DuplicateProvinceNameException,
-			DuplicateCityNameException, NoProvinceExistException,
-			DuplicateDistrictNameException, NoProjectExistException,
-			NoPptExistException, ImageProcessException {
+	public void init() throws CategoryNotFoundException,
+			DistrictNotFoundException, DuplicateProvinceNameException,
+			DuplicateCityNameException, ProvinceNotFoundException,
+			DuplicateDistrictNameException, ProjectNotFoundException,
+			PptNotFoundException, ImageProcessException, UserNotFoundException {
 		// data 1
 		category1 = new Category();
 		category1.setName("akwei");
@@ -257,11 +258,9 @@ public class BaseSvrTest {
 		this.pptSvr.createSlide(this.slide1, new File(filePath), null);
 		// data 0
 		this.pptTimeline0 = new PptTimeline();
-		this.pptTimeline0.setCatid(this.category.getCatid());
 		this.pptTimeline0.setCreatetime(DateUtil
 				.createNoMillisecondTime(new Date()));
 		this.pptTimeline0.setPptid(this.ppt0.getPptid());
-		this.pptTimeline0.setProjectid(this.ppt0.getProjectid());
 		this.pptTimeline0.setRead_flag(ReadFlagType.NOTREAD.getValue());
 		this.pptTimeline0.setReadtime(DateUtil
 				.createNoMillisecondTime(new Date()));
@@ -269,11 +268,9 @@ public class BaseSvrTest {
 		this.pptTimelineSvr.createPptTimeline(this.pptTimeline0);
 		// data 1
 		this.pptTimeline1 = new PptTimeline();
-		this.pptTimeline1.setCatid(this.category.getCatid());
 		this.pptTimeline1.setCreatetime(DateUtil
 				.createNoMillisecondTime(new Date()));
 		this.pptTimeline1.setPptid(this.ppt0.getPptid());
-		this.pptTimeline1.setProjectid(this.ppt0.getProjectid());
 		this.pptTimeline1.setRead_flag(ReadFlagType.NOTREAD.getValue());
 		this.pptTimeline1.setReadtime(DateUtil
 				.createNoMillisecondTime(new Date()));
