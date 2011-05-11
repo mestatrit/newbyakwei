@@ -264,7 +264,7 @@ public class BaseSvrTest {
 		this.pptTimeline0.setRead_flag(ReadFlagType.NOTREAD.getValue());
 		this.pptTimeline0.setReadtime(DateUtil
 				.createNoMillisecondTime(new Date()));
-		this.pptTimeline0.setUserid(2);
+		this.pptTimeline0.setUserid(this.user0.getUserid());
 		this.pptTimelineSvr.createPptTimeline(this.pptTimeline0);
 		// data 1
 		this.pptTimeline1 = new PptTimeline();
@@ -274,7 +274,7 @@ public class BaseSvrTest {
 		this.pptTimeline1.setRead_flag(ReadFlagType.NOTREAD.getValue());
 		this.pptTimeline1.setReadtime(DateUtil
 				.createNoMillisecondTime(new Date()));
-		this.pptTimeline1.setUserid(2);
+		this.pptTimeline1.setUserid(this.user1.getUserid());
 		this.pptTimelineSvr.createPptTimeline(this.pptTimeline1);
 		// data 0
 		this.notice0 = new Notice();
