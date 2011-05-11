@@ -62,6 +62,10 @@ function createok(err,err_msg,v){
 function createmainok(err,err_msg,v){
 	tourl('${appctx_path}/mgr/ppt_viewmain.do?pptid='+v);
 }
+function noprojecterr(err,err_msg,v){
+	alert("项目不存在");
+	tourl('${appctx_path}/mgr/project.do');
+}
 
 function updateok(err,err_msg,v){
 	if(back_url.length==0){
