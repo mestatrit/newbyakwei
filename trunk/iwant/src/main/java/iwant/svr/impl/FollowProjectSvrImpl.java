@@ -1,10 +1,16 @@
 package iwant.svr.impl;
 
 import iwant.bean.FollowProject;
+import iwant.bean.Project;
 import iwant.bean.ProjectFans;
+import iwant.bean.User;
 import iwant.dao.FollowProjectDao;
 import iwant.dao.ProjectFansDao;
 import iwant.svr.FollowProjectSvr;
+import iwant.svr.ProjectSvr;
+import iwant.svr.UserSvr;
+import iwant.svr.exception.ProjectNotFoundException;
+import iwant.svr.exception.UserNotFoundException;
 
 import java.util.List;
 
@@ -20,8 +26,23 @@ public class FollowProjectSvrImpl implements FollowProjectSvr {
 	@Autowired
 	private ProjectFansDao projectFansDao;
 
+	@Autowired
+	private UserSvr userSvr;
+
+	@Autowired
+	private ProjectSvr projectSvr;
+
 	@Override
-	public FollowProject createFollow(long userid, long projectid) {
+	public FollowProject createFollow(long userid, long projectid)
+			throws UserNotFoundException, ProjectNotFoundException {
+		User user = this.userSvr.getUserByUserid(userid);
+		if (user == null) {
+			throw new UserNotFoundException();
+		}
+		Project project = this.projectSvr.getProject(projectid);
+		if (project == null) {
+			throw new ProjectNotFoundException();
+		}
 		FollowProject o = this.followProjectDao.getByUseridAndProjectid(userid,
 				projectid);
 		if (o == null) {

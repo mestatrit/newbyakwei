@@ -2,6 +2,8 @@ package iwant.svr;
 
 import iwant.bean.FollowProject;
 import iwant.bean.ProjectFans;
+import iwant.svr.exception.ProjectNotFoundException;
+import iwant.svr.exception.UserNotFoundException;
 
 import java.util.List;
 
@@ -15,8 +17,13 @@ public interface FollowProjectSvr {
 	 * @param projectid
 	 *            订阅的项目id
 	 * @return 对象实体:订阅成功
+	 * @throws UserNotFoundException
+	 *             用户不存在
+	 * @throws ProjectNotFoundException
+	 *             项目不存在
 	 */
-	FollowProject createFollow(long userid, long projectid);
+	FollowProject createFollow(long userid, long projectid)
+			throws UserNotFoundException, ProjectNotFoundException;
 
 	/**
 	 * 取消订阅
