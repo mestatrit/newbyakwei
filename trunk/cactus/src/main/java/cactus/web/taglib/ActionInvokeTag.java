@@ -26,6 +26,6 @@ public class ActionInvokeTag extends BaseBodyTag {
 		if (actionExe == null) {
 			return;
 		}
-		actionExe.invoke(this.getRequest(), mappinguri, this.getResponse());
+		actionExe.invoke(mappinguri, this.getRequest(), this.getResponse());
 	}
 }
