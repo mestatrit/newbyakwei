@@ -12,12 +12,13 @@ import iwant.dao.PptSearchCdn;
 import iwant.svr.CategorySvr;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
-import iwant.svr.statusenum.CreateMainPptStatus;
+import iwant.svr.exception.NoProjectExistException;
 import iwant.util.ActiveTypeCreater;
 import iwant.util.BackUrl;
 import iwant.util.BackUrlUtil;
 import iwant.web.BaseAction;
 import iwant.web.admin.util.AdminUtil;
+import iwant.web.admin.util.Err;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -75,7 +76,7 @@ public class PptAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String createmain(HkRequest req, HkResponse resp) throws Exception {
+	public String createmain(HkRequest req, HkResponse resp) {
 		long projectid = req.getLongAndSetAttr("projectid");
 		Project project = this.projectSvr.getProject(projectid);
 		if (this.isForwardPage(req)) {
@@ -97,16 +98,18 @@ public class PptAction extends BaseAction {
 		if (!errlist.isEmpty()) {
 			return this.onErrorList(req, errlist, "createerr");
 		}
-		CreateMainPptStatus createMainPptStatus = this.pptSvr
-				.createMainPpt(mainPpt);
-		if (createMainPptStatus == CreateMainPptStatus.SUCCESS) {
+		try {
+			this.pptSvr.createMainPpt(mainPpt);
 			this.opCreateSuccess(req);
 			return this.onSuccess(req, "createmainok", mainPpt.getPptid());
 		}
-		return null;
+		catch (NoProjectExistException e) {
+			return this.onError(req, Err.PROJECT_NOT_EXIST, "noprojecterr",
+					null);
+		}
 	}
 
-	public String updatemain(HkRequest req, HkResponse resp) throws Exception {
+	public String updatemain(HkRequest req, HkResponse resp) {
 		MainPpt ppt = this.pptSvr.getMainPpt(req.getLongAndSetAttr("pptid"));
 		if (this.isForwardPage(req)) {
 			req.setAttribute("op_project", true);
@@ -123,9 +126,15 @@ public class PptAction extends BaseAction {
 		if (!errlist.isEmpty()) {
 			return this.onErrorList(req, errlist, "updateerr");
 		}
-		this.pptSvr.updateMainPpt(ppt);
-		this.opUpdateSuccess(req);
-		return this.onSuccess(req, "updatemainok", null);
+		try {
+			this.pptSvr.updateMainPpt(ppt);
+			this.opUpdateSuccess(req);
+			return this.onSuccess(req, "updatemainok", null);
+		}
+		catch (NoProjectExistException e) {
+			return this.onError(req, Err.PROJECT_NOT_EXIST, "noprojecterr",
+					null);
+		}
 	}
 
 	/**
@@ -134,7 +143,7 @@ public class PptAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String create(HkRequest req, HkResponse resp) throws Exception {
+	public String create(HkRequest req, HkResponse resp) {
 		long projectid = req.getLongAndSetAttr("projectid");
 		Project project = this.projectSvr.getProject(projectid);
 		if (this.isForwardPage(req)) {
@@ -154,12 +163,18 @@ public class PptAction extends BaseAction {
 		if (!errlist.isEmpty()) {
 			return this.onErrorList(req, errlist, "createerr");
 		}
-		this.pptSvr.createPpt(ppt);
-		this.opCreateSuccess(req);
-		return this.onSuccess(req, "createok", ppt.getPptid());
+		try {
+			this.pptSvr.createPpt(ppt);
+			this.opCreateSuccess(req);
+			return this.onSuccess(req, "createok", ppt.getPptid());
+		}
+		catch (NoProjectExistException e) {
+			return this.onError(req, Err.PROJECT_NOT_EXIST, "noprojecterr",
+					null);
+		}
 	}
 
-	public String update(HkRequest req, HkResponse resp) throws Exception {
+	public String update(HkRequest req, HkResponse resp) {
 		Ppt ppt = this.pptSvr.getPpt(req.getLongAndSetAttr("pptid"));
 		if (this.isForwardPage(req)) {
 			req.setAttribute("op_project", true);
@@ -176,9 +191,15 @@ public class PptAction extends BaseAction {
 		if (!errlist.isEmpty()) {
 			return this.onErrorList(req, errlist, "updateerr");
 		}
-		this.pptSvr.updatePpt(ppt);
-		this.opUpdateSuccess(req);
-		return this.onSuccess(req, "updateok", null);
+		try {
+			this.pptSvr.updatePpt(ppt);
+			this.opUpdateSuccess(req);
+			return this.onSuccess(req, "updateok", null);
+		}
+		catch (NoProjectExistException e) {
+			return this.onError(req, Err.PROJECT_NOT_EXIST, "noprojecterr",
+					null);
+		}
 	}
 
 	/**

@@ -68,6 +68,17 @@ public class MainPpt {
 	@Column
 	private int cityid;
 
+	@Column
+	private int did;
+
+	public void setDid(int did) {
+		this.did = did;
+	}
+
+	public int getDid() {
+		return did;
+	}
+
 	public void setCityid(int cityid) {
 		this.cityid = cityid;
 	}

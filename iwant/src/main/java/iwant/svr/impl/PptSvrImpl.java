@@ -14,12 +14,12 @@ import iwant.dao.PptQueueDao;
 import iwant.dao.PptSearchCdn;
 import iwant.dao.PptidCreatorDao;
 import iwant.dao.SlideDao;
-import iwant.svr.OptStatus;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
-import iwant.svr.statusenum.CreateMainPptStatus;
+import iwant.svr.exception.ImageProcessException;
+import iwant.svr.exception.NoPptExistException;
+import iwant.svr.exception.NoProjectExistException;
 import iwant.svr.statusenum.UpdateSldePic0Result;
-import iwant.util.ErrorCode;
 import iwant.util.FileCnf;
 import iwant.util.PicUtil;
 
@@ -69,22 +69,26 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public CreateMainPptStatus createMainPpt(MainPpt mainPpt) {
+	public void createMainPpt(MainPpt mainPpt) throws NoProjectExistException {
 		Project project = this.projectSvr.getProject(mainPpt.getProjectid());
 		if (project == null) {
-			return CreateMainPptStatus.NOPROJECT;
+			throw new NoProjectExistException();
 		}
 		mainPpt.setCityid(project.getCityid());
+		mainPpt.setDid(project.getDid());
 		long pptid = NumberUtil.getLong(this.pptidCreatorDao
 				.save(new PptidCreator()));
 		mainPpt.setPptid(pptid);
 		mainPpt.setOrder_flag(mainPpt.getPptid());
 		this.mainPptDao.save(mainPpt);
-		return CreateMainPptStatus.SUCCESS;
 	}
 
 	@Override
-	public void createPpt(Ppt ppt) {
+	public void createPpt(Ppt ppt) throws NoProjectExistException {
+		Project project = this.projectSvr.getProject(ppt.getProjectid());
+		if (project == null) {
+			throw new NoProjectExistException();
+		}
 		long pptid = NumberUtil.getLong(this.pptidCreatorDao
 				.save(new PptidCreator()));
 		ppt.setPptid(pptid);
@@ -107,11 +111,19 @@ public class PptSvrImpl implements PptSvr {
 				return;
 			}
 			ppt.setPic_path(list.get(0).getPic_path());
-			this.updatePpt(ppt);
+			try {
+				this.updatePpt(ppt);
+			}
+			catch (NoProjectExistException e1) {
+			}
 			MainPpt mainPpt = this.getMainPpt(slide.getPptid());
 			if (mainPpt != null) {
 				mainPpt.setPic_path(slide.getPic_path());
-				this.updateMainPpt(mainPpt);
+				try {
+					this.updateMainPpt(mainPpt);
+				}
+				catch (NoProjectExistException e) {
+				}
 			}
 		}
 	}
@@ -207,19 +219,17 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public void updatePpt(Ppt ppt) {
+	public void updatePpt(Ppt ppt) throws NoProjectExistException {
+		Project project = this.projectSvr.getProject(ppt.getProjectid());
+		if (project == null) {
+			throw new NoProjectExistException();
+		}
 		this.pptDao.update(ppt);
 	}
 
 	@Override
-	public OptStatus createSlide(Slide slide, File imgFile, PicRect picRect) {
-		OptStatus optStatus = new OptStatus();
-		this.processSlideImage(slide, imgFile, picRect, optStatus);
-		if (!optStatus.isSuccess()) {
-			return optStatus;
-		}
-		int count = this.slideDao.countByPptid(slide.getPptid());
-		slide.setOrder_flag(count + 1);
+	public void createSlide(Slide slide, File imgFile, PicRect picRect)
+			throws NoPptExistException, ImageProcessException {
 		Ppt ppt = this.getPpt(slide.getPptid());
 		MainPpt mainPpt = this.getMainPpt(slide.getPptid());
 		if (ppt != null) {
@@ -228,26 +238,40 @@ public class PptSvrImpl implements PptSvr {
 		if (mainPpt != null) {
 			slide.setProjectid(mainPpt.getProjectid());
 		}
+		if (mainPpt == null && ppt == null) {
+			throw new NoPptExistException();
+		}
+		this.processSlideImage(slide, imgFile, picRect);
+		int count = this.slideDao.countByPptid(slide.getPptid());
+		slide.setOrder_flag(count + 1);
 		long slideid = NumberUtil.getLong(this.slideDao.save(slide));
 		slide.setSlideid(slideid);
-		optStatus.setSuccess(true);
-		optStatus.setError_code(ErrorCode.success);
 		if (ppt != null && DataUtil.isEmpty(ppt.getPic_path())) {
 			ppt.setPic_path(slide.getPic_path());
-			this.updatePpt(ppt);
+			try {
+				this.updatePpt(ppt);
+			}
+			catch (NoProjectExistException e) {
+			}
 		}
 		if (mainPpt != null && DataUtil.isEmpty(mainPpt.getPic_path())) {
 			mainPpt.setPic_path(slide.getPic_path());
-			this.updateMainPpt(mainPpt);
+			try {
+				this.updateMainPpt(mainPpt);
+			}
+			catch (NoProjectExistException e) {
+			}
 		}
-		return optStatus;
 	}
 
 	@Override
-	public OptStatus updateSlide(Slide slide, File imgFile, PicRect picRect) {
-		OptStatus optStatus = new OptStatus();
+	public void updateSlide(Slide slide, File imgFile, PicRect picRect)
+			throws NoPptExistException, ImageProcessException {
 		Ppt ppt = this.getPpt(slide.getPptid());
 		MainPpt mainPpt = this.getMainPpt(slide.getPptid());
+		if (mainPpt == null && ppt == null) {
+			throw new NoPptExistException();
+		}
 		String oldPic = slide.getPic_path();
 		boolean chgpptpic = false;
 		if (ppt != null) {
@@ -263,26 +287,28 @@ public class PptSvrImpl implements PptSvr {
 			}
 		}
 		if (imgFile != null) {
-			this.processSlideImage(slide, imgFile, picRect, optStatus);
-			if (!optStatus.isSuccess()) {
-				return optStatus;
-			}
+			this.processSlideImage(slide, imgFile, picRect);
 			this.deleteSlideOldPic(oldPic);
 		}
 		this.slideDao.update(slide);
-		optStatus.setSuccess(true);
-		optStatus.setError_code(ErrorCode.success);
 		if (chgpptpic) {
 			if (ppt != null) {
 				ppt.setPic_path(slide.getPic_path());
-				this.updatePpt(ppt);
+				try {
+					this.updatePpt(ppt);
+				}
+				catch (NoProjectExistException e) {
+				}
 			}
 			if (mainPpt != null) {
 				mainPpt.setPic_path(slide.getPic_path());
-				this.updateMainPpt(mainPpt);
+				try {
+					this.updateMainPpt(mainPpt);
+				}
+				catch (NoProjectExistException e) {
+				}
 			}
 		}
-		return optStatus;
 	}
 
 	@Override
@@ -318,12 +344,18 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public void updateMainPpt(MainPpt mainPpt) {
+	public void updateMainPpt(MainPpt mainPpt) throws NoProjectExistException {
+		Project project = this.projectSvr.getProject(mainPpt.getProjectid());
+		if (project == null) {
+			throw new NoProjectExistException();
+		}
+		mainPpt.setCityid(project.getCityid());
+		mainPpt.setDid(project.getDid());
 		this.mainPptDao.update(mainPpt);
 	}
 
-	private void processSlideImage(Slide slide, File imgFile, PicRect picRect,
-			OptStatus optStatus) {
+	private void processSlideImage(Slide slide, File imgFile, PicRect picRect)
+			throws ImageProcessException {
 		ImgFileInfo imgFileInfo = ImgFileInfo.getImageFileInfo(imgFile);
 		if (imgFileInfo != null) {
 			ImageProcessor imageProcessor = new ImageProcessor(imgFileInfo);
@@ -343,12 +375,10 @@ public class PptSvrImpl implements PptSvr {
 				}
 				imageProcessor.makeImage(filePath, PicUtil.SLIDE_PIC2_NAME,
 						false, 960);
-				optStatus.setSuccess(true);
 			}
 			catch (ImageException e) {
 				log.error("processSlideImage image error : " + e);
-				optStatus.setSuccess(false);
-				optStatus.setError_code(ErrorCode.err_image);
+				throw new ImageProcessException();
 			}
 		}
 	}

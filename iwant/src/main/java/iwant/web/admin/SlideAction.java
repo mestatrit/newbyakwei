@@ -4,8 +4,9 @@ import iwant.bean.MainPpt;
 import iwant.bean.Ppt;
 import iwant.bean.Slide;
 import iwant.bean.validate.SlideValidator;
-import iwant.svr.OptStatus;
 import iwant.svr.PptSvr;
+import iwant.svr.exception.ImageProcessException;
+import iwant.svr.exception.NoPptExistException;
 import iwant.svr.statusenum.UpdateSldePic0Result;
 import iwant.util.BackUrl;
 import iwant.util.BackUrlUtil;
@@ -37,7 +38,7 @@ public class SlideAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String create(HkRequest req, HkResponse resp) throws Exception {
+	public String create(HkRequest req, HkResponse resp) {
 		long pptid = req.getLongAndSetAttr("pptid");
 		if (this.isForwardPage(req)) {
 			Ppt ppt = this.pptSvr.getPpt(pptid);
@@ -65,12 +66,18 @@ public class SlideAction extends BaseAction {
 		if (!errlist.isEmpty()) {
 			return this.onErrorList(req, errlist, "createerr");
 		}
-		OptStatus optStatus = this.pptSvr.createSlide(slide, imgFile, null);
-		if (!optStatus.isSuccess()) {
-			errlist.add(Err.PROCESS_IMAGEFILE_ERR);
+		try {
+			this.pptSvr.createSlide(slide, imgFile, null);
+			this.opCreateSuccess(req);
+			return this.onSuccess(req, "createok", slide.getSlideid());
 		}
-		this.opCreateSuccess(req);
-		return this.onSuccess(req, "createok", slide.getSlideid());
+		catch (NoPptExistException e) {
+			return this.onError(req, Err.PPT_NOT_EXIST, "noppterr", null);
+		}
+		catch (ImageProcessException e) {
+			errlist.add(Err.PROCESS_IMAGEFILE_ERR);
+			return this.onErrorList(req, errlist, "createerr");
+		}
 	}
 
 	/**
@@ -79,7 +86,7 @@ public class SlideAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String update(HkRequest req, HkResponse resp) throws Exception {
+	public String update(HkRequest req, HkResponse resp) {
 		Slide slide = this.pptSvr.getSlide(req.getLongAndSetAttr("slideid"));
 		if (slide == null) {
 			return null;
@@ -111,12 +118,18 @@ public class SlideAction extends BaseAction {
 		if (!errlist.isEmpty()) {
 			return this.onErrorList(req, errlist, "updateerr");
 		}
-		OptStatus optStatus = this.pptSvr.updateSlide(slide, imgFile, null);
-		if (!optStatus.isSuccess()) {
-			errlist.add(Err.PROCESS_IMAGEFILE_ERR);
+		try {
+			this.pptSvr.updateSlide(slide, imgFile, null);
+			this.opCreateSuccess(req);
+			return this.onSuccess(req, "updateok", null);
 		}
-		this.opCreateSuccess(req);
-		return this.onSuccess(req, "updateok", null);
+		catch (NoPptExistException e) {
+			return this.onError(req, Err.PPT_NOT_EXIST, "noppterr", null);
+		}
+		catch (ImageProcessException e) {
+			errlist.add(Err.PROCESS_IMAGEFILE_ERR);
+			return this.onErrorList(req, errlist, "updateerr");
+		}
 	}
 
 	/**
