@@ -96,7 +96,7 @@ public class BaseSvrTest {
 
 	District district;
 
-	String filePath = "/Users/fire9/test/test.png";
+	String filePath = "c:/test/05.jpg";
 
 	MainPpt mainPpt0;
 
@@ -160,10 +160,6 @@ public class BaseSvrTest {
 		this.user1.setMobile("");
 		this.user1.setName("");
 		this.userSvr.createUser(this.user1);
-		followProject0 = this.followProjectSvr.createFollow(this.user0
-				.getUserid(), this.project0.getProjectid());
-		followProject1 = this.followProjectSvr.createFollow(this.user1
-				.getUserid(), this.project0.getProjectid());
 		category = new Category();
 		category.setName("abc");
 		this.categorySvr.createCategory(category);
@@ -302,6 +298,10 @@ public class BaseSvrTest {
 				.getNoticeid(), this.user0.getUserid());
 		this.userNotice1 = this.noticeSvr.createUserNotice(this.notice1
 				.getNoticeid(), this.user1.getUserid());
+		followProject0 = this.followProjectSvr.createFollow(this.user0
+				.getUserid(), this.project0.getProjectid());
+		followProject1 = this.followProjectSvr.createFollow(this.user1
+				.getUserid(), this.project0.getProjectid());
 	}
 
 	@Test
