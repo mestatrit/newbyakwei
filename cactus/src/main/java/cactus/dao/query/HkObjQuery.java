@@ -60,10 +60,9 @@ public class HkObjQuery extends HkQuery {
 		return new BaseParam(this.getObjectSqlInfoCreater());
 	}
 
-	public <T> BaseParam createBaseParam(Class<T> clazz, String key,
-			Object value) {
+	public <T> BaseParam createBaseParam(String key, Object value) {
 		BaseParam baseParam = this.createBaseParam();
-		baseParam.addKeyAndValue(clazz, key, value);
+		baseParam.addKeyAndValue(key, value);
 		return baseParam;
 	}
 
@@ -76,10 +75,9 @@ public class HkObjQuery extends HkQuery {
 		return new UpdateParam(this.getObjectSqlInfoCreater());
 	}
 
-	public <T> UpdateParam createUpdateParam(Class<T> clazz, String key,
-			Object value) {
+	public <T> UpdateParam createUpdateParam(String key, Object value) {
 		UpdateParam updateParam = this.createUpdateParam();
-		updateParam.addKeyAndValue(clazz, key, value);
+		updateParam.addKeyAndValue(key, value);
 		return updateParam;
 	}
 
@@ -92,10 +90,9 @@ public class HkObjQuery extends HkQuery {
 		return new DeleteParam(this.getObjectSqlInfoCreater());
 	}
 
-	public <T> DeleteParam createDeleteParam(Class<T> clazz, String key,
-			Object value) {
+	public <T> DeleteParam createDeleteParam(String key, Object value) {
 		DeleteParam deleteParam = this.createDeleteParam();
-		deleteParam.addKeyAndValue(clazz, key, value);
+		deleteParam.addKeyAndValue(key, value);
 		return deleteParam;
 	}
 
@@ -108,10 +105,9 @@ public class HkObjQuery extends HkQuery {
 		return new QueryParam(this.getObjectSqlInfoCreater());
 	}
 
-	public <T> QueryParam createQueryParam(Class<T> clazz, String key,
-			Object value) {
+	public <T> QueryParam createQueryParam(String key, Object value) {
 		QueryParam queryParam = this.createQueryParam();
-		queryParam.addKeyAndValue(clazz, key, value);
+		queryParam.addKeyAndValue(key, value);
 		return queryParam;
 	}
 
