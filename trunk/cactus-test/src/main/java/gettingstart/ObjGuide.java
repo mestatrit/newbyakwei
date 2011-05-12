@@ -45,8 +45,7 @@ public class ObjGuide {
 		// 创建参数对象
 		BaseParam baseParam = hkObjQuery.createBaseParam();
 		// 设置分区参数以及值
-		baseParam
-				.addKeyAndValue(TestUser.class, "userid", testUser.getUserid());
+		baseParam.addKeyAndValue("userid", testUser.getUserid());
 		// 创建操作
 		hkObjQuery.insertObj(baseParam, testUser);
 	}
@@ -67,8 +66,7 @@ public class ObjGuide {
 		// 创建参数对象
 		BaseParam baseParam = hkObjQuery.createBaseParam();
 		// 设置分区参数以及值
-		baseParam
-				.addKeyAndValue(TestUser.class, "userid", testUser.getUserid());
+		baseParam.addKeyAndValue("userid", testUser.getUserid());
 		// update
 		hkObjQuery.updateObj(baseParam, testUser);
 	}
@@ -80,7 +78,7 @@ public class ObjGuide {
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		UpdateParam updateParam = hkObjQuery.createUpdateParam();
 		// 设置分区参数以及值
-		updateParam.addKeyAndValue(TestUser.class, "userid", 1);
+		updateParam.addKeyAndValue("userid", 1);
 		// 设置需要修改的列
 		updateParam.setUpdateColumns(new String[] { "gender", "createtime",
 				"nick" });
@@ -101,7 +99,7 @@ public class ObjGuide {
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		QueryParam queryParam = hkObjQuery.createQueryParam();
 		// 设置分区参数以及值
-		queryParam.addKeyAndValue(TestUser.class, "userid", userid);
+		queryParam.addKeyAndValue("userid", userid);
 		// select
 		TestUser testUser = hkObjQuery.getObjectById(queryParam,
 				TestUser.class, userid);
@@ -117,7 +115,7 @@ public class ObjGuide {
 		// 添加需要查询的表,如果查询的表与返回值类型相同，可不设置此参数
 		queryParam.addClass(TestUser.class);
 		// 设置分区参数以及值
-		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
+		queryParam.addKeyAndValue("userid", new Long(4));
 		// 设置查询范围如果size为<0时，取所有数据
 		queryParam.setRange(0, 10);
 		queryParam.setWhereAndParams("testuser.nick=?",
@@ -140,8 +138,8 @@ public class ObjGuide {
 		queryParam.addClass(TestUser.class);
 		queryParam.addClass(Member.class);
 		// 设置分区参数以及值
-		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
-		queryParam.addKeyAndValue(Member.class, "memberuserid", new Long(4));
+		queryParam.addKeyAndValue("userid", new Long(4));
+		queryParam.addKeyAndValue("memberuserid", new Long(4));
 		// 设置查询范围
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
@@ -180,8 +178,8 @@ public class ObjGuide {
 		queryParam.addClass(TestUser.class);
 		queryParam.addClass(Member.class);
 		// 设置分区参数以及值
-		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
-		queryParam.addKeyAndValue(Member.class, "memberuserid", new Long(4));
+		queryParam.addKeyAndValue("userid", new Long(4));
+		queryParam.addKeyAndValue("memberuserid", new Long(4));
 		// 设置需要返回的列，每组列必须与addClass的类顺序一致
 		queryParam.setColumns(new String[][] { { "usetid", "nick", "gender" },
 				{ "memberid", "membername" } });
@@ -204,7 +202,7 @@ public class ObjGuide {
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		QueryParam queryParam = hkObjQuery.createQueryParam();
 		// 设置分区参数以及值
-		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(2));
+		queryParam.addKeyAndValue("userid", new Long(2));
 		// 设置要统计的类
 		queryParam.addClass(TestUser.class);
 		// 设置查询条件与参数
@@ -223,8 +221,8 @@ public class ObjGuide {
 		queryParam.addClass(TestUser.class);
 		queryParam.addClass(Member.class);
 		// 设置分区参数以及值
-		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
-		queryParam.addKeyAndValue(Member.class, "memberuserid", new Long(4));
+		queryParam.addKeyAndValue("userid", new Long(4));
+		queryParam.addKeyAndValue("memberuserid", new Long(4));
 		// 设置查询条件与参数
 		queryParam.setWhereAndParams(
 				"testuser.userid=member.memberuserid and testuser.userid=?",
@@ -240,7 +238,7 @@ public class ObjGuide {
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		DeleteParam deleteParam = hkObjQuery.createDeleteParam();
 		// 设置分区参数以及值
-		deleteParam.addKeyAndValue(TestUser.class, "userid", new Long(10));
+		deleteParam.addKeyAndValue("userid", new Long(10));
 		// 设置查询条件与参数
 		deleteParam.setWhereAndParams("nick=?", new Object[] { "akwei" });
 		// delete
@@ -256,7 +254,7 @@ public class ObjGuide {
 		// 从数据库获得的数据
 		BaseParam baseParam = hkObjQuery.createBaseParam();
 		// 设置分区参数以及值
-		baseParam.addKeyAndValue(TestUser.class, "userid", new Long(100));
+		baseParam.addKeyAndValue("userid", new Long(100));
 		// delete
 		hkObjQuery.deleteObj(baseParam, testUser);
 	}
@@ -268,7 +266,7 @@ public class ObjGuide {
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		BaseParam baseParam = hkObjQuery.createBaseParam();
 		// 设置分区参数以及值
-		baseParam.addKeyAndValue(TestUser.class, "userid", new Long(100));
+		baseParam.addKeyAndValue("userid", new Long(100));
 		// delete
 		hkObjQuery.deleteById(baseParam, TestUser.class, 100);
 	}
