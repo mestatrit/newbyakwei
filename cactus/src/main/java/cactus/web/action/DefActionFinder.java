@@ -29,15 +29,15 @@ public class DefActionFinder implements ActionFinder {
 	}
 
 	@Override
-	public Action findAction(String key) throws NoActionException {
-		Action obj = actionMap.get(key);
+	public Action findAction(String actionUrl) throws NoActionException {
+		Action obj = actionMap.get(actionUrl);
 		if (obj == null) {
-			obj = getBeanFromSpring(key);
+			obj = getBeanFromSpring(actionUrl);
 			if (obj != null) {
-				actionMap.put(key, obj);
+				actionMap.put(actionUrl, obj);
 			}
 			else {
-				throw new NoActionException("no action [ " + key
+				throw new NoActionException("no action [ " + actionUrl
 						+ " ] is exist");
 			}
 		}
