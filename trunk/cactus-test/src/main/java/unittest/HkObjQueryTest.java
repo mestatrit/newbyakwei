@@ -46,8 +46,7 @@ public class HkObjQueryTest {
 		testUser.setMoney(29.9);
 		testUser.setPurchase(21.1f);
 		BaseParam baseParam = this.hkObjQuery.createBaseParam();
-		baseParam
-				.addKeyAndValue(TestUser.class, "userid", testUser.getUserid());
+		baseParam.addKeyAndValue("userid", testUser.getUserid());
 		this.hkObjQuery.insertObj(baseParam, testUser);
 		return testUser;
 	}
@@ -58,8 +57,7 @@ public class HkObjQueryTest {
 		member.setGroupid(999);
 		member.setNick("member akwei");
 		BaseParam baseParam = this.hkObjQuery.createBaseParam();
-		baseParam.addKeyAndValue(Member.class, "memberuserid", member
-				.getUserid());
+		baseParam.addKeyAndValue("memberuserid", member.getUserid());
 		this.hkObjQuery.insertObj(baseParam, member);
 		return member;
 	}
@@ -67,7 +65,7 @@ public class HkObjQueryTest {
 	private TestUser getTestUser(long userid) {
 		QueryParam queryParam = this.hkObjQuery.createQueryParam();
 		// queryParam.addClass(TestUser.class);
-		queryParam.addKeyAndValue(TestUser.class, "userid", userid);
+		queryParam.addKeyAndValue("userid", userid);
 		return this.hkObjQuery
 				.getObjectById(queryParam, TestUser.class, userid);
 	}
@@ -101,8 +99,8 @@ public class HkObjQueryTest {
 	@Test
 	public void getObject2() {
 		this.createTestUser(4);
-		QueryParam queryParam = this.hkObjQuery.createQueryParam(
-				TestUser.class, "userid", new Long(4));
+		QueryParam queryParam = this.hkObjQuery.createQueryParam("userid",
+				new Long(4));
 		queryParam.setWhereAndParams("userid=?", new Object[] { 4 });
 		TestUser testUser = this.hkObjQuery.getObject(queryParam,
 				TestUser.class);
@@ -116,7 +114,7 @@ public class HkObjQueryTest {
 		this.createTestUser(6);
 		QueryParam queryParam = this.hkObjQuery.createQueryParam();
 		queryParam.addClass(TestUser.class);
-		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
+		queryParam.addKeyAndValue("userid", new Long(4));
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
 		List<TestUser> list = this.hkObjQuery.getList(queryParam,
@@ -126,7 +124,7 @@ public class HkObjQueryTest {
 		list = this.hkObjQuery.getList(queryParam, TestUser.class);
 		Assert.assertEquals(1, list.size());
 		queryParam.setSize(-1);
-		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(5));
+		queryParam.addKeyAndValue("userid", new Long(5));
 		list = this.hkObjQuery.getList(queryParam, TestUser.class);
 		Assert.assertEquals(1, list.size());
 	}
@@ -139,7 +137,7 @@ public class HkObjQueryTest {
 		QueryParam queryParam = this.hkObjQuery.createQueryParam();
 		queryParam.setOrder("testuser.userid desc");
 		queryParam.addClass(TestUser.class);
-		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
+		queryParam.addKeyAndValue("userid", new Long(4));
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
 		List<TestUser> list = this.hkObjQuery.getList(queryParam,
@@ -149,7 +147,7 @@ public class HkObjQueryTest {
 		list = this.hkObjQuery.getList(queryParam, TestUser.class);
 		Assert.assertEquals(1, list.size());
 		queryParam.setSize(-1);
-		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(5));
+		queryParam.addKeyAndValue("userid", new Long(5));
 		list = this.hkObjQuery.getList(queryParam, TestUser.class);
 		Assert.assertEquals(1, list.size());
 	}
@@ -164,14 +162,14 @@ public class HkObjQueryTest {
 		queryParam.setParams(new Object[] { new Long(4) });
 		queryParam.setOrder("testuser.userid desc");
 		queryParam.addClass(TestUser.class);
-		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
+		queryParam.addKeyAndValue("userid", new Long(4));
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
 		List<TestUser> list = this.hkObjQuery.getList(queryParam,
 				TestUser.class);
 		Assert.assertEquals(1, list.size());
 		queryParam.setParams(new Object[] { new Long(5) });
-		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(5));
+		queryParam.addKeyAndValue("userid", new Long(5));
 		list = this.hkObjQuery.getList(queryParam, TestUser.class);
 		Assert.assertEquals(1, list.size());
 	}
@@ -187,8 +185,8 @@ public class HkObjQueryTest {
 		QueryParam queryParam = this.hkObjQuery.createQueryParam();
 		queryParam.addClass(TestUser.class);
 		queryParam.addClass(Member.class);
-		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
-		queryParam.addKeyAndValue(Member.class, "memberuserid", new Long(4));
+		queryParam.addKeyAndValue("userid", new Long(4));
+		queryParam.addKeyAndValue("memberuserid", new Long(4));
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
 		queryParam.setWhere("testuser.userid=member.memberuserid");
@@ -222,8 +220,8 @@ public class HkObjQueryTest {
 		QueryParam queryParam = this.hkObjQuery.createQueryParam();
 		queryParam.addClass(TestUser.class);
 		queryParam.addClass(Member.class);
-		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
-		queryParam.addKeyAndValue(Member.class, "memberuserid", new Long(4));
+		queryParam.addKeyAndValue("userid", new Long(4));
+		queryParam.addKeyAndValue("memberuserid", new Long(4));
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
 		queryParam.setWhere("testuser.userid=member.memberuserid");
@@ -258,8 +256,8 @@ public class HkObjQueryTest {
 		QueryParam queryParam = this.hkObjQuery.createQueryParam();
 		queryParam.addClass(TestUser.class);
 		queryParam.addClass(Member.class);
-		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
-		queryParam.addKeyAndValue(Member.class, "memberuserid", new Long(4));
+		queryParam.addKeyAndValue("userid", new Long(4));
+		queryParam.addKeyAndValue("memberuserid", new Long(4));
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
 		queryParam
@@ -296,8 +294,8 @@ public class HkObjQueryTest {
 		QueryParam queryParam = this.hkObjQuery.createQueryParam();
 		queryParam.addClass(TestUser.class);
 		queryParam.addClass(Member.class);
-		queryParam.addKeyAndValue(TestUser.class, "userid", new Long(4));
-		queryParam.addKeyAndValue(Member.class, "memberuserid", new Long(4));
+		queryParam.addKeyAndValue("userid", new Long(4));
+		queryParam.addKeyAndValue("memberuserid", new Long(4));
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
 		queryParam
