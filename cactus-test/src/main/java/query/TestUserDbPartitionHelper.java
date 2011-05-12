@@ -9,7 +9,7 @@ public class TestUserDbPartitionHelper extends DbPartitionHelper {
 
 	@Override
 	public PartitionTableInfo parse(String name, Map<String, Object> ctxMap) {
-		long userid = (Long) ctxMap.get("testuser.userid");
+		long userid = (Long) ctxMap.get("userid");
 		String lastChar = this.get01(userid);
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
 		partitionTableInfo.setAliasName(name);

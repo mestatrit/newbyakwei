@@ -36,7 +36,7 @@ public class DbPartitionHelperTest {
 		ObjectSqlInfo<TestUser> objectSqlInfo = new ObjectSqlInfo<TestUser>(
 				tableCnf);
 		Map<String, Object> ctxMap = new HashMap<String, Object>();
-		ctxMap.put("testuser.userid", testUser.getUserid());
+		ctxMap.put("userid", testUser.getUserid());
 		PartitionTableInfo partitionTableInfo = dbPartitionHelper.parse(
 				objectSqlInfo.getTableName(), ctxMap);
 		Assert.assertEquals("testuser0", partitionTableInfo.getTableName());
