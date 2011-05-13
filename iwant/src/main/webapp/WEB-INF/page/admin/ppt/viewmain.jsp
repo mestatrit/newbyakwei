@@ -56,7 +56,6 @@
 			<li id="row_${slide.slideid}">
 				<div>
 					<p align="center"><hk:value value="${slide.title }"/></p>
-					<p align="center"><hk:value value="${slide.subtitle }"/></p>
 					<p align="center" style="width: 700px;overflow: hidden;"><img id="img_${slide.slideid}" src="${slide.pic2Url}"/></p>
 					<p>${slide.descr}</p>
 					<p align="center">
