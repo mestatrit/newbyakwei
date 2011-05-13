@@ -2,6 +2,7 @@
 <hk:actioninvoke mappinguri="/syscnf_districtlist"/>
 <c:set var="syscnf_districtlist" scope="request">
 <hk:select name="did" checkedvalue="${did}">
+<hk:option value="0" data="请选择"/>
 <c:forEach var="sys_cnf_dis" items="${syscnf_districtlist}">
 <hk:option value="${sys_cnf_dis.did}" data="${sys_cnf_dis.name}"/>
 </c:forEach>
