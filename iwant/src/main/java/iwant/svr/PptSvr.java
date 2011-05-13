@@ -151,4 +151,7 @@ public interface PptSvr {
 	boolean isCanAddSlide(long pptid);
 
 	UpdateSldePic0Result updateSldePic1(long slideid, PicRect picRect);
+
+	void updateMainPptCityidAndDidByProjectid(long projectid, int cityid,
+			int did);
 }

@@ -43,8 +43,8 @@ public class ProjectSvrImpl implements ProjectSvr {
 	private CategorySvr categorySvr;
 
 	@Override
-	public void createProject(Project project) throws CategoryNotFoundException,
-			DistrictNotFoundException {
+	public void createProject(Project project)
+			throws CategoryNotFoundException, DistrictNotFoundException {
 		if (this.categorySvr.getCategory(project.getCatid()) == null) {
 			throw new CategoryNotFoundException();
 		}
@@ -78,8 +78,8 @@ public class ProjectSvrImpl implements ProjectSvr {
 	}
 
 	@Override
-	public void updateProject(Project project) throws CategoryNotFoundException,
-			DistrictNotFoundException {
+	public void updateProject(Project project)
+			throws CategoryNotFoundException, DistrictNotFoundException {
 		if (this.categorySvr.getCategory(project.getCatid()) == null) {
 			throw new CategoryNotFoundException();
 		}
