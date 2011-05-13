@@ -15,14 +15,6 @@
 		</td>
 	</tr>
 	<tr>
-		<td width="90" align="right">副标题</td>
-		<td>
-			<input maxlength="30" name="subtitle" value="<hk:value value="${slide.subtitle }" onerow="true"/>" class="text"/>
-			<div class="ruo"><hk:data key="11"/></div>
-			<div class="infowarn" id="err_subtitle"></div>
-		</td>
-	</tr>
-	<tr>
 		<td width="90" align="right">描述</td>
 		<td>
 			<textarea name="descr" style="width: 270px;height: 80px;"><hk:value value="${slide.descr}" textarea="true"/></textarea>
@@ -58,7 +50,6 @@
 
 <script type="text/javascript">
 var err_code_<%=Err.SLIDE_TITLE_ERR %>={objid:"err_title"};
-var err_code_<%=Err.SLIDE_SUBTITLE_ERR%>={objid:"err_subtitle"};
 var err_code_<%=Err.SLIDE_DESCR_ERR%>={objid:"err_descr"};
 var err_code_<%=Err.SLIDE_IMG_FORMAT_ERR%>={objid:"err_f"};
 var err_code_<%=Err.SLIDE_IMG_SIZE_ERR%>={objid:"err_f"};
@@ -73,7 +64,6 @@ function subfrm(frmid){
 	glassid=addGlass(frmid,false);
 	submited=true;
 	setHtml('err_title','');
-	setHtml('err_subtitle','');
 	setHtml('err_descr','');
 	setHtml('err_f','');
 	return true;
