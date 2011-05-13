@@ -145,7 +145,11 @@ public class ZoneSvrImpl implements ZoneSvr {
 
 	@Override
 	public City getCityByNameLike(String name) {
-		return this.cityDao.getByNameLike(name);
+		return this.cityDao.getByNameLike(this.formatZoneName(name));
+	}
+
+	private String formatZoneName(String name) {
+		return name.replaceAll("市", "").replaceAll("省", "").replaceAll("区", "");
 	}
 
 	@Override
@@ -162,8 +166,8 @@ public class ZoneSvrImpl implements ZoneSvr {
 		}
 		City city = this.getCity(district.getCityid());
 		if (city == null) {
-			throw new CityNotFoundException("cityid : [ " + district.getCityid()
-					+ " ]");
+			throw new CityNotFoundException("cityid : [ "
+					+ district.getCityid() + " ]");
 		}
 		district.setCountryid(city.getCountryid());
 		district.setProvinceid(city.getProvinceid());
@@ -184,8 +188,8 @@ public class ZoneSvrImpl implements ZoneSvr {
 		}
 		City city = this.getCity(district.getCityid());
 		if (city == null) {
-			throw new CityNotFoundException("cityid : [ " + district.getCityid()
-					+ " ]");
+			throw new CityNotFoundException("cityid : [ "
+					+ district.getCityid() + " ]");
 		}
 		district.setCountryid(city.getCountryid());
 		district.setProvinceid(city.getProvinceid());
@@ -199,6 +203,7 @@ public class ZoneSvrImpl implements ZoneSvr {
 
 	@Override
 	public District getDistrictByCityidAndNameLike(int cityid, String name) {
-		return this.districtDao.getByCityidAndNameLike(cityid, name);
+		return this.districtDao.getByCityidAndNameLike(cityid, this
+				.formatZoneName(name));
 	}
 }
