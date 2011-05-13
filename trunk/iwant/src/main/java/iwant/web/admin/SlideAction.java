@@ -53,10 +53,8 @@ public class SlideAction extends BaseAction {
 		}
 		Slide slide = new Slide();
 		slide.setTitle(req.getStringRow("title"));
-		slide.setSubtitle(req.getStringRow("subtitle"));
 		slide.setDescr(req.getString("descr", ""));
 		slide.setPptid(req.getLong("pptid"));
-		slide.setSubtitle(req.getStringRow("subtitle", ""));
 		File imgFile = req.getFile("f");
 		if (!this.pptSvr.isCanAddSlide(pptid)) {
 			return this.onError(req, Err.SLIDE_CREATE_LIMIT_ERR, "createerr2",
@@ -110,9 +108,7 @@ public class SlideAction extends BaseAction {
 			return this.getAdminPath("slide/update.jsp");
 		}
 		slide.setTitle(req.getStringRow("title"));
-		slide.setSubtitle(req.getStringRow("subtitle"));
 		slide.setDescr(req.getString("descr", ""));
-		slide.setSubtitle(req.getStringRow("subtitle", ""));
 		File imgFile = req.getFile("f");
 		List<String> errlist = SlideValidator.validate(slide, imgFile, false);
 		if (!errlist.isEmpty()) {

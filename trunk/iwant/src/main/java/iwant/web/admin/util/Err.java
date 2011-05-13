@@ -29,8 +29,6 @@ public interface Err {
 
 	String SLIDE_TITLE_ERR = "10";
 
-	String SLIDE_SUBTITLE_ERR = "11";
-
 	String SLIDE_DESCR_ERR = "12";
 
 	String SLIDE_IMG_FORMAT_ERR = "13";
