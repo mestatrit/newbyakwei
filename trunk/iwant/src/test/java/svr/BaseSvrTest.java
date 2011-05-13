@@ -243,7 +243,6 @@ public class BaseSvrTest {
 		this.slide0.setDescr("slide desc 3");
 		this.slide0.setPptid(this.ppt0.getPptid());
 		this.slide0.setProjectid(this.ppt0.getProjectid());
-		this.slide0.setSubtitle("sub 3");
 		this.slide0.setTitle("title 3");
 		this.slide0.setPic_path("");
 		this.pptSvr.createSlide(this.slide0, new File(filePath), null);
@@ -252,7 +251,6 @@ public class BaseSvrTest {
 		this.slide1.setDescr("slide desc 4");
 		this.slide1.setPptid(this.ppt1.getPptid());
 		this.slide1.setProjectid(this.ppt1.getProjectid());
-		this.slide1.setSubtitle("sub 4");
 		this.slide1.setTitle("title 4");
 		this.slide1.setPic_path("");
 		this.pptSvr.createSlide(this.slide1, new File(filePath), null);
