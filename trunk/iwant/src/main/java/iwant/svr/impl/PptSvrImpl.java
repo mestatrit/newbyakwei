@@ -170,10 +170,10 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public List<MainPpt> getMainPptListOrderedByCatid(int catid, int cityid,
+	public List<MainPpt> getMainPptListOrderedByDid(int catid, int did,
 			boolean buildProject, int begin, int size) {
-		List<MainPpt> list = this.mainPptDao.getListOrderedByCatidAndCityid(
-				catid, cityid, begin, size);
+		List<MainPpt> list = this.mainPptDao.getListOrderedByCatidAndDid(catid,
+				did, begin, size);
 		if (buildProject) {
 			this.buildProject(list);
 		}

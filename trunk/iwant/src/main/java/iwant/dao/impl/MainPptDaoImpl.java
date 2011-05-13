@@ -18,10 +18,10 @@ public class MainPptDaoImpl extends BaseDao<MainPpt> implements MainPptDao {
 	}
 
 	@Override
-	public List<MainPpt> getListOrderedByCatidAndCityid(int catid, int cityid,
+	public List<MainPpt> getListOrderedByCatidAndDid(int catid, int did,
 			int begin, int size) {
-		return this.getList(null, "catid=? and cityid=?", new Object[] { catid,
-				cityid }, "order_flag desc", begin, size);
+		return this.getList(null, "catid=? and did=?", new Object[] { catid,
+				did }, "order_flag desc", begin, size);
 	}
 
 	@Override
