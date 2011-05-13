@@ -38,12 +38,6 @@ public class Slide {
 	private String title;
 
 	/**
-	 * 副标题
-	 */
-	@Column
-	private String subtitle;
-
-	/**
 	 * 描述信息
 	 */
 	@Column
@@ -88,14 +82,6 @@ public class Slide {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getSubtitle() {
-		return subtitle;
-	}
-
-	public void setSubtitle(String subtitle) {
-		this.subtitle = subtitle;
 	}
 
 	public void setDescr(String descr) {

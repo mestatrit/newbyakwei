@@ -20,9 +20,6 @@ public class SlideValidator {
 		if (!HkValidate.validateEmptyAndLength(slide.getTitle(), false, 20)) {
 			list.add(Err.SLIDE_TITLE_ERR);
 		}
-		if (!HkValidate.validateLength(slide.getSubtitle(), false, 2)) {
-			list.add(Err.SLIDE_SUBTITLE_ERR);
-		}
 		if (!HkValidate.validateLength(slide.getDescr(), false, 300)) {
 			list.add(Err.SLIDE_DESCR_ERR);
 		}
