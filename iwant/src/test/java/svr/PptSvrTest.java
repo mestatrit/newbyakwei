@@ -35,24 +35,24 @@ public class PptSvrTest extends BaseSvrTest {
 	}
 
 	@Test
-	public void createSlide() throws PptNotFoundException, ImageProcessException {
+	public void createSlide() throws PptNotFoundException,
+			ImageProcessException {
 		Slide slide = new Slide();
 		slide.setDescr("slide desc 3");
 		slide.setPptid(this.ppt0.getPptid());
-		slide.setSubtitle("sub 3");
 		slide.setTitle("title 3");
 		slide.setPic_path("");
 		this.pptSvr.createSlide(slide, new File(filePath), null);
 	}
 
 	@Test
-	public void updateSlide() throws PptNotFoundException, ImageProcessException {
+	public void updateSlide() throws PptNotFoundException,
+			ImageProcessException {
 		Slide slide = this.pptSvr.getSlide(this.slide0.getSlideid());
 		Assert.assertNotNull(slide);
 		slide.setDescr("slide desc dldld");
 		slide.setOrder_flag(99);
 		slide.setPic_path("dd");
-		slide.setSubtitle("dkkk");
 		slide.setTitle("tititi");
 		this.pptSvr.updateSlide(slide, new File(filePath), null);
 		Slide dbSlide = this.pptSvr.getSlide(this.slide0.getSlideid());
@@ -158,7 +158,6 @@ public class PptSvrTest extends BaseSvrTest {
 		Assert.assertEquals(expected.getPptid(), actual.getPptid());
 		Assert.assertEquals(expected.getProjectid(), actual.getProjectid());
 		Assert.assertEquals(expected.getSlideid(), actual.getSlideid());
-		Assert.assertEquals(expected.getSubtitle(), actual.getSubtitle());
 		Assert.assertEquals(expected.getTitle(), actual.getTitle());
 		Assert.assertEquals(expected.getOrder_flag(), actual.getOrder_flag());
 	}
