@@ -5,6 +5,7 @@ import iwant.bean.Project;
 import iwant.bean.validate.ProjectValidate;
 import iwant.dao.ProjectSearchCdn;
 import iwant.svr.CategorySvr;
+import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
 import iwant.util.ActiveTypeCreater;
 import iwant.util.BackUrl;
@@ -39,6 +40,9 @@ public class ProjectAction extends BaseAction {
 
 	@Autowired
 	private ProjectSvr projectSvr;
+
+	@Autowired
+	private PptSvr pptSvr;
 
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
@@ -104,8 +108,9 @@ public class ProjectAction extends BaseAction {
 		if (project == null) {
 			return null;
 		}
-		req.setAttribute("project", project);
 		if (this.isForwardPage(req)) {
+			req.setAttribute("project", project);
+			req.setAttribute("did", project.getDid());
 			req.setAttribute("op_project", true);
 			BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
 			backUrl.push(req.getString("back_url"));
@@ -125,6 +130,8 @@ public class ProjectAction extends BaseAction {
 			return this.onErrorList(req, errlist, "updateerr");
 		}
 		this.projectSvr.updateProject(project);
+		this.pptSvr.updateMainPptCityidAndDidByProjectid(
+				project.getProjectid(), project.getCityid(), project.getDid());
 		this.opUpdateSuccess(req);
 		return this.onSuccess(req, "updateok", null);
 	}

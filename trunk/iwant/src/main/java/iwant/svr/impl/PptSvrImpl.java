@@ -451,4 +451,11 @@ public class PptSvrImpl implements PptSvr {
 			return UpdateSldePic0Result.IMAGE_PROCESS_ERR;
 		}
 	}
+
+	@Override
+	public void updateMainPptCityidAndDidByProjectid(long projectid,
+			int cityid, int did) {
+		this.mainPptDao.updateBySQL("cityid=?,did=?", "projectid=?",
+				new Object[] { cityid, did, projectid });
+	}
 }
