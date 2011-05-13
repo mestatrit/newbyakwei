@@ -62,7 +62,7 @@ var err_code_<%=Err.PROJECT_ADDR_ERR%>={objid:"err_addr"};
 var err_code_<%=Err.PROJECT_TEL_ERR%>={objid:"err_tel"};
 var err_code_<%=Err.PROJECT_DESCR_ERR%>={objid:"err_descr"};
 var err_code_<%=Err.PROJECT_CATID_ERR%>={objid:"err_catid"};
-//var err_code_<%=Err.PROJECT_DID_ERR%>={objid:"err_did"};
+var err_code_<%=Err.PROJECT_DID_ERR%>={objid:"err_did"};
 
 var glassid=null;
 var submited=false;
@@ -78,6 +78,7 @@ function subfrm(frmid){
 	setHtml('err_descr','');
 	setHtml('err_catid','');
 	setHtml('err_f','');
+	setHtml('err_did','');
 	return true;
 }
 
@@ -90,7 +91,7 @@ function createerr(json,errorlist){
 	submited=false;
 }
 
-function updateerr(err,err_msg,v){
+function updateerr(json,errorlist){
 	var errorcode_arr=errorlist.split(',');
 	for(var i=0;i<errorcode_arr.length;i++){
 		setHtml(getoidparam(errorcode_arr[i]),getmsgfromlist(errorcode_arr[i],json));
