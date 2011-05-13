@@ -22,7 +22,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import cactus.util.DataUtil;
-import cactus.util.P;
 import cactus.web.action.HkRequest;
 import cactus.web.action.HkResponse;
 import cactus.web.util.SimplePage;
@@ -52,7 +51,7 @@ public class PptAction extends BaseApiAction {
 	public String mainlist(HkRequest req, HkResponse resp) throws Exception {
 		int page = req.getInt("page", 1);
 		int size = req.getInt("size", 20);
-		int cityid = req.getInt("cityid");
+		int did = req.getInt("did");
 		if (size > 20) {
 			size = 20;
 		}
@@ -64,7 +63,7 @@ public class PptAction extends BaseApiAction {
 				catid = category.getCatid();
 				SimplePage simplePage = new SimplePage(size, page);
 				List<MainPpt> mainpptlist = this.pptSvr
-						.getMainPptListOrderedByDid(catid, cityid, true,
+						.getMainPptListOrderedByDid(catid, did, true,
 								simplePage.getBegin(), simplePage.getSize());
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("list", mainpptlist);
@@ -134,10 +133,5 @@ public class PptAction extends BaseApiAction {
 		map.put("list", list);
 		APIUtil.writeData(resp, map, "vm/ppttimelinelist.vm");
 		return null;
-	}
-
-	public static void main(String[] args) {
-		P.println(Integer.MAX_VALUE);
-		// P.println(Long.MAX_VALUE);
 	}
 }
