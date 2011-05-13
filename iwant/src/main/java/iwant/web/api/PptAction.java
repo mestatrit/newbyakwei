@@ -64,7 +64,7 @@ public class PptAction extends BaseApiAction {
 				catid = category.getCatid();
 				SimplePage simplePage = new SimplePage(size, page);
 				List<MainPpt> mainpptlist = this.pptSvr
-						.getMainPptListOrderedByCatid(catid, cityid, true,
+						.getMainPptListOrderedByDid(catid, cityid, true,
 								simplePage.getBegin(), simplePage.getSize());
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("list", mainpptlist);
