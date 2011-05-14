@@ -60,6 +60,6 @@ function createok(err,err_msg,v){
 }
 
 function updateok(err,err_msg,v){
-	tourl('${appctx_path}/mgr/zone_district.do?cityid=${cityid}');
+	tourl('${appctx_path}/mgr/zone_districtlist.do?cityid=${cityid}');
 }
 </script>
