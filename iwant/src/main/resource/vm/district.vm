@@ -2,6 +2,7 @@
 	<district>
 		<did>$!{district.did}</did>
 		<name><![CDATA[$!{district.name}]]></name>
+		<cityid>$!{district.cityid}</cityid>
 		<city>
 			<cityid>$!{city.cityid}</cityid>
 			<name><![CDATA[$!{city.name}]]></name>
