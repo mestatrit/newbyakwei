@@ -327,7 +327,8 @@ public class ZoneAction extends BaseAction {
 		}
 		if (this.isForwardPage(req)) {
 			req.setAttribute("op_zone", true);
-			req.setAttribute("cityid", district);
+			req.setAttribute("cityid", district.getCityid());
+			req.setAttribute("district", district);
 			return this.getAdminPath("zone/updatedistrict.jsp");
 		}
 		district.setName(req.getString("name"));

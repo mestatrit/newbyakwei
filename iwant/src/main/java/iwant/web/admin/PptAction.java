@@ -383,8 +383,11 @@ public class PptAction extends BaseAction {
 			throws Exception {
 		long pptid = req.getLong("pptid");
 		MainPpt mainPpt = this.pptSvr.getMainPpt(pptid);
+		if (mainPpt == null) {
+			return null;
+		}
 		MainPptSearchCdn mainPptSearchCdn = new MainPptSearchCdn();
-		mainPptSearchCdn.setCatid(req.getInt("catid"));
+		mainPptSearchCdn.setCatid(mainPpt.getCatid());
 		mainPptSearchCdn.setOrder("order_flag desc");
 		List<MainPpt> list = this.pptSvr.getMainPptListOrderedByCdn(
 				mainPptSearchCdn, false, 0, 1);
@@ -406,8 +409,11 @@ public class PptAction extends BaseAction {
 			throws Exception {
 		long pptid = req.getLong("pptid");
 		MainPpt mainPpt = this.pptSvr.getMainPpt(pptid);
+		if (mainPpt == null) {
+			return null;
+		}
 		MainPptSearchCdn mainPptSearchCdn = new MainPptSearchCdn();
-		mainPptSearchCdn.setCatid(req.getInt("catid"));
+		mainPptSearchCdn.setCatid(mainPpt.getCatid());
 		mainPptSearchCdn.setOrder("order_flag asc");
 		List<MainPpt> list = this.pptSvr.getMainPptListOrderedByCdn(
 				mainPptSearchCdn, false, 0, 1);
