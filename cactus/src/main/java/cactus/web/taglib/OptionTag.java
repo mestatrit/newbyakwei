@@ -10,7 +10,7 @@ import cactus.util.DataUtil;
 import cactus.util.ResourceConfig;
 import cactus.web.action.HkI18n;
 
-public class OptionTag2 extends BaseTag {
+public class OptionTag extends BaseTag {
 
 	private static final long serialVersionUID = -1801602826391447801L;
 
@@ -22,7 +22,7 @@ public class OptionTag2 extends BaseTag {
 
 	@Override
 	protected void adapter(JspWriter writer) throws IOException {
-		SelectTag2 parent = this.getSelectTag(this.getParent());
+		SelectTag parent = this.getSelectTag(this.getParent());
 		writer.append("<option value=\"");
 		writer.append(this.value.toString());
 		writer.append("\"");
@@ -53,9 +53,9 @@ public class OptionTag2 extends BaseTag {
 		writer.append("</option>");
 	}
 
-	protected SelectTag2 getSelectTag(Tag tag) {
-		if (tag instanceof SelectTag2) {
-			return (SelectTag2) tag;
+	protected SelectTag getSelectTag(Tag tag) {
+		if (tag instanceof SelectTag) {
+			return (SelectTag) tag;
 		}
 		return getSelectTag(tag.getParent());
 	}
@@ -64,7 +64,7 @@ public class OptionTag2 extends BaseTag {
 		this.res = res;
 	}
 
-	static class Option extends OptionTag2 {
+	static class Option extends OptionTag {
 
 		private static final long serialVersionUID = -311905930326800146L;
 
