@@ -224,15 +224,6 @@ public class DataUtil implements ApplicationContextAware {
 		return str.substring(0, len);
 	}
 
-	public static String limitHtmlRow(String html, int len) {
-		return DataUtil.toHtmlRow(DataUtil.limitLength(
-				DataUtil.toTextRow(html), len));
-	}
-
-	public static String limitTextRow(String html, int len) {
-		return DataUtil.limitLength(DataUtil.toTextRow(html), len);
-	}
-
 	/**
 	 * 识别英文的获取特定长度的字符串
 	 * 
@@ -309,8 +300,7 @@ public class DataUtil implements ApplicationContextAware {
 		}
 		String v = str.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
 				.replaceAll(">", "&gt;").replaceAll("\n", "").replaceAll("\r",
-						"").replaceAll("　", " ").replaceAll(" +", " ")
-				.replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
+						"").replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
 		return v;
 	}
 
