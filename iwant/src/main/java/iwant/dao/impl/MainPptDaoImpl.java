@@ -1,6 +1,7 @@
 package iwant.dao.impl;
 
 import iwant.bean.MainPpt;
+import iwant.bean.enumtype.ActiveType;
 import iwant.dao.MainPptDao;
 import iwant.dao.MainPptSearchCdn;
 
@@ -43,11 +44,13 @@ public class MainPptDaoImpl extends BaseDao<MainPpt> implements MainPptDao {
 			objlist.add("%" + mainPptSearchCdn.getName() + "%");
 		}
 		if (mainPptSearchCdn.getActiveType() != null) {
-			sb.append(" and active_flag=?");
-			objlist.add(mainPptSearchCdn.getActiveType().getValue());
+			if (mainPptSearchCdn.getActiveType() != ActiveType.ALL) {
+				sb.append(" and active_flag=?");
+				objlist.add(mainPptSearchCdn.getActiveType().getValue());
+			}
 		}
-		sb.append(" and cityid=?");
-		objlist.add(mainPptSearchCdn.getCityid());
+		sb.append(" and did=?");
+		objlist.add(mainPptSearchCdn.getDid());
 		return this.getList(null, sb.toString(), objlist
 				.toArray(new Object[objlist.size()]), mainPptSearchCdn
 				.getOrder(), begin, size);
@@ -66,9 +69,13 @@ public class MainPptDaoImpl extends BaseDao<MainPpt> implements MainPptDao {
 			objlist.add("%" + mainPptSearchCdn.getName() + "%");
 		}
 		if (mainPptSearchCdn.getActiveType() != null) {
-			sb.append(" and active_flag=?");
-			objlist.add(mainPptSearchCdn.getActiveType().getValue());
+			if (mainPptSearchCdn.getActiveType() != ActiveType.ALL) {
+				sb.append(" and active_flag=?");
+				objlist.add(mainPptSearchCdn.getActiveType().getValue());
+			}
 		}
+		sb.append(" and did=?");
+		objlist.add(mainPptSearchCdn.getDid());
 		return this.count(null, sb.toString(), objlist
 				.toArray(new Object[objlist.size()]));
 	}
