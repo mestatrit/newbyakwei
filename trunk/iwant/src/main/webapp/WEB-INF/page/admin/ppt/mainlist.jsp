@@ -8,7 +8,11 @@
 	<div class="mod_content">
 		<div style="padding-left: 50">
 		<form method="get" action="${appctx_path}/mgr/ppt_mainlist.do">
-			名称：<input type="text" class="text" name="name" value="<hk:value value="${pptSearchCdn.name}" onerow="true"/>"/>
+			名称：<input type="text" class="text" name="name" value="<hk:value value="${mainPptSearchCdn.name}" onerow="true"/>"/>
+			地区：
+			<hk:select name="did" checkedvalue="${mainPptSearchCdn.did}">
+				<c:forEach var="dis" items="${districtlist}"><hk:option value="${dis.did}" data="${dis.name}"/></c:forEach>
+			</hk:select>
 			<input type="submit" value="搜索" class="btn"/>
 		</form>
 		</div>
@@ -41,7 +45,7 @@
 			</c:if>
 		</ul>
 		<div>
-			<c:set var="page_url" scope="request">${appctx_path }/mgr/ppt_maillist.do?name=${pptSearchCdn.encName }</c:set>
+			<c:set var="page_url" scope="request">${appctx_path }/mgr/ppt_maillist.do?name=${mainPptSearchCdn.encName }</c:set>
 			<jsp:include page="../../inc/pagesupport_inc.jsp"></jsp:include>
 		</div>
 	</div>
