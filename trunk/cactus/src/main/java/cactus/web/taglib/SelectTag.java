@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspWriter;
 
-public class SelectTag2 extends BaseTag {
+public class SelectTag extends BaseTag {
 
 	private static final long serialVersionUID = 8272378800903804578L;
 
