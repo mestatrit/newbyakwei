@@ -5,7 +5,7 @@ import javax.servlet.jsp.JspWriter;
 import cactus.util.HkUtil;
 import cactus.web.action.ActionExe;
 
-public class ActionInvokeTag extends BaseBodyTag {
+public class ActionInvokeTag extends BaseTag {
 
 	private static final long serialVersionUID = -1283364414996755943L;
 

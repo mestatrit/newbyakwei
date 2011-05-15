@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Locale;
 import javax.servlet.jsp.JspWriter;
 
-public class FormatTimeTag extends BaseBodyTag {
+public class FormatTimeTag extends BaseTag {
 	private static final long serialVersionUID = -8234255953771031311L;
 
 	private String pattern;

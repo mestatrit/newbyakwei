@@ -10,7 +10,7 @@ import javax.servlet.jsp.JspWriter;
 import cactus.util.ResourceConfig;
 import cactus.web.action.HkI18n;
 
-public class PropertiesTag extends BaseBodyTag {
+public class PropertiesTag extends BaseTag {
 
 	private static final long serialVersionUID = -2452461789404041648L;
 

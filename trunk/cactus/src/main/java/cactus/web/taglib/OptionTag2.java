@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.util.Locale;
 
 import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.Tag;
 
+import cactus.util.DataUtil;
 import cactus.util.ResourceConfig;
 import cactus.web.action.HkI18n;
 
-public class OptionTag extends BaseWapTag {
+public class OptionTag2 extends BaseWapTag {
 
 	private static final long serialVersionUID = -1801602826391447801L;
 
@@ -20,6 +22,15 @@ public class OptionTag extends BaseWapTag {
 
 	@Override
 	protected void adapter(JspWriter writer) throws IOException {
+		SelectTag2 parent = this.getSelectTag(this.getParent());
+		writer.append("<option value=\"");
+		writer.append(this.value.toString());
+		writer.append("\"");
+		if (parent.getCheckedvalue() != null && this.value != null
+				&& parent.getCheckedvalue().equals(this.value)) {
+			writer.append(" selected=\"selected\"");
+		}
+		writer.append(">");
 		if (res) {
 			Locale locale = (Locale) this.getRequest().getAttribute(
 					HkI18n.I18N_KEY);
@@ -30,19 +41,30 @@ public class OptionTag extends BaseWapTag {
 			if (data != null) {
 				v = data.toString();
 			}
-			this.setChildInRequest(new Option(value, ResourceConfig.getText(
-					locale, v)));
+			writer.append(ResourceConfig.getText(locale, v));
 		}
 		else {
-			this.setChildInRequest(new Option(value, data));
+			if (this.data != null) {
+				writer
+						.append(DataUtil.toHtmlSimpleOneRow(this.data
+								.toString()));
+			}
 		}
+		writer.append("</option>");
+	}
+
+	protected SelectTag2 getSelectTag(Tag tag) {
+		if (tag instanceof SelectTag2) {
+			return (SelectTag2) tag;
+		}
+		return getSelectTag(tag.getParent());
 	}
 
 	public void setRes(boolean res) {
 		this.res = res;
 	}
 
-	static class Option extends OptionTag {
+	static class Option extends OptionTag2 {
 
 		private static final long serialVersionUID = -311905930326800146L;
 

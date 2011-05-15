@@ -367,6 +367,15 @@ public class DataUtil implements ApplicationContextAware {
 				.replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
 	}
 
+	public static String toHtmlSimpleOneRow(String str) {
+		if (str == null) {
+			return null;
+		}
+		return str.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(
+				">", "&gt;").replaceAll("\n", "").replaceAll("\r", "")
+				.replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
+	}
+
 	/**
 	 * 把html数据转为转义字符，可是使用多空格进行页面布局，对于每段开头内容进行空格
 	 * 

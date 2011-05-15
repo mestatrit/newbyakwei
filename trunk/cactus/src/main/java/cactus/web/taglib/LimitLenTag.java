@@ -6,7 +6,7 @@ import javax.servlet.jsp.JspWriter;
 
 import cactus.util.DataUtil;
 
-public class LimitLenTag extends BaseBodyTag {
+public class LimitLenTag extends BaseTag {
 
 	private static final long serialVersionUID = -8234255953771031311L;
 
