@@ -10,7 +10,7 @@ import cactus.util.DataUtil;
 import cactus.util.ResourceConfig;
 import cactus.web.action.HkI18n;
 
-public class OptionTag2 extends BaseWapTag {
+public class OptionTag2 extends BaseTag {
 
 	private static final long serialVersionUID = -1801602826391447801L;
 
