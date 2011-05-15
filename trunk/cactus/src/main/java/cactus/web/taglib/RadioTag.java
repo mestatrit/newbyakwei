@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.Tag;
 
-public class RadioTag extends BaseWapTag {
+public class RadioTag extends BaseTag {
 
 	private static final long serialVersionUID = 2292675869286958062L;
 

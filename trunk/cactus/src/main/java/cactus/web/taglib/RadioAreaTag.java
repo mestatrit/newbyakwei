@@ -1,6 +1,7 @@
 package cactus.web.taglib;
 
-public class RadioAreaTag extends BaseWapTag {
+public class RadioAreaTag extends BaseContentTag {
+
 	private static final long serialVersionUID = 1825365925472611360L;
 
 	private Object name;

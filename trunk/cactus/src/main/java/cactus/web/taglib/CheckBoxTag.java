@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspWriter;
 
-public class CheckBoxTag extends BaseWapTag {
+public class CheckBoxTag extends BaseTag {
 
 	private static final long serialVersionUID = 4901343569123173841L;
 
