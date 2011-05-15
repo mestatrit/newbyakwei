@@ -1,12 +1,14 @@
 package iwant.web.admin;
 
 import iwant.bean.Category;
+import iwant.bean.District;
 import iwant.bean.Project;
 import iwant.bean.validate.ProjectValidate;
 import iwant.dao.ProjectSearchCdn;
 import iwant.svr.CategorySvr;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
+import iwant.svr.ZoneSvr;
 import iwant.util.ActiveTypeCreater;
 import iwant.util.BackUrl;
 import iwant.util.BackUrlUtil;
@@ -44,6 +46,9 @@ public class ProjectAction extends BaseAction {
 	@Autowired
 	private PptSvr pptSvr;
 
+	@Autowired
+	private ZoneSvr zoneSvr;
+
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
 		req.setAttribute("op_project", true);
@@ -53,11 +58,19 @@ public class ProjectAction extends BaseAction {
 			return "r:/mgr/cat_create.do";
 		}
 		Category category = catlist.get(0);
+		int cityid = AdminUtil.getLoginCityid(req);
+		List<District> districtlist = this.zoneSvr
+				.getDistrictListByCityid(cityid);
+		req.setAttribute("districtlist", districtlist);
+		int did = req.getInt("did");
+		if (did <= 0 && districtlist.size() > 0) {
+			did = districtlist.get(0).getDid();
+		}
 		SimplePage page = req.getSimplePage(20);
 		ProjectSearchCdn projectSearchCdn = new ProjectSearchCdn();
 		projectSearchCdn.setCatid(category.getCatid());
 		projectSearchCdn.setName(req.getStringRow("name"));
-		projectSearchCdn.setCityid(AdminUtil.getLoginCityid(req));
+		projectSearchCdn.setDid(did);
 		projectSearchCdn.setActiveType(ActiveTypeCreater.getActiveType(req
 				.getIntAndSetAttr("active_flag")));
 		List<Project> list = this.projectSvr.getProjectListByCdn(

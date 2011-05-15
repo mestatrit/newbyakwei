@@ -1,6 +1,7 @@
 package iwant.web.admin;
 
 import iwant.bean.Category;
+import iwant.bean.District;
 import iwant.bean.MainPpt;
 import iwant.bean.Ppt;
 import iwant.bean.Project;
@@ -12,6 +13,7 @@ import iwant.dao.PptSearchCdn;
 import iwant.svr.CategorySvr;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
+import iwant.svr.ZoneSvr;
 import iwant.svr.exception.ProjectNotFoundException;
 import iwant.util.ActiveTypeCreater;
 import iwant.util.BackUrl;
@@ -47,6 +49,9 @@ public class PptAction extends BaseAction {
 
 	@Autowired
 	private CategorySvr categorySvr;
+
+	@Autowired
+	private ZoneSvr zoneSvr;
 
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
@@ -284,6 +289,14 @@ public class PptAction extends BaseAction {
 	 * @throws Exception
 	 */
 	public String mainlist(HkRequest req, HkResponse resp) throws Exception {
+		int cityid = AdminUtil.getLoginCityid(req);
+		List<District> districtlist = this.zoneSvr
+				.getDistrictListByCityid(cityid);
+		req.setAttribute("districtlist", districtlist);
+		int did = req.getInt("did");
+		if (did <= 0 && districtlist.size() > 0) {
+			did = districtlist.get(0).getDid();
+		}
 		req.setAttribute("op_mianppt", true);
 		List<Category> catlist = this.categorySvr.getCategoryListForAll();
 		if (catlist.isEmpty()) {
@@ -297,7 +310,7 @@ public class PptAction extends BaseAction {
 		mainPptSearchCdn.setOrder("order_flag desc");
 		mainPptSearchCdn.setCatid(catid);
 		mainPptSearchCdn.setName(req.getStringRow("name"));
-		mainPptSearchCdn.setCityid(AdminUtil.getLoginCityid(req));
+		mainPptSearchCdn.setDid(did);
 		mainPptSearchCdn.setActiveType(ActiveTypeCreater
 				.getActiveType(active_flag));
 		// 此集合多包含2条数据为了方便进行移动操作，所记录的当页中首条和最后一条可换位置的pptid
@@ -317,8 +330,11 @@ public class PptAction extends BaseAction {
 		this.processListForPage(page, list);
 		req.setAttribute("list", list);
 		req.setAttribute("mainPptSearchCdn", mainPptSearchCdn);
-		mainPptSearchCdn.setName(null);
-		int count = this.pptSvr.countMainPptByCdn(mainPptSearchCdn);
+		MainPptSearchCdn mainPptSearchCdn2 = new MainPptSearchCdn();
+		mainPptSearchCdn2.setActiveType(ActiveType.ALL);
+		mainPptSearchCdn2.setDid(mainPptSearchCdn.getDid());
+		mainPptSearchCdn2.setCatid(mainPptSearchCdn.getCatid());
+		int count = this.pptSvr.countMainPptByCdn(mainPptSearchCdn2);
 		req.setAttribute("count", count);
 		req.setAttribute("page_size", page.getSize());
 		return this.getAdminPath("ppt/mainlist.jsp");
@@ -388,6 +404,8 @@ public class PptAction extends BaseAction {
 		}
 		MainPptSearchCdn mainPptSearchCdn = new MainPptSearchCdn();
 		mainPptSearchCdn.setCatid(mainPpt.getCatid());
+		mainPptSearchCdn.setActiveType(ActiveType.ACTIVE);
+		mainPptSearchCdn.setDid(mainPpt.getDid());
 		mainPptSearchCdn.setOrder("order_flag desc");
 		List<MainPpt> list = this.pptSvr.getMainPptListOrderedByCdn(
 				mainPptSearchCdn, false, 0, 1);
@@ -414,6 +432,8 @@ public class PptAction extends BaseAction {
 		}
 		MainPptSearchCdn mainPptSearchCdn = new MainPptSearchCdn();
 		mainPptSearchCdn.setCatid(mainPpt.getCatid());
+		mainPptSearchCdn.setActiveType(ActiveType.ACTIVE);
+		mainPptSearchCdn.setDid(mainPpt.getDid());
 		mainPptSearchCdn.setOrder("order_flag asc");
 		List<MainPpt> list = this.pptSvr.getMainPptListOrderedByCdn(
 				mainPptSearchCdn, false, 0, 1);

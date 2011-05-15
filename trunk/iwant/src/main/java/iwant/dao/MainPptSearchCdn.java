@@ -1,5 +1,6 @@
 package iwant.dao;
 
+import cactus.util.DataUtil;
 import iwant.bean.enumtype.ActiveType;
 
 public class MainPptSearchCdn {
@@ -8,7 +9,7 @@ public class MainPptSearchCdn {
 
 	private String name;
 
-	private int cityid;
+	private int did;
 
 	private ActiveType activeType;
 
@@ -46,11 +47,23 @@ public class MainPptSearchCdn {
 		this.activeType = activeType;
 	}
 
-	public int getCityid() {
-		return cityid;
+	public int getDid() {
+		return did;
 	}
 
-	public void setCityid(int cityid) {
-		this.cityid = cityid;
+	public void setDid(int did) {
+		this.did = did;
+	}
+
+	private String encName;
+
+	public String getEncName() {
+		if (encName == null) {
+			this.encName = DataUtil.urlEncoder(this.name);
+			if (this.encName == null) {
+				this.encName = "";
+			}
+		}
+		return encName;
 	}
 }
