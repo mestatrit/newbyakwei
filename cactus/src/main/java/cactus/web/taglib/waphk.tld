@@ -133,7 +133,7 @@
 	</tag>
 	<tag>
 		<name>option</name>
-		<tag-class>cactus.web.taglib.OptionTag</tag-class>
+		<tag-class>cactus.web.taglib.OptionTag2</tag-class>
 		<body-content>empty</body-content>
 		<description>option</description>
 		<attribute>
@@ -152,24 +152,20 @@
 	</tag>
 	<tag>
 		<name>select</name>
-		<tag-class>cactus.web.taglib.SelectTag</tag-class>
+		<tag-class>cactus.web.taglib.SelectTag2</tag-class>
 		<body-content>JSP</body-content>
 		<description>select</description>
+		<attribute>
+			<name>oid</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 		<attribute>
 			<name>name</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>style</name>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
 			<name>clazz</name>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>oid</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
@@ -178,10 +174,6 @@
 		</attribute>
 		<attribute>
 			<name>checkedvalue</name>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>forcecheckedvalue</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
@@ -200,15 +192,7 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>databefore</name>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
 			<name>checkedvalue</name>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>forcecheckedvalue</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
@@ -219,14 +203,6 @@
 		<description>input radio</description>
 		<attribute>
 			<name>oid</name>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>data</name>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>res</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>

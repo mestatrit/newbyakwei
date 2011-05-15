@@ -6,7 +6,7 @@ import javax.servlet.jsp.JspWriter;
 
 import cactus.util.HkUtil;
 
-public class MessageTag extends BaseBodyTag {
+public class MessageTag extends BaseTag {
 
 	private static final long serialVersionUID = -6623958898546113511L;
 

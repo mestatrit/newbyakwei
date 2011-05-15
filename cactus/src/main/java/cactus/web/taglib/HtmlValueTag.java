@@ -6,7 +6,7 @@ import javax.servlet.jsp.JspWriter;
 
 import cactus.util.DataUtil;
 
-public class HtmlValueTag extends BaseBodyTag {
+public class HtmlValueTag extends BaseTag {
 
 	private static final long serialVersionUID = 2444660484543529830L;
 
@@ -33,18 +33,15 @@ public class HtmlValueTag extends BaseBodyTag {
 		if (DataUtil.isEmpty(this.value)) {
 			return;
 		}
-		String tmp = null;
 		if (onerow) {
-			tmp = this.value.replaceAll("\n", "").replaceAll("\r", "");
-		}
-		else {
-			tmp = this.value;
-		}
-		if (this.textarea) {
-			tmp = DataUtil.toHtmlSimple(tmp).replaceAll("<br/>", "\n");
-			writer.append(tmp);
+			writer.append(DataUtil.toHtmlSimpleOneRow(this.value));
 			return;
 		}
-		writer.append(DataUtil.toHtmlSimple(tmp));
+		if (this.textarea) {
+			writer.append(DataUtil.toHtmlSimple(this.value).replaceAll("<br/>",
+					"\n"));
+			return;
+		}
+		writer.append(DataUtil.toHtmlSimple(this.value));
 	}
 }
