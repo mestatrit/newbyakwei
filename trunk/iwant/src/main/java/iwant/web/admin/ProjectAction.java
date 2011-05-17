@@ -102,8 +102,6 @@ public class ProjectAction extends BaseAction {
 		project.setCatid(req.getInt("catid"));
 		project.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		project.setDescr(req.getString("descr", ""));
-		project.setMarkerx(req.getDouble("markerx"));
-		project.setMarkery(req.getDouble("markery"));
 		project.setTel(req.getString("tel", ""));
 		project.setDid(req.getInt("did"));
 		List<String> errlist = ProjectValidate.validate(project);
@@ -134,8 +132,6 @@ public class ProjectAction extends BaseAction {
 		project.setAddr(req.getStringRow("addr", ""));
 		project.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		project.setDescr(req.getString("descr", ""));
-		project.setMarkerx(req.getDouble("markerx"));
-		project.setMarkery(req.getDouble("markery"));
 		project.setTel(req.getString("tel"));
 		project.setDid(req.getInt("did"));
 		List<String> errlist = ProjectValidate.validate(project);

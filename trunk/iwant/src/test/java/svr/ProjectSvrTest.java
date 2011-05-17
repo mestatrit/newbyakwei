@@ -52,10 +52,10 @@ public class ProjectSvrTest extends BaseSvrTest {
 	private void assertProjectData(Project expected, Project actual) {
 		Assert.assertEquals(expected.getAddr(), actual.getAddr());
 		Assert.assertEquals(expected.getDescr(), actual.getDescr());
-		Assert.assertEquals(new Double(expected.getMarkerx()), new Double(
-				actual.getMarkerx()));
-		Assert.assertEquals(new Double(expected.getMarkery()), new Double(
-				actual.getMarkery()));
+		Assert.assertEquals(new Double(expected.getLat()), new Double(actual
+				.getLat()));
+		Assert.assertEquals(new Double(expected.getLng()), new Double(actual
+				.getLng()));
 		Assert.assertEquals(expected.getName(), actual.getName());
 		Assert.assertEquals(expected.getOrder_flag(), actual.getOrder_flag());
 		Assert.assertEquals(expected.getProjectid(), actual.getProjectid());
