@@ -9,6 +9,8 @@ import iwant.svr.CategorySvr;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
 import iwant.svr.ZoneSvr;
+import iwant.svr.exception.CategoryNotFoundException;
+import iwant.svr.exception.DistrictNotFoundException;
 import iwant.util.ActiveTypeCreater;
 import iwant.util.BackUrl;
 import iwant.util.BackUrlUtil;
@@ -177,5 +179,31 @@ public class ProjectAction extends BaseAction {
 		backUrl.push(req.getString("back_url"));
 		req.setAttribute("backUrl", backUrl);
 		return this.getAdminPath("project/view.jsp");
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 */
+	public String updateLatlng(HkRequest req, HkResponse resp) {
+		long projectid = req.getLongAndSetAttr("projectid");
+		Project project = this.projectSvr.getProject(projectid);
+		if (this.isForwardPage(req)) {
+			req.setAttribute("project", project);
+			return this.getAdminPath("project/updatelatlng.jsp");
+		}
+		if (project != null) {
+			project.setLat(req.getDouble("lat"));
+			project.setLng(req.getDouble("lng"));
+			try {
+				this.projectSvr.updateProject(project);
+			}
+			catch (CategoryNotFoundException e) {
+			}
+			catch (DistrictNotFoundException e) {
+			}
+		}
+		return this.onSuccess(req, "updateok", null);
 	}
 }
