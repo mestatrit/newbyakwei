@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import action.TestAction;
 import cactus.web.action.Action;
 import cactus.web.action.NoActionException;
-import cactus.web.action.ex.ActionFinderEx;
+import cactus.web.action.PathScanActionFinder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( { "/hkframe-web.xml" })
@@ -17,7 +17,7 @@ public class ActionFinderExTest {
 
 	@Test
 	public void test1() {
-		ActionFinderEx ex = new ActionFinderEx();
+		PathScanActionFinder ex = new PathScanActionFinder();
 		ex.setBasePath("action");
 		try {
 			Action action = ex.findAction("/test");
@@ -32,7 +32,7 @@ public class ActionFinderExTest {
 
 	@Test
 	public void test2() {
-		ActionFinderEx ex = new ActionFinderEx();
+		PathScanActionFinder ex = new PathScanActionFinder();
 		ex.setBasePath("action");
 		try {
 			Action action = ex.findAction("/user/app/test");
