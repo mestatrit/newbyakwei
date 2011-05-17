@@ -66,13 +66,13 @@ public class Project {
 	 * 地图坐标
 	 */
 	@Column
-	private double markerx;
+	private double lat;
 
 	/**
 	 * 地图坐标
 	 */
 	@Column
-	private double markery;
+	private double lng;
 
 	@Column
 	private Date createtime;
@@ -166,22 +166,6 @@ public class Project {
 		this.createtime = createtime;
 	}
 
-	public double getMarkerx() {
-		return markerx;
-	}
-
-	public void setMarkerx(double markerx) {
-		this.markerx = markerx;
-	}
-
-	public double getMarkery() {
-		return markery;
-	}
-
-	public void setMarkery(double markery) {
-		this.markery = markery;
-	}
-
 	public int getFans_num() {
 		return fans_num;
 	}
@@ -196,5 +180,21 @@ public class Project {
 
 	public void setDid(int did) {
 		this.did = did;
+	}
+
+	public double getLat() {
+		return lat;
+	}
+
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+
+	public double getLng() {
+		return lng;
+	}
+
+	public void setLng(double lng) {
+		this.lng = lng;
 	}
 }
