@@ -20,7 +20,7 @@ import cactus.web.action.NoActionException;
  * 
  * @author akwei
  */
-public class ActionFinderEx implements ActionFinder {
+public class PathScanActionFinder implements ActionFinder {
 
 	private String basePath;
 
@@ -31,7 +31,7 @@ public class ActionFinderEx implements ActionFinder {
 	 */
 	private String app_ab_path;
 
-	public ActionFinderEx() {
+	public PathScanActionFinder() {
 		URL url = Thread.currentThread().getContextClassLoader()
 				.getResource("");
 		this.app_ab_path = url.getPath();
