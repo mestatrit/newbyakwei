@@ -207,6 +207,7 @@ public class ProjectAction extends BaseAction {
 			catch (DistrictNotFoundException e) {
 			}
 		}
+		this.opUpdateSuccess(req);
 		return this.onSuccess(req, "updateok", null);
 	}
 }
