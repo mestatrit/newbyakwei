@@ -2,6 +2,8 @@
 <project>
 <projectid>$!{project.projectid}</projectid>
 <name><![CDATA[$!{project.name}]]></name>
+<lat>$!{project.lat}</lat>
+<lng>$!{project.lng}</lng>
 </project>
 <list>
 #foreach($slide in $list)
