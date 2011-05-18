@@ -42,6 +42,8 @@ public class FileUpload {
 	// public int getMaxPostSize() {
 	// return maxPostSize;
 	// }
+	private static final int dv = 1024 * 1024;
+
 	public FileUpload(HttpServletRequest request) throws IOException {
 		if (!(request.getMethod().equals(METHOD_POST) && HkMultiRequest
 				.isMultipart(request))) {
@@ -58,7 +60,7 @@ public class FileUpload {
 				.getAttribute(WebCnf.UPLOAD_LIMIT_SIZE_KEY);
 		if (checkCnf == null) {
 			multipartRequest = new MultipartRequest(request, TEMP_PATH,
-					maxPostSize, "utf-8");
+					maxPostSize * dv, "utf-8");
 		}
 		else {
 			multipartRequest = new MultipartRequest(request, TEMP_PATH,
