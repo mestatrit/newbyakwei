@@ -118,6 +118,9 @@ public class WebCnf implements InitializingBean {
 	}
 
 	private void initUploadFileCheckCnf() {
+		if (this.fileUploadCheckUriCnfList == null) {
+			return;
+		}
 		for (String cnf : this.fileUploadCheckUriCnfList) {
 			String[] s = cnf.split(":");
 			if (s.length != 2) {
