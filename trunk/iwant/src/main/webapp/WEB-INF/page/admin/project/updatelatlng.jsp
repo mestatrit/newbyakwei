@@ -136,7 +136,7 @@ $(document).ready(function(){
 					<input type="hidden" name="ch" value="1"/>
 					<input type="hidden" name="projectid" value="${projectid }"/>
 					<input id="pro_lat" type="hidden" name="lat" value="${project.lat }"/>
-					<input id="pro_lng" type="hidden" name="lat" value="${project.lng }"/>
+					<input id="pro_lng" type="hidden" name="lng" value="${project.lng }"/>
 					<input type="submit" value="保存当前位置" class="btn"/>
 				</form>
 			</div>
