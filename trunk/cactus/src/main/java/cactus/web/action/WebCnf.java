@@ -23,6 +23,21 @@ public class WebCnf implements InitializingBean {
 
 	private ActionResultProcessor actionResultProcessor;
 
+	private List<String> fileUploadCheckUriList;
+
+	/**
+	 * 设置文件上传所允许通过的urlmapping以及允许上传文件的大小以kb来计算
+	 * 
+	 * @param fileUploadCheckUriList
+	 */
+	public void setFileUploadCheckUriList(List<String> fileUploadCheckUriList) {
+		this.fileUploadCheckUriList = fileUploadCheckUriList;
+	}
+
+	public List<String> getFileUploadCheckUriList() {
+		return fileUploadCheckUriList;
+	}
+
 	public void setScanPathList(List<String> scanPathList) {
 		this.scanPathList = scanPathList;
 	}

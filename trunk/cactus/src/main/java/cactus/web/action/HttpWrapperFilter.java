@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cactus.util.HkUtil;
 import cactus.web.util.HkWebUtil;
 
 /**
@@ -21,6 +22,7 @@ public class HttpWrapperFilter extends HkFilter {
 	public void doFilter(HttpServletRequest request,
 			HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+		WebCnf webCnf = (WebCnf) HkUtil.getBean("webCnf");
 		chain.doFilter(HkWebUtil.getHkRequest(request), HkWebUtil
 				.getHkResponse(response));
 	}
