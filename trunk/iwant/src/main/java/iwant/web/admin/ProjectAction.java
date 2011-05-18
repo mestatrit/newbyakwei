@@ -186,10 +186,13 @@ public class ProjectAction extends BaseAction {
 	 * @param resp
 	 * @return
 	 */
-	public String updateLatlng(HkRequest req, HkResponse resp) {
+	public String updatelatlng(HkRequest req, HkResponse resp) {
 		long projectid = req.getLongAndSetAttr("projectid");
 		Project project = this.projectSvr.getProject(projectid);
 		if (this.isForwardPage(req)) {
+			BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+			backUrl.push(req.getString("back_url"));
+			req.setAttribute("backUrl", backUrl);
 			req.setAttribute("project", project);
 			return this.getAdminPath("project/updatelatlng.jsp");
 		}
