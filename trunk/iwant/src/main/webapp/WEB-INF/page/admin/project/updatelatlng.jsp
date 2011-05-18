@@ -9,8 +9,8 @@
 var geocoder;
 var map;
 var marker=null;
-var centerLat=-34.397;
-var centerLng=150.644;
+var centerLat=${project.lat};
+var centerLng=${project.lng};
 var glassid=null;
 var submited=false;
 function initialize() {
@@ -22,9 +22,8 @@ function initialize() {
 	  mapTypeId: google.maps.MapTypeId.ROADMAP
 	}
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-	google.maps.event.addListener(map, 'dragend', function() {
-		centerLat=map.getCenter().lat();
-		centerLng=map.getCenter().lng();
+	google.maps.event.addListener(map, 'dragend', function(event) {
+		updateLatlng(event.latLng);
 	});
 }
 
@@ -39,6 +38,14 @@ function showMarker(){
 			    title: document.getElementById("search_addr").value,
 			    position: map.getCenter()
 			});
+	updateLatlng(map.getCenter());
+}
+
+function updateLatlng(latlng){
+	centerLat=latlng.lat();
+	centerLng=latlng.lng();
+	getObj('pro_lat').value=centerLat;
+	getObj('pro_lng').value=centerLng;
 }
 
 function searchlatlng() {
@@ -57,9 +64,9 @@ function searchlatlng() {
 			    title: address,
 			    position: results[0].geometry.location
 			});
+			updateLatlng(results[0].geometry.location);
 			google.maps.event.addListener(marker,'dragend',function(event){
-				centerLat=event.latLng.lat();
-				centerLng=event.latLng.lng();
+				updateLatlng(event.latLng);
 			});
 		} 
 		else {
@@ -69,6 +76,10 @@ function searchlatlng() {
 }
 
 function subLatlng(frmid){
+	if(getObj('pro_lat').value=='0.0' || getObj('pro_lng').value=='0.0'){
+		setHtml('err_latlng','请在地图上标记出位置');
+		return false;
+	}
 	if(submited){
 		return false;
 	}
@@ -78,8 +89,8 @@ function subLatlng(frmid){
 	return true;
 }
 
-function onupdateok(err,err_msg,v){
-	tourl('${appctx_path}/mgr');
+function updateok(err,err_msg,v){
+	refreshurl();
 }
 
 $(document).ready(function(){
@@ -108,7 +119,7 @@ $(document).ready(function(){
 }
 </style>
 <div class="mod">
-	<div class="mod_title">地图设置
+	<div class="mod_title"><hk:value value="${project.name }" onerow="true"/>地图设置
 	<a class="more" href="${appctx_path }/mgr/project_back.do">返回</a>
 	</div>
 	<div class="mod_content">
@@ -120,17 +131,18 @@ $(document).ready(function(){
 					<input type="submit" value="查询" class="btn"/>
 				</form>
 			</div>
-			<div class="f_l">
-				<form id="latlngfrm" method="post" onsubmit="return subLatlng(this.id)" action="${appctx_path }/mgr/project_updateLatlng.do" target="hideframe">
+			<div class="f_l" style="margin-left: 20px;">
+				<form id="latlngfrm" method="post" onsubmit="return subLatlng(this.id)" action="${appctx_path }/mgr/project_updatelatlng.do" target="hideframe">
 					<input type="hidden" name="ch" value="1"/>
 					<input type="hidden" name="projectid" value="${projectid }"/>
 					<input id="pro_lat" type="hidden" name="lat" value="${project.lat }"/>
 					<input id="pro_lng" type="hidden" name="lat" value="${project.lng }"/>
-					<input type="submit" value="保存当前位置"/>
+					<input type="submit" value="保存当前位置" class="btn"/>
 				</form>
 			</div>
 			<div class="clr"></div>
 		</div>
+		<div id="err_latlng" class="infowarn"></div>
 		<div style="position: relative;">
 			<div class="marker">
 				<a class="ma" href="javascript:showMarker()">显示标记</a>
