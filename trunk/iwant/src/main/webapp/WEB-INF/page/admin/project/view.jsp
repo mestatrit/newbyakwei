@@ -40,6 +40,7 @@
 						<a href="javascript:viewmainppt()" class="split-r">查看项目简介</a>
 						<a href="javascript:viewppt()" class="split-r">查看客户简报</a>
 						<a href="javascript:toupdate()" class="split-r">修改</a>
+						<a href="javascript:toupdatelatlng()" class="split-r">地图设置</a>
 						<a href="${appctx_path }/mgr/project_back.do">返回</a>
 					</td>
 				</tr>
@@ -48,8 +49,11 @@
 	</div>
 </div>
 <script type="text/javascript">
-function toupdate(projectid){
+function toupdate(){
 	tourl('${appctx_path}/mgr/project_update.do?projectid=${project.projectid}&back_url='+encodeLocalURL());
+}
+function toupdatelatlng(){
+	tourl('${appctx_path}/mgr/project_updatelatlng.do?projectid=${project.projectid}&back_url='+encodeLocalURL());
 }
 function viewppt(projectid){
 	tourl('${appctx_path}/mgr/ppt.do?projectid=${project.projectid}');
