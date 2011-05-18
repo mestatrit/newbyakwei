@@ -7,10 +7,10 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * A utility class to handle <code>multipart/form-data</code> requests, the
- * kind of requests that support file uploads. This class uses a "pull" model
- * where the reading of incoming files and parameters is controlled by the
- * client code, which allows incoming files to be stored into any
+ * A utility class to handle <code>multipart/form-data</code> requests, the kind
+ * of requests that support file uploads. This class uses a "pull" model where
+ * the reading of incoming files and parameters is controlled by the client
+ * code, which allows incoming files to be stored into any
  * <code>OutputStream</code>. If you wish to use an API which resembles
  * <code>HttpServletRequest</code>, use the "push" model
  * <code>MultipartRequest</code> instead. It's an easy-to-use wrapper around
@@ -60,6 +60,7 @@ import javax.servlet.http.HttpServletRequest;
  * @version 1.0, 2000/10/27, initial revision
  */
 public class MultipartParser {
+
 	/** input stream to read parts from */
 	private ServletInputStream in;
 
@@ -78,14 +79,18 @@ public class MultipartParser {
 	/** preferred encoding */
 	private String encoding = DEFAULT_ENCODING;
 
+	private static String fileNameSub = ".costmpfile";
+
 	/**
-	 * Creates a <code>MultipartParser</code> from the specified request,
-	 * which limits the upload size to the specified length, buffers for
-	 * performance and prevent attempts to read past the amount specified by the
+	 * Creates a <code>MultipartParser</code> from the specified request, which
+	 * limits the upload size to the specified length, buffers for performance
+	 * and prevent attempts to read past the amount specified by the
 	 * Content-Length.
 	 * 
-	 * @param req the servlet request.
-	 * @param maxSize the maximum size of the POST content.
+	 * @param req
+	 *            the servlet request.
+	 * @param maxSize
+	 *            the maximum size of the POST content.
 	 */
 	public MultipartParser(HttpServletRequest req, int maxSize)
 			throws IOException {
@@ -93,18 +98,22 @@ public class MultipartParser {
 	}
 
 	/**
-	 * Creates a <code>MultipartParser</code> from the specified request,
-	 * which limits the upload size to the specified length, and optionally
-	 * buffers for performance and prevents attempts to read past the amount
-	 * specified by the Content-Length.
+	 * Creates a <code>MultipartParser</code> from the specified request, which
+	 * limits the upload size to the specified length, and optionally buffers
+	 * for performance and prevents attempts to read past the amount specified
+	 * by the Content-Length.
 	 * 
-	 * @param req the servlet request.
-	 * @param maxSize the maximum size of the POST content.
-	 * @param buffer whether to do internal buffering or let the server buffer,
+	 * @param req
+	 *            the servlet request.
+	 * @param maxSize
+	 *            the maximum size of the POST content.
+	 * @param buffer
+	 *            whether to do internal buffering or let the server buffer,
 	 *            useful for servers that don't buffer
-	 * @param limitLength boolean flag to indicate if we need to filter the
-	 *            request's input stream to prevent trying to read past the end
-	 *            of the stream.
+	 * @param limitLength
+	 *            boolean flag to indicate if we need to filter the request's
+	 *            input stream to prevent trying to read past the end of the
+	 *            stream.
 	 */
 	public MultipartParser(HttpServletRequest req, int maxSize, boolean buffer,
 			boolean limitLength) throws IOException {
@@ -112,19 +121,24 @@ public class MultipartParser {
 	}
 
 	/**
-	 * Creates a <code>MultipartParser</code> from the specified request,
-	 * which limits the upload size to the specified length, and optionally
-	 * buffers for performance and prevents attempts to read past the amount
-	 * specified by the Content-Length, and with a specified encoding.
+	 * Creates a <code>MultipartParser</code> from the specified request, which
+	 * limits the upload size to the specified length, and optionally buffers
+	 * for performance and prevents attempts to read past the amount specified
+	 * by the Content-Length, and with a specified encoding.
 	 * 
-	 * @param req the servlet request.
-	 * @param maxSize the maximum size of the POST content.
-	 * @param buffer whether to do internal buffering or let the server buffer,
+	 * @param req
+	 *            the servlet request.
+	 * @param maxSize
+	 *            the maximum size of the POST content.
+	 * @param buffer
+	 *            whether to do internal buffering or let the server buffer,
 	 *            useful for servers that don't buffer
-	 * @param limitLength boolean flag to indicate if we need to filter the
-	 *            request's input stream to prevent trying to read past the end
-	 *            of the stream.
-	 * @param encoding the encoding to use for parsing, default is ISO-8859-1.
+	 * @param limitLength
+	 *            boolean flag to indicate if we need to filter the request's
+	 *            input stream to prevent trying to read past the end of the
+	 *            stream.
+	 * @param encoding
+	 *            the encoding to use for parsing, default is ISO-8859-1.
 	 */
 	public MultipartParser(HttpServletRequest req, int maxSize, boolean buffer,
 			boolean limitLength, String encoding) throws IOException {
@@ -201,7 +215,8 @@ public class MultipartParser {
 	 * ISO-8859-1. Encodings are actually best passed into the contructor, so
 	 * even the initial line reads are correct.
 	 * 
-	 * @param encoding The encoding to use for parsing
+	 * @param encoding
+	 *            The encoding to use for parsing
 	 */
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
@@ -209,14 +224,14 @@ public class MultipartParser {
 
 	/**
 	 * Read the next part arriving in the stream. Will be either a
-	 * <code>FilePart</code> or a <code>ParamPart</code>, or
-	 * <code>null</code> to indicate there are no more parts to read. The
-	 * order of arrival corresponds to the order of the form elements in the
-	 * submitted form.
+	 * <code>FilePart</code> or a <code>ParamPart</code>, or <code>null</code>
+	 * to indicate there are no more parts to read. The order of arrival
+	 * corresponds to the order of the form elements in the submitted form.
 	 * 
 	 * @return either a <code>FilePart</code>, a <code>ParamPart</code> or
 	 *         <code>null</code> if there are no more parts to read.
-	 * @exception IOException if an input or output exception has occurred.
+	 * @exception IOException
+	 *                if an input or output exception has occurred.
 	 * @see FilePart
 	 * @see ParamPart
 	 */
@@ -303,7 +318,7 @@ public class MultipartParser {
 		}
 		else {
 			filename = Thread.currentThread().getId() + "" + System.nanoTime()
-					+ System.currentTimeMillis() + ".imgbin";
+					+ System.currentTimeMillis() + fileNameSub;
 		}
 		lastFilePart = new FilePart(name, in, boundary, contentType, filename,
 				origname);
@@ -339,7 +354,8 @@ public class MultipartParser {
 	 * array with elements: disposition, name, filename.
 	 * 
 	 * @return String[] of elements: disposition, name, filename.
-	 * @exception  IOException if the line is malformatted.
+	 * @exception IOException
+	 *                if the line is malformatted.
 	 */
 	private String[] extractDispositionInfo(String line) throws IOException {
 		// Return the line's data as an array: disposition, name, filename
@@ -406,7 +422,8 @@ public class MultipartParser {
 	 * was empty.
 	 * 
 	 * @return content type, or null if line was empty.
-	 * @exception IOException if the line is malformatted.
+	 * @exception IOException
+	 *                if the line is malformatted.
 	 */
 	private static String extractContentType(String line) {
 		// Convert the line to a lowercase string
@@ -428,7 +445,8 @@ public class MultipartParser {
 	 * 
 	 * @return a String containing the next line of input from the stream, or
 	 *         null to indicate the end of the stream.
-	 * @exception IOException if an input or output exception has occurred.
+	 * @exception IOException
+	 *                if an input or output exception has occurred.
 	 */
 	private String readLine() throws IOException {
 		StringBuffer sbuf = new StringBuffer();
