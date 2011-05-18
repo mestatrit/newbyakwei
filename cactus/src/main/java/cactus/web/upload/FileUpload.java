@@ -60,11 +60,11 @@ public class FileUpload {
 				.getAttribute(WebCnf.UPLOAD_LIMIT_SIZE_KEY);
 		if (checkCnf == null) {
 			multipartRequest = new MultipartRequest(request, TEMP_PATH,
-					maxPostSize * dv, "utf-8");
+					maxPostSize, "utf-8");
 		}
 		else {
 			multipartRequest = new MultipartRequest(request, TEMP_PATH,
-					checkCnf.getMaxSize(), "utf-8");
+					checkCnf.getMaxSize() * dv, "utf-8");
 		}
 		this.hkMultiRequest = new HkMultiRequest(request, multipartRequest);
 		Set<String> set = multipartRequest.getFileNames();
