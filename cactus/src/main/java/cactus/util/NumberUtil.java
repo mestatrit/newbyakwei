@@ -6,6 +6,9 @@ import java.util.Random;
 public class NumberUtil {
 
 	public static long getLong(Object obj) {
+		if (obj instanceof String) {
+			return Long.parseLong((String) obj);
+		}
 		Number n = getNumber(obj);
 		if (n == null) {
 			return 0L;
@@ -14,6 +17,9 @@ public class NumberUtil {
 	}
 
 	public static int getInt(Object obj) {
+		if (obj instanceof String) {
+			return Integer.parseInt((String) obj);
+		}
 		Number n = getNumber(obj);
 		if (n == null) {
 			return 0;
