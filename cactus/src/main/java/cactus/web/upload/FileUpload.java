@@ -8,6 +8,8 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cactus.web.action.UploadFileCheckCnf;
+import cactus.web.action.WebCnf;
 import cactus.web.upload.cos.MultipartRequest;
 
 public class FileUpload {
@@ -27,6 +29,19 @@ public class FileUpload {
 	// 上传文件的总大小限制在15M
 	private int maxPostSize = 51 * 1024 * 1024;
 
+	//
+	// /**
+	// * 设置上传文件的最大限制,单位为M
+	// *
+	// * @param maxPostSize
+	// */
+	// public void setMaxPostSize(int maxPostSize) {
+	// this.maxPostSize = maxPostSize;
+	// }
+	//
+	// public int getMaxPostSize() {
+	// return maxPostSize;
+	// }
 	public FileUpload(HttpServletRequest request) throws IOException {
 		if (!(request.getMethod().equals(METHOD_POST) && HkMultiRequest
 				.isMultipart(request))) {
@@ -39,8 +54,16 @@ public class FileUpload {
 			throw new IllegalArgumentException(
 					"no permission on server to operate file [ "
 							+ FileUpload.TEMP_PATH + " ]");
-		multipartRequest = new MultipartRequest(request, TEMP_PATH,
-				maxPostSize, "utf-8");
+		UploadFileCheckCnf checkCnf = (UploadFileCheckCnf) request
+				.getAttribute(WebCnf.UPLOAD_LIMIT_SIZE_KEY);
+		if (checkCnf == null) {
+			multipartRequest = new MultipartRequest(request, TEMP_PATH,
+					maxPostSize, "utf-8");
+		}
+		else {
+			multipartRequest = new MultipartRequest(request, TEMP_PATH,
+					checkCnf.getMaxSize(), "utf-8");
+		}
 		this.hkMultiRequest = new HkMultiRequest(request, multipartRequest);
 		Set<String> set = multipartRequest.getFileNames();
 		List<File> fileList = new ArrayList<File>();

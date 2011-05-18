@@ -23,6 +23,11 @@ public class HttpWrapperFilter extends HkFilter {
 			HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		WebCnf webCnf = (WebCnf) HkUtil.getBean("webCnf");
+		UploadFileCheckCnf checkCnf = webCnf.getUploadFileCheckCnf(request
+				.getRequestURI());
+		if (checkCnf != null) {
+			request.setAttribute(WebCnf.UPLOAD_LIMIT_SIZE_KEY, checkCnf);
+		}
 		chain.doFilter(HkWebUtil.getHkRequest(request), HkWebUtil
 				.getHkResponse(response));
 	}
