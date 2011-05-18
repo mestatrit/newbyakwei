@@ -2,18 +2,14 @@ package cactus.dao.query;
 
 import java.util.Map;
 
+import cactus.dao.sql.HkDataSourceWrapper;
+
 public class DbPartitionHelperDef extends DbPartitionHelper {
-
-	private String dsKey;
-
-	public void setDsKey(String dsKey) {
-		this.dsKey = dsKey;
-	}
 
 	@Override
 	public PartitionTableInfo parse(String name, Map<String, Object> ctxMap) {
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName(dsKey);
+		partitionTableInfo.setDatabaseName(HkDataSourceWrapper.default_dbkey);
 		partitionTableInfo.setTableName(name);
 		partitionTableInfo.setAliasName(name);
 		return partitionTableInfo;

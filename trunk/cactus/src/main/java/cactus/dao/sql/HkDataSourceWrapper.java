@@ -9,13 +9,16 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.InitializingBean;
 
 /**
  * DataSource的包装类
  * 
  * @author akwei
  */
-public class HkDataSourceWrapper implements DataSource {
+public class HkDataSourceWrapper implements DataSource, InitializingBean {
+
+	public static final String default_dbkey = "db_key_default";
 
 	private Map<String, DataSource> dataSourceMap;
 
@@ -84,5 +87,13 @@ public class HkDataSourceWrapper implements DataSource {
 	@Override
 	public <T> T unwrap(Class<T> iface) throws SQLException {
 		return this.getCurrentDataSource().unwrap(iface);
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		if (this.dataSourceMap.size() == 1) {
+			this.dataSourceMap.put(default_dbkey, this.dataSourceMap.values()
+					.iterator().next());
+		}
 	}
 }
