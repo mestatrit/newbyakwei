@@ -292,7 +292,15 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 
 	private void initMultipart() throws IOException {
 		if (ServletUtil.isMultipart(this.getHttpServletRequest())) {
-			fileUpload = new FileUpload(this.getHttpServletRequest());
+			WebCnf webCnf = (WebCnf) this.getAttribute(WebCnf.WEBCNF_OBJ_KEY);
+			if (webCnf.isMustCheckUpload()) {
+				if (this.getHttpServletRequest().getAttribute(
+						WebCnf.UPLOAD_LIMIT_SIZE_KEY) == null) {
+					return;
+				}
+			}
+			fileUpload = new FileUpload(this.getHttpServletRequest(), webCnf
+					.getUploadFileTempPath());
 			this.request = fileUpload.getHkMultiRequest();
 		}
 	}

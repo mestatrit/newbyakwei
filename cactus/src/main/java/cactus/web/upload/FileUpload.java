@@ -14,11 +14,7 @@ import cactus.web.upload.cos.MultipartRequest;
 
 public class FileUpload {
 
-	public static final String TEMP_PATH = "/temp/";
-
 	private File[] files;
-
-	private File dir_ = new File(TEMP_PATH);
 
 	private HkMultiRequest hkMultiRequest;
 
@@ -44,27 +40,31 @@ public class FileUpload {
 	// }
 	private static final int dv = 1024 * 1024;
 
-	public FileUpload(HttpServletRequest request) throws IOException {
+	public FileUpload(HttpServletRequest request, String uploadFileTempPath)
+			throws IOException {
 		if (!(request.getMethod().equals(METHOD_POST) && HkMultiRequest
 				.isMultipart(request))) {
 			throw new RuntimeException(
 					"not post method and multipart/form-data");
 		}
-		if (!dir_.isDirectory())
-			dir_.mkdir();
-		if (!dir_.canWrite())
+		File dir = new File(uploadFileTempPath);
+		if (!dir.isDirectory()) {
+			dir.mkdir();
+		}
+		if (!dir.canWrite()) {
 			throw new IllegalArgumentException(
 					"no permission on server to operate file [ "
-							+ FileUpload.TEMP_PATH + " ]");
+							+ uploadFileTempPath + " ]");
+		}
 		UploadFileCheckCnf checkCnf = (UploadFileCheckCnf) request
 				.getAttribute(WebCnf.UPLOAD_LIMIT_SIZE_KEY);
 		if (checkCnf == null) {
-			multipartRequest = new MultipartRequest(request, TEMP_PATH,
-					maxPostSize, "utf-8");
+			multipartRequest = new MultipartRequest(request,
+					uploadFileTempPath, maxPostSize, "utf-8");
 		}
 		else {
-			multipartRequest = new MultipartRequest(request, TEMP_PATH,
-					checkCnf.getMaxSize() * dv, "utf-8");
+			multipartRequest = new MultipartRequest(request,
+					uploadFileTempPath, checkCnf.getMaxSize() * dv, "utf-8");
 		}
 		this.hkMultiRequest = new HkMultiRequest(request, multipartRequest);
 		Set<String> set = multipartRequest.getFileNames();
