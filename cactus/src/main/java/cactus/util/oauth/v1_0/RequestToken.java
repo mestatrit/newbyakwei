@@ -1,5 +1,8 @@
 package cactus.util.oauth.v1_0;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 请求token
  * 
@@ -7,8 +10,15 @@ package cactus.util.oauth.v1_0;
  */
 public class RequestToken {
 
+	/**
+	 * A value used by the Consumer to obtain authorization from the User, and
+	 * exchanged for an Access Token
+	 */
 	private String token;
 
+	/**
+	 * A secret used by the Consumer to establish ownership of a given Token.
+	 */
 	private String tokenSecret;
 
 	public String getToken() {
@@ -36,6 +46,8 @@ public class RequestToken {
 	 */
 	public RequestToken getRequestToken(OAuthAppInfo oauthAppInfo,
 			String back_url) {
+		// 生成http header请求参数
+		List<Parameter> list = new ArrayList<Parameter>();
 		return null;
 	}
 }

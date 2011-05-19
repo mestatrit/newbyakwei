@@ -7,11 +7,19 @@ package cactus.util.oauth.v1_0;
  */
 public class OAuthAppInfo {
 
-	private String appKey;
+	private String consumerKey;
 
-	private String appSecret;
+	private String consumerSecret;
+
+	private String signatureMethod = "HMAC-SHA1";
+
+	private String version = "v1.0";
 
 	private String requestTokenURL;
+
+	private String userAuthorizationURL;
+
+	private String accessTokenURL;
 
 	public void setRequestTokenURL(String requestTokenURL) {
 		this.requestTokenURL = requestTokenURL;
@@ -21,19 +29,51 @@ public class OAuthAppInfo {
 		return requestTokenURL;
 	}
 
-	public String getAppKey() {
-		return appKey;
+	public String getConsumerKey() {
+		return consumerKey;
 	}
 
-	public void setAppKey(String appKey) {
-		this.appKey = appKey;
+	public void setConsumerKey(String consumerKey) {
+		this.consumerKey = consumerKey;
 	}
 
-	public String getAppSecret() {
-		return appSecret;
+	public String getConsumerSecret() {
+		return consumerSecret;
 	}
 
-	public void setAppSecret(String appSecret) {
-		this.appSecret = appSecret;
+	public void setConsumerSecret(String consumerSecret) {
+		this.consumerSecret = consumerSecret;
+	}
+
+	public String getUserAuthorizationURL() {
+		return userAuthorizationURL;
+	}
+
+	public void setUserAuthorizationURL(String userAuthorizationURL) {
+		this.userAuthorizationURL = userAuthorizationURL;
+	}
+
+	public String getAccessTokenURL() {
+		return accessTokenURL;
+	}
+
+	public void setAccessTokenURL(String accessTokenURL) {
+		this.accessTokenURL = accessTokenURL;
+	}
+
+	public String getSignatureMethod() {
+		return signatureMethod;
+	}
+
+	public void setSignatureMethod(String signatureMethod) {
+		this.signatureMethod = signatureMethod;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 }
