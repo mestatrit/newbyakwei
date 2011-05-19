@@ -13,3 +13,5 @@
 <br />
 <a href="<%=request.getContextPath()%>/hello_method5">连接到外部网站163.com</a>
 <br />
+<a href="<%=request.getContextPath()%>/hello_upload">文件上传</a>
+<br />
