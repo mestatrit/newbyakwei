@@ -1,16 +1,17 @@
 package demo.web;
 
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import cactus.util.P;
 import cactus.web.action.HkRequest;
 import cactus.web.action.HkResponse;
+import cactus.web.action.WebCnf;
 import demo.bean.UserInfo;
 import demo.svr.UserInfoService;
 
-@Lazy
 @Component("/hello")
 public class HelloAction extends BaseAction {
 
@@ -113,5 +114,41 @@ public class HelloAction extends BaseAction {
 	 */
 	public String method5(HkRequest req, HkResponse resp) {
 		return "r:http://www.163.com";
+	}
+
+	/**
+	 * 由于设置了 {@link WebCnf#setMustCheckUpload(boolean)}
+	 * ，所以只有此url才能接受文件上传，其他url都不会自定进行文件上传
+	 * 
+	 * @param req
+	 * @param resp
+	 * @return
+	 */
+	public String upload(HkRequest req, HkResponse resp) {
+		if (req.getInt("ch") == 0) {
+			return "/upload.jsp";
+		}
+		File f = req.getFile("f");
+		if (f != null) {
+			String name = f.getAbsolutePath();
+			req.setAttribute("name", name);
+		}
+		return "/uploadresult.jsp";
+	}
+
+	/**
+	 * 由于没有设置 {@link WebCnf#setMustCheckUpload(boolean)}
+	 * ，所以此url不会接受文件上传，获得的文件为null
+	 * 
+	 * @param req
+	 * @param resp
+	 * @return
+	 */
+	public String upload2(HkRequest req, HkResponse resp) {
+		File f = req.getFile("f");
+		if (f == null) {
+			req.setAttribute("uploadnull", true);
+		}
+		return "/uploadresult2.jsp";
 	}
 }
