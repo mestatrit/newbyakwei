@@ -14,10 +14,11 @@
 	<context:annotation-config />
 	<bean id="hkUtil" class="cactus.util.HkUtil" />
 	<bean id="webCnf" class="cactus.web.action.WebCnf">
+		<property name="uploadFileTempPath" value="/Users/fire9/mydev/cactustemp/" />
 		<property name="mustCheckUpload" value="true" />
 		<property name="fileUploadCheckUriCnfList">
 			<list>
-				<value>/hello_upload.do:500</value>
+				<value>/hello_upload:500</value>
 			</list>
 		</property>
 		<property name="scanPathList">
