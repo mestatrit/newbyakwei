@@ -8,7 +8,7 @@ public class BASE64Util {
 	private BASE64Util() {//
 	}
 
-	public static String getStringFromBASE64(String s) {
+	public static String decode(String s) {
 		if (s == null) {
 			return null;
 		}
@@ -22,7 +22,7 @@ public class BASE64Util {
 		}
 	}
 
-	public static String getBASE64(String str) {
+	public static String encode(String str) {
 		BASE64Encoder encoder = new BASE64Encoder();
 		try {
 			return encoder.encode(str.getBytes("iso-8859-1"));
@@ -34,8 +34,8 @@ public class BASE64Util {
 
 	public static void main(String[] args) {
 		try {
-			System.out.println(BASE64Util.getBASE64("123"));
-			System.out.println(BASE64Util.getStringFromBASE64("MTIzzzz"));
+			System.out.println(BASE64Util.encode("123"));
+			System.out.println(BASE64Util.decode("MTIzzzz"));
 		}
 		catch (Exception e) {
 			e.printStackTrace();
