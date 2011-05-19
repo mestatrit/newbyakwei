@@ -22,7 +22,11 @@ public class HttpWrapperFilter extends HkFilter {
 	public void doFilter(HttpServletRequest request,
 			HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		WebCnf webCnf = (WebCnf) HkUtil.getBean("webCnf");
+		WebCnf webCnf = (WebCnf) request.getAttribute(WebCnf.WEBCNF_OBJ_KEY);
+		if (webCnf == null) {
+			webCnf = (WebCnf) HkUtil.getBean("webCnf");
+			request.setAttribute(WebCnf.WEBCNF_OBJ_KEY, webCnf);
+		}
 		String uri = request.getRequestURI();
 		String localuri = uri.substring(request.getContextPath().length(), uri
 				.length());

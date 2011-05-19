@@ -23,6 +23,8 @@ public class WebCnf implements InitializingBean {
 
 	private ActionExe actionExe;
 
+	private String uploadFileTempPath = "/cactustemp/";
+
 	private MappingUriCreater mappingUriCreater;
 
 	private ActionResultProcessor actionResultProcessor;
@@ -31,9 +33,44 @@ public class WebCnf implements InitializingBean {
 
 	public static final String UPLOAD_LIMIT_SIZE_KEY = "CACTUS_HTTPREQUEST_UPLOAD_LIMIT_SIZE_KEY";
 
+	public static final String WEBCNF_OBJ_KEY = "CACTUS_HTTPREQUEST_WEBCNF_OBJ_KEY";
+
 	private final List<UploadFileCheckCnf> uploadFileCheckCnfs = new ArrayList<UploadFileCheckCnf>();
 
 	private final Map<String, UploadFileCheckCnf> map = new HashMap<String, UploadFileCheckCnf>();
+
+	private boolean mustCheckUpload;
+
+	/**
+	 * 设置是否强制检查允许上传的uri，只有配置过的uri才能接受文件上传，否则不允许文件上传，并且传递的参数也无法获取
+	 * 
+	 * @param mustCheckUpload
+	 */
+	public void setMustCheckUpload(boolean mustCheckUpload) {
+		this.mustCheckUpload = mustCheckUpload;
+	}
+
+	/**
+	 * 设置文件上传的临时目录
+	 * 
+	 * @param uploadFileTempPath
+	 */
+	public void setUploadFileTempPath(String uploadFileTempPath) {
+		if (!uploadFileTempPath.endsWith("/")) {
+			this.uploadFileTempPath = uploadFileTempPath + "/";
+		}
+		else {
+			this.uploadFileTempPath = uploadFileTempPath;
+		}
+	}
+
+	public String getUploadFileTempPath() {
+		return uploadFileTempPath;
+	}
+
+	public boolean isMustCheckUpload() {
+		return mustCheckUpload;
+	}
 
 	/**
 	 * 设置文件上传所允许通过的urlmapping以及允许上传文件的大小以kb来计算
