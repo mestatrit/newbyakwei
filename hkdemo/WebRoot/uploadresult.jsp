@@ -6,7 +6,7 @@
 		<title>${name }</title>
 	</head>
 	<body>
-		文件上传成功！文件名称为${file.name }<br/>
+		文件上传成功！文件名称为${name }<br/>
 		<jsp:include page="inc.jsp"></jsp:include>
 	</body>
 </html>
