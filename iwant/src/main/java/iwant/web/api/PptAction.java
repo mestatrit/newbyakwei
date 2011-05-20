@@ -116,12 +116,14 @@ public class PptAction extends BaseApiAction {
 	public String timeline(HkRequest req, HkResponse resp) throws Exception {
 		String device_token = req.getStringRow("device_token");
 		if (DataUtil.isEmpty(device_token)) {
-			APIUtil.writeErr(resp, Err.USER_NOT_EXIST);
+			Map<String, Object> map = new HashMap<String, Object>();
+			APIUtil.writeData(resp, map, "vm/ppttimelinelist.vm");
 			return null;
 		}
 		User user = this.loadUser(device_token);
 		if (user == null) {
-			APIUtil.writeErr(resp, Err.USER_NOT_EXIST);
+			Map<String, Object> map = new HashMap<String, Object>();
+			APIUtil.writeData(resp, map, "vm/ppttimelinelist.vm");
 			return null;
 		}
 		SimplePage simplePage = new SimplePage(req.getInt("size", 10), req
