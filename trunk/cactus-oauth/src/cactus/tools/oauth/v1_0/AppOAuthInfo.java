@@ -5,7 +5,7 @@ package cactus.tools.oauth.v1_0;
  * 
  * @author akwei
  */
-public class OAuthAppInfo {
+public class AppOAuthInfo {
 
 	private String consumerKey;
 
