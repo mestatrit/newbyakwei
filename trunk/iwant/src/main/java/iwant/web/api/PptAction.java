@@ -129,8 +129,26 @@ public class PptAction extends BaseApiAction {
 		List<PptTimeline> list = this.pptTimelineSvr
 				.getPptTimelineListByUserid(user.getUserid(), simplePage
 						.getBegin(), simplePage.getSize(), true, true);
+		if (!list.isEmpty()) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			APIUtil.writeData(resp, map, "vm/ppttimelinelist.vm");
+			return null;
+		}
+		List<Category> catlist = this.categorySvr.getCategoryListForAll();
+		if (!catlist.isEmpty()) {
+			Category category = catlist.get(0);
+			int catid = category.getCatid();
+			simplePage = new SimplePage(9, 1);
+			List<MainPpt> mainpptlist = this.pptSvr
+					.getMainPptListOrderedByDid(catid, 2, true, simplePage
+							.getBegin(), simplePage.getSize());
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", mainpptlist);
+			APIUtil.writeData(resp, map, "vm/mainpptlist.vm");
+			return null;
+		}
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list);
 		APIUtil.writeData(resp, map, "vm/ppttimelinelist.vm");
 		return null;
 	}
