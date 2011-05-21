@@ -1,5 +1,8 @@
 package cactus.tools.oauth.v1_0;
 
+import cactus.tools.httpclient.HttpClientImpl;
+import cactus.tools.httpclient.HttpHelper;
+
 /**
  * 开发者账号与密码信息
  * 
@@ -20,6 +23,19 @@ public class AppOAuthInfo {
 	private String userAuthorizationURL;
 
 	private String accessTokenURL;
+
+	private HttpHelper httpHelper;
+
+	public void setHttpHelper(HttpHelper httpHelper) {
+		this.httpHelper = httpHelper;
+	}
+
+	public HttpHelper getHttpHelper() {
+		if (this.httpHelper == null) {
+			this.httpHelper = new HttpClientImpl(3000);
+		}
+		return httpHelper;
+	}
 
 	public void setRequestTokenURL(String requestTokenURL) {
 		this.requestTokenURL = requestTokenURL;

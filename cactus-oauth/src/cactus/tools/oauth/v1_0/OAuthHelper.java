@@ -8,12 +8,13 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import sun.misc.BASE64Encoder;
-import cactus.tools.httpclient.HttpUtil;
 
 /**
  * @author akwei
  */
 public class OAuthHelper {
+
+	private boolean debug;
 
 	public static final String HMAC_SHA1 = "HmacSHA1";
 
@@ -41,7 +42,13 @@ public class OAuthHelper {
 
 	private AppOAuthInfo appOAuthInfo;
 
-	private HttpUtil httpUtil;
+	public void setDebug(boolean debug) {
+		this.debug = debug;
+	}
+
+	public boolean isDebug() {
+		return debug;
+	}
 
 	public void setAppOAuthInfo(AppOAuthInfo appOAuthInfo) {
 		this.appOAuthInfo = appOAuthInfo;
@@ -51,18 +58,10 @@ public class OAuthHelper {
 		return appOAuthInfo;
 	}
 
-	public void setHttpUtil(HttpUtil httpUtil) {
-		this.httpUtil = httpUtil;
-	}
-
-	public HttpUtil getHttpUtil() {
-		return httpUtil;
-	}
-
-	public String createUrlForRequestToken(AppOAuthInfo info,
-			List<Parameter> list) {
-		StringBuilder sb = new StringBuilder(info.getRequestTokenURL());
-		if (info.getRequestTokenURL().indexOf("?") != -1) {
+	public String createUrlForGetRequestToken(List<Parameter> list) {
+		StringBuilder sb = new StringBuilder(this.appOAuthInfo
+				.getRequestTokenURL());
+		if (this.appOAuthInfo.getRequestTokenURL().indexOf("?") != -1) {
 			sb.append("&");
 		}
 		else {
@@ -101,9 +100,8 @@ public class OAuthHelper {
 		int lastidx = list.size() - 1;
 		for (int i = 0; i < list.size(); i++) {
 			parameter = list.get(i);
-			sb.append(OAuthDataUtil.urlEncoder(parameter.getName()))
-					.append("=").append(
-							OAuthDataUtil.urlEncoder(parameter.getValue()));
+			sb.append(OAuthDataUtil.encoder(parameter.getName())).append("=")
+					.append(OAuthDataUtil.encoder(parameter.getValue()));
 			if (i < lastidx) {
 				sb.append("&");
 			}
@@ -146,16 +144,17 @@ public class OAuthHelper {
 	private String generatingSignatureBaseString(String method, String fmtURL,
 			String norParamString) {
 		StringBuilder sb = new StringBuilder(method);
-		sb.append("&").append(OAuthDataUtil.urlEncoder(fmtURL)).append("&")
-				.append(OAuthDataUtil.urlEncoder(norParamString));
+		sb.append("&").append(OAuthDataUtil.encoder(fmtURL)).append("&")
+				.append(OAuthDataUtil.encoder(norParamString));
 		return sb.toString();
 	}
 
 	private String generateSignature(String data, String consumerSecret) {
 		try {
 			Mac mac = Mac.getInstance(HMAC_SHA1);
-			mac.init(new SecretKeySpec((OAuthDataUtil
-					.urlEncoder(consumerSecret) + "&").getBytes(), HMAC_SHA1));
+			mac.init(new SecretKeySpec(
+					(OAuthDataUtil.encoder(consumerSecret) + "&").getBytes(),
+					HMAC_SHA1));
 			return new BASE64Encoder().encode(mac.doFinal(data.getBytes()));
 		}
 		catch (Exception e) {
@@ -175,5 +174,9 @@ public class OAuthHelper {
 		list.add(new Parameter(oauth_version, info.getVersion()));
 		list.add(new Parameter(oauth_callback, callback_url));
 		return list;
+	}
+
+	protected void p(String s) {
+		System.out.println(s);
 	}
 }
