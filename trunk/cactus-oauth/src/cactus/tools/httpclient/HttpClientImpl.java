@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -22,13 +24,14 @@ import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 
-public class HttpUtil {
+public class HttpClientImpl implements HttpHelper {
+
+	private InnerHttpMethodRetryHandler innerHttpMethodRetryHandler = new InnerHttpMethodRetryHandler();
 
 	private MultiThreadedHttpConnectionManager httpManager;
 
@@ -37,6 +40,58 @@ public class HttpUtil {
 	private String proxyUrl;
 
 	private int proxyPort;
+
+	@Override
+	public byte[] doGet(String url, HttpData httpData)
+			throws HttpHelperException {
+		HttpMethod method = this
+				.createMethod(HttpMethodEnum.GET, url, httpData);
+		try {
+			return this.getByteArrayHttpResult(method);
+		}
+		catch (Exception e) {
+			throw new HttpHelperException(e);
+		}
+	}
+
+	@Override
+	public byte[] doPost(String url, HttpData httpData)
+			throws HttpHelperException {
+		HttpMethod method = this.createMethod(HttpMethodEnum.POST, url,
+				httpData);
+		try {
+			return this.getByteArrayHttpResult(method);
+		}
+		catch (Exception e) {
+			throw new HttpHelperException(e);
+		}
+	}
+
+	@Override
+	public String doGetResultString(String url, HttpData httpData)
+			throws HttpHelperException {
+		HttpMethod method = this
+				.createMethod(HttpMethodEnum.GET, url, httpData);
+		try {
+			return this.getHttpResult(method);
+		}
+		catch (Exception e) {
+			throw new HttpHelperException(e);
+		}
+	}
+
+	@Override
+	public String doPostResultString(String url, HttpData httpData)
+			throws HttpHelperException {
+		HttpMethod method = this.createMethod(HttpMethodEnum.POST, url,
+				httpData);
+		try {
+			return this.getHttpResult(method);
+		}
+		catch (Exception e) {
+			throw new HttpHelperException(e);
+		}
+	}
 
 	public void setProxy(boolean proxy) {
 		this.proxy = proxy;
@@ -50,7 +105,7 @@ public class HttpUtil {
 		this.proxyUrl = proxyUrl;
 	}
 
-	public HttpUtil(int timeout) {
+	public HttpClientImpl(int timeout) {
 		httpManager = new MultiThreadedHttpConnectionManager();
 		httpManager.getParams().setConnectionTimeout(timeout);
 	}
@@ -71,94 +126,7 @@ public class HttpUtil {
 
 	private void initMethod(HttpMethod method) {
 		method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
-				new InnerHttpMethodRetryHandler());
-	}
-
-	public String doGet(String url) throws Exception {
-		return doGet(url, null, null);
-	}
-
-	public String doGet(String url, String headerName, String headerValue)
-			throws Exception {
-		HttpMethod method = new GetMethod(url);
-		if (headerName != null && headerValue != null) {
-			method.setRequestHeader(headerName, headerValue);
-		}
-		return getHttpResult(method);
-	}
-
-	public byte[] getByteArrayResult(String url) throws Exception {
-		HttpMethod method = new GetMethod(url);
-		return getByteArrayHttpResult(method);
-	}
-
-	public void doGetWithoutResponse(String url) throws Exception {
-		HttpMethod method = new GetMethod(url);
-		this.doMethod(method);
-	}
-
-	public String doPost(String url, Map<String, String> map,
-			BatchBean batchBean) throws Exception {
-		PostMethod method = new InnerPostMethod(url);
-		if (map == null || map.size() == 0) {
-			throw new IllegalArgumentException("map must be not null");
-		}
-		NameValuePair[] data = new NameValuePair[map.size()
-				+ batchBean.getValues().size()];
-		Set<Map.Entry<String, String>> set = map.entrySet();
-		int i = 0;
-		for (Map.Entry<String, String> e : set) {
-			data[i++] = new NameValuePair(e.getKey(), e.getValue());
-		}
-		for (String v : batchBean.getValues()) {
-			data[i++] = new NameValuePair(batchBean.getKey(), v);
-		}
-		method.setRequestBody(data);
-		return getHttpResult(method);
-	}
-
-	public String doPost(String url, Map<String, String> map) throws Exception {
-		return doPost(url, null, null, map);
-	}
-
-	public String doPost(String url, String headerName, String headerValue,
-			Map<String, String> map) throws Exception {
-		PostMethod method = new InnerPostMethod(url);
-		if (map == null || map.size() == 0) {
-			throw new IllegalArgumentException("map must be not null");
-		}
-		NameValuePair[] data = new NameValuePair[map.size()];
-		Set<Map.Entry<String, String>> set = map.entrySet();
-		int i = 0;
-		for (Map.Entry<String, String> e : set) {
-			data[i++] = new NameValuePair(e.getKey(), e.getValue());
-		}
-		method.setRequestBody(data);
-		if (headerName != null && headerValue != null) {
-			method.setRequestHeader(headerName, headerValue);
-		}
-		return getHttpResult(method);
-	}
-
-	public String doMultiPost(String url, HttpFile[] httpFiles,
-			Map<String, String> map) throws Exception {
-		Part[] parts = new Part[httpFiles.length + map.size()];
-		int k = 0;
-		for (int i = 0; i < httpFiles.length; i++) {
-			parts[k++] = new FilePart(httpFiles[i].getName(), httpFiles[i]
-					.getFile());
-		}
-		Set<Entry<String, String>> set = map.entrySet();
-		for (Entry<String, String> e : set) {
-			parts[k++] = new StringPart(e.getKey(), e.getValue(), "utf-8");
-		}
-		PostMethod method = new InnerPostMethod(url);
-		method.getParams().setBooleanParameter(
-				HttpMethodParams.USE_EXPECT_CONTINUE, true);
-		MultipartRequestEntity mre = new MultipartRequestEntity(parts, method
-				.getParams());
-		method.setRequestEntity(mre);
-		return getHttpResult(method);
+				this.innerHttpMethodRetryHandler);
 	}
 
 	private String getHttpResult(HttpMethod method) throws Exception {
@@ -197,9 +165,9 @@ public class HttpUtil {
 		this.initMethod(method);
 		InputStream is = null;
 		ByteArrayOutputStream bos = null;
+		HttpClient client = createHttpClient();
+		client.executeMethod(method);
 		try {
-			HttpClient client = createHttpClient();
-			client.executeMethod(method);
 			is = method.getResponseBodyAsStream();
 			BufferedInputStream bis = new BufferedInputStream(is);
 			bos = new ByteArrayOutputStream();
@@ -235,18 +203,77 @@ public class HttpUtil {
 		}
 	}
 
-	private void doMethod(HttpMethod method) throws Exception {
-		this.initMethod(method);
-		try {
-			HttpClient client = createHttpClient();
-			client.executeMethod(method);
+	private HttpMethod createMethod(HttpMethodEnum httpMethodEnum, String url,
+			HttpData httpData) {
+		HttpMethod method = null;
+		if (httpMethodEnum == HttpMethodEnum.GET) {
+			method = this.createGetMethod(url);
 		}
-		catch (Exception e) {
-			throw e;
+		else if (httpMethodEnum == HttpMethodEnum.POST) {
+			method = this.createPostMethod(url, httpData);
 		}
-		finally {
-			method.releaseConnection();
+		else {
+			method = this.createMultiPostMethod(url, httpData);
 		}
+		if (httpData != null) {
+			if (httpData.getHttpHeader() != null) {
+				method.setRequestHeader(httpData.getHttpHeader().getName(),
+						httpData.getHttpHeader().getValue());
+			}
+		}
+		return method;
+	}
+
+	private HttpMethod createGetMethod(String url) {
+		return new GetMethod(url);
+	}
+
+	private HttpMethod createPostMethod(String url, HttpData httpData) {
+		PostMethod method = new InnerPostMethod(url);
+		if (httpData != null) {
+			List<NameValuePair> datalist = new ArrayList<NameValuePair>(
+					httpData.getPatameterCount());
+			Set<Map.Entry<String, String>> set = httpData.getParameterMap()
+					.entrySet();
+			for (Map.Entry<String, String> e : set) {
+				datalist.add(new NameValuePair(e.getKey(), e.getValue()));
+			}
+			Set<Entry<String, List<String>>> bset = httpData
+					.getBatchParameterMap().entrySet();
+			for (Entry<String, List<String>> e : bset) {
+				for (String s : e.getValue()) {
+					datalist.add(new NameValuePair(e.getKey(), s));
+				}
+			}
+			method.setRequestBody(datalist.toArray(new NameValuePair[datalist
+					.size()]));
+		}
+		return method;
+	}
+
+	private HttpMethod createMultiPostMethod(String url, HttpData httpData) {
+		PostMethod method = new InnerPostMethod(url);
+		if (httpData != null) {
+			List<Part> list = new ArrayList<Part>(httpData.getPatameterCount());
+			Set<Map.Entry<String, String>> set = httpData.getParameterMap()
+					.entrySet();
+			for (Map.Entry<String, String> e : set) {
+				list.add(new StringPart(e.getKey(), e.getValue(), "utf-8"));
+			}
+			Set<Entry<String, List<String>>> bset = httpData
+					.getBatchParameterMap().entrySet();
+			for (Entry<String, List<String>> e : bset) {
+				for (String s : e.getValue()) {
+					list.add(new StringPart(e.getKey(), s, "utf-8"));
+				}
+			}
+			method.getParams().setBooleanParameter(
+					HttpMethodParams.USE_EXPECT_CONTINUE, true);
+			MultipartRequestEntity mre = new MultipartRequestEntity(list
+					.toArray(new Part[list.size()]), method.getParams());
+			method.setRequestEntity(mre);
+		}
+		return method;
 	}
 
 	class InnerPostMethod extends PostMethod {
@@ -261,10 +288,24 @@ public class HttpUtil {
 		}
 	}
 
+	enum HttpMethodEnum {
+		GET(0), POST(1), MULTIPOST(2);
+
+		int value;
+
+		private HttpMethodEnum(int value) {
+			this.value = value;
+		}
+
+		public int getValue() {
+			return value;
+		}
+	}
+
 	class InnerHttpMethodRetryHandler extends DefaultHttpMethodRetryHandler {
 
 		public InnerHttpMethodRetryHandler() {
-			super(1, false);
+			super(1, true);
 		}
 	}
 
