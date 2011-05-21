@@ -3,23 +3,18 @@ package cactus.tools.oauth.v1_0;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.Random;
 
-public class OAuthDataUtil {
+public class OAuthUtil {
 
 	private final static String DEFAULTCHARSET = "utf-8";
 
-	private static Random RAND = new Random();
+	public static final String HMAC_SHA1 = "HmacSHA1";
 
 	public static final String oauth_token_key = "oauth_token";
 
 	public static final String oauth_token_secret_key = "oauth_token_secret";
 
-	public static final String oauth_token_flag = "oauth_token=";
-
-	public static final String oauth_token_secret_flag = "oauth_token_secret=";
-
-	private OAuthDataUtil() {
+	private OAuthUtil() {
 	}
 
 	public static String decoder(String value) {
@@ -58,14 +53,6 @@ public class OAuthDataUtil {
 			}
 		}
 		return "";
-	}
-
-	public static String createOauthTimestamp() {
-		return String.valueOf(System.currentTimeMillis() / 1000);
-	}
-
-	public static String createOauthNonce() {
-		return String.valueOf(System.currentTimeMillis() + RAND.nextInt());
 	}
 
 	public static boolean isEmpty(String value) {

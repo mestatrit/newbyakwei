@@ -8,10 +8,15 @@ import cactus.tools.oauth.v1_0.exception.RequestTokenException;
 /**
  * @author akwei
  */
-public class OAuthConsumer extends OAuthHelper {
+public class OAuthConsumer {
 
-	public OAuthConsumer(AppOAuthInfo appOAuthInfo) {
-		this.setAppOAuthInfo(appOAuthInfo);
+	private OAuthHelper oAuthHelper;
+
+	private AppOAuthInfo appOAuthInfo;
+
+	public OAuthConsumer(OAuthHelper oAuthHelper, AppOAuthInfo appOAuthInfo) {
+		this.oAuthHelper = oAuthHelper;
+		this.appOAuthInfo = appOAuthInfo;
 	}
 
 	/**
@@ -27,20 +32,36 @@ public class OAuthConsumer extends OAuthHelper {
 			List<Parameter> parameters) throws RequestTokenException,
 			HttpHelperException {
 		// 生成http header请求参数
-		List<Parameter> list = getParametersForRequestToken(HTTP_METHOD_GET,
-				callback_url, parameters, OAuthDataUtil.createOauthTimestamp(),
-				OAuthDataUtil.createOauthNonce());
+		List<Parameter> list = ParameterUtil.createParametersForRequestToken(
+				this.appOAuthInfo, ParameterUtil.HTTP_METHOD_GET, callback_url,
+				parameters, ParameterUtil.createOauthTimestamp(), ParameterUtil
+						.createOauthNonce());
 		String url = createUrlForGetRequestToken(list);
-		if (this.isDebug()) {
-			p("requestToken url : " + url);
+		if (this.oAuthHelper.isDebug()) {
+			this.oAuthHelper.p("requestToken url : " + url);
 		}
-		String respValue = this.getAppOAuthInfo().getHttpHelper()
-				.doGetResultString(url, null);
-		if (this.isDebug()) {
-			p("requestToken response from server : " + respValue);
+		String respValue = this.oAuthHelper.getHttpHelper().doGetResultString(
+				url, null);
+		if (this.oAuthHelper.isDebug()) {
+			this.oAuthHelper.p("requestToken response from server : "
+					+ respValue);
 		}
-		RequestToken requestToken = new RequestToken(respValue);
-		requestToken.setAppOAuthInfo(this.getAppOAuthInfo());
-		return requestToken;
+		return new RequestToken(respValue, oAuthHelper, appOAuthInfo);
+	}
+
+	private String createUrlForGetRequestToken(List<Parameter> list) {
+		StringBuilder sb = new StringBuilder(this.appOAuthInfo
+				.getRequestTokenURL());
+		if (this.appOAuthInfo.getRequestTokenURL().indexOf("?") != -1) {
+			sb.append("&");
+		}
+		else {
+			sb.append("?");
+		}
+		for (Parameter o : list) {
+			sb.append(o.getQueryString()).append("&");
+		}
+		sb.deleteCharAt(sb.length() - 1);
+		return sb.toString();
 	}
 }

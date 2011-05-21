@@ -2,18 +2,18 @@ package cactus.tools.oauth.v1_0;
 
 public abstract class Token {
 
-	private AppOAuthInfo appOAuthInfo;
+	protected static final String oauth_token_flag = "oauth_token=";
+
+	protected static final String oauth_token_secret_flag = "oauth_token_secret=";
 
 	protected String token;
 
 	protected String tokenSecret;
 
-	public void setAppOAuthInfo(AppOAuthInfo appOAuthInfo) {
-		this.appOAuthInfo = appOAuthInfo;
-	}
+	protected String queryString;
 
-	public AppOAuthInfo getAppOAuthInfo() {
-		return appOAuthInfo;
+	public String getQueryString() {
+		return queryString;
 	}
 
 	public String getToken() {
@@ -30,5 +30,11 @@ public abstract class Token {
 
 	public void setTokenSecret(String tokenSecret) {
 		this.tokenSecret = tokenSecret;
+	}
+
+	@Override
+	public String toString() {
+		return "oauth_token=" + this.token + " | oauth_token_secret="
+				+ this.tokenSecret;
 	}
 }

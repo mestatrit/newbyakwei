@@ -29,13 +29,13 @@ public class Parameter implements Comparable<Parameter> {
 	}
 
 	public String getQueryString() {
-		return OAuthDataUtil.encoder(this.name) + "="
-				+ OAuthDataUtil.encoder(this.value);
+		return OAuthUtil.encoder(this.name) + "="
+				+ OAuthUtil.encoder(this.value);
 	}
 
 	public String getRequestHeaderString() {
-		return OAuthDataUtil.encoder(this.name) + "=\""
-				+ OAuthDataUtil.encoder(this.value) + "\"";
+		return OAuthUtil.encoder(this.name) + "=\""
+				+ OAuthUtil.encoder(this.value) + "\"";
 	}
 
 	@Override
