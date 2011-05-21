@@ -36,7 +36,8 @@ public class OAuthConsumer {
 				this.appOAuthInfo, ParameterUtil.HTTP_METHOD_GET, callback_url,
 				parameters, ParameterUtil.createOauthTimestamp(), ParameterUtil
 						.createOauthNonce());
-		String url = createUrlForGetRequestToken(list);
+		String url = OAuthUtil.createUrlForHttpGetMethod(this.appOAuthInfo
+				.getRequestTokenURL(), list);
 		if (this.oAuthHelper.isDebug()) {
 			this.oAuthHelper.p("requestToken url : " + url);
 		}
@@ -47,21 +48,5 @@ public class OAuthConsumer {
 					+ respValue);
 		}
 		return new RequestToken(respValue, oAuthHelper, appOAuthInfo);
-	}
-
-	private String createUrlForGetRequestToken(List<Parameter> list) {
-		StringBuilder sb = new StringBuilder(this.appOAuthInfo
-				.getRequestTokenURL());
-		if (this.appOAuthInfo.getRequestTokenURL().indexOf("?") != -1) {
-			sb.append("&");
-		}
-		else {
-			sb.append("?");
-		}
-		for (Parameter o : list) {
-			sb.append(o.getQueryString()).append("&");
-		}
-		sb.deleteCharAt(sb.length() - 1);
-		return sb.toString();
 	}
 }

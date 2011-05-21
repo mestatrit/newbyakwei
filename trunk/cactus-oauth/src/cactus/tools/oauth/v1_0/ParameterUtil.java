@@ -38,10 +38,6 @@ public class ParameterUtil {
 
 	public static final String HTTP_METHOD_POST = "POST";
 
-	public static final String HTTP_METHOD_DELETE = "DELETE";
-
-	public static final String HTTP_METHOD_PUT = "PUT";
-
 	/**
 	 * 获得accessToken请求的参数列表
 	 * 
@@ -115,8 +111,8 @@ public class ParameterUtil {
 	}
 
 	private static List<Parameter> buildDefParameterForGetAccessToken(
-			AppOAuthInfo info, String request_auth_token,
-			String oauth_verifier, String timestamp, String nonce) {
+			AppOAuthInfo info, String request_auth_token, String verifier,
+			String timestamp, String nonce) {
 		List<Parameter> list = new ArrayList<Parameter>();
 		list.add(new Parameter(oauth_consumer_key, info.getConsumerKey()));
 		list.add(new Parameter(oauth_token, request_auth_token));
@@ -125,7 +121,7 @@ public class ParameterUtil {
 		list.add(new Parameter(oauth_timestamp, timestamp));
 		list.add(new Parameter(oauth_nonce, nonce));
 		list.add(new Parameter(oauth_version, info.getVersion()));
-		list.add(new Parameter(oauth_verifier, oauth_verifier));
+		list.add(new Parameter(oauth_verifier, verifier));
 		return list;
 	}
 

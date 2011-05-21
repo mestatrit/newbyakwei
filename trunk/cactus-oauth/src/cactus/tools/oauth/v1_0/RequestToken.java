@@ -2,7 +2,6 @@ package cactus.tools.oauth.v1_0;
 
 import java.util.List;
 
-import cactus.tools.httpclient.HttpData;
 import cactus.tools.httpclient.HttpHelperException;
 import cactus.tools.oauth.v1_0.exception.AccessTokenException;
 import cactus.tools.oauth.v1_0.exception.RequestTokenException;
@@ -68,16 +67,14 @@ public class RequestToken extends Token {
 	public AccessToken getAccessToken(String verifier)
 			throws HttpHelperException, AccessTokenException {
 		List<Parameter> list = ParameterUtil.createParametersForAccessToken(
-				this.appOAuthInfo, ParameterUtil.HTTP_METHOD_POST, getToken(),
+				this.appOAuthInfo, ParameterUtil.HTTP_METHOD_GET, getToken(),
 				getTokenSecret(), verifier, ParameterUtil
 						.createOauthTimestamp(), ParameterUtil
 						.createOauthNonce());
-		HttpData httpData = new HttpData();
-		for (Parameter o : list) {
-			httpData.add(o.getName(), o.getValue());
-		}
-		String respValue = this.oAuthHelper.getHttpHelper().doPostResultString(
-				this.appOAuthInfo.getAccessTokenURL(), httpData);
+		String url = OAuthUtil.createUrlForHttpGetMethod(this.appOAuthInfo
+				.getAccessTokenURL(), list);
+		String respValue = this.oAuthHelper.getHttpHelper().doGetResultString(
+				url, null);
 		return new AccessToken(respValue);
 	}
 
