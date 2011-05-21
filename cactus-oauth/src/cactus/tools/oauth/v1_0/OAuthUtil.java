@@ -3,6 +3,7 @@ package cactus.tools.oauth.v1_0;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.List;
 
 public class OAuthUtil {
 
@@ -67,5 +68,21 @@ public class OAuthUtil {
 			return true;
 		}
 		return false;
+	}
+
+	public static String createUrlForHttpGetMethod(String url,
+			List<Parameter> list) {
+		StringBuilder sb = new StringBuilder(url);
+		if (url.indexOf("?") != -1) {
+			sb.append("&");
+		}
+		else {
+			sb.append("?");
+		}
+		for (Parameter o : list) {
+			sb.append(o.getQueryString()).append("&");
+		}
+		sb.deleteCharAt(sb.length() - 1);
+		return sb.toString();
 	}
 }

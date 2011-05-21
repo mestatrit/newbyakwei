@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import cactus.tools.oauth.v1_0.AccessToken;
 import cactus.tools.oauth.v1_0.AppOAuthInfo;
 import cactus.tools.oauth.v1_0.OAuthConsumer;
 import cactus.tools.oauth.v1_0.OAuthHelper;
@@ -56,6 +57,22 @@ public class OAuthTest {
 			System.out.println(requestToken.toString());
 			String url = requestToken.getCurrentUserAuthorizationURL(null);
 			System.out.println(url);
+		}
+		catch (Exception e) {
+			Assert.fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void createAccessToken() {
+		String verifier = "642078";
+		try {
+			RequestToken requestToken = new RequestToken(
+					"2d9d8b9dbacbc34f647490bfe48744d3",
+					"f26bd53540309b25069e8a6c08869a89", oAuthHelper,
+					appOAuthInfo);
+			AccessToken accessToken = requestToken.getAccessToken(verifier);
+			System.out.println(accessToken.toString());
 		}
 		catch (Exception e) {
 			Assert.fail(e.getMessage());
