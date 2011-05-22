@@ -17,14 +17,14 @@ public abstract class BaseDao<T> {
 	public abstract Class<T> getClazz();
 
 	public BaseParam createBaseParam(Object value) {
-		return hkObjQuery.createBaseParam(getClazz(), getKey(), value);
+		return hkObjQuery.createBaseParam(getKey(), value);
 	}
 
 	public QueryParam createQueryParam(Object value) {
-		return hkObjQuery.createQueryParam(getClazz(), getKey(), value);
+		return hkObjQuery.createQueryParam(getKey(), value);
 	}
 
 	public UpdateParam createUpdateParam(Object value) {
-		return hkObjQuery.createUpdateParam(getClazz(), getKey(), value);
+		return hkObjQuery.createUpdateParam(getKey(), value);
 	}
 }
