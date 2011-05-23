@@ -5,6 +5,7 @@ import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 public class BASE64Util {
+
 	private BASE64Util() {//
 	}
 
@@ -25,7 +26,7 @@ public class BASE64Util {
 	public static String encode(String str) {
 		BASE64Encoder encoder = new BASE64Encoder();
 		try {
-			return encoder.encode(str.getBytes("iso-8859-1"));
+			return encoder.encode(str.getBytes("utf-8"));
 		}
 		catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
@@ -35,7 +36,7 @@ public class BASE64Util {
 	public static void main(String[] args) {
 		try {
 			System.out.println(BASE64Util.encode("123"));
-			System.out.println(BASE64Util.decode("MTIzzzz"));
+			System.out.println(BASE64Util.decode("MTIz"));
 		}
 		catch (Exception e) {
 			e.printStackTrace();
