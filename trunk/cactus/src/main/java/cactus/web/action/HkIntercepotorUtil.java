@@ -4,6 +4,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.InitializingBean;
 
+/**
+ * 拦截器暂时没有用处，还没想好如何使用
+ * 
+ * @author akwei
+ */
 public class HkIntercepotorUtil implements InitializingBean {
 
 	private static Map<String, HkInterceptor> interceptorMap;

@@ -64,33 +64,6 @@ public class ActionExeImpl implements ActionExe {
 				.getActionMapping(mappingUri), request, response);
 	}
 
-	// public void proccess(HttpServletRequest request,
-	// HttpServletResponse response) throws Exception {
-	// try {
-	// PathProcessor.processResult(this.invoke(this
-	// .findMappingUri(request), request, response), request,
-	// response);
-	// }
-	// catch (NoActionException e) {
-	// if (debug) {
-	// log.error("no action [ " + request.getRemoteAddr() + " ] [ "
-	// + request.getRequestURI() + " ] " + e.getMessage());
-	// log.error("queryString [ " + request.getQueryString() + " ]");
-	// log.error("=========== end ==============");
-	// }
-	// }
-	// catch (NoSuchMethodException e) {
-	// if (debug) {
-	// log.error("no method [ " + request.getRemoteAddr() + " ] [ "
-	// + request.getRequestURI() + " ] " + e.getMessage());
-	// log.error("queryString [ " + request.getQueryString() + " ]");
-	// log.error("=========== end ==============");
-	// }
-	// }
-	// catch (Exception e) {
-	// PathProcessor.doExceptionForward(e, request, response);
-	// }
-	// }
 	public void afterProcess(HkRequest request) {
 		File[] files = request.getFiles();
 		if (files != null) {
