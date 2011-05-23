@@ -1,9 +1,12 @@
 package cactus.util;
 
 import java.security.Key;
+
 import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 public class DesUtil {
+
 	private static String strDefaultKey = "national";
 
 	private Cipher encryptCipher = null;
@@ -14,9 +17,11 @@ public class DesUtil {
 	 * 将byte数组转换为表示16进制值的字符串， 如：byte[]{8,18}转换为：0813， 和public static byte[]
 	 * hexStr2ByteArr(String strIn) 互为可逆的转换过程
 	 * 
-	 * @param arrB 需要转换的byte数组
+	 * @param arrB
+	 *            需要转换的byte数组
 	 * @return 转换后的字符串
-	 * @throws Exception 本方法不处理任何异常，所有异常全部抛出
+	 * @throws Exception
+	 *             本方法不处理任何异常，所有异常全部抛出
 	 */
 	private static String byteArr2HexStr(byte[] arrB) throws Exception {
 		int iLen = arrB.length;
@@ -41,9 +46,11 @@ public class DesUtil {
 	 * 将表示16进制值的字符串转换为byte数组， 和public static String byteArr2HexStr(byte[] arrB)
 	 * 互为可逆的转换过程
 	 * 
-	 * @param strIn 需要转换的字符串
+	 * @param strIn
+	 *            需要转换的字符串
 	 * @return 转换后的byte数组
-	 * @throws Exception 本方法不处理任何异常，所有异常全部抛出
+	 * @throws Exception
+	 *             本方法不处理任何异常，所有异常全部抛出
 	 * @author <a href="mailto:leo841001@163.com">LiGuoQing</a>
 	 */
 	private static byte[] hexStr2ByteArr(String strIn) throws Exception {
@@ -70,7 +77,8 @@ public class DesUtil {
 	/**
 	 * 指定密钥构造方法
 	 * 
-	 * @param strKey 指定的密钥
+	 * @param strKey
+	 *            指定的密钥
 	 * @throws Exception
 	 */
 	public DesUtil(String strKey) {
@@ -78,7 +86,7 @@ public class DesUtil {
 				.addProvider(new com.sun.crypto.provider.SunJCE());
 		Key key;
 		try {
-			key = getKey(strKey.getBytes());
+			key = getKey(strKey);
 			encryptCipher = Cipher.getInstance("DES");
 			encryptCipher.init(Cipher.ENCRYPT_MODE, key);
 			decryptCipher = Cipher.getInstance("DES");
@@ -92,7 +100,8 @@ public class DesUtil {
 	/**
 	 * 加密字节数组
 	 * 
-	 * @param arrB 需加密的字节数组
+	 * @param arrB
+	 *            需加密的字节数组
 	 * @return 加密后的字节数组
 	 * @throws Exception
 	 */
@@ -103,7 +112,8 @@ public class DesUtil {
 	/**
 	 * 加密字符串
 	 * 
-	 * @param strIn 需加密的字符串
+	 * @param strIn
+	 *            需加密的字符串
 	 * @return 加密后的字符串
 	 * @throws Exception
 	 */
@@ -119,7 +129,8 @@ public class DesUtil {
 	/**
 	 * 解密字节数组
 	 * 
-	 * @param arrB 需解密的字节数组
+	 * @param arrB
+	 *            需解密的字节数组
 	 * @return 解密后的字节数组
 	 * @throws Exception
 	 */
@@ -130,7 +141,8 @@ public class DesUtil {
 	/**
 	 * 解密字符串
 	 * 
-	 * @param strIn 需解密的字符串
+	 * @param strIn
+	 *            需解密的字符串
 	 * @return 解密后的字符串
 	 * @throws Exception
 	 */
@@ -146,11 +158,13 @@ public class DesUtil {
 	/**
 	 * 从指定字符串生成密钥，密钥所需的字节数组长度为8位 不足8位时后面补0，超出8位只取前8位
 	 * 
-	 * @param arrBTmp 构成该字符串的字节数组
+	 * @param arrBTmp
+	 *            构成该字符串的字节数组
 	 * @return 生成的密钥
 	 * @throws java.lang.Exception
 	 */
-	private Key getKey(byte[] arrBTmp) throws Exception {
+	private Key getKey(String keyStr) {
+		byte[] arrBTmp = keyStr.getBytes();
 		// 创建一个空的8位字节数组（默认值为0）
 		byte[] arrB = new byte[8];
 		// 将原始字节数组转换为8位
@@ -158,15 +172,29 @@ public class DesUtil {
 			arrB[i] = arrBTmp[i];
 		}
 		// 生成密钥
-		Key key = new javax.crypto.spec.SecretKeySpec(arrB, "DES");
+		Key key = new SecretKeySpec(arrB, "DES");
 		return key;
 	}
 
+	// private Key getKey2(String keyStr) {
+	// byte[] arrBTmp = keyStr.getBytes();
+	// try {
+	// DESKeySpec desKeySpec = new DESKeySpec(arrBTmp);
+	// desKeySpec.getKey()
+	// KeyFactory keyFactory=KeyFactory.getInstance("DES");
+	// keyFactory.ge
+	// }
+	// catch (Exception e) {
+	// throw new RuntimeException(e);
+	// }
+	// }
 	/**
 	 * des 加密
 	 * 
-	 * @param key 约定key
-	 * @param str 待加密的字符串
+	 * @param key
+	 *            约定key
+	 * @param str
+	 *            待加密的字符串
 	 * @return 返回加密的字符串
 	 */
 	public static String encode(String key, String str) {
@@ -183,8 +211,10 @@ public class DesUtil {
 	/**
 	 * des 解密
 	 * 
-	 * @param key 约定key
-	 * @param str 待解密的字符串
+	 * @param key
+	 *            约定key
+	 * @param str
+	 *            待解密的字符串
 	 * @return 返回解密后的字符串
 	 */
 	public static String decode(String key, String str) {
@@ -200,19 +230,15 @@ public class DesUtil {
 
 	public static void main(String[] args) {
 		try {
-			String test = "Hellow Word!";
-			if (args != null && args.length > 0) {
-				test = args[0];
-			}
-			String key = "netzend";
-			if (args != null && args.length > 1) {
-				key = args[1];
-			}
+			String text = "text to encrypt";
+			String key = "my password";
 			// DESPlus des = new DESPlus();//默认密钥
 			DesUtil des = new DesUtil(key); // 自定义密钥
-			System.out.println("加密前的字符：" + test);
-			System.out.println("加密后的字符：" + des.encrypt(test));
-			System.out.println("解密后的字符：" + des.decrypt(des.encrypt(test)));
+			String enc_text = des.encrypt(text);
+			String dec_test = des.decrypt(enc_text);
+			System.out.println("加密前的字符：" + text);
+			System.out.println("加密后的字符：" + enc_text);
+			System.out.println("解密后的字符：" + dec_test);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
