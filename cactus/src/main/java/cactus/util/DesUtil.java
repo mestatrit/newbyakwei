@@ -176,18 +176,6 @@ public class DesUtil {
 		return key;
 	}
 
-	// private Key getKey2(String keyStr) {
-	// byte[] arrBTmp = keyStr.getBytes();
-	// try {
-	// DESKeySpec desKeySpec = new DESKeySpec(arrBTmp);
-	// desKeySpec.getKey()
-	// KeyFactory keyFactory=KeyFactory.getInstance("DES");
-	// keyFactory.ge
-	// }
-	// catch (Exception e) {
-	// throw new RuntimeException(e);
-	// }
-	// }
 	/**
 	 * des 加密
 	 * 
