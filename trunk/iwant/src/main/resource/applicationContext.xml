@@ -15,6 +15,7 @@
 	<!-- must config -->
 	<bean id="hkUtil" class="cactus.util.HkUtil" />
 	<bean id="webCnf" class="cactus.web.action.WebCnf">
+		<property name="uploadFileTempPath" value="/Users/fire9/mydev/cactustemp/"></property>
 		<property name="scanPathList">
 			<list>
 				<value>iwant.web</value>
