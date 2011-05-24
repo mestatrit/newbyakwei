@@ -14,13 +14,15 @@ public class DesUtilBase64 {
 
 	private Cipher decryptCipher = null;
 
-	private static String encodeWithBase64(byte[] arrB) throws Exception {
-		BASE64Encoder encoder = new BASE64Encoder();
+	private BASE64Encoder encoder = new BASE64Encoder();
+
+	private BASE64Decoder decoder = new BASE64Decoder();
+
+	private String encodeWithBase64(byte[] arrB) throws Exception {
 		return encoder.encode(arrB);
 	}
 
-	private static byte[] decodeWithBase64(String strIn) throws Exception {
-		BASE64Decoder decoder = new BASE64Decoder();
+	private byte[] decodeWithBase64(String strIn) throws Exception {
 		return decoder.decodeBuffer(strIn);
 	}
 
@@ -120,12 +122,13 @@ public class DesUtilBase64 {
 	}
 
 	public static void main(String[] args) {
-		 String text = "text to encrypt";
-//		String text = "加密数据测试";
+		String text = "text to encrypt";
+		// String text = "加密数据测试";
 		String key = "my password";
-		DesUtilBase64 desUtilBase64 = new DesUtilBase64(key);
-		String enc_text = desUtilBase64.encrypt(text);
-		String dec_text = desUtilBase64.decrypt(enc_text);
+		DesUtilBase64 desUtilBase64_0 = new DesUtilBase64(key);
+		DesUtilBase64 desUtilBase64_1 = new DesUtilBase64(key);
+		String enc_text = desUtilBase64_0.encrypt(text);
+		String dec_text = desUtilBase64_1.decrypt(enc_text);
 		System.out.println("加密前的字符：" + text);
 		System.out.println("加密后的字符：" + enc_text);
 		System.out.println("解密后的字符：" + dec_text);
