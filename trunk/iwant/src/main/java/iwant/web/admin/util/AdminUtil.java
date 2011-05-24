@@ -119,7 +119,7 @@ public class AdminUtil {
 	}
 
 	public static void main(String[] args) {
-		P.println(encodeValue("admin"));
-		P.println(isLogined("admin", "admin"));
+		P.println(encodeValue("woxiangadmin"));
+		P.println(isLogined("admin", "woxiangadmin"));
 	}
 }
