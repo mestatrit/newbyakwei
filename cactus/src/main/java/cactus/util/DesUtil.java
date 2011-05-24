@@ -221,9 +221,10 @@ public class DesUtil {
 			String text = "text to encrypt";
 			String key = "my password";
 			// DESPlus des = new DESPlus();//默认密钥
-			DesUtil des = new DesUtil(key); // 自定义密钥
-			String enc_text = des.encrypt(text);
-			String dec_test = des.decrypt(enc_text);
+			DesUtil des0 = new DesUtil(key); // 自定义密钥
+			DesUtil des1 = new DesUtil(key); // 自定义密钥
+			String enc_text = des0.encrypt(text);
+			String dec_test = des1.decrypt(enc_text);
 			System.out.println("加密前的字符：" + text);
 			System.out.println("加密后的字符：" + enc_text);
 			System.out.println("解密后的字符：" + dec_test);
