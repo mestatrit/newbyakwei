@@ -19,7 +19,10 @@
 		<property name="suburl" value="http://woxiang.huoku.com/pic/slidepic/" />
 	</bean>
 	<bean id="apnsTool" class="iwant.util.apns.ApnsTool">
-		<property name="host" value="gateway.sandbox.push.apple.com" />
+		<!--
+		<property name="host" value="gateway.sandbox.push.apple.com" /> 
+		 -->
+		 <property name="host" value="gateway.push.apple.com" />
 		<property name="port" value="2195" />
 		<property name="p12FileName" value="productpush.p12" />
 		<property name="p12FileKey" value="" />
