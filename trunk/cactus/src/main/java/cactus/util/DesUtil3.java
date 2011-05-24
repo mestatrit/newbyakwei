@@ -178,9 +178,12 @@ public class DesUtil3 {
 		try {
 			byte[] key = "11111111".getBytes();
 			byte[] iv = "22222222".getBytes();
-			byte[] data = DesUtil3.encrypt("ebc mode test".getBytes(), key);
+			byte[] data = DesUtil3.encrypt("我来测试一个".getBytes(), key);
+			String enc_64 = BASE64Util.encode(data);
+			byte[] dec_byte_64 = BASE64Util.decodeForBytes(enc_64);
+			System.out.println("base64:" + enc_64);
 			System.out.print("EBC mode:");
-			System.out.println(new String(DesUtil3.decrypt(data, key)));
+			System.out.println(new String(DesUtil3.decrypt(dec_byte_64, key)));
 			System.out.print("CBC mode:");
 			data = DesUtil3.CBCEncrypt("cbc mode test".getBytes(), key, iv);
 			System.out.println(new String(DesUtil3.CBCDecrypt(data, key, iv)));
