@@ -13,11 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import cactus.util.HkUtil;
 
 /**
- * 根据Action文件路径进行查找Action，并产生Action对象
+ *在classpath下，根据Action文件路径进行查找Action，并产生Action对象。查找文件时，忽略文件大小写
  * 
  * @author akwei
  */
-public class PathScanActionFinder implements ActionFinder {
+public class ClassNameScanActionFinder implements ActionFinder {
 
 	private String basePath;
 
@@ -28,7 +28,7 @@ public class PathScanActionFinder implements ActionFinder {
 	 */
 	private String app_ab_path;
 
-	public PathScanActionFinder() {
+	public ClassNameScanActionFinder() {
 		URL url = Thread.currentThread().getContextClassLoader()
 				.getResource("");
 		this.app_ab_path = url.getPath();
