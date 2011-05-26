@@ -16,11 +16,6 @@ public class HkObjQuery extends HkQuery {
 
 	private ResultSetDataInfoCreater resultSetDataInfoCreater = new ResultSetDataInfoCreater();
 
-	public <T> String getAliasName(Class<T> clazz) {
-		return this.getObjectSqlInfoCreater().getObjectSqlInfo(clazz)
-				.getTableName();
-	}
-
 	/**
 	 * 获rowmapper，先从表映射的对象开始匹配，如果没有，就到结果集resultsetdata中进行查找
 	 * 
