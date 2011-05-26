@@ -121,6 +121,9 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 		this.tableCnfList.addAll(this.getTableCnfFromScanPathList());
 		this.tableCnfList.addAll(this.getTableCnfFromClassNameList());
 		for (TableCnf cnf : this.tableCnfList) {
+			log.info("load tablebean [ " + cnf.getClassName()
+					+ " ] with helper [ "
+					+ cnf.getDbPartitionHelper().getClass().getName() + " ]");
 			objectSqlInfo = new ObjectSqlInfo(cnf);
 			objectSqlInfoMap.put(cnf.getClassName(), objectSqlInfo);
 		}
@@ -163,10 +166,6 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 		for (File f : files) {
 			TableCnf tableCnf = this.analyzeFile(scanPath, f);
 			list.add(tableCnf);
-			log.info("load tablebean [ " + tableCnf.getClassName()
-					+ " ] with helper [ "
-					+ tableCnf.getDbPartitionHelper().getClass().getName()
-					+ " ]");
 		}
 		return list;
 	}
