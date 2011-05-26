@@ -11,15 +11,19 @@ public abstract class BaseDao<T> implements IDao<T> {
 
 	public HkObjQuery hkObjQuery;
 
-	public void setHkObjQuery(HkObjQuery hkObjQuery) {
-		this.hkObjQuery = hkObjQuery;
+	@Override
+	public int count(Object keyValue, String where, Object[] params) {
+		QueryParam queryParam = this.hkObjQuery.createQueryParam(getKey(),
+				keyValue);
+		queryParam.addClass(getClazz());
+		queryParam.setWhereAndParams(where, params);
+		return this.hkObjQuery.count(queryParam);
 	}
 
-	public String getKey() {
-		return empty_key;
+	@Override
+	public int count(String where, Object[] params) {
+		return this.count(null, where, params);
 	}
-
-	public abstract Class<T> getClazz();
 
 	public BaseParam createBaseParam(Object value) {
 		return hkObjQuery.createBaseParam(getKey(), value);
@@ -33,57 +37,12 @@ public abstract class BaseDao<T> implements IDao<T> {
 		return hkObjQuery.createUpdateParam(getKey(), value);
 	}
 
-	// ********************* 提供公用方法 **************************/
-	/**
-	 * 创建对象
-	 * 
-	 * @param keyValue
-	 *            分区关键值
-	 * @param t
-	 * @return
-	 */
-	public Object save(Object keyValue, T t) {
-		BaseParam baseParam = this.hkObjQuery.createBaseParam(this.getKey(),
-				keyValue);
-		return this.hkObjQuery.insertObj(baseParam, t);
-	}
-
 	@Override
-	public Object save(T t) {
-		return this.save(null, t);
-	}
-
-	/**
-	 * 更新对象
-	 * 
-	 * @param keyValue
-	 *            分区关键值
-	 * @param t
-	 * @return
-	 */
-	public int update(Object keyValue, T t) {
-		BaseParam baseParam = this.hkObjQuery.createBaseParam(this.getKey(),
-				keyValue);
-		return this.hkObjQuery.updateObj(baseParam, t);
-	}
-
-	@Override
-	public int update(T t) {
-		return this.update(null, t);
-	}
-
-	public int updateBySQL(Object keyValue, String updateSqlSegment,
-			String where, Object[] params) {
-		Map<String, Object> ctxMap = new HashMap<String, Object>();
-		ctxMap.put(getKey(), keyValue);
-		PartitionTableInfo partitionTableInfo = this.hkObjQuery.parse(
-				getClazz(), ctxMap);
-		StringBuilder sb = new StringBuilder("update ");
-		sb.append(partitionTableInfo.getTableName());
-		sb.append(" set ").append(updateSqlSegment);
-		sb.append(" where ").append(where);
-		return this.hkObjQuery.updateBySQL(partitionTableInfo, sb.toString(),
-				params);
+	public int delete(Object keyValue, String where, Object[] params) {
+		DeleteParam deleteParam = this.hkObjQuery.createDeleteParam(this
+				.getKey(), keyValue);
+		deleteParam.setWhereAndParams(where, params);
+		return this.hkObjQuery.delete(deleteParam, getClazz());
 	}
 
 	/**
@@ -94,14 +53,25 @@ public abstract class BaseDao<T> implements IDao<T> {
 	 * @param t
 	 * @return
 	 */
+	@Override
 	public int delete(Object keyValue, T t) {
 		return this.hkObjQuery.deleteObj(this.hkObjQuery.createBaseParam(this
 				.getKey(), keyValue), t);
 	}
 
 	@Override
+	public int delete(String where, Object[] params) {
+		return this.delete(null, where, params);
+	}
+
+	@Override
 	public int delete(T t) {
 		return this.delete(null, t);
+	}
+
+	@Override
+	public int deleteById(Object idValue) {
+		return this.deleteById(null, idValue);
 	}
 
 	@Override
@@ -111,15 +81,8 @@ public abstract class BaseDao<T> implements IDao<T> {
 	}
 
 	@Override
-	public int deleteById(Object idValue) {
-		return this.deleteById(null, idValue);
-	}
-
-	public int delete(Object keyValue, String where, Object[] params) {
-		DeleteParam deleteParam = this.hkObjQuery.createDeleteParam(this
-				.getKey(), keyValue);
-		deleteParam.setWhereAndParams(where, params);
-		return this.hkObjQuery.delete(deleteParam, getClazz());
+	public T getById(Object idValue) {
+		return this.getById(null, idValue);
 	}
 
 	/**
@@ -130,14 +93,16 @@ public abstract class BaseDao<T> implements IDao<T> {
 	 * @param idValue
 	 * @return
 	 */
+	@Override
 	public T getById(Object keyValue, Object idValue) {
 		return this.hkObjQuery.getObjectById(this.hkObjQuery.createQueryParam(
 				getKey(), keyValue), getClazz(), idValue);
 	}
 
-	@Override
-	public T getById(Object idValue) {
-		return this.getById(null, idValue);
+	public abstract Class<T> getClazz();
+
+	public String getKey() {
+		return empty_key;
 	}
 
 	/**
@@ -155,6 +120,7 @@ public abstract class BaseDao<T> implements IDao<T> {
 	 *            <0时，取所有符合条件数据
 	 * @return
 	 */
+	@Override
 	public List<T> getList(Object keyValue, String where, Object[] params,
 			String order, int begin, int size) {
 		QueryParam queryParam = this.hkObjQuery.createQueryParam(getKey(),
@@ -165,11 +131,19 @@ public abstract class BaseDao<T> implements IDao<T> {
 		return this.hkObjQuery.getList(queryParam, getClazz());
 	}
 
+	@Override
+	public List<T> getList(String where, Object[] params, String order,
+			int begin, int size) {
+		return this.getList(null, where, params, order, begin, size);
+	}
+
+	@Override
 	public <E> List<T> getListInField(Object keyValue, String field,
 			List<E> fieldValueList) {
 		return this.getListInField(keyValue, null, null, field, fieldValueList);
 	}
 
+	@Override
 	public <E> List<T> getListInField(Object keyValue, String where,
 			Object[] params, String field, List<E> fieldValueList) {
 		if (fieldValueList.isEmpty()) {
@@ -200,42 +174,6 @@ public abstract class BaseDao<T> implements IDao<T> {
 		return this.hkObjQuery.getList(queryParam, getClazz());
 	}
 
-	public int count(Object keyValue, String where, Object[] params) {
-		QueryParam queryParam = this.hkObjQuery.createQueryParam(getKey(),
-				keyValue);
-		queryParam.addClass(getClazz());
-		queryParam.setWhereAndParams(where, params);
-		return this.hkObjQuery.count(queryParam);
-	}
-
-	public T getObject(Object keyValue, String where, Object[] params,
-			String order) {
-		QueryParam queryParam = this.hkObjQuery.createQueryParam(getKey(),
-				keyValue);
-		queryParam.setWhereAndParams(where, params);
-		queryParam.setOrder(order);
-		return this.hkObjQuery.getObject(queryParam, getClazz());
-	}
-
-	public T getObject(Object keyValue, String where, Object[] params) {
-		return this.getObject(keyValue, where, params, null);
-	}
-
-	@Override
-	public T getObject(String where, Object[] params) {
-		return this.getObject(null, where, params);
-	}
-
-	@Override
-	public T getObject(String where, Object[] params, String order) {
-		return this.getObject(null, where, params, order);
-	}
-
-	public List<T> getList(String where, Object[] params, String order,
-			int begin, int size) {
-		return this.getList(null, where, params, order, begin, size);
-	}
-
 	@Override
 	public <E> List<T> getListInField(String field, List<E> fieldValueList) {
 		return this.getListInField(null, field, fieldValueList);
@@ -248,18 +186,92 @@ public abstract class BaseDao<T> implements IDao<T> {
 	}
 
 	@Override
-	public int count(String where, Object[] params) {
-		return this.count(null, where, params);
+	public T getObject(Object keyValue, String where, Object[] params) {
+		return this.getObject(keyValue, where, params, null);
+	}
+
+	@Override
+	public T getObject(Object keyValue, String where, Object[] params,
+			String order) {
+		QueryParam queryParam = this.hkObjQuery.createQueryParam(getKey(),
+				keyValue);
+		queryParam.setWhereAndParams(where, params);
+		queryParam.setOrder(order);
+		return this.hkObjQuery.getObject(queryParam, getClazz());
+	}
+
+	@Override
+	public T getObject(String where, Object[] params) {
+		return this.getObject(null, where, params);
+	}
+
+	@Override
+	public T getObject(String where, Object[] params, String order) {
+		return this.getObject(null, where, params, order);
+	}
+
+	/**
+	 * 创建对象
+	 * 
+	 * @param keyValue
+	 *            分区关键值
+	 * @param t
+	 * @return
+	 */
+	@Override
+	public Object save(Object keyValue, T t) {
+		BaseParam baseParam = this.hkObjQuery.createBaseParam(this.getKey(),
+				keyValue);
+		return this.hkObjQuery.insertObj(baseParam, t);
+	}
+
+	@Override
+	public Object save(T t) {
+		return this.save(null, t);
+	}
+
+	public void setHkObjQuery(HkObjQuery hkObjQuery) {
+		this.hkObjQuery = hkObjQuery;
+	}
+
+	/**
+	 * 更新对象
+	 * 
+	 * @param keyValue
+	 *            分区关键值
+	 * @param t
+	 * @return
+	 */
+	@Override
+	public int update(Object keyValue, T t) {
+		BaseParam baseParam = this.hkObjQuery.createBaseParam(this.getKey(),
+				keyValue);
+		return this.hkObjQuery.updateObj(baseParam, t);
+	}
+
+	@Override
+	public int update(T t) {
+		return this.update(null, t);
+	}
+
+	@Override
+	public int updateBySQL(Object keyValue, String updateSqlSegment,
+			String where, Object[] params) {
+		Map<String, Object> ctxMap = new HashMap<String, Object>();
+		ctxMap.put(getKey(), keyValue);
+		PartitionTableInfo partitionTableInfo = this.hkObjQuery.parse(
+				getClazz(), ctxMap);
+		StringBuilder sb = new StringBuilder("update ");
+		sb.append(partitionTableInfo.getTableName());
+		sb.append(" set ").append(updateSqlSegment);
+		sb.append(" where ").append(where);
+		return this.hkObjQuery.updateBySQL(partitionTableInfo, sb.toString(),
+				params);
 	}
 
 	@Override
 	public int updateBySQL(String updateSqlSegment, String where,
 			Object[] params) {
 		return this.updateBySQL(null, updateSqlSegment, where, params);
-	}
-
-	@Override
-	public int delete(String where, Object[] params) {
-		return this.delete(null, where, params);
 	}
 }

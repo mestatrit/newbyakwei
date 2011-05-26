@@ -4,35 +4,18 @@ import java.util.List;
 
 public interface IDao<T> {
 
-	// ********************* 提供公用方法 **************************/
-	/**
-	 * 创建对象
-	 * 
-	 * @param keyValue
-	 *            分区关键值
-	 * @param t
-	 * @return
-	 */
-	Object save(Object keyValue, T t);
-
-	Object save(T t);
+	int count(Object keyValue, String where, Object[] params);
 
 	/**
-	 * 更新对象
+	 * 非分区模式使用
 	 * 
-	 * @param keyValue
-	 *            分区关键值
-	 * @param t
+	 * @param where
+	 * @param params
 	 * @return
 	 */
-	int update(Object keyValue, T t);
+	int count(String where, Object[] params);
 
-	int update(T t);
-
-	int updateBySQL(Object keyValue, String updateSqlSegment, String where,
-			Object[] params);
-
-	int updateBySQL(String updateSqlSegment, String where, Object[] params);
+	int delete(Object keyValue, String where, Object[] params);
 
 	/**
 	 * 删除对象
@@ -44,15 +27,40 @@ public interface IDao<T> {
 	 */
 	int delete(Object keyValue, T t);
 
+	/**
+	 * 非分区模式使用
+	 * 
+	 * @param where
+	 * @param params
+	 * @return
+	 */
+	int delete(String where, Object[] params);
+
+	/**
+	 * 非分区模式使用
+	 * 
+	 * @param t
+	 * @return
+	 */
 	int delete(T t);
+
+	/**
+	 * 非分区模式使用
+	 * 
+	 * @param idValue
+	 * @return
+	 */
+	int deleteById(Object idValue);
 
 	int deleteById(Object keyValue, Object idValue);
 
-	int deleteById(Object idValue);
-
-	int delete(Object keyValue, String where, Object[] params);
-
-	int delete(String where, Object[] params);
+	/**
+	 * 非分区模式使用
+	 * 
+	 * @param idValue
+	 * @return
+	 */
+	T getById(Object idValue);
 
 	/**
 	 * 根据id查询对象
@@ -63,8 +71,6 @@ public interface IDao<T> {
 	 * @return
 	 */
 	T getById(Object keyValue, Object idValue);
-
-	T getById(Object idValue);
 
 	/**
 	 * @param keyValue
@@ -84,29 +90,117 @@ public interface IDao<T> {
 	List<T> getList(Object keyValue, String where, Object[] params,
 			String order, int begin, int size);
 
+	/**
+	 * 非分区模式使用
+	 * 
+	 * @param where
+	 * @param params
+	 * @param order
+	 * @param begin
+	 * @param size
+	 * @return
+	 */
 	List<T> getList(String where, Object[] params, String order, int begin,
 			int size);
 
 	<E> List<T> getListInField(Object keyValue, String field,
 			List<E> fieldValueList);
 
-	<E> List<T> getListInField(String field, List<E> fieldValueList);
-
 	<E> List<T> getListInField(Object keyValue, String where, Object[] params,
 			String field, List<E> fieldValueList);
 
+	/**
+	 * 非分区模式使用
+	 * 
+	 * @param <E>
+	 * @param field
+	 * @param fieldValueList
+	 * @return
+	 */
+	<E> List<T> getListInField(String field, List<E> fieldValueList);
+
+	/**
+	 * 非分区模式使用
+	 * 
+	 * @param <E>
+	 * @param where
+	 * @param params
+	 * @param field
+	 * @param fieldValueList
+	 * @return
+	 */
 	<E> List<T> getListInField(String where, Object[] params, String field,
 			List<E> fieldValueList);
 
-	int count(Object keyValue, String where, Object[] params);
-
-	int count(String where, Object[] params);
+	T getObject(Object keyValue, String where, Object[] params);
 
 	T getObject(Object keyValue, String where, Object[] params, String order);
 
+	/**
+	 * 非分区模式使用
+	 * 
+	 * @param where
+	 * @param params
+	 * @return
+	 */
+	T getObject(String where, Object[] params);
+
+	/**
+	 * 非分区模式使用
+	 * 
+	 * @param where
+	 * @param params
+	 * @param order
+	 * @return
+	 */
 	T getObject(String where, Object[] params, String order);
 
-	T getObject(Object keyValue, String where, Object[] params);
+	/**
+	 * 创建对象
+	 * 
+	 * @param keyValue
+	 *            分区关键值
+	 * @param t
+	 * @return
+	 */
+	Object save(Object keyValue, T t);
 
-	T getObject(String where, Object[] params);
+	/**
+	 * 非分区模式使用
+	 * 
+	 * @param t
+	 * @return
+	 */
+	Object save(T t);
+
+	/**
+	 * 更新对象
+	 * 
+	 * @param keyValue
+	 *            分区关键值
+	 * @param t
+	 * @return
+	 */
+	int update(Object keyValue, T t);
+
+	/**
+	 * 非分区模式使用
+	 * 
+	 * @param t
+	 * @return
+	 */
+	int update(T t);
+
+	int updateBySQL(Object keyValue, String updateSqlSegment, String where,
+			Object[] params);
+
+	/**
+	 * 非分区模式使用
+	 * 
+	 * @param updateSqlSegment
+	 * @param where
+	 * @param params
+	 * @return
+	 */
+	int updateBySQL(String updateSqlSegment, String where, Object[] params);
 }
