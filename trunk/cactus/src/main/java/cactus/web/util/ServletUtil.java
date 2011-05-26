@@ -23,15 +23,17 @@ public class ServletUtil {
 	private ServletUtil() {
 	}
 
-	public static String PAGE = "page";
+	private static final String HTTP_METHOD_POST = "post";
+
+	public static String CHARSET_SOURCE = "ISO-8859-1";
+
+	public static String CHARSET_TARGET = "UTF-8";
 
 	public static final String USER_AGENT = "user-agent";
 
 	public static final String ACCEPT = "accept";
 
-	public static final String WAP_12 = "12";
-
-	public static final String WAP_20 = "20";
+	private static final String PAGE_ATTR_KEY = "page";
 
 	/**
 	 * 返回指定名字的header字段
@@ -182,10 +184,6 @@ public class ServletUtil {
 		}
 	}
 
-	static String ISO = "ISO-8859-1";
-
-	static String UTF_8 = "UTF-8";
-
 	public static String getServerInfo(HttpServletRequest request) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(request.getScheme());
@@ -212,26 +210,6 @@ public class ServletUtil {
 		return null;
 	}
 
-	public static String getStringWithoutBeginTrim(HttpServletRequest request,
-			String key) {
-		String t = request.getParameter(key);
-		if (t == null) {
-			return null;
-		}
-		if (t.length() == 0) {
-			return null;
-		}
-		if (request.getMethod().equalsIgnoreCase("post")) {
-			return t;
-		}
-		try {
-			return new String(t.getBytes(ISO), UTF_8);
-		}
-		catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	public static String getString(HttpServletRequest request, String key) {
 		String t = request.getParameter(key);
 		if (t == null) {
@@ -241,11 +219,14 @@ public class ServletUtil {
 		if (t.length() == 0) {
 			return null;
 		}
-		if (request.getMethod().equalsIgnoreCase("post")) {
+		if (CHARSET_TARGET == null) {
+			return t;
+		}
+		if (request.getMethod().equalsIgnoreCase(HTTP_METHOD_POST)) {
 			return t;
 		}
 		try {
-			return new String(t.getBytes(ISO), UTF_8);
+			return new String(t.getBytes(CHARSET_SOURCE), CHARSET_TARGET);
 		}
 		catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
@@ -253,11 +234,11 @@ public class ServletUtil {
 	}
 
 	public static int getPage(HttpServletRequest request) {
-		int page = getInt(request, PAGE);
+		int page = getInt(request, PAGE_ATTR_KEY);
 		if (page < 1) {
 			page = 1;
 		}
-		request.setAttribute("page", page);
+		request.setAttribute(PAGE_ATTR_KEY, page);
 		return page;
 	}
 

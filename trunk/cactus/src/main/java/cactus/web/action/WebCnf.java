@@ -9,6 +9,7 @@ import org.springframework.beans.factory.InitializingBean;
 
 import cactus.util.HkUtil;
 import cactus.util.NumberUtil;
+import cactus.web.util.ServletUtil;
 
 /**
  * 当使用默认配置时，会使用此选项
@@ -22,6 +23,16 @@ public class WebCnf implements InitializingBean {
 	private String url_extension;
 
 	private ActionExe actionExe;
+
+	/**
+	 * 源数据编码
+	 */
+	private String sourceCharset;
+
+	/**
+	 * 目标数据编码
+	 */
+	private String targetCharset;
 
 	private String uploadFileTempPath = "/cactustemp/";
 
@@ -40,6 +51,34 @@ public class WebCnf implements InitializingBean {
 	private final Map<String, UploadFileCheckCnf> map = new HashMap<String, UploadFileCheckCnf>();
 
 	private boolean mustCheckUpload;
+
+	/**
+	 * 源数据编码
+	 * 
+	 * @param sourceCharset
+	 */
+	public void setSourceCharset(String sourceCharset) {
+		this.sourceCharset = sourceCharset;
+		ServletUtil.CHARSET_SOURCE = this.sourceCharset;
+	}
+
+	/**
+	 * 目标数据编码
+	 * 
+	 * @param targetCharset
+	 */
+	public void setTargetCharset(String targetCharset) {
+		this.targetCharset = targetCharset;
+		ServletUtil.CHARSET_TARGET = this.targetCharset;
+	}
+
+	public String getSourceCharset() {
+		return sourceCharset;
+	}
+
+	public String getTargetCharset() {
+		return targetCharset;
+	}
 
 	/**
 	 * 设置是否强制检查允许上传的uri，只有配置过的uri才能接受文件上传，否则不允许文件上传，并且传递的参数也无法获取
