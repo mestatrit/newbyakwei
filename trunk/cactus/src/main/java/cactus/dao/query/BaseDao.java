@@ -75,8 +75,7 @@ public abstract class BaseDao<T> implements IDao<T> {
 	public int updateBySQL(Object keyValue, String updateSqlSegment,
 			String where, Object[] params) {
 		Map<String, Object> ctxMap = new HashMap<String, Object>();
-		ctxMap.put(this.hkObjQuery.getAliasName(getClazz()) + "." + getKey(),
-				keyValue);
+		ctxMap.put(getKey(), keyValue);
 		PartitionTableInfo partitionTableInfo = this.hkObjQuery.parse(
 				getClazz(), ctxMap);
 		StringBuilder sb = new StringBuilder("update ");
