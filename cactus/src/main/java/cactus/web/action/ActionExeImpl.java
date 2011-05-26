@@ -49,15 +49,7 @@ public class ActionExeImpl implements ActionExe {
 		}
 	}
 
-	/**
-	 * 外部调用的入口
-	 * 
-	 * @param mappingUri
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
+	@Override
 	public String invoke(String mappingUri, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		return this.invokeInterceptor(this.actionMappingCreator
