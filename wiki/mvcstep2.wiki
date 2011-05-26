@@ -1,5 +1,7 @@
 创建第一个action.java
 
+{{{
+
 package action;
 
 
@@ -44,3 +46,5 @@ public class TestAction implements Action {
 		return "2.jsp";
 	}
 }
+
+}}}
