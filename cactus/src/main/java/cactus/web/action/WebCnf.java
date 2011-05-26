@@ -53,21 +53,27 @@ public class WebCnf implements InitializingBean {
 	private boolean mustCheckUpload;
 
 	/**
-	 * 源数据编码
+	 * 源数据编码，如果不设置编码，默认将会对get方式的url进行iso-8859-1到utf-8编码的转换
 	 * 
 	 * @param sourceCharset
 	 */
 	public void setSourceCharset(String sourceCharset) {
+		if (sourceCharset == null || sourceCharset.length() == 0) {
+			return;
+		}
 		this.sourceCharset = sourceCharset;
 		ServletUtil.CHARSET_SOURCE = this.sourceCharset;
 	}
 
 	/**
-	 * 目标数据编码
+	 * 目标数据编码，如果不设置编码，默认将会对get方式的url进行iso-8859-1到utf-8编码的转换
 	 * 
 	 * @param targetCharset
 	 */
 	public void setTargetCharset(String targetCharset) {
+		if (targetCharset == null || targetCharset.length() == 0) {
+			return;
+		}
 		this.targetCharset = targetCharset;
 		ServletUtil.CHARSET_TARGET = this.targetCharset;
 	}
