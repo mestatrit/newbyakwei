@@ -32,7 +32,19 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 
 	private List<TableCnf> tableCnfList;
 
+	/**
+	 * 存放需要扫描的路径
+	 */
 	private List<String> tableScanPathList;
+
+	/**
+	 * 存放定义的className
+	 */
+	private List<String> classNameList;
+
+	public void setClassNameList(List<String> classNameList) {
+		this.classNameList = classNameList;
+	}
 
 	public void setTableScanPathList(List<String> tableScanPathList) {
 		this.tableScanPathList = tableScanPathList;
@@ -42,6 +54,11 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 		this.tableCnfList = tableCnfList;
 	}
 
+	/**
+	 * @param <T>
+	 * @param clazz
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> ObjectSqlInfo<T> getObjectSqlInfo(Class<T> clazz) {
 		ObjectSqlInfo<T> o = (ObjectSqlInfo<T>) this.objectSqlInfoMap.get(clazz
@@ -53,6 +70,13 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 		return o;
 	}
 
+	/**
+	 * 通过clazz获得sql查询集合的组装对象
+	 * 
+	 * @param <T>
+	 * @param clazz
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> RowMapper<T> getRowMapper(Class<T> clazz) {
 		ObjectSqlInfo<T> o = (ObjectSqlInfo<T>) this.objectSqlInfoMap.get(clazz
@@ -63,21 +87,50 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 		return null;
 	}
 
+	/**
+	 * 通过定义的className来获取className对应的TableCnf，并存放到集合中
+	 * 
+	 * @return
+	 * @throws ClassNotFoundException
+	 */
+	private List<TableCnf> getTableCnfFromClassNameList()
+			throws ClassNotFoundException {
+		List<TableCnf> list = new ArrayList<TableCnf>();
+		ClassLoader classLoader = Thread.currentThread()
+				.getContextClassLoader();
+		Class<?> clazz = null;
+		if (this.classNameList != null) {
+			for (String className : this.classNameList) {
+				clazz = classLoader.loadClass(className);
+				TableCnf tableCnf = this.analyzeClass(clazz);
+				if (tableCnf != null) {
+					list.add(tableCnf);
+				}
+			}
+		}
+		return list;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		ObjectSqlInfo<?> objectSqlInfo = null;
-		List<TableCnf> list = this.getTableCnfFromScanPathList();
 		if (this.tableCnfList == null) {
 			this.tableCnfList = new ArrayList<TableCnf>();
 		}
-		this.tableCnfList.addAll(list);
+		this.tableCnfList.addAll(this.getTableCnfFromScanPathList());
+		this.tableCnfList.addAll(this.getTableCnfFromClassNameList());
 		for (TableCnf cnf : this.tableCnfList) {
 			objectSqlInfo = new ObjectSqlInfo(cnf);
 			objectSqlInfoMap.put(cnf.getClassName(), objectSqlInfo);
 		}
 	}
 
+	/**
+	 * 通过扫描指定路径，来获得含有@{@link Table}信息的类，并生成对应的TableCnf对象存入集合
+	 * 
+	 * @return
+	 */
 	private List<TableCnf> getTableCnfFromScanPathList() {
 		List<TableCnf> list = new ArrayList<TableCnf>();
 		ClassLoader classLoader = Thread.currentThread()
@@ -93,6 +146,13 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 		return list;
 	}
 
+	/**
+	 * 扫描classpath下的指定package中的class，不做深度调用，目前只支持classpath目录寻找，不支持jar文件中寻找
+	 * 
+	 * @param scanPath
+	 * @param app_ab_path
+	 * @return
+	 */
 	private List<TableCnf> scanPath(String scanPath, String app_ab_path) {
 		List<TableCnf> list = new ArrayList<TableCnf>();
 		File file = new File(app_ab_path + scanPath.replaceAll("\\.", "/"));
@@ -118,19 +178,24 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 				+ f.getName().replaceFirst("\\.class", "");
 		try {
 			Class<?> clazz = classLoader.loadClass(className);
-			Table table = clazz.getAnnotation(Table.class);
-			if (table != null) {
-				TableCnf tableCnf = new TableCnf();
-				tableCnf.setClassName(className);
-				tableCnf.setDbPartitionHelper(this
-						.getDbPartitionHelperFromTableAnnotation(table));
-				return tableCnf;
-			}
-			return null;
+			return this.analyzeClass(clazz);
 		}
 		catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private TableCnf analyzeClass(Class<?> clazz) {
+		String className = clazz.getName();
+		Table table = clazz.getAnnotation(Table.class);
+		if (table != null) {
+			TableCnf tableCnf = new TableCnf();
+			tableCnf.setClassName(className);
+			tableCnf.setDbPartitionHelper(this
+					.getDbPartitionHelperFromTableAnnotation(table));
+			return tableCnf;
+		}
+		return null;
 	}
 
 	private DbPartitionHelper getDbPartitionHelperFromTableAnnotation(

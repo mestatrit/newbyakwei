@@ -10,6 +10,12 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
+/**
+ * 实验性，暂时不使用
+ * 
+ * @author akwei
+ */
+@Deprecated
 public class DesUtil3 {
 
 	/**

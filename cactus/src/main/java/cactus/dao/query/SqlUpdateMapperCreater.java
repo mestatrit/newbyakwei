@@ -11,7 +11,7 @@ import org.objectweb.asm.Type;
 import org.springframework.jdbc.core.RowMapper;
 
 /**
- * 创建对象所对应的sql
+ * 创建对象所对应的sql，本类使用了asm字节码处理，生成class
  * insert,update,delete所需要的信息,目前对象只支持long,int,byte,short,float,char,double
  * ,String,java.util.Date类型的值,id类型只支持long,int,String类型
  * 
@@ -169,7 +169,8 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		_methodVisitor.visitVarInsn(ASTORE, 2);
 		_methodVisitor.visitVarInsn(ALOAD, 2);
 		int i = 0;
-		List<Field> list = new ArrayList<Field>(objectSqlInfo.getFieldList());
+		List<Field> list = new ArrayList<Field>(objectSqlInfo
+				.getFieldIgnoreIdList());
 		list.add(objectSqlInfo.getIdField());
 		for (Field f : list) {
 			visitGetParamsForInsertAndUpdate(_methodVisitor, f, objectSqlInfo);

@@ -1,13 +1,26 @@
 package cactus.util;
 
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
+/**
+ * MD5的算法在RFC1321 中定义<br>
+ * 在RFC 1321中，给出了Test suite用来检验你的实现是否正确：<br>
+ * MD5 ("") = d41d8cd98f00b204e9800998ecf8427e <br>
+ * MD5 ("a") = 0cc175b9c0f1b6a831c399e269772661 <br>
+ * MD5 ("abc") = 900150983cd24fb0d6963f7d28e17f72 <br>
+ * MD5 ("message digest") = f96b697d7cb7938d525a2f31aaf161d0 <br>
+ * MD5 ("abcdefghijklmnopqrstuvwxyz") = c3fcd3d76192e4007dfb496cca67e13b
+ * 
+ * @author akwei
+ */
 public class MD5Util {
 
 	private final static String[] hexDigits = { "0", "1", "2", "3", "4", "5",
 			"6", "7", "8", "9", "a", "b", "c", "d", "e", "f" };
+
+	private static final String MD5 = "MD5";
+
+	private static final String CHARSET_UTF_8 = "utf-8";
 
 	private static String byteArrayToHexString(byte[] b) {
 		StringBuffer resultSb = new StringBuffer();
@@ -26,22 +39,13 @@ public class MD5Util {
 		return hexDigits[d1] + hexDigits[d2];
 	}
 
-	private static final String MD5 = "MD5";
-
-	private static final String CHARSET_UTF_8 = "utf-8";
-
 	public static String md5Encode32(String v) {
 		MessageDigest md;
 		try {
 			md = MessageDigest.getInstance(MD5);
 			return byteArrayToHexString(md.digest(v.getBytes(CHARSET_UTF_8)));
 		}
-		catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-		catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -66,11 +70,8 @@ public class MD5Util {
 			// System.out.println("result: " + buf.toString().substring(8,
 			// 24));// 16位的加密
 		}
-		catch (NoSuchAlgorithmException e) {
-			throw new IllegalArgumentException(e);
-		}
-		catch (UnsupportedEncodingException e) {
-			throw new IllegalArgumentException(e);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
