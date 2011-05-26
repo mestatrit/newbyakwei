@@ -8,6 +8,12 @@ import javax.crypto.KeyGenerator;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
+/**
+ * 实验性，暂时不使用
+ * 
+ * @author akwei
+ */
+@Deprecated
 public class DesUtil2 {
 
 	Key key;
@@ -17,7 +23,7 @@ public class DesUtil2 {
 	}
 
 	/**
-	 * 根据参数生成KEY
+	 * @param strKey
 	 */
 	public void setKey(String strKey) {
 		try {

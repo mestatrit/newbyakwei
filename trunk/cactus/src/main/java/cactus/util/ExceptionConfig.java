@@ -6,9 +6,10 @@ import org.springframework.beans.factory.InitializingBean;
 /**
  * 异常处理配置
  * 
- * @author yuanwei
+ * @author akwei
  */
 public class ExceptionConfig implements InitializingBean {
+
 	private static Map<String, String> exceptionMap = null;
 
 	private static boolean freeze;

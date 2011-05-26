@@ -189,18 +189,6 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 	}
 
 	@Override
-	public String getStringWithoutBeginTrim(String key) {
-		return ServletUtil.getStringWithoutBeginTrim(getHttpServletRequest(),
-				key);
-	}
-
-	@Override
-	public String getHtmlWithoutBeginTrim(String key) {
-		String v = this.getStringWithoutBeginTrim(key);
-		return DataUtil.toHtmlEx(v);
-	}
-
-	@Override
 	public String getHtml(String key) {
 		String v = this.getString(key);
 		return DataUtil.toHtmlEx(v);
@@ -228,14 +216,16 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 
 	@Override
 	public String getStringAndSetAttr(String key) {
-		String s = ServletUtil.getString(getHttpServletRequest(), key);
-		this.setAttribute(key, s);
+		String s = this.getString(key);
+		if (s != null) {
+			this.setAttribute(key, s);
+		}
 		return s;
 	}
 
 	@Override
 	public String getParameter(String name) {
-		return ServletUtil.getString(getHttpServletRequest(), name);
+		return this.getString(name);
 	}
 
 	@Override

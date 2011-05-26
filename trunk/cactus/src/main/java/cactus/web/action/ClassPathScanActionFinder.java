@@ -13,10 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import cactus.util.HkUtil;
 
 /**
- * 在classpath下，根据action name来匹配相应的
+ * 在classpath下，根据action name来匹配相应的,现在放弃使用
  * 
  * @author akwei
  */
+@Deprecated
 public class ClassPathScanActionFinder implements ActionFinder {
 
 	private String basePath;

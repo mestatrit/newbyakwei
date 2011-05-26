@@ -67,18 +67,22 @@ public class ObjectSqlInfo<T> {
 	/**
 	 * 除id字段的其他字段信息集合
 	 */
-	private final List<Field> fieldList = new ArrayList<Field>();
+	private final List<Field> fieldIgnoreIdList = new ArrayList<Field>();
 
 	/**
 	 * 所有字段信息集合
 	 */
-	private final List<Field> allfieldList = new ArrayList<Field>();
+	private final List<Field> allFieldList = new ArrayList<Field>();
 
 	/**
 	 * 属性名称对应的列名称(列名称小写后成为sql字段名称)filed:column
 	 */
 	private final Map<String, String> fieldColumnMap = new HashMap<String, String>();
 
+	/**
+	 * @param tableCnf
+	 * @throws ClassNotFoundException
+	 */
 	@SuppressWarnings("unchecked")
 	public ObjectSqlInfo(TableCnf tableCnf) throws ClassNotFoundException {
 		ClassLoader classLoader = Thread.currentThread()
@@ -105,8 +109,8 @@ public class ObjectSqlInfo<T> {
 		Column column = field.getAnnotation(Column.class);
 		if (column != null) {
 			field.setAccessible(true);
-			fieldList.add(field);
-			allfieldList.add(field);
+			fieldIgnoreIdList.add(field);
+			allFieldList.add(field);
 			// 设置属性与sql字段的名称对应关系，默认是属性的名称与字段名相等，除非自定义Column中的name
 			if (column.value().equals("")) {
 				fieldColumnMap.put(field.getName(), field.getName()
@@ -121,7 +125,7 @@ public class ObjectSqlInfo<T> {
 			Id id = field.getAnnotation(Id.class);
 			if (id != null) {
 				field.setAccessible(true);
-				allfieldList.add(field);
+				allFieldList.add(field);
 				this.setIdField(field);
 				if (id.name().equals("")) {
 					this.setIdColumn(field.getName().toLowerCase());
@@ -140,6 +144,9 @@ public class ObjectSqlInfo<T> {
 		return fieldColumnMap.get(fieldName);
 	}
 
+	/**
+	 * 创建RowMapper对象
+	 */
 	@SuppressWarnings("unchecked")
 	private void buildMapper() {
 		RowMapperCreater creater = new RowMapperCreater(Thread.currentThread()
@@ -173,15 +180,15 @@ public class ObjectSqlInfo<T> {
 	 * 创建update需要的列
 	 */
 	private void buildAllColumns() {
-		columns = new String[this.allfieldList.size()];
+		columns = new String[this.allFieldList.size()];
 		int i = 0;
-		for (Field f : this.allfieldList) {
+		for (Field f : this.allFieldList) {
 			columns[i] = this.getColumn(f.getName());
 			i++;
 		}
 		i = 0;
-		columnsForUpdate = new String[this.fieldList.size()];
-		for (Field f : this.fieldList) {
+		columnsForUpdate = new String[this.fieldIgnoreIdList.size()];
+		for (Field f : this.fieldIgnoreIdList) {
 			columnsForUpdate[i] = this.getColumn(f.getName());
 			i++;
 		}
@@ -223,8 +230,8 @@ public class ObjectSqlInfo<T> {
 	 * 
 	 * @return
 	 */
-	public List<Field> getFieldList() {
-		return fieldList;
+	public List<Field> getFieldIgnoreIdList() {
+		return fieldIgnoreIdList;
 	}
 
 	/**
@@ -251,7 +258,7 @@ public class ObjectSqlInfo<T> {
 	 * @return
 	 */
 	public List<Field> getAllfieldList() {
-		return allfieldList;
+		return allFieldList;
 	}
 
 	/**
