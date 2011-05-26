@@ -22,24 +22,32 @@
 		<property name="daoSupport" ref="daoSupport" />
 		<property name="objectSqlInfoCreater">
 			<bean id="objectSqlInfoCreater" class="cactus.dao.query.ObjectSqlInfoCreater">
-				<property name="tableScanPathList">
+				<property name="classNameList">
 					<list>
-						<value>iwant.bean</value>
+						<value>iwant.bean.Category</value>
+						<value>iwant.bean.City</value>
+						<value>iwant.bean.Country</value>
+						<value>iwant.bean.District</value>
+						<value>iwant.bean.FollowProject</value>
+						<value>iwant.bean.MainPpt</value>
+						<value>iwant.bean.Notice</value>
+						<value>iwant.bean.NoticeidCreator</value>
+						<value>iwant.bean.NoticeQueue</value>
+						<value>iwant.bean.Ppt</value>
+						<value>iwant.bean.PptidCreator</value>
+						<value>iwant.bean.PptQueue</value>
+						<value>iwant.bean.PptTimeline</value>
+						<value>iwant.bean.Project</value>
+						<value>iwant.bean.ProjectFans</value>
+						<value>iwant.bean.ProjectidCreator</value>
+						<value>iwant.bean.ProjectRecycle</value>
+						<value>iwant.bean.Province</value>
+						<value>iwant.bean.Slide</value>
+						<value>iwant.bean.User</value>
+						<value>iwant.bean.UseridCreator</value>
+						<value>iwant.bean.UserNotice</value>
 					</list>
 				</property>
-				<!--
-					<property name="tableCnfList"> <list> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.Category" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.FollowProject" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean>
-					<bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.MainPpt" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.Notice" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf">
-					<property name="className" value="iwant.bean.NoticeidCreator" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.Ppt" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className"
-					value="iwant.bean.PptidCreator" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.Project" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.ProjectRecycle" />
-					<property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.ProjectFans" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.ProjectidCreator" /> <property name="dbPartitionHelper"
-					ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.Slide" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.User" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean
-					class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.UseridCreator" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.UserNotice" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf">
-					<property name="className" value="iwant.bean.PptTimeline" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.PptQueue" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className"
-					value="iwant.bean.NoticeQueue" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.Country" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.Province" /> <property
-					name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.City" /> <property name="dbPartitionHelper" ref="singleDbPartitionHelper" /> </bean> <bean class="cactus.dao.query.TableCnf"> <property name="className" value="iwant.bean.District" /> <property name="dbPartitionHelper"
-					ref="singleDbPartitionHelper" /> </bean> </list> </property>
-				-->
 			</bean>
 		</property>
 	</bean>
