@@ -19,6 +19,7 @@ import bean.Member;
 import bean.TestUser;
 import cactus.dao.query.HkQuery;
 import cactus.dao.query.PartitionTableInfo;
+import cactus.dao.query.SqlBuilder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( { "/query-test2.xml" })
@@ -34,8 +35,7 @@ public class HkQueryTest {
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
-		HkQuery hkQuery = new HkQuery();
-		String res_create_sql = hkQuery.createInsertSQL(partitionTableInfo,
+		String res_create_sql = SqlBuilder.createInsertSQL(partitionTableInfo,
 				new String[] { "userid", "nick", "gender" });
 		Assert.assertEquals(create_sql, res_create_sql);
 	}
@@ -46,8 +46,7 @@ public class HkQueryTest {
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
-		HkQuery hkQuery = new HkQuery();
-		String res_update_sql = hkQuery.createUpdateSQL(partitionTableInfo,
+		String res_update_sql = SqlBuilder.createUpdateSQL(partitionTableInfo,
 				new String[] { "nick", "gender" }, "userid=?");
 		Assert.assertEquals(update_sql, res_update_sql);
 	}
@@ -58,8 +57,7 @@ public class HkQueryTest {
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
-		HkQuery hkQuery = new HkQuery();
-		String res_update_sql = hkQuery.createUpdateSQL(partitionTableInfo,
+		String res_update_sql = SqlBuilder.createUpdateSQL(partitionTableInfo,
 				new String[] { "nick", "gender" }, null);
 		Assert.assertEquals(update_sql, res_update_sql);
 	}
@@ -71,8 +69,7 @@ public class HkQueryTest {
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
-		HkQuery hkQuery = new HkQuery();
-		String res_delete_sql = hkQuery.createDeleteSQL(partitionTableInfo,
+		String res_delete_sql = SqlBuilder.createDeleteSQL(partitionTableInfo,
 				"userid=? and nick=?");
 		Assert.assertEquals(delete_sql, res_delete_sql);
 	}
@@ -84,8 +81,7 @@ public class HkQueryTest {
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
-		HkQuery hkQuery = new HkQuery();
-		String res_delete_sql = hkQuery.createDeleteSQL(partitionTableInfo,
+		String res_delete_sql = SqlBuilder.createDeleteSQL(partitionTableInfo,
 				null);
 		Assert.assertEquals(delete_sql, res_delete_sql);
 	}
@@ -97,8 +93,7 @@ public class HkQueryTest {
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
-		HkQuery hkQuery = new HkQuery();
-		String res_count_sql = hkQuery.createCountSQL(
+		String res_count_sql = SqlBuilder.createCountSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
 				"u.userid=? and u.nick=? and u.gender=?");
 		Assert.assertEquals(count_sql, res_count_sql);
@@ -116,8 +111,7 @@ public class HkQueryTest {
 		partitionTableInfo2.setDatabaseName("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
-		HkQuery hkQuery = new HkQuery();
-		String res_count_sql = hkQuery
+		String res_count_sql = SqlBuilder
 				.createCountSQL(
 						new PartitionTableInfo[] { partitionTableInfo1,
 								partitionTableInfo2 },
@@ -133,8 +127,7 @@ public class HkQueryTest {
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
-		HkQuery hkQuery = new HkQuery();
-		String res_count_sql = hkQuery.createCountSQL(
+		String res_count_sql = SqlBuilder.createCountSQL(
 				new PartitionTableInfo[] { partitionTableInfo }, null);
 		Assert.assertEquals(count_sql, res_count_sql);
 	}
@@ -150,9 +143,9 @@ public class HkQueryTest {
 		partitionTableInfo2.setDatabaseName("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
-		HkQuery hkQuery = new HkQuery();
-		String res_count_sql = hkQuery.createCountSQL(new PartitionTableInfo[] {
-				partitionTableInfo1, partitionTableInfo2 }, null);
+		String res_count_sql = SqlBuilder.createCountSQL(
+				new PartitionTableInfo[] { partitionTableInfo1,
+						partitionTableInfo2 }, null);
 		Assert.assertEquals(count_sql, res_count_sql);
 	}
 
@@ -164,8 +157,7 @@ public class HkQueryTest {
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createListSQL(
+		String res_select_sql = SqlBuilder.createListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
 				new String[][] { { "userid", "nick", "gender" } },
 				"u.userid=? and u.nick=? and u.gender=?",
@@ -188,11 +180,11 @@ public class HkQueryTest {
 		partitionTableInfo2.setDatabaseName("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createListSQL(new PartitionTableInfo[] {
-				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
-				{ "userid", "nick", "gender", "createtime" },
-				{ "userid", "birthday", "fansnum" } },
+		String res_select_sql = SqlBuilder.createListSQL(
+				new PartitionTableInfo[] { partitionTableInfo1,
+						partitionTableInfo2 }, new String[][] {
+						{ "userid", "nick", "gender", "createtime" },
+						{ "userid", "birthday", "fansnum" } },
 				"u.userid=i.userid and u.userid=? and u.nick=? "
 						+ "and u.gender=? and i.birthday>?",
 				"u.createtime desc,u.nick asc,i.birthday desc");
@@ -207,8 +199,7 @@ public class HkQueryTest {
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createListSQL(
+		String res_select_sql = SqlBuilder.createListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
 				new String[][] { { "userid", "nick", "gender" } }, null,
 				"u.createtime desc,u.nick asc");
@@ -228,11 +219,11 @@ public class HkQueryTest {
 		partitionTableInfo2.setDatabaseName("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createListSQL(new PartitionTableInfo[] {
-				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
-				{ "userid", "nick", "gender", "createtime" },
-				{ "userid", "birthday", "fansnum" } }, null,
+		String res_select_sql = SqlBuilder.createListSQL(
+				new PartitionTableInfo[] { partitionTableInfo1,
+						partitionTableInfo2 }, new String[][] {
+						{ "userid", "nick", "gender", "createtime" },
+						{ "userid", "birthday", "fansnum" } }, null,
 				"u.createtime desc,u.nick asc,i.birthday desc");
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
@@ -244,8 +235,7 @@ public class HkQueryTest {
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createListSQL(
+		String res_select_sql = SqlBuilder.createListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
 				new String[][] { { "userid", "nick", "gender" } }, null, null);
 		Assert.assertEquals(select_sql, res_select_sql);
@@ -263,11 +253,11 @@ public class HkQueryTest {
 		partitionTableInfo2.setDatabaseName("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createListSQL(new PartitionTableInfo[] {
-				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
-				{ "userid", "nick", "gender", "createtime" },
-				{ "userid", "birthday", "fansnum" } }, null, null);
+		String res_select_sql = SqlBuilder.createListSQL(
+				new PartitionTableInfo[] { partitionTableInfo1,
+						partitionTableInfo2 }, new String[][] {
+						{ "userid", "nick", "gender", "createtime" },
+						{ "userid", "birthday", "fansnum" } }, null, null);
 		Assert.assertEquals(select_sql, res_select_sql);
 	}
 
@@ -278,8 +268,7 @@ public class HkQueryTest {
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createListSQL(
+		String res_select_sql = SqlBuilder.createListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
 				new String[][] { { "userid", "nick", "gender" } },
 				"u.userid=? and u.nick=? and u.gender=?", null);
@@ -300,11 +289,11 @@ public class HkQueryTest {
 		partitionTableInfo2.setDatabaseName("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createListSQL(new PartitionTableInfo[] {
-				partitionTableInfo1, partitionTableInfo2 }, new String[][] {
-				{ "userid", "nick", "gender", "createtime" },
-				{ "userid", "birthday", "fansnum" } },
+		String res_select_sql = SqlBuilder.createListSQL(
+				new PartitionTableInfo[] { partitionTableInfo1,
+						partitionTableInfo2 }, new String[][] {
+						{ "userid", "nick", "gender", "createtime" },
+						{ "userid", "birthday", "fansnum" } },
 				"u.userid=i.userid and u.userid=? and u.nick=? "
 						+ "and u.gender=? and i.birthday>?", null);
 		Assert.assertEquals(select_sql, res_select_sql);
@@ -317,8 +306,7 @@ public class HkQueryTest {
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createListSQL(
+		String res_select_sql = SqlBuilder.createListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
 				new String[][] { { "userid", "nick", "gender" } },
 				"userid=? and nick=? and gender=?", "createtime desc,nick asc");
@@ -340,8 +328,7 @@ public class HkQueryTest {
 		partitionTableInfo2.setDatabaseName("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createObjectSQL(
+		String res_select_sql = SqlBuilder.createObjectSQL(
 				new PartitionTableInfo[] { partitionTableInfo1,
 						partitionTableInfo2 }, new String[][] {
 						{ "userid", "nick", "gender", "createtime" },
@@ -359,8 +346,7 @@ public class HkQueryTest {
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createListSQL(
+		String res_select_sql = SqlBuilder.createListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
 				new String[][] { { "userid", "nick", "gender" } }, null,
 				"createtime desc,nick asc");
@@ -380,8 +366,7 @@ public class HkQueryTest {
 		partitionTableInfo2.setDatabaseName("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createObjectSQL(
+		String res_select_sql = SqlBuilder.createObjectSQL(
 				new PartitionTableInfo[] { partitionTableInfo1,
 						partitionTableInfo2 }, new String[][] {
 						{ "userid", "nick", "gender", "createtime" },
@@ -397,8 +382,7 @@ public class HkQueryTest {
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createListSQL(
+		String res_select_sql = SqlBuilder.createListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
 				new String[][] { { "userid", "nick", "gender" } }, null, null);
 		Assert.assertEquals(select_sql, res_select_sql);
@@ -416,8 +400,7 @@ public class HkQueryTest {
 		partitionTableInfo2.setDatabaseName("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createObjectSQL(
+		String res_select_sql = SqlBuilder.createObjectSQL(
 				new PartitionTableInfo[] { partitionTableInfo1,
 						partitionTableInfo2 }, new String[][] {
 						{ "userid", "nick", "gender", "createtime" },
@@ -432,8 +415,7 @@ public class HkQueryTest {
 		partitionTableInfo.setDatabaseName("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createListSQL(
+		String res_select_sql = SqlBuilder.createListSQL(
 				new PartitionTableInfo[] { partitionTableInfo },
 				new String[][] { { "userid", "nick", "gender" } },
 				"userid=? and nick=? and gender=?", null);
@@ -454,8 +436,7 @@ public class HkQueryTest {
 		partitionTableInfo2.setDatabaseName("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
-		HkQuery hkQuery = new HkQuery();
-		String res_select_sql = hkQuery.createObjectSQL(
+		String res_select_sql = SqlBuilder.createObjectSQL(
 				new PartitionTableInfo[] { partitionTableInfo1,
 						partitionTableInfo2 }, new String[][] {
 						{ "userid", "nick", "gender", "createtime" },
