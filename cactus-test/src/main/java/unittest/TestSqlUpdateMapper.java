@@ -38,8 +38,8 @@ public class TestSqlUpdateMapper {
 				tableCnf);
 		int want_fieldListSize = 5;
 		int want_allFieldListSize = 6;
-		Assert.assertEquals(want_fieldListSize, objectSqlInfo.getFieldList()
-				.size());
+		Assert.assertEquals(want_fieldListSize, objectSqlInfo
+				.getFieldIgnoreIdList().size());
 		Assert.assertEquals(want_allFieldListSize, objectSqlInfo
 				.getAllfieldList().size());
 		// id assert
