@@ -4,8 +4,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
 
-import cactus.web.action.HkRequest;
-import cactus.web.action.HkResponse;
+import com.dev3g.cactus.web.action.HkRequest;
+import com.dev3g.cactus.web.action.HkResponse;
 
 @Component("/index")
 public class IndexAction extends BaseAction {

@@ -17,8 +17,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cactus.util.DateUtil;
-import cactus.util.image.jmagick.PicRect;
+import com.dev3g.cactus.util.DateUtil;
+import com.dev3g.cactus.util.jmagick.PicRect;
 
 public class PptSvrTest extends BaseSvrTest {
 

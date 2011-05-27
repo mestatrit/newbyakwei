@@ -10,8 +10,8 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import cactus.util.DateUtil;
-import cactus.util.NumberUtil;
+import com.dev3g.cactus.util.DateUtil;
+import com.dev3g.cactus.util.NumberUtil;
 
 public class UserSvrImpl implements UserSvr {
 

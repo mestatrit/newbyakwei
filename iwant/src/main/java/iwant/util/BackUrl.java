@@ -7,9 +7,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cactus.util.DataUtil;
-import cactus.util.DesUtil;
-import cactus.web.util.ServletUtil;
+import com.dev3g.cactus.util.DataUtil;
+import com.dev3g.cactus.util.DesUtil;
+import com.dev3g.cactus.web.util.ServletUtil;
 
 public class BackUrl {
 

@@ -11,17 +11,14 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
-	<bean id="daoSupport" class="cactus.dao.query.MysqlDaoSupport">
+	<bean id="daoSupport" class="com.dev3g.cactus.dao.query.MysqlDaoSupport">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	<!-- 分区配置必须在hkObjQuery声明之前 -->
-	<bean id="singleDbPartitionHelper" class="cactus.dao.query.SingleDbPartitionHelper">
-		<property name="baseDatasourceKey" value="mysql_iwant" />
-	</bean>
-	<bean id="hkObjQuery" class="cactus.dao.query.HkObjQuery">
+	<bean id="hkObjQuery" class="com.dev3g.cactus.dao.query.HkObjQuery">
 		<property name="daoSupport" ref="daoSupport" />
 		<property name="objectSqlInfoCreater">
-			<bean id="objectSqlInfoCreater" class="cactus.dao.query.ObjectSqlInfoCreater">
+			<bean id="objectSqlInfoCreater" class="com.dev3g.cactus.dao.query.ObjectSqlInfoCreater">
 				<property name="classNameList">
 					<list>
 						<value>iwant.bean.Category</value>

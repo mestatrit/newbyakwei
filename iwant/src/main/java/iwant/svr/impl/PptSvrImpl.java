@@ -32,13 +32,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import cactus.util.DataUtil;
-import cactus.util.FileUtil;
-import cactus.util.NumberUtil;
-import cactus.util.image.jmagick.ImageException;
-import cactus.util.image.jmagick.ImageProcessor;
-import cactus.util.image.jmagick.ImgFileInfo;
-import cactus.util.image.jmagick.PicRect;
+import com.dev3g.cactus.util.DataUtil;
+import com.dev3g.cactus.util.FileUtil;
+import com.dev3g.cactus.util.NumberUtil;
+import com.dev3g.cactus.util.jmagick.ImageException;
+import com.dev3g.cactus.util.jmagick.ImageProcessor;
+import com.dev3g.cactus.util.jmagick.ImgFileInfo;
+import com.dev3g.cactus.util.jmagick.PicRect;
 
 public class PptSvrImpl implements PptSvr {
 

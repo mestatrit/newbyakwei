@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cactus.dao.query.BaseDao;
-import cactus.util.DataUtil;
+import com.dev3g.cactus.dao.query.BaseDao;
+import com.dev3g.cactus.util.DataUtil;
 
 public class ProjectDaoImpl extends BaseDao<Project> implements ProjectDao {
 

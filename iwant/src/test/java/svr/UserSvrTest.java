@@ -8,7 +8,7 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cactus.util.DateUtil;
+import com.dev3g.cactus.util.DateUtil;
 
 public class UserSvrTest extends BaseSvrTest {
 

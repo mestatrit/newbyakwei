@@ -8,8 +8,8 @@ import iwant.dao.MainPptSearchCdn;
 import java.util.ArrayList;
 import java.util.List;
 
-import cactus.dao.query.BaseDao;
-import cactus.util.DataUtil;
+import com.dev3g.cactus.dao.query.BaseDao;
+import com.dev3g.cactus.util.DataUtil;
 
 public class MainPptDaoImpl extends BaseDao<MainPpt> implements MainPptDao {
 

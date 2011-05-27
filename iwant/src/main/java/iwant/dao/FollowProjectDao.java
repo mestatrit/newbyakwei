@@ -1,7 +1,8 @@
 package iwant.dao;
 
 import iwant.bean.FollowProject;
-import cactus.dao.query.IDao;
+
+import com.dev3g.cactus.dao.query.IDao;
 
 public interface FollowProjectDao extends IDao<FollowProject> {
 

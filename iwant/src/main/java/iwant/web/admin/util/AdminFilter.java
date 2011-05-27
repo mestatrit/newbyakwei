@@ -7,8 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cactus.web.action.HkFilter;
-import cactus.web.action.PathProcessor;
+import com.dev3g.cactus.web.action.HkFilter;
+import com.dev3g.cactus.web.action.PathProcessor;
 
 /**
  * 后台权限验证过滤器

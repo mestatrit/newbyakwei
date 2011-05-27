@@ -6,7 +6,7 @@ import iwant.web.admin.util.Err;
 import java.util.ArrayList;
 import java.util.List;
 
-import cactus.util.DataUtil;
+import com.dev3g.cactus.util.DataUtil;
 
 public class CategoryValidate {
 

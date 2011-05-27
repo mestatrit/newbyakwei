@@ -6,7 +6,7 @@ import iwant.bean.enumtype.ActiveType;
 import java.util.List;
 import java.util.Map;
 
-import cactus.dao.query.IDao;
+import com.dev3g.cactus.dao.query.IDao;
 
 public interface ProjectDao extends IDao<Project> {
 

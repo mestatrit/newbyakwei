@@ -4,7 +4,7 @@ import iwant.bean.City;
 
 import java.util.List;
 
-import cactus.dao.query.IDao;
+import com.dev3g.cactus.dao.query.IDao;
 
 public interface CityDao extends IDao<City> {
 

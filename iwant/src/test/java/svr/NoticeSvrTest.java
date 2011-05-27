@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cactus.util.DateUtil;
+import com.dev3g.cactus.util.DateUtil;
 
 public class NoticeSvrTest extends BaseSvrTest {
 
