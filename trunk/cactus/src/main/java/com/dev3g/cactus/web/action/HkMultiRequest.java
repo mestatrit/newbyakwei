@@ -44,7 +44,7 @@ class HkMultiRequest extends HttpServletRequestWrapper {
 		return this.request.getParameter(name);
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	@Override
 	public Enumeration getParameterNames() {
 		Set<String> set = this.request.getParameterNames();
