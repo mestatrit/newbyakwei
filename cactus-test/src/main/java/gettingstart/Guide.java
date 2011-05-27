@@ -90,7 +90,7 @@ public class Guide {
 		Object[] values = new Object[] { "akwei", 0, 10 };
 		List<TestUser> list = hkObjQuery.getListBySQL(
 				new PartitionTableInfo[] { partitionTableInfo }, select_sql,
-				values, new RowMapper<TestUser>() {
+				values, 0, -1, new RowMapper<TestUser>() {
 
 					@Override
 					public TestUser mapRow(ResultSet arg0, int arg1)
@@ -121,7 +121,7 @@ public class Guide {
 				+ " where nick=? and testuser.userid=member.memberuserid limit ?,?";
 		Object[] values = new Object[] { "akwei", 1, 10 };
 		List<TestUser> list = hkObjQuery.getListBySQL(partitionTableInfos,
-				select_sql, values, new RowMapper<TestUser>() {
+				select_sql, values, 0, -1, new RowMapper<TestUser>() {
 
 					@Override
 					public TestUser mapRow(ResultSet arg0, int arg1)
