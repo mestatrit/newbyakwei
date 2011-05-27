@@ -1,8 +1,8 @@
 package bean;
 
-import cactus.dao.annotation.Column;
-import cactus.dao.annotation.Id;
-import cactus.dao.annotation.Table;
+import com.dev3g.cactus.dao.annotation.Column;
+import com.dev3g.cactus.dao.annotation.Id;
+import com.dev3g.cactus.dao.annotation.Table;
 
 @Table(name = "member")
 public class Member {

@@ -1,6 +1,6 @@
 package unittest;
 
-import cactus.util.thread.Mission;
+import com.dev3g.cactus.util.thread.Mission;
 
 public class Mission1 implements Mission {
 

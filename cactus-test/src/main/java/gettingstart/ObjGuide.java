@@ -10,14 +10,15 @@ import org.springframework.jdbc.core.RowMapper;
 import bean.Member;
 import bean.TestUser;
 import bean.UserVo;
-import cactus.dao.query.BaseParam;
-import cactus.dao.query.DeleteParam;
-import cactus.dao.query.HkObjQuery;
-import cactus.dao.query.QueryParam;
-import cactus.dao.query.UpdateParam;
-import cactus.util.DateUtil;
-import cactus.util.HkUtil;
-import cactus.util.P;
+
+import com.dev3g.cactus.dao.query.BaseParam;
+import com.dev3g.cactus.dao.query.DeleteParam;
+import com.dev3g.cactus.dao.query.HkObjQuery;
+import com.dev3g.cactus.dao.query.QueryParam;
+import com.dev3g.cactus.dao.query.UpdateParam;
+import com.dev3g.cactus.util.DateUtil;
+import com.dev3g.cactus.util.HkUtil;
+import com.dev3g.cactus.util.P;
 
 /**
  * 配置spring文件，看guide.xml<br/>

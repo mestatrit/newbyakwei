@@ -17,9 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import bean.Member;
 import bean.TestUser;
-import cactus.dao.query.HkQuery;
-import cactus.dao.query.PartitionTableInfo;
-import cactus.dao.query.SqlBuilder;
+
+import com.dev3g.cactus.dao.query.HkQuery;
+import com.dev3g.cactus.dao.query.PartitionTableInfo;
+import com.dev3g.cactus.dao.query.SqlBuilder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( { "/query-test2.xml" })

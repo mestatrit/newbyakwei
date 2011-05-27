@@ -19,11 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 import bean.Member;
 import bean.TestUser;
 import bean.UserVo;
-import cactus.dao.query.BaseParam;
-import cactus.dao.query.HkObjQuery;
-import cactus.dao.query.QueryParam;
-import cactus.util.DateUtil;
-import cactus.util.P;
+
+import com.dev3g.cactus.dao.query.BaseParam;
+import com.dev3g.cactus.dao.query.HkObjQuery;
+import com.dev3g.cactus.dao.query.QueryParam;
+import com.dev3g.cactus.util.DateUtil;
+import com.dev3g.cactus.util.P;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( { "/query-test.xml" })

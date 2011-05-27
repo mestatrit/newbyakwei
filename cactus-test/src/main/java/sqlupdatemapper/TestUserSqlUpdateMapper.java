@@ -1,8 +1,9 @@
 package sqlupdatemapper;
 
 import bean.TestUser;
-import cactus.dao.query.ParamListUtil;
-import cactus.dao.query.SqlUpdateMapper;
+
+import com.dev3g.cactus.dao.query.ParamListUtil;
+import com.dev3g.cactus.dao.query.SqlUpdateMapper;
 
 public class TestUserSqlUpdateMapper implements SqlUpdateMapper<TestUser> {
 
