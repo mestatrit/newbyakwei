@@ -112,7 +112,7 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 		return list;
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		ObjectSqlInfo<?> objectSqlInfo = null;
