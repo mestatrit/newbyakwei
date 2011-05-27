@@ -5,7 +5,7 @@ import iwant.dao.DistrictDao;
 
 import java.util.List;
 
-import cactus.dao.query.BaseDao;
+import com.dev3g.cactus.dao.query.BaseDao;
 
 public class DistrictDaoImpl extends BaseDao<District> implements DistrictDao {
 

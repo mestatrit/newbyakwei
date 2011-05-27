@@ -4,7 +4,7 @@ import iwant.bean.ProjectFans;
 
 import java.util.List;
 
-import cactus.dao.query.IDao;
+import com.dev3g.cactus.dao.query.IDao;
 
 public interface ProjectFansDao extends IDao<ProjectFans> {
 

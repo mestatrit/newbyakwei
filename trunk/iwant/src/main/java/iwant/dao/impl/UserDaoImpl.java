@@ -2,7 +2,8 @@ package iwant.dao.impl;
 
 import iwant.bean.User;
 import iwant.dao.UserDao;
-import cactus.dao.query.BaseDao;
+
+import com.dev3g.cactus.dao.query.BaseDao;
 
 public class UserDaoImpl extends BaseDao<User> implements UserDao {
 

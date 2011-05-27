@@ -1,7 +1,8 @@
 package iwant.dao;
 
 import iwant.bean.enumtype.ActiveType;
-import cactus.util.DataUtil;
+
+import com.dev3g.cactus.util.DataUtil;
 
 public class ProjectSearchCdn {
 

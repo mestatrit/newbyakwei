@@ -15,7 +15,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import cactus.util.image.jmagick.PicRect;
+import com.dev3g.cactus.util.jmagick.PicRect;
 
 public interface PptSvr {
 

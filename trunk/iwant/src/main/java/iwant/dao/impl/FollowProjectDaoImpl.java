@@ -2,7 +2,8 @@ package iwant.dao.impl;
 
 import iwant.bean.FollowProject;
 import iwant.dao.FollowProjectDao;
-import cactus.dao.query.BaseDao;
+
+import com.dev3g.cactus.dao.query.BaseDao;
 
 public class FollowProjectDaoImpl extends BaseDao<FollowProject> implements
 		FollowProjectDao {

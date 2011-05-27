@@ -1,7 +1,7 @@
 package iwant.bean;
 
-import cactus.dao.annotation.Id;
-import cactus.dao.annotation.Table;
+import com.dev3g.cactus.dao.annotation.Id;
+import com.dev3g.cactus.dao.annotation.Table;
 
 @Table(name = "useridcreator")
 public class UseridCreator {

@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cactus.util.JsonUtil;
-import cactus.util.ResourceConfig;
-import cactus.web.action.Action;
-import cactus.web.action.HkRequest;
-import cactus.web.action.HkResponse;
-import cactus.web.util.SimplePage;
+import com.dev3g.cactus.util.JsonUtil;
+import com.dev3g.cactus.util.ResourceConfig;
+import com.dev3g.cactus.web.action.Action;
+import com.dev3g.cactus.web.action.HkRequest;
+import com.dev3g.cactus.web.action.HkResponse;
+import com.dev3g.cactus.web.util.SimplePage;
 
 public class BaseAction implements Action {
 

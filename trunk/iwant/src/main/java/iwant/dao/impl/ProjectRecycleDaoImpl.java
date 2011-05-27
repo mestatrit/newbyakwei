@@ -5,7 +5,7 @@ import iwant.dao.ProjectRecycleDao;
 
 import java.util.List;
 
-import cactus.dao.query.BaseDao;
+import com.dev3g.cactus.dao.query.BaseDao;
 
 public class ProjectRecycleDaoImpl extends BaseDao<ProjectRecycle> implements
 		ProjectRecycleDao {

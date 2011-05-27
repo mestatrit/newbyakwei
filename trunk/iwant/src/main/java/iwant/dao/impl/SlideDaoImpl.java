@@ -5,7 +5,7 @@ import iwant.dao.SlideDao;
 
 import java.util.List;
 
-import cactus.dao.query.BaseDao;
+import com.dev3g.cactus.dao.query.BaseDao;
 
 public class SlideDaoImpl extends BaseDao<Slide> implements SlideDao {
 

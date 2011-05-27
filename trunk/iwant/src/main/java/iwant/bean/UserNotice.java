@@ -1,8 +1,8 @@
 package iwant.bean;
 
-import cactus.dao.annotation.Column;
-import cactus.dao.annotation.Id;
-import cactus.dao.annotation.Table;
+import com.dev3g.cactus.dao.annotation.Column;
+import com.dev3g.cactus.dao.annotation.Id;
+import com.dev3g.cactus.dao.annotation.Table;
 
 /**
  * 用户订阅项目的通知,发送apns通知到用户手机

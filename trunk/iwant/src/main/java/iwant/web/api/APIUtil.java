@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.VelocityContext;
 
-import cactus.util.ResourceConfig;
-import cactus.util.VelocityUtil;
-import cactus.web.action.HkResponse;
-import cactus.web.util.ServletUtil;
+import com.dev3g.cactus.util.ResourceConfig;
+import com.dev3g.cactus.util.VelocityUtil;
+import com.dev3g.cactus.web.action.HkResponse;
+import com.dev3g.cactus.web.util.ServletUtil;
 
 public class APIUtil {
 

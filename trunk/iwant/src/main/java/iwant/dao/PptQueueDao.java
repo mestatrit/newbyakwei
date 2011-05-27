@@ -4,7 +4,7 @@ import iwant.bean.PptQueue;
 
 import java.util.List;
 
-import cactus.dao.query.IDao;
+import com.dev3g.cactus.dao.query.IDao;
 
 public interface PptQueueDao extends IDao<PptQueue> {
 

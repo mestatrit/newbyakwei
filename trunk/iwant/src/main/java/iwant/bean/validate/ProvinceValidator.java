@@ -6,7 +6,7 @@ import iwant.web.admin.util.Err;
 import java.util.ArrayList;
 import java.util.List;
 
-import cactus.util.HkValidate;
+import com.dev3g.cactus.util.HkValidate;
 
 public class ProvinceValidator {
 

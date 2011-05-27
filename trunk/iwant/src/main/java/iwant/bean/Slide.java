@@ -1,9 +1,10 @@
 package iwant.bean;
 
 import iwant.util.PicUtil;
-import cactus.dao.annotation.Column;
-import cactus.dao.annotation.Id;
-import cactus.dao.annotation.Table;
+
+import com.dev3g.cactus.dao.annotation.Column;
+import com.dev3g.cactus.dao.annotation.Id;
+import com.dev3g.cactus.dao.annotation.Table;
 
 /**
  * ppt中的幻灯片信息 与 Ppt对应
