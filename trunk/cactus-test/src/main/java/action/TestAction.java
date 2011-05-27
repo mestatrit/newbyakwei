@@ -2,9 +2,9 @@ package action;
 
 import org.springframework.stereotype.Component;
 
-import cactus.web.action.Action;
-import cactus.web.action.HkRequest;
-import cactus.web.action.HkResponse;
+import com.dev3g.cactus.web.action.Action;
+import com.dev3g.cactus.web.action.HkRequest;
+import com.dev3g.cactus.web.action.HkResponse;
 
 @Component("/test")
 public class TestAction implements Action {

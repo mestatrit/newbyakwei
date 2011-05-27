@@ -1,6 +1,6 @@
 package bean;
 
-import cactus.dao.annotation.Column;
+import com.dev3g.cactus.dao.annotation.Column;
 
 public class UserVo {
 

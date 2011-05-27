@@ -11,10 +11,11 @@ import org.springframework.jdbc.core.RowMapper;
 
 import bean.Member;
 import bean.TestUser;
-import cactus.dao.query.HkObjQuery;
-import cactus.dao.query.PartitionTableInfo;
-import cactus.util.HkUtil;
-import cactus.util.P;
+
+import com.dev3g.cactus.dao.query.HkObjQuery;
+import com.dev3g.cactus.dao.query.PartitionTableInfo;
+import com.dev3g.cactus.util.HkUtil;
+import com.dev3g.cactus.util.P;
 
 /**
  * 配置spring文件，看guide.xml<br/>

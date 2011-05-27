@@ -9,11 +9,11 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import cactus.web.action.HkRequest;
-import cactus.web.action.HkRequestImpl;
-import cactus.web.action.HkResponse;
-import cactus.web.action.HkResponseImpl;
-import cactus.web.action.WebCnf;
+import com.dev3g.cactus.web.action.HkRequest;
+import com.dev3g.cactus.web.action.HkRequestImpl;
+import com.dev3g.cactus.web.action.HkResponse;
+import com.dev3g.cactus.web.action.HkResponseImpl;
+import com.dev3g.cactus.web.action.WebCnf;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( { "/hkframe-web.xml" })

@@ -2,8 +2,8 @@ package query;
 
 import java.util.Map;
 
-import cactus.dao.query.DbPartitionHelper;
-import cactus.dao.query.PartitionTableInfo;
+import com.dev3g.cactus.dao.partition.DbPartitionHelper;
+import com.dev3g.cactus.dao.query.PartitionTableInfo;
 
 public class TestUserDbPartitionHelper extends DbPartitionHelper {
 

@@ -11,9 +11,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import query.TestUserDbPartitionHelper;
 import bean.TestUser;
-import cactus.dao.query.ObjectSqlInfo;
-import cactus.dao.query.PartitionTableInfo;
-import cactus.dao.query.TableCnf;
+
+import com.dev3g.cactus.dao.query.ObjectSqlInfo;
+import com.dev3g.cactus.dao.query.PartitionTableInfo;
+import com.dev3g.cactus.dao.query.TableCnf;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( { "/query-test.xml" })
