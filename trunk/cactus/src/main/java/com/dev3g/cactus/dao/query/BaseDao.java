@@ -30,14 +30,12 @@ public abstract class BaseDao<T> implements IDao<T> {
 		return this.count(null, where, params);
 	}
 
-	public QueryParam createQueryParam(Object value) {
+	private QueryParam createQueryParam(Object value) {
 		return new QueryParam(getKey(), value);
 	}
 
-	public UpdateParam createUpdateParam(Object value) {
-		UpdateParam updateParam = new UpdateParam();
-		updateParam.addKeyAndValue(getKey(), value);
-		return updateParam;
+	private UpdateParam createUpdateParam(Object value) {
+		return new UpdateParam(getKey(), value);
 	}
 
 	@Override
@@ -243,8 +241,7 @@ public abstract class BaseDao<T> implements IDao<T> {
 	 */
 	@Override
 	public int update(Object keyValue, T t) {
-		UpdateParam updateParam = new UpdateParam(getKey(), keyValue);
-		return this.hkObjQuery.updateObj(updateParam, t);
+		return this.hkObjQuery.updateObj(this.createUpdateParam(keyValue), t);
 	}
 
 	@Override
