@@ -18,9 +18,14 @@
 	<bean id="hkUtil" class="com.dev3g.cactus.util.HkUtil" />
 	<!-- 3，添加配置信息 -->
 	<bean id="webCnf" class="com.dev3g.cactus.web.action.WebCnf">
-		<!-- 设置是否需要限制url的文件上传，true:之允许配置过的uri接受文件上传，false:允许任意url接受文件上传 -->
-		<property name="mustCheckUpload" value="true"></property>
-		<!-- 设置对应uri的文件上传，以及大小限制，如果设置了 mustCheckUpload=true，则，只有以下的uri才允许文件上传 -->
+		<!-- 如果需要对url get方式进行编码，就需要配置一下2项 -->
+		<!-- 原get 方式编码，非必须 -->
+		<property name="sourceCharset" value="ISO-8859-1" />
+		<!-- 原get 目标编码，非必须 -->
+		<property name="targetCharset" value="UTF-8" />
+		<!-- 设置是否需要限制url的文件上传，true:之允许配置过的uri接受文件上传，false:允许任意url接受文件上传，非必须 -->
+		<property name="mustCheckUpload" value="true" />
+		<!-- 设置对应uri的文件上传，以及大小限制，如果设置了 mustCheckUpload=true，则，只有以下的uri才允许文件上传，非必须 -->
 		<property name="fileUploadCheckUriCnfList">
 			<list>
 				<!-- 格式为取出[requestContextPath之后的uri]:[文件大小(单位M)] -->
@@ -28,7 +33,7 @@
 			</list>
 		</property>
 		<!-- 配置文件上传的临时目录 -->
-		<property name="uploadFileTempPath" value="/cactustemp/"></property>
+		<property name="uploadFileTempPath" value="/cactustemp/" />
 		<!-- 配置action的扫描目录，目录可以深度扫描，只需要定义根目录 -->
 		<property name="scanPathList">
 			<list>
@@ -38,8 +43,6 @@
 		<!-- 匹配的url后缀，可以不使用后缀，如果不使用，就不需要配置此属性  -->
 		<property name="url_extension" value=".do" />
 	</bean>
-
-
 	<!-- 语言配置 -->
 	<bean id="resourceConfig" class="com.dev3g.cactus.util.ResourceConfig">
 		<property name="resource" value="err" />
