@@ -8,7 +8,7 @@ import java.util.Map;
  * 
  * @author akwei
  */
-public class BaseParam {
+public class Param {
 
 	private final Map<String, Object> ctxMap = new HashMap<String, Object>(2);
 

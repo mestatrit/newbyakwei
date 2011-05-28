@@ -5,7 +5,7 @@ package com.dev3g.cactus.dao.query.param;
  * 
  * @author akwei
  */
-public class DeleteParam extends BaseParam {
+public class DeleteParam extends Param {
 
 	private String where;
 

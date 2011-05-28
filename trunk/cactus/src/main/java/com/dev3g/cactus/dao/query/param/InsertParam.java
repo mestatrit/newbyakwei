@@ -5,5 +5,5 @@ package com.dev3g.cactus.dao.query.param;
  * 
  * @author akwei
  */
-public class InsertParam extends BaseParam {
+public class InsertParam extends Param {
 }
