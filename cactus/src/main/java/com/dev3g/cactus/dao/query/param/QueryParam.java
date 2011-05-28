@@ -13,6 +13,14 @@ import java.util.List;
  */
 public class QueryParam extends Param {
 
+	public QueryParam() {
+		super();
+	}
+
+	public QueryParam(String key, Object value) {
+		super(key, value);
+	}
+
 	private final List<Class<?>> classList = new ArrayList<Class<?>>(2);
 
 	private String[][] columns;

@@ -7,6 +7,14 @@ package com.dev3g.cactus.dao.query.param;
  */
 public class UpdateParam extends Param {
 
+	public UpdateParam() {
+		super();
+	}
+
+	public UpdateParam(String key, Object value) {
+		super(key, value);
+	}
+
 	private String[] updateColumns;
 
 	private String where;

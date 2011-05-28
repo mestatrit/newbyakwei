@@ -6,4 +6,12 @@ package com.dev3g.cactus.dao.query.param;
  * @author akwei
  */
 public class InsertParam extends Param {
+
+	public InsertParam() {
+		super();
+	}
+
+	public InsertParam(String key, Object value) {
+		super(key, value);
+	}
 }

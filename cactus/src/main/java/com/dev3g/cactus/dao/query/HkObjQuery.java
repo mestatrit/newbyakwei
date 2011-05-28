@@ -6,8 +6,9 @@ import java.util.Map;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.dev3g.cactus.dao.partition.DbPartitionHelper;
-import com.dev3g.cactus.dao.query.param.BaseParam;
 import com.dev3g.cactus.dao.query.param.DeleteParam;
+import com.dev3g.cactus.dao.query.param.InsertParam;
+import com.dev3g.cactus.dao.query.param.Param;
 import com.dev3g.cactus.dao.query.param.QueryParam;
 import com.dev3g.cactus.dao.query.param.UpdateParam;
 
@@ -52,65 +53,50 @@ public class HkObjQuery extends HkQuery {
 		return objectSqlInfoCreater;
 	}
 
-	/**
-	 * 创建参数对象的快捷方法
-	 * 
-	 * @return
-	 */
-	public BaseParam createBaseParam() {
-		return new BaseParam();
-	}
+//	/**
+//	 * 创建参数对象的快捷方法
+//	 * 
+//	 * @return
+//	 */
+//	public UpdateParam createUpdateParam() {
+//		return new UpdateParam();
+//	}
+//
+//	public <T> UpdateParam createUpdateParam(String key, Object value) {
+//		UpdateParam updateParam = this.createUpdateParam();
+//		updateParam.addKeyAndValue(key, value);
+//		return updateParam;
+//	}
+//
+//	/**
+//	 * 创建参数对象的快捷方法
+//	 * 
+//	 * @return
+//	 */
+//	public DeleteParam createDeleteParam() {
+//		return new DeleteParam();
+//	}
+//
+//	public <T> DeleteParam createDeleteParam(String key, Object value) {
+//		DeleteParam deleteParam = this.createDeleteParam();
+//		deleteParam.addKeyAndValue(key, value);
+//		return deleteParam;
+//	}
 
-	public <T> BaseParam createBaseParam(String key, Object value) {
-		BaseParam baseParam = this.createBaseParam();
-		baseParam.addKeyAndValue(key, value);
-		return baseParam;
-	}
-
-	/**
-	 * 创建参数对象的快捷方法
-	 * 
-	 * @return
-	 */
-	public UpdateParam createUpdateParam() {
-		return new UpdateParam();
-	}
-
-	public <T> UpdateParam createUpdateParam(String key, Object value) {
-		UpdateParam updateParam = this.createUpdateParam();
-		updateParam.addKeyAndValue(key, value);
-		return updateParam;
-	}
-
-	/**
-	 * 创建参数对象的快捷方法
-	 * 
-	 * @return
-	 */
-	public DeleteParam createDeleteParam() {
-		return new DeleteParam();
-	}
-
-	public <T> DeleteParam createDeleteParam(String key, Object value) {
-		DeleteParam deleteParam = this.createDeleteParam();
-		deleteParam.addKeyAndValue(key, value);
-		return deleteParam;
-	}
-
-	/**
-	 * 创建参数对象的快捷方法
-	 * 
-	 * @return
-	 */
-	public QueryParam createQueryParam() {
-		return new QueryParam();
-	}
-
-	public <T> QueryParam createQueryParam(String key, Object value) {
-		QueryParam queryParam = this.createQueryParam();
-		queryParam.addKeyAndValue(key, value);
-		return queryParam;
-	}
+//	/**
+//	 * 创建参数对象的快捷方法
+//	 * 
+//	 * @return
+//	 */
+//	public QueryParam createQueryParam() {
+//		return new QueryParam();
+//	}
+//
+//	public <T> QueryParam createQueryParam(String key, Object value) {
+//		QueryParam queryParam = this.createQueryParam();
+//		queryParam.addKeyAndValue(key, value);
+//		return queryParam;
+//	}
 
 	/**
 	 * 获得表信息分析器
@@ -177,19 +163,18 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> Object insertObj(BaseParam baseParam, T t) {
+	public <T> Object insertObj(InsertParam insertParam, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
 				.getObjectSqlInfo(t.getClass());
-		return this.insert(this.parse(t.getClass(), baseParam.getCtxMap()),
+		return this.insert(this.parse(t.getClass(), insertParam.getCtxMap()),
 				objectSqlInfo.getColumns(), objectSqlInfo.getSqlUpdateMapper()
 						.getParamsForInsert(t));
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> int updateObj(BaseParam baseParam, T t) {
+	public <T> int updateObj(UpdateParam updateParam, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
 				.getObjectSqlInfo(t.getClass());
-		UpdateParam updateParam = new UpdateParam();
 		updateParam.setWhere(objectSqlInfo.getIdColumn() + "=?");
 		updateParam.setUpdateColumns(objectSqlInfo.getColumnsForUpdate());
 		updateParam.setParams(objectSqlInfo.getSqlUpdateMapper()
@@ -218,7 +203,7 @@ public class HkObjQuery extends HkQuery {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> int deleteObj(BaseParam baseParam, T t) {
+	public <T> int deleteObj(Param baseParam, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
 				.getObjectSqlInfo(t.getClass());
 		return this.deleteById(baseParam, t.getClass(), objectSqlInfo
@@ -235,8 +220,7 @@ public class HkObjQuery extends HkQuery {
 	 * @param idValue
 	 * @return
 	 */
-	public <T> int deleteById(BaseParam baseParam, Class<T> clazz,
-			Object idValue) {
+	public <T> int deleteById(Param baseParam, Class<T> clazz, Object idValue) {
 		DeleteParam deleteParam = new DeleteParam();
 		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
 				.getObjectSqlInfo(clazz);
@@ -257,11 +241,10 @@ public class HkObjQuery extends HkQuery {
 		if (queryParam.getColumns() == null) {
 			queryParam.setColumns(this.getColumns(queryParam.getClasses()));
 		}
-		return this.getList(
-				this.parse(queryParam.getClasses(), queryParam.getCtxMap()),
-				queryParam.getColumns(), queryParam.getWhere(),
-				queryParam.getParams(), queryParam.getOrder(),
-				queryParam.getBegin(), queryParam.getSize(), mapper);
+		return this.getList(this.parse(queryParam.getClasses(), queryParam
+				.getCtxMap()), queryParam.getColumns(), queryParam.getWhere(),
+				queryParam.getParams(), queryParam.getOrder(), queryParam
+						.getBegin(), queryParam.getSize(), mapper);
 	}
 
 	/**
@@ -281,9 +264,8 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	public <T> int count(QueryParam queryParam) {
-		return this.count(
-				this.parse(queryParam.getClasses(), queryParam.getCtxMap()),
-				queryParam.getWhere(), queryParam.getParams());
+		return this.count(this.parse(queryParam.getClasses(), queryParam
+				.getCtxMap()), queryParam.getWhere(), queryParam.getParams());
 	}
 
 	/**
@@ -298,9 +280,8 @@ public class HkObjQuery extends HkQuery {
 		if (queryParam.getColumns() == null) {
 			queryParam.setColumns(this.getColumns(queryParam.getClasses()));
 		}
-		return this.getObject(
-				this.parse(queryParam.getClasses(), queryParam.getCtxMap()),
-				queryParam.getColumns(), queryParam.getWhere(),
+		return this.getObject(this.parse(queryParam.getClasses(), queryParam
+				.getCtxMap()), queryParam.getColumns(), queryParam.getWhere(),
 				queryParam.getParams(), queryParam.getOrder(), mapper);
 	}
 
@@ -333,7 +314,8 @@ public class HkObjQuery extends HkQuery {
 	public <T> T getObjectById(QueryParam queryParam, Class<T> clazz,
 			Object idValue) {
 		queryParam.setWhere(this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
-				.getIdColumn() + "=?");
+				.getIdColumn()
+				+ "=?");
 		queryParam.setParams(new Object[] { idValue });
 		queryParam.setOrder(null);
 		queryParam.setBegin(0);
