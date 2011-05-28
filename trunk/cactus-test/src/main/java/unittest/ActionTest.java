@@ -2,6 +2,7 @@ package unittest;
 
 import javax.annotation.Resource;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -13,6 +14,7 @@ import com.dev3g.cactus.web.action.HkRequest;
 import com.dev3g.cactus.web.action.HkRequestImpl;
 import com.dev3g.cactus.web.action.HkResponse;
 import com.dev3g.cactus.web.action.HkResponseImpl;
+import com.dev3g.cactus.web.action.NoActionException;
 import com.dev3g.cactus.web.action.WebCnf;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,9 +31,13 @@ public class ActionTest {
 		MockHttpServletResponse mockHttpServletResponse = new MockHttpServletResponse();
 		HkRequest hkRequest = new HkRequestImpl(mockHttpServletRequest);
 		HkResponse hkResponse = new HkResponseImpl(mockHttpServletResponse);
-		this.webCnf.getActionExe().invoke(
-				this.webCnf.getMappingUriCreater().findMappingUri(hkRequest),
-				hkRequest, hkResponse);
+		try {
+			this.webCnf.getActionExe().invoke(
+					this.webCnf.getMappingUriCreater()
+							.findMappingUri(hkRequest), hkRequest, hkResponse);
+		}
+		catch (NoActionException e) {
+		}
 	}
 
 	@Test
