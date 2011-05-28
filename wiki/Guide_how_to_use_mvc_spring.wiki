@@ -4,9 +4,9 @@
 	<!-- 1，启动annotation方式 -->
 	<context:annotation-config />
 	<!-- 2，配置工具类 -->
-	<bean id="hkUtil" class="cactus.util.HkUtil" />
+	<bean id="hkUtil" class="com.dev3g.cactus.util.HkUtil" />
 	<!-- 3，添加配置信息 -->
-	<bean id="webCnf" class="cactus.web.action.WebCnf">
+	<bean id="webCnf" class="com.dev3g.cactus.web.action.WebCnf">
 		<!-- 设置是否需要限制url的文件上传，true:之允许配置过的uri接受文件上传，false:允许任意url接受文件上传 -->
 		<property name="mustCheckUpload" value="true"></property>
 		<!-- 设置对应uri的文件上传，以及大小限制，如果设置了 mustCheckUpload=true，则，只有以下的uri才允许文件上传 -->
