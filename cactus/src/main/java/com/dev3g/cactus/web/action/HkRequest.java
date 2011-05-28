@@ -94,8 +94,6 @@ public interface HkRequest extends HttpServletRequest {
 
 	int getPage();
 
-	String getServerInfo();
-
 	void setMessage(String msg);
 
 	void setSessionMessage(String msg);
