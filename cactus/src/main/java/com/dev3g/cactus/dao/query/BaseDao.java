@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.dev3g.cactus.dao.query.param.BaseParam;
+import com.dev3g.cactus.dao.query.param.DeleteParam;
+import com.dev3g.cactus.dao.query.param.QueryParam;
+import com.dev3g.cactus.dao.query.param.UpdateParam;
+
 public abstract class BaseDao<T> implements IDao<T> {
 
 	private final String empty_key = "";

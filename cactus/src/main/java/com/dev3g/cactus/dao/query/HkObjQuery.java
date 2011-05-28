@@ -6,6 +6,10 @@ import java.util.Map;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.dev3g.cactus.dao.partition.DbPartitionHelper;
+import com.dev3g.cactus.dao.query.param.BaseParam;
+import com.dev3g.cactus.dao.query.param.DeleteParam;
+import com.dev3g.cactus.dao.query.param.QueryParam;
+import com.dev3g.cactus.dao.query.param.UpdateParam;
 
 /**
  * 对象化处理sql
@@ -54,7 +58,7 @@ public class HkObjQuery extends HkQuery {
 	 * @return
 	 */
 	public BaseParam createBaseParam() {
-		return new BaseParam(this.getObjectSqlInfoCreater());
+		return new BaseParam();
 	}
 
 	public <T> BaseParam createBaseParam(String key, Object value) {
@@ -69,7 +73,7 @@ public class HkObjQuery extends HkQuery {
 	 * @return
 	 */
 	public UpdateParam createUpdateParam() {
-		return new UpdateParam(this.getObjectSqlInfoCreater());
+		return new UpdateParam();
 	}
 
 	public <T> UpdateParam createUpdateParam(String key, Object value) {
@@ -84,7 +88,7 @@ public class HkObjQuery extends HkQuery {
 	 * @return
 	 */
 	public DeleteParam createDeleteParam() {
-		return new DeleteParam(this.getObjectSqlInfoCreater());
+		return new DeleteParam();
 	}
 
 	public <T> DeleteParam createDeleteParam(String key, Object value) {
@@ -99,7 +103,7 @@ public class HkObjQuery extends HkQuery {
 	 * @return
 	 */
 	public QueryParam createQueryParam() {
-		return new QueryParam(this.getObjectSqlInfoCreater());
+		return new QueryParam();
 	}
 
 	public <T> QueryParam createQueryParam(String key, Object value) {
@@ -185,8 +189,7 @@ public class HkObjQuery extends HkQuery {
 	public <T> int updateObj(BaseParam baseParam, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
 				.getObjectSqlInfo(t.getClass());
-		UpdateParam updateParam = new UpdateParam(
-				baseParam.getObjectSqlInfoCreater());
+		UpdateParam updateParam = new UpdateParam();
 		updateParam.setWhere(objectSqlInfo.getIdColumn() + "=?");
 		updateParam.setUpdateColumns(objectSqlInfo.getColumnsForUpdate());
 		updateParam.setParams(objectSqlInfo.getSqlUpdateMapper()
@@ -234,8 +237,7 @@ public class HkObjQuery extends HkQuery {
 	 */
 	public <T> int deleteById(BaseParam baseParam, Class<T> clazz,
 			Object idValue) {
-		DeleteParam deleteParam = new DeleteParam(
-				baseParam.getObjectSqlInfoCreater());
+		DeleteParam deleteParam = new DeleteParam();
 		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
 				.getObjectSqlInfo(clazz);
 		deleteParam.setWhere(objectSqlInfo.getIdColumn() + "=?");
