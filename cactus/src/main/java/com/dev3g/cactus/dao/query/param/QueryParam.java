@@ -11,7 +11,7 @@ import java.util.List;
  * 
  * @author akwei
  */
-public class QueryParam extends BaseParam {
+public class QueryParam extends Param {
 
 	private final List<Class<?>> classList = new ArrayList<Class<?>>(2);
 

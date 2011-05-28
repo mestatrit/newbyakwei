@@ -5,7 +5,7 @@ package com.dev3g.cactus.dao.query.param;
  * 
  * @author akwei
  */
-public class UpdateParam extends BaseParam {
+public class UpdateParam extends Param {
 
 	private String[] updateColumns;
 
