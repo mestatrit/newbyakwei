@@ -53,51 +53,6 @@ public class HkObjQuery extends HkQuery {
 		return objectSqlInfoCreater;
 	}
 
-//	/**
-//	 * 创建参数对象的快捷方法
-//	 * 
-//	 * @return
-//	 */
-//	public UpdateParam createUpdateParam() {
-//		return new UpdateParam();
-//	}
-//
-//	public <T> UpdateParam createUpdateParam(String key, Object value) {
-//		UpdateParam updateParam = this.createUpdateParam();
-//		updateParam.addKeyAndValue(key, value);
-//		return updateParam;
-//	}
-//
-//	/**
-//	 * 创建参数对象的快捷方法
-//	 * 
-//	 * @return
-//	 */
-//	public DeleteParam createDeleteParam() {
-//		return new DeleteParam();
-//	}
-//
-//	public <T> DeleteParam createDeleteParam(String key, Object value) {
-//		DeleteParam deleteParam = this.createDeleteParam();
-//		deleteParam.addKeyAndValue(key, value);
-//		return deleteParam;
-//	}
-
-//	/**
-//	 * 创建参数对象的快捷方法
-//	 * 
-//	 * @return
-//	 */
-//	public QueryParam createQueryParam() {
-//		return new QueryParam();
-//	}
-//
-//	public <T> QueryParam createQueryParam(String key, Object value) {
-//		QueryParam queryParam = this.createQueryParam();
-//		queryParam.addKeyAndValue(key, value);
-//		return queryParam;
-//	}
-
 	/**
 	 * 获得表信息分析器
 	 * 
@@ -320,7 +275,7 @@ public class HkObjQuery extends HkQuery {
 		queryParam.setOrder(null);
 		queryParam.setBegin(0);
 		queryParam.setSize(1);
-		if (queryParam.getClasses().length == 0) {
+		if (queryParam.getClassCount() == 0) {
 			queryParam.addClass(clazz);
 		}
 		return this.getObject(queryParam, clazz);
