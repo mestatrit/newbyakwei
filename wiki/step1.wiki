@@ -1,3 +1,5 @@
+{{{
+
 <!-- 请在 web.xml中添加 -->
 	<!-- 1，加载spring applicationContext.xml，文件名称可自定义 -->
 	<context-param>
@@ -63,3 +65,5 @@
 		<!-- 匹配的url后缀，可以不使用后缀，如果不使用，就不需要配置此属性  -->
 		<property name="url_extension" value=".do" />
 	</bean>
+
+}}}
