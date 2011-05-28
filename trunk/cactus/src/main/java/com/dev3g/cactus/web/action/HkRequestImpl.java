@@ -289,15 +289,10 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 					return;
 				}
 			}
-			fileUpload = new FileUpload(this.getHttpServletRequest(),
-					webCnf.getUploadFileTempPath());
+			fileUpload = new FileUpload(this.getHttpServletRequest(), webCnf
+					.getUploadFileTempPath());
 			this.request = fileUpload.getHkMultiRequest();
 		}
-	}
-
-	@Override
-	public String getServerInfo() {
-		return ServletUtil.getServerInfo(getHttpServletRequest());
 	}
 
 	@Override
