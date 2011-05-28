@@ -15,8 +15,8 @@
 	<!-- 
 	 -->
 	<!-- must config -->
-	<bean id="hkUtil" class="cactus.util.HkUtil" />
-	<bean id="webCnf" class="cactus.web.action.WebCnf">
+	<bean id="hkUtil" class="com.dev3g.cactus.util.HkUtil" />
+	<bean id="webCnf" class="com.dev3g.cactus.web.action.WebCnf">
 		<property name="scanPathList">
 			<list>
 				<value>action</value>
