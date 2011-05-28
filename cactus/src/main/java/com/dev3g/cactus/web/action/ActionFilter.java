@@ -33,6 +33,8 @@ public class ActionFilter implements Filter {
 
 	private ActionResultProcessor actionResultProcessor;
 
+	private final String REQUESTCONTEXTPATH_KEY = "appctx_path";
+
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 		WebCnf webCnf = (WebCnf) HkUtil.getBean("webCnf");
@@ -66,11 +68,11 @@ public class ActionFilter implements Filter {
 				return;
 			}
 		}
-		req.setAttribute("appctx_path", req.getContextPath());
+		req.setAttribute(REQUESTCONTEXTPATH_KEY, req.getContextPath());
 		String mappingUri = this.mappingUriCreater.findMappingUri(req);
 		try {
-			this.actionResultProcessor.processResult(
-					this.actionExe.invoke(mappingUri, req, resp), req, resp);
+			this.actionResultProcessor.processResult(this.actionExe.invoke(
+					mappingUri, req, resp), req, resp);
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
