@@ -4,13 +4,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 参数对象，insert时需要
+ * 参数对象，由于方法传递参数过多，所以封装此对象使用
  * 
  * @author akwei
  */
-public class Param {
+public abstract class Param {
 
 	private final Map<String, Object> ctxMap = new HashMap<String, Object>(2);
+
+	public Param() {
+	}
+
+	public Param(String key, Object value) {
+		this.addKeyAndValue(key, value);
+	}
 
 	/**
 	 * 返回存储的context信息(保存的分区相关信息)

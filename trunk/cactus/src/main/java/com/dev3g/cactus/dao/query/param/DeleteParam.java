@@ -7,6 +7,14 @@ package com.dev3g.cactus.dao.query.param;
  */
 public class DeleteParam extends Param {
 
+	public DeleteParam() {
+		super();
+	}
+
+	public DeleteParam(String key, Object value) {
+		super(key, value);
+	}
+
 	private String where;
 
 	private Object[] params;

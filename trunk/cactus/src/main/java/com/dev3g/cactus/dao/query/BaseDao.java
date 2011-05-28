@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dev3g.cactus.dao.query.param.BaseParam;
 import com.dev3g.cactus.dao.query.param.DeleteParam;
+import com.dev3g.cactus.dao.query.param.InsertParam;
 import com.dev3g.cactus.dao.query.param.QueryParam;
 import com.dev3g.cactus.dao.query.param.UpdateParam;
 
@@ -18,8 +18,8 @@ public abstract class BaseDao<T> implements IDao<T> {
 
 	@Override
 	public int count(Object keyValue, String where, Object[] params) {
-		QueryParam queryParam = this.hkObjQuery.createQueryParam(getKey(),
-				keyValue);
+		QueryParam queryParam = new QueryParam();
+		queryParam.addKeyAndValue(getKey(), keyValue);
 		queryParam.addClass(getClazz());
 		queryParam.setWhereAndParams(where, params);
 		return this.hkObjQuery.count(queryParam);
@@ -30,22 +30,20 @@ public abstract class BaseDao<T> implements IDao<T> {
 		return this.count(null, where, params);
 	}
 
-	public BaseParam createBaseParam(Object value) {
-		return hkObjQuery.createBaseParam(getKey(), value);
-	}
-
 	public QueryParam createQueryParam(Object value) {
-		return hkObjQuery.createQueryParam(getKey(), value);
+		return new QueryParam(getKey(), value);
 	}
 
 	public UpdateParam createUpdateParam(Object value) {
-		return hkObjQuery.createUpdateParam(getKey(), value);
+		UpdateParam updateParam = new UpdateParam();
+		updateParam.addKeyAndValue(getKey(), value);
+		return updateParam;
 	}
 
 	@Override
 	public int delete(Object keyValue, String where, Object[] params) {
-		DeleteParam deleteParam = this.hkObjQuery.createDeleteParam(this
-				.getKey(), keyValue);
+		DeleteParam deleteParam = new DeleteParam();
+		deleteParam.addKeyAndValue(getKey(), keyValue);
 		deleteParam.setWhereAndParams(where, params);
 		return this.hkObjQuery.delete(deleteParam, getClazz());
 	}
@@ -60,8 +58,8 @@ public abstract class BaseDao<T> implements IDao<T> {
 	 */
 	@Override
 	public int delete(Object keyValue, T t) {
-		return this.hkObjQuery.deleteObj(this.hkObjQuery.createBaseParam(this
-				.getKey(), keyValue), t);
+		DeleteParam deleteParam = new DeleteParam(getKey(), keyValue);
+		return this.hkObjQuery.deleteObj(deleteParam, t);
 	}
 
 	@Override
@@ -81,8 +79,8 @@ public abstract class BaseDao<T> implements IDao<T> {
 
 	@Override
 	public int deleteById(Object keyValue, Object idValue) {
-		return this.hkObjQuery.deleteById(this.hkObjQuery.createBaseParam(this
-				.getKey(), keyValue), getClazz(), idValue);
+		DeleteParam deleteParam = new DeleteParam(getKey(), keyValue);
+		return this.hkObjQuery.deleteById(deleteParam, getClazz(), idValue);
 	}
 
 	@Override
@@ -100,8 +98,8 @@ public abstract class BaseDao<T> implements IDao<T> {
 	 */
 	@Override
 	public T getById(Object keyValue, Object idValue) {
-		return this.hkObjQuery.getObjectById(this.hkObjQuery.createQueryParam(
-				getKey(), keyValue), getClazz(), idValue);
+		return this.hkObjQuery.getObjectById(this.createQueryParam(keyValue),
+				getClazz(), idValue);
 	}
 
 	public abstract Class<T> getClazz();
@@ -128,8 +126,7 @@ public abstract class BaseDao<T> implements IDao<T> {
 	@Override
 	public List<T> getList(Object keyValue, String where, Object[] params,
 			String order, int begin, int size) {
-		QueryParam queryParam = this.hkObjQuery.createQueryParam(getKey(),
-				keyValue);
+		QueryParam queryParam = this.createQueryParam(keyValue);
 		queryParam.setWhereAndParams(where, params);
 		queryParam.setOrder(order);
 		queryParam.setRange(begin, size);
@@ -154,8 +151,7 @@ public abstract class BaseDao<T> implements IDao<T> {
 		if (fieldValueList.isEmpty()) {
 			return new ArrayList<T>();
 		}
-		QueryParam queryParam = this.hkObjQuery.createQueryParam(getKey(),
-				keyValue);
+		QueryParam queryParam = this.createQueryParam(keyValue);
 		StringBuilder sb = new StringBuilder();
 		if (where != null) {
 			sb.append(where).append(" and ");
@@ -198,8 +194,7 @@ public abstract class BaseDao<T> implements IDao<T> {
 	@Override
 	public T getObject(Object keyValue, String where, Object[] params,
 			String order) {
-		QueryParam queryParam = this.hkObjQuery.createQueryParam(getKey(),
-				keyValue);
+		QueryParam queryParam = this.createQueryParam(keyValue);
 		queryParam.setWhereAndParams(where, params);
 		queryParam.setOrder(order);
 		return this.hkObjQuery.getObject(queryParam, getClazz());
@@ -225,9 +220,8 @@ public abstract class BaseDao<T> implements IDao<T> {
 	 */
 	@Override
 	public Object save(Object keyValue, T t) {
-		BaseParam baseParam = this.hkObjQuery.createBaseParam(this.getKey(),
-				keyValue);
-		return this.hkObjQuery.insertObj(baseParam, t);
+		InsertParam insertParam = new InsertParam(this.getKey(), keyValue);
+		return this.hkObjQuery.insertObj(insertParam, t);
 	}
 
 	@Override
@@ -249,9 +243,8 @@ public abstract class BaseDao<T> implements IDao<T> {
 	 */
 	@Override
 	public int update(Object keyValue, T t) {
-		BaseParam baseParam = this.hkObjQuery.createBaseParam(this.getKey(),
-				keyValue);
-		return this.hkObjQuery.updateObj(baseParam, t);
+		UpdateParam updateParam = new UpdateParam(getKey(), keyValue);
+		return this.hkObjQuery.updateObj(updateParam, t);
 	}
 
 	@Override
