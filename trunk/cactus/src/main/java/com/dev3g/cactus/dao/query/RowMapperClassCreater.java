@@ -17,7 +17,7 @@ import org.springframework.jdbc.core.RowMapper;
  * 
  * @author akwei
  */
-public class RowMapperCreater extends ClassLoader implements Opcodes {
+public class RowMapperClassCreater extends ClassLoader implements Opcodes {
 
 	private static final String TYPE_LONG = "long";
 
@@ -35,7 +35,7 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 
 	private static final String TYPE_DATE = Date.class.getName();
 
-	protected RowMapperCreater(ClassLoader parent) {
+	protected RowMapperClassCreater(ClassLoader parent) {
 		super(parent);
 	}
 
