@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.dev3g.cactus.dao.annotation.Column;
 import com.dev3g.cactus.dao.annotation.Id;
+import com.dev3g.cactus.dao.annotation.Table;
 
 /**
  * 对于数据查询结果的集合
@@ -18,6 +19,8 @@ import com.dev3g.cactus.dao.annotation.Id;
  * @param <T>
  */
 public class ResultSetDataInfo<T> {
+
+	private String tableName;
 
 	/**
 	 * 所有字段的集合
@@ -78,8 +81,12 @@ public class ResultSetDataInfo<T> {
 		for (Field f : fs) {
 			this.analyze(f);
 		}
-		ResultSetDataRowMapperCreater creater = new ResultSetDataRowMapperCreater(
-				Thread.currentThread().getContextClassLoader());
+		Table table = clazz.getAnnotation(Table.class);
+		if (table != null) {
+			this.tableName = table.name();
+		}
+		RowMapperCreater creater = new RowMapperCreater(Thread.currentThread()
+				.getContextClassLoader());
 		Class<T> mapperClazz = creater.createRowMapperClass(this);
 		try {
 			Object obj = mapperClazz.getConstructor().newInstance();
@@ -124,7 +131,7 @@ public class ResultSetDataInfo<T> {
 	}
 
 	/**
-	 * 获得数据库对应的列
+	 * 获得数据库对应的列名称
 	 * 
 	 * @param fieldName
 	 *            java对象的字段名称
@@ -132,5 +139,12 @@ public class ResultSetDataInfo<T> {
 	 */
 	public String getColumn(String fieldName) {
 		return fieldColumnMap.get(fieldName);
+	}
+
+	public String getFullColumn(String fieldName) {
+		if (this.tableName != null && this.tableName.length() > 0) {
+			return this.tableName + "." + this.getColumn(fieldName);
+		}
+		return this.getColumn(fieldName);
 	}
 }
