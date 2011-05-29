@@ -2,7 +2,6 @@ package unittest;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,11 +15,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import bean.Member;
-import bean.TestUser;
 
 import com.dev3g.cactus.dao.query.HkQuery;
-import com.dev3g.cactus.dao.query.PartitionTableInfo;
-import com.dev3g.cactus.dao.query.SqlBuilder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( { "/query-test2.xml" })
@@ -31,578 +27,119 @@ public class HkQueryTest {
 	private HkQuery hkQuery;
 
 	@Test
-	public void testCreateSQL() {
-		String create_sql = "insert into user(userid,nick,gender) values(?,?,?)";
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
-		partitionTableInfo.setTableName("user");
-		String res_create_sql = SqlBuilder.createInsertSQL(partitionTableInfo,
-				new String[] { "userid", "nick", "gender" });
-		Assert.assertEquals(create_sql, res_create_sql);
+	public void insert() {
+		this.hkQuery.insertBySQL(null,
+				"insert into member(userid,nick,groupid) values(?,?,?)",
+				new Object[] { 1, "akwei", 99 });
 	}
 
 	@Test
-	public void testUpdateSQL1() {
-		String update_sql = "update user set nick=?,gender=? where userid=?";
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
-		partitionTableInfo.setTableName("user");
-		String res_update_sql = SqlBuilder.createUpdateSQL(partitionTableInfo,
-				new String[] { "nick", "gender" }, "userid=?");
-		Assert.assertEquals(update_sql, res_update_sql);
+	public void update() {
+		Member member = new Member();
+		member.setUserid(1);
+		member.setNick("akei");
+		member.setGroupid(88);
+		this.hkQuery.insertBySQL(null,
+				"insert into member(userid,nick,groupid) values(?,?,?)",
+				new Object[] { member.getUserid(), member.getNick(),
+						member.getGroupid() });
+		int result = this.hkQuery.updateBySQL(null,
+				"update member set nick=?,groupid=? where userid=?",
+				new Object[] { "akweiwei", 99, 1 });
+		Assert.assertEquals(1, result);
 	}
 
 	@Test
-	public void testUpdateSQL2() {
-		String update_sql = "update user set nick=?,gender=?";
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
-		partitionTableInfo.setTableName("user");
-		String res_update_sql = SqlBuilder.createUpdateSQL(partitionTableInfo,
-				new String[] { "nick", "gender" }, null);
-		Assert.assertEquals(update_sql, res_update_sql);
+	public void delete() {
+		Member member = new Member();
+		member.setUserid(1);
+		member.setNick("akei");
+		member.setGroupid(88);
+		this.hkQuery.insertBySQL(null,
+				"insert into member(userid,nick,groupid) values(?,?,?)",
+				new Object[] { member.getUserid(), member.getNick(),
+						member.getGroupid() });
+		int result = this.hkQuery.updateBySQL(null,
+				"delete from member where userid=?", new Object[] { 2 });
+		Assert.assertEquals(0, result);
+		result = this.hkQuery.updateBySQL(null,
+				"delete from member where userid=?", new Object[] { member
+						.getUserid() });
+		Assert.assertEquals(1, result);
 	}
 
 	@Test
-	public void testDeleteSQL1() {
-		String delete_sql = "delete from user where userid=? and nick=?";
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
-		partitionTableInfo.setTableName("user");
-		partitionTableInfo.setAliasName("u");
-		String res_delete_sql = SqlBuilder.createDeleteSQL(partitionTableInfo,
-				"userid=? and nick=?");
-		Assert.assertEquals(delete_sql, res_delete_sql);
-	}
-
-	@Test
-	public void testDeleteSQL2() {
-		String delete_sql = "delete from user";
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
-		partitionTableInfo.setTableName("user");
-		partitionTableInfo.setAliasName("u");
-		String res_delete_sql = SqlBuilder.createDeleteSQL(partitionTableInfo,
-				null);
-		Assert.assertEquals(delete_sql, res_delete_sql);
-	}
-
-	@Test
-	public void testCountSQL1() {
-		String count_sql = "select count(*) from user u where u.userid=? and u.nick=? and u.gender=?";
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
-		partitionTableInfo.setTableName("user");
-		partitionTableInfo.setAliasName("u");
-		String res_count_sql = SqlBuilder.createCountSQL(
-				new PartitionTableInfo[] { partitionTableInfo },
-				"u.userid=? and u.nick=? and u.gender=?");
-		Assert.assertEquals(count_sql, res_count_sql);
-	}
-
-	@Test
-	public void testCountSQL2() {
-		String count_sql = "select count(*) from user u,info i where u.userid=? and u.nick=?"
-				+ " and u.gender=? and i.userid=? and i.nick=? and u.userid=i.userid";
-		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
-		partitionTableInfo1.setTableName("user");
-		partitionTableInfo1.setAliasName("u");
-		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
-		partitionTableInfo2.setTableName("info");
-		partitionTableInfo2.setAliasName("i");
-		String res_count_sql = SqlBuilder
-				.createCountSQL(
-						new PartitionTableInfo[] { partitionTableInfo1,
-								partitionTableInfo2 },
-						"u.userid=? and u.nick=?"
-								+ " and u.gender=? and i.userid=? and i.nick=? and u.userid=i.userid");
-		Assert.assertEquals(count_sql, res_count_sql);
-	}
-
-	@Test
-	public void testCountSQL3() {
-		String count_sql = "select count(*) from user u";
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
-		partitionTableInfo.setTableName("user");
-		partitionTableInfo.setAliasName("u");
-		String res_count_sql = SqlBuilder.createCountSQL(
-				new PartitionTableInfo[] { partitionTableInfo }, null);
-		Assert.assertEquals(count_sql, res_count_sql);
-	}
-
-	@Test
-	public void testCountSQL4() {
-		String count_sql = "select count(*) from user u,info i";
-		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
-		partitionTableInfo1.setTableName("user");
-		partitionTableInfo1.setAliasName("u");
-		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
-		partitionTableInfo2.setTableName("info");
-		partitionTableInfo2.setAliasName("i");
-		String res_count_sql = SqlBuilder.createCountSQL(
-				new PartitionTableInfo[] { partitionTableInfo1,
-						partitionTableInfo2 }, null);
-		Assert.assertEquals(count_sql, res_count_sql);
-	}
-
-	@Test
-	public void testSelectSQL1() {
-		String select_sql = "select u.userid,u.nick,u.gender from user u where u.userid=? and u.nick=? and u.gender=? "
-				+ "order by u.createtime desc,u.nick asc";
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
-		partitionTableInfo.setTableName("user");
-		partitionTableInfo.setAliasName("u");
-		String res_select_sql = SqlBuilder.createListSQL(
-				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "userid", "nick", "gender" } },
-				"u.userid=? and u.nick=? and u.gender=?",
-				"u.createtime desc,u.nick asc");
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testSelectSQL2() {
-		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
-				+ "i.userid,i.birthday,i.fansnum "
-				+ "from user u,info i where u.userid=i.userid and u.userid=? and u.nick=? "
-				+ "and u.gender=? and i.birthday>? "
-				+ "order by u.createtime desc,u.nick asc,i.birthday desc";
-		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
-		partitionTableInfo1.setTableName("user");
-		partitionTableInfo1.setAliasName("u");
-		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
-		partitionTableInfo2.setTableName("info");
-		partitionTableInfo2.setAliasName("i");
-		String res_select_sql = SqlBuilder.createListSQL(
-				new PartitionTableInfo[] { partitionTableInfo1,
-						partitionTableInfo2 }, new String[][] {
-						{ "userid", "nick", "gender", "createtime" },
-						{ "userid", "birthday", "fansnum" } },
-				"u.userid=i.userid and u.userid=? and u.nick=? "
-						+ "and u.gender=? and i.birthday>?",
-				"u.createtime desc,u.nick asc,i.birthday desc");
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testSelectSQL3() {
-		String select_sql = "select u.userid,u.nick,u.gender from user u "
-				+ "order by u.createtime desc,u.nick asc";
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
-		partitionTableInfo.setTableName("user");
-		partitionTableInfo.setAliasName("u");
-		String res_select_sql = SqlBuilder.createListSQL(
-				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "userid", "nick", "gender" } }, null,
-				"u.createtime desc,u.nick asc");
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testSelectSQL4() {
-		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
-				+ "i.userid,i.birthday,i.fansnum " + "from user u,info i "
-				+ "order by u.createtime desc,u.nick asc,i.birthday desc";
-		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
-		partitionTableInfo1.setTableName("user");
-		partitionTableInfo1.setAliasName("u");
-		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
-		partitionTableInfo2.setTableName("info");
-		partitionTableInfo2.setAliasName("i");
-		String res_select_sql = SqlBuilder.createListSQL(
-				new PartitionTableInfo[] { partitionTableInfo1,
-						partitionTableInfo2 }, new String[][] {
-						{ "userid", "nick", "gender", "createtime" },
-						{ "userid", "birthday", "fansnum" } }, null,
-				"u.createtime desc,u.nick asc,i.birthday desc");
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testSelectSQL5() {
-		String select_sql = "select u.userid,u.nick,u.gender from user u";
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
-		partitionTableInfo.setTableName("user");
-		partitionTableInfo.setAliasName("u");
-		String res_select_sql = SqlBuilder.createListSQL(
-				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "userid", "nick", "gender" } }, null, null);
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testSelectSQL6() {
-		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
-				+ "i.userid,i.birthday,i.fansnum " + "from user u,info i";
-		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
-		partitionTableInfo1.setTableName("user");
-		partitionTableInfo1.setAliasName("u");
-		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
-		partitionTableInfo2.setTableName("info");
-		partitionTableInfo2.setAliasName("i");
-		String res_select_sql = SqlBuilder.createListSQL(
-				new PartitionTableInfo[] { partitionTableInfo1,
-						partitionTableInfo2 }, new String[][] {
-						{ "userid", "nick", "gender", "createtime" },
-						{ "userid", "birthday", "fansnum" } }, null, null);
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testSelectSQL7() {
-		String select_sql = "select u.userid,u.nick,u.gender from user u where u.userid=? and u.nick=? and u.gender=?";
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
-		partitionTableInfo.setTableName("user");
-		partitionTableInfo.setAliasName("u");
-		String res_select_sql = SqlBuilder.createListSQL(
-				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "userid", "nick", "gender" } },
-				"u.userid=? and u.nick=? and u.gender=?", null);
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testSelectSQL8() {
-		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
-				+ "i.userid,i.birthday,i.fansnum "
-				+ "from user u,info i where u.userid=i.userid and u.userid=? and u.nick=? "
-				+ "and u.gender=? and i.birthday>?";
-		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
-		partitionTableInfo1.setTableName("user");
-		partitionTableInfo1.setAliasName("u");
-		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
-		partitionTableInfo2.setTableName("info");
-		partitionTableInfo2.setAliasName("i");
-		String res_select_sql = SqlBuilder.createListSQL(
-				new PartitionTableInfo[] { partitionTableInfo1,
-						partitionTableInfo2 }, new String[][] {
-						{ "userid", "nick", "gender", "createtime" },
-						{ "userid", "birthday", "fansnum" } },
-				"u.userid=i.userid and u.userid=? and u.nick=? "
-						+ "and u.gender=? and i.birthday>?", null);
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testObjectSQL1() {
-		String select_sql = "select u.userid,u.nick,u.gender from user u where userid=? and nick=? and gender=? order by createtime desc,nick asc";
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
-		partitionTableInfo.setTableName("user");
-		partitionTableInfo.setAliasName("u");
-		String res_select_sql = SqlBuilder.createListSQL(
-				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "userid", "nick", "gender" } },
-				"userid=? and nick=? and gender=?", "createtime desc,nick asc");
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testObjectSQL2() {
-		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
-				+ "i.userid,i.birthday,i.fansnum "
-				+ "from user u,info i where u.userid=i.userid and u.userid=? and u.nick=? "
-				+ "and u.gender=? and i.birthday>? "
-				+ "order by u.createtime desc,u.nick asc,i.birthday desc";
-		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
-		partitionTableInfo1.setTableName("user");
-		partitionTableInfo1.setAliasName("u");
-		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
-		partitionTableInfo2.setTableName("info");
-		partitionTableInfo2.setAliasName("i");
-		String res_select_sql = SqlBuilder.createObjectSQL(
-				new PartitionTableInfo[] { partitionTableInfo1,
-						partitionTableInfo2 }, new String[][] {
-						{ "userid", "nick", "gender", "createtime" },
-						{ "userid", "birthday", "fansnum" } },
-				"u.userid=i.userid and u.userid=? and u.nick=? "
-						+ "and u.gender=? and i.birthday>?",
-				"u.createtime desc,u.nick asc,i.birthday desc");
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testObjectSQL3() {
-		String select_sql = "select u.userid,u.nick,u.gender from user u order by createtime desc,nick asc";
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
-		partitionTableInfo.setTableName("user");
-		partitionTableInfo.setAliasName("u");
-		String res_select_sql = SqlBuilder.createListSQL(
-				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "userid", "nick", "gender" } }, null,
-				"createtime desc,nick asc");
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testObjectSQL4() {
-		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
-				+ "i.userid,i.birthday,i.fansnum " + "from user u,info i "
-				+ "order by u.createtime desc,u.nick asc,i.birthday desc";
-		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
-		partitionTableInfo1.setTableName("user");
-		partitionTableInfo1.setAliasName("u");
-		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
-		partitionTableInfo2.setTableName("info");
-		partitionTableInfo2.setAliasName("i");
-		String res_select_sql = SqlBuilder.createObjectSQL(
-				new PartitionTableInfo[] { partitionTableInfo1,
-						partitionTableInfo2 }, new String[][] {
-						{ "userid", "nick", "gender", "createtime" },
-						{ "userid", "birthday", "fansnum" } }, null,
-				"u.createtime desc,u.nick asc,i.birthday desc");
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testObjectSQL5() {
-		String select_sql = "select u.userid,u.nick,u.gender from user u";
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
-		partitionTableInfo.setTableName("user");
-		partitionTableInfo.setAliasName("u");
-		String res_select_sql = SqlBuilder.createListSQL(
-				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "userid", "nick", "gender" } }, null, null);
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testObjectSQL6() {
-		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
-				+ "i.userid,i.birthday,i.fansnum " + "from user u,info i";
-		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
-		partitionTableInfo1.setTableName("user");
-		partitionTableInfo1.setAliasName("u");
-		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
-		partitionTableInfo2.setTableName("info");
-		partitionTableInfo2.setAliasName("i");
-		String res_select_sql = SqlBuilder.createObjectSQL(
-				new PartitionTableInfo[] { partitionTableInfo1,
-						partitionTableInfo2 }, new String[][] {
-						{ "userid", "nick", "gender", "createtime" },
-						{ "userid", "birthday", "fansnum" } }, null, null);
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testObjectSQL7() {
-		String select_sql = "select u.userid,u.nick,u.gender from user u where userid=? and nick=? and gender=?";
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
-		partitionTableInfo.setTableName("user");
-		partitionTableInfo.setAliasName("u");
-		String res_select_sql = SqlBuilder.createListSQL(
-				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "userid", "nick", "gender" } },
-				"userid=? and nick=? and gender=?", null);
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testObjectSQL8() {
-		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
-				+ "i.userid,i.birthday,i.fansnum "
-				+ "from user u,info i where u.userid=i.userid and u.userid=? and u.nick=? "
-				+ "and u.gender=? and i.birthday>?";
-		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
-		partitionTableInfo1.setTableName("user");
-		partitionTableInfo1.setAliasName("u");
-		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
-		partitionTableInfo2.setTableName("info");
-		partitionTableInfo2.setAliasName("i");
-		String res_select_sql = SqlBuilder.createObjectSQL(
-				new PartitionTableInfo[] { partitionTableInfo1,
-						partitionTableInfo2 }, new String[][] {
-						{ "userid", "nick", "gender", "createtime" },
-						{ "userid", "birthday", "fansnum" } },
-				"u.userid=i.userid and u.userid=? and u.nick=? "
-						+ "and u.gender=? and i.birthday>?", null);
-		Assert.assertEquals(select_sql, res_select_sql);
-	}
-
-	@Test
-	public void testInsert() {
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setTableName("testuser0");
-		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
-				"nick", "gender", "money", "purchase", "createtime" },
-				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
-	}
-
-	@Test
-	public void testUpdate() {
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setTableName("testuser0");
-		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
-				"nick", "gender", "money", "purchase", "createtime" },
-				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
-		int res = this.hkQuery.update(partitionTableInfo, new String[] {
-				"nick", "gender", "money", "purchase", "createtime" },
-				"userid=?", new Object[] { "原味原味原味", "0", 12.5, 16.7,
-						new Date(), 1 });
-		Assert.assertEquals(1, res);
-	}
-
-	@Test
-	public void testDelete() {
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setTableName("testuser0");
-		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
-				"nick", "gender", "money", "purchase", "createtime" },
-				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
-		int res = this.hkQuery.delete(partitionTableInfo, "userid=?",
-				new Object[] { 1 });
-		Assert.assertEquals(1, res);
-	}
-
-	@Test
-	public void testSelectList() {
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setAliasName("a");
-		partitionTableInfo.setTableName("testuser0");
-		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
-				"nick", "gender", "money", "purchase", "createtime" },
-				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
-		List<TestUser> list = this.hkQuery.getList(
-				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "userid", "nick", "gender", "money",
-						"purchase", "createtime" } }, null, null, null, 0, 10,
-				new RowMapper<TestUser>() {
+	public void selectList() {
+		Member member = new Member();
+		member.setUserid(1);
+		member.setNick("akei");
+		member.setGroupid(88);
+		this.hkQuery.insertBySQL(null,
+				"insert into member(userid,nick,groupid) values(?,?,?)",
+				new Object[] { member.getUserid(), member.getNick(),
+						member.getGroupid() });
+		List<Member> list = this.hkQuery.getListBySQL(null,
+				"select * from member", null, 0, 9, new RowMapper<Member>() {
 
 					@Override
-					public TestUser mapRow(ResultSet rs, int arg1)
+					public Member mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						TestUser o = new TestUser();
-						o.setUserid(rs.getLong("a.userid"));
-						o.setNick(rs.getString("a.nick"));
-						o.setCreatetime(rs.getTimestamp("a.createtime"));
-						o.setGender(rs.getByte("a.gender"));
-						o.setMoney(rs.getDouble("a.money"));
-						o.setPurchase(rs.getFloat("a.purchase"));
-						return o;
+						Member m = new Member();
+						m.setUserid(rs.getLong("userid"));
+						m.setNick(rs.getString("nick"));
+						m.setGroupid(rs.getLong("groupid"));
+						return m;
 					}
 				});
 		Assert.assertEquals(1, list.size());
-		System.out.println(list.get(0).getUserid());
 	}
 
 	@Test
-	public void testSelectList2() {
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setAliasName("a");
-		partitionTableInfo.setTableName("testuser0");
-		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setAliasName("b");
-		partitionTableInfo2.setTableName("member");
-		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
-				"nick", "gender", "money", "purchase", "createtime" },
-				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
-		this.hkQuery.insert(partitionTableInfo2, new String[] { "userid",
-				"nick", "groupid", }, new Object[] { 1, "原味++=", "5" });
-		List<Member> list = this.hkQuery
-				.getList(new PartitionTableInfo[] { partitionTableInfo,
-						partitionTableInfo2 },
-						new String[][] {
-								{ "userid", "nick", "gender", "money",
-										"purchase", "createtime" },
-								{ "userid", "nick", "groupid" } },
-						"a.userid=b.userid", null, null, 0, 10,
-						new RowMapper<Member>() {
-
-							@Override
-							public Member mapRow(ResultSet rs, int arg1)
-									throws SQLException {
-								TestUser o = new TestUser();
-								o.setUserid(rs.getLong("a.userid"));
-								o.setNick(rs.getString("a.nick"));
-								o
-										.setCreatetime(rs
-												.getTimestamp("a.createtime"));
-								o.setGender(rs.getByte("a.gender"));
-								o.setMoney(rs.getDouble("a.money"));
-								o.setPurchase(rs.getFloat("a.purchase"));
-								Member member = new Member();
-								member.setUserid(rs.getLong("b.userid"));
-								member.setNick(rs.getString("b.nick"));
-								member.setGroupid(rs.getLong("b.groupid"));
-								member.setTestUser(o);
-								return member;
-							}
-						});
-		Assert.assertEquals(1, list.size());
-		System.out.println(list.get(0).getUserid() + " | "
-				+ list.get(0).getGroupid() + " | "
-				+ list.get(0).getTestUser().getNick());
-	}
-
-	@Test
-	public void testSelectObject() {
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setAliasName("a");
-		partitionTableInfo.setTableName("testuser0");
-		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
-				"nick", "gender", "money", "purchase", "createtime" },
-				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
-		TestUser testUser = this.hkQuery.getObject(
-				new PartitionTableInfo[] { partitionTableInfo },
-				new String[][] { { "userid", "nick", "gender", "money",
-						"purchase", "createtime" } }, "userid=?",
-				new Object[] { 1 }, null, new RowMapper<TestUser>() {
+	public void getObject() {
+		Member member = new Member();
+		member.setUserid(1);
+		member.setNick("akei");
+		member.setGroupid(88);
+		this.hkQuery.insertBySQL(null,
+				"insert into member(userid,nick,groupid) values(?,?,?)",
+				new Object[] { member.getUserid(), member.getNick(),
+						member.getGroupid() });
+		Member m2 = this.hkQuery.getObjectBySQL(null,
+				"select * from member where userid=?", new Object[] { member
+						.getUserid() }, new RowMapper<Member>() {
 
 					@Override
-					public TestUser mapRow(ResultSet rs, int arg1)
+					public Member mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						TestUser o = new TestUser();
-						o.setUserid(rs.getLong("a.userid"));
-						o.setNick(rs.getString("a.nick"));
-						o.setCreatetime(rs.getTimestamp("a.createtime"));
-						o.setGender(rs.getByte("a.gender"));
-						o.setMoney(rs.getDouble("a.money"));
-						o.setPurchase(rs.getFloat("a.purchase"));
-						return o;
+						Member m = new Member();
+						m.setUserid(rs.getLong("userid"));
+						m.setNick(rs.getString("nick"));
+						m.setGroupid(rs.getLong("groupid"));
+						return m;
 					}
 				});
-		Assert.assertNotNull(testUser);
-		System.out.println(testUser.getNick());
+		Assert.assertEquals(member.getUserid(), m2.getUserid());
+		Assert.assertEquals(member.getGroupid(), m2.getGroupid());
+		Assert.assertEquals(member.getNick(), m2.getNick());
 	}
 
 	@Test
-	public void testSelectCount() {
-		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setAliasName("a");
-		partitionTableInfo.setTableName("testuser0");
-		this.hkQuery.insert(partitionTableInfo, new String[] { "userid",
-				"nick", "gender", "money", "purchase", "createtime" },
-				new Object[] { 1, "原味", "0", 12.5, 16.7, new Date() });
-		int count = this.hkQuery.count(
-				new PartitionTableInfo[] { partitionTableInfo }, null, null);
+	public void count() {
+		Member member = new Member();
+		member.setUserid(1);
+		member.setNick("akei");
+		member.setGroupid(88);
+		this.hkQuery.insertBySQL(null,
+				"insert into member(userid,nick,groupid) values(?,?,?)",
+				new Object[] { member.getUserid(), member.getNick(),
+						member.getGroupid() });
+		int count = this.hkQuery.countBySQL(null,
+				"select count(*) from member where userid=?",
+				new Object[] { 2 });
+		Assert.assertEquals(0, count);
+		count = this.hkQuery.countBySQL(null,
+				"select count(*) from member where userid=?",
+				new Object[] { member.getUserid() });
 		Assert.assertEquals(1, count);
 	}
 }

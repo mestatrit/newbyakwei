@@ -2,7 +2,6 @@ package unittest;
 
 import javax.annotation.Resource;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.mock.web.MockHttpServletRequest;

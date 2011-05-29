@@ -40,7 +40,8 @@ public class Guide {
 		// 设置参数
 		Object[] values = new Object[] { 1, "akwei" };
 		// 使用sql操作
-		hkObjQuery.insertBySQL(partitionTableInfo, insert_sql, values);
+		hkObjQuery.insertBySQL(partitionTableInfo.getDatabaseName(),
+				insert_sql, values);
 	}
 
 	public void update() {
@@ -57,7 +58,8 @@ public class Guide {
 		// 设置参数
 		Object[] values = new Object[] { "akwei", 0, new Date(), 1 };
 		// 使用sql update 操作
-		hkObjQuery.updateBySQL(partitionTableInfo, update_sql, values);
+		hkObjQuery.updateBySQL(partitionTableInfo.getDatabaseName(),
+				update_sql, values);
 	}
 
 	public void delete() {
@@ -74,7 +76,8 @@ public class Guide {
 		// 设置参数
 		Object[] values = new Object[] { 1 };
 		// 使用sql update 操作
-		hkObjQuery.updateBySQL(partitionTableInfo, update_sql, values);
+		hkObjQuery.updateBySQL(partitionTableInfo.getDatabaseName(),
+				update_sql, values);
 	}
 
 	public void selectList() {
@@ -89,9 +92,9 @@ public class Guide {
 		String select_sql = "select * from "
 				+ partitionTableInfo.getTableName() + " where nick=? limit ?,?";
 		Object[] values = new Object[] { "akwei", 0, 10 };
-		List<TestUser> list = hkObjQuery.getListBySQL(
-				new PartitionTableInfo[] { partitionTableInfo }, select_sql,
-				values, 0, -1, new RowMapper<TestUser>() {
+		List<TestUser> list = hkObjQuery.getListBySQL(partitionTableInfo
+				.getDatabaseName(), select_sql, values, 0, -1,
+				new RowMapper<TestUser>() {
 
 					@Override
 					public TestUser mapRow(ResultSet arg0, int arg1)
@@ -121,8 +124,9 @@ public class Guide {
 				+ partitionTableInfos[1].getTableName()
 				+ " where nick=? and testuser.userid=member.memberuserid limit ?,?";
 		Object[] values = new Object[] { "akwei", 1, 10 };
-		List<TestUser> list = hkObjQuery.getListBySQL(partitionTableInfos,
-				select_sql, values, 0, -1, new RowMapper<TestUser>() {
+		List<TestUser> list = hkObjQuery.getListBySQL(partitionTableInfos[0]
+				.getDatabaseName(), select_sql, values, 0, -1,
+				new RowMapper<TestUser>() {
 
 					@Override
 					public TestUser mapRow(ResultSet arg0, int arg1)
@@ -149,8 +153,8 @@ public class Guide {
 				+ partitionTableInfo.getTableName() + " where nick=?";
 		Object[] values = new Object[] { "akwei" };
 		int count = hkObjQuery.getNumberBySQL(
-				new PartitionTableInfo[] { partitionTableInfo }, select_sql,
-				values).intValue();
+				partitionTableInfo.getDatabaseName(), select_sql, values)
+				.intValue();
 		P.println(count);
 	}
 
@@ -166,9 +170,8 @@ public class Guide {
 		String select_sql = "select * from "
 				+ partitionTableInfo.getTableName() + " where nick=? limit ?,?";
 		Object[] values = new Object[] { "akwei", 0, 1 };
-		hkObjQuery.getObjectBySQL(
-				new PartitionTableInfo[] { partitionTableInfo }, select_sql,
-				values, new RowMapper<TestUser>() {
+		hkObjQuery.getObjectBySQL(partitionTableInfo.getDatabaseName(),
+				select_sql, values, new RowMapper<TestUser>() {
 
 					@Override
 					public TestUser mapRow(ResultSet arg0, int arg1)
