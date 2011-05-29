@@ -3,6 +3,8 @@ package com.dev3g.cactus.dao.query;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.jdbc.core.RowMapper;
+
 /**
  * 初始化配置的sql类信息
  * 
@@ -42,5 +44,13 @@ public class ResultSetDataInfoCreater {
 			info = new ResultSetDataInfo<T>(clazz);
 		}
 		return info;
+	}
+
+	public <T> RowMapper<T> getRowMapper(Class<T> clazz) {
+		ResultSetDataInfo<T> info = this.getResultSetDataInfo(clazz);
+		if (info != null) {
+			return info.getRowMapper();
+		}
+		return null;
 	}
 }

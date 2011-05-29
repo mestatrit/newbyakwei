@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.dev3g.cactus.dao.annotation.Column;
+import com.dev3g.cactus.dao.annotation.Id;
 
 /**
  * 对于数据查询结果的集合
@@ -105,6 +106,19 @@ public class ResultSetDataInfo<T> {
 			}
 			else {
 				fieldColumnMap.put(field.getName(), column.value());
+			}
+		}
+		else {
+			Id id = field.getAnnotation(Id.class);
+			if (id != null) {
+				fieldList.add(field);
+				if (id.value().equals("")) {
+					fieldColumnMap.put(field.getName(), field.getName()
+							.toLowerCase());
+				}
+				else {
+					fieldColumnMap.put(field.getName(), id.value());
+				}
 			}
 		}
 	}

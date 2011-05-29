@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.jdbc.core.RowMapper;
-
 import com.dev3g.cactus.dao.annotation.Column;
 import com.dev3g.cactus.dao.annotation.Id;
 import com.dev3g.cactus.dao.annotation.Table;
@@ -19,11 +17,6 @@ import com.dev3g.cactus.dao.partition.DbPartitionHelper;
  * @author akwei
  */
 public class ObjectSqlInfo<T> {
-
-	/**
-	 * 结果集的映射
-	 */
-	private RowMapper<T> rowMapper;
 
 	/**
 	 * 插入，更新，删除的映射
@@ -100,7 +93,7 @@ public class ObjectSqlInfo<T> {
 			this.analyze(f);
 		}
 		this.buildAllColumns();
-		this.buildMapper();
+		// this.buildMapper();
 		this.buildSqlUpdateMapper();
 		this.dbPartitionHelper = tableCnf.getDbPartitionHelper();
 	}
@@ -128,14 +121,14 @@ public class ObjectSqlInfo<T> {
 				field.setAccessible(true);
 				allFieldList.add(field);
 				this.setIdField(field);
-				if (id.name().equals("")) {
+				if (id.value().equals("")) {
 					this.setIdColumn(field.getName().toLowerCase());
 					fieldColumnMap.put(field.getName(), field.getName()
 							.toLowerCase());
 				}
 				else {
-					this.setIdColumn(id.name());
-					fieldColumnMap.put(field.getName(), id.name());
+					this.setIdColumn(id.value());
+					fieldColumnMap.put(field.getName(), id.value());
 				}
 			}
 		}
@@ -143,23 +136,6 @@ public class ObjectSqlInfo<T> {
 
 	public String getColumn(String fieldName) {
 		return fieldColumnMap.get(fieldName);
-	}
-
-	/**
-	 * 创建RowMapper对象
-	 */
-	@SuppressWarnings("unchecked")
-	private void buildMapper() {
-		RowMapperCreater creater = new RowMapperCreater(Thread.currentThread()
-				.getContextClassLoader());
-		Class<T> clazz = creater.createRowMapperClass(this);
-		try {
-			Object obj = clazz.getConstructor().newInstance();
-			this.rowMapper = (RowMapper<T>) obj;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -269,15 +245,6 @@ public class ObjectSqlInfo<T> {
 	 */
 	public Class<T> getClazz() {
 		return clazz;
-	}
-
-	/**
-	 * 获得与数据表对应的RowMapper对象
-	 * 
-	 * @return
-	 */
-	public RowMapper<T> getRowMapper() {
-		return rowMapper;
 	}
 
 	/**
