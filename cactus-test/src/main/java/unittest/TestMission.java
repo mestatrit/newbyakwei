@@ -26,7 +26,7 @@ public class TestMission implements Mission {
 
 	@Override
 	public void execute() {
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 10; i++) {
 			System.out.println(this.id + i);
 			try {
 				Thread.sleep(100);
