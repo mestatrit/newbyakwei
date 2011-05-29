@@ -15,6 +15,12 @@ public class HkQuery {
 
 	private DaoSupport daoSupport;
 
+	protected ResultSetDataInfoCreater resultSetDataInfoCreater = new ResultSetDataInfoCreater();
+
+	public ResultSetDataInfoCreater getResultSetDataInfoCreater() {
+		return resultSetDataInfoCreater;
+	}
+
 	public void setDaoSupport(DaoSupport daoSupport) {
 		this.daoSupport = daoSupport;
 	}
@@ -59,6 +65,12 @@ public class HkQuery {
 		return this.getDaoSupport().getListBySQL(sql, values, begin, size, rm);
 	}
 
+	public <T> List<T> getListBySQL(String dsKey, String sql, Object[] values,
+			int begin, int size, Class<T> clazz) {
+		return this.getListBySQL(dsKey, sql, values, begin, size,
+				this.resultSetDataInfoCreater.getRowMapper(clazz));
+	}
+
 	public int countBySQL(String dsKey, String sql, Object[] values) {
 		DataSourceStatus.setCurrentDsKey(dsKey);
 		return this.getDaoSupport().getNumberBySQL(sql, values).intValue();
@@ -98,6 +110,12 @@ public class HkQuery {
 			RowMapper<T> rm) {
 		DataSourceStatus.setCurrentDsKey(dsKey);
 		return this.getDaoSupport().getObjectBySQL(sql, values, rm);
+	}
+
+	public <T> T getObjectBySQL(String dsKey, String sql, Object[] values,
+			Class<T> clazz) {
+		return this.getObjectBySQL(dsKey, sql, values,
+				this.resultSetDataInfoCreater.getRowMapper(clazz));
 	}
 
 	/**

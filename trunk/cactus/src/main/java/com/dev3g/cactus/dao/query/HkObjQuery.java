@@ -21,8 +21,6 @@ public class HkObjQuery extends HkQuery {
 
 	private ObjectSqlInfoCreater objectSqlInfoCreater;
 
-	private ResultSetDataInfoCreater resultSetDataInfoCreater = new ResultSetDataInfoCreater();
-
 	/**
 	 * 获rowmapper，先从表映射的对象开始匹配，如果没有，就到结果集resultsetdata中进行查找
 	 * 
@@ -31,11 +29,6 @@ public class HkObjQuery extends HkQuery {
 	 * @return
 	 */
 	public <T> RowMapper<T> getRowMapper(Class<T> clazz) {
-		RowMapper<T> mapper = this.getObjectSqlInfoCreater()
-				.getRowMapper(clazz);
-		if (mapper != null) {
-			return mapper;
-		}
 		ResultSetDataInfo<T> resultSetDataInfo = this.resultSetDataInfoCreater
 				.getResultSetDataInfo(clazz);
 		if (resultSetDataInfo != null) {
@@ -47,10 +40,6 @@ public class HkObjQuery extends HkQuery {
 	public void setObjectSqlInfoCreater(
 			ObjectSqlInfoCreater objectSqlInfoCreater) {
 		this.objectSqlInfoCreater = objectSqlInfoCreater;
-	}
-
-	private ObjectSqlInfoCreater getObjectSqlInfoCreater() {
-		return objectSqlInfoCreater;
 	}
 
 	/**

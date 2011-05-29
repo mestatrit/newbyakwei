@@ -11,7 +11,6 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.jdbc.core.RowMapper;
 
 import com.dev3g.cactus.dao.annotation.Table;
 import com.dev3g.cactus.dao.partition.DbPartitionHelper;
@@ -69,23 +68,6 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 					+ clazz.getName() + " ]");
 		}
 		return o;
-	}
-
-	/**
-	 * 通过clazz获得sql查询集合的组装对象
-	 * 
-	 * @param <T>
-	 * @param clazz
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public <T> RowMapper<T> getRowMapper(Class<T> clazz) {
-		ObjectSqlInfo<T> o = (ObjectSqlInfo<T>) this.objectSqlInfoMap.get(clazz
-				.getName());
-		if (o != null) {
-			return o.getRowMapper();
-		}
-		return null;
 	}
 
 	/**
