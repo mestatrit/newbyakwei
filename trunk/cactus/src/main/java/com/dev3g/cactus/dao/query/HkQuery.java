@@ -13,20 +13,28 @@ import com.dev3g.cactus.dao.sql.DataSourceStatus;
  */
 public class HkQuery {
 
-	private DaoSupport daoSupport;
+	protected DaoSupport daoSupport;
 
 	protected ResultSetDataInfoCreater resultSetDataInfoCreater = new ResultSetDataInfoCreater();
-
-	public ResultSetDataInfoCreater getResultSetDataInfoCreater() {
-		return resultSetDataInfoCreater;
-	}
 
 	public void setDaoSupport(DaoSupport daoSupport) {
 		this.daoSupport = daoSupport;
 	}
 
-	protected DaoSupport getDaoSupport() {
-		return daoSupport;
+	/**
+	 * 获rowmapper，先从表映射的对象开始匹配，如果没有，就到结果集resultsetdata中进行查找
+	 * 
+	 * @param <T>
+	 * @param clazz
+	 * @return
+	 */
+	public <T> RowMapper<T> getRowMapper(Class<T> clazz) {
+		ResultSetDataInfo<T> resultSetDataInfo = this.resultSetDataInfoCreater
+				.getResultSetDataInfo(clazz);
+		if (resultSetDataInfo != null) {
+			return resultSetDataInfo.getRowMapper();
+		}
+		throw new RuntimeException("no rowmapper for " + clazz.getName());
 	}
 
 	/**
@@ -42,7 +50,7 @@ public class HkQuery {
 	 */
 	public Object insertBySQL(String dsKey, String sql, Object[] values) {
 		DataSourceStatus.setCurrentDsKey(dsKey);
-		return this.getDaoSupport().insertBySQL(sql, values);
+		return this.daoSupport.insertBySQL(sql, values);
 	}
 
 	/**
@@ -62,18 +70,18 @@ public class HkQuery {
 	public <T> List<T> getListBySQL(String dsKey, String sql, Object[] values,
 			int begin, int size, RowMapper<T> rm) {
 		DataSourceStatus.setCurrentDsKey(dsKey);
-		return this.getDaoSupport().getListBySQL(sql, values, begin, size, rm);
+		return this.daoSupport.getListBySQL(sql, values, begin, size, rm);
 	}
 
 	public <T> List<T> getListBySQL(String dsKey, String sql, Object[] values,
 			int begin, int size, Class<T> clazz) {
-		return this.getListBySQL(dsKey, sql, values, begin, size,
-				this.resultSetDataInfoCreater.getRowMapper(clazz));
+		return this.getListBySQL(dsKey, sql, values, begin, size, this
+				.getRowMapper(clazz));
 	}
 
 	public int countBySQL(String dsKey, String sql, Object[] values) {
 		DataSourceStatus.setCurrentDsKey(dsKey);
-		return this.getDaoSupport().getNumberBySQL(sql, values).intValue();
+		return this.daoSupport.getNumberBySQL(sql, values).intValue();
 	}
 
 	/**
@@ -89,7 +97,7 @@ public class HkQuery {
 	 */
 	public Number getNumberBySQL(String dsKey, String sql, Object[] values) {
 		DataSourceStatus.setCurrentDsKey(dsKey);
-		return this.getDaoSupport().getNumberBySQL(sql, values);
+		return this.daoSupport.getNumberBySQL(sql, values);
 	}
 
 	/**
@@ -109,13 +117,13 @@ public class HkQuery {
 	public <T> T getObjectBySQL(String dsKey, String sql, Object[] values,
 			RowMapper<T> rm) {
 		DataSourceStatus.setCurrentDsKey(dsKey);
-		return this.getDaoSupport().getObjectBySQL(sql, values, rm);
+		return this.daoSupport.getObjectBySQL(sql, values, rm);
 	}
 
 	public <T> T getObjectBySQL(String dsKey, String sql, Object[] values,
 			Class<T> clazz) {
-		return this.getObjectBySQL(dsKey, sql, values,
-				this.resultSetDataInfoCreater.getRowMapper(clazz));
+		return this
+				.getObjectBySQL(dsKey, sql, values, this.getRowMapper(clazz));
 	}
 
 	/**
@@ -131,6 +139,6 @@ public class HkQuery {
 	 */
 	public int updateBySQL(String dsKey, String sql, Object[] values) {
 		DataSourceStatus.setCurrentDsKey(dsKey);
-		return this.getDaoSupport().updateBySQL(sql, values);
+		return this.daoSupport.updateBySQL(sql, values);
 	}
 }

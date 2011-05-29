@@ -21,22 +21,6 @@ public class HkObjQuery extends HkQuery {
 
 	private ObjectSqlInfoCreater objectSqlInfoCreater;
 
-	/**
-	 * 获rowmapper，先从表映射的对象开始匹配，如果没有，就到结果集resultsetdata中进行查找
-	 * 
-	 * @param <T>
-	 * @param clazz
-	 * @return
-	 */
-	public <T> RowMapper<T> getRowMapper(Class<T> clazz) {
-		ResultSetDataInfo<T> resultSetDataInfo = this.resultSetDataInfoCreater
-				.getResultSetDataInfo(clazz);
-		if (resultSetDataInfo != null) {
-			return resultSetDataInfo.getRowMapper();
-		}
-		throw new RuntimeException("no rowmapper for " + clazz.getName());
-	}
-
 	public void setObjectSqlInfoCreater(
 			ObjectSqlInfoCreater objectSqlInfoCreater) {
 		this.objectSqlInfoCreater = objectSqlInfoCreater;
