@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.dev3g.cactus.dao.partition.DbPartitionHelper;
 import com.dev3g.cactus.dao.query.param.DeleteParam;
 import com.dev3g.cactus.dao.query.param.InsertParam;
 import com.dev3g.cactus.dao.query.param.Param;
@@ -27,19 +26,6 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	/**
-	 * 获得表信息分析器
-	 * 
-	 * @param <T>
-	 * @param clazz
-	 *            表信息分析器与class对应，传递class参数即可获得
-	 * @return
-	 */
-	public <T> DbPartitionHelper getDbPartitionHelper(Class<T> clazz) {
-		return this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
-				.getDbPartitionHelper();
-	}
-
-	/**
 	 * 获得真实的操作的数据表信息
 	 * 
 	 * @param <T>
@@ -49,9 +35,10 @@ public class HkObjQuery extends HkQuery {
 	 */
 	public <T> PartitionTableInfo parse(Class<T> clazz,
 			Map<String, Object> ctxMap) {
-		return this.getDbPartitionHelper(clazz).parse(
-				this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
-						.getTableName(), ctxMap);
+		return this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
+				.getDbPartitionHelper().parse(
+						this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
+								.getTableName(), ctxMap);
 	}
 
 	/**
@@ -72,7 +59,7 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	/**
-	 * 根据参数获得所需要的类中与数据库对应的所有列字段
+	 * 从class中获得与数据库对应的字段名称
 	 * 
 	 * @param <T>
 	 * @param classes
