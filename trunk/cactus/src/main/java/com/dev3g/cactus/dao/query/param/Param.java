@@ -38,6 +38,9 @@ public abstract class Param {
 	 *            关键字值
 	 */
 	public <T> void addKeyAndValue(String key, Object value) {
+		if (key == null || value == null) {
+			return;
+		}
 		this.ctxMap.put(key, value);
 	}
 }

@@ -18,7 +18,7 @@ import org.springframework.beans.factory.InitializingBean;
  */
 public class HkDataSourceWrapper implements DataSource, InitializingBean {
 
-	public static final String default_dbkey = "db_key_default";
+	public static final String default_dbkey = "defaultdbkey";
 
 	private Map<String, DataSource> dataSourceMap;
 
