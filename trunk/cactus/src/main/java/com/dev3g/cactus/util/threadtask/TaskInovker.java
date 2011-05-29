@@ -19,6 +19,8 @@ public class TaskInovker implements Invoker, Receiver {
 
 	private Map<String, Mission> map = new HashMap<String, Mission>();
 
+	private int successSize = 0;
+
 	private boolean missionCompleted;
 
 	public void addMission(Mission mission) {
@@ -26,12 +28,18 @@ public class TaskInovker implements Invoker, Receiver {
 		list.add(mission);
 	}
 
-	public boolean isMissionCompleted() {
-		return missionCompleted;
+	public synchronized void addSuccessSize(int add) {
+		this.successSize = this.successSize + add;
+		if (this.successSize == list.size()) {
+			this.missionCompleted = true;
+		}
+		else {
+			this.missionCompleted = false;
+		}
 	}
 
-	public void setMissionCompleted(boolean missionCompleted) {
-		this.missionCompleted = missionCompleted;
+	public boolean isMissionCompleted() {
+		return this.missionCompleted;
 	}
 
 	public void execute(InvokeCallback invokeCallback) throws Exception {
