@@ -43,7 +43,7 @@ public class MultiDaoSupport implements DaoSupport {
 	}
 
 	public String getCurrentDaoSupportIdentifier() {
-		String dsName = DataSourceStatus.getCurrentDsName();
+		String dsName = DataSourceStatus.getCurrentDsKey();
 		int idx = dsName.indexOf('_');
 		if (idx == -1) {
 			return null;

@@ -62,7 +62,7 @@ public class ConnectionProxyImpl implements ConnectionProxy {
 			}
 			con.close();
 		}
-		DataSourceStatus.setCurrentDsName(null);
+		DataSourceStatus.setCurrentDsKey(null);
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class ConnectionProxyImpl implements ConnectionProxy {
 
 	@Override
 	public Connection getCurrentConnection() {
-		String name = DataSourceStatus.getCurrentDsName();
+		String name = DataSourceStatus.getCurrentDsKey();
 		Connection con = this.conMap.get(name);
 		if (con == null) {
 			if (this.cloudDataSourceWrapper.isDebugConnection()) {
