@@ -7,7 +7,7 @@ import com.dev3g.cactus.dao.annotation.Table;
 @Table(name = "member")
 public class Member {
 
-	@Id(name = "memberuserid")
+	@Id("memberuserid")
 	private long userid;
 
 	@Column
