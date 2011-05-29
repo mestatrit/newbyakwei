@@ -1,4 +1,4 @@
-package com.dev3g.cactus.util.command;
+package com.dev3g.cactus.util.threadtask;
 
 public interface InvokeCallback {
 
