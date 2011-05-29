@@ -260,8 +260,8 @@ public abstract class BaseDao<T> implements IDao<T> {
 		sb.append(partitionTableInfo.getTableName());
 		sb.append(" set ").append(updateSqlSegment);
 		sb.append(" where ").append(where);
-		return this.hkObjQuery.updateBySQL(partitionTableInfo, sb.toString(),
-				params);
+		return this.hkObjQuery.updateBySQL(
+				partitionTableInfo.getDatabaseName(), sb.toString(), params);
 	}
 
 	@Override

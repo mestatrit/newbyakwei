@@ -7,13 +7,13 @@ package com.dev3g.cactus.dao.sql;
  */
 public class DataSourceStatus {
 
-	private static final ThreadLocal<String> currentDsName = new ThreadLocal<String>();
+	private static final ThreadLocal<String> currentDsKey = new ThreadLocal<String>();
 
-	public static void setCurrentDsName(String dsName) {
-		currentDsName.set(dsName);
+	public static void setCurrentDsKey(String dsKey) {
+		currentDsKey.set(dsKey);
 	}
 
-	public static String getCurrentDsName() {
-		return currentDsName.get();
+	public static String getCurrentDsKey() {
+		return currentDsKey.get();
 	}
 }

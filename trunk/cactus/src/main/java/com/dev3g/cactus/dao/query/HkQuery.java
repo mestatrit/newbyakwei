@@ -24,7 +24,7 @@ public class HkQuery {
 	}
 
 	/**
-	 * 根据条件获得统计数字
+	 * sql count
 	 * 
 	 * @param partitionTableInfos
 	 *            表信息
@@ -36,13 +36,8 @@ public class HkQuery {
 	 */
 	public int count(PartitionTableInfo[] partitionTableInfos, String where,
 			Object[] params) {
-		DataSourceStatus.setCurrentDsName(partitionTableInfos[0]
-				.getDatabaseName());
-		return this
-				.getDaoSupport()
-				.getNumberBySQL(
-						SqlBuilder.createCountSQL(partitionTableInfos, where),
-						params).intValue();
+		return this.countBySQL(partitionTableInfos[0].getDatabaseName(),
+				SqlBuilder.createCountSQL(partitionTableInfos, where), params);
 	}
 
 	/**
@@ -71,9 +66,9 @@ public class HkQuery {
 	public <T> List<T> getList(PartitionTableInfo[] partitionTableInfos,
 			String[][] columns, String where, Object[] params, String order,
 			int begin, int size, RowMapper<T> mapper) {
-		return this.getListBySQL(partitionTableInfos, SqlBuilder.createListSQL(
-				partitionTableInfos, columns, where, order), params, begin,
-				size, mapper);
+		return this.getListBySQL(partitionTableInfos[0].getDatabaseName(),
+				SqlBuilder.createListSQL(partitionTableInfos, columns, where,
+						order), params, begin, size, mapper);
 	}
 
 	/**
@@ -97,9 +92,9 @@ public class HkQuery {
 	public <T> T getObject(PartitionTableInfo[] partitionTableInfos,
 			String[][] columns, String where, Object[] params, String order,
 			RowMapper<T> mapper) {
-		return this.getObjectBySQL(partitionTableInfos, SqlBuilder
-				.createObjectSQL(partitionTableInfos, columns, where, order),
-				params, mapper);
+		return this.getObjectBySQL(partitionTableInfos[0].getDatabaseName(),
+				SqlBuilder.createObjectSQL(partitionTableInfos, columns, where,
+						order), params, mapper);
 	}
 
 	/**
@@ -116,10 +111,8 @@ public class HkQuery {
 	public Object insert(PartitionTableInfo partitionTableInfo,
 			String[] columns, Object[] params) {
 		return this
-				.insertBySQL(
-						partitionTableInfo,
-						SqlBuilder.createInsertSQL(partitionTableInfo, columns),
-						params);
+				.insertBySQL(partitionTableInfo.getDatabaseName(), SqlBuilder
+						.createInsertSQL(partitionTableInfo, columns), params);
 	}
 
 	/**
@@ -136,7 +129,7 @@ public class HkQuery {
 	 */
 	public int update(PartitionTableInfo partitionTableInfo, String[] columns,
 			String where, Object[] params) {
-		return this.updateBySQL(partitionTableInfo,
+		return this.updateBySQL(partitionTableInfo.getDatabaseName(),
 				SqlBuilder.createUpdateSQL(partitionTableInfo, columns, where),
 				params);
 	}
@@ -154,24 +147,23 @@ public class HkQuery {
 	 */
 	public int delete(PartitionTableInfo partitionTableInfo, String where,
 			Object[] params) {
-		return this.updateBySQL(partitionTableInfo,
+		return this.updateBySQL(partitionTableInfo.getDatabaseName(),
 				SqlBuilder.createDeleteSQL(partitionTableInfo, where), params);
 	}
 
 	/**
 	 * sql执行 insert
 	 * 
-	 * @param partitionTableInfo
-	 *            分区信息
+	 * @param dsKey
+	 *            数据库 key，配置datasource时，map中的key
 	 * @param sql
-	 *            需要执行的sql
+	 *            需要执行的sql，完整的sql语句
 	 * @param values
 	 *            参数
 	 * @return
 	 */
-	public Object insertBySQL(PartitionTableInfo partitionTableInfo,
-			String sql, Object[] values) {
-		DataSourceStatus.setCurrentDsName(partitionTableInfo.getDatabaseName());
+	public Object insertBySQL(String dsKey, String sql, Object[] values) {
+		DataSourceStatus.setCurrentDsKey(dsKey);
 		return this.getDaoSupport().insertBySQL(sql, values);
 	}
 
@@ -182,18 +174,22 @@ public class HkQuery {
 	 * @param partitionTableInfos
 	 *            分区信息
 	 * @param sql
-	 *            需要执行的sql
+	 *            需要执行的sql，完整的sql语句
 	 * @param values
 	 *            参数
 	 * @param rm
 	 *            返回值封装对象
 	 * @return
 	 */
-	public <T> List<T> getListBySQL(PartitionTableInfo[] partitionTableInfos,
-			String sql, Object[] values, int begin, int size, RowMapper<T> rm) {
-		DataSourceStatus.setCurrentDsName(partitionTableInfos[0]
-				.getDatabaseName());
+	public <T> List<T> getListBySQL(String dsKey, String sql, Object[] values,
+			int begin, int size, RowMapper<T> rm) {
+		DataSourceStatus.setCurrentDsKey(dsKey);
 		return this.getDaoSupport().getListBySQL(sql, values, begin, size, rm);
+	}
+
+	public int countBySQL(String dsKey, String sql, Object[] values) {
+		DataSourceStatus.setCurrentDsKey(dsKey);
+		return this.getDaoSupport().getNumberBySQL(sql, values).intValue();
 	}
 
 	/**
@@ -202,15 +198,13 @@ public class HkQuery {
 	 * @param partitionTableInfos
 	 *            分区信息
 	 * @param sql
-	 *            需要执行的sql
+	 *            需要执行的sql，完整的sql语句
 	 * @param values
 	 *            参数
 	 * @return
 	 */
-	public Number getNumberBySQL(PartitionTableInfo[] partitionTableInfos,
-			String sql, Object[] values) {
-		DataSourceStatus.setCurrentDsName(partitionTableInfos[0]
-				.getDatabaseName());
+	public Number getNumberBySQL(String dsKey, String sql, Object[] values) {
+		DataSourceStatus.setCurrentDsKey(dsKey);
 		return this.getDaoSupport().getNumberBySQL(sql, values);
 	}
 
@@ -221,17 +215,16 @@ public class HkQuery {
 	 * @param partitionTableInfos
 	 *            分区信息
 	 * @param sql
-	 *            需要执行的sql
+	 *            需要执行的sql，完整的sql语句
 	 * @param values
 	 *            参数
 	 * @param rm
 	 *            返回值封装对象
 	 * @return
 	 */
-	public <T> T getObjectBySQL(PartitionTableInfo[] partitionTableInfos,
-			String sql, Object[] values, RowMapper<T> rm) {
-		DataSourceStatus.setCurrentDsName(partitionTableInfos[0]
-				.getDatabaseName());
+	public <T> T getObjectBySQL(String dsKey, String sql, Object[] values,
+			RowMapper<T> rm) {
+		DataSourceStatus.setCurrentDsKey(dsKey);
 		return this.getDaoSupport().getObjectBySQL(sql, values, rm);
 	}
 
@@ -241,14 +234,13 @@ public class HkQuery {
 	 * @param partitionTableInfo
 	 *            分区信息
 	 * @param sql
-	 *            需要执行的sql
+	 *            需要执行的sql，完整的sql语句
 	 * @param values
 	 *            参数
 	 * @return
 	 */
-	public int updateBySQL(PartitionTableInfo partitionTableInfo, String sql,
-			Object[] values) {
-		DataSourceStatus.setCurrentDsName(partitionTableInfo.getDatabaseName());
+	public int updateBySQL(String dsKey, String sql, Object[] values) {
+		DataSourceStatus.setCurrentDsKey(dsKey);
 		return this.getDaoSupport().updateBySQL(sql, values);
 	}
 }
