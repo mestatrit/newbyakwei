@@ -1,4 +1,5 @@
 package com.dev3g.cactus.dao.query;
+
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,8 +31,6 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 
 	private static final String TYPE_DOUBLE = "double";
 
-	private static final String TYPE_CHAR = "char";
-
 	private static final String TYPE_STRING = String.class.getName();
 
 	private static final String TYPE_DATE = Date.class.getName();
@@ -41,9 +40,10 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> Class<T> createRowMapperClass(ObjectSqlInfo<T> objectSqlInfo) {
+	public <T> Class<T> createRowMapperClass(
+			ResultSetDataInfo<T> resultSetDataInfo) {
 		ClassWriter classWriter = new ClassWriter(0);
-		String mapperName = createMapperClassName(objectSqlInfo.getClazz());
+		String mapperName = createMapperClassName(resultSetDataInfo.getClazz());
 		String signName = mapperName.replaceAll("\\.", "/");
 		classWriter.visit(V1_5, ACC_PUBLIC, signName, null, "java/lang/Object",
 				new String[] { Type.getInternalName(RowMapper.class) });
@@ -65,15 +65,17 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 						null,
 						new String[] { Type.getInternalName(SQLException.class) });
 		methodVisitor.visitMaxs(3, 4);
-		methodVisitor.visitTypeInsn(NEW, Type.getInternalName(objectSqlInfo
+		methodVisitor.visitTypeInsn(NEW, Type.getInternalName(resultSetDataInfo
 				.getClazz()));
 		methodVisitor.visitInsn(DUP);
-		methodVisitor.visitMethodInsn(INVOKESPECIAL, Type
-				.getInternalName(objectSqlInfo.getClazz()), "<init>", "()V");
+		methodVisitor
+				.visitMethodInsn(INVOKESPECIAL, Type
+						.getInternalName(resultSetDataInfo.getClazz()),
+						"<init>", "()V");
 		methodVisitor.visitVarInsn(ASTORE, 3);
 		methodVisitor.visitVarInsn(ALOAD, 3);
-		for (Field field : objectSqlInfo.getAllfieldList()) {
-			createResultSetGetValue(methodVisitor, objectSqlInfo, field);
+		for (Field field : resultSetDataInfo.getFieldList()) {
+			createResultSetGetValue(methodVisitor, resultSetDataInfo, field);
 		}
 		methodVisitor.visitInsn(ARETURN);
 		methodVisitor.visitEnd();
@@ -90,18 +92,19 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 	}
 
 	private <T> void createResultSetGetValue(MethodVisitor methodVisitor,
-			ObjectSqlInfo<T> objectSqlInfo, Field field) {
+			ResultSetDataInfo<T> resultSetDataInfo, Field field) {
 		methodVisitor.visitVarInsn(ALOAD, 1);
-		methodVisitor.visitLdcInsn(objectSqlInfo.getTableName() + "."
-				+ objectSqlInfo.getColumn(field.getName()));
+		methodVisitor.visitLdcInsn(resultSetDataInfo.getFullColumn(field
+				.getName()));
 		MethodInfo resultSetMethodInfo = this.createResultSetMethodInfo(field);
 		methodVisitor.visitMethodInsn(INVOKEINTERFACE, Type
 				.getInternalName(ResultSet.class), resultSetMethodInfo
 				.getMethodName(), resultSetMethodInfo.getMethodDescr());
 		MethodInfo setterMethodInfo = this.createSetterMethodInfo(field);
 		methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-				.getInternalName(objectSqlInfo.getClazz()), setterMethodInfo
-				.getMethodName(), setterMethodInfo.getMethodDescr());
+				.getInternalName(resultSetDataInfo.getClazz()),
+				setterMethodInfo.getMethodName(), setterMethodInfo
+						.getMethodDescr());
 		methodVisitor.visitVarInsn(ALOAD, 3);
 	}
 
@@ -127,9 +130,6 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 		}
 		if (type.equals(TYPE_DOUBLE)) {
 			methodInfo.setMethodDescr("(D)V");
-		}
-		if (type.equals(TYPE_CHAR)) {
-			methodInfo.setMethodDescr("(C)V");
 		}
 		if (type.equals(TYPE_STRING)) {
 			methodInfo.setMethodDescr("(Ljava/lang/String;)V");
@@ -168,10 +168,6 @@ public class RowMapperCreater extends ClassLoader implements Opcodes {
 		if (type.equals(TYPE_DOUBLE)) {
 			methodInfo.setMethodName("getDouble");
 			methodInfo.setMethodDescr("(Ljava/lang/String;)D");
-		}
-		if (type.equals(TYPE_CHAR)) {
-			methodInfo.setMethodName("getChar");
-			methodInfo.setMethodDescr("(Ljava/lang/String;)C");
 		}
 		if (type.equals(TYPE_STRING)) {
 			methodInfo.setMethodName("getString");
