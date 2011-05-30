@@ -5,15 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dev3g.cactus.util.command.Invoker;
-import com.dev3g.cactus.util.command.Receiver;
-
 /**
  * 多线程任务执行，并发多个线程执行，然后合并结果返回
  * 
  * @author akwei
  */
-public class TaskInovker implements Invoker, Receiver {
+public class TaskInovker {
 
 	private List<Mission> list = new ArrayList<Mission>();
 
