@@ -27,7 +27,7 @@ public class DataTest {
 				"query-test3.xml");
 		HkObjQuery hkObjQuery = (HkObjQuery) context.getBean("hkObjQuery");
 		long begin = System.currentTimeMillis();
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 1000000; i++) {
 			User user = new User();
 			user.setNick("akweiweiweiweiweiweiwei" + i);
 			user
@@ -49,13 +49,13 @@ public class DataTest {
 		HkObjQuery hkObjQuery = (HkObjQuery) context.getBean("hkObjQuery");
 		final long begin = System.currentTimeMillis();
 		TaskInovker taskInovker = new TaskInovker();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 100; i++) {
 			InsertMission mission = new InsertMission();
 			mission.setHkObjQuery(hkObjQuery);
 			mission.setId("mission" + i);
 			mission.setTaskInovker(taskInovker);
 			List<User> list = new ArrayList<User>();
-			for (int k = 0; k < 100; k++) {
+			for (int k = 0; k < 1000; k++) {
 				User user = new User();
 				user.setNick("akweiweiweiweiweiweiwei" + i);
 				user
@@ -80,7 +80,7 @@ public class DataTest {
 	}
 
 	public static void main(String[] args) throws Exception {
-		// insertOneThread();
-		insertNThread();
+		 insertOneThread();
+//		insertNThread();
 	}
 }

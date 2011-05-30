@@ -20,11 +20,11 @@
 						<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/test0?useUnicode=true&amp;characterEncoding=UTF-8" />
 						<property name="user" value="root" />
 						<property name="password" value="boseeandbokee" />
-						<property name="maxStatements" value="200" />
+						<property name="maxStatements" value="0" />
 						<property name="idleConnectionTestPeriod" value="60" />
-						<property name="maxPoolSize" value="200" />
-						<property name="initialPoolSize" value="20" />
-						<property name="minPoolSize" value="20" />
+						<property name="maxPoolSize" value="300" />
+						<property name="initialPoolSize" value="200" />
+						<property name="minPoolSize" value="200" />
 					</bean>
 				</entry>
 			</map>
