@@ -23,8 +23,6 @@ public class TaskInovker implements Invoker, Receiver {
 
 	private boolean missionCompleted;
 
-	private InvokeCallback invokeCallback;
-
 	public void addMission(Mission mission) {
 		map.put(mission.getId(), mission);
 		list.add(mission);
@@ -47,7 +45,6 @@ public class TaskInovker implements Invoker, Receiver {
 
 	public synchronized void execute(InvokeCallback invokeCallback)
 			throws Exception {
-		this.invokeCallback = invokeCallback;
 		for (Mission mission : list) {
 			new Thread(mission).start();
 		}
@@ -55,7 +52,7 @@ public class TaskInovker implements Invoker, Receiver {
 			while (!this.isMissionCompleted()) {
 				this.wait();
 			}
-			this.invokeCallback.onComplete();
+			invokeCallback.onComplete();
 		}
 	}
 }
