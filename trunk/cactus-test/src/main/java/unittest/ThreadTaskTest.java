@@ -21,19 +21,13 @@ public class ThreadTaskTest {
 			taskInovker.execute(new InvokeCallback() {
 
 				@Override
-				public void onComplete() throws Exception {
-					try {
-						Thread.sleep(2000);
-						System.out
-								.println("<<<< === mission complete === >>>>");
-					}
-					catch (InterruptedException e) {
-						throw new RuntimeException(e);
-					}
+				public void onComplete() {
+					System.out.println("<<<< === mission complete === >>>>");
 				}
 			});
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			Assert.fail(e.getMessage());
 		}
 	}
