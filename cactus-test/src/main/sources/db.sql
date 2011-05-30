@@ -46,3 +46,15 @@ CREATE TABLE  test1.testuser1 (
   gender tinyint(1) unsigned NOT NULL,
   PRIMARY KEY  (userid)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+drop table if exists test0.user;
+CREATE TABLE test0.user (
+  userid bigint(20) unsigned NOT NULL auto_increment ,
+  nick varchar(45) NOT NULL ,
+  addr varchar(300) NOT NULL ,
+  intro varchar(300) NOT NULL ,
+  sex integer unsigned NOT NULL ,
+  createtime datetime NOT NULL ,
+  PRIMARY KEY(userid)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
