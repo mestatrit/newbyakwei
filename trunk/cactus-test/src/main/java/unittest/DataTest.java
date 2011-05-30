@@ -27,7 +27,7 @@ public class DataTest {
 				"query-test3.xml");
 		HkObjQuery hkObjQuery = (HkObjQuery) context.getBean("hkObjQuery");
 		long begin = System.currentTimeMillis();
-		for (int i = 0; i < 1000000; i++) {
+		for (int i = 0; i < 1000; i++) {
 			User user = new User();
 			user.setNick("akweiweiweiweiweiweiwei" + i);
 			user
