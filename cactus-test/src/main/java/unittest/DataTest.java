@@ -72,7 +72,7 @@ public class DataTest {
 		taskInovker.execute(new InvokeCallback() {
 
 			@Override
-			public void onComplete() throws Exception {
+			public void onComplete() {
 				long end = System.currentTimeMillis();
 				P.println("time : " + (end - begin));
 			}
