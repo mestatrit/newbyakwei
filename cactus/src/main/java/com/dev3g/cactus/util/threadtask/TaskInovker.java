@@ -23,6 +23,8 @@ public class TaskInovker implements Invoker, Receiver {
 
 	private boolean missionCompleted;
 
+	private InvokeCallback invokeCallback;
+
 	public void addMission(Mission mission) {
 		map.put(mission.getId(), mission);
 		list.add(mission);
@@ -32,6 +34,7 @@ public class TaskInovker implements Invoker, Receiver {
 		this.successSize = this.successSize + add;
 		if (this.successSize == list.size()) {
 			this.missionCompleted = true;
+			this.notify();
 		}
 		else {
 			this.missionCompleted = false;
@@ -42,14 +45,17 @@ public class TaskInovker implements Invoker, Receiver {
 		return this.missionCompleted;
 	}
 
-	public void execute(InvokeCallback invokeCallback) throws Exception {
+	public synchronized void execute(InvokeCallback invokeCallback)
+			throws Exception {
+		this.invokeCallback = invokeCallback;
 		for (Mission mission : list) {
 			new Thread(mission).start();
 		}
 		if (invokeCallback != null) {
 			while (!this.isMissionCompleted()) {
+				this.wait();
 			}
-			invokeCallback.onComplete();
+			this.invokeCallback.onComplete();
 		}
 	}
 }
