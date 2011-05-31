@@ -145,8 +145,8 @@ public class HttpUtil {
 		Part[] parts = new Part[httpFiles.length + map.size()];
 		int k = 0;
 		for (int i = 0; i < httpFiles.length; i++) {
-			parts[k++] = new FilePart(httpFiles[i].getName(), httpFiles[i]
-					.getFile());
+			parts[k++] = new FilePart(httpFiles[i].getName(),
+					httpFiles[i].getFile());
 		}
 		Set<Entry<String, String>> set = map.entrySet();
 		for (Entry<String, String> e : set) {
@@ -155,8 +155,8 @@ public class HttpUtil {
 		PostMethod method = new InnerPostMethod(url);
 		method.getParams().setBooleanParameter(
 				HttpMethodParams.USE_EXPECT_CONTINUE, true);
-		MultipartRequestEntity mre = new MultipartRequestEntity(parts, method
-				.getParams());
+		MultipartRequestEntity mre = new MultipartRequestEntity(parts,
+				method.getParams());
 		method.setRequestEntity(mre);
 		return getHttpResult(method);
 	}
@@ -249,7 +249,7 @@ public class HttpUtil {
 		}
 	}
 
-	class InnerPostMethod extends PostMethod {
+	static class InnerPostMethod extends PostMethod {
 
 		public InnerPostMethod(String url) {
 			super(url);
@@ -261,7 +261,8 @@ public class HttpUtil {
 		}
 	}
 
-	class InnerHttpMethodRetryHandler extends DefaultHttpMethodRetryHandler {
+	static class InnerHttpMethodRetryHandler extends
+			DefaultHttpMethodRetryHandler {
 
 		public InnerHttpMethodRetryHandler() {
 			super(1, false);

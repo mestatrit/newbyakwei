@@ -269,14 +269,14 @@ public class HttpClientImpl implements HttpHelper {
 			}
 			method.getParams().setBooleanParameter(
 					HttpMethodParams.USE_EXPECT_CONTINUE, true);
-			MultipartRequestEntity mre = new MultipartRequestEntity(list
-					.toArray(new Part[list.size()]), method.getParams());
+			MultipartRequestEntity mre = new MultipartRequestEntity(
+					list.toArray(new Part[list.size()]), method.getParams());
 			method.setRequestEntity(mre);
 		}
 		return method;
 	}
 
-	class InnerPostMethod extends PostMethod {
+	static class InnerPostMethod extends PostMethod {
 
 		public InnerPostMethod(String url) {
 			super(url);
@@ -302,7 +302,8 @@ public class HttpClientImpl implements HttpHelper {
 		}
 	}
 
-	class InnerHttpMethodRetryHandler extends DefaultHttpMethodRetryHandler {
+	static class InnerHttpMethodRetryHandler extends
+			DefaultHttpMethodRetryHandler {
 
 		public InnerHttpMethodRetryHandler() {
 			super(1, true);

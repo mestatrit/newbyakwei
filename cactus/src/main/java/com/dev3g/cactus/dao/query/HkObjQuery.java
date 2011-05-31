@@ -18,7 +18,10 @@ import com.dev3g.cactus.dao.query.param.UpdateParam;
  */
 public class HkObjQuery extends HkQuery {
 
-	private ObjectSqlInfoCreater objectSqlInfoCreater;
+	public HkObjQuery() {
+	}
+
+	private ObjectSqlInfoCreater objectSqlInfoCreater = new ObjectSqlInfoCreater();
 
 	public void setObjectSqlInfoCreater(
 			ObjectSqlInfoCreater objectSqlInfoCreater) {
@@ -35,10 +38,11 @@ public class HkObjQuery extends HkQuery {
 	 */
 	public <T> PartitionTableInfo parse(Class<T> clazz,
 			Map<String, Object> ctxMap) {
-		return this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
-				.getDbPartitionHelper().parse(
-						this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
-								.getTableName(), ctxMap);
+		return this.objectSqlInfoCreater
+				.getObjectSqlInfo(clazz)
+				.getDbPartitionHelper()
+				.parse(this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
+						.getTableName(), ctxMap);
 	}
 
 	/**
@@ -84,9 +88,9 @@ public class HkObjQuery extends HkQuery {
 		PartitionTableInfo partitionTableInfo = this.parse(t.getClass(),
 				insertParam.getCtxMap());
 		return this.insertBySQL(partitionTableInfo.getDatabaseName(),
-				SqlBuilder.createInsertSQL(partitionTableInfo, objectSqlInfo
-						.getColumns()), objectSqlInfo.getSqlUpdateMapper()
-						.getParamsForInsert(t));
+				SqlBuilder.createInsertSQL(partitionTableInfo,
+						objectSqlInfo.getColumns()), objectSqlInfo
+						.getSqlUpdateMapper().getParamsForInsert(t));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -101,20 +105,23 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	public <T> int update(UpdateParam updateParam, Class<T> clazz) {
-		PartitionTableInfo partitionTableInfo = this.parse(clazz, updateParam
-				.getCtxMap());
-		return this.updateBySQL(partitionTableInfo.getDatabaseName(),
-				SqlBuilder.createUpdateSQL(partitionTableInfo, updateParam
-						.getUpdateColumns(), updateParam.getWhere()),
-				updateParam.getParams());
+		PartitionTableInfo partitionTableInfo = this.parse(clazz,
+				updateParam.getCtxMap());
+		return this
+				.updateBySQL(partitionTableInfo.getDatabaseName(), SqlBuilder
+						.createUpdateSQL(partitionTableInfo,
+								updateParam.getUpdateColumns(),
+								updateParam.getWhere()), updateParam
+						.getParams());
 	}
 
 	public <T> int delete(DeleteParam deleteParam, Class<T> clazz) {
-		PartitionTableInfo partitionTableInfo = this.parse(clazz, deleteParam
-				.getCtxMap());
-		return this.updateBySQL(partitionTableInfo.getDatabaseName(),
-				SqlBuilder.createDeleteSQL(partitionTableInfo, deleteParam
-						.getWhere()), deleteParam.getParams());
+		PartitionTableInfo partitionTableInfo = this.parse(clazz,
+				deleteParam.getCtxMap());
+		return this.updateBySQL(
+				partitionTableInfo.getDatabaseName(),
+				SqlBuilder.createDeleteSQL(partitionTableInfo,
+						deleteParam.getWhere()), deleteParam.getParams());
 	}
 
 	/**
@@ -165,13 +172,13 @@ public class HkObjQuery extends HkQuery {
 		if (queryParam.getColumns() == null) {
 			queryParam.setColumns(this.getColumns(queryParam.getClasses()));
 		}
-		PartitionTableInfo[] partitionTableInfos = this.parse(queryParam
-				.getClasses(), queryParam.getCtxMap());
+		PartitionTableInfo[] partitionTableInfos = this.parse(
+				queryParam.getClasses(), queryParam.getCtxMap());
 		return this.getListBySQL(partitionTableInfos[0].getDatabaseName(),
-				SqlBuilder.createListSQL(partitionTableInfos, queryParam
-						.getColumns(), queryParam.getWhere(), queryParam
-						.getOrder()), queryParam.getParams(), queryParam
-						.getBegin(), queryParam.getSize(), mapper);
+				SqlBuilder.createListSQL(partitionTableInfos,
+						queryParam.getColumns(), queryParam.getWhere(),
+						queryParam.getOrder()), queryParam.getParams(),
+				queryParam.getBegin(), queryParam.getSize(), mapper);
 	}
 
 	/**
@@ -191,11 +198,12 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	public <T> int count(QueryParam queryParam) {
-		PartitionTableInfo[] partitionTableInfos = this.parse(queryParam
-				.getClasses(), queryParam.getCtxMap());
-		return this.countBySQL(partitionTableInfos[0].getDatabaseName(),
-				SqlBuilder.createCountSQL(partitionTableInfos, queryParam
-						.getWhere()), queryParam.getParams());
+		PartitionTableInfo[] partitionTableInfos = this.parse(
+				queryParam.getClasses(), queryParam.getCtxMap());
+		return this.countBySQL(
+				partitionTableInfos[0].getDatabaseName(),
+				SqlBuilder.createCountSQL(partitionTableInfos,
+						queryParam.getWhere()), queryParam.getParams());
 	}
 
 	/**
@@ -210,12 +218,12 @@ public class HkObjQuery extends HkQuery {
 		if (queryParam.getColumns() == null) {
 			queryParam.setColumns(this.getColumns(queryParam.getClasses()));
 		}
-		PartitionTableInfo[] partitionTableInfos = this.parse(queryParam
-				.getClasses(), queryParam.getCtxMap());
+		PartitionTableInfo[] partitionTableInfos = this.parse(
+				queryParam.getClasses(), queryParam.getCtxMap());
 		return this.getObjectBySQL(partitionTableInfos[0].getDatabaseName(),
-				SqlBuilder.createObjectSQL(partitionTableInfos, queryParam
-						.getColumns(), queryParam.getWhere(), queryParam
-						.getOrder()), queryParam.getParams(), mapper);
+				SqlBuilder.createObjectSQL(partitionTableInfos,
+						queryParam.getColumns(), queryParam.getWhere(),
+						queryParam.getOrder()), queryParam.getParams(), mapper);
 	}
 
 	/**
@@ -247,8 +255,7 @@ public class HkObjQuery extends HkQuery {
 	public <T> T getObjectById(QueryParam queryParam, Class<T> clazz,
 			Object idValue) {
 		queryParam.setWhere(this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
-				.getIdColumn()
-				+ "=?");
+				.getIdColumn() + "=?");
 		queryParam.setParams(new Object[] { idValue });
 		queryParam.setOrder(null);
 		queryParam.setBegin(0);

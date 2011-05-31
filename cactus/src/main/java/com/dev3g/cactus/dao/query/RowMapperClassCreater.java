@@ -65,13 +65,12 @@ public class RowMapperClassCreater extends ClassLoader implements Opcodes {
 						null,
 						new String[] { Type.getInternalName(SQLException.class) });
 		methodVisitor.visitMaxs(3, 4);
-		methodVisitor.visitTypeInsn(NEW, Type.getInternalName(resultSetDataInfo
-				.getClazz()));
+		methodVisitor.visitTypeInsn(NEW,
+				Type.getInternalName(resultSetDataInfo.getClazz()));
 		methodVisitor.visitInsn(DUP);
-		methodVisitor
-				.visitMethodInsn(INVOKESPECIAL, Type
-						.getInternalName(resultSetDataInfo.getClazz()),
-						"<init>", "()V");
+		methodVisitor.visitMethodInsn(INVOKESPECIAL,
+				Type.getInternalName(resultSetDataInfo.getClazz()), "<init>",
+				"()V");
 		methodVisitor.visitVarInsn(ASTORE, 3);
 		methodVisitor.visitVarInsn(ALOAD, 3);
 		for (Field field : resultSetDataInfo.getFieldList()) {
@@ -97,14 +96,15 @@ public class RowMapperClassCreater extends ClassLoader implements Opcodes {
 		methodVisitor.visitLdcInsn(resultSetDataInfo.getFullColumn(field
 				.getName()));
 		MethodInfo resultSetMethodInfo = this.createResultSetMethodInfo(field);
-		methodVisitor.visitMethodInsn(INVOKEINTERFACE, Type
-				.getInternalName(ResultSet.class), resultSetMethodInfo
-				.getMethodName(), resultSetMethodInfo.getMethodDescr());
+		methodVisitor.visitMethodInsn(INVOKEINTERFACE,
+				Type.getInternalName(ResultSet.class),
+				resultSetMethodInfo.getMethodName(),
+				resultSetMethodInfo.getMethodDescr());
 		MethodInfo setterMethodInfo = this.createSetterMethodInfo(field);
-		methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-				.getInternalName(resultSetDataInfo.getClazz()),
-				setterMethodInfo.getMethodName(), setterMethodInfo
-						.getMethodDescr());
+		methodVisitor.visitMethodInsn(INVOKEVIRTUAL,
+				Type.getInternalName(resultSetDataInfo.getClazz()),
+				setterMethodInfo.getMethodName(),
+				setterMethodInfo.getMethodDescr());
 		methodVisitor.visitVarInsn(ALOAD, 3);
 	}
 
@@ -193,7 +193,7 @@ public class RowMapperClassCreater extends ClassLoader implements Opcodes {
 		return pkgName + "." + shortName + "AsmMapper";
 	}
 
-	private class MethodInfo {
+	private static class MethodInfo {
 
 		private String methodName;
 

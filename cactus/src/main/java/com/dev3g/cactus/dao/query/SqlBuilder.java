@@ -12,7 +12,7 @@ public class SqlBuilder {
 	 */
 	public static String buildSelectCount(String columns) {
 		StringBuilder sb = new StringBuilder("select count(");
-		if (columns == null) {
+		if (columns != null) {
 			sb.append(columns);
 		}
 		else {

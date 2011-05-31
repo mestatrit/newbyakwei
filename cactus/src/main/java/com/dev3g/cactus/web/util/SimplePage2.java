@@ -54,16 +54,16 @@ public class SimplePage2 {
 	 */
 	public SimplePage2(int len, int page, int size, int showNum,
 			boolean showBorder) {
-		if (this.len < 0) {
+		if (len < 0) {
 			throw new IllegalArgumentException("len must bigger than -1");
 		}
-		if (this.page <= 0) {
+		if (page <= 0) {
 			this.page = 1;
 		}
-		if (this.size < 0) {
+		if (size < 0) {
 			throw new IllegalArgumentException("len must bigger than 0");
 		}
-		if (this.showNum < 0) {
+		if (showNum < 0) {
 			throw new IllegalArgumentException("len must bigger than 0");
 		}
 		this.len = len;
