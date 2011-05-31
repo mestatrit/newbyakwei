@@ -75,6 +75,7 @@ public class LocalResourceConfig implements InitializingBean {
 	 */
 	public void proccessFile() throws IOException {
 		List<String> olist = new ArrayList<String>();
+		BufferedReader br = null;
 		String basepath = LocalResourceConfig.class.getResource("/").getPath();
 		for (String s : fileList) {
 			if (DataUtil.isEmpty(s)) {
@@ -108,16 +109,23 @@ public class LocalResourceConfig implements InitializingBean {
 				continue;
 			}
 			File file = new File(array[i] + "." + postfix);
-			if (file.exists()) {
-				BufferedReader br = new BufferedReader(new InputStreamReader(
-						new FileInputStream(file), "utf-8"));
-				String line = null;
-				while ((line = br.readLine()) != null) {
-					if (line.startsWith("#")) {
-						continue;
+			try {
+				if (file.exists()) {
+					br = new BufferedReader(new InputStreamReader(
+							new FileInputStream(file), "utf-8"));
+					String line = null;
+					while ((line = br.readLine()) != null) {
+						if (line.startsWith("#")) {
+							continue;
+						}
+						String[] e = this.parseKeyAndValue(line);
+						propertiesMap.put(e[0], e[1]);
 					}
-					String[] e = this.parseKeyAndValue(line);
-					propertiesMap.put(e[0], e[1]);
+				}
+			}
+			finally {
+				if (br != null) {
+					br.close();
 				}
 			}
 		}

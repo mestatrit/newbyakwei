@@ -122,17 +122,20 @@ public class FileUtil {
 		return fileSize;
 	}
 
-	public static void deleteFile(File file) {
+	public static boolean deleteFile(File file) {
 		if (file == null) {
-			return;
+			return false;
 		}
 		if (file.exists()) {
-			file.delete();
+			if (!file.delete()) {
+				return false;
+			}
 		}
-		File parent = file.getParentFile();
-		if (parent != null) {
-			parent.delete();
-		}
+		return false;
+		// File parent = file.getParentFile();
+		// if (parent != null) {
+		// parent.delete();
+		// }
 	}
 
 	public static void deleteAllFile(String dirPath) {
@@ -145,7 +148,10 @@ public class FileUtil {
 					path = f.getAbsolutePath();
 					deleteAllFile(path);
 				}
-				file.delete();
+				if (!file.delete()) {
+					throw new RuntimeException("delete file fail [ "
+							+ file.getAbsolutePath() + " ]");
+				}
 			}
 			else {
 				if (!file.delete()) {

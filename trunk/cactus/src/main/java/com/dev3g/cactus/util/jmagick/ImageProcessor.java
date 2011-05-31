@@ -1,6 +1,9 @@
 package com.dev3g.cactus.util.jmagick;
+
 import java.awt.Rectangle;
 import java.io.File;
+
+import com.dev3g.cactus.util.FileUtil;
 
 import magick.CompressionType;
 import magick.ImageInfo;
@@ -203,10 +206,7 @@ public class ImageProcessor {
 	 */
 	public void cutImage(String filePath, String fileName, PicRect picRect)
 			throws ImageException {
-		File f = new File(filePath);
-		if (!f.exists()) {
-			f.mkdirs();
-		}
+		FileUtil.mkdir(filePath);
 		String newFile = filePath + fileName;
 		int new_width = picRect.getX1() - picRect.getX0();
 		int new_height = picRect.getY1() - picRect.getY0();
@@ -241,10 +241,7 @@ public class ImageProcessor {
 	 */
 	public void makeImage(String filePath, String fileName, boolean square,
 			int size) throws ImageException {
-		File f = new File(filePath);
-		if (!f.exists()) {
-			f.mkdirs();
-		}
+		FileUtil.mkdir(filePath);
 		String newFile = filePath + fileName;
 		String img = newFile.substring(0, newFile.lastIndexOf("."));
 		// 文件先不加后缀

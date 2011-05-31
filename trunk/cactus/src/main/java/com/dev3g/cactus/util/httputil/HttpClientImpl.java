@@ -132,12 +132,12 @@ public class HttpClientImpl implements HttpHelper {
 	private String getHttpResult(HttpMethod method) throws Exception {
 		this.initMethod(method);
 		InputStream is = null;
+		BufferedReader reader = null;
 		try {
 			HttpClient client = createHttpClient();
 			client.executeMethod(method);
 			is = method.getResponseBodyAsStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					is, "utf-8"));
+			reader = new BufferedReader(new InputStreamReader(is, "utf-8"));
 			StringBuilder builder = new StringBuilder();
 			String tmp = null;
 			while ((tmp = reader.readLine()) != null) {
@@ -151,12 +151,18 @@ public class HttpClientImpl implements HttpHelper {
 		finally {
 			method.releaseConnection();
 			try {
+				if (reader != null) {
+					reader.close();
+				}
+			}
+			catch (IOException e) {
+			}
+			try {
 				if (is != null) {
 					is.close();
 				}
 			}
 			catch (IOException e) {
-				throw e;
 			}
 		}
 	}
@@ -167,9 +173,10 @@ public class HttpClientImpl implements HttpHelper {
 		ByteArrayOutputStream bos = null;
 		HttpClient client = createHttpClient();
 		client.executeMethod(method);
+		BufferedInputStream bis = null;
 		try {
 			is = method.getResponseBodyAsStream();
-			BufferedInputStream bis = new BufferedInputStream(is);
+			bis = new BufferedInputStream(is);
 			bos = new ByteArrayOutputStream();
 			byte[] by = new byte[1024];
 			int len = -1;
@@ -193,12 +200,18 @@ public class HttpClientImpl implements HttpHelper {
 				throw e;
 			}
 			try {
+				if (bis != null) {
+					bis.close();
+				}
+			}
+			catch (IOException e) {
+			}
+			try {
 				if (bos != null) {
 					bos.close();
 				}
 			}
 			catch (IOException e) {
-				throw e;
 			}
 		}
 	}

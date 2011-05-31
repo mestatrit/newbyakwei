@@ -164,12 +164,12 @@ public class HttpUtil {
 	private String getHttpResult(HttpMethod method) throws Exception {
 		this.initMethod(method);
 		InputStream is = null;
+		BufferedReader reader = null;
 		try {
 			HttpClient client = createHttpClient();
 			client.executeMethod(method);
 			is = method.getResponseBodyAsStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					is, "utf-8"));
+			reader = new BufferedReader(new InputStreamReader(is, "utf-8"));
 			StringBuilder builder = new StringBuilder();
 			String tmp = null;
 			while ((tmp = reader.readLine()) != null) {
@@ -188,7 +188,13 @@ public class HttpUtil {
 				}
 			}
 			catch (IOException e) {
-				throw e;
+			}
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+			}
+			catch (IOException e) {
 			}
 		}
 	}
@@ -197,11 +203,12 @@ public class HttpUtil {
 		this.initMethod(method);
 		InputStream is = null;
 		ByteArrayOutputStream bos = null;
+		BufferedInputStream bis = null;
 		try {
 			HttpClient client = createHttpClient();
 			client.executeMethod(method);
 			is = method.getResponseBodyAsStream();
-			BufferedInputStream bis = new BufferedInputStream(is);
+			bis = new BufferedInputStream(is);
 			bos = new ByteArrayOutputStream();
 			byte[] by = new byte[1024];
 			int len = -1;
@@ -222,7 +229,13 @@ public class HttpUtil {
 				}
 			}
 			catch (IOException e) {
-				throw e;
+			}
+			try {
+				if (bis != null) {
+					bis.close();
+				}
+			}
+			catch (IOException e) {
 			}
 			try {
 				if (bos != null) {
@@ -230,7 +243,6 @@ public class HttpUtil {
 				}
 			}
 			catch (IOException e) {
-				throw e;
 			}
 		}
 	}
