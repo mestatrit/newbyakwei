@@ -132,10 +132,6 @@ public class FileUtil {
 			}
 		}
 		return false;
-		// File parent = file.getParentFile();
-		// if (parent != null) {
-		// parent.delete();
-		// }
 	}
 
 	public static void deleteAllFile(String dirPath) {
