@@ -3,8 +3,11 @@ package iwant.dao.impl;
 import iwant.bean.FollowProject;
 import iwant.dao.FollowProjectDao;
 
+import org.springframework.stereotype.Component;
+
 import com.dev3g.cactus.dao.query.BaseDao;
 
+@Component("followProjectDao")
 public class FollowProjectDaoImpl extends BaseDao<FollowProject> implements
 		FollowProjectDao {
 

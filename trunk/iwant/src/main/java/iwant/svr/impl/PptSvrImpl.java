@@ -31,6 +31,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.dev3g.cactus.util.DataUtil;
 import com.dev3g.cactus.util.FileUtil;
@@ -40,6 +41,7 @@ import com.dev3g.cactus.util.jmagick.ImageProcessor;
 import com.dev3g.cactus.util.jmagick.ImgFileInfo;
 import com.dev3g.cactus.util.jmagick.PicRect;
 
+@Component("pptSvr")
 public class PptSvrImpl implements PptSvr {
 
 	@Autowired
@@ -60,6 +62,7 @@ public class PptSvrImpl implements PptSvr {
 	@Autowired
 	private ProjectSvr projectSvr;
 
+	@Autowired
 	private FileCnf fileCnf;
 
 	private Log log = LogFactory.getLog(PptSvrImpl.class);

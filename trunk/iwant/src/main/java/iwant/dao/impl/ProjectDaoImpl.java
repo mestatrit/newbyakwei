@@ -10,9 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import com.dev3g.cactus.dao.query.BaseDao;
 import com.dev3g.cactus.util.DataUtil;
 
+@Component("projectDao")
 public class ProjectDaoImpl extends BaseDao<Project> implements ProjectDao {
 
 	@Override

@@ -9,8 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dev3g.cactus.dao.query.BaseDao;
+import org.springframework.stereotype.Component;
 
+import com.dev3g.cactus.dao.query.BaseDao;
+@Component("pptDao")
 public class PptDaoImpl extends BaseDao<Ppt> implements PptDao {
 
 	@Override

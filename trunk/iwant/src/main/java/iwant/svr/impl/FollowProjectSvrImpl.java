@@ -15,9 +15,11 @@ import iwant.svr.exception.UserNotFoundException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.dev3g.cactus.util.NumberUtil;
 
+@Component("followProjectSvr")
 public class FollowProjectSvrImpl implements FollowProjectSvr {
 
 	@Autowired

@@ -19,9 +19,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.dev3g.cactus.util.NumberUtil;
 
+@Component("projectSvr")
 public class ProjectSvrImpl implements ProjectSvr {
 
 	@Autowired
