@@ -32,8 +32,6 @@ public class DataUtil implements ApplicationContextAware {
 
 	public static ApplicationContext applicationContext;
 
-	public static final String DEFAULTBASE64CHARSET = "iso-8859-1";
-
 	public static final String DEFAULTCHARSET = "UTF-8";
 
 	private static final Pattern emailPattern = Pattern
