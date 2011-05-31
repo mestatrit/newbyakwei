@@ -5,6 +5,7 @@ import java.io.File;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dev3g.cactus.util.FileUtil;
 import com.dev3g.cactus.util.HkUtil;
 import com.dev3g.cactus.web.util.HkWebUtil;
 
@@ -52,9 +53,8 @@ public class ActionExeImpl implements ActionExe {
 	@Override
 	public String invoke(String mappingUri, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		return this.invokeInterceptor(
-				this.actionMappingCreator.getActionMapping(mappingUri),
-				request, response);
+		return this.invokeInterceptor(this.actionMappingCreator
+				.getActionMapping(mappingUri), request, response);
 	}
 
 	public void afterProcess(HkRequest request) {
@@ -65,10 +65,8 @@ public class ActionExeImpl implements ActionExe {
 		File[] files = request.getFiles();
 		if (files != null) {
 			for (File f : files) {
-				if (f != null && f.exists()) {
-					if (!f.delete()) {
-						continue;
-					}
+				if (!FileUtil.deleteFile(f)) {
+					continue;
 				}
 			}
 		}
