@@ -30,4 +30,47 @@
 			</map>
 		</property>
 	</bean>
+	<context:annotation-config />
+	<context:component-scan base-package="iwant.dao.impl">
+		<context:include-filter type="regex" expression=".*DaoImpl" />
+	</context:component-scan>
+	<context:component-scan base-package="iwant.svr.impl">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
+	</context:component-scan>
+	<!-- 分区配置必须在hkObjQuery声明之前 -->
+	<bean id="hkObjQuery" class="com.dev3g.cactus.dao.query.HkObjQuery">
+		<property name="daoSupport">
+			<bean class="com.dev3g.cactus.dao.query.MysqlDaoSupport">
+				<property name="dataSource" ref="dataSource" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" rollback-for="java.lang.Exception" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="tr" expression="execution(* iwant.svr.impl.*SvrImpl.*Tx(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="tr" />
+	</aop:config>
+	<bean id="slideFileCnf" class="iwant.util.FileCnf">
+		<property name="root_path" value="/home/iwant/pub/pic/slidepic/" />
+		<property name="tmpPhotoPath" value="/home/iwant/pub/tmppic/slidepic/" />
+		<property name="fileMaxSize" value="3" />
+		<property name="directory" value="a/" />
+		<property name="suburl" value="http://www.iwant.com/pic/slidepic/" />
+	</bean>
+	<bean id="apnsTool" class="iwant.util.apns.ApnsTool">
+		<!--
+		<property name="host" value="gateway.sandbox.push.apple.com" /> 
+		 -->
+		<property name="host" value="gateway.push.apple.com" />
+		<property name="port" value="2195" />
+		<property name="p12FileName" value="productpush.p12" />
+		<property name="p12FileKey" value="" />
+	</bean>
 </beans>
