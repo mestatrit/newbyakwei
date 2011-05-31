@@ -8,7 +8,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.dev3g.cactus.util.FileUtil;
 import com.dev3g.cactus.web.action.upload.cos.MultipartRequest;
 
 public class FileUpload {
