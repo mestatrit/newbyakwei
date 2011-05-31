@@ -5,8 +5,11 @@ import iwant.dao.PptTimelineDao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.dev3g.cactus.dao.query.BaseDao;
 
+@Component("pptTimelineDao")
 public class PptTimelineDaoImpl extends BaseDao<PptTimeline> implements
 		PptTimelineDao {
 

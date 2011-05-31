@@ -7,8 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import com.dev3g.cactus.dao.query.BaseDao;
 
+@Component("noticeDao")
 public class NoticeDaoImpl extends BaseDao<Notice> implements NoticeDao {
 
 	@Override

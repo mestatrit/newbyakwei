@@ -5,8 +5,11 @@ import iwant.dao.CountryDao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.dev3g.cactus.dao.query.BaseDao;
 
+@Component("countryDao")
 public class CountryDaoImpl extends BaseDao<Country> implements CountryDao {
 
 	@Override
