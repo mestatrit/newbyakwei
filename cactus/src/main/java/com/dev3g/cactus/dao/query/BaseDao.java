@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.dev3g.cactus.dao.query.param.DeleteParam;
 import com.dev3g.cactus.dao.query.param.InsertParam;
 import com.dev3g.cactus.dao.query.param.QueryParam;
@@ -14,6 +16,7 @@ public abstract class BaseDao<T> implements IDao<T> {
 
 	private static final String empty_key = "";
 
+	@Autowired
 	public HkObjQuery hkObjQuery;
 
 	@Override
