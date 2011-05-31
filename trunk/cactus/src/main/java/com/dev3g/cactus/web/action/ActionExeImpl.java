@@ -58,15 +58,20 @@ public class ActionExeImpl implements ActionExe {
 	}
 
 	public void afterProcess(HkRequest request) {
+		this.deleteFiles(request);
+	}
+
+	private boolean deleteFiles(HkRequest request) {
 		File[] files = request.getFiles();
 		if (files != null) {
 			for (File f : files) {
 				if (f != null && f.exists()) {
 					if (!f.delete()) {
-						// want to process
+						continue;
 					}
 				}
 			}
 		}
+		return true;
 	}
 }
