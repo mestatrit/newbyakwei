@@ -35,12 +35,12 @@ public class RowMapperClassCreater extends ClassLoader implements Opcodes {
 
 	private static final String TYPE_DATE = Date.class.getName();
 
-	protected RowMapperClassCreater() {
+	public RowMapperClassCreater() {
 		super(Thread.currentThread().getContextClassLoader());
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> Class<T> createRowMapperClass(
+	protected <T> Class<T> createRowMapperClass(
 			ResultSetDataInfo<T> resultSetDataInfo) {
 		ClassWriter classWriter = new ClassWriter(0);
 		String mapperName = createMapperClassName(resultSetDataInfo.getClazz());
