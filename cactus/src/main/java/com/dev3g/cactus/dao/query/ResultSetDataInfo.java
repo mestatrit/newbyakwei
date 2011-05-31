@@ -85,8 +85,7 @@ public class ResultSetDataInfo<T> {
 		if (table != null) {
 			this.tableName = table.name();
 		}
-		RowMapperClassCreater creater = new RowMapperClassCreater(Thread.currentThread()
-				.getContextClassLoader());
+		RowMapperClassCreater creater = new RowMapperClassCreater();
 		Class<T> mapperClazz = creater.createRowMapperClass(this);
 		try {
 			Object obj = mapperClazz.getConstructor().newInstance();
