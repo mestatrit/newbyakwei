@@ -85,10 +85,9 @@ public class ResultSetDataInfo<T> {
 		if (table != null) {
 			this.tableName = table.name();
 		}
-		RowMapperClassCreater creater = new RowMapperClassCreater();
-		Class<T> mapperClazz = creater.createRowMapperClass(this);
 		try {
-			Object obj = mapperClazz.getConstructor().newInstance();
+			Object obj = new RowMapperClassCreater().createRowMapperClass(this)
+					.getConstructor().newInstance();
 			this.rowMapper = (RowMapper<T>) obj;
 		}
 		catch (Exception e) {
