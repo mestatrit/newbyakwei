@@ -33,7 +33,7 @@ public class ActionFilter implements Filter {
 
 	private ActionResultProcessor actionResultProcessor;
 
-	private final String REQUESTCONTEXTPATH_KEY = "appctx_path";
+	private static final String REQUESTCONTEXTPATH_KEY = "appctx_path";
 
 	@Override
 	public void init(FilterConfig config) throws ServletException {
@@ -71,8 +71,8 @@ public class ActionFilter implements Filter {
 		req.setAttribute(REQUESTCONTEXTPATH_KEY, req.getContextPath());
 		String mappingUri = this.mappingUriCreater.findMappingUri(req);
 		try {
-			this.actionResultProcessor.processResult(this.actionExe.invoke(
-					mappingUri, req, resp), req, resp);
+			this.actionResultProcessor.processResult(
+					this.actionExe.invoke(mappingUri, req, resp), req, resp);
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);

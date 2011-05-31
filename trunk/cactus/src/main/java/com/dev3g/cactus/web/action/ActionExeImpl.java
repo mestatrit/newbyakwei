@@ -62,7 +62,9 @@ public class ActionExeImpl implements ActionExe {
 		if (files != null) {
 			for (File f : files) {
 				if (f != null && f.exists()) {
-					f.delete();
+					if (!f.delete()) {
+						f.delete();
+					}
 				}
 			}
 		}

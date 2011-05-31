@@ -26,7 +26,6 @@ import org.springframework.context.ApplicationContextAware;
 public class DataUtil implements ApplicationContextAware {
 
 	private DataUtil() {
-		// default
 	}
 
 	private static Pattern p = Pattern.compile("[\\u4E00-\\u9FA5]");

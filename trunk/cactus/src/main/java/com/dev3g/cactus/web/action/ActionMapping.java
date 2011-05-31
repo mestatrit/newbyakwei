@@ -42,12 +42,12 @@ public class ActionMapping {
 	private Action asmAction;
 
 
-	private HkInterceptor hkInterceptor;
-
-	public HkInterceptor getHkInterceptor() {
-
-		return hkInterceptor;
-	}
+//	private HkInterceptor hkInterceptor;
+//
+//	public HkInterceptor getHkInterceptor() {
+//
+//		return hkInterceptor;
+//	}
 
 	public void setActionMethod(Method actionMethod) {
 

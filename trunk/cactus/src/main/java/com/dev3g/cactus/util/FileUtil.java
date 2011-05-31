@@ -24,11 +24,12 @@ public class FileUtil {
 		copyFile(new File(source), dist, fileName);
 	}
 
-	public static void mkdir(String path) {
+	public static boolean mkdir(String path) {
 		File f = new File(path);
 		if (!f.exists() || !f.isDirectory()) {
-			f.mkdirs();
+			return f.mkdirs();
 		}
+		return false;
 	}
 
 	public static boolean isFileDirectory(String path) {
@@ -49,10 +50,7 @@ public class FileUtil {
 	 */
 	public static void copyFile(File file, String dist, String fileName)
 			throws IOException {
-		File f = new File(dist);
-		if (!f.exists() || !f.isDirectory()) {
-			f.mkdirs();
-		}
+		mkdir(dist);
 		BufferedOutputStream buffos = null;
 		BufferedInputStream buffis = null;
 		byte[] by = new byte[1024];
@@ -150,7 +148,10 @@ public class FileUtil {
 				file.delete();
 			}
 			else {
-				file.delete();
+				if (!file.delete()) {
+					throw new RuntimeException("delete file fail [ "
+							+ file.getAbsolutePath() + " ]");
+				}
 			}
 		}
 	}

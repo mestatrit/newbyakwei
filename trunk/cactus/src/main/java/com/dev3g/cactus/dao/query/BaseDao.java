@@ -12,7 +12,7 @@ import com.dev3g.cactus.dao.query.param.UpdateParam;
 
 public abstract class BaseDao<T> implements IDao<T> {
 
-	private final String empty_key = "";
+	private static final String empty_key = "";
 
 	public HkObjQuery hkObjQuery;
 

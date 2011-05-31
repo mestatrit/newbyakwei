@@ -18,7 +18,7 @@ public class FileUpload {
 
 	private MultipartRequest multipartRequest;
 
-	private final String METHOD_POST = "POST";
+	private static final String METHOD_POST = "POST";
 
 	// 上传文件的总大小限制在15M
 	private int maxPostSize = 51 * 1024 * 1024;
