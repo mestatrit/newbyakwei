@@ -53,7 +53,7 @@ public class ParamListUtil {
 	}
 
 	public static Object toObject(long value) {
-		return new Long(value);
+		return Long.valueOf(value);
 	}
 
 	public static Object toObject(short value) {

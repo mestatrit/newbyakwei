@@ -24,7 +24,9 @@ public class OptionTag extends BaseTag {
 	protected void adapter(JspWriter writer) throws IOException {
 		SelectTag parent = this.getSelectTag(this.getParent());
 		writer.append("<option value=\"");
-		writer.append(this.value.toString());
+		if (value != null) {
+			writer.append(this.value.toString());
+		}
 		writer.append("\"");
 		if (parent.getCheckedvalue() != null && this.value != null
 				&& parent.getCheckedvalue().equals(this.value)) {

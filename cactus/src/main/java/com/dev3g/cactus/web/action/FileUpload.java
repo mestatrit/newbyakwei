@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.dev3g.cactus.util.FileUtil;
 import com.dev3g.cactus.web.action.upload.cos.MultipartRequest;
 
 public class FileUpload {
@@ -47,7 +48,11 @@ public class FileUpload {
 		}
 		File dir = new File(uploadFileTempPath);
 		if (!dir.isDirectory()) {
-			dir.mkdir();
+			if (!dir.mkdir()) {
+				throw new IllegalArgumentException(
+						"no permission on server to mkdir file [ "
+								+ uploadFileTempPath + " ]");
+			}
 		}
 		if (!dir.canWrite()) {
 			throw new IllegalArgumentException(
