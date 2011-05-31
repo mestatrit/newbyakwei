@@ -20,22 +20,9 @@ public class FileUpload {
 
 	private static final String METHOD_POST = "POST";
 
-	// 上传文件的总大小限制在15M
+	// 上传文件的总大小限制在15M，默认设置
 	private int maxPostSize = 51 * 1024 * 1024;
 
-	//
-	// /**
-	// * 设置上传文件的最大限制,单位为M
-	// *
-	// * @param maxPostSize
-	// */
-	// public void setMaxPostSize(int maxPostSize) {
-	// this.maxPostSize = maxPostSize;
-	// }
-	//
-	// public int getMaxPostSize() {
-	// return maxPostSize;
-	// }
 	private static final int dv = 1024 * 1024;
 
 	public FileUpload(HttpServletRequest request, String uploadFileTempPath)
