@@ -17,15 +17,6 @@
 	<!-- 分区配置必须在hkObjQuery声明之前 -->
 	<bean id="hkObjQuery" class="com.dev3g.cactus.dao.query.HkObjQuery">
 		<property name="daoSupport" ref="daoSupport" />
-		<property name="objectSqlInfoCreater">
-			<bean id="objectSqlInfoCreater" class="com.dev3g.cactus.dao.query.ObjectSqlInfoCreater">
-				<!--
-					<property name="classNameList"> <list> <value>iwant.bean.Category</value> <value>iwant.bean.City</value> <value>iwant.bean.Country</value> <value>iwant.bean.District</value> <value>iwant.bean.FollowProject</value> <value>iwant.bean.MainPpt</value> <value>iwant.bean.Notice</value> <value>iwant.bean.NoticeidCreator</value> <value>iwant.bean.NoticeQueue</value> <value>iwant.bean.Ppt</value>
-					<value>iwant.bean.PptidCreator</value> <value>iwant.bean.PptQueue</value> <value>iwant.bean.PptTimeline</value> <value>iwant.bean.Project</value> <value>iwant.bean.ProjectFans</value> <value>iwant.bean.ProjectidCreator</value> <value>iwant.bean.ProjectRecycle</value> <value>iwant.bean.Province</value> <value>iwant.bean.Slide</value> <value>iwant.bean.User</value>
-					<value>iwant.bean.UseridCreator</value> <value>iwant.bean.UserNotice</value> </list> </property>
-				-->
-			</bean>
-		</property>
 	</bean>
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
