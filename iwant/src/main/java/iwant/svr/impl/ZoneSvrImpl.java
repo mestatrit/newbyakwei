@@ -4,6 +4,7 @@ import iwant.bean.City;
 import iwant.bean.Country;
 import iwant.bean.District;
 import iwant.bean.Province;
+import iwant.bean.enumtype.ZoneHideType;
 import iwant.dao.CityDao;
 import iwant.dao.CountryDao;
 import iwant.dao.DistrictDao;
@@ -207,5 +208,26 @@ public class ZoneSvrImpl implements ZoneSvr {
 	public District getDistrictByCityidAndNameLike(int cityid, String name) {
 		return this.districtDao.getByCityidAndNameLike(cityid, this
 				.formatZoneName(name));
+	}
+
+	@Override
+	public List<City> getCityListByProvinceidForShow(int provinceid) {
+		return this.cityDao.getList("provinceid=? and hide_flg=?",
+				new Object[] { provinceid, ZoneHideType.SHOW.getValue() },
+				"order_flg asc", 0, -1);
+	}
+
+	@Override
+	public List<District> getDistrictListByCityidForShow(int cityid) {
+		return this.districtDao.getList("cityid=? and hide_flg=?",
+				new Object[] { cityid, ZoneHideType.SHOW.getValue() }, null, 0,
+				-1);
+	}
+
+	@Override
+	public List<Province> getProvinceListByCountryidForShow(int countryid) {
+		return this.provinceDao.getList("countryid=? and hide_flg=?",
+				new Object[] { countryid, ZoneHideType.SHOW.getValue() },
+				"order_flg asc", 0, -1);
 	}
 }
