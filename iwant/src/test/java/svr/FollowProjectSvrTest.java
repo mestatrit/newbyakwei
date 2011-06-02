@@ -2,6 +2,7 @@ package svr;
 
 import iwant.bean.FollowProject;
 import iwant.bean.ProjectFans;
+import iwant.svr.exception.FollowProjectAlreadyExistException;
 import iwant.svr.exception.ProjectNotFoundException;
 import iwant.svr.exception.UserNotFoundException;
 
@@ -25,11 +26,16 @@ public class FollowProjectSvrTest extends BaseSvrTest {
 						this.project0.getProjectid());
 		Assert.assertNotNull(followProject);
 		this.assertData(this.followProject0, followProject);
-		FollowProject followProject3 = this.followProjectSvr.createFollow(
-				this.user0.getUserid(), this.project0.getProjectid());
-		Assert
-				.assertEquals(followProject.getSysid(), followProject3
-						.getSysid());
+		FollowProject followProject3;
+		try {
+			followProject3 = this.followProjectSvr.createFollow(this.user0
+					.getUserid(), this.project0.getProjectid());
+			Assert.assertEquals(followProject.getSysid(), followProject3
+					.getSysid());
+		}
+		catch (FollowProjectAlreadyExistException e) {
+			Assert.fail(e.getMessage());
+		}
 	}
 
 	@Test
