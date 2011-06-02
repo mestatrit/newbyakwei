@@ -51,7 +51,10 @@ public class AdminUtil {
 		return adminUser;
 	}
 
-	public static void clearLoginAdminUser(HttpServletResponse response) {
+	public static void clearLoginAdminUser(HttpServletRequest request,
+			HttpServletResponse response) {
+		request.removeAttribute("adminUser");
+		request.getSession().invalidate();
 		Cookie cookie = new Cookie(mgr_adminuser_cookie_name, "");
 		cookie.setMaxAge(0);
 		cookie.setPath("/");

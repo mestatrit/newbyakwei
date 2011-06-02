@@ -17,7 +17,6 @@ import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.dev3g.cactus.util.DataUtil;
@@ -25,7 +24,6 @@ import com.dev3g.cactus.util.jmagick.PicRect;
 import com.dev3g.cactus.web.action.HkRequest;
 import com.dev3g.cactus.web.action.HkResponse;
 
-@Lazy
 @Component("/mgr/slide")
 public class SlideAction extends BaseAction {
 
