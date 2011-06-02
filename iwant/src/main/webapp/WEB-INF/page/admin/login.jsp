@@ -18,12 +18,6 @@
 						<td><input type="password" class="text" name="pwd" maxlength="20"/></td>
 					</tr>
 					<tr>
-						<td width="90">地区：</td>
-						<td>
-							<div id="area"></div>
-						</td>
-					</tr>
-					<tr>
 						<td width="90"></td>
 						<td><input type="submit" class="btn" value="登录"/></td>
 					</tr>
@@ -32,10 +26,7 @@
 		</div>
 	</div>
 </div>
-<jsp:include page="inc/zone_inc.jsp"></jsp:include>
 <script type="text/javascript">
-var zone=new Zone('area','_pid','_cid');
-zone.init();
 var glassid_op=null;
 function subfrm(frmid){
 	glassid_op=addGlass('frm',false);
