@@ -1,5 +1,7 @@
 package iwant.web.admin.util;
 
+import iwant.bean.AdminUser;
+
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
@@ -21,7 +23,8 @@ public class AdminFilter extends HkFilter {
 	public void doFilter(HttpServletRequest request,
 			HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		if (!AdminUtil.isAdminLogined(request)) {
+		AdminUser adminUser = AdminUtil.getLoginAdminUser(request);
+		if (adminUser == null) {
 			PathProcessor
 					.processResult("r:/sitemgrlogin.do", request, response);
 			return;

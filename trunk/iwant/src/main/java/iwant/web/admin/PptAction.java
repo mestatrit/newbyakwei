@@ -19,7 +19,6 @@ import iwant.util.ActiveTypeCreater;
 import iwant.util.BackUrl;
 import iwant.util.BackUrlUtil;
 import iwant.web.BaseAction;
-import iwant.web.admin.util.AdminUtil;
 import iwant.web.admin.util.Err;
 
 import java.util.ArrayList;
@@ -289,7 +288,7 @@ public class PptAction extends BaseAction {
 	 * @throws Exception
 	 */
 	public String mainlist(HkRequest req, HkResponse resp) throws Exception {
-		int cityid = AdminUtil.getLoginCityid(req);
+		int cityid = this.getLoginCityid(req);
 		List<District> districtlist = this.zoneSvr
 				.getDistrictListByCityid(cityid);
 		req.setAttribute("districtlist", districtlist);

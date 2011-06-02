@@ -1,5 +1,6 @@
 package iwant.web.admin;
 
+import iwant.bean.AdminUser;
 import iwant.bean.City;
 import iwant.bean.District;
 import iwant.bean.Province;
@@ -43,7 +44,9 @@ public class ZoneAction extends BaseAction {
 	 * @throws Exception
 	 */
 	public String changecity(HkRequest req, HkResponse resp) throws Exception {
-		AdminUtil.setLoginCity(resp, req.getInt("cityid"));
+		AdminUser adminUser = this.getAdminUser(req);
+		adminUser.setCityid(req.getInt("cityid"));
+		AdminUtil.setLoginAdminUser(resp, adminUser);
 		return "r:/mgr/project.do";
 	}
 
