@@ -30,6 +30,7 @@ import iwant.svr.exception.DistrictNotFoundException;
 import iwant.svr.exception.DuplicateCityNameException;
 import iwant.svr.exception.DuplicateDistrictNameException;
 import iwant.svr.exception.DuplicateProvinceNameException;
+import iwant.svr.exception.FollowProjectAlreadyExistException;
 import iwant.svr.exception.ImageProcessException;
 import iwant.svr.exception.PptNotFoundException;
 import iwant.svr.exception.ProjectNotFoundException;
@@ -136,7 +137,7 @@ public class BaseSvrTest {
 			DistrictNotFoundException, DuplicateProvinceNameException,
 			DuplicateCityNameException, ProvinceNotFoundException,
 			DuplicateDistrictNameException, ProjectNotFoundException,
-			PptNotFoundException, ImageProcessException, UserNotFoundException {
+			PptNotFoundException, ImageProcessException, UserNotFoundException, FollowProjectAlreadyExistException {
 		// data 1
 		category1 = new Category();
 		category1.setName("akwei");
