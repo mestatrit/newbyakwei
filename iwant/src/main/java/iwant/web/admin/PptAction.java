@@ -233,7 +233,8 @@ public class PptAction extends BaseAction {
 		long pptid = req.getLongAndSetAttr("pptid");
 		Ppt ppt = this.pptSvr.getPpt(pptid);
 		if (ppt == null) {
-			return "r:/mgr/ppt_viewmain.do?pptid=" + pptid;
+			return "r:/mgr/ppt_viewmain.do?pptid=" + pptid + "&back_url="
+					+ DataUtil.urlEncoder(req.getString("back_url"));
 		}
 		req.setAttribute("ppt", ppt);
 		List<Slide> list = this.pptSvr.getSlideListByPptidOrdered(pptid);
