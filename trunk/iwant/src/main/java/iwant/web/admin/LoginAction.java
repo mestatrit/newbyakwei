@@ -1,27 +1,20 @@
 package iwant.web.admin;
 
 import iwant.bean.AdminUser;
-import iwant.bean.City;
 import iwant.svr.AdminUserSvr;
-import iwant.svr.ZoneSvr;
 import iwant.web.BaseAction;
 import iwant.web.admin.util.AdminUtil;
 import iwant.web.admin.util.Err;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.dev3g.cactus.util.DataUtil;
 import com.dev3g.cactus.web.action.HkRequest;
 import com.dev3g.cactus.web.action.HkResponse;
 
-@Lazy
 @Component("/sitemgrlogin")
 public class LoginAction extends BaseAction {
-
-	@Autowired
-	private ZoneSvr zoneSvr;
 
 	@Autowired
 	private AdminUserSvr adminUserSvr;
@@ -42,11 +35,6 @@ public class LoginAction extends BaseAction {
 		}
 		if (!adminUser.isLogin(pwd)) {
 			return this.onError(req, Err.ADMIN_LOGIN_ERR, "loginerr", null);
-		}
-		City city = this.zoneSvr.getCity(req.getInt("cityid"));
-		if (city == null) {
-			return this
-					.onError(req, Err.ADMIN_LOGIN_CITY_ERR, "loginerr", null);
 		}
 		AdminUtil.setLoginAdminUser(resp, adminUser);
 		return this.onSuccess(req, "loginok", null);

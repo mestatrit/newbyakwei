@@ -3,6 +3,7 @@ package iwant.bean;
 import iwant.bean.exception.NoAdminUserException;
 
 import com.dev3g.cactus.util.DesUtil;
+import com.dev3g.cactus.util.P;
 
 /**
  * 管理员，后台内容管理
@@ -23,7 +24,7 @@ public class AdminUser {
 	private int cityid;
 
 	/**
-	 * 级别:0普通用户:1管理员
+	 * 级别:0普通管理员:1超级管理员
 	 */
 	private int level;
 
@@ -121,5 +122,17 @@ public class AdminUser {
 
 	public void setLevel(int level) {
 		this.level = level;
+	}
+
+	public boolean isSuperAdmin() {
+		if (this.level == 1) {
+			return true;
+		}
+		return false;
+	}
+
+	public static void main(String[] args) {
+		P.println(desUtil.encrypt("adminbeijing2011"));// beijing pwd
+		P.println(desUtil.encrypt("adminshanghai2011"));// shanghai pwd
 	}
 }
