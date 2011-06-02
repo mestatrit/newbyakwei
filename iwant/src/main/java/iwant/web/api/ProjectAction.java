@@ -1,11 +1,19 @@
 package iwant.web.api;
 
+import iwant.bean.Ppt;
+import iwant.bean.PptTimeline;
 import iwant.bean.Project;
 import iwant.bean.User;
+import iwant.bean.enumtype.ReadFlagType;
 import iwant.svr.FollowProjectSvr;
+import iwant.svr.PptSvr;
+import iwant.svr.PptTimelineSvr;
 import iwant.svr.ProjectSvr;
 import iwant.svr.UserSvr;
 import iwant.web.admin.util.Err;
+
+import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,6 +35,12 @@ public class ProjectAction extends BaseApiAction {
 
 	@Autowired
 	private UserSvr userSvr;
+
+	@Autowired
+	private PptSvr pptSvr;
+
+	@Autowired
+	private PptTimelineSvr pptTimelineSvr;
 
 	private Log log = LogFactory.getLog(ProjectAction.class);
 
@@ -51,6 +65,17 @@ public class ProjectAction extends BaseApiAction {
 				return null;
 			}
 			this.followProjectSvr.createFollow(user.getUserid(), projectid);
+			List<Ppt> pptlist = this.pptSvr.getPptListByProjectid(projectid, 0,
+					20);
+			for (Ppt o : pptlist) {
+				PptTimeline pptTimeline = new PptTimeline();
+				pptTimeline.setUserid(user.getUserid());
+				pptTimeline.setCreatetime(new Date());
+				pptTimeline.setPptid(o.getPptid());
+				pptTimeline.setRead_flag(ReadFlagType.NOTREAD.getValue());
+				pptTimeline.setReadtime(new Date());
+				pptTimelineSvr.createPptTimeline(pptTimeline);
+			}
 			APIUtil.writeSuccess(resp);
 			return null;
 		}
