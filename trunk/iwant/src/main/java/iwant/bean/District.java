@@ -1,5 +1,7 @@
 package iwant.bean;
 
+import iwant.bean.enumtype.ZoneHideType;
+
 import com.dev3g.cactus.dao.annotation.Column;
 import com.dev3g.cactus.dao.annotation.Id;
 import com.dev3g.cactus.dao.annotation.Table;
@@ -74,5 +76,12 @@ public class District {
 
 	public void setHide_flg(int hideFlg) {
 		hide_flg = hideFlg;
+	}
+
+	public boolean isHidden() {
+		if (this.hide_flg == ZoneHideType.HIDDEN.getValue()) {
+			return true;
+		}
+		return false;
 	}
 }

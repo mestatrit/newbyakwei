@@ -53,6 +53,8 @@ public interface ZoneSvr {
 	 */
 	List<Province> getProvinceListByCountryid(int countryid);
 
+	List<Province> getProvinceListByCountryidForShow(int countryid);
+
 	void createCity(City city) throws DuplicateCityNameException,
 			ProvinceNotFoundException;
 
@@ -82,6 +84,8 @@ public interface ZoneSvr {
 	 */
 	List<City> getCityListByProvinceid(int provinceid);
 
+	List<City> getCityListByProvinceidForShow(int provinceid);
+
 	/**
 	 * 获得所有城市集合，按照字母正序排列
 	 * 
@@ -104,4 +108,6 @@ public interface ZoneSvr {
 	District getDistrictByCityidAndNameLike(int cityid, String name);
 
 	List<District> getDistrictListByCityid(int cityid);
+
+	List<District> getDistrictListByCityidForShow(int cityid);
 }
