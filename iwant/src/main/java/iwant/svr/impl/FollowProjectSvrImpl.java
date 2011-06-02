@@ -9,6 +9,7 @@ import iwant.dao.ProjectFansDao;
 import iwant.svr.FollowProjectSvr;
 import iwant.svr.ProjectSvr;
 import iwant.svr.UserSvr;
+import iwant.svr.exception.FollowProjectAlreadyExistException;
 import iwant.svr.exception.ProjectNotFoundException;
 import iwant.svr.exception.UserNotFoundException;
 
@@ -36,7 +37,8 @@ public class FollowProjectSvrImpl implements FollowProjectSvr {
 
 	@Override
 	public FollowProject createFollow(long userid, long projectid)
-			throws UserNotFoundException, ProjectNotFoundException {
+			throws UserNotFoundException, ProjectNotFoundException,
+			FollowProjectAlreadyExistException {
 		User user = this.userSvr.getUserByUserid(userid);
 		if (user == null) {
 			throw new UserNotFoundException();
@@ -44,14 +46,6 @@ public class FollowProjectSvrImpl implements FollowProjectSvr {
 		Project project = this.projectSvr.getProject(projectid);
 		if (project == null) {
 			throw new ProjectNotFoundException();
-		}
-		FollowProject o = this.followProjectDao.getByUseridAndProjectid(userid,
-				projectid);
-		if (o == null) {
-			o = new FollowProject();
-			o.setUserid(userid);
-			o.setProjectid(projectid);
-			o.setSysid(NumberUtil.getLong(this.followProjectDao.save(o)));
 		}
 		ProjectFans projectFans = this.projectFansDao.getByUseridAndProjectid(
 				userid, projectid);
@@ -62,6 +56,17 @@ public class FollowProjectSvrImpl implements FollowProjectSvr {
 			projectFans.setSysid(NumberUtil.getLong(this.projectFansDao
 					.save(projectFans)));
 		}
+		FollowProject o = this.followProjectDao.getByUseridAndProjectid(userid,
+				projectid);
+		if (o != null) {
+			throw new FollowProjectAlreadyExistException(
+					"already follow [ userid : " + userid + " , projectid : "
+							+ projectid + " ]");
+		}
+		o = new FollowProject();
+		o.setUserid(userid);
+		o.setProjectid(projectid);
+		o.setSysid(NumberUtil.getLong(this.followProjectDao.save(o)));
 		return o;
 	}
 
@@ -69,6 +74,8 @@ public class FollowProjectSvrImpl implements FollowProjectSvr {
 	public void deleteFollow(long userid, long projectid) {
 		this.followProjectDao.delete(null, "userid=? and projectid=?",
 				new Object[] { userid, projectid });
+		this.projectFansDao.delete("userid=? and projectid=?", new Object[] {
+				userid, projectid });
 	}
 
 	@Override

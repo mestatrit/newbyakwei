@@ -10,6 +10,7 @@ import iwant.svr.PptSvr;
 import iwant.svr.PptTimelineSvr;
 import iwant.svr.ProjectSvr;
 import iwant.svr.UserSvr;
+import iwant.svr.exception.FollowProjectAlreadyExistException;
 import iwant.web.admin.util.Err;
 
 import java.util.Date;
@@ -64,17 +65,21 @@ public class ProjectAction extends BaseApiAction {
 				APIUtil.writeErr(resp, Err.PROJECT_NOT_EXIST);
 				return null;
 			}
-			this.followProjectSvr.createFollow(user.getUserid(), projectid);
-			List<Ppt> pptlist = this.pptSvr.getPptListByProjectid(projectid, 0,
-					20);
-			for (Ppt o : pptlist) {
-				PptTimeline pptTimeline = new PptTimeline();
-				pptTimeline.setUserid(user.getUserid());
-				pptTimeline.setCreatetime(new Date());
-				pptTimeline.setPptid(o.getPptid());
-				pptTimeline.setRead_flag(ReadFlagType.NOTREAD.getValue());
-				pptTimeline.setReadtime(new Date());
-				pptTimelineSvr.createPptTimeline(pptTimeline);
+			try {
+				this.followProjectSvr.createFollow(user.getUserid(), projectid);
+				List<Ppt> pptlist = this.pptSvr.getPptListByProjectid(
+						projectid, 0, 20);
+				for (Ppt o : pptlist) {
+					PptTimeline pptTimeline = new PptTimeline();
+					pptTimeline.setUserid(user.getUserid());
+					pptTimeline.setCreatetime(new Date());
+					pptTimeline.setPptid(o.getPptid());
+					pptTimeline.setRead_flag(ReadFlagType.NOTREAD.getValue());
+					pptTimeline.setReadtime(new Date());
+					pptTimelineSvr.createPptTimeline(pptTimeline);
+				}
+			}
+			catch (FollowProjectAlreadyExistException e) {
 			}
 			APIUtil.writeSuccess(resp);
 			return null;
