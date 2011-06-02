@@ -17,9 +17,16 @@
 			<li>
 				<div class="f_l" style="width: 150px;margin-right: 20px">
 					<hk:value value="${p.name }" onerow="true"/>
+					<c:if test="${p.hidden}"><span class="ruo">隐藏中</span></c:if>
 				</div>
-				<div class="f_l" style="width: 160px;margin-right: 20px">
+				<div class="f_l" style="width: 240px;margin-right: 20px">
 					<a href="${appctx_path}/mgr/zone_citylist.do?provinceid=${p.provinceid}" class="split-r">查看城市</a>
+					<c:if test="${!p.hidden}">
+					<a id="ophide_${p.provinceid}" href="javascript:hideprovince(${p.provinceid})" class="split-r">隐藏</a>
+					</c:if>
+					<c:if test="${p.hidden}">
+					<a id="opshow_${p.provinceid}" href="javascript:showprovince(${p.provinceid})" class="split-r">显示</a>
+					</c:if>
 					<a href="javascript:toupdate(${p.provinceid })" class="split-r" id="op_update_${p.provinceid }">修改</a>
 					<a href="javascript:opdel(${p.provinceid })" class="split-r" id="op_delete_${p.provinceid }">删除</a>
 				</div>
@@ -113,6 +120,38 @@ function changePos(pid,toid){
 	$.ajax({
 		type:"POST",
 		url:"${appctx_path}/mgr/zone_changeposprovince.do?provinceid="+pid+"&toid="+toid,
+		cache:false,
+    	dataType:"html",
+		success:function(data){
+			refreshurl();
+		},
+		error:function(data){
+			removeGlass(glassid_op);
+			alert('服务器出错，请刷新页面稍后继续操作');
+		}
+	});
+}
+function hideprovince(pid){
+	var glassid_op=addGlass('ophide_'+pid,false);
+	$.ajax({
+		type:"POST",
+		url:"${appctx_path}/mgr/zone_hideprovince.do?provinceid="+pid,
+		cache:false,
+    	dataType:"html",
+		success:function(data){
+			refreshurl();
+		},
+		error:function(data){
+			removeGlass(glassid_op);
+			alert('服务器出错，请刷新页面稍后继续操作');
+		}
+	});
+}
+function showprovince(pid){
+	var glassid_op=addGlass('opshow_'+pid,false);
+	$.ajax({
+		type:"POST",
+		url:"${appctx_path}/mgr/zone_showprovince.do?provinceid="+pid,
 		cache:false,
     	dataType:"html",
 		success:function(data){
