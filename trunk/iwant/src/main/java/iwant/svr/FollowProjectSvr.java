@@ -2,6 +2,7 @@ package iwant.svr;
 
 import iwant.bean.FollowProject;
 import iwant.bean.ProjectFans;
+import iwant.svr.exception.FollowProjectAlreadyExistException;
 import iwant.svr.exception.ProjectNotFoundException;
 import iwant.svr.exception.UserNotFoundException;
 
@@ -10,20 +11,21 @@ import java.util.List;
 public interface FollowProjectSvr {
 
 	/**
-	 * 用户订阅项目，如果已经订阅过，将不会创建订阅数据，返回已经存在的数据
-	 * 
 	 * @param userid
 	 *            订阅者id
 	 * @param projectid
 	 *            订阅的项目id
-	 * @return 对象实体:订阅成功
+	 * @return 订阅成功的数据
 	 * @throws UserNotFoundException
 	 *             用户不存在
 	 * @throws ProjectNotFoundException
 	 *             项目不存在
+	 * @throws FollowProjectAlreadyExistException
+	 *             已经订阅过
 	 */
 	FollowProject createFollow(long userid, long projectid)
-			throws UserNotFoundException, ProjectNotFoundException;
+			throws UserNotFoundException, ProjectNotFoundException,
+			FollowProjectAlreadyExistException;
 
 	/**
 	 * 取消订阅
