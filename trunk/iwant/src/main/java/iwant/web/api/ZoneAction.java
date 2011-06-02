@@ -66,7 +66,7 @@ public class ZoneAction extends BaseApiAction {
 	 */
 	public String provincelist(HkRequest req, HkResponse resp) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", this.zoneSvr.getProvinceListByCountryid(1));
+		map.put("list", this.zoneSvr.getProvinceListByCountryidForShow(1));
 		return APIUtil.writeData(resp, map, "vm/provincelist.vm");
 	}
 
@@ -78,7 +78,7 @@ public class ZoneAction extends BaseApiAction {
 	 */
 	public String citylist(HkRequest req, HkResponse resp) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", this.zoneSvr.getCityListByProvinceid(req
+		map.put("list", this.zoneSvr.getCityListByProvinceidForShow(req
 				.getInt("provinceid")));
 		return APIUtil.writeData(resp, map, "vm/citylist.vm");
 	}
@@ -91,7 +91,7 @@ public class ZoneAction extends BaseApiAction {
 	 */
 	public String districtlist(HkRequest req, HkResponse resp) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", this.zoneSvr.getDistrictListByCityid(req
+		map.put("list", this.zoneSvr.getDistrictListByCityidForShow(req
 				.getInt("cityid")));
 		return APIUtil.writeData(resp, map, "vm/districtlist.vm");
 	}
