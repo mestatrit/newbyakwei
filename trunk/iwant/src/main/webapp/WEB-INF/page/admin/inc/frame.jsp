@@ -27,7 +27,7 @@ var loading_path = "${appctx_path }/static/img/blue-loading.gif";</script>
 						<div id="location">
 							<hk:actioninvoke mappinguri="/syscnf_findcity"/>
 							<span class="split-r">当前城市：${current_city.name}</span>
-							<a href="${appctx_path}/mgr/zone.do">切换城市</a>
+							<c:if test="${adminUser.superAdmin}"><a href="${appctx_path}/mgr/zone.do">切换城市</a></c:if>
 							<a href="${appctx_path}/sitemgrlogout.do">退出</a>
 						</div>
 						</c:if>
