@@ -4,6 +4,7 @@ import iwant.bean.AdminUser;
 import iwant.bean.City;
 import iwant.bean.District;
 import iwant.bean.Province;
+import iwant.bean.enumtype.ZoneHideType;
 import iwant.bean.validate.CityValidator;
 import iwant.bean.validate.DistrictValidator;
 import iwant.bean.validate.ProvinceValidator;
@@ -356,6 +357,144 @@ public class ZoneAction extends BaseAction {
 	public String deletedistrict(HkRequest req, HkResponse resp) {
 		this.zoneSvr.deleteDistrict(req.getInt("did"));
 		this.opDeleteSuccess(req);
+		return null;
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String hidedistrict(HkRequest req, HkResponse resp) {
+		int did = req.getInt("did");
+		District district = this.zoneSvr.getDistrict(did);
+		if (district == null) {
+			return null;
+		}
+		district.setHide_flg(ZoneHideType.HIDDEN.getValue());
+		try {
+			this.zoneSvr.updateDistrict(district);
+		}
+		catch (DuplicateDistrictNameException e) {
+			return null;
+		}
+		return null;
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String hidecity(HkRequest req, HkResponse resp) {
+		int cityid = req.getInt("cityid");
+		City city = this.zoneSvr.getCity(cityid);
+		if (city == null) {
+			return null;
+		}
+		city.setHide_flg(ZoneHideType.HIDDEN.getValue());
+		try {
+			this.zoneSvr.updateCity(city);
+		}
+		catch (DuplicateCityNameException e) {
+			return null;
+		}
+		catch (ProvinceNotFoundException e) {
+			return null;
+		}
+		return null;
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String hideprovince(HkRequest req, HkResponse resp) {
+		int provinceid = req.getInt("provinceid");
+		Province province = this.zoneSvr.getProvince(provinceid);
+		if (province == null) {
+			return null;
+		}
+		province.setHide_flg(ZoneHideType.HIDDEN.getValue());
+		try {
+			this.zoneSvr.updateProvince(province);
+		}
+		catch (DuplicateProvinceNameException e) {
+			return null;
+		}
+		return null;
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String showdistrict(HkRequest req, HkResponse resp) {
+		int did = req.getInt("did");
+		District district = this.zoneSvr.getDistrict(did);
+		if (district == null) {
+			return null;
+		}
+		district.setHide_flg(ZoneHideType.SHOW.getValue());
+		try {
+			this.zoneSvr.updateDistrict(district);
+		}
+		catch (DuplicateDistrictNameException e) {
+			return null;
+		}
+		return null;
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String showcity(HkRequest req, HkResponse resp) {
+		int cityid = req.getInt("cityid");
+		City city = this.zoneSvr.getCity(cityid);
+		if (city == null) {
+			return null;
+		}
+		city.setHide_flg(ZoneHideType.SHOW.getValue());
+		try {
+			this.zoneSvr.updateCity(city);
+		}
+		catch (DuplicateCityNameException e) {
+			return null;
+		}
+		catch (ProvinceNotFoundException e) {
+			return null;
+		}
+		return null;
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String showprovince(HkRequest req, HkResponse resp) {
+		int provinceid = req.getInt("provinceid");
+		Province province = this.zoneSvr.getProvince(provinceid);
+		if (province == null) {
+			return null;
+		}
+		province.setHide_flg(ZoneHideType.SHOW.getValue());
+		try {
+			this.zoneSvr.updateProvince(province);
+		}
+		catch (DuplicateProvinceNameException e) {
+			return null;
+		}
 		return null;
 	}
 }
