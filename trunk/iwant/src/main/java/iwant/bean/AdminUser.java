@@ -94,7 +94,8 @@ public class AdminUser {
 	}
 
 	public String getSecretKey() {
-		return desUtil.encrypt(this.name + ":" + this.cityid);
+		return desUtil.encrypt(this.adminid + ":" + this.name + ":"
+				+ this.level + ":" + this.cityid);
 	}
 
 	/**
