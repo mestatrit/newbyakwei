@@ -1,9 +1,10 @@
 package iwant.web.admin;
 
+import iwant.bean.AdminUser;
 import iwant.bean.City;
+import iwant.svr.AdminUserSvr;
 import iwant.svr.ZoneSvr;
 import iwant.web.BaseAction;
-import iwant.web.admin.util.Admin;
 import iwant.web.admin.util.AdminUtil;
 import iwant.web.admin.util.Err;
 
@@ -22,6 +23,9 @@ public class LoginAction extends BaseAction {
 	@Autowired
 	private ZoneSvr zoneSvr;
 
+	@Autowired
+	private AdminUserSvr adminUserSvr;
+
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
 		if (this.isForwardPage(req)) {
@@ -32,7 +36,11 @@ public class LoginAction extends BaseAction {
 		if (DataUtil.isEmpty(username) || DataUtil.isEmpty(pwd)) {
 			return this.onError(req, Err.ADMIN_LOGIN_ERR, "loginerr", null);
 		}
-		if (!AdminUtil.isLogined(username, pwd)) {
+		AdminUser adminUser = this.adminUserSvr.getAdminUserByName(username);
+		if (adminUser == null) {
+			return this.onError(req, Err.ADMIN_LOGIN_ERR, "loginerr", null);
+		}
+		if (!adminUser.isLogin(pwd)) {
 			return this.onError(req, Err.ADMIN_LOGIN_ERR, "loginerr", null);
 		}
 		City city = this.zoneSvr.getCity(req.getInt("cityid"));
@@ -40,11 +48,7 @@ public class LoginAction extends BaseAction {
 			return this
 					.onError(req, Err.ADMIN_LOGIN_CITY_ERR, "loginerr", null);
 		}
-		Admin admin = new Admin();
-		admin.setUsername(req.getHtmlRow("username"));
-		admin.setPwd(req.getHtmlRow("pwd"));
-		AdminUtil.setLoginAdmin(resp);
-		AdminUtil.setLoginCity(resp, city.getCityid());
+		AdminUtil.setLoginAdminUser(resp, adminUser);
 		return this.onSuccess(req, "loginok", null);
 	}
 }

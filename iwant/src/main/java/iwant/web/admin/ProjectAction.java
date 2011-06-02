@@ -15,7 +15,6 @@ import iwant.util.ActiveTypeCreater;
 import iwant.util.BackUrl;
 import iwant.util.BackUrlUtil;
 import iwant.web.BaseAction;
-import iwant.web.admin.util.AdminUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -60,7 +59,7 @@ public class ProjectAction extends BaseAction {
 			return "r:/mgr/cat_create.do";
 		}
 		Category category = catlist.get(0);
-		int cityid = AdminUtil.getLoginCityid(req);
+		int cityid = this.getLoginCityid(req);
 		List<District> districtlist = this.zoneSvr
 				.getDistrictListByCityid(cityid);
 		req.setAttribute("districtlist", districtlist);

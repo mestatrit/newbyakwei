@@ -1,5 +1,8 @@
 package iwant.web;
 
+import iwant.bean.AdminUser;
+import iwant.web.admin.util.AdminUtil;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -79,5 +82,17 @@ public class BaseAction implements Action {
 			page.setHasNext(true);
 			list.remove(page.getSize());
 		}
+	}
+
+	protected AdminUser getAdminUser(HkRequest req) {
+		return AdminUtil.getLoginAdminUser(req);
+	}
+
+	protected int getLoginCityid(HkRequest req) {
+		AdminUser adminUser = this.getAdminUser(req);
+		if (adminUser == null) {
+			return 0;
+		}
+		return adminUser.getCityid();
 	}
 }

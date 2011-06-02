@@ -2,7 +2,6 @@ package iwant.web;
 
 import iwant.bean.City;
 import iwant.svr.ZoneSvr;
-import iwant.web.admin.util.AdminUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -38,7 +37,7 @@ public class SysCnfActoin extends BaseAction {
 	 * @throws Exception
 	 */
 	public String districtlist(HkRequest req, HkResponse resp) throws Exception {
-		int cityid = AdminUtil.getLoginCityid(req);
+		int cityid = this.getLoginCityid(req);
 		City city = this.zoneSvr.getCity(cityid);
 		req.setAttribute("syscnf_city", city);
 		req.setAttribute("syscnf_districtlist", this.zoneSvr
@@ -53,7 +52,7 @@ public class SysCnfActoin extends BaseAction {
 	 * @throws Exception
 	 */
 	public String findcity(HkRequest req, HkResponse resp) throws Exception {
-		int cityid = AdminUtil.getLoginCityid(req);
+		int cityid = this.getLoginCityid(req);
 		City city = this.zoneSvr.getCity(cityid);
 		req.setAttribute("current_city", city);
 		return null;

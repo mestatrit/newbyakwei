@@ -15,7 +15,7 @@ public class LogoutAction extends BaseAction {
 
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
-		AdminUtil.clearLoginAdmin(resp);
+		AdminUtil.clearLoginAdminUser(resp);
 		return "rr:/mgr";
 	}
 }
