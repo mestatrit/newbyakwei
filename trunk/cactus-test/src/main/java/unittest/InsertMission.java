@@ -7,8 +7,13 @@ import bean.User;
 import com.dev3g.cactus.dao.query.HkObjQuery;
 import com.dev3g.cactus.dao.query.param.InsertParam;
 import com.dev3g.cactus.util.threadtask.Mission;
+import com.dev3g.cactus.util.threadtask.TaskInovker;
 
 public class InsertMission extends Mission {
+
+	public InsertMission(String id, TaskInovker taskInovker) {
+		super(id, taskInovker);
+	}
 
 	private HkObjQuery hkObjQuery;
 
