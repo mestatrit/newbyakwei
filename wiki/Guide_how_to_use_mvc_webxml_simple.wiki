@@ -1,0 +1,17 @@
+spring.xml最简配置：
+{{{
+
+<context:annotation-config />
+	<!-- must config -->
+	<bean id="hkUtil" class="com.dev3g.cactus.util.HkUtil" />
+	<bean id="webCnf" class="com.dev3g.cactus.web.action.WebCnf">
+		<property name="uploadFileTempPath" value="/cactustemp/" />
+		<property name="scanPathList">
+			<list>
+				<value>iwant.web</value>
+			</list>
+		</property>
+		<property name="url_extension" value=".do" />
+	</bean>
+
+}}}
