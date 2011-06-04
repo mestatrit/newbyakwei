@@ -18,7 +18,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.dev3g.cactus.util.DateUtil;
-import com.dev3g.cactus.util.jmagick.PicRect;
+import com.dev3g.cactus.util.jmagick.PicPoint;
 
 public class PptSvrTest extends BaseSvrTest {
 
@@ -148,7 +148,7 @@ public class PptSvrTest extends BaseSvrTest {
 
 	@Test
 	public void updateSldePic0() {
-		PicRect picRect = new PicRect(0, 0, 70, 70);
+		PicPoint picRect = new PicPoint(0, 0, 70, 70);
 		this.pptSvr.updateSldePic1(this.slide0.getSlideid(), picRect);
 	}
 
