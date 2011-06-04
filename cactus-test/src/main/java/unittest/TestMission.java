@@ -1,8 +1,13 @@
 package unittest;
 
 import com.dev3g.cactus.util.threadtask.Mission;
+import com.dev3g.cactus.util.threadtask.TaskInovker;
 
 public class TestMission extends Mission {
+
+	public TestMission(String id, TaskInovker taskInovker) {
+		super(id, taskInovker);
+	}
 
 	@Override
 	public void execute() {

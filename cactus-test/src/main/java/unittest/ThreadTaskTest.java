@@ -12,9 +12,8 @@ public class ThreadTaskTest {
 	public void testMission() {
 		TaskInovker taskInovker = new TaskInovker();
 		for (int i = 0; i < 10; i++) {
-			TestMission testMission = new TestMission();
-			testMission.setId(i + " akwei ");
-			testMission.setTaskInovker(taskInovker);
+			TestMission testMission = new TestMission(i + " akwei ",
+					taskInovker);
 			taskInovker.addMission(testMission);
 		}
 		try {

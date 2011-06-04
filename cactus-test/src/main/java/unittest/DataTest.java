@@ -50,10 +50,9 @@ public class DataTest {
 		final long begin = System.currentTimeMillis();
 		TaskInovker taskInovker = new TaskInovker();
 		for (int i = 0; i < 100; i++) {
-			InsertMission mission = new InsertMission();
+			InsertMission mission = new InsertMission("mission" + i,
+					taskInovker);
 			mission.setHkObjQuery(hkObjQuery);
-			mission.setId("mission" + i);
-			mission.setTaskInovker(taskInovker);
 			List<User> list = new ArrayList<User>();
 			for (int k = 0; k < 1000; k++) {
 				User user = new User();
@@ -80,7 +79,7 @@ public class DataTest {
 	}
 
 	public static void main(String[] args) throws Exception {
-		 insertOneThread();
-//		insertNThread();
+		insertOneThread();
+		// insertNThread();
 	}
 }
