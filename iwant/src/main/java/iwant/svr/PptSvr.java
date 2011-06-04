@@ -15,7 +15,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import com.dev3g.cactus.util.jmagick.PicRect;
+import com.dev3g.cactus.util.jmagick.PicPoint;
 
 public interface PptSvr {
 
@@ -43,7 +43,7 @@ public interface PptSvr {
 	 * @param picRect
 	 *            小方图图片区域,可以为空，为空时，自动切小方图
 	 */
-	void createSlide(Slide slide, File imgFile, PicRect picRect)
+	void createSlide(Slide slide, File imgFile, PicPoint picRect)
 			throws PptNotFoundException, ImageProcessException;
 
 	/**
@@ -54,7 +54,7 @@ public interface PptSvr {
 	 * @param picRect
 	 *            小方图图片区域 ,可以为空，为空时，自动切小方图
 	 */
-	void updateSlide(Slide slide, File imgFile, PicRect picRect)
+	void updateSlide(Slide slide, File imgFile, PicPoint picRect)
 			throws PptNotFoundException, ImageProcessException;
 
 	/**
@@ -150,7 +150,7 @@ public interface PptSvr {
 
 	boolean isCanAddSlide(long pptid);
 
-	UpdateSldePic0Result updateSldePic1(long slideid, PicRect picRect);
+	UpdateSldePic0Result updateSldePic1(long slideid, PicPoint picRect);
 
 	void updateMainPptCityidAndDidByProjectid(long projectid, int cityid,
 			int did);
