@@ -6,16 +6,14 @@ public abstract class Mission implements Runnable {
 
 	private TaskInovker taskInovker;
 
-	public void setId(String id) {
+	public Mission(String id, TaskInovker taskInovker) {
+		super();
 		this.id = id;
+		this.taskInovker = taskInovker;
 	}
 
 	public String getId() {
 		return id;
-	}
-
-	public void setTaskInovker(TaskInovker taskInovker) {
-		this.taskInovker = taskInovker;
 	}
 
 	public TaskInovker getTaskInovker() {
