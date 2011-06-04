@@ -204,7 +204,7 @@ public class ImageProcessor {
 	 * @param picRect
 	 * @throws ImageException
 	 */
-	public void cutImage(String filePath, String fileName, PicRect picRect)
+	public void cutImage(String filePath, String fileName, PicRectPoint picRect)
 			throws ImageException {
 		FileUtil.mkdir(filePath);
 		String newFile = filePath + fileName;

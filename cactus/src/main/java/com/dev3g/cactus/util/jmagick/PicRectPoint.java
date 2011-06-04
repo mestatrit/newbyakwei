@@ -5,7 +5,7 @@ package com.dev3g.cactus.util.jmagick;
  * 
  * @author akwei
  */
-public class PicRect {
+public class PicRectPoint {
 
 	/**
 	 * 设定图片区域
@@ -19,7 +19,7 @@ public class PicRect {
 	 * @param y1
 	 *            图片文件的结束y轴坐标
 	 */
-	public PicRect(int x0, int y0, int x1, int y1) {
+	public PicRectPoint(int x0, int y0, int x1, int y1) {
 		this.x0 = x0;
 		this.y0 = y0;
 		this.x1 = x1;
