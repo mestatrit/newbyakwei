@@ -39,7 +39,7 @@ import com.dev3g.cactus.util.NumberUtil;
 import com.dev3g.cactus.util.jmagick.ImageException;
 import com.dev3g.cactus.util.jmagick.ImageProcessor;
 import com.dev3g.cactus.util.jmagick.ImgFileInfo;
-import com.dev3g.cactus.util.jmagick.PicRect;
+import com.dev3g.cactus.util.jmagick.PicPoint;
 
 @Component("pptSvr")
 public class PptSvrImpl implements PptSvr {
@@ -231,7 +231,7 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public void createSlide(Slide slide, File imgFile, PicRect picRect)
+	public void createSlide(Slide slide, File imgFile, PicPoint picRect)
 			throws PptNotFoundException, ImageProcessException {
 		Ppt ppt = this.getPpt(slide.getPptid());
 		MainPpt mainPpt = this.getMainPpt(slide.getPptid());
@@ -268,7 +268,7 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public void updateSlide(Slide slide, File imgFile, PicRect picRect)
+	public void updateSlide(Slide slide, File imgFile, PicPoint picRect)
 			throws PptNotFoundException, ImageProcessException {
 		Ppt ppt = this.getPpt(slide.getPptid());
 		MainPpt mainPpt = this.getMainPpt(slide.getPptid());
@@ -357,7 +357,7 @@ public class PptSvrImpl implements PptSvr {
 		this.mainPptDao.update(mainPpt);
 	}
 
-	private void processSlideImage(Slide slide, File imgFile, PicRect picRect)
+	private void processSlideImage(Slide slide, File imgFile, PicPoint picRect)
 			throws ImageProcessException {
 		ImgFileInfo imgFileInfo = ImgFileInfo.getImageFileInfo(imgFile);
 		if (imgFileInfo != null) {
@@ -432,7 +432,7 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public UpdateSldePic0Result updateSldePic1(long slideid, PicRect picRect) {
+	public UpdateSldePic0Result updateSldePic1(long slideid, PicPoint picRect) {
 		Slide slide = this.getSlide(slideid);
 		if (slide == null) {
 			return UpdateSldePic0Result.FILE_NOT_FOUND;

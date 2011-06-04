@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dev3g.cactus.util.DataUtil;
-import com.dev3g.cactus.util.jmagick.PicRect;
+import com.dev3g.cactus.util.jmagick.PicPoint;
 import com.dev3g.cactus.web.action.HkRequest;
 import com.dev3g.cactus.web.action.HkResponse;
 
@@ -155,7 +155,7 @@ public class SlideAction extends BaseAction {
 			req.setAttribute("backUrl", backUrl);
 			return this.getAdminPath("slide/setpic1.jsp");
 		}
-		PicRect picRect = new PicRect(req.getInt("x0"), req.getInt("y0"), req
+		PicPoint picRect = new PicPoint(req.getInt("x0"), req.getInt("y0"), req
 				.getInt("x1"), req.getInt("y1"));
 		UpdateSldePic0Result updateSlidePic0Result = this.pptSvr
 				.updateSldePic1(slide.getSlideid(), picRect);
