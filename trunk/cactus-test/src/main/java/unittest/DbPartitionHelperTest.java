@@ -43,7 +43,7 @@ public class DbPartitionHelperTest {
 		Assert.assertEquals("testuser0", partitionTableInfo.getTableName());
 		Assert
 				.assertEquals("mysql_test0", partitionTableInfo
-						.getDatabaseName());
+						.getDsKey());
 		Assert.assertEquals("testuser", objectSqlInfo.getTableName());
 	}
 }
