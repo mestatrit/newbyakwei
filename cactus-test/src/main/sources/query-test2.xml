@@ -22,11 +22,11 @@
 		<property name="initialPoolSize" value="10" />
 		<property name="minPoolSize" value="10" />
 	</bean>
-	<bean id="mysqlDaoSupport" class="com.dev3g.cactus.dao.query.MysqlDaoSupport">
+	<bean id="querySupport" class="com.dev3g.cactus.dao.query.MysqlQuerySupport">
 		<property name="dataSource" ref="dataSourcesingle" />
 	</bean>
 	<bean id="hkQuery" class="com.dev3g.cactus.dao.query.HkQuery">
-		<property name="daoSupport" ref="mysqlDaoSupport" />
+		<property name="querySupport" ref="querySupport" />
 	</bean>
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSourcesingle" />

@@ -43,11 +43,11 @@
 			</map>
 		</property>
 	</bean>
-	<bean id="daoSupport" class="com.dev3g.cactus.dao.query.MultiDaoSupport">
-		<property name="daoSupportList">
+	<bean id="querySupport" class="com.dev3g.cactus.dao.query.MultiQuerySupport">
+		<property name="querySupports">
 			<list>
 				<!-- mysql 数据库 -->
-				<bean class="com.dev3g.cactus.dao.query.MysqlDaoSupport">
+				<bean class="com.dev3g.cactus.dao.query.MysqlQuerySupport">
 					<property name="dataSource" ref="dataSource" />
 				</bean>
 			</list>
@@ -60,7 +60,7 @@
 		<property name="baseDatasourceKey" value="mysql_test" />
 	</bean>
 	<bean id="hkObjQuery" class="com.dev3g.cactus.dao.query.HkObjQuery">
-		<property name="daoSupport" ref="daoSupport" />
+		<property name="querySupport" ref="querySupport" />
 		<property name="objectSqlInfoCreater">
 			<bean id="objectSqlInfoCreater" class="com.dev3g.cactus.dao.query.ObjectSqlInfoCreater">
 				<property name="tableCnfList">
