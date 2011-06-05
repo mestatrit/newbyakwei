@@ -47,5 +47,4 @@
 	<bean id="resourceConfig" class="com.dev3g.cactus.util.ResourceConfig">
 		<property name="resource" value="err" />
 	</bean>
-	<bean id="userInfoService" class="demo.svr.impl.UserInfoSvrviceImpl"></bean>
 </beans>
