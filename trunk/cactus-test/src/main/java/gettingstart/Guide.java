@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.RowMapper;
 import bean.Member;
 import bean.TestUser;
 
-import com.dev3g.cactus.dao.annotation.Table;
 import com.dev3g.cactus.dao.query.HkObjQuery;
 import com.dev3g.cactus.dao.query.PartitionTableInfo;
 import com.dev3g.cactus.util.HkUtil;
