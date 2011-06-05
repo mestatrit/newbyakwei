@@ -1,0 +1,36 @@
+首先要创建与数据库对应的javabean：
+{{{
+
+package bean;
+
+import java.util.Date;
+
+import com.dev3g.cactus.dao.annotation.Column;
+import com.dev3g.cactus.dao.annotation.Id;
+import com.dev3g.cactus.dao.annotation.Table;
+
+@Table(name = "user")
+public class User {
+
+	@Id //标明是主键
+	private long userid;
+
+	@Column//标明是与数据库对应的列，如果与数据库对应的列写法不一样包括大小写，那么就需要这样写：@Column("db_user_nick")
+	private String nick;
+
+	@Column
+	private String addr;
+
+	@Column
+	private String intro;
+
+	@Column
+	private int sex;
+
+	@Column
+	private Date createtime;
+
+	......此处省略setter getter方法。
+}
+
+}}}
