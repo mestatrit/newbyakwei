@@ -4,7 +4,7 @@ insert sql 创建数据到数据库
 		// 通过spring获取，获取方式有很多，可以注入等
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		Map<String, Object> ctxMap = new HashMap<String, Object>();
-		// 设置分区关键值
+		// 设置分区关键值(根据userid进行分表分库规则设置)
 		ctxMap.put("userid", 1);
 		// 通过分区分析器分析，返回分区信息
 		PartitionTableInfo partitionTableInfo = hkObjQuery.parse(
