@@ -1,0 +1,22 @@
+select list 获得结果集数据
+
+获得的结果数据可有框架自动组装，不必让用户自己实现RowMapper
+
+{{{
+		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
+		QueryParam queryParam = new QueryParam();
+		// 添加需要查询的表,如果查询的表与返回值类型相同，可不设置此参数
+		queryParam.addClass(TestUser.class);
+		// 设置分区参数以及值
+		queryParam.addKeyAndValue("userid", new Long(4));
+		// 设置查询范围如果size为<0时，取所有数据
+		queryParam.setRange(0, 10);
+		queryParam.setWhereAndParams("testuser.nick=?",
+				new Object[] { "akwei" });
+		queryParam.setOrder("gender desc");
+		// select
+		List<TestUser> list = hkObjQuery.getList(queryParam, TestUser.class);
+		//hkObjQuery.getList(queryParam, mapper);//为自定义RowMapper方式
+
+
+}}}
