@@ -27,7 +27,7 @@ public class TestUserDbPartitionHelper extends DbPartitionHelper {
 		// 设置通过分析后获得的真实表名称
 		partitionTableInfo.setTableName("testuser" + lastChar);
 		// 设置通过分析后获得的真实数据源key(此key在配置数据源时指定)
-		partitionTableInfo.setDatabaseName("mysql_test" + lastChar);
+		partitionTableInfo.setDsKey("mysql_test" + lastChar);
 		return partitionTableInfo;
 	}
 }
