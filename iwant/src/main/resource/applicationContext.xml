@@ -28,5 +28,5 @@
 		<property name="resource" value="admin_err" />
 	</bean>
 	<import resource="app-ds.xml" />
-	<import resource="app-job.xml" />
+	<import resource="app-job2.xml" />
 </beans>
