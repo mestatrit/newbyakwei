@@ -1,0 +1,35 @@
+对于数据库分布式访问的spring xml配置如下：
+
+{{{
+
+<bean id="dataSource" class="com.dev3g.cactus.dao.sql.HkDataSourceWrapper">
+		<property name="dataSourceMap">
+			<map>
+				<!-- 如果是mysql数据库，就要以mysql_为开始字符串 -->
+				<entry key="mysql_iwant">
+					<bean class="com.mchange.v2.c3p0.ComboPooledDataSource">
+						<property name="driverClass" value="com.mysql.jdbc.Driver" />
+						<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=UTF-8" />
+						<property name="user" value="root" />
+						<property name="password" value="root" />
+						<property name="maxStatements" value="0" />
+						<property name="idleConnectionTestPeriod" value="60" />
+						<property name="maxPoolSize" value="200" />
+						<property name="initialPoolSize" value="20" />
+						<property name="minPoolSize" value="20" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+
+<bean id="hkObjQuery" class="com.dev3g.cactus.dao.query.HkObjQuery">
+		<property name="daoSupport">
+			<bean class="com.dev3g.cactus.dao.query.MysqlDaoSupport">
+				<property name="dataSource" ref="dataSource" />
+			</bean>
+		</property>
+	</bean>
+
+}}}
