@@ -1,0 +1,20 @@
+对象方式 insert 数据
+{{{
+
+		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
+		// 创建数据对象
+		TestUser testUser = new TestUser();
+		testUser.setUserid(1);
+		testUser.setNick("akweiwei");
+		testUser.setGender((byte) 1);
+		testUser.setMoney(29.9);
+		testUser.setPurchase(21.1f);
+		// 创建参数对象
+		InsertParam insertParam = new InsertParam();
+		// 设置分区参数以及值
+		insertParam.addKeyAndValue("userid", testUser.getUserid());
+		// 创建操作
+		Object obj = hkObjQuery.insertObj(insertParam, testUser);
+		// 如果设置mysql数据库表id自增，返回值obj代表自增id的值
+
+}}}
