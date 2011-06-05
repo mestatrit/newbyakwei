@@ -1,0 +1,32 @@
+select 取结果集，join操作多表(前提要创建每个逻辑表的分表分库分析器DbPartitionHelper)
+
+{{{
+
+		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
+		Map<String, Object> ctxMap = new HashMap<String, Object>();
+		// 设置分区关键值
+		ctxMap.put("userid", 1);
+		ctxMap.put("memberuserid", 1);
+		// 通过分区分析器分析，返回分区信息
+		PartitionTableInfo[] partitionTableInfos = hkObjQuery.parse(
+				new Class<?>[] { TestUser.class, Member.class }, ctxMap);
+		// 创建select_sql
+		String select_sql = "select * from "
+				+ partitionTableInfos[0].getTableName()
+				+ " , "
+				+ partitionTableInfos[1].getTableName()
+				+ " where nick=? and testuser.userid=member.memberuserid limit ?,?";
+		Object[] values = new Object[] { "akwei", 1, 10 };
+		List<TestUser> list = hkObjQuery.getListBySQL(partitionTableInfos[0]
+				.getDsKey(), select_sql, values, 0, -1,
+				new RowMapper<TestUser>() {
+
+					@Override
+					public TestUser mapRow(ResultSet arg0, int arg1)
+							throws SQLException {
+						// TODO Auto-generated method stub 组装结果集
+						return null;
+					}
+				});
+
+}}}
