@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 
-public interface DaoSupport {
+public interface QuerySupport {
 
 	/**
 	 * 创建记录到数据库

@@ -14,30 +14,30 @@ import com.dev3g.cactus.dao.sql.DataSourceStatus;
  * 
  * @author akwei
  */
-public class MultiDaoSupport implements DaoSupport {
+public class MultiQuerySupport implements QuerySupport {
 
 	/**
 	 * 配置的多数据库的daosupport
 	 */
-	private final Map<String, DaoSupport> daoSupportMap = new HashMap<String, DaoSupport>();
+	private final Map<String, QuerySupport> querySupportMap = new HashMap<String, QuerySupport>();
 
 	/**
 	 * 配置的多数据库的daosupport集合
 	 */
-	private List<DaoSupport> daoSupportList;
+	private List<QuerySupport> querySupports;
 
 	/**
 	 * 把实现DaoIdentifier 接口的类装入map中，便于根据标识获取相应数据库类型的daosupport
 	 * 
 	 * @param daoSupportList
 	 */
-	public void setDaoSupportList(List<DaoSupport> daoSupportList) {
-		this.daoSupportList = daoSupportList;
-		for (DaoSupport daoSupport : daoSupportList) {
-			if (daoSupport instanceof DaoIdentifier) {
-				DaoIdentifier id = (DaoIdentifier) daoSupport;
+	public void setQuerySupports(List<QuerySupport> querySupports) {
+		this.querySupports = querySupports;
+		for (QuerySupport querySupport : this.querySupports) {
+			if (querySupport instanceof DaoIdentifier) {
+				DaoIdentifier id = (DaoIdentifier) querySupport;
 				String identifier = id.getIdentifier();
-				this.daoSupportMap.put(identifier, daoSupport);
+				this.querySupportMap.put(identifier, querySupport);
 			}
 		}
 	}
@@ -56,42 +56,43 @@ public class MultiDaoSupport implements DaoSupport {
 	 * 
 	 * @return
 	 */
-	private DaoSupport getDaoSupport() {
+	private QuerySupport getQuerySupport() {
 		String identifier = this.getCurrentDaoSupportIdentifier();
 		if (identifier == null) {
-			return this.daoSupportList.get(0);
+			return this.querySupports.get(0);
 		}
-		return this.daoSupportMap.get(identifier);
+		return this.querySupportMap.get(identifier);
 	}
 
 	@Override
 	public Object insertBySQL(String sql, Object[] values) {
-		return this.getDaoSupport().insertBySQL(sql, values);
+		return this.getQuerySupport().insertBySQL(sql, values);
 	}
 
 	@Override
 	public <T> List<T> getListBySQL(String sql, Object[] values, int begin,
 			int size, RowMapper<T> rm) {
-		return this.getDaoSupport().getListBySQL(sql, values, begin, size, rm);
+		return this.getQuerySupport()
+				.getListBySQL(sql, values, begin, size, rm);
 	}
 
 	@Override
 	public <T> List<T> getListBySQL(String sql, Object[] values, RowMapper<T> rm) {
-		return this.getDaoSupport().getListBySQL(sql, values, rm);
+		return this.getQuerySupport().getListBySQL(sql, values, rm);
 	}
 
 	@Override
 	public Number getNumberBySQL(String sql, Object[] values) {
-		return this.getDaoSupport().getNumberBySQL(sql, values);
+		return this.getQuerySupport().getNumberBySQL(sql, values);
 	}
 
 	@Override
 	public <T> T getObjectBySQL(String sql, Object[] values, RowMapper<T> rm) {
-		return this.getDaoSupport().getObjectBySQL(sql, values, rm);
+		return this.getQuerySupport().getObjectBySQL(sql, values, rm);
 	}
 
 	@Override
 	public int updateBySQL(String sql, Object[] values) {
-		return this.getDaoSupport().updateBySQL(sql, values);
+		return this.getQuerySupport().updateBySQL(sql, values);
 	}
 }

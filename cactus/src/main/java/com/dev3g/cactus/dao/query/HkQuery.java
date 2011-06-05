@@ -13,12 +13,12 @@ import com.dev3g.cactus.dao.sql.DataSourceStatus;
  */
 public class HkQuery {
 
-	protected DaoSupport daoSupport;
+	protected QuerySupport querySupport;
 
 	protected ResultSetDataInfoCreater resultSetDataInfoCreater = new ResultSetDataInfoCreater();
 
-	public void setDaoSupport(DaoSupport daoSupport) {
-		this.daoSupport = daoSupport;
+	public void setQuerySupport(QuerySupport querySupport) {
+		this.querySupport = querySupport;
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class HkQuery {
 	 */
 	public Object insertBySQL(String dsKey, String sql, Object[] values) {
 		DataSourceStatus.setCurrentDsKey(dsKey);
-		return this.daoSupport.insertBySQL(sql, values);
+		return this.querySupport.insertBySQL(sql, values);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class HkQuery {
 	public <T> List<T> getListBySQL(String dsKey, String sql, Object[] values,
 			int begin, int size, RowMapper<T> rm) {
 		DataSourceStatus.setCurrentDsKey(dsKey);
-		return this.daoSupport.getListBySQL(sql, values, begin, size, rm);
+		return this.querySupport.getListBySQL(sql, values, begin, size, rm);
 	}
 
 	public <T> List<T> getListBySQL(String dsKey, String sql, Object[] values,
@@ -81,7 +81,7 @@ public class HkQuery {
 
 	public int countBySQL(String dsKey, String sql, Object[] values) {
 		DataSourceStatus.setCurrentDsKey(dsKey);
-		return this.daoSupport.getNumberBySQL(sql, values).intValue();
+		return this.querySupport.getNumberBySQL(sql, values).intValue();
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class HkQuery {
 	 */
 	public Number getNumberBySQL(String dsKey, String sql, Object[] values) {
 		DataSourceStatus.setCurrentDsKey(dsKey);
-		return this.daoSupport.getNumberBySQL(sql, values);
+		return this.querySupport.getNumberBySQL(sql, values);
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class HkQuery {
 	public <T> T getObjectBySQL(String dsKey, String sql, Object[] values,
 			RowMapper<T> rm) {
 		DataSourceStatus.setCurrentDsKey(dsKey);
-		return this.daoSupport.getObjectBySQL(sql, values, rm);
+		return this.querySupport.getObjectBySQL(sql, values, rm);
 	}
 
 	public <T> T getObjectBySQL(String dsKey, String sql, Object[] values,
@@ -139,6 +139,6 @@ public class HkQuery {
 	 */
 	public int updateBySQL(String dsKey, String sql, Object[] values) {
 		DataSourceStatus.setCurrentDsKey(dsKey);
-		return this.daoSupport.updateBySQL(sql, values);
+		return this.querySupport.updateBySQL(sql, values);
 	}
 }
