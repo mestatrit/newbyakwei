@@ -1,0 +1,19 @@
+select count sql 获取统计数据
+
+{{{
+
+		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
+		Map<String, Object> ctxMap = new HashMap<String, Object>();
+		// 设置分区关键值
+		ctxMap.put("userid", 1);
+		// 通过分区分析器分析，返回分区信息
+		PartitionTableInfo partitionTableInfo = hkObjQuery.parse(
+				TestUser.class, ctxMap);
+		// 创建select_sql
+		String select_sql = "select count(*) from "
+				+ partitionTableInfo.getTableName() + " where nick=?";
+		Object[] values = new Object[] { "akwei" };
+		int count = hkObjQuery.getNumberBySQL(partitionTableInfo.getDsKey(),
+				select_sql, values).intValue();
+
+}}}
