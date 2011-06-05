@@ -1,0 +1,13 @@
+deleteById 根据id删除对象
+
+{{{
+
+		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
+		DeleteParam deleteParam = new DeleteParam();
+		// 设置分区参数以及值
+		deleteParam.addKeyAndValue("userid", new Long(100));
+		// delete
+		long id = 100;
+		hkObjQuery.deleteById(deleteParam, TestUser.class, id);
+
+}}}
