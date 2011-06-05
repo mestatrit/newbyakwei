@@ -10,7 +10,7 @@ select 取结果集，join操作多表(前提要创建每个逻辑表的分表�
 		// 通过分区分析器分析，返回分区信息
 		PartitionTableInfo[] partitionTableInfos = hkObjQuery.parse(
 				new Class<?>[] { TestUser.class, Member.class }, ctxMap);
-		// 创建select_sql
+		// 创建select_sql,sql中表的别名请使用表实体类中定义的@Table(name = "testuser")
 		String select_sql = "select * from "
 				+ partitionTableInfos[0].getTableName()
 				+ " , "
