@@ -1,0 +1,21 @@
+update 根据条件更新部分列数据
+
+{{{
+
+		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
+		UpdateParam updateParam = new UpdateParam();
+		// 设置分区参数以及值
+		updateParam.addKeyAndValue("userid", 1);
+		// 设置需要修改的列
+		updateParam.setUpdateColumns(new String[] { "gender", "createtime",
+				"nick" });
+		// 设置sql where
+		updateParam.setWhere("nick=?");
+		// 设置修改列与where条件的对应的参数
+		updateParam
+				.setParams(new Object[] { 1, new Date(), "akweiwei", "aaa" });
+		// update
+		hkObjQuery.update(updateParam, TestUser.class);
+
+
+}}}
