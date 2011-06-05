@@ -40,8 +40,8 @@
 	</context:component-scan>
 	<!-- 分区配置必须在hkObjQuery声明之前 -->
 	<bean id="hkObjQuery" class="com.dev3g.cactus.dao.query.HkObjQuery">
-		<property name="daoSupport">
-			<bean class="com.dev3g.cactus.dao.query.MysqlDaoSupport">
+		<property name="querySupport">
+			<bean class="com.dev3g.cactus.dao.query.MysqlQuerySupport">
 				<property name="dataSource" ref="dataSource" />
 			</bean>
 		</property>
