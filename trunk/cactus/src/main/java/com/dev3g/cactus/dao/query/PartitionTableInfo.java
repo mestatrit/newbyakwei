@@ -8,9 +8,9 @@ package com.dev3g.cactus.dao.query;
 public class PartitionTableInfo {
 
 	/**
-	 * 数据库真是名称
+	 * 数据源key
 	 */
-	private String databaseName;
+	private String dsKey;
 
 	/**
 	 * 表真是名称
@@ -25,22 +25,22 @@ public class PartitionTableInfo {
 	public PartitionTableInfo() {
 	}
 
-	public PartitionTableInfo(String databaseName, String tableName) {
-		this.databaseName = databaseName;
+	public PartitionTableInfo(String dsKey, String tableName) {
+		this.dsKey = dsKey;
 		this.tableName = tableName;
 	}
 
-	public String getDatabaseName() {
-		return databaseName;
+	public String getDsKey() {
+		return dsKey;
 	}
 
 	/**
 	 * 设置数据库真实key
 	 * 
-	 * @param databaseName
+	 * @param dsKey
 	 */
-	public void setDatabaseName(String databaseName) {
-		this.databaseName = databaseName;
+	public void setDsKey(String dsKey) {
+		this.dsKey = dsKey;
 	}
 
 	public String getTableName() {
