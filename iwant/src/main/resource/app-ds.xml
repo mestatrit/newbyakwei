@@ -14,6 +14,7 @@
 	<bean id="dataSource" class="com.dev3g.cactus.dao.sql.HkDataSourceWrapper">
 		<property name="dataSourceMap">
 			<map>
+				<!-- 如果是mysql数据库，就要以mysql_为开始字符串 -->
 				<entry key="mysql_iwant">
 					<bean class="com.mchange.v2.c3p0.ComboPooledDataSource">
 						<property name="driverClass" value="com.mysql.jdbc.Driver" />
