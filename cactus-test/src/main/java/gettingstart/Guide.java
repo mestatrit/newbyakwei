@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import bean.Member;
 import bean.TestUser;
 
+import com.dev3g.cactus.dao.annotation.Table;
 import com.dev3g.cactus.dao.query.HkObjQuery;
 import com.dev3g.cactus.dao.query.PartitionTableInfo;
 import com.dev3g.cactus.util.HkUtil;
@@ -29,8 +30,8 @@ public class Guide {
 		// 通过spring获取，获取方式有很多，可以注入等
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		Map<String, Object> ctxMap = new HashMap<String, Object>();
-		// 设置分区关键值
-		ctxMap.put("testuser.userid", 1);
+		// 设置分区关键值(根据userid进行分表分库规则设置)
+		ctxMap.put("userid", 1);
 		// 通过分区分析器分析，返回分区信息
 		PartitionTableInfo partitionTableInfo = hkObjQuery.parse(
 				TestUser.class, ctxMap);
@@ -40,15 +41,15 @@ public class Guide {
 		// 设置参数
 		Object[] values = new Object[] { 1, "akwei" };
 		// 使用sql操作
-		hkObjQuery.insertBySQL(partitionTableInfo.getDatabaseName(),
-				insert_sql, values);
+		hkObjQuery.insertBySQL(partitionTableInfo.getDsKey(), insert_sql,
+				values);
 	}
 
 	public void update() {
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		Map<String, Object> ctxMap = new HashMap<String, Object>();
 		// 设置分区关键值
-		ctxMap.put("testuser.userid", 1);
+		ctxMap.put("userid", 1);
 		// 通过分区分析器分析，返回分区信息
 		PartitionTableInfo partitionTableInfo = hkObjQuery.parse(
 				TestUser.class, ctxMap);
@@ -58,15 +59,15 @@ public class Guide {
 		// 设置参数
 		Object[] values = new Object[] { "akwei", 0, new Date(), 1 };
 		// 使用sql update 操作
-		hkObjQuery.updateBySQL(partitionTableInfo.getDatabaseName(),
-				update_sql, values);
+		hkObjQuery.updateBySQL(partitionTableInfo.getDsKey(), update_sql,
+				values);
 	}
 
 	public void delete() {
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		Map<String, Object> ctxMap = new HashMap<String, Object>();
 		// 设置分区关键值
-		ctxMap.put("testuser.userid", 1);
+		ctxMap.put("userid", 1);
 		// 通过分区分析器分析，返回分区信息
 		PartitionTableInfo partitionTableInfo = hkObjQuery.parse(
 				TestUser.class, ctxMap);
@@ -76,15 +77,15 @@ public class Guide {
 		// 设置参数
 		Object[] values = new Object[] { 1 };
 		// 使用sql update 操作
-		hkObjQuery.updateBySQL(partitionTableInfo.getDatabaseName(),
-				update_sql, values);
+		hkObjQuery.updateBySQL(partitionTableInfo.getDsKey(), update_sql,
+				values);
 	}
 
 	public void selectList() {
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		Map<String, Object> ctxMap = new HashMap<String, Object>();
 		// 设置分区关键值
-		ctxMap.put("testuser.userid", 1);
+		ctxMap.put("userid", 1);
 		// 通过分区分析器分析，返回分区信息
 		PartitionTableInfo partitionTableInfo = hkObjQuery.parse(
 				TestUser.class, ctxMap);
@@ -92,8 +93,9 @@ public class Guide {
 		String select_sql = "select * from "
 				+ partitionTableInfo.getTableName() + " where nick=? limit ?,?";
 		Object[] values = new Object[] { "akwei", 0, 10 };
+		// 结果集组装，使用spring RowMapper类
 		List<TestUser> list = hkObjQuery.getListBySQL(partitionTableInfo
-				.getDatabaseName(), select_sql, values, 0, -1,
+				.getDsKey(), select_sql, values, 0, -1,
 				new RowMapper<TestUser>() {
 
 					@Override
@@ -112,12 +114,12 @@ public class Guide {
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		Map<String, Object> ctxMap = new HashMap<String, Object>();
 		// 设置分区关键值
-		ctxMap.put("testuser.userid", 1);
-		ctxMap.put("member.memberuserid", 1);
+		ctxMap.put("userid", 1);
+		ctxMap.put("memberuserid", 1);
 		// 通过分区分析器分析，返回分区信息
 		PartitionTableInfo[] partitionTableInfos = hkObjQuery.parse(
 				new Class<?>[] { TestUser.class, Member.class }, ctxMap);
-		// 创建select_sql
+		// 创建select_sql,sql中表的别名请使用表实体类中定义的@Table(name = "testuser")
 		String select_sql = "select * from "
 				+ partitionTableInfos[0].getTableName()
 				+ " , "
@@ -125,7 +127,7 @@ public class Guide {
 				+ " where nick=? and testuser.userid=member.memberuserid limit ?,?";
 		Object[] values = new Object[] { "akwei", 1, 10 };
 		List<TestUser> list = hkObjQuery.getListBySQL(partitionTableInfos[0]
-				.getDatabaseName(), select_sql, values, 0, -1,
+				.getDsKey(), select_sql, values, 0, -1,
 				new RowMapper<TestUser>() {
 
 					@Override
@@ -144,7 +146,7 @@ public class Guide {
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		Map<String, Object> ctxMap = new HashMap<String, Object>();
 		// 设置分区关键值
-		ctxMap.put("testuser.userid", 1);
+		ctxMap.put("userid", 1);
 		// 通过分区分析器分析，返回分区信息
 		PartitionTableInfo partitionTableInfo = hkObjQuery.parse(
 				TestUser.class, ctxMap);
@@ -152,9 +154,8 @@ public class Guide {
 		String select_sql = "select count(*) from "
 				+ partitionTableInfo.getTableName() + " where nick=?";
 		Object[] values = new Object[] { "akwei" };
-		int count = hkObjQuery.getNumberBySQL(
-				partitionTableInfo.getDatabaseName(), select_sql, values)
-				.intValue();
+		int count = hkObjQuery.getNumberBySQL(partitionTableInfo.getDsKey(),
+				select_sql, values).intValue();
 		P.println(count);
 	}
 
@@ -162,7 +163,7 @@ public class Guide {
 		HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		Map<String, Object> ctxMap = new HashMap<String, Object>();
 		// 设置分区关键值
-		ctxMap.put("testuser.userid", 1);
+		ctxMap.put("userid", 1);
 		// 通过分区分析器分析，返回分区信息
 		PartitionTableInfo partitionTableInfo = hkObjQuery.parse(
 				TestUser.class, ctxMap);
@@ -170,8 +171,8 @@ public class Guide {
 		String select_sql = "select * from "
 				+ partitionTableInfo.getTableName() + " where nick=? limit ?,?";
 		Object[] values = new Object[] { "akwei", 0, 1 };
-		hkObjQuery.getObjectBySQL(partitionTableInfo.getDatabaseName(),
-				select_sql, values, new RowMapper<TestUser>() {
+		hkObjQuery.getObjectBySQL(partitionTableInfo.getDsKey(), select_sql,
+				values, new RowMapper<TestUser>() {
 
 					@Override
 					public TestUser mapRow(ResultSet arg0, int arg1)

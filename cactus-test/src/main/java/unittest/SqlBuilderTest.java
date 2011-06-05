@@ -12,7 +12,7 @@ public class SqlBuilderTest {
 	public void testCreateSQL() {
 		String create_sql = "insert into user(userid,nick,gender) values(?,?,?)";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setDsKey("ds");
 		partitionTableInfo.setTableName("user");
 		String res_create_sql = SqlBuilder.createInsertSQL(partitionTableInfo,
 				new String[] { "userid", "nick", "gender" });
@@ -23,7 +23,7 @@ public class SqlBuilderTest {
 	public void testUpdateSQL1() {
 		String update_sql = "update user set nick=?,gender=? where userid=?";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setDsKey("ds");
 		partitionTableInfo.setTableName("user");
 		String res_update_sql = SqlBuilder.createUpdateSQL(partitionTableInfo,
 				new String[] { "nick", "gender" }, "userid=?");
@@ -34,7 +34,7 @@ public class SqlBuilderTest {
 	public void testUpdateSQL2() {
 		String update_sql = "update user set nick=?,gender=?";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setDsKey("ds");
 		partitionTableInfo.setTableName("user");
 		String res_update_sql = SqlBuilder.createUpdateSQL(partitionTableInfo,
 				new String[] { "nick", "gender" }, null);
@@ -45,7 +45,7 @@ public class SqlBuilderTest {
 	public void testDeleteSQL1() {
 		String delete_sql = "delete from user where userid=? and nick=?";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setDsKey("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
 		String res_delete_sql = SqlBuilder.createDeleteSQL(partitionTableInfo,
@@ -57,7 +57,7 @@ public class SqlBuilderTest {
 	public void testDeleteSQL2() {
 		String delete_sql = "delete from user";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setDsKey("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
 		String res_delete_sql = SqlBuilder.createDeleteSQL(partitionTableInfo,
@@ -69,7 +69,7 @@ public class SqlBuilderTest {
 	public void testCountSQL1() {
 		String count_sql = "select count(*) from user u where u.userid=? and u.nick=? and u.gender=?";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setDsKey("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
 		String res_count_sql = SqlBuilder.createCountSQL(
@@ -83,11 +83,11 @@ public class SqlBuilderTest {
 		String count_sql = "select count(*) from user u,info i where u.userid=? and u.nick=?"
 				+ " and u.gender=? and i.userid=? and i.nick=? and u.userid=i.userid";
 		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setDsKey("ds");
 		partitionTableInfo1.setTableName("user");
 		partitionTableInfo1.setAliasName("u");
 		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setDsKey("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
 		String res_count_sql = SqlBuilder
@@ -103,7 +103,7 @@ public class SqlBuilderTest {
 	public void testCountSQL3() {
 		String count_sql = "select count(*) from user u";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setDsKey("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
 		String res_count_sql = SqlBuilder.createCountSQL(
@@ -115,11 +115,11 @@ public class SqlBuilderTest {
 	public void testCountSQL4() {
 		String count_sql = "select count(*) from user u,info i";
 		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setDsKey("ds");
 		partitionTableInfo1.setTableName("user");
 		partitionTableInfo1.setAliasName("u");
 		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setDsKey("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
 		String res_count_sql = SqlBuilder.createCountSQL(
@@ -133,7 +133,7 @@ public class SqlBuilderTest {
 		String select_sql = "select u.userid,u.nick,u.gender from user u where u.userid=? and u.nick=? and u.gender=? "
 				+ "order by u.createtime desc,u.nick asc";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setDsKey("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
 		String res_select_sql = SqlBuilder.createListSQL(
@@ -152,11 +152,11 @@ public class SqlBuilderTest {
 				+ "and u.gender=? and i.birthday>? "
 				+ "order by u.createtime desc,u.nick asc,i.birthday desc";
 		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setDsKey("ds");
 		partitionTableInfo1.setTableName("user");
 		partitionTableInfo1.setAliasName("u");
 		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setDsKey("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
 		String res_select_sql = SqlBuilder.createListSQL(
@@ -175,7 +175,7 @@ public class SqlBuilderTest {
 		String select_sql = "select u.userid,u.nick,u.gender from user u "
 				+ "order by u.createtime desc,u.nick asc";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setDsKey("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
 		String res_select_sql = SqlBuilder.createListSQL(
@@ -191,11 +191,11 @@ public class SqlBuilderTest {
 				+ "i.userid,i.birthday,i.fansnum " + "from user u,info i "
 				+ "order by u.createtime desc,u.nick asc,i.birthday desc";
 		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setDsKey("ds");
 		partitionTableInfo1.setTableName("user");
 		partitionTableInfo1.setAliasName("u");
 		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setDsKey("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
 		String res_select_sql = SqlBuilder.createListSQL(
@@ -211,7 +211,7 @@ public class SqlBuilderTest {
 	public void testSelectSQL5() {
 		String select_sql = "select u.userid,u.nick,u.gender from user u";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setDsKey("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
 		String res_select_sql = SqlBuilder.createListSQL(
@@ -225,11 +225,11 @@ public class SqlBuilderTest {
 		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
 				+ "i.userid,i.birthday,i.fansnum " + "from user u,info i";
 		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setDsKey("ds");
 		partitionTableInfo1.setTableName("user");
 		partitionTableInfo1.setAliasName("u");
 		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setDsKey("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
 		String res_select_sql = SqlBuilder.createListSQL(
@@ -244,7 +244,7 @@ public class SqlBuilderTest {
 	public void testSelectSQL7() {
 		String select_sql = "select u.userid,u.nick,u.gender from user u where u.userid=? and u.nick=? and u.gender=?";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setDsKey("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
 		String res_select_sql = SqlBuilder.createListSQL(
@@ -261,11 +261,11 @@ public class SqlBuilderTest {
 				+ "from user u,info i where u.userid=i.userid and u.userid=? and u.nick=? "
 				+ "and u.gender=? and i.birthday>?";
 		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setDsKey("ds");
 		partitionTableInfo1.setTableName("user");
 		partitionTableInfo1.setAliasName("u");
 		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setDsKey("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
 		String res_select_sql = SqlBuilder.createListSQL(
@@ -282,7 +282,7 @@ public class SqlBuilderTest {
 	public void testObjectSQL1() {
 		String select_sql = "select u.userid,u.nick,u.gender from user u where userid=? and nick=? and gender=? order by createtime desc,nick asc";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setDsKey("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
 		String res_select_sql = SqlBuilder.createListSQL(
@@ -300,11 +300,11 @@ public class SqlBuilderTest {
 				+ "and u.gender=? and i.birthday>? "
 				+ "order by u.createtime desc,u.nick asc,i.birthday desc";
 		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setDsKey("ds");
 		partitionTableInfo1.setTableName("user");
 		partitionTableInfo1.setAliasName("u");
 		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setDsKey("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
 		String res_select_sql = SqlBuilder.createObjectSQL(
@@ -322,7 +322,7 @@ public class SqlBuilderTest {
 	public void testObjectSQL3() {
 		String select_sql = "select u.userid,u.nick,u.gender from user u order by createtime desc,nick asc";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setDsKey("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
 		String res_select_sql = SqlBuilder.createListSQL(
@@ -338,11 +338,11 @@ public class SqlBuilderTest {
 				+ "i.userid,i.birthday,i.fansnum " + "from user u,info i "
 				+ "order by u.createtime desc,u.nick asc,i.birthday desc";
 		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setDsKey("ds");
 		partitionTableInfo1.setTableName("user");
 		partitionTableInfo1.setAliasName("u");
 		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setDsKey("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
 		String res_select_sql = SqlBuilder.createObjectSQL(
@@ -358,7 +358,7 @@ public class SqlBuilderTest {
 	public void testObjectSQL5() {
 		String select_sql = "select u.userid,u.nick,u.gender from user u";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setDsKey("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
 		String res_select_sql = SqlBuilder.createListSQL(
@@ -372,11 +372,11 @@ public class SqlBuilderTest {
 		String select_sql = "select u.userid,u.nick,u.gender,u.createtime,"
 				+ "i.userid,i.birthday,i.fansnum " + "from user u,info i";
 		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setDsKey("ds");
 		partitionTableInfo1.setTableName("user");
 		partitionTableInfo1.setAliasName("u");
 		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setDsKey("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
 		String res_select_sql = SqlBuilder.createObjectSQL(
@@ -391,7 +391,7 @@ public class SqlBuilderTest {
 	public void testObjectSQL7() {
 		String select_sql = "select u.userid,u.nick,u.gender from user u where userid=? and nick=? and gender=?";
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName("ds");
+		partitionTableInfo.setDsKey("ds");
 		partitionTableInfo.setTableName("user");
 		partitionTableInfo.setAliasName("u");
 		String res_select_sql = SqlBuilder.createListSQL(
@@ -408,11 +408,11 @@ public class SqlBuilderTest {
 				+ "from user u,info i where u.userid=i.userid and u.userid=? and u.nick=? "
 				+ "and u.gender=? and i.birthday>?";
 		PartitionTableInfo partitionTableInfo1 = new PartitionTableInfo();
-		partitionTableInfo1.setDatabaseName("ds");
+		partitionTableInfo1.setDsKey("ds");
 		partitionTableInfo1.setTableName("user");
 		partitionTableInfo1.setAliasName("u");
 		PartitionTableInfo partitionTableInfo2 = new PartitionTableInfo();
-		partitionTableInfo2.setDatabaseName("ds");
+		partitionTableInfo2.setDsKey("ds");
 		partitionTableInfo2.setTableName("info");
 		partitionTableInfo2.setAliasName("i");
 		String res_select_sql = SqlBuilder.createObjectSQL(
