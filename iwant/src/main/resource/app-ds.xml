@@ -32,7 +32,7 @@
 	</bean>
 	<context:annotation-config />
 	<context:component-scan base-package="iwant.dao.impl">
-		<context:include-filter type="regex" expression=".*DaoImpl" />
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
 	</context:component-scan>
 	<context:component-scan base-package="iwant.svr.impl">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
