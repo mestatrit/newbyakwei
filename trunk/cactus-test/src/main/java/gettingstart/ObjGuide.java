@@ -48,7 +48,9 @@ public class ObjGuide {
 		// 设置分区参数以及值
 		insertParam.addKeyAndValue("userid", testUser.getUserid());
 		// 创建操作
-		hkObjQuery.insertObj(insertParam, testUser);
+		@SuppressWarnings("unused")
+		Object obj = hkObjQuery.insertObj(insertParam, testUser);
+		// 如果设置mysql数据库表id自增，返回值obj代表自增id的值
 	}
 
 	/**
@@ -68,7 +70,7 @@ public class ObjGuide {
 		UpdateParam updateParam = new UpdateParam();
 		// 设置分区参数以及值
 		updateParam.addKeyAndValue("userid", testUser.getUserid());
-		// update
+		// update，要更新对象，对象必须有id
 		hkObjQuery.updateObj(updateParam, testUser);
 	}
 
@@ -124,6 +126,7 @@ public class ObjGuide {
 		queryParam.setOrder("gender desc");
 		// select
 		List<TestUser> list = hkObjQuery.getList(queryParam, TestUser.class);
+		// hkObjQuery.getList(queryParam, mapper);//为自定义RowMapper方式
 		for (TestUser o : list) {
 			P.println(o);
 		}
@@ -133,6 +136,7 @@ public class ObjGuide {
 	 * 多表查询，返回所有列
 	 */
 	public void selectList2() {
+		// 虽然支持多表查询，但是仍然不建议使用
 		final HkObjQuery hkObjQuery = (HkObjQuery) HkUtil.getBean("hkObjQuery");
 		QueryParam queryParam = new QueryParam();
 		// 添加需要查询的表，此添加顺序会影响返回列的顺序
@@ -144,9 +148,12 @@ public class ObjGuide {
 		// 设置查询范围
 		queryParam.setBegin(0);
 		queryParam.setSize(-1);
+		// 设置查询条件，尽量使用别名区分表
 		queryParam
 				.setWhere("testuser.userid=member.memberuserid and testuser.userid=?");
+		// 设置查询参数
 		queryParam.setParams(new Object[] { 4 });
+		// 设置排序
 		queryParam.setOrder("testuser.nick asc");
 		// 返回值的rowmapper
 		RowMapper<Member> mapper = new RowMapper<Member>() {
@@ -242,7 +249,7 @@ public class ObjGuide {
 		deleteParam.addKeyAndValue("userid", new Long(10));
 		// 设置查询条件与参数
 		deleteParam.setWhereAndParams("nick=?", new Object[] { "akwei" });
-		// delete
+		// delete，设置要删除的对象类型
 		hkObjQuery.delete(deleteParam, TestUser.class);
 	}
 
@@ -269,6 +276,7 @@ public class ObjGuide {
 		// 设置分区参数以及值
 		deleteParam.addKeyAndValue("userid", new Long(100));
 		// delete
-		hkObjQuery.deleteById(deleteParam, TestUser.class, 100);
+		long id = 100;
+		hkObjQuery.deleteById(deleteParam, TestUser.class, id);
 	}
 }
