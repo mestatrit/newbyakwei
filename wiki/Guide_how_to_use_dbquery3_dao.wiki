@@ -1,5 +1,7 @@
 创建dao接口，继承com.dev3g.cactus.dao.query.IDao
 
+示例代码：
+
 {{{
 
 package demo.svr.dao;
