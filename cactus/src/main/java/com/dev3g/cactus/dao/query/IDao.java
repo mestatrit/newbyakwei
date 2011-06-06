@@ -27,7 +27,7 @@ public interface IDao<T> {
 	int count(String where, Object[] params);
 
 	/**
-	 * delete from [table] where arg0=? and arg1=?
+	 * delete from [table] where arg0=? and arg1=? 删除操作
 	 * 
 	 * @param keyValue
 	 *            分表分库的值
@@ -50,7 +50,7 @@ public interface IDao<T> {
 	int delete(Object keyValue, T t);
 
 	/**
-	 * 非分区模式使用
+	 * 删除操作(非分区模式使用)
 	 * 
 	 * @param where
 	 *            查询条件 例如 name=?,不需要添加where关键字
@@ -61,7 +61,7 @@ public interface IDao<T> {
 	int delete(String where, Object[] params);
 
 	/**
-	 * 非分区模式使用
+	 * 删除对象，对象必须有id(非分区模式使用)
 	 * 
 	 * @param t
 	 * @return
@@ -69,10 +69,11 @@ public interface IDao<T> {
 	int delete(T t);
 
 	/**
-	 * 非分区模式使用
+	 * 根据id删除(非分区模式使用)
 	 * 
 	 * @param idValue
-	 * @return
+	 *            id
+	 * @return 删除的记录数
 	 */
 	int deleteById(Object idValue);
 
@@ -83,14 +84,15 @@ public interface IDao<T> {
 	 *            分区关键值
 	 * @param idValue
 	 *            id
-	 * @return
+	 * @return 删除的记录数
 	 */
 	int deleteById(Object keyValue, Object idValue);
 
 	/**
-	 * 非分区模式使用
+	 * 根据id查询对象(非分区模式使用)
 	 * 
 	 * @param idValue
+	 *            id
 	 * @return
 	 */
 	T getById(Object idValue);
@@ -145,11 +147,16 @@ public interface IDao<T> {
 			int size);
 
 	/**
+	 *使用in关键字操作，例如：select * from table where field in (v1,v2,v3)
+	 * 
 	 * @param <E>
 	 * @param keyValue
+	 *            分区关键值
 	 * @param field
+	 *            需要用in的字段
 	 * @param fieldValueList
-	 * @return
+	 *            in 的参数
+	 * @return 数据集合
 	 */
 	<E> List<T> getListInField(Object keyValue, String field,
 			List<E> fieldValueList);
@@ -167,7 +174,7 @@ public interface IDao<T> {
 			String field, List<E> fieldValueList);
 
 	/**
-	 * 非分区模式使用
+	 * 使用in关键字操作，例如：select * from table where field in (v1,v2,v3) (非分区模式使用)
 	 * 
 	 * @param <E>
 	 * @param field
@@ -190,35 +197,46 @@ public interface IDao<T> {
 			List<E> fieldValueList);
 
 	/**
+	 * 根据条件查询对象
+	 * 
 	 * @param keyValue
+	 *            分区关键值
 	 * @param where
+	 *            条件sql片段
 	 * @param params
-	 * @return
+	 *            参数
+	 * @return 查询结果
 	 */
 	T getObject(Object keyValue, String where, Object[] params);
 
 	/**
+	 * 根据条件查询对象
+	 * 
 	 * @param keyValue
+	 *            分区关键值
 	 * @param where
+	 *            条件sql片段
 	 * @param params
+	 *            参数
 	 * @param order
-	 * @return
+	 *            排序sql片段
+	 * @return 查询结果
 	 */
 	T getObject(Object keyValue, String where, Object[] params, String order);
 
 	/**
-	 * 非分区模式使用
+	 * 根据条件查询对象(非分区模式使用)
 	 * 
 	 * @param where
 	 *            查询条件 例如 name=?,不需要添加where关键字
 	 * @param params
 	 *            参数
-	 * @return
+	 * @return 查询结果
 	 */
 	T getObject(String where, Object[] params);
 
 	/**
-	 * 非分区模式使用
+	 * 根据条件查询对象(非分区模式使用)
 	 * 
 	 * @param where
 	 *            查询条件 例如 name=?,不需要添加where关键字
@@ -226,7 +244,7 @@ public interface IDao<T> {
 	 *            参数
 	 * @param order
 	 *            排序sql片段。例如:order by name desc 此参数为name desc
-	 * @return
+	 * @return 查询结果
 	 */
 	T getObject(String where, Object[] params, String order);
 
