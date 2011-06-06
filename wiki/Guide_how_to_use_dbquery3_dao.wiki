@@ -47,6 +47,9 @@ public class UserInfoDaoImpl extends BaseDao<UserInfo> implements UserInfoDao {
 	public List<UserInfo> getListByGender(int gender, int begin, int size) {
 		return this.getList("gender=?", new Object[] { gender }, "nick asc",
 				begin, size);
+		// 如果是按照gender分表：
+//		return this.getList(gender, "gender=?", new Object[] { gender },
+//				"nick asc", begin, size);
 	}
 }
 
