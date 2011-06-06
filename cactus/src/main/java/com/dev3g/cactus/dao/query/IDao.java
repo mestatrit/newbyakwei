@@ -4,10 +4,21 @@ import java.util.List;
 
 public interface IDao<T> {
 
+	/**
+	 * select count 方法
+	 * 
+	 * @param keyValue
+	 *            分表分库的值
+	 * @param where
+	 *            查询条件 例如 name=?,不需要添加where关键字
+	 * @param params
+	 *            条件参数
+	 * @return select count 结果
+	 */
 	int count(Object keyValue, String where, Object[] params);
 
 	/**
-	 * 非分区模式使用
+	 * 非分区模式使用，方法同 {@link IDao#count(Object, String, Object[])}
 	 * 
 	 * @param where
 	 * @param params
@@ -15,6 +26,17 @@ public interface IDao<T> {
 	 */
 	int count(String where, Object[] params);
 
+	/**
+	 * delete from [table] where arg0=? and arg1=?
+	 * 
+	 * @param keyValue
+	 *            分表分库的值
+	 * @param where
+	 *            查询条件 例如 name=?,不需要添加where关键字
+	 * @param params
+	 *            条件参数
+	 * @return 删除的行数
+	 */
 	int delete(Object keyValue, String where, Object[] params);
 
 	/**
@@ -31,8 +53,10 @@ public interface IDao<T> {
 	 * 非分区模式使用
 	 * 
 	 * @param where
+	 *            查询条件 例如 name=?,不需要添加where关键字
 	 * @param params
-	 * @return
+	 *            条件参数
+	 * @return 删除的行数
 	 */
 	int delete(String where, Object[] params);
 
@@ -52,6 +76,15 @@ public interface IDao<T> {
 	 */
 	int deleteById(Object idValue);
 
+	/**
+	 * 根据id删除数据
+	 * 
+	 * @param keyValue
+	 *            分区关键值
+	 * @param idValue
+	 *            id
+	 * @return
+	 */
 	int deleteById(Object keyValue, Object idValue);
 
 	/**
@@ -68,11 +101,14 @@ public interface IDao<T> {
 	 * @param keyValue
 	 *            分区关键值
 	 * @param idValue
+	 *            id
 	 * @return
 	 */
 	T getById(Object keyValue, Object idValue);
 
 	/**
+	 * 根据条件查询
+	 * 
 	 * @param keyValue
 	 *            分区关键值
 	 * @param where
@@ -85,27 +121,48 @@ public interface IDao<T> {
 	 *            开始记录位置
 	 * @param size
 	 *            <0时，取所有符合条件数据
-	 * @return
+	 * @return 数据集合
 	 */
 	List<T> getList(Object keyValue, String where, Object[] params,
 			String order, int begin, int size);
 
 	/**
-	 * 非分区模式使用
+	 * 根据条件查询(非分区模式使用)
 	 * 
 	 * @param where
+	 *            条件sql片段
 	 * @param params
+	 *            sql对应参数
 	 * @param order
+	 *            排序sql片段
 	 * @param begin
+	 *            开始记录位置
 	 * @param size
-	 * @return
+	 *            <0时，取所有符合条件数据
+	 * @return 数据集合
 	 */
 	List<T> getList(String where, Object[] params, String order, int begin,
 			int size);
 
+	/**
+	 * @param <E>
+	 * @param keyValue
+	 * @param field
+	 * @param fieldValueList
+	 * @return
+	 */
 	<E> List<T> getListInField(Object keyValue, String field,
 			List<E> fieldValueList);
 
+	/**
+	 * @param <E>
+	 * @param keyValue
+	 * @param where
+	 * @param params
+	 * @param field
+	 * @param fieldValueList
+	 * @return
+	 */
 	<E> List<T> getListInField(Object keyValue, String where, Object[] params,
 			String field, List<E> fieldValueList);
 
@@ -132,15 +189,30 @@ public interface IDao<T> {
 	<E> List<T> getListInField(String where, Object[] params, String field,
 			List<E> fieldValueList);
 
+	/**
+	 * @param keyValue
+	 * @param where
+	 * @param params
+	 * @return
+	 */
 	T getObject(Object keyValue, String where, Object[] params);
 
+	/**
+	 * @param keyValue
+	 * @param where
+	 * @param params
+	 * @param order
+	 * @return
+	 */
 	T getObject(Object keyValue, String where, Object[] params, String order);
 
 	/**
 	 * 非分区模式使用
 	 * 
 	 * @param where
+	 *            查询条件 例如 name=?,不需要添加where关键字
 	 * @param params
+	 *            参数
 	 * @return
 	 */
 	T getObject(String where, Object[] params);
@@ -149,8 +221,11 @@ public interface IDao<T> {
 	 * 非分区模式使用
 	 * 
 	 * @param where
+	 *            查询条件 例如 name=?,不需要添加where关键字
 	 * @param params
+	 *            参数
 	 * @param order
+	 *            排序sql片段。例如:order by name desc 此参数为name desc
 	 * @return
 	 */
 	T getObject(String where, Object[] params, String order);
@@ -198,8 +273,12 @@ public interface IDao<T> {
 	 * 非分区模式使用
 	 * 
 	 * @param updateSqlSegment
+	 *            update片段。例如：update sql为update table set name=?,createtime=?
+	 *            where userid=?，那么sql片段为name=?,createtime=?
 	 * @param where
+	 *            查询条件 例如 name=?,不需要添加where关键字
 	 * @param params
+	 *            参数
 	 * @return
 	 */
 	int updateBySQL(String updateSqlSegment, String where, Object[] params);
