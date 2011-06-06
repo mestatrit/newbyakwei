@@ -8,7 +8,7 @@ public interface UserInfoService {
 
 	void updateUserInfo(UserInfo userInfo);
 
-	void deleteUserInfo(UserInfo userInfo);
+	void deleteUserInfo(long userid);
 
 	UserInfo getUserInfo(long userid);
 }
