@@ -162,13 +162,20 @@ public interface IDao<T> {
 			List<E> fieldValueList);
 
 	/**
+	 * 使用in关键字操作，例如：select * from table where field in (v1,v2,v3) and name=?
+	 * 
 	 * @param <E>
 	 * @param keyValue
+	 *            分区关键值
 	 * @param where
+	 *            条件sql片段
 	 * @param params
+	 *            参数
 	 * @param field
+	 *            需要用in的字段
 	 * @param fieldValueList
-	 * @return
+	 *            in 的参数
+	 * @return 数据集合
 	 */
 	<E> List<T> getListInField(Object keyValue, String where, Object[] params,
 			String field, List<E> fieldValueList);
@@ -178,20 +185,26 @@ public interface IDao<T> {
 	 * 
 	 * @param <E>
 	 * @param field
+	 *            需要用in的字段
 	 * @param fieldValueList
-	 * @return
+	 *            in 的参数
+	 * @return 数据集合
 	 */
 	<E> List<T> getListInField(String field, List<E> fieldValueList);
 
 	/**
-	 * 非分区模式使用
+	 * 使用in关键字操作(非分区模式使用)
 	 * 
 	 * @param <E>
 	 * @param where
+	 *            条件sql片段
 	 * @param params
+	 *            参数
 	 * @param field
+	 *            需要用in的字段
 	 * @param fieldValueList
-	 * @return
+	 *            in 的参数
+	 * @return 数据集合
 	 */
 	<E> List<T> getListInField(String where, Object[] params, String field,
 			List<E> fieldValueList);
