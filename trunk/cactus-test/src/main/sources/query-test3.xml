@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms"
-	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
@@ -17,7 +22,8 @@
 				<entry key="mysql_test0">
 					<bean class="com.mchange.v2.c3p0.ComboPooledDataSource">
 						<property name="driverClass" value="com.mysql.jdbc.Driver" />
-						<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/test0?useUnicode=true&amp;characterEncoding=UTF-8" />
+						<property name="jdbcUrl"
+							value="jdbc:mysql://127.0.0.1:3306/test0?useUnicode=true&amp;characterEncoding=UTF-8" />
 						<property name="user" value="root" />
 						<property name="password" value="boseeandbokee" />
 						<property name="maxStatements" value="0" />
@@ -30,22 +36,14 @@
 			</map>
 		</property>
 	</bean>
-	<bean id="daoSupport" class="com.dev3g.cactus.dao.query.MysqlDaoSupport">
+	<bean id="querySupport" class="com.dev3g.cactus.dao.query.MysqlQuerySupport">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	<bean id="hkObjQuery" class="com.dev3g.cactus.dao.query.HkObjQuery">
-		<property name="daoSupport" ref="daoSupport" />
-		<property name="objectSqlInfoCreater">
-			<bean id="objectSqlInfoCreater" class="com.dev3g.cactus.dao.query.ObjectSqlInfoCreater">
-				<property name="classNameList">
-					<list>
-						<value>bean.User</value>
-					</list>
-				</property>
-			</bean>
-		</property>
+		<property name="querySupport" ref="querySupport" />
 	</bean>
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
@@ -54,7 +52,8 @@
 		</tx:attributes>
 	</tx:advice>
 	<aop:config proxy-target-class="true">
-		<aop:pointcut id="tr" expression="execution(* iwant.svr.impl.*SvrImpl.*Tx(..))" />
+		<aop:pointcut id="tr"
+			expression="execution(* iwant.svr.impl.*SvrImpl.*Tx(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="tr" />
 	</aop:config>
 </beans>
