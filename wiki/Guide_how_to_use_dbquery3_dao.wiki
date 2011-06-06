@@ -51,3 +51,68 @@ public class UserInfoDaoImpl extends BaseDao<UserInfo> implements UserInfoDao {
 }
 
 }}}
+
+如果要进行 insert update delete getById的操作，不需要在接口中声明，因为IDao已经声明过这些方法了，BaseDao已经实现了这些方法，所以可以直接调用这些方法，例如在service中调用：
+
+创建Service接口:
+
+{{{
+
+package demo.svr;
+
+import demo.bean.UserInfo;
+
+public interface UserInfoService {
+
+	void createUserInfo(UserInfo userInfo);
+
+	void updateUserInfo(UserInfo userInfo);
+
+	void deleteUserInfo(long userid);
+
+	UserInfo getUserInfo(long userid);
+}
+
+
+}}}
+
+实现Service接口：
+
+{{{
+
+package demo.svr.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import demo.bean.UserInfo;
+import demo.svr.UserInfoService;
+import demo.svr.dao.UserInfoDao;
+
+public class UserInfoSvrviceImpl implements UserInfoService {
+
+	@Autowired
+	private UserInfoDao userInfoDao;
+
+	@Override
+	public void createUserInfo(UserInfo userInfo) {
+		this.userInfoDao.save(userInfo);
+	}
+
+	@Override
+	public void deleteUserInfo(long userid) {
+		this.userInfoDao.deleteById(userid);
+	}
+
+	@Override
+	public UserInfo getUserInfo(long userid) {
+		return this.userInfoDao.getById(userid);
+	}
+
+	@Override
+	public void updateUserInfo(UserInfo userInfo) {
+		this.userInfoDao.update(userInfo);
+	}
+}
+
+
+}}}
