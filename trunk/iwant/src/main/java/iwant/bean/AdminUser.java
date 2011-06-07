@@ -3,6 +3,7 @@ package iwant.bean;
 import iwant.bean.exception.NoAdminUserException;
 
 import com.dev3g.cactus.util.DesUtil;
+import com.dev3g.cactus.util.P;
 
 /**
  * 管理员，后台内容管理
@@ -131,6 +132,6 @@ public class AdminUser {
 	}
 
 	public static void main(String[] args) {
-		// P.println(desUtil.encrypt("adminejfughek"));
+		P.println(desUtil.encrypt("dpdoffjj"));
 	}
 }
