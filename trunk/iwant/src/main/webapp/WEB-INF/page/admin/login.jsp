@@ -38,7 +38,7 @@ function loginerr(err,err_msg,v){
 	removeGlass(glassid_op);
 }
 function loginok(err,err_msg,v){
-	tourl('${appctx_path}/mgr/cat.do');
+	tourl('${appctx_path}/mgr/project.do');
 }
 </script>
 </c:set><jsp:include page="inc/frame.jsp"></jsp:include>
