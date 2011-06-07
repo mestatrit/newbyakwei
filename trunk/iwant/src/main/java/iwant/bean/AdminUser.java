@@ -3,7 +3,6 @@ package iwant.bean;
 import iwant.bean.exception.NoAdminUserException;
 
 import com.dev3g.cactus.util.DesUtil;
-import com.dev3g.cactus.util.P;
 
 /**
  * 管理员，后台内容管理
