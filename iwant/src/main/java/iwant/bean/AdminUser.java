@@ -132,7 +132,6 @@ public class AdminUser {
 	}
 
 	public static void main(String[] args) {
-		P.println(desUtil.encrypt("adminbeijing2011"));// beijing pwd
-		P.println(desUtil.encrypt("adminshanghai2011"));// shanghai pwd
+		// P.println(desUtil.encrypt("adminbeijing2011"));// beijing pwd
 	}
 }
