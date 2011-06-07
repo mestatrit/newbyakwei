@@ -69,6 +69,8 @@ public class PptAction extends BaseAction {
 		MainPpt mainPpt = this.pptSvr.getMainPptByProjectid(project
 				.getProjectid());
 		req.setAttribute("mainPpt", mainPpt);
+		BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+		backUrl.clearAll();
 		return this.getAdminPath("ppt/list.jsp");
 	}
 
@@ -335,6 +337,8 @@ public class PptAction extends BaseAction {
 		int count = this.pptSvr.countMainPptByCdn(mainPptSearchCdn2);
 		req.setAttribute("count", count);
 		req.setAttribute("page_size", page.getSize());
+		BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+		backUrl.clearAll();
 		return this.getAdminPath("ppt/mainlist.jsp");
 	}
 
