@@ -77,6 +77,8 @@ public class ProjectAction extends BaseAction {
 		this.processListForPage(page, list);
 		req.setAttribute("list", list);
 		req.setAttribute("projectSearchCdn", projectSearchCdn);
+		BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
+		backUrl.clearAll();
 		return this.getAdminPath("project/list.jsp");
 	}
 
