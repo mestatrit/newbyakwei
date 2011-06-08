@@ -96,8 +96,7 @@ public class ActionMappingCreator {
 	 * @return
 	 */
 	private Action createAsmAction(ActionMapping actionMapping) {
-		ASMActionCreater asmActionCreater = new ASMActionCreater(Thread
-				.currentThread().getContextClassLoader());
+		ASMActionCreater asmActionCreater = new ASMActionCreater();
 		Class<Action> clazz = asmActionCreater.createASMAction(actionMapping);
 		try {
 			Object obj = clazz.getConstructor().newInstance();
