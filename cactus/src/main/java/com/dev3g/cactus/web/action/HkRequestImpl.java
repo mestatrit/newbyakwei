@@ -91,6 +91,22 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 	}
 
 	@Override
+	public UploadFile getUploadFile(String name) {
+		if (this.fileUpload != null) {
+			return this.fileUpload.getUploadFile(name);
+		}
+		return null;
+	}
+
+	@Override
+	public UploadFile[] getUploadFiles() {
+		if (this.fileUpload != null) {
+			return this.fileUpload.getUploadFiles();
+		}
+		return null;
+	}
+
+	@Override
 	public String getOriginalFileName(String name) {
 		if (fileUpload != null) {
 			return this.fileUpload.getOriginalFileName(name);
