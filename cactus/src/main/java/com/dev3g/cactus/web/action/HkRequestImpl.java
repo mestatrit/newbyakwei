@@ -191,7 +191,7 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 	@Override
 	public String getHtml(String key) {
 		String v = this.getString(key);
-		return DataUtil.toHtmlEx(v);
+		return DataUtil.toHtml(v);
 	}
 
 	@Override

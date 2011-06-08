@@ -4,53 +4,15 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.apache.oro.text.regex.MalformedPatternException;
-import org.apache.oro.text.regex.MatchResult;
-import org.apache.oro.text.regex.PatternCompiler;
-import org.apache.oro.text.regex.PatternMatcher;
-import org.apache.oro.text.regex.PatternMatcherInput;
-import org.apache.oro.text.regex.Perl5Compiler;
-import org.apache.oro.text.regex.Perl5Matcher;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-
-public class DataUtil implements ApplicationContextAware {
+public class DataUtil {
 
 	private DataUtil() {
 	}
 
-	private static Pattern p = Pattern.compile("[\\u4E00-\\u9FA5]");
-
-	public static ApplicationContext applicationContext;
-
 	public static final String DEFAULTCHARSET = "UTF-8";
-
-	private static final Pattern emailPattern = Pattern
-			.compile("(\\w+(.\\w+)*)@(\\w+(.\\w+)*)");
-
-	private static final Pattern mobileNumberPattern = Pattern
-			.compile("(15[0-9]|13[0-9]|18[0-9])\\d{8}");
-
-	private static PatternCompiler htmlCompiler = new Perl5Compiler();
-
-	private static org.apache.oro.text.regex.Pattern htmlPattern;
-	static {
-		try {
-			htmlPattern = htmlCompiler.compile("( ){2,}");
-		}
-		catch (MalformedPatternException e) {
-			throw new RuntimeException(e);
-		}
-	}
 
 	public static boolean isOutOfLength(String value, int minLen, int maxLen) {
 		if (value == null) {
@@ -75,15 +37,6 @@ public class DataUtil implements ApplicationContextAware {
 		return false;
 	}
 
-	public static ApplicationContext getApplicationContext() {
-		return applicationContext;
-	}
-
-	public static boolean isChinese(char ch) {
-		Matcher m = p.matcher(String.valueOf(ch));
-		return m.find() ? true : false;
-	}
-
 	public static boolean isEmpty(String value) {
 		if (value == null || value.trim().length() == 0) {
 			return true;
@@ -96,117 +49,6 @@ public class DataUtil implements ApplicationContextAware {
 			return true;
 		}
 		return false;
-	}
-
-	public static boolean isLegalEmail(String value) {
-		if (value == null || value.trim().length() == 0) {
-			return false;
-		}
-		if (value.length() > 50) {
-			return false;
-		}
-		if (value.indexOf('.') == -1) {
-			return false;
-		}
-		if (value.indexOf('@') != value.lastIndexOf('@')) {
-			return false;
-		}
-		if (value.indexOf(',') != -1) {
-			return false;
-		}
-		return emailPattern.matcher(value).matches();
-	}
-
-	public static boolean isLegalMobile(long value) {
-		String v = value + "";
-		if (isEmpty(v)) {
-			return false;
-		}
-		return mobileNumberPattern.matcher(v).matches();
-	}
-
-	public static boolean isLegalMobile(String value) {
-		if (isEmpty(value)) {
-			return false;
-		}
-		return mobileNumberPattern.matcher(value).matches();
-	}
-
-	public static boolean isNumberOrCharOrChinese(String value) {
-		if (isEmpty(value)) {
-			return false;
-		}
-		char[] ch = value.toCharArray();
-		for (int i = 0; i < ch.length; i++) {
-			boolean a = isChinese(ch[i]);
-			boolean b = isNumberAndChar(String.valueOf(ch[i]));
-			if (!a && !b) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	public static boolean isNumberOrCharOrChineseWithSapce(String value) {
-		if (isEmpty(value)) {
-			return false;
-		}
-		char[] ch = value.toCharArray();
-		for (int i = 0; i < ch.length; i++) {
-			if (!isChinese(ch[i]) && !isNumberAndChar(String.valueOf(ch[i]))
-					&& ch[i] != ' ') {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	public static boolean isNumberAndChar(String value) {
-		org.apache.oro.text.regex.Pattern numberAndCharPattern = null;
-		PatternMatcher numberAndCharPatternMatcher = null;
-		PatternCompiler compiler = null;
-		try {
-			compiler = new Perl5Compiler();
-			numberAndCharPattern = compiler.compile("^[a-zA-Z0-9\\.]+",
-					Perl5Compiler.CASE_INSENSITIVE_MASK);
-			numberAndCharPatternMatcher = new Perl5Matcher();
-		}
-		catch (MalformedPatternException e) {
-			throw new RuntimeException(e);
-		}
-		return numberAndCharPatternMatcher.matches(value, numberAndCharPattern);
-	}
-
-	public static boolean isNumber(String value) {
-		org.apache.oro.text.regex.Pattern numberPattern = null;
-		PatternMatcher numberPatternMatcher = null;
-		PatternCompiler compiler = null;
-		try {
-			compiler = new Perl5Compiler();
-			numberPattern = compiler.compile("^[0-9]+",
-					Perl5Compiler.CASE_INSENSITIVE_MASK);
-			numberPatternMatcher = new Perl5Matcher();
-		}
-		catch (MalformedPatternException e) {
-			throw new RuntimeException(e);
-		}
-		return numberPatternMatcher.matches(value, numberPattern);
-	}
-
-	public static boolean isSingleNumber(String value) {
-		org.apache.oro.text.regex.Pattern numberPattern = null;
-		PatternMatcher numberPatternMatcher = null;
-		PatternCompiler compiler = null;
-		try {
-			compiler = new Perl5Compiler();
-			numberPattern = compiler.compile("^[0-9]{1}",
-					Perl5Compiler.CASE_INSENSITIVE_MASK);
-			numberPatternMatcher = new Perl5Matcher();
-		}
-		catch (MalformedPatternException e) {
-			throw new RuntimeException(e);
-		}
-		return numberPatternMatcher.matches(value, numberPattern);
 	}
 
 	public static String limitLength(String str, int len) {
@@ -276,8 +118,8 @@ public class DataUtil implements ApplicationContextAware {
 	public static String toRowValue(String str) {
 		if (str != null) {
 			return str.replaceAll("<br/>", "").replaceAll("<br>", "")
-					.replaceAll("\n", "").replaceAll("\r", "")
-					.replaceAll("&nbsp;", " ").replaceAll("\"", "&quot;")
+					.replaceAll("\n", "").replaceAll("\r", "").replaceAll(
+							"&nbsp;", " ").replaceAll("\"", "&quot;")
 					.replaceAll("'", "&#39;");
 		}
 		return null;
@@ -294,9 +136,8 @@ public class DataUtil implements ApplicationContextAware {
 			return null;
 		}
 		String v = str.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
-				.replaceAll(">", "&gt;").replaceAll("\n", "")
-				.replaceAll("\r", "").replaceAll("\"", "&quot;")
-				.replaceAll("'", "&#39;");
+				.replaceAll(">", "&gt;").replaceAll("\n", "").replaceAll("\r",
+						"").replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
 		return v;
 	}
 
@@ -304,10 +145,10 @@ public class DataUtil implements ApplicationContextAware {
 		if (str == null) {
 			return null;
 		}
-		String v = str.replaceAll("&", "&amp;").replaceAll("<", "")
-				.replaceAll(">", "").replaceAll("\n", "").replaceAll("\r", "")
-				.replaceAll("\\s", "&nbsp;").replaceAll("\\s+", "")
-				.replaceAll("\"", "&quot;");
+		String v = str.replaceAll("&", "&amp;").replaceAll("<", "").replaceAll(
+				">", "").replaceAll("\n", "").replaceAll("\r", "").replaceAll(
+				"\\s", "&nbsp;").replaceAll("\\s+", "").replaceAll("\"",
+				"&quot;");
 		return v;
 	}
 
@@ -318,86 +159,25 @@ public class DataUtil implements ApplicationContextAware {
 	 * @return
 	 */
 	public static String toHtml(String str) {
-		return toHtmlEx(str);
-	}
-
-	private static List<String> parseHtmlSpace(String content) {
-		HashSet<String> htmlset = new HashSet<String>();
-		PatternMatcher matcher = new Perl5Matcher();
-		PatternMatcherInput input = new PatternMatcherInput(content);
-		MatchResult result = null;
-		while (matcher.contains(input, htmlPattern)) {
-			result = matcher.getMatch();
-			if (result != null) {
-				htmlset.add(result.group(0));
-			}
-		}
-		List<String> list = new ArrayList<String>();
-		list.addAll(htmlset);
-		Collections.sort(list, new Comparator<String>() {
-
-			@Override
-			public int compare(String o1, String o2) {
-				if (o1.length() < o2.length()) {
-					return 1;
-				}
-				return 0;
-			}
-		});
-		return list;
-	}
-
-	private static String getLenSpace(int len) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < len; i++) {
-			sb.append("&nbsp;");
-		}
-		return sb.toString();
+		return toHtmlSimple(str);
 	}
 
 	public static String toHtmlSimple(String str) {
 		if (str == null) {
 			return null;
 		}
-		return str.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
-				.replaceAll(">", "&gt;").replaceAll("\n", "<br/>")
-				.replaceAll("\r", "").replaceAll("\"", "&quot;")
-				.replaceAll("'", "&#39;");
+		return str.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(
+				">", "&gt;").replaceAll("\n", "<br/>").replaceAll("\r", "")
+				.replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
 	}
 
 	public static String toHtmlSimpleOneRow(String str) {
 		if (str == null) {
 			return null;
 		}
-		return str.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
-				.replaceAll(">", "&gt;").replaceAll("\n", "")
-				.replaceAll("\r", "").replaceAll("\"", "&quot;")
-				.replaceAll("'", "&#39;");
-	}
-
-	/**
-	 * 把html数据转为转义字符，可是使用多空格进行页面布局，对于每段开头内容进行空格
-	 * 
-	 * @param str
-	 * @return
-	 */
-	public static String toHtmlEx(String str) {
-		if (str == null) {
-			return null;
-		}
-		String _str = str.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
-				.replaceAll(">", "&gt;").replaceAll("\n", "<br/>")
-				.replaceAll("\r", "").replaceAll("\"", "&quot;")
-				.replaceAll("'", "&#39;");
-		List<String> list = parseHtmlSpace(str);
-		for (String s : list) {
-			int len = s.length();
-			if (len > 1) {
-				String rp = getLenSpace(len - 1);
-				_str = _str.replaceAll(s, " " + rp);
-			}
-		}
-		return _str;
+		return str.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(
+				">", "&gt;").replaceAll("\n", "").replaceAll("\r", "")
+				.replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
 	}
 
 	/**
@@ -409,11 +189,10 @@ public class DataUtil implements ApplicationContextAware {
 	public static String toText(String str) {
 		String v = null;
 		if (str != null) {
-			v = str.replaceAll("\r", "").replaceAll("\n", "")
-					.replaceAll("&lt;", "<").replaceAll("&gt;", ">")
-					.replaceAll("<br/>", "\n").replaceAll("&amp;", "&")
-					.replaceAll("&nbsp;", " ").replaceAll("&quot;", "\"")
-					.replaceAll("&#39;", "'");
+			v = str.replaceAll("\r", "").replaceAll("\n", "").replaceAll(
+					"&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br/>",
+					"\n").replaceAll("&amp;", "&").replaceAll("&nbsp;", " ")
+					.replaceAll("&quot;", "\"").replaceAll("&#39;", "'");
 		}
 		return v;
 	}
@@ -427,8 +206,8 @@ public class DataUtil implements ApplicationContextAware {
 	public static String toTextRow(String str) {
 		String v = null;
 		if (str != null) {
-			v = str.replaceAll("\r", "").replaceAll("\n", "")
-					.replaceAll("&lt;", "<").replaceAll("&gt;", ">")
+			v = str.replaceAll("\r", "").replaceAll("\n", "").replaceAll(
+					"&lt;", "<").replaceAll("&gt;", ">")
 					.replaceAll("<br/>", "").replaceAll("&amp;", "&")
 					.replaceAll("&nbsp;", " ").replaceAll("&quot;", "\"")
 					.replaceAll("&#39;", "'");
@@ -482,12 +261,6 @@ public class DataUtil implements ApplicationContextAware {
 			}
 		}
 		return "";
-	}
-
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-		DataUtil.applicationContext = applicationContext;
 	}
 
 	public static String getRandom(int len) {
