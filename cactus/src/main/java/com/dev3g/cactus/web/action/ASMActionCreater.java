@@ -13,8 +13,8 @@ import org.springframework.jdbc.core.RowMapper;
  */
 public class ASMActionCreater extends ClassLoader implements Opcodes {
 
-	public ASMActionCreater(ClassLoader parent) {
-		super(parent);
+	public ASMActionCreater() {
+		super(Thread.currentThread().getContextClassLoader());
 	}
 
 	@SuppressWarnings("unchecked")
