@@ -84,6 +84,10 @@ public interface HkRequest extends HttpServletRequest {
 
 	File[] getFiles();
 
+	UploadFile[] getUploadFiles();
+
+	UploadFile getUploadFile(String name);
+
 	String getOriginalFileName(String name);
 
 	Cookie getCookie(String name);

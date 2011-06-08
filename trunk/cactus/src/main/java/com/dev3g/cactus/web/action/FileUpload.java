@@ -3,7 +3,9 @@ package com.dev3g.cactus.web.action;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,10 @@ public class FileUpload {
 	private HkMultiRequest hkMultiRequest;
 
 	private MultipartRequest multipartRequest;
+
+	private UploadFile[] uploadFiles;
+
+	private Map<String, UploadFile> uploadFileMap = new HashMap<String, UploadFile>();
 
 	private static final String METHOD_POST = "POST";
 
@@ -58,14 +64,21 @@ public class FileUpload {
 		this.hkMultiRequest = new HkMultiRequest(request, multipartRequest);
 		Set<String> set = multipartRequest.getFileNames();
 		List<File> fileList = new ArrayList<File>();
+		List<UploadFile> uploadFileList = new ArrayList<UploadFile>();
+		UploadFile uploadFile = null;
 		for (String n : set) {
 			File f = multipartRequest.getFile(n);
 			if (f != null) {
 				fileList.add(f);
+				uploadFile = new UploadFile(n, f, this.getOriginalFileName(n));
+				uploadFileList.add(uploadFile);
+				uploadFileMap.put(n, uploadFile);
 			}
 		}
 		if (fileList.size() > 0) {
 			files = fileList.toArray(new File[fileList.size()]);
+			uploadFiles = uploadFileList.toArray(new UploadFile[uploadFileList
+					.size()]);
 		}
 	}
 
@@ -79,6 +92,14 @@ public class FileUpload {
 
 	public File getFile(String name) {
 		return multipartRequest.getFile(name);
+	}
+
+	public UploadFile[] getUploadFiles() {
+		return uploadFiles;
+	}
+
+	public UploadFile getUploadFile(String name) {
+		return this.uploadFileMap.get(name);
 	}
 
 	public String getOriginalFileName(String name) {
