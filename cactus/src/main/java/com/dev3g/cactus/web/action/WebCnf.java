@@ -48,6 +48,8 @@ public class WebCnf implements InitializingBean {
 
 	public static final String WEBCNF_OBJ_KEY = "CACTUS_HTTPREQUEST_WEBCNF_OBJ_KEY";
 
+	public static final String MULTI_HTTPSERVLETREQUEST_KEY = "cactus_multi_httpservletrequest";
+
 	private final List<UploadFileCheckCnf> uploadFileCheckCnfs = new ArrayList<UploadFileCheckCnf>();
 
 	private final Map<String, UploadFileCheckCnf> map = new HashMap<String, UploadFileCheckCnf>();

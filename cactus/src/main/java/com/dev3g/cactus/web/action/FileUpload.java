@@ -14,19 +14,17 @@ public class FileUpload {
 
 	private HkMultiRequest hkMultiRequest;
 
-	private MultipartRequest multipartRequest;
-
 	private UploadFile[] uploadFiles;
 
 	private static final String METHOD_POST = "POST";
 
 	// 上传文件的总大小限制在15M，默认设置
-	private int maxPostSize = 51 * 1024 * 1024;
+	private int _maxPostSize = 20;
 
 	private static final int dv = 1024 * 1024;
 
-	public FileUpload(HttpServletRequest request, String uploadFileTempPath)
-			throws IOException {
+	public FileUpload(HttpServletRequest request, String uploadFileTempPath,
+			int maxPostSize) throws IOException {
 		if (!(request.getMethod().equals(METHOD_POST) && HkMultiRequest
 				.isMultipart(request))) {
 			throw new RuntimeException(
@@ -45,16 +43,12 @@ public class FileUpload {
 					"no permission on server to operate file [ "
 							+ uploadFileTempPath + " ]");
 		}
-		UploadFileCheckCnf checkCnf = (UploadFileCheckCnf) request
-				.getAttribute(WebCnf.UPLOAD_LIMIT_SIZE_KEY);
-		if (checkCnf == null) {
-			multipartRequest = new MultipartRequest(request,
-					uploadFileTempPath, maxPostSize, "utf-8");
+		int _size = maxPostSize;
+		if (_size == 0) {
+			_size = this._maxPostSize;
 		}
-		else {
-			multipartRequest = new MultipartRequest(request,
-					uploadFileTempPath, checkCnf.getMaxSize() * dv, "utf-8");
-		}
+		MultipartRequest multipartRequest = new MultipartRequest(request,
+				uploadFileTempPath, _size * dv, "utf-8");
 		this.hkMultiRequest = new HkMultiRequest(request, multipartRequest);
 		Set<String> set = multipartRequest.getFileNames();
 		List<File> fileList = new ArrayList<File>();
@@ -64,7 +58,7 @@ public class FileUpload {
 			File f = multipartRequest.getFile(n);
 			if (f != null) {
 				fileList.add(f);
-				uploadFile = new UploadFile(n, f, this.multipartRequest
+				uploadFile = new UploadFile(n, f, multipartRequest
 						.getOriginalFileName(n));
 				uploadFileList.add(uploadFile);
 			}
