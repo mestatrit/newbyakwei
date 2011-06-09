@@ -42,6 +42,8 @@ public class WebCnf implements InitializingBean {
 
 	private List<String> fileUploadCheckUriCnfList;
 
+	private ActionFinder actionFinder;
+
 	public static final String UPLOAD_LIMIT_SIZE_KEY = "CACTUS_HTTPREQUEST_UPLOAD_LIMIT_SIZE_KEY";
 
 	public static final String WEBCNF_OBJ_KEY = "CACTUS_HTTPREQUEST_WEBCNF_OBJ_KEY";
@@ -142,8 +144,7 @@ public class WebCnf implements InitializingBean {
 	private void initActionExe() {
 		this.actionExe = (ActionExe) HkUtil.getBean("actionExe");
 		if (actionExe == null) {
-			ActionFinder actionFinder = (ActionFinder) HkUtil
-					.getBean("actionFinder");
+			actionFinder = (ActionFinder) HkUtil.getBean("actionFinder");
 			if (actionFinder == null) {
 				actionFinder = new DefActionFinder();
 				((DefActionFinder) actionFinder)
@@ -219,6 +220,10 @@ public class WebCnf implements InitializingBean {
 
 	public UploadFileCheckCnf getUploadFileCheckCnf(String uri) {
 		return map.get(uri);
+	}
+
+	public ActionFinder getActionFinder() {
+		return actionFinder;
 	}
 
 	@Override
