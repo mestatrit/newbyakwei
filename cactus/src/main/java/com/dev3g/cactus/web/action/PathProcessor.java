@@ -14,6 +14,8 @@ public class PathProcessor {
 
 	protected static final String HTTPS_BEGIN = "https://";
 
+	protected static final String TEST_BEGIN = "test:";
+
 	protected static final String PATH_SEPARATOR = "/";
 
 	protected static final String CMD_REDIRECT_INAPP = "r:";
@@ -41,8 +43,7 @@ public class PathProcessor {
 	 * rr:/login则会redirect到/login。<br/>
 	 * /login则会forward到{contextPath}/login<br/>
 	 * 
-	 * @param result
-	 *            页面路径。如果以r:开头，则为redirect，如果以rr:开头，则不需要在返回的路径中加入contextPath
+	 * @param result 页面路径。如果以r:开头，则为redirect，如果以rr:开头，则不需要在返回的路径中加入contextPath
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -52,6 +53,9 @@ public class PathProcessor {
 			HttpServletResponse response) throws ServletException, IOException {
 		boolean containCtxPath = true;
 		if (result == null) {
+			return;
+		}
+		if (result.startsWith(TEST_BEGIN)) {
 			return;
 		}
 		String path = null;
@@ -83,12 +87,9 @@ public class PathProcessor {
 	/**
 	 * 跳转页面。
 	 * 
-	 * @param isRedirect
-	 *            是否重定向
-	 * @param path
-	 *            跳转路径
-	 * @param containCtxPath
-	 *            是否添加contextPath
+	 * @param isRedirect 是否重定向
+	 * @param path 跳转路径
+	 * @param containCtxPath 是否添加contextPath
 	 * @param request
 	 * @param response
 	 * @throws ServletException
