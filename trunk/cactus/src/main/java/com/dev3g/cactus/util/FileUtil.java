@@ -11,19 +11,27 @@ import java.math.BigDecimal;
 
 public class FileUtil {
 
+	public static final int FILE_SIZE_TYPE_K = 0;
+
+	public static final int FILE_SIZE_TYPE_M = 1;
+
 	/**
 	 * 复制文件
 	 * 
-	 * @param source
-	 *            原文家路径
-	 * @param distm
-	 *            要复制到的目标路径 2010-5-4
+	 * @param source 原文家路径
+	 * @param distm 要复制到的目标路径 2010-5-4
 	 */
 	public static void copyFile(String source, String dist, String fileName)
 			throws IOException {
 		copyFile(new File(source), dist, fileName);
 	}
 
+	/**
+	 * 创建目录，支持多级目录创建
+	 * 
+	 * @param path
+	 * @return
+	 */
 	public static boolean mkdir(String path) {
 		File f = new File(path);
 		if (!f.exists() || !f.isDirectory()) {
@@ -43,10 +51,8 @@ public class FileUtil {
 	/**
 	 * 复制文件
 	 * 
-	 * @param source
-	 *            原文家路径
-	 * @param distm
-	 *            要复制到的目标路径 2010-5-4
+	 * @param source 原文家路径
+	 * @param distm 要复制到的目标路径 2010-5-4
 	 */
 	public static void copyFile(File file, String dist, String fileName)
 			throws IOException {
@@ -88,8 +94,7 @@ public class FileUtil {
 	 * 查看文件大小是否大于指定大小
 	 * 
 	 * @param file
-	 * @param size
-	 *            单位为k
+	 * @param size 单位为k
 	 * @return true:文件大小超过指定大小,false:文件大小在指定大小之内 2010-5-10
 	 */
 	public static boolean isBigger(File file, long size) {
@@ -103,10 +108,14 @@ public class FileUtil {
 		return false;
 	}
 
-	public static final int FILE_SIZE_TYPE_K = 0;
-
-	public static final int FILE_SIZE_TYPE_M = 1;
-
+	/**
+	 * 获得文件大小
+	 * 
+	 * @param file
+	 * @param sizeType 指定返回值单位 {@link FileUtil#FILE_SIZE_TYPE_K},
+	 *            {@link FileUtil#FILE_SIZE_TYPE_M}
+	 * @return
+	 */
 	public static long getFileSize(File file, int sizeType) {
 		long fileSize = file.length();
 		if (sizeType == FILE_SIZE_TYPE_K) {
@@ -122,6 +131,12 @@ public class FileUtil {
 		return fileSize;
 	}
 
+	/**
+	 * 删除文件
+	 * 
+	 * @param file
+	 * @return
+	 */
 	public static boolean deleteFile(File file) {
 		if (file == null) {
 			return false;
@@ -134,6 +149,11 @@ public class FileUtil {
 		return false;
 	}
 
+	/**
+	 * 删除指定目录下的所有文件
+	 * 
+	 * @param dirPath
+	 */
 	public static void deleteAllFile(String dirPath) {
 		File file = new File(dirPath);
 		if (file.exists()) {

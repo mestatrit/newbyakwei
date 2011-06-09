@@ -29,7 +29,7 @@ public class VelocityUtil {
 			Velocity.init();
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -45,7 +45,6 @@ public class VelocityUtil {
 			return res;
 		}
 		catch (Exception e) {
-			e.printStackTrace();
 			throw new Exception(e);
 		}
 		finally {
