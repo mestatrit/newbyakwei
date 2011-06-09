@@ -91,7 +91,10 @@ public class FileUpload {
 	}
 
 	public File getFile(String name) {
-		return multipartRequest.getFile(name);
+		if (this.uploadFileMap.containsKey(name)) {
+			return this.uploadFileMap.get(name).getFile();
+		}
+		return null;
 	}
 
 	public UploadFile[] getUploadFiles() {
@@ -103,6 +106,9 @@ public class FileUpload {
 	}
 
 	public String getOriginalFileName(String name) {
-		return this.multipartRequest.getOriginalFileName(name);
+		if (this.uploadFileMap.containsKey(name)) {
+			return this.uploadFileMap.get(name).getOriginName();
+		}
+		return null;
 	}
 }
