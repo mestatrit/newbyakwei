@@ -1,7 +1,6 @@
 package com.dev3g.cactus.web.action;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +18,7 @@ import com.dev3g.cactus.web.util.SimplePage;
 public class HkRequestImpl extends HttpServletRequestWrapper implements
 		HkRequest {
 
-	private HttpServletRequest request;
+	private HttpServletRequest httpServletRequest;
 
 	private UploadFile[] uploadFiles;
 
@@ -27,16 +26,22 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 
 	private Map<String, UploadFile> uploadFileMap = null;
 
-	public HkRequestImpl(HttpServletRequest request) throws IOException {
+	public HkRequestImpl(HttpServletRequest request) {
 		super(request);
-		this.initMultipart();
+		// 查看是否有上传文件模式的request
+		HttpServletRequest req = (HttpServletRequest) request
+				.getAttribute(WebCnf.MULTI_HTTPSERVLETREQUEST_KEY);
+		if (req != null) {
+			this.httpServletRequest = req;
+		}
+		// this.initMultipart();
 	}
 
 	public HttpServletRequest getHttpServletRequest() {
-		if (this.request == null) {
+		if (this.httpServletRequest == null) {
 			return (HttpServletRequest) this.getRequest();
 		}
-		return this.request;
+		return this.httpServletRequest;
 	}
 
 	@Override
@@ -314,23 +319,22 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 		return this.getPageSupport(this.getPage(), size);
 	}
 
-	private void initMultipart() throws IOException {
-		if (ServletUtil.isMultipart(this.getHttpServletRequest())) {
-			WebCnf webCnf = (WebCnf) this.getAttribute(WebCnf.WEBCNF_OBJ_KEY);
-			if (webCnf.isMustCheckUpload()) {
-				if (this.getHttpServletRequest().getAttribute(
-						WebCnf.UPLOAD_LIMIT_SIZE_KEY) == null) {
-					return;
-				}
-			}
-			FileUpload fileUpload = new FileUpload(
-					this.getHttpServletRequest(), webCnf
-							.getUploadFileTempPath());
-			this.setUploadFiles(fileUpload.getUploadFiles());
-			this.request = fileUpload.getHkMultiRequest();
-		}
-	}
-
+	// private void initMultipart() throws IOException {
+	// if (ServletUtil.isMultipart(this.getHttpServletRequest())) {
+	// WebCnf webCnf = (WebCnf) this.getAttribute(WebCnf.WEBCNF_OBJ_KEY);
+	// if (webCnf.isMustCheckUpload()) {
+	// if (this.getHttpServletRequest().getAttribute(
+	// WebCnf.UPLOAD_LIMIT_SIZE_KEY) == null) {
+	// return;
+	// }
+	// }
+	// FileUpload fileUpload = new FileUpload(
+	// this.getHttpServletRequest(), webCnf
+	// .getUploadFileTempPath());
+	// this.setUploadFiles(fileUpload.getUploadFiles());
+	// this.request = fileUpload.getHkMultiRequest();
+	// }
+	// }
 	@Override
 	public void setMessage(String msg) {
 		this.setAttribute(MessageUtil.MESSAGE_NAME, msg);
