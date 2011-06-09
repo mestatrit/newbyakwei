@@ -45,7 +45,7 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 			this.uploadFileMap = new HashMap<String, UploadFile>();
 		}
 		if (this.files == null) {
-			this.files = new File[this.uploadFileMap.size()];
+			this.files = new File[this.uploadFiles.length];
 		}
 		this.uploadFiles = uploadFiles;
 		for (int i = 0; i < this.uploadFiles.length; i++) {
