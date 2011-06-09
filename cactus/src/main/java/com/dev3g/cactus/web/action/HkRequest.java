@@ -115,4 +115,6 @@ public interface HkRequest extends HttpServletRequest {
 	void reSetEncodeAttribute(String name);
 
 	void setEncodeAttribute(String name, String value);
+
+	void setUploadFiles(UploadFile[] uploadFiles);
 }

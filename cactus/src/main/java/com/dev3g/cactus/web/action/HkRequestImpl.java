@@ -2,6 +2,8 @@ package com.dev3g.cactus.web.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +19,13 @@ import com.dev3g.cactus.web.util.SimplePage;
 public class HkRequestImpl extends HttpServletRequestWrapper implements
 		HkRequest {
 
-	private FileUpload fileUpload;
-
 	private HttpServletRequest request;
+
+	private UploadFile[] uploadFiles;
+
+	private File[] files;
+
+	private Map<String, UploadFile> uploadFileMap = null;
 
 	public HkRequestImpl(HttpServletRequest request) throws IOException {
 		super(request);
@@ -31,6 +37,19 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 			return (HttpServletRequest) this.getRequest();
 		}
 		return this.request;
+	}
+
+	@Override
+	public void setUploadFiles(UploadFile[] uploadFiles) {
+		if (this.uploadFileMap == null) {
+			this.uploadFileMap = new HashMap<String, UploadFile>();
+		}
+		this.uploadFiles = uploadFiles;
+		for (int i = 0; i < this.uploadFiles.length; i++) {
+			this.files[i] = this.uploadFiles[i].getFile();
+			this.uploadFileMap.put(this.uploadFiles[i].getName(),
+					this.uploadFiles[i]);
+		}
 	}
 
 	@Override
@@ -76,40 +95,36 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 
 	@Override
 	public File getFile(String name) {
-		if (fileUpload != null) {
-			return this.fileUpload.getFile(name);
+		UploadFile uploadFile = this.getUploadFile(name);
+		if (uploadFile == null) {
+			return null;
 		}
-		return null;
+		return uploadFile.getFile();
 	}
 
 	@Override
 	public File[] getFiles() {
-		if (fileUpload != null) {
-			return this.fileUpload.getFiles();
-		}
-		return null;
+		return this.files;
 	}
 
 	@Override
 	public UploadFile getUploadFile(String name) {
-		if (this.fileUpload != null) {
-			return this.fileUpload.getUploadFile(name);
+		if (this.uploadFileMap != null) {
+			return this.uploadFileMap.get(name);
 		}
 		return null;
 	}
 
 	@Override
 	public UploadFile[] getUploadFiles() {
-		if (this.fileUpload != null) {
-			return this.fileUpload.getUploadFiles();
-		}
-		return null;
+		return this.uploadFiles;
 	}
 
 	@Override
 	public String getOriginalFileName(String name) {
-		if (fileUpload != null) {
-			return this.fileUpload.getOriginalFileName(name);
+		UploadFile uploadFile = this.getUploadFile(name);
+		if (uploadFile != null) {
+			return uploadFile.getName();
 		}
 		return null;
 	}
@@ -305,8 +320,10 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 					return;
 				}
 			}
-			fileUpload = new FileUpload(this.getHttpServletRequest(), webCnf
-					.getUploadFileTempPath());
+			FileUpload fileUpload = new FileUpload(
+					this.getHttpServletRequest(), webCnf
+							.getUploadFileTempPath());
+			this.setUploadFiles(fileUpload.getUploadFiles());
 			this.request = fileUpload.getHkMultiRequest();
 		}
 	}
