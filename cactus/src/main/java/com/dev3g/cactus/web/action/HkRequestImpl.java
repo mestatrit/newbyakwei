@@ -41,13 +41,13 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 
 	@Override
 	public void setUploadFiles(UploadFile[] uploadFiles) {
+		this.uploadFiles = uploadFiles;
 		if (this.uploadFileMap == null) {
 			this.uploadFileMap = new HashMap<String, UploadFile>();
 		}
 		if (this.files == null) {
 			this.files = new File[this.uploadFiles.length];
 		}
-		this.uploadFiles = uploadFiles;
 		for (int i = 0; i < this.uploadFiles.length; i++) {
 			this.files[i] = this.uploadFiles[i].getFile();
 			this.uploadFileMap.put(this.uploadFiles[i].getName(),
