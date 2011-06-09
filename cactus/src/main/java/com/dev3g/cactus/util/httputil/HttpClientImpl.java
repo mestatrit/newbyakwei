@@ -3,8 +3,6 @@ package com.dev3g.cactus.util.httputil;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,6 +17,7 @@ import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpConnectionManager;
+import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.NameValuePair;
@@ -43,7 +42,7 @@ public class HttpClientImpl implements HttpHelper {
 
 	@Override
 	public byte[] doGet(String url, HttpData httpData)
-			throws HttpHelperException {
+			throws HttpHelperException, ConnectException {
 		HttpMethod method = this
 				.createMethod(HttpMethodEnum.GET, url, httpData);
 		try {
@@ -56,7 +55,7 @@ public class HttpClientImpl implements HttpHelper {
 
 	@Override
 	public byte[] doPost(String url, HttpData httpData)
-			throws HttpHelperException {
+			throws HttpHelperException, ConnectException {
 		HttpMethod method = this.createMethod(HttpMethodEnum.POST, url,
 				httpData);
 		try {
@@ -69,7 +68,7 @@ public class HttpClientImpl implements HttpHelper {
 
 	@Override
 	public String doGetResultString(String url, HttpData httpData)
-			throws HttpHelperException {
+			throws HttpHelperException, ConnectException {
 		HttpMethod method = this
 				.createMethod(HttpMethodEnum.GET, url, httpData);
 		try {
@@ -82,7 +81,7 @@ public class HttpClientImpl implements HttpHelper {
 
 	@Override
 	public String doPostResultString(String url, HttpData httpData)
-			throws HttpHelperException {
+			throws HttpHelperException, ConnectException {
 		HttpMethod method = this.createMethod(HttpMethodEnum.POST, url,
 				httpData);
 		try {
@@ -129,13 +128,22 @@ public class HttpClientImpl implements HttpHelper {
 				this.innerHttpMethodRetryHandler);
 	}
 
-	private String getHttpResult(HttpMethod method) throws Exception {
+	private String getHttpResult(HttpMethod method) throws ConnectException,
+			HttpHelperException {
 		this.initMethod(method);
 		InputStream is = null;
 		BufferedReader reader = null;
+		HttpClient client = createHttpClient();
 		try {
-			HttpClient client = createHttpClient();
 			client.executeMethod(method);
+		}
+		catch (HttpException e1) {
+			throw new ConnectException(e1);
+		}
+		catch (IOException e1) {
+			throw new HttpHelperException(e1);
+		}
+		try {
 			is = method.getResponseBodyAsStream();
 			reader = new BufferedReader(new InputStreamReader(is, "utf-8"));
 			StringBuilder builder = new StringBuilder();
@@ -146,7 +154,7 @@ public class HttpClientImpl implements HttpHelper {
 			return builder.toString();
 		}
 		catch (Exception e) {
-			throw e;
+			throw new HttpHelperException(e);
 		}
 		finally {
 			method.releaseConnection();
@@ -167,12 +175,21 @@ public class HttpClientImpl implements HttpHelper {
 		}
 	}
 
-	private byte[] getByteArrayHttpResult(HttpMethod method) throws Exception {
+	private byte[] getByteArrayHttpResult(HttpMethod method)
+			throws ConnectException, HttpHelperException {
 		this.initMethod(method);
 		InputStream is = null;
 		ByteArrayOutputStream bos = null;
 		HttpClient client = createHttpClient();
-		client.executeMethod(method);
+		try {
+			client.executeMethod(method);
+		}
+		catch (HttpException e1) {
+			throw new ConnectException(e1);
+		}
+		catch (IOException e1) {
+			throw new HttpHelperException(e1);
+		}
 		BufferedInputStream bis = null;
 		try {
 			is = method.getResponseBodyAsStream();
@@ -187,7 +204,7 @@ public class HttpClientImpl implements HttpHelper {
 			return bos.toByteArray();
 		}
 		catch (Exception e) {
-			throw e;
+			throw new HttpHelperException(e);
 		}
 		finally {
 			method.releaseConnection();
@@ -197,7 +214,7 @@ public class HttpClientImpl implements HttpHelper {
 				}
 			}
 			catch (IOException e) {
-				throw e;
+				throw new HttpHelperException(e);
 			}
 			try {
 				if (bis != null) {
@@ -282,8 +299,8 @@ public class HttpClientImpl implements HttpHelper {
 			}
 			method.getParams().setBooleanParameter(
 					HttpMethodParams.USE_EXPECT_CONTINUE, true);
-			MultipartRequestEntity mre = new MultipartRequestEntity(
-					list.toArray(new Part[list.size()]), method.getParams());
+			MultipartRequestEntity mre = new MultipartRequestEntity(list
+					.toArray(new Part[list.size()]), method.getParams());
 			method.setRequestEntity(mre);
 		}
 		return method;
@@ -321,16 +338,5 @@ public class HttpClientImpl implements HttpHelper {
 		public InnerHttpMethodRetryHandler() {
 			super(1, true);
 		}
-	}
-
-	public static void main(String[] args) throws Exception {
-		HttpUtil httpUtil = new HttpUtil(3000);
-		byte[] by = httpUtil
-				.getByteArrayResult("http://img05.taobaocdn.com/bao/uploaded/i5/T1LE8GXdBLXXaOHGk._110940.jpg");
-		FileOutputStream fos = new FileOutputStream(new File(
-				"d:/00aaaaaaaaahttp.jpg"));
-		fos.write(by);
-		fos.flush();
-		fos.close();
 	}
 }
