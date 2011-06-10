@@ -4,7 +4,6 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import org.springframework.jdbc.core.RowMapper;
 
 /**
  * 动态生成Action类的子类，目的是为了避免使用反射来进行方法
