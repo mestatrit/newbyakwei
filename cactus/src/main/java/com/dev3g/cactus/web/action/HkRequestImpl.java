@@ -28,13 +28,6 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 
 	public HkRequestImpl(HttpServletRequest request) {
 		super(request);
-		// 查看是否有上传文件模式的request
-		HttpServletRequest req = (HttpServletRequest) request
-				.getAttribute(WebCnf.MULTI_HTTPSERVLETREQUEST_KEY);
-		if (req != null) {
-			this.httpServletRequest = req;
-		}
-		// this.initMultipart();
 	}
 
 	public HttpServletRequest getHttpServletRequest() {
