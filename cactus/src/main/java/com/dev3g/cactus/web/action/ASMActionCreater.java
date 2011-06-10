@@ -59,7 +59,6 @@ public class ASMActionCreater extends ClassLoader implements Opcodes {
 		// 生成action class
 		byte[] code = classWriter.toByteArray();
 		try {
-			this.loadClass(RowMapper.class.getName());
 			Class<T> mapperClass = (Class<T>) this.defineClass(actionName,
 					code, 0, code.length);
 			return mapperClass;
