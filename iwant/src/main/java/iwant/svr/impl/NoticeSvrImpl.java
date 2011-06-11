@@ -53,14 +53,14 @@ public class NoticeSvrImpl implements NoticeSvr {
 
 	@Override
 	public void deleteNotice(long noticeid) {
-		this.noticeDao.deleteById(null, noticeid);
+		this.noticeDao.deleteById(noticeid);
 		this.userNoticeDao.deleteByNoticeid(noticeid);
-		this.noticeQueueDao.deleteById(null, noticeid);
+		this.noticeQueueDao.deleteById(noticeid);
 	}
 
 	@Override
 	public Notice getNotice(long noticeid) {
-		return this.noticeDao.getById(null, noticeid);
+		return this.noticeDao.getById(noticeid);
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class NoticeSvrImpl implements NoticeSvr {
 
 	@Override
 	public void deleteUserNotice(UserNotice userNotice) {
-		this.userNoticeDao.delete(userNotice);
+		this.userNoticeDao.deleteById(userNotice.getNoticeid());
 	}
 
 	@Override
@@ -118,7 +118,7 @@ public class NoticeSvrImpl implements NoticeSvr {
 
 	@Override
 	public void deleteNoticeQueue(NoticeQueue noticeQueue) {
-		this.noticeQueueDao.delete(noticeQueue);
+		this.noticeQueueDao.deleteById(noticeQueue.getNoticeid());
 	}
 
 	@Override

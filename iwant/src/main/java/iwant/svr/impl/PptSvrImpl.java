@@ -105,7 +105,7 @@ public class PptSvrImpl implements PptSvr {
 	@Override
 	public void deleteSlide(Slide slide) {
 		this.deleteSlideOldPic(slide.getPic_path());
-		this.slideDao.delete(slide);
+		this.slideDao.deleteById(slide.getSlideid());
 		Ppt ppt = this.getPpt(slide.getPptid());
 		if (ppt != null && slide.getPic_path().equals(ppt.getPic_path())) {
 			List<Slide> list = this.slideDao.getListByPptidOrdered(slide
@@ -137,8 +137,8 @@ public class PptSvrImpl implements PptSvr {
 		for (Slide slide : list) {
 			this.deleteSlide(slide);
 		}
-		this.pptQueueDao.deleteById(null, pptid);
-		this.pptDao.deleteById(null, pptid);
+		this.pptQueueDao.deleteById(pptid);
+		this.pptDao.deleteById(pptid);
 	}
 
 	@Override
@@ -147,7 +147,7 @@ public class PptSvrImpl implements PptSvr {
 		for (Slide slide : list) {
 			this.deleteSlide(slide);
 		}
-		this.mainPptDao.deleteById(null, pptid);
+		this.mainPptDao.deleteById(pptid);
 	}
 
 	@Override
@@ -164,7 +164,7 @@ public class PptSvrImpl implements PptSvr {
 
 	@Override
 	public MainPpt getMainPpt(long pptid) {
-		return this.mainPptDao.getById(null, pptid);
+		return this.mainPptDao.getById(pptid);
 	}
 
 	@Override
@@ -213,7 +213,7 @@ public class PptSvrImpl implements PptSvr {
 
 	@Override
 	public Ppt getPpt(long pptid) {
-		return this.pptDao.getById(null, pptid);
+		return this.pptDao.getById(pptid);
 	}
 
 	@Override
@@ -393,7 +393,7 @@ public class PptSvrImpl implements PptSvr {
 
 	@Override
 	public void deletePptQueue(PptQueue pptQueue) {
-		this.pptQueueDao.delete(pptQueue);
+		this.pptQueueDao.deleteById(pptQueue.getPptid());
 	}
 
 	@Override
