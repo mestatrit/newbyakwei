@@ -17,7 +17,7 @@
 		<!-- 设置对应uri的文件上传，以及大小限制，如果设置了 mustCheckUpload=true，则，只有以下的uri才允许文件上传，非必须 -->
 		<property name="fileUploadCheckUriCnfList">
 			<list>
-				<!-- 格式为取出[requestContextPath之后的uri]:[文件大小(单位M)] -->
+				<!-- 格式为取出[requestContextPath之后的uri，去掉.do等后缀]:[文件大小(单位M)] -->
 				<value>/user_list.do:80</value>
 			</list>
 		</property>
