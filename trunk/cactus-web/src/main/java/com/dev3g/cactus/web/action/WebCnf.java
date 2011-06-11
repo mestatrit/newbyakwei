@@ -20,8 +20,6 @@ public class WebCnf implements InitializingBean {
 
 	private List<String> scanPathList;
 
-	private String url_extension;
-
 	private ActionExe actionExe;
 
 	/**
@@ -141,10 +139,6 @@ public class WebCnf implements InitializingBean {
 		this.scanPathList = scanPathList;
 	}
 
-	public void setUrl_extension(String urlExtension) {
-		url_extension = urlExtension;
-	}
-
 	private void initActionExe() {
 		this.actionExe = (ActionExe) HkUtil.getBean("actionExe");
 		if (actionExe == null) {
@@ -167,7 +161,6 @@ public class WebCnf implements InitializingBean {
 				.getBean("mappingUriCreater");
 		if (this.mappingUriCreater == null) {
 			this.mappingUriCreater = new MappingUriCreater();
-			this.mappingUriCreater.setUrl_extension(this.url_extension);
 		}
 	}
 
