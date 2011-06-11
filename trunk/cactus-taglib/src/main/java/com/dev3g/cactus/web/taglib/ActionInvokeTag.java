@@ -2,8 +2,8 @@ package com.dev3g.cactus.web.taglib;
 
 import javax.servlet.jsp.JspWriter;
 
-import com.dev3g.cactus.util.HkUtil;
 import com.dev3g.cactus.web.action.ActionExe;
+import com.dev3g.cactus.web.action.WebCnf;
 
 public class ActionInvokeTag extends BaseTag {
 
@@ -22,7 +22,7 @@ public class ActionInvokeTag extends BaseTag {
 	@Override
 	protected void adapter(JspWriter writer) throws Exception {
 		ActionExe actionExe = (ActionExe) this.getRequest().getAttribute(
-				HkUtil.ACTION_EXE_ATTR_KEY);
+				WebCnf.ACTION_EXE_ATTR_KEY);
 		if (actionExe == null) {
 			return;
 		}
