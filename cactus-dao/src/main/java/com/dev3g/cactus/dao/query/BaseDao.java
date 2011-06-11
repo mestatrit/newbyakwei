@@ -8,9 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dev3g.cactus.dao.query.param.DeleteParam;
-import com.dev3g.cactus.dao.query.param.InsertParam;
 import com.dev3g.cactus.dao.query.param.QueryParam;
-import com.dev3g.cactus.dao.query.param.UpdateParam;
 
 public abstract class BaseDao<T> implements IDao<T> {
 
@@ -37,10 +35,6 @@ public abstract class BaseDao<T> implements IDao<T> {
 		return new QueryParam(getKey(), value);
 	}
 
-	private UpdateParam createUpdateParam(Object value) {
-		return new UpdateParam(getKey(), value);
-	}
-
 	@Override
 	public int delete(Object keyValue, String where, Object[] params) {
 		DeleteParam deleteParam = new DeleteParam();
@@ -49,28 +43,9 @@ public abstract class BaseDao<T> implements IDao<T> {
 		return this.hkObjQuery.delete(deleteParam, getClazz());
 	}
 
-	/**
-	 * 删除对象
-	 * 
-	 * @param keyValue
-	 *            分区关键值
-	 * @param t
-	 * @return
-	 */
-	@Override
-	public int delete(Object keyValue, T t) {
-		DeleteParam deleteParam = new DeleteParam(getKey(), keyValue);
-		return this.hkObjQuery.deleteObj(deleteParam, t);
-	}
-
 	@Override
 	public int delete(String where, Object[] params) {
 		return this.delete(null, where, params);
-	}
-
-	@Override
-	public int delete(T t) {
-		return this.delete(null, t);
 	}
 
 	@Override
@@ -80,8 +55,8 @@ public abstract class BaseDao<T> implements IDao<T> {
 
 	@Override
 	public int deleteById(Object keyValue, Object idValue) {
-		DeleteParam deleteParam = new DeleteParam(getKey(), keyValue);
-		return this.hkObjQuery.deleteById(deleteParam, getClazz(), idValue);
+		return this.hkObjQuery.deleteById(getKey(), keyValue, getClazz(),
+				idValue);
 	}
 
 	@Override
@@ -221,8 +196,7 @@ public abstract class BaseDao<T> implements IDao<T> {
 	 */
 	@Override
 	public Object save(Object keyValue, T t) {
-		InsertParam insertParam = new InsertParam(this.getKey(), keyValue);
-		return this.hkObjQuery.insertObj(insertParam, t);
+		return this.hkObjQuery.insertObj(this.getKey(), keyValue, t);
 	}
 
 	@Override
@@ -244,7 +218,7 @@ public abstract class BaseDao<T> implements IDao<T> {
 	 */
 	@Override
 	public int update(Object keyValue, T t) {
-		return this.hkObjQuery.updateObj(this.createUpdateParam(keyValue), t);
+		return this.hkObjQuery.updateObj(getKey(), keyValue, t);
 	}
 
 	@Override
@@ -263,8 +237,8 @@ public abstract class BaseDao<T> implements IDao<T> {
 		sb.append(partitionTableInfo.getTableName());
 		sb.append(" set ").append(updateSqlSegment);
 		sb.append(" where ").append(where);
-		return this.hkObjQuery.updateBySQL(
-				partitionTableInfo.getDsKey(), sb.toString(), params);
+		return this.hkObjQuery.updateBySQL(partitionTableInfo.getDsKey(), sb
+				.toString(), params);
 	}
 
 	@Override

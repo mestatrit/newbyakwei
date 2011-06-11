@@ -40,16 +40,6 @@ public interface IDao<T> {
 	int delete(Object keyValue, String where, Object[] params);
 
 	/**
-	 * 删除对象
-	 * 
-	 * @param keyValue
-	 *            分区关键值
-	 * @param t
-	 * @return
-	 */
-	int delete(Object keyValue, T t);
-
-	/**
 	 * 删除操作(非分区模式使用)
 	 * 
 	 * @param where
@@ -59,14 +49,6 @@ public interface IDao<T> {
 	 * @return 删除的行数
 	 */
 	int delete(String where, Object[] params);
-
-	/**
-	 * 删除对象，对象必须有id(非分区模式使用)
-	 * 
-	 * @param t
-	 * @return
-	 */
-	int delete(T t);
 
 	/**
 	 * 根据id删除(非分区模式使用)
