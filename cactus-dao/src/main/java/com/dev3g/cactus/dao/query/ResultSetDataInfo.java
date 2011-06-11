@@ -74,7 +74,6 @@ public class ResultSetDataInfo<T> {
 	 * 
 	 * @param clazz
 	 */
-	@SuppressWarnings("unchecked")
 	public ResultSetDataInfo(Class<T> clazz) {
 		this.clazz = clazz;
 		Field[] fs = clazz.getDeclaredFields();
@@ -86,9 +85,8 @@ public class ResultSetDataInfo<T> {
 			this.tableName = table.name();
 		}
 		try {
-			Object obj = new RowMapperClassCreater().createRowMapperClass(this)
-					.getConstructor().newInstance();
-			this.rowMapper = (RowMapper<T>) obj;
+			this.rowMapper = new RowMapperClassCreater().createRowMapperClass(
+					this).getConstructor().newInstance();
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
