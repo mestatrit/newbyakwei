@@ -11,12 +11,6 @@ public class HkUtil implements ApplicationContextAware {
 
 	private static ApplicationContext webApplicationContext = null;
 
-	public static final String SIMPLEPAGE_ATTRIBUTE = "com.hk.wap.simplepage.attribute";
-
-	public static final String PAGESUPPORT_ATTRIBUTE = "com.hk.wap.pagesupport.attribute";
-
-	public static final String ACTION_EXE_ATTR_KEY = "com.hk.action_exe_attr_key";
-
 	public static final Map<String, Object> objMap = new HashMap<String, Object>();
 
 	public static ApplicationContext getWebApplicationContext() {
@@ -51,9 +45,5 @@ public class HkUtil implements ApplicationContextAware {
 	public void setApplicationContext(ApplicationContext applicationContext)
 			throws BeansException {
 		webApplicationContext = applicationContext;
-	}
-
-	public static void main(String[] args) {
-		System.out.println(HkUtil.class.getName());
 	}
 }
