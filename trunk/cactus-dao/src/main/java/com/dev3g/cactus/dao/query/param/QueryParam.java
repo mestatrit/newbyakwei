@@ -7,7 +7,6 @@ import java.util.List;
  * 查询条件参数的对象表示方式，完全是为了程序易读<br/>
  * 集合查询时，所有参数都要用到<br/>
  * 查询单个对象时，不需要用到 begin ,size<br/>
- * 统计数字时,不需要用到order,begin,size,columns
  * 
  * @author akwei
  */

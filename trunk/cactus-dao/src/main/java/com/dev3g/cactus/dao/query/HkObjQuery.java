@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.dev3g.cactus.dao.query.param.CountParam;
 import com.dev3g.cactus.dao.query.param.DeleteParam;
 import com.dev3g.cactus.dao.query.param.InsertParam;
 import com.dev3g.cactus.dao.query.param.QueryParam;
@@ -80,8 +81,8 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> Object insertObj(String key, Object value, T t) {
-		InsertParam insertParam = new InsertParam(key, value);
+	public <T> Object insertObj(String key, Object keyValue, T t) {
+		InsertParam insertParam = new InsertParam(key, keyValue);
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
 				.getObjectSqlInfo(t.getClass());
 		PartitionTableInfo partitionTableInfo = this.parse(t.getClass(),
@@ -93,10 +94,10 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> int updateObj(String key, Object value, T t) {
+	public <T> int updateObj(String key, Object keyValue, T t) {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
 				.getObjectSqlInfo(t.getClass());
-		UpdateParam updateParam = new UpdateParam(key, value);
+		UpdateParam updateParam = new UpdateParam(key, keyValue);
 		updateParam.setWhere(objectSqlInfo.getIdColumn() + "=?");
 		updateParam.setUpdateColumns(objectSqlInfo.getColumnsForUpdate());
 		updateParam.setParams(objectSqlInfo.getSqlUpdateMapper()
@@ -178,12 +179,12 @@ public class HkObjQuery extends HkQuery {
 		return this.getList(queryParam, this.getRowMapper(clazz));
 	}
 
-	public <T> int count(QueryParam queryParam) {
-		PartitionTableInfo[] partitionTableInfos = this.parse(queryParam
-				.getClasses(), queryParam.getCtxMap());
+	public <T> int count(CountParam countParam) {
+		PartitionTableInfo[] partitionTableInfos = this.parse(countParam
+				.getClasses(), countParam.getCtxMap());
 		return this.countBySQL(partitionTableInfos[0].getDsKey(), SqlBuilder
-				.createCountSQL(partitionTableInfos, queryParam.getWhere()),
-				queryParam.getParams());
+				.createCountSQL(partitionTableInfos, countParam.getWhere()),
+				countParam.getParams());
 	}
 
 	/**
