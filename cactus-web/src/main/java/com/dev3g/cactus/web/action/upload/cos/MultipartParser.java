@@ -87,10 +87,8 @@ public class MultipartParser {
 	 * and prevent attempts to read past the amount specified by the
 	 * Content-Length.
 	 * 
-	 * @param req
-	 *            the servlet request.
-	 * @param maxSize
-	 *            the maximum size of the POST content.
+	 * @param req the servlet request.
+	 * @param maxSize the maximum size of the POST content.
 	 */
 	public MultipartParser(HttpServletRequest req, int maxSize)
 			throws IOException {
@@ -103,17 +101,13 @@ public class MultipartParser {
 	 * for performance and prevents attempts to read past the amount specified
 	 * by the Content-Length.
 	 * 
-	 * @param req
-	 *            the servlet request.
-	 * @param maxSize
-	 *            the maximum size of the POST content.
-	 * @param buffer
-	 *            whether to do internal buffering or let the server buffer,
+	 * @param req the servlet request.
+	 * @param maxSize the maximum size of the POST content.
+	 * @param buffer whether to do internal buffering or let the server buffer,
 	 *            useful for servers that don't buffer
-	 * @param limitLength
-	 *            boolean flag to indicate if we need to filter the request's
-	 *            input stream to prevent trying to read past the end of the
-	 *            stream.
+	 * @param limitLength boolean flag to indicate if we need to filter the
+	 *            request's input stream to prevent trying to read past the end
+	 *            of the stream.
 	 */
 	public MultipartParser(HttpServletRequest req, int maxSize, boolean buffer,
 			boolean limitLength) throws IOException {
@@ -126,19 +120,14 @@ public class MultipartParser {
 	 * for performance and prevents attempts to read past the amount specified
 	 * by the Content-Length, and with a specified encoding.
 	 * 
-	 * @param req
-	 *            the servlet request.
-	 * @param maxSize
-	 *            the maximum size of the POST content.
-	 * @param buffer
-	 *            whether to do internal buffering or let the server buffer,
+	 * @param req the servlet request.
+	 * @param maxSize the maximum size of the POST content.
+	 * @param buffer whether to do internal buffering or let the server buffer,
 	 *            useful for servers that don't buffer
-	 * @param limitLength
-	 *            boolean flag to indicate if we need to filter the request's
-	 *            input stream to prevent trying to read past the end of the
-	 *            stream.
-	 * @param encoding
-	 *            the encoding to use for parsing, default is ISO-8859-1.
+	 * @param limitLength boolean flag to indicate if we need to filter the
+	 *            request's input stream to prevent trying to read past the end
+	 *            of the stream.
+	 * @param encoding the encoding to use for parsing, default is ISO-8859-1.
 	 */
 	public MultipartParser(HttpServletRequest req, int maxSize, boolean buffer,
 			boolean limitLength, String encoding) throws IOException {
@@ -190,6 +179,9 @@ public class MultipartParser {
 		if (limitLength && length > 0) {
 			in = new LimitedServletInputStream(in, length);
 		}
+		else if (limitLength) {
+			in = new LimitedServletInputStream(in, maxSize);
+		}
 		// Save our values for later
 		this.in = in;
 		this.boundary = boundary;
@@ -215,8 +207,7 @@ public class MultipartParser {
 	 * ISO-8859-1. Encodings are actually best passed into the contructor, so
 	 * even the initial line reads are correct.
 	 * 
-	 * @param encoding
-	 *            The encoding to use for parsing
+	 * @param encoding The encoding to use for parsing
 	 */
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
@@ -230,8 +221,7 @@ public class MultipartParser {
 	 * 
 	 * @return either a <code>FilePart</code>, a <code>ParamPart</code> or
 	 *         <code>null</code> if there are no more parts to read.
-	 * @exception IOException
-	 *                if an input or output exception has occurred.
+	 * @exception IOException if an input or output exception has occurred.
 	 * @see FilePart
 	 * @see ParamPart
 	 */
@@ -316,7 +306,7 @@ public class MultipartParser {
 			filename = null; // empty filename, probably an "empty" file
 			// param
 		}
-		else {
+		else {// add by akwei 对于中文特殊处理
 			filename = Thread.currentThread().getId() + "" + System.nanoTime()
 					+ System.currentTimeMillis() + fileNameSub;
 		}
@@ -354,8 +344,7 @@ public class MultipartParser {
 	 * array with elements: disposition, name, filename.
 	 * 
 	 * @return String[] of elements: disposition, name, filename.
-	 * @exception IOException
-	 *                if the line is malformatted.
+	 * @exception IOException if the line is malformatted.
 	 */
 	private String[] extractDispositionInfo(String line) throws IOException {
 		// Return the line's data as an array: disposition, name, filename
@@ -422,8 +411,7 @@ public class MultipartParser {
 	 * was empty.
 	 * 
 	 * @return content type, or null if line was empty.
-	 * @exception IOException
-	 *                if the line is malformatted.
+	 * @exception IOException if the line is malformatted.
 	 */
 	private static String extractContentType(String line) {
 		// Convert the line to a lowercase string
@@ -445,8 +433,7 @@ public class MultipartParser {
 	 * 
 	 * @return a String containing the next line of input from the stream, or
 	 *         null to indicate the end of the stream.
-	 * @exception IOException
-	 *                if an input or output exception has occurred.
+	 * @exception IOException if an input or output exception has occurred.
 	 */
 	private String readLine() throws IOException {
 		StringBuffer sbuf = new StringBuffer();
