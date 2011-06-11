@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.dev3g.cactus.dao.query.param.CountParam;
 import com.dev3g.cactus.dao.query.param.DeleteParam;
 import com.dev3g.cactus.dao.query.param.QueryParam;
 
@@ -19,11 +20,11 @@ public abstract class BaseDao<T> implements IDao<T> {
 
 	@Override
 	public int count(Object keyValue, String where, Object[] params) {
-		QueryParam queryParam = new QueryParam();
-		queryParam.addKeyAndValue(getKey(), keyValue);
-		queryParam.addClass(getClazz());
-		queryParam.setWhereAndParams(where, params);
-		return this.hkObjQuery.count(queryParam);
+		CountParam countParam = new CountParam();
+		countParam.addKeyAndValue(getKey(), keyValue);
+		countParam.addClass(getClazz());
+		countParam.setWhereAndParams(where, params);
+		return this.hkObjQuery.count(countParam);
 	}
 
 	@Override
