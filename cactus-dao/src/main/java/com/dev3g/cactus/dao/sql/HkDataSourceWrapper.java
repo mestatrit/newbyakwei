@@ -16,7 +16,7 @@ import org.springframework.beans.factory.InitializingBean;
  */
 public class HkDataSourceWrapper implements DataSource, InitializingBean {
 
-	public static final String default_dbkey = "defaultdbkey";
+	public static final String DEFAULT_DBKEY = "defaultdbkey";
 
 	private Map<String, DataSource> dataSourceMap;
 
@@ -91,7 +91,7 @@ public class HkDataSourceWrapper implements DataSource, InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if (this.dataSourceMap.size() == 1) {
-			this.dataSourceMap.put(default_dbkey, this.dataSourceMap.values()
+			this.dataSourceMap.put(DEFAULT_DBKEY, this.dataSourceMap.values()
 					.iterator().next());
 		}
 	}
