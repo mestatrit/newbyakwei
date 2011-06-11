@@ -25,34 +25,36 @@ public class MultipartRequest {
 	protected Map<String, UploadedFile> files = new LinkedHashMap<String, UploadedFile>();
 
 	public MultipartRequest(HttpServletRequest request, String saveDirectory)
-			throws IOException {
+			throws IOException, ExceededSizeException {
 		this(request, saveDirectory, DEFAULT_MAX_POST_SIZE);
 	}
 
 	public MultipartRequest(HttpServletRequest request, String saveDirectory,
-			int maxPostSize) throws IOException {
+			int maxPostSize) throws IOException, ExceededSizeException {
 		this(request, saveDirectory, maxPostSize, null, null);
 	}
 
 	public MultipartRequest(HttpServletRequest request, String saveDirectory,
-			String encoding) throws IOException {
+			String encoding) throws IOException, ExceededSizeException {
 		this(request, saveDirectory, DEFAULT_MAX_POST_SIZE, encoding, null);
 	}
 
 	public MultipartRequest(HttpServletRequest request, String saveDirectory,
-			int maxPostSize, FileRenamePolicy policy) throws IOException {
+			int maxPostSize, FileRenamePolicy policy) throws IOException,
+			ExceededSizeException {
 		this(request, saveDirectory, maxPostSize, null, policy);
 	}
 
 	public MultipartRequest(HttpServletRequest request, String saveDirectory,
-			int maxPostSize, String encoding) throws IOException {
+			int maxPostSize, String encoding) throws IOException,
+			ExceededSizeException {
 		this(request, saveDirectory, maxPostSize, encoding, null);
 	}
 
 	@SuppressWarnings( { "deprecation", "unchecked" })
 	public MultipartRequest(HttpServletRequest request, String saveDirectory,
 			int maxPostSize, String encoding, FileRenamePolicy policy)
-			throws IOException {
+			throws IOException, ExceededSizeException {
 		// Sanity check values
 		if (request == null)
 			throw new IllegalArgumentException("request cannot be null");
@@ -138,7 +140,7 @@ public class MultipartRequest {
 	 * Callers must simply be careful to pass in an HttpServletRequest.
 	 */
 	public MultipartRequest(ServletRequest request, String saveDirectory)
-			throws IOException {
+			throws IOException, ExceededSizeException {
 		this((HttpServletRequest) request, saveDirectory);
 	}
 
@@ -150,7 +152,7 @@ public class MultipartRequest {
 	 * Callers must simply be careful to pass in an HttpServletRequest.
 	 */
 	public MultipartRequest(ServletRequest request, String saveDirectory,
-			int maxPostSize) throws IOException {
+			int maxPostSize) throws IOException, ExceededSizeException {
 		this((HttpServletRequest) request, saveDirectory, maxPostSize);
 	}
 

@@ -117,4 +117,11 @@ public interface HkRequest extends HttpServletRequest {
 	void setEncodeAttribute(String name, String value);
 
 	void setUploadFiles(UploadFile[] uploadFiles);
+
+	/**
+	 * 仅在有文件上传时才能正确判断。上传文件是否超出限制，当content-length>0时可用。<0时，文件会截取到最大限制部分
+	 * 
+	 * @return
+	 */
+	boolean isUploadExceedSize();
 }

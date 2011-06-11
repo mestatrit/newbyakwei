@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.dev3g.cactus.web.action.upload.cos.ExceededSizeException;
 import com.dev3g.cactus.web.action.upload.cos.MultipartRequest;
 
 public class FileUpload {
@@ -24,7 +25,7 @@ public class FileUpload {
 	private static final int dv = 1024 * 1024;
 
 	public FileUpload(HttpServletRequest request, String uploadFileTempPath,
-			int maxPostSize) throws IOException {
+			int maxPostSize) throws IOException, ExceededSizeException {
 		if (!(request.getMethod().equals(METHOD_POST) && HkMultiRequest
 				.isMultipart(request))) {
 			throw new RuntimeException(
