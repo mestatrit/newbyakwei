@@ -11,7 +11,7 @@ import com.dev3g.cactus.dao.partition.DaoIdentifier;
  * 
  * @author akwei
  */
-public class MysqlQuerySupport extends BaseDaoSupport implements QuerySupport,
+public class MysqlQuerySupport extends BaseQuerySupport implements QuerySupport,
 		DaoIdentifier {
 
 	@Override
