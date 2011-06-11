@@ -71,12 +71,12 @@ public class ProjectSvrImpl implements ProjectSvr {
 		ProjectRecycle projectRecycle = new ProjectRecycle();
 		projectRecycle.setProjectid(projectid);
 		this.projectRecycleDao.save(projectRecycle);
-		this.projectDao.deleteById(null, projectid);
+		this.projectDao.deleteById(projectid);
 	}
 
 	@Override
 	public Project getProject(long projectid) {
-		return this.projectDao.getById(null, projectid);
+		return this.projectDao.getById(projectid);
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class ProjectSvrImpl implements ProjectSvr {
 
 	@Override
 	public ProjectRecycle getProjectRecycle(long projectid) {
-		return this.projectRecycleDao.getById(null, projectid);
+		return this.projectRecycleDao.getById(projectid);
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class ProjectSvrImpl implements ProjectSvr {
 
 	@Override
 	public void deleteProjectRecycle(ProjectRecycle projectRecycle) {
-		this.projectRecycleDao.delete(projectRecycle);
+		this.projectRecycleDao.deleteById(projectRecycle.getProjectid());
 	}
 
 	@Override
