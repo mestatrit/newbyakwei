@@ -185,8 +185,7 @@ public class MultipartRequest {
 	 * compatibility). For parameters with multiple values, it's possible the
 	 * last "value" may be null.
 	 * 
-	 * @param name
-	 *            the parameter name.
+	 * @param name the parameter name.
 	 * @return the parameter value.
 	 */
 	public String getParameter(String name) {
@@ -210,8 +209,7 @@ public class MultipartRequest {
 	 * the array as a null. The values are guaranteed to be in their normal,
 	 * decoded form. A single value is returned as a one-element array.
 	 * 
-	 * @param name
-	 *            the parameter name.
+	 * @param name the parameter name.
 	 * @return the parameter values.
 	 */
 	public String[] getParameterValues(String name) {
@@ -233,8 +231,7 @@ public class MultipartRequest {
 	 * was not included in the upload. A filesystem name is the name specified
 	 * by the user. It is also the name under which the file is actually saved.
 	 * 
-	 * @param name
-	 *            the html page's file parameter name.
+	 * @param name the html page's file parameter name.
 	 * @return the filesystem name of the file.
 	 */
 	public String getFilesystemName(String name) {
@@ -252,8 +249,7 @@ public class MultipartRequest {
 	 * renaming policy was applied), or null if the file was not included in the
 	 * upload. A filesystem name is the name specified by the user.
 	 * 
-	 * @param name
-	 *            the html page's file parameter name.
+	 * @param name the html page's file parameter name.
 	 * @return the original file name of the file.
 	 */
 	public String getOriginalFileName(String name) {
@@ -270,8 +266,7 @@ public class MultipartRequest {
 	 * Returns the content type of the specified file (as supplied by the client
 	 * browser), or null if the file was not included in the upload.
 	 * 
-	 * @param name
-	 *            the html page's file parameter name.
+	 * @param name the html page's file parameter name.
 	 * @return the content type of the file.
 	 */
 	public String getContentType(String name) {
@@ -288,8 +283,7 @@ public class MultipartRequest {
 	 * Returns a File object for the specified file saved on the server's
 	 * filesystem, or null if the file was not included in the upload.
 	 * 
-	 * @param name
-	 *            the html page's file parameter name.
+	 * @param name the html page's file parameter name.
 	 * @return a File object for the named file.
 	 */
 	public File getFile(String name) {
