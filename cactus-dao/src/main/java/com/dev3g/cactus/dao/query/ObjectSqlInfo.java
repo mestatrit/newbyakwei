@@ -138,15 +138,13 @@ public class ObjectSqlInfo<T> {
 		return fieldColumnMap.get(fieldName);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void buildSqlUpdateMapper() {
 		SqlUpdateMapperCreater sqlUpdateMapperCreater = new SqlUpdateMapperCreater(
 				Thread.currentThread().getContextClassLoader());
-		Class<T> clazz = sqlUpdateMapperCreater
+		Class<SqlUpdateMapper<T>> clazz = sqlUpdateMapperCreater
 				.createSqlUpdateMapperClass(this);
 		try {
-			Object obj = clazz.getConstructor().newInstance();
-			this.sqlUpdateMapper = (SqlUpdateMapper<T>) obj;
+			this.sqlUpdateMapper = clazz.getConstructor().newInstance();
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
