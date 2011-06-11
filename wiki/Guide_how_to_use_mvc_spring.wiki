@@ -18,7 +18,7 @@
 		<property name="fileUploadCheckUriCnfList">
 			<list>
 				<!-- 格式为取出[requestContextPath之后的uri，去掉.do等后缀]:[文件大小(单位M)] -->
-				<value>/user_list.do:80</value>
+				<value>/user_list:80</value>
 			</list>
 		</property>
 		<!-- 配置文件上传的临时目录 -->
@@ -29,8 +29,6 @@
 				<value>iwant.web</value>
 			</list>
 		</property>
-		<!-- 匹配的url后缀，可以不使用后缀，如果不使用，就不需要配置此属性  -->
-		<property name="url_extension" value=".do" />
 	</bean>
 
 }}}
