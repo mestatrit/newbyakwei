@@ -31,7 +31,7 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> Class<T> createSqlUpdateMapperClass(
+	public <T> Class<SqlUpdateMapper<T>> createSqlUpdateMapperClass(
 			ObjectSqlInfo<T> objectSqlInfo) {
 		ClassWriter classWriter = new ClassWriter(0);
 		String mapperName = createMapperClassName(objectSqlInfo.getClazz());
@@ -64,8 +64,8 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		byte[] code = classWriter.toByteArray();
 		try {
 			this.loadClass(RowMapper.class.getName());
-			Class<T> mapperClass = (Class<T>) this.defineClass(mapperName,
-					code, 0, code.length);
+			Class<SqlUpdateMapper<T>> mapperClass = (Class<SqlUpdateMapper<T>>) this
+					.defineClass(mapperName, code, 0, code.length);
 			return mapperClass;
 		}
 		catch (Exception e) {
