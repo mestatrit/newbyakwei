@@ -23,9 +23,9 @@ import org.springframework.jdbc.support.JdbcUtils;
  * 
  * @author akwei
  */
-public class BaseDaoSupport extends SimpleJdbcDaoSupport {
+public class BaseQuerySupport extends SimpleJdbcDaoSupport {
 
-	private final Log log = LogFactory.getLog(BaseDaoSupport.class);
+	private final Log log = LogFactory.getLog(BaseQuerySupport.class);
 
 	public boolean debugSQL;
 
