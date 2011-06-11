@@ -18,6 +18,20 @@ import com.dev3g.cactus.web.util.ServletUtil;
  */
 public class WebCnf implements InitializingBean {
 
+	public static final String UPLOAD_LIMIT_SIZE_KEY = "COM.DEV3G.CACTUS_HTTPREQUEST_UPLOAD_LIMIT_SIZE_KEY";
+
+	public static final String UPLOAD_EXCEEDEDSIZE_KEY = "COM.DEV3G.CACTUS_UPLOAD_EXCEEDEDSIZE_KEY";
+
+	public static final String WEBCNF_OBJ_KEY = "COM.DEV3G.CACTUS_HTTPREQUEST_WEBCNF_OBJ_KEY";
+
+	public static final String MULTI_HTTPSERVLETREQUEST_KEY = "COM.DEV3G.CACTUS_MULTI_HTTPSERVLETREQUEST";
+
+	public static final String SIMPLEPAGE_ATTRIBUTE = "COM.DEV3G.CACTUS.SIMPLEPAGE.ATTRIBUTE";
+
+	public static final String PAGESUPPORT_ATTRIBUTE = "COM.DEV3G.CACTUS.PAGESUPPORT.ATTRIBUTE";
+
+	public static final String ACTION_EXE_ATTR_KEY = "COM.DEV3G.CACTUS.ACTION_EXE_ATTR_KEY";
+
 	private List<String> scanPathList;
 
 	private ActionExe actionExe;
@@ -41,14 +55,6 @@ public class WebCnf implements InitializingBean {
 	private List<String> fileUploadCheckUriCnfList;
 
 	private ActionFinder actionFinder;
-
-	public static final String UPLOAD_LIMIT_SIZE_KEY = "CACTUS_HTTPREQUEST_UPLOAD_LIMIT_SIZE_KEY";
-
-	public static final String UPLOAD_EXCEEDEDSIZE_KEY = "com.dev3g.cactus_upload_exceededsize_key";
-
-	public static final String WEBCNF_OBJ_KEY = "CACTUS_HTTPREQUEST_WEBCNF_OBJ_KEY";
-
-	public static final String MULTI_HTTPSERVLETREQUEST_KEY = "cactus_multi_httpservletrequest";
 
 	private final List<UploadFileCheckCnf> uploadFileCheckCnfs = new ArrayList<UploadFileCheckCnf>();
 
@@ -140,13 +146,12 @@ public class WebCnf implements InitializingBean {
 	}
 
 	private void initActionExe() {
-		this.actionExe = (ActionExe) HkUtil.getBean("actionExe");
 		if (actionExe == null) {
 			actionFinder = (ActionFinder) HkUtil.getBean("actionFinder");
 			if (actionFinder == null) {
-				actionFinder = new DefActionFinder();
-				((DefActionFinder) actionFinder)
-						.setScanPathList(this.scanPathList);
+				DefActionFinder defActionFinder = new DefActionFinder();
+				defActionFinder.setScanPathList(this.scanPathList);
+				actionFinder = defActionFinder;
 			}
 			ActionMappingCreator actionMappingCreator = new ActionMappingCreator(
 					actionFinder);

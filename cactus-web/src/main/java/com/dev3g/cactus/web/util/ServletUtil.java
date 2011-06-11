@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dev3g.cactus.util.DataUtil;
-import com.dev3g.cactus.util.HkUtil;
 import com.dev3g.cactus.util.ResourceConfig;
 import com.dev3g.cactus.web.action.HkI18n;
+import com.dev3g.cactus.web.action.WebCnf;
 
 public class ServletUtil {
 
@@ -232,7 +232,7 @@ public class ServletUtil {
 	public static SimplePage getSimplePage(HttpServletRequest request, int size) {
 		int page = getPage(request);
 		SimplePage simplePage = new SimplePage(size, page);
-		request.setAttribute(HkUtil.SIMPLEPAGE_ATTRIBUTE, simplePage);
+		request.setAttribute(WebCnf.SIMPLEPAGE_ATTRIBUTE, simplePage);
 		return simplePage;
 	}
 

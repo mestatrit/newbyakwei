@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dev3g.cactus.util.FileUtil;
-import com.dev3g.cactus.util.HkUtil;
 import com.dev3g.cactus.web.util.HkWebUtil;
 
 public class ActionExeImpl implements ActionExe {
@@ -32,8 +31,8 @@ public class ActionExeImpl implements ActionExe {
 			throws Exception {
 		HkRequest hkRequest = HkWebUtil.getHkRequest(request);
 		HkResponse hkResponse = HkWebUtil.getHkResponse(response);
-		if (request.getAttribute(HkUtil.ACTION_EXE_ATTR_KEY) == null) {
-			request.setAttribute(HkUtil.ACTION_EXE_ATTR_KEY, this);
+		if (request.getAttribute(WebCnf.ACTION_EXE_ATTR_KEY) == null) {
+			request.setAttribute(WebCnf.ACTION_EXE_ATTR_KEY, this);
 		}
 		try {
 			// 如果设置了拦截器，则需要进行拦截器匹配
