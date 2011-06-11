@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import com.dev3g.cactus.util.DataUtil;
-import com.dev3g.cactus.util.HkUtil;
 import com.dev3g.cactus.web.util.MessageUtil;
 import com.dev3g.cactus.web.util.PageSupport;
 import com.dev3g.cactus.web.util.ServletUtil;
@@ -302,7 +301,7 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 	@Override
 	public PageSupport getPageSupport(int page, int size) {
 		PageSupport pageSupport = PageSupport.getInstance(this.getPage(), size);
-		getHttpServletRequest().setAttribute(HkUtil.PAGESUPPORT_ATTRIBUTE,
+		getHttpServletRequest().setAttribute(WebCnf.PAGESUPPORT_ATTRIBUTE,
 				pageSupport);
 		return pageSupport;
 	}
@@ -312,22 +311,6 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 		return this.getPageSupport(this.getPage(), size);
 	}
 
-	// private void initMultipart() throws IOException {
-	// if (ServletUtil.isMultipart(this.getHttpServletRequest())) {
-	// WebCnf webCnf = (WebCnf) this.getAttribute(WebCnf.WEBCNF_OBJ_KEY);
-	// if (webCnf.isMustCheckUpload()) {
-	// if (this.getHttpServletRequest().getAttribute(
-	// WebCnf.UPLOAD_LIMIT_SIZE_KEY) == null) {
-	// return;
-	// }
-	// }
-	// FileUpload fileUpload = new FileUpload(
-	// this.getHttpServletRequest(), webCnf
-	// .getUploadFileTempPath());
-	// this.setUploadFiles(fileUpload.getUploadFiles());
-	// this.request = fileUpload.getHkMultiRequest();
-	// }
-	// }
 	@Override
 	public void setMessage(String msg) {
 		this.setAttribute(MessageUtil.MESSAGE_NAME, msg);
