@@ -101,7 +101,6 @@ public class CreateUserNoticeJob {
 							e.printStackTrace();
 						}
 						catch (UserNotFoundException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
