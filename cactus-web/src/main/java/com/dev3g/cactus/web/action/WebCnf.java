@@ -46,6 +46,8 @@ public class WebCnf implements InitializingBean {
 
 	public static final String UPLOAD_LIMIT_SIZE_KEY = "CACTUS_HTTPREQUEST_UPLOAD_LIMIT_SIZE_KEY";
 
+	public static final String UPLOAD_EXCEEDEDSIZE_KEY = "com.dev3g.cactus_upload_exceededsize_key";
+
 	public static final String WEBCNF_OBJ_KEY = "CACTUS_HTTPREQUEST_WEBCNF_OBJ_KEY";
 
 	public static final String MULTI_HTTPSERVLETREQUEST_KEY = "cactus_multi_httpservletrequest";
@@ -220,8 +222,8 @@ public class WebCnf implements InitializingBean {
 		}
 	}
 
-	public UploadFileCheckCnf getUploadFileCheckCnf(String uri) {
-		return map.get(uri);
+	public UploadFileCheckCnf getUploadFileCheckCnf(String mappingUri) {
+		return map.get(mappingUri);
 	}
 
 	public ActionFinder getActionFinder() {

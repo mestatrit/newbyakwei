@@ -417,4 +417,13 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 		this.setAttribute(key, v);
 		return v;
 	}
+
+	@Override
+	public boolean isUploadExceedSize() {
+		Boolean b = (Boolean) this.getAttribute(WebCnf.UPLOAD_EXCEEDEDSIZE_KEY);
+		if (b == null) {
+			return false;
+		}
+		return b.booleanValue();
+	}
 }

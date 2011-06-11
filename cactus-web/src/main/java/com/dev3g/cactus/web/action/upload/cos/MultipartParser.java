@@ -3,6 +3,7 @@ package com.dev3g.cactus.web.action.upload.cos;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Vector;
+
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
@@ -91,7 +92,7 @@ public class MultipartParser {
 	 * @param maxSize the maximum size of the POST content.
 	 */
 	public MultipartParser(HttpServletRequest req, int maxSize)
-			throws IOException {
+			throws IOException, ExceededSizeException {
 		this(req, maxSize, true, true);
 	}
 
@@ -110,7 +111,7 @@ public class MultipartParser {
 	 *            of the stream.
 	 */
 	public MultipartParser(HttpServletRequest req, int maxSize, boolean buffer,
-			boolean limitLength) throws IOException {
+			boolean limitLength) throws IOException, ExceededSizeException {
 		this(req, maxSize, buffer, limitLength, null);
 	}
 
@@ -130,7 +131,8 @@ public class MultipartParser {
 	 * @param encoding the encoding to use for parsing, default is ISO-8859-1.
 	 */
 	public MultipartParser(HttpServletRequest req, int maxSize, boolean buffer,
-			boolean limitLength, String encoding) throws IOException {
+			boolean limitLength, String encoding) throws IOException,
+			ExceededSizeException {
 		// First make sure we know the encoding to handle chars correctly.
 		// Thanks to Andreas Granzer, andreas.granzer@wave-solutions.com,
 		// for pointing out the need to have this in the constructor.
@@ -161,8 +163,8 @@ public class MultipartParser {
 		// Check the content length to prevent denial of service attacks
 		int length = req.getContentLength();
 		if (length > maxSize) {
-			throw new IOException("Posted content length of " + length
-					+ " exceeds limit of " + maxSize);
+			throw new ExceededSizeException("Posted content length of "
+					+ length + " exceeds limit of " + maxSize);
 		}
 		// Get the boundary string; it's included in the content type.
 		// Should look something like "------------------------12012133613061"
