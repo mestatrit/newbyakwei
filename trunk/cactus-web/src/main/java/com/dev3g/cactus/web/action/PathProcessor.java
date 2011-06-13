@@ -6,8 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.dev3g.cactus.util.ExceptionConfig;
-
 public class PathProcessor {
 
 	protected static final String HTTP_BEGIN = "http://";

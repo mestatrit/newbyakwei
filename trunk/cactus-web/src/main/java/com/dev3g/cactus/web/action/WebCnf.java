@@ -8,7 +8,6 @@ import java.util.Map;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.dev3g.cactus.util.HkUtil;
-import com.dev3g.cactus.util.NumberUtil;
 import com.dev3g.cactus.web.util.ServletUtil;
 
 /**
@@ -211,7 +210,7 @@ public class WebCnf implements InitializingBean {
 			if (s.length != 2) {
 				continue;
 			}
-			int maxSize = NumberUtil.getInt(s[1]);
+			int maxSize = Integer.valueOf(s[1]);
 			if (maxSize > 0) {
 				UploadFileCheckCnf o = new UploadFileCheckCnf(maxSize, s[0]);
 				this.uploadFileCheckCnfs.add(o);
