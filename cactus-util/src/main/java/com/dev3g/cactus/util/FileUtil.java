@@ -145,6 +145,7 @@ public class FileUtil {
 			if (!file.delete()) {
 				return false;
 			}
+			return true;
 		}
 		return false;
 	}
