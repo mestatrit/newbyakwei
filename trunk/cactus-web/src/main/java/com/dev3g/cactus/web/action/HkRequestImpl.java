@@ -38,9 +38,7 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 
 	private void initMulti(HttpServletRequest request) {
 		WebCnf webCnf = (WebCnf) request.getAttribute(WebCnf.WEBCNF_OBJ_KEY);
-		if (ServletUtil.isMultipart(request)) {
-			this.processUpload(request, webCnf);
-		}
+		this.processUpload(request, webCnf);
 	}
 
 	private void processUpload(HttpServletRequest request, WebCnf webCnf) {
@@ -60,9 +58,11 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 			this.setUploadFiles(fileUpload.getUploadFiles());
 		}
 		catch (ExceededSizeException e) {
+			this.httpServletRequest = request;
 			request.setAttribute(WebCnf.UPLOAD_EXCEEDEDSIZE_KEY, true);
 		}
 		catch (IOException e) {
+			this.httpServletRequest = request;
 			request.setAttribute(WebCnf.UPLOAD_ERROR_KEY, true);
 		}
 	}
@@ -85,9 +85,11 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 			this.setUploadFiles(fileUpload.getUploadFiles());
 		}
 		catch (ExceededSizeException e) {
+			this.httpServletRequest = request;
 			request.setAttribute(WebCnf.UPLOAD_EXCEEDEDSIZE_KEY, true);
 		}
 		catch (IOException e) {
+			this.httpServletRequest = request;
 			request.setAttribute(WebCnf.UPLOAD_ERROR_KEY, true);
 		}
 	}
