@@ -156,9 +156,8 @@ public class WebCnf implements InitializingBean {
 			}
 			ActionMappingCreator actionMappingCreator = new ActionMappingCreator(
 					actionFinder);
-			ActionExeImpl impl = new ActionExeImpl();
-			impl.setActionMappingCreator(actionMappingCreator);
-			this.actionExe = impl;
+			this.actionExe = new ActionExe();
+			this.actionExe.setActionMappingCreator(actionMappingCreator);
 		}
 	}
 
