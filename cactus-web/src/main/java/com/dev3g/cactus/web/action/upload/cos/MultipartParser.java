@@ -80,7 +80,7 @@ public class MultipartParser {
 	/** preferred encoding */
 	private String encoding = DEFAULT_ENCODING;
 
-	private static String fileNameSub = ".costmpfile";
+	private static String fileNameSub = ".uptmp";
 
 	/**
 	 * Creates a <code>MultipartParser</code> from the specified request, which
