@@ -1,6 +1,7 @@
 package com.dev3g.cactus.web.action;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import com.dev3g.cactus.util.DataUtil;
+import com.dev3g.cactus.web.action.upload.cos.ExceededSizeException;
 import com.dev3g.cactus.web.util.MessageUtil;
 import com.dev3g.cactus.web.util.PageSupport;
 import com.dev3g.cactus.web.util.ServletUtil;
@@ -25,13 +27,80 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 
 	private Map<String, UploadFile> uploadFileMap = null;
 
+	private boolean isMulti;
+
 	public HkRequestImpl(HttpServletRequest request) {
 		super(request);
+		if (ServletUtil.isMultipart(request)) {
+			this.isMulti = true;
+		}
+	}
+
+	private void initMulti(HttpServletRequest request) {
+		WebCnf webCnf = (WebCnf) request.getAttribute(WebCnf.WEBCNF_OBJ_KEY);
+		if (ServletUtil.isMultipart(request)) {
+			this.processUpload(request, webCnf);
+		}
+	}
+
+	private void processUpload(HttpServletRequest request, WebCnf webCnf) {
+		if (webCnf.isMustCheckUpload()) {
+			this.processCheckUpload(request, webCnf);
+		}
+		else {
+			this.processNoCheckUpload(request, webCnf);
+		}
+	}
+
+	private void processNoCheckUpload(HttpServletRequest request, WebCnf webCnf) {
+		try {
+			FileUpload fileUpload = new FileUpload(request, webCnf
+					.getUploadFileTempPath(), 0);
+			this.httpServletRequest = fileUpload.getHkMultiRequest();
+			this.setUploadFiles(fileUpload.getUploadFiles());
+		}
+		catch (ExceededSizeException e) {
+			request.setAttribute(WebCnf.UPLOAD_EXCEEDEDSIZE_KEY, true);
+		}
+		catch (IOException e) {
+			request.setAttribute(WebCnf.UPLOAD_ERROR_KEY, true);
+		}
+	}
+
+	private void processCheckUpload(HttpServletRequest request, WebCnf webCnf) {
+		String mappinguri = webCnf.getMappingUriCreater().findMappingUri(
+				request);
+		UploadFileCheckCnf checkCnf = webCnf.getUploadFileCheckCnf(mappinguri);
+		// 严格检查upload mappinguri,只有经过配置后的mappinguri才允许上传文件
+		// mappinguri, 例如 uri: {appctx}/user/set_head.do
+		// mappinguri: /user/set_head
+		if (checkCnf == null) {
+			// 如果没有对应配置的uri，忽略文件上传
+			return;
+		}
+		try {
+			FileUpload fileUpload = new FileUpload(request, webCnf
+					.getUploadFileTempPath(), checkCnf.getMaxSize());
+			this.httpServletRequest = fileUpload.getHkMultiRequest();
+			this.setUploadFiles(fileUpload.getUploadFiles());
+		}
+		catch (ExceededSizeException e) {
+			request.setAttribute(WebCnf.UPLOAD_EXCEEDEDSIZE_KEY, true);
+		}
+		catch (IOException e) {
+			request.setAttribute(WebCnf.UPLOAD_ERROR_KEY, true);
+		}
 	}
 
 	public HttpServletRequest getHttpServletRequest() {
 		if (this.httpServletRequest == null) {
-			return (HttpServletRequest) this.getRequest();
+			if (this.isMulti) {
+				this.initMulti((HttpServletRequest) this.getRequest());
+			}
+			else {
+				this.httpServletRequest = (HttpServletRequest) this
+						.getRequest();
+			}
 		}
 		return this.httpServletRequest;
 	}

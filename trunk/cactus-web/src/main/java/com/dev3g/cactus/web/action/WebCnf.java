@@ -21,6 +21,8 @@ public class WebCnf implements InitializingBean {
 
 	public static final String UPLOAD_EXCEEDEDSIZE_KEY = "COM.DEV3G.CACTUS_UPLOAD_EXCEEDEDSIZE_KEY";
 
+	public static final String UPLOAD_ERROR_KEY = "COM.DEV3G.CACTUS_UPLOAD_ERROR_KEY";
+
 	public static final String WEBCNF_OBJ_KEY = "COM.DEV3G.CACTUS_HTTPREQUEST_WEBCNF_OBJ_KEY";
 
 	public static final String MULTI_HTTPSERVLETREQUEST_KEY = "COM.DEV3G.CACTUS_MULTI_HTTPSERVLETREQUEST";
