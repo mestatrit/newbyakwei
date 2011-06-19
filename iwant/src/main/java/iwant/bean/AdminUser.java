@@ -132,6 +132,6 @@ public class AdminUser {
 	}
 
 	public static void main(String[] args) {
-		P.println(desUtil.encrypt("adminefjhgie"));
+		P.println(desUtil.encrypt(""));
 	}
 }
