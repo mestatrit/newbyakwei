@@ -3,15 +3,12 @@ package com.dev3g.cactus.web.action;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ActionMappingCreator {
 
-	private ActionFinder actionFinder;
-
-	public ActionMappingCreator(ActionFinder actionFinder) {
-		this.actionFinder = actionFinder;
-	}
+	private DefActionFinder actionFinder = new DefActionFinder();
 
 	/**
 	 * ActionMapping缓存
@@ -109,5 +106,9 @@ public class ActionMappingCreator {
 		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public void setScanPathList(List<String> list) {
+		this.actionFinder.setScanPathList(list);
 	}
 }

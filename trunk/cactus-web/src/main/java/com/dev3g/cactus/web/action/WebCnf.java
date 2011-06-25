@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.InitializingBean;
 
-import com.dev3g.cactus.util.HkUtil;
 import com.dev3g.cactus.web.util.ServletUtil;
 
 /**
@@ -54,8 +53,6 @@ public class WebCnf implements InitializingBean {
 	private ActionResultProcessor actionResultProcessor;
 
 	private List<String> fileUploadCheckUriCnfList;
-
-	private ActionFinder actionFinder;
 
 	private final List<UploadFileCheckCnf> uploadFileCheckCnfs = new ArrayList<UploadFileCheckCnf>();
 
@@ -146,50 +143,6 @@ public class WebCnf implements InitializingBean {
 		this.scanPathList = scanPathList;
 	}
 
-	private void initActionExe() {
-		if (actionExe == null) {
-			actionFinder = (ActionFinder) HkUtil.getBean("actionFinder");
-			if (actionFinder == null) {
-				DefActionFinder defActionFinder = new DefActionFinder();
-				defActionFinder.setScanPathList(this.scanPathList);
-				actionFinder = defActionFinder;
-			}
-			ActionMappingCreator actionMappingCreator = new ActionMappingCreator(
-					actionFinder);
-			this.actionExe = new ActionExe();
-			this.actionExe.setActionMappingCreator(actionMappingCreator);
-		}
-	}
-
-	private void initMappingUriCreator() {
-		this.mappingUriCreater = (MappingUriCreater) HkUtil
-				.getBean("mappingUriCreater");
-		if (this.mappingUriCreater == null) {
-			this.mappingUriCreater = new MappingUriCreater();
-		}
-	}
-
-	private void initActionResultProcessor() {
-		this.actionResultProcessor = (ActionResultProcessor) HkUtil
-				.getBean("actionResultProcessor");
-		if (this.actionResultProcessor == null) {
-			this.actionResultProcessor = new ActionResultProcessor();
-		}
-	}
-
-	public void setActionExe(ActionExe actionExe) {
-		this.actionExe = actionExe;
-	}
-
-	public void setMappingUriCreater(MappingUriCreater mappingUriCreater) {
-		this.mappingUriCreater = mappingUriCreater;
-	}
-
-	public void setActionResultProcessor(
-			ActionResultProcessor actionResultProcessor) {
-		this.actionResultProcessor = actionResultProcessor;
-	}
-
 	public ActionExe getActionExe() {
 		return actionExe;
 	}
@@ -224,15 +177,11 @@ public class WebCnf implements InitializingBean {
 		return map.get(mappingUri);
 	}
 
-	public ActionFinder getActionFinder() {
-		return actionFinder;
-	}
-
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		this.initMappingUriCreator();
-		this.initActionResultProcessor();
-		this.initActionExe();
+		this.actionExe = new ActionExe(this.scanPathList);
+		this.mappingUriCreater = new MappingUriCreater();
+		this.actionResultProcessor = new ActionResultProcessor();
 		this.initUploadFileCheckCnf();
 	}
 }

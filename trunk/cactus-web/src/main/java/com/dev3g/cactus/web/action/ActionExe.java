@@ -1,6 +1,7 @@
 package com.dev3g.cactus.web.action;
 
 import java.io.File;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,9 +18,9 @@ public class ActionExe {
 
 	private ActionMappingCreator actionMappingCreator;
 
-	public void setActionMappingCreator(
-			ActionMappingCreator actionMappingCreator) {
-		this.actionMappingCreator = actionMappingCreator;
+	public ActionExe(List<String> list) {
+		this.actionMappingCreator = new ActionMappingCreator();
+		this.actionMappingCreator.setScanPathList(list);
 	}
 
 	/**
@@ -57,7 +58,8 @@ public class ActionExe {
 	/**
 	 * 处理对应mappingUri的action
 	 * 
-	 * @param mappingUri 去除contextPath，后缀之后剩下的部分<br>
+	 * @param mappingUri
+	 *            去除contextPath，后缀之后剩下的部分<br>
 	 *            例如：/webapp/user_list.do,mappingUri=/user_list
 	 * @param request
 	 * @param response
