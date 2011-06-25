@@ -4,12 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class MappingUriCreater {
 
-	// private String url_extension;
 	private static final String endpfix = "/";
 
-	// public void setUrl_extension(String urlExtension) {
-	// url_extension = urlExtension;
-	// }
 	private String seperator = "/";
 
 	private String dot = ".";
