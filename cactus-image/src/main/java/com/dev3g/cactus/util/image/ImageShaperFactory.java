@@ -7,11 +7,9 @@ import com.dev3g.cactus.util.image.jmagick.JmagickImageShaper;
 
 public class ImageShaperFactory {
 
-	public static final String IMAGESHAPER_JMAGICK = "jmagick";
-
 	private static final Map<String, ImageShaper> map = new HashMap<String, ImageShaper>();
 	static {
-		map.put(IMAGESHAPER_JMAGICK, new JmagickImageShaper());
+		map.put("jmagick", new JmagickImageShaper());
 	}
 
 	/**
@@ -22,9 +20,6 @@ public class ImageShaperFactory {
 	 * @return 图片处理类，null为不支持的类型
 	 */
 	public static ImageShaper getImageShaper(String type) {
-		if (type.equalsIgnoreCase(IMAGESHAPER_JMAGICK)) {
-			return map.get(IMAGESHAPER_JMAGICK);
-		}
-		return null;
+		return map.get(type);
 	}
 }
