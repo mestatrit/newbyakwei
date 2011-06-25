@@ -11,5 +11,13 @@ package com.dev3g.cactus.web.action;
  */
 public interface Action {
 
+	/**
+	 * 默认的接口方法
+	 * 
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
 	String execute(HkRequest req, HkResponse resp) throws Exception;
 }
