@@ -19,8 +19,8 @@ import com.dev3g.cactus.util.image.ImageType;
 public class JmagickImageShaper implements ImageShaper {
 
 	@Override
-	public File cutImage(ImageParam imageParam, ImageRect imageRect,
-			String path, String name) throws ImageException {
+	public File cut(ImageParam imageParam, ImageRect imageRect, String path,
+			String name) throws ImageException {
 		this.mkdirs(path);
 		String filePath = path + name;
 		try {
@@ -43,16 +43,16 @@ public class JmagickImageShaper implements ImageShaper {
 	}
 
 	@Override
-	public File scaleImage(ImageParam imageParam, ImageSize imageSize,
-			String path, String name) throws ImageException {
+	public File scale(ImageParam imageParam, ImageSize imageSize, String path,
+			String name) throws ImageException {
 		try {
 			ImageInfo info = this.createImageInfo(imageParam);
 			info = this.processQuality(imageParam, info);
 			MagickImage image = new MagickImage(info);
 			image = this.processClearExif(imageParam, image);
 			MagickImage scaled = null;
-			scaled = image.scaleImage(imageSize.getWidth(), imageSize
-					.getHeight());
+			scaled = image.scaleImage(imageSize.getWidth(),
+					imageSize.getHeight());
 			image = this.processSharp(imageParam, scaled);
 			String filePath = path + name;
 			scaled.setFileName(filePath);
@@ -65,20 +65,24 @@ public class JmagickImageShaper implements ImageShaper {
 	}
 
 	@Override
-	public File cutAndScaleImage(ImageParam imageParam, ImageRect imageRect,
-			int size, String path, String name) throws ImageException {
+	public File cutAndScale(ImageParam imageParam, ImageRect cutImageRect,
+			ImageSize scaledImageSize, String path, String name)
+			throws ImageException {
 		this.mkdirs(path);
 		String filePath = path + name;
 		try {
-			Rectangle rect = new Rectangle(imageRect.getImageOrigin().getX(),
-					imageRect.getImageOrigin().getY(), imageRect.getImageSize()
-							.getWidth(), imageRect.getImageSize().getHeight());
+			Rectangle rect = new Rectangle(
+					cutImageRect.getImageOrigin().getX(), cutImageRect
+							.getImageOrigin().getY(), cutImageRect
+							.getImageSize().getWidth(), cutImageRect
+							.getImageSize().getHeight());
 			ImageInfo info = this.createImageInfo(imageParam);
 			info = this.processQuality(imageParam, info);
 			MagickImage image = new MagickImage(info);
 			image = this.processClearExif(imageParam, image);
 			image = this.processSharp(imageParam, image);
-			MagickImage cropped = image.cropImage(rect).scaleImage(size, size);
+			MagickImage cropped = image.cropImage(rect).scaleImage(
+					scaledImageSize.getWidth(), scaledImageSize.getHeight());
 			cropped.setFileName(filePath);
 			cropped.writeImage(info);
 			return new File(filePath);
@@ -138,8 +142,8 @@ public class JmagickImageShaper implements ImageShaper {
 	private MagickImage processSharp(ImageParam imageParam, MagickImage image) {
 		if (imageParam.getSharp0() > 0 || imageParam.getSharp1() > 0) {
 			try {
-				return image.sharpenImage(imageParam.getSharp0(), imageParam
-						.getSharp1());
+				return image.sharpenImage(imageParam.getSharp0(),
+						imageParam.getSharp1());
 			}
 			catch (MagickException e) {// 忽略这个错误
 			}

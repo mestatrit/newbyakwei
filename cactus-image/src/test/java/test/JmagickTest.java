@@ -43,7 +43,7 @@ public class JmagickTest {
 		ImageShaper imageShaper = ImageShaperFactory.getImageShaper("jmagick");
 		ImageRect imageRect = new ImageRect(0, 0, 800, 800);
 		try {
-			imageShaper.cutImage(imageParam, imageRect, path, name);
+			imageShaper.cut(imageParam, imageRect, path, name);
 		}
 		catch (ImageException e) {
 			Assert.fail(e.getMessage());
@@ -69,7 +69,7 @@ public class JmagickTest {
 		ImageSize imageSize = ImageSizeMaker.makeSize(originInfo.getWidth(),
 				originInfo.getHeight(), 400);
 		try {
-			imageShaper.scaleImage(imageParam, imageSize, path, name);
+			imageShaper.scale(imageParam, imageSize, path, name);
 		}
 		catch (ImageException e) {
 			Assert.fail(e.getMessage());
@@ -93,10 +93,10 @@ public class JmagickTest {
 		imageParam.setSharp1(2);
 		ImageShaper imageShaper = ImageShaperFactory.getImageShaper("jmagick");
 		try {
-			ImageRect imageRect = ImageRectMaker.cutAndMiddleSquare(originInfo
-					.getWidth(), originInfo.getHeight(), 200);
-			imageShaper
-					.cutAndScaleImage(imageParam, imageRect, 200, path, name);
+			ImageRect imageRect = ImageRectMaker.cutAndMiddleSquare(
+					originInfo.getWidth(), originInfo.getHeight(), 200);
+			imageShaper.cutAndScale(imageParam, imageRect, new ImageSize(200,
+					200), path, name);
 		}
 		catch (ImageException e) {
 			Assert.fail(e.getMessage());

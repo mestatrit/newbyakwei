@@ -19,7 +19,7 @@ public interface ImageShaper {
 	 * @throws ImageException
 	 *             图片处理错误
 	 */
-	File cutImage(ImageParam imageParam, ImageRect imageRect, String path,
+	File cut(ImageParam imageParam, ImageRect imageRect, String path,
 			String name) throws ImageException;
 
 	/**
@@ -28,18 +28,30 @@ public interface ImageShaper {
 	 * @param imageParam
 	 *            图片处理参数
 	 * @param imageSize
-	 *            图片大小
+	 *            缩放后的图片大小
 	 * @param path
-	 *            处理后的图片存储路径
+	 *            缩放后的图片存储路径
 	 * @param name
-	 *            处理后的图片文件名称
-	 * @return 处理后的新图片文件
+	 *            缩放后的图片文件名称
+	 * @return 缩放后的新图片文件
 	 * @throws ImageException
 	 *             图片处理错误
 	 */
-	File scaleImage(ImageParam imageParam, ImageSize imageSize, String path,
+	File scale(ImageParam imageParam, ImageSize imageSize, String path,
 			String name) throws ImageException;
 
-	File cutAndScaleImage(ImageParam imageParam, ImageRect imageRect, int size,
-			String path, String name) throws ImageException;
+	/**
+	 * 先按照位置进行裁剪，然后对裁剪后的图片进行指定尺寸缩放
+	 * 
+	 * @param imageParam
+	 * @param cutImageRect 需要裁剪的位置以及尺寸
+	 * @param scaledImageSize 裁剪后需要缩放的尺寸
+	 * @param path 处理后的图片存储路径
+	 * @param name 处理后的图片文件名称
+	 * @return 处理后的文件
+	 * @throws ImageException 图片处理错误
+	 */
+	File cutAndScale(ImageParam imageParam, ImageRect cutImageRect,
+			ImageSize scaledImageSize, String path, String name)
+			throws ImageException;
 }
