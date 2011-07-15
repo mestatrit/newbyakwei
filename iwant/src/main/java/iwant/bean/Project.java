@@ -1,10 +1,10 @@
 package iwant.bean;
 
-import java.util.Date;
+import halo.dao.annotation.Column;
+import halo.dao.annotation.Id;
+import halo.dao.annotation.Table;
 
-import com.dev3g.cactus.dao.annotation.Column;
-import com.dev3g.cactus.dao.annotation.Id;
-import com.dev3g.cactus.dao.annotation.Table;
+import java.util.Date;
 
 /**
  * 项目信息

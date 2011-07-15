@@ -1,11 +1,10 @@
 package iwant.dao.impl;
 
+import halo.dao.query.BaseDao;
 import iwant.bean.User;
 import iwant.dao.UserDao;
 
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.dao.query.BaseDao;
 
 @Component("userDao")
 public class UserDaoImpl extends BaseDao<User> implements UserDao {

@@ -1,11 +1,10 @@
 package iwant.dao;
 
+import halo.dao.query.IDao;
 import iwant.bean.Notice;
 
 import java.util.List;
 import java.util.Map;
-
-import com.dev3g.cactus.dao.query.IDao;
 
 public interface NoticeDao extends IDao<Notice> {
 

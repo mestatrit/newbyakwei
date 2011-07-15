@@ -1,11 +1,11 @@
 package iwant.web;
 
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.web.action.HkRequest;
-import com.dev3g.cactus.web.action.HkResponse;
 
 @Component("/index")
 public class IndexAction extends BaseAction {

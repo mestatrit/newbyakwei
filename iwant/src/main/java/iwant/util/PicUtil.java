@@ -1,6 +1,7 @@
 package iwant.util;
 
-import com.dev3g.cactus.util.HkUtil;
+import halo.util.HaloUtil;
+
 
 public class PicUtil {
 
@@ -18,7 +19,7 @@ public class PicUtil {
 
 	public static void initSlideFileCnf() {
 		if (slideFileCnf == null) {
-			slideFileCnf = (FileCnf) HkUtil.getBean("slideFileCnf");
+			slideFileCnf = (FileCnf) HaloUtil.getBean("slideFileCnf");
 		}
 	}
 

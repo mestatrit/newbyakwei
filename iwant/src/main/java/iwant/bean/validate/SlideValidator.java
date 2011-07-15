@@ -1,5 +1,7 @@
 package iwant.bean.validate;
 
+import halo.util.HaloUtil;
+import halo.util.HaloValidate;
 import iwant.bean.Slide;
 import iwant.svr.PptSvr;
 import iwant.web.admin.util.Err;
@@ -8,8 +10,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dev3g.cactus.util.HkUtil;
-import com.dev3g.cactus.util.HkValidate;
 import com.dev3g.cactus.util.jmagick.ImgFileInfo;
 
 public class SlideValidator {
@@ -17,10 +17,10 @@ public class SlideValidator {
 	public static List<String> validate(Slide slide, File imgFile,
 			boolean forCreate) {
 		List<String> list = new ArrayList<String>();
-		if (!HkValidate.validateEmptyAndLength(slide.getTitle(), false, 20)) {
+		if (!HaloValidate.validateEmptyAndLength(slide.getTitle(), false, 20)) {
 			list.add(Err.SLIDE_TITLE_ERR);
 		}
-		if (!HkValidate.validateLength(slide.getDescr(), false, 300)) {
+		if (!HaloValidate.validateLength(slide.getDescr(), false, 300)) {
 			list.add(Err.SLIDE_DESCR_ERR);
 		}
 		if (forCreate) {
@@ -39,7 +39,7 @@ public class SlideValidator {
 				}
 			}
 		}
-		PptSvr pptSvr = (PptSvr) HkUtil.getBean("pptSvr");
+		PptSvr pptSvr = (PptSvr) HaloUtil.getBean("pptSvr");
 		if (pptSvr.getPpt(slide.getPptid()) == null
 				&& pptSvr.getMainPpt(slide.getPptid()) == null) {
 			list.add(Err.SLIDE_PPTID_ERR);

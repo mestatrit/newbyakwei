@@ -1,12 +1,11 @@
 package iwant.bean.validate;
 
+import halo.util.DataUtil;
 import iwant.bean.Category;
 import iwant.web.admin.util.Err;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.dev3g.cactus.util.DataUtil;
 
 public class CategoryValidate {
 

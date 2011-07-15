@@ -1,5 +1,6 @@
 package svr;
 
+import halo.util.P;
 import iwant.bean.Province;
 import iwant.svr.ZoneSvr;
 
@@ -8,8 +9,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.Test;
-
-import com.dev3g.cactus.util.P;
 
 public class ZoneSvrTest extends BaseSvrTest {
 

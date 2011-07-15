@@ -1,10 +1,9 @@
 package iwant.dao;
 
+import halo.dao.query.IDao;
 import iwant.bean.District;
 
 import java.util.List;
-
-import com.dev3g.cactus.dao.query.IDao;
 
 public interface DistrictDao extends IDao<District> {
 

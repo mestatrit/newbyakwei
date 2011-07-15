@@ -1,5 +1,6 @@
 package iwant.svr.impl;
 
+import halo.util.NumberUtil;
 import iwant.bean.Notice;
 import iwant.bean.NoticeQueue;
 import iwant.bean.NoticeidCreator;
@@ -19,8 +20,6 @@ import javapns.data.PayLoad;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.util.NumberUtil;
 
 @Component("noticeSvr")
 public class NoticeSvrImpl implements NoticeSvr {

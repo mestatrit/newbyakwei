@@ -1,5 +1,6 @@
 package iwant.svr.impl;
 
+import halo.util.NumberUtil;
 import iwant.bean.Category;
 import iwant.dao.CategoryDao;
 import iwant.svr.CategorySvr;
@@ -8,8 +9,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.util.NumberUtil;
 
 @Component("categorySvr")
 public class CategorySvrImpl implements CategorySvr {

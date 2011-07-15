@@ -1,20 +1,19 @@
 package iwant.web.api;
 
+import halo.util.HaloUtil;
+import halo.web.action.Action;
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
 import iwant.bean.User;
 import iwant.bean.enumtype.GenderType;
 import iwant.svr.UserSvr;
 
 import java.util.Date;
 
-import com.dev3g.cactus.util.HkUtil;
-import com.dev3g.cactus.web.action.Action;
-import com.dev3g.cactus.web.action.HkRequest;
-import com.dev3g.cactus.web.action.HkResponse;
-
 public class BaseApiAction implements Action {
 
 	protected User loadUser(String device_token) {
-		UserSvr userSvr = (UserSvr) HkUtil.getBean("userSvr");
+		UserSvr userSvr = (UserSvr) HaloUtil.getBean("userSvr");
 		User user = userSvr.getUserByDevice_token(device_token);
 		if (user == null) {
 			user = new User();

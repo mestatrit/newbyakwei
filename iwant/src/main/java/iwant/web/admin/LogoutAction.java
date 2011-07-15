@@ -1,12 +1,11 @@
 package iwant.web.admin;
 
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
 import iwant.web.BaseAction;
 import iwant.web.admin.util.AdminUtil;
 
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.web.action.HkRequest;
-import com.dev3g.cactus.web.action.HkResponse;
 
 @Component("/sitemgrlogout")
 public class LogoutAction extends BaseAction {

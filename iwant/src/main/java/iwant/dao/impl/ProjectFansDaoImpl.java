@@ -1,13 +1,12 @@
 package iwant.dao.impl;
 
+import halo.dao.query.BaseDao;
 import iwant.bean.ProjectFans;
 import iwant.dao.ProjectFansDao;
 
 import java.util.List;
 
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.dao.query.BaseDao;
 
 @Component("projectFansDao")
 public class ProjectFansDaoImpl extends BaseDao<ProjectFans> implements

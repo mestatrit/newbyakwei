@@ -1,15 +1,14 @@
 package iwant.bean;
 
+import halo.dao.annotation.Column;
+import halo.dao.annotation.Id;
+import halo.dao.annotation.Table;
 import iwant.util.PicUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import com.dev3g.cactus.dao.annotation.Column;
-import com.dev3g.cactus.dao.annotation.Id;
-import com.dev3g.cactus.dao.annotation.Table;
 
 /**
  * ppt，一个项目可以有多期

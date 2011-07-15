@@ -1,5 +1,7 @@
 package iwant.svr.impl;
 
+import halo.util.DateUtil;
+import halo.util.NumberUtil;
 import iwant.bean.User;
 import iwant.bean.UseridCreator;
 import iwant.dao.UserDao;
@@ -10,9 +12,6 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.util.DateUtil;
-import com.dev3g.cactus.util.NumberUtil;
 
 @Component("userSvr")
 public class UserSvrImpl implements UserSvr {

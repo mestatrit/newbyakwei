@@ -1,5 +1,6 @@
 package svr;
 
+import halo.util.DateUtil;
 import iwant.bean.Notice;
 import iwant.bean.UserNotice;
 
@@ -8,8 +9,6 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.dev3g.cactus.util.DateUtil;
 
 public class NoticeSvrTest extends BaseSvrTest {
 

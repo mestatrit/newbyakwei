@@ -1,10 +1,10 @@
 package iwant.bean;
 
-import java.util.Date;
+import halo.dao.annotation.Column;
+import halo.dao.annotation.Id;
+import halo.dao.annotation.Table;
 
-import com.dev3g.cactus.dao.annotation.Column;
-import com.dev3g.cactus.dao.annotation.Id;
-import com.dev3g.cactus.dao.annotation.Table;
+import java.util.Date;
 
 /**
  * 用户订阅的项目收到的ppt数据

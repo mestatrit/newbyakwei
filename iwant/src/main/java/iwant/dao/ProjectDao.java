@@ -1,12 +1,11 @@
 package iwant.dao;
 
+import halo.dao.query.IDao;
 import iwant.bean.Project;
 import iwant.bean.enumtype.ActiveType;
 
 import java.util.List;
 import java.util.Map;
-
-import com.dev3g.cactus.dao.query.IDao;
 
 public interface ProjectDao extends IDao<Project> {
 

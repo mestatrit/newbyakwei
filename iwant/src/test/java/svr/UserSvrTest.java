@@ -1,5 +1,6 @@
 package svr;
 
+import halo.util.DateUtil;
 import iwant.bean.User;
 import iwant.bean.enumtype.GenderType;
 
@@ -7,8 +8,6 @@ import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.dev3g.cactus.util.DateUtil;
 
 public class UserSvrTest extends BaseSvrTest {
 

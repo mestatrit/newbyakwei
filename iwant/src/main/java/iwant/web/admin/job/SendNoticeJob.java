@@ -1,5 +1,6 @@
 package iwant.web.admin.job;
 
+import halo.util.DataUtil;
 import iwant.bean.User;
 import iwant.bean.UserNotice;
 import iwant.svr.NoticeSvr;
@@ -12,8 +13,6 @@ import javapns.data.PayLoad;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.dev3g.cactus.util.DataUtil;
 
 /**
  * 发送apns通知

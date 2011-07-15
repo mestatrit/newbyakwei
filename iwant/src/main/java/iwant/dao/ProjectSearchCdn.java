@@ -1,8 +1,7 @@
 package iwant.dao;
 
+import halo.util.DataUtil;
 import iwant.bean.enumtype.ActiveType;
-
-import com.dev3g.cactus.util.DataUtil;
 
 public class ProjectSearchCdn {
 
