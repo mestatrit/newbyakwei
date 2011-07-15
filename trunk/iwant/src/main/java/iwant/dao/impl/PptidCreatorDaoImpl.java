@@ -1,11 +1,10 @@
 package iwant.dao.impl;
 
+import halo.dao.query.BaseDao;
 import iwant.bean.PptidCreator;
 import iwant.dao.PptidCreatorDao;
 
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.dao.query.BaseDao;
 
 @Component("pptidCreatorDao")
 public class PptidCreatorDaoImpl extends BaseDao<PptidCreator> implements

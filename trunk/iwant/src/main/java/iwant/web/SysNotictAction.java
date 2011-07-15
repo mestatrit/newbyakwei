@@ -1,10 +1,10 @@
 package iwant.web;
 
-import org.springframework.stereotype.Component;
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
+import halo.web.util.MessageUtil;
 
-import com.dev3g.cactus.web.action.HkRequest;
-import com.dev3g.cactus.web.action.HkResponse;
-import com.dev3g.cactus.web.util.MessageUtil;
+import org.springframework.stereotype.Component;
 
 /**
  * 系统信息提示，通过页面调用，不会经过webFilter

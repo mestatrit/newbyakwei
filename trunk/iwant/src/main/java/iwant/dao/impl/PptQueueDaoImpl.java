@@ -1,13 +1,12 @@
 package iwant.dao.impl;
 
+import halo.dao.query.BaseDao;
 import iwant.bean.PptQueue;
 import iwant.dao.PptQueueDao;
 
 import java.util.List;
 
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.dao.query.BaseDao;
 
 @Component("pptQueueDao")
 public class PptQueueDaoImpl extends BaseDao<PptQueue> implements PptQueueDao {

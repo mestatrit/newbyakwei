@@ -1,5 +1,6 @@
 package iwant.svr.impl;
 
+import halo.util.NumberUtil;
 import iwant.bean.Ppt;
 import iwant.bean.PptTimeline;
 import iwant.bean.Project;
@@ -20,8 +21,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.util.NumberUtil;
 
 @Component("pptTimelineSvr")
 public class PptTimelineSvrImpl implements PptTimelineSvr {

@@ -1,13 +1,12 @@
 package iwant.web;
 
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
 import iwant.bean.City;
 import iwant.svr.ZoneSvr;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.web.action.HkRequest;
-import com.dev3g.cactus.web.action.HkResponse;
 
 @Component("/syscnf")
 public class SysCnfActoin extends BaseAction {

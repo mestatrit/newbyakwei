@@ -1,5 +1,8 @@
 package iwant.web.admin;
 
+import halo.util.DataUtil;
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
 import iwant.bean.MainPpt;
 import iwant.bean.Ppt;
 import iwant.bean.Slide;
@@ -19,10 +22,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.dev3g.cactus.util.DataUtil;
 import com.dev3g.cactus.util.jmagick.PicPoint;
-import com.dev3g.cactus.web.action.HkRequest;
-import com.dev3g.cactus.web.action.HkResponse;
 
 @Component("/mgr/slide")
 public class SlideAction extends BaseAction {
@@ -63,7 +63,7 @@ public class SlideAction extends BaseAction {
 			return this.onErrorList(req, errlist, "createerr");
 		}
 		try {
-			this.pptSvr.createSlide(slide, imgFile, null);
+			this.pptSvr.createSlide(slide, imgFile);
 			this.opCreateSuccess(req);
 			return this.onSuccess(req, "createok", slide.getSlideid());
 		}
@@ -113,7 +113,7 @@ public class SlideAction extends BaseAction {
 			return this.onErrorList(req, errlist, "updateerr");
 		}
 		try {
-			this.pptSvr.updateSlide(slide, imgFile, null);
+			this.pptSvr.updateSlide(slide, imgFile);
 			this.opCreateSuccess(req);
 			return this.onSuccess(req, "updateok", null);
 		}
@@ -155,8 +155,8 @@ public class SlideAction extends BaseAction {
 			req.setAttribute("backUrl", backUrl);
 			return this.getAdminPath("slide/setpic1.jsp");
 		}
-		PicPoint picRect = new PicPoint(req.getInt("x0"), req.getInt("y0"), req
-				.getInt("x1"), req.getInt("y1"));
+		PicPoint picRect = new PicPoint(req.getInt("x0"), req.getInt("y0"),
+				req.getInt("x1"), req.getInt("y1"));
 		UpdateSldePic0Result updateSlidePic0Result = this.pptSvr
 				.updateSldePic1(slide.getSlideid(), picRect);
 		if (updateSlidePic0Result == UpdateSldePic0Result.SUCCESS) {
@@ -183,8 +183,8 @@ public class SlideAction extends BaseAction {
 		int slide_order_flag = slide.getOrder_flag();
 		slide.setOrder_flag(pos_slide.getOrder_flag());
 		pos_slide.setOrder_flag(slide_order_flag);
-		this.pptSvr.updateSlide(slide, null, null);
-		this.pptSvr.updateSlide(pos_slide, null, null);
+		this.pptSvr.updateSlide(slide, null);
+		this.pptSvr.updateSlide(pos_slide, null);
 		req.setSessionValue("myslideid", slideid);
 		return null;
 	}

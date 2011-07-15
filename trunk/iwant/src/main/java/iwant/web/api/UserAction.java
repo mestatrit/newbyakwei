@@ -1,5 +1,7 @@
 package iwant.web.api;
 
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
 import iwant.bean.User;
 import iwant.bean.enumtype.GenderType;
 import iwant.svr.UserSvr;
@@ -11,9 +13,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.web.action.HkRequest;
-import com.dev3g.cactus.web.action.HkResponse;
 
 @Component("/api/user")
 public class UserAction extends BaseApiAction {

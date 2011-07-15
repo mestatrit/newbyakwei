@@ -1,11 +1,10 @@
 package iwant.dao.impl;
 
-import org.springframework.stereotype.Component;
-
+import halo.dao.query.BaseDao;
 import iwant.bean.NoticeidCreator;
 import iwant.dao.NoticeidCreatorDao;
 
-import com.dev3g.cactus.dao.query.BaseDao;
+import org.springframework.stereotype.Component;
 
 @Component("noticeidCreatorDao")
 public class NoticeidCreatorDaoImpl extends BaseDao<NoticeidCreator> implements

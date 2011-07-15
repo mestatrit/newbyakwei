@@ -1,13 +1,12 @@
 package iwant.bean;
 
+import halo.dao.annotation.Column;
+import halo.dao.annotation.Id;
+import halo.dao.annotation.Table;
 import iwant.bean.enumtype.ActiveType;
 import iwant.util.PicUtil;
 
 import java.util.Date;
-
-import com.dev3g.cactus.dao.annotation.Column;
-import com.dev3g.cactus.dao.annotation.Id;
-import com.dev3g.cactus.dao.annotation.Table;
 
 /**
  * 主ppt，一个项目只能有一期

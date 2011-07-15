@@ -1,5 +1,6 @@
 package svr;
 
+import halo.util.DateUtil;
 import iwant.bean.Category;
 import iwant.bean.City;
 import iwant.bean.Country;
@@ -49,10 +50,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dev3g.cactus.util.DateUtil;
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration( { "/test-app-ds.xml", "/app-dao.xml", "/app-svr.xml" })
+@ContextConfiguration({ "/test-app-ds.xml", "/app-dao.xml", "/app-svr.xml" })
 @Transactional
 public class BaseSvrTest {
 
@@ -137,7 +136,8 @@ public class BaseSvrTest {
 			DistrictNotFoundException, DuplicateProvinceNameException,
 			DuplicateCityNameException, ProvinceNotFoundException,
 			DuplicateDistrictNameException, ProjectNotFoundException,
-			PptNotFoundException, ImageProcessException, UserNotFoundException, FollowProjectAlreadyExistException {
+			PptNotFoundException, ImageProcessException, UserNotFoundException,
+			FollowProjectAlreadyExistException {
 		// data 1
 		category1 = new Category();
 		category1.setName("akwei");
@@ -246,7 +246,7 @@ public class BaseSvrTest {
 		this.slide0.setProjectid(this.ppt0.getProjectid());
 		this.slide0.setTitle("title 3");
 		this.slide0.setPic_path("");
-		this.pptSvr.createSlide(this.slide0, new File(filePath), null);
+		this.pptSvr.createSlide(this.slide0, new File(filePath));
 		// data 1
 		this.slide1 = new Slide();
 		this.slide1.setDescr("slide desc 4");
@@ -254,7 +254,7 @@ public class BaseSvrTest {
 		this.slide1.setProjectid(this.ppt1.getProjectid());
 		this.slide1.setTitle("title 4");
 		this.slide1.setPic_path("");
-		this.pptSvr.createSlide(this.slide1, new File(filePath), null);
+		this.pptSvr.createSlide(this.slide1, new File(filePath));
 		// data 0
 		this.pptTimeline0 = new PptTimeline();
 		this.pptTimeline0.setCreatetime(DateUtil
@@ -290,14 +290,14 @@ public class BaseSvrTest {
 				.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		this.noticeSvr.createNotice(this.notice1);
 		// usernotice
-		this.userNotice0 = this.noticeSvr.createUserNotice(this.notice0
-				.getNoticeid(), this.user0.getUserid());
-		this.userNotice1 = this.noticeSvr.createUserNotice(this.notice1
-				.getNoticeid(), this.user1.getUserid());
-		followProject0 = this.followProjectSvr.createFollow(this.user0
-				.getUserid(), this.project0.getProjectid());
-		followProject1 = this.followProjectSvr.createFollow(this.user1
-				.getUserid(), this.project0.getProjectid());
+		this.userNotice0 = this.noticeSvr.createUserNotice(
+				this.notice0.getNoticeid(), this.user0.getUserid());
+		this.userNotice1 = this.noticeSvr.createUserNotice(
+				this.notice1.getNoticeid(), this.user1.getUserid());
+		followProject0 = this.followProjectSvr.createFollow(
+				this.user0.getUserid(), this.project0.getProjectid());
+		followProject1 = this.followProjectSvr.createFollow(
+				this.user1.getUserid(), this.project0.getProjectid());
 	}
 
 	@Test

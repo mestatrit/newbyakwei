@@ -1,5 +1,14 @@
 package iwant.svr.impl;
 
+import halo.util.DataUtil;
+import halo.util.FileUtil;
+import halo.util.NumberUtil;
+import halo.util.image.ImageParam;
+import halo.util.image.ImageRect;
+import halo.util.image.ImageShaper;
+import halo.util.image.ImageShaperFactory;
+import halo.util.image.ImageSize;
+import halo.util.image.ImageSizeMaker;
 import iwant.bean.MainPpt;
 import iwant.bean.Ppt;
 import iwant.bean.PptQueue;
@@ -24,6 +33,7 @@ import iwant.util.FileCnf;
 import iwant.util.PicUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,10 +43,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.dev3g.cactus.util.DataUtil;
-import com.dev3g.cactus.util.FileUtil;
-import com.dev3g.cactus.util.NumberUtil;
-import com.dev3g.cactus.util.jmagick.ImageException;
 import com.dev3g.cactus.util.jmagick.ImageProcessor;
 import com.dev3g.cactus.util.jmagick.ImgFileInfo;
 import com.dev3g.cactus.util.jmagick.PicPoint;
@@ -231,7 +237,7 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public void createSlide(Slide slide, File imgFile, PicPoint picRect)
+	public void createSlide(Slide slide, File imgFile)
 			throws PptNotFoundException, ImageProcessException {
 		Ppt ppt = this.getPpt(slide.getPptid());
 		MainPpt mainPpt = this.getMainPpt(slide.getPptid());
@@ -244,7 +250,7 @@ public class PptSvrImpl implements PptSvr {
 		if (mainPpt == null && ppt == null) {
 			throw new PptNotFoundException();
 		}
-		this.processSlideImage(slide, imgFile, picRect);
+		this.processSlideImage(slide, imgFile);
 		int count = this.slideDao.countByPptid(slide.getPptid());
 		slide.setOrder_flag(count + 1);
 		long slideid = NumberUtil.getLong(this.slideDao.save(slide));
@@ -268,7 +274,7 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public void updateSlide(Slide slide, File imgFile, PicPoint picRect)
+	public void updateSlide(Slide slide, File imgFile)
 			throws PptNotFoundException, ImageProcessException {
 		Ppt ppt = this.getPpt(slide.getPptid());
 		MainPpt mainPpt = this.getMainPpt(slide.getPptid());
@@ -290,7 +296,7 @@ public class PptSvrImpl implements PptSvr {
 			}
 		}
 		if (imgFile != null) {
-			this.processSlideImage(slide, imgFile, picRect);
+			this.processSlideImage(slide, imgFile);
 			this.deleteSlideOldPic(oldPic);
 		}
 		this.slideDao.update(slide);
@@ -357,7 +363,7 @@ public class PptSvrImpl implements PptSvr {
 		this.mainPptDao.update(mainPpt);
 	}
 
-	private void processSlideImage(Slide slide, File imgFile, PicPoint picRect)
+	private void processSlideImage(Slide slide, File imgFile)
 			throws ImageProcessException {
 		ImgFileInfo imgFileInfo = ImgFileInfo.getImageFileInfo(imgFile);
 		if (imgFileInfo != null) {
@@ -367,19 +373,25 @@ public class PptSvrImpl implements PptSvr {
 			String dbPath = fileCnf.getFileSaveToDbPath(name);
 			String filePath = fileCnf.getFilePath(dbPath);
 			slide.setPic_path(dbPath);
+			ImageShaper shaper = ImageShaperFactory
+					.getImageShaper(ImageShaperFactory.SHAPER_JMAGICK);
 			try {
-				if (picRect == null) {
-					imageProcessor.makeImage(filePath, PicUtil.SLIDE_PIC1_NAME,
-							false, 70);
-				}
-				else {
-					imageProcessor.cutImage(filePath, PicUtil.SLIDE_PIC1_NAME,
-							picRect);
-				}
-				imageProcessor.makeImage(filePath, PicUtil.SLIDE_PIC2_NAME,
-						false, 960);
+				ImageParam imageParam = new ImageParam(imgFile, 0, 0, 0, true);
+				ImageSize scaleImageSize = new ImageSize(70, 70);
+				shaper.scale(imageParam, scaleImageSize, filePath,
+						PicUtil.SLIDE_PIC1_NAME);
+				imageParam = new ImageParam(imgFile, 0, 0, 0, true);
+				scaleImageSize = ImageSizeMaker.makeSize(imageParam
+						.getOriginInfo().getWidth(), imageParam.getOriginInfo()
+						.getHeight(), 960);
+				shaper.scale(imageParam, scaleImageSize, filePath,
+						PicUtil.SLIDE_PIC1_NAME);
 			}
-			catch (ImageException e) {
+			catch (IOException e) {
+				log.error("processSlideImage image error : " + e);
+				throw new ImageProcessException();
+			}
+			catch (halo.util.image.ImageException e) {
 				log.error("processSlideImage image error : " + e);
 				throw new ImageProcessException();
 			}
@@ -439,18 +451,28 @@ public class PptSvrImpl implements PptSvr {
 		}
 		String realPath = this.fileCnf.getFilePath(slide.getPic_path());
 		File file = new File(realPath + PicUtil.SLIDE_PIC2_NAME);
-		ImgFileInfo imgFileInfo = ImgFileInfo.getImageFileInfo(file);
-		if (imgFileInfo == null) {
-			return UpdateSldePic0Result.FILE_NOT_FOUND;
-		}
-		ImageProcessor imageProcessor = new ImageProcessor(imgFileInfo);
+		ImageShaper shaper = ImageShaperFactory
+				.getImageShaper(ImageShaperFactory.SHAPER_JMAGICK);
 		try {
-			imageProcessor.cutImage(realPath, PicUtil.SLIDE_PIC1_NAME, picRect);
-			imageProcessor.makeImage(realPath, PicUtil.SLIDE_PIC1_NAME, true,
-					70);
+			int x = picRect.getX0();
+			int y = picRect.getY0();
+			int width = picRect.getX1() - picRect.getX0();
+			int height = picRect.getY1() - picRect.getY0();
+			ImageRect cutImageRect = new ImageRect(x, y, width, height);
+			ImageParam imageParam = new ImageParam(file, 0, 0, 0, true);
+			ImageSize scaledmageSize = new ImageSize(70, 70);
+			shaper.cutAndScale(imageParam, cutImageRect, scaledmageSize,
+					realPath, PicUtil.SLIDE_PIC1_NAME);
+			// imageProcessor.cutImage(realPath, PicUtil.SLIDE_PIC1_NAME,
+			// picRect);
+			// imageProcessor.makeImage(realPath, PicUtil.SLIDE_PIC1_NAME, true,
+			// 70);
 			return UpdateSldePic0Result.SUCCESS;
 		}
-		catch (ImageException e) {
+		catch (IOException e) {
+			return UpdateSldePic0Result.IMAGE_PROCESS_ERR;
+		}
+		catch (halo.util.image.ImageException e) {
 			return UpdateSldePic0Result.IMAGE_PROCESS_ERR;
 		}
 	}

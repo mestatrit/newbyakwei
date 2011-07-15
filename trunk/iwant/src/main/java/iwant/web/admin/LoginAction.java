@@ -1,5 +1,8 @@
 package iwant.web.admin;
 
+import halo.util.DataUtil;
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
 import iwant.bean.AdminUser;
 import iwant.svr.AdminUserSvr;
 import iwant.web.BaseAction;
@@ -8,10 +11,6 @@ import iwant.web.admin.util.Err;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.util.DataUtil;
-import com.dev3g.cactus.web.action.HkRequest;
-import com.dev3g.cactus.web.action.HkResponse;
 
 @Component("/sitemgrlogin")
 public class LoginAction extends BaseAction {

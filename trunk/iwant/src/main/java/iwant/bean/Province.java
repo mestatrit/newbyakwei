@@ -1,10 +1,9 @@
 package iwant.bean;
 
+import halo.dao.annotation.Column;
+import halo.dao.annotation.Id;
+import halo.dao.annotation.Table;
 import iwant.bean.enumtype.ZoneHideType;
-
-import com.dev3g.cactus.dao.annotation.Column;
-import com.dev3g.cactus.dao.annotation.Id;
-import com.dev3g.cactus.dao.annotation.Table;
 
 @Table(name = "province")
 public class Province {

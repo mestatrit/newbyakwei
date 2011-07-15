@@ -1,5 +1,7 @@
 package iwant.web.admin.util;
 
+import halo.web.action.HaloFilter;
+import halo.web.action.PathProcessor;
 import iwant.bean.AdminUser;
 
 import java.io.IOException;
@@ -9,15 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.dev3g.cactus.web.action.HkFilter;
-import com.dev3g.cactus.web.action.PathProcessor;
-
 /**
  * 后台权限验证过滤器
  * 
  * @author akwei
  */
-public class AdminFilter extends HkFilter {
+public class AdminFilter extends HaloFilter {
 
 	@Override
 	public void doFilter(HttpServletRequest request,

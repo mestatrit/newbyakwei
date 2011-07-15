@@ -1,5 +1,6 @@
 package svr;
 
+import halo.util.DateUtil;
 import iwant.bean.PptTimeline;
 import iwant.bean.enumtype.ReadFlagType;
 import iwant.svr.exception.PptNotFoundException;
@@ -9,8 +10,6 @@ import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.dev3g.cactus.util.DateUtil;
 
 public class PptTimelineSvrTest extends BaseSvrTest {
 

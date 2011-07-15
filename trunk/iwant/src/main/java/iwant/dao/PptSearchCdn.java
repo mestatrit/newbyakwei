@@ -1,6 +1,6 @@
 package iwant.dao;
 
-import com.dev3g.cactus.util.DataUtil;
+import halo.util.DataUtil;
 
 public class PptSearchCdn {
 

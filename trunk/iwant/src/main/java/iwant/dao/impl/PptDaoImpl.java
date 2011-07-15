@@ -1,5 +1,6 @@
 package iwant.dao.impl;
 
+import halo.dao.query.BaseDao;
 import iwant.bean.Ppt;
 import iwant.dao.PptDao;
 import iwant.dao.PptSearchCdn;
@@ -10,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.dao.query.BaseDao;
 @Component("pptDao")
 public class PptDaoImpl extends BaseDao<Ppt> implements PptDao {
 

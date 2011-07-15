@@ -1,5 +1,6 @@
 package iwant.dao.impl;
 
+import halo.dao.query.BaseDao;
 import iwant.bean.Notice;
 import iwant.dao.NoticeDao;
 
@@ -8,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.dao.query.BaseDao;
 
 @Component("noticeDao")
 public class NoticeDaoImpl extends BaseDao<Notice> implements NoticeDao {

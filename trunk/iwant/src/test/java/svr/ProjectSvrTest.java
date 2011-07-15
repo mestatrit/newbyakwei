@@ -1,5 +1,6 @@
 package svr;
 
+import halo.util.DateUtil;
 import iwant.bean.Project;
 import iwant.bean.ProjectRecycle;
 import iwant.bean.enumtype.ActiveType;
@@ -10,8 +11,6 @@ import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.dev3g.cactus.util.DateUtil;
 
 public class ProjectSvrTest extends BaseSvrTest {
 

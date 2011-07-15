@@ -1,10 +1,10 @@
 package iwant.util;
 
+import halo.util.P;
+
 import java.io.File;
 import java.util.Calendar;
 import java.util.Random;
-
-import com.dev3g.cactus.util.P;
 
 public class FileCnf {
 

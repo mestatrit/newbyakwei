@@ -1,5 +1,7 @@
 package iwant.web.admin;
 
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
 import iwant.bean.Category;
 import iwant.bean.validate.CategoryValidate;
 import iwant.svr.CategorySvr;
@@ -10,9 +12,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.web.action.HkRequest;
-import com.dev3g.cactus.web.action.HkResponse;
 
 /**
  * 分类管理

@@ -40,22 +40,18 @@ public interface PptSvr {
 	 * 
 	 * @param slide
 	 * @param imgFile
-	 * @param picRect
-	 *            小方图图片区域,可以为空，为空时，自动切小方图
 	 */
-	void createSlide(Slide slide, File imgFile, PicPoint picRect)
-			throws PptNotFoundException, ImageProcessException;
+	void createSlide(Slide slide, File imgFile) throws PptNotFoundException,
+			ImageProcessException;
 
 	/**
 	 * 更新幻灯页数据
 	 * 
 	 * @param slide
 	 * @param imgFile
-	 * @param picRect
-	 *            小方图图片区域 ,可以为空，为空时，自动切小方图
 	 */
-	void updateSlide(Slide slide, File imgFile, PicPoint picRect)
-			throws PptNotFoundException, ImageProcessException;
+	void updateSlide(Slide slide, File imgFile) throws PptNotFoundException,
+			ImageProcessException;
 
 	/**
 	 * 获得mainppt

@@ -1,5 +1,7 @@
 package iwant.web.admin;
 
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
 import iwant.bean.Notice;
 import iwant.bean.Ppt;
 import iwant.bean.validate.NoticeValidator;
@@ -12,9 +14,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.web.action.HkRequest;
-import com.dev3g.cactus.web.action.HkResponse;
 
 @Component("/mgr/notice")
 public class NoticeAction extends BaseAction {

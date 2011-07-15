@@ -1,5 +1,6 @@
 package svr;
 
+import halo.util.DateUtil;
 import iwant.bean.MainPpt;
 import iwant.bean.Ppt;
 import iwant.bean.Slide;
@@ -17,7 +18,6 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.dev3g.cactus.util.DateUtil;
 import com.dev3g.cactus.util.jmagick.PicPoint;
 
 public class PptSvrTest extends BaseSvrTest {
@@ -42,7 +42,7 @@ public class PptSvrTest extends BaseSvrTest {
 		slide.setPptid(this.ppt0.getPptid());
 		slide.setTitle("title 3");
 		slide.setPic_path("");
-		this.pptSvr.createSlide(slide, new File(filePath), null);
+		this.pptSvr.createSlide(slide, new File(filePath));
 	}
 
 	@Test
@@ -54,7 +54,7 @@ public class PptSvrTest extends BaseSvrTest {
 		slide.setOrder_flag(99);
 		slide.setPic_path("dd");
 		slide.setTitle("tititi");
-		this.pptSvr.updateSlide(slide, new File(filePath), null);
+		this.pptSvr.updateSlide(slide, new File(filePath));
 		Slide dbSlide = this.pptSvr.getSlide(this.slide0.getSlideid());
 		this.assertSlideData(slide, dbSlide);
 	}
@@ -105,8 +105,8 @@ public class PptSvrTest extends BaseSvrTest {
 
 	@Test
 	public void getSlideListByProjectid() {
-		List<Slide> list = this.pptSvr.getSlideListByProjectid(this.project0
-				.getProjectid(), 0, 100);
+		List<Slide> list = this.pptSvr.getSlideListByProjectid(
+				this.project0.getProjectid(), 0, 100);
 		Assert.assertEquals(2, list.size());
 	}
 
@@ -122,8 +122,8 @@ public class PptSvrTest extends BaseSvrTest {
 		this.pptSvr.deletePptByProjectid(this.ppt0.getProjectid());
 		Ppt ppt = this.pptSvr.getPpt(this.ppt0.getPptid());
 		Assert.assertNull(ppt);
-		List<Ppt> list = this.pptSvr.getPptListByProjectid(this.ppt0
-				.getProjectid(), 0, 100);
+		List<Ppt> list = this.pptSvr.getPptListByProjectid(
+				this.ppt0.getProjectid(), 0, 100);
 		Assert.assertEquals(0, list.size());
 	}
 

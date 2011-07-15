@@ -1,8 +1,7 @@
 package iwant.dao;
 
+import halo.dao.query.IDao;
 import iwant.bean.User;
-
-import com.dev3g.cactus.dao.query.IDao;
 
 public interface UserDao extends IDao<User> {
 

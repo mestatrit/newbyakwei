@@ -1,11 +1,10 @@
 package iwant.dao.impl;
 
-import org.springframework.stereotype.Component;
-
+import halo.dao.query.BaseDao;
 import iwant.bean.ProjectidCreator;
 import iwant.dao.ProjectidCreatorDao;
 
-import com.dev3g.cactus.dao.query.BaseDao;
+import org.springframework.stereotype.Component;
 
 @Component("projectidCreatorDao")
 public class ProjectidCreatorDaoImpl extends BaseDao<ProjectidCreator>
