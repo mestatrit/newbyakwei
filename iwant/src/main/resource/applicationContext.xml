@@ -13,8 +13,8 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 	<context:annotation-config />
 	<!-- must config -->
-	<bean id="hkUtil" class="com.dev3g.cactus.util.HkUtil" />
-	<bean id="webCnf" class="com.dev3g.cactus.web.action.WebCnf">
+	<bean id="hkUtil" class="halo.util.HaloUtil" />
+	<bean id="webCnf" class="halo.web.util.WebCnf">
 		<property name="uploadFileTempPath" value="/cactustemp/" />
 		<property name="scanPathList">
 			<list>
@@ -23,7 +23,7 @@
 		</property>
 	</bean>
 	<!-- 语言配置 -->
-	<bean id="resourceConfig" class="com.dev3g.cactus.util.ResourceConfig" lazy-init="false">
+	<bean id="resourceConfig" class="halo.util.ResourceConfig" lazy-init="false">
 		<property name="resource" value="admin_err" />
 	</bean>
 	<import resource="app-ds.xml" />

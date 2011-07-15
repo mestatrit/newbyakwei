@@ -11,7 +11,7 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
-	<bean id="dataSource" class="com.dev3g.cactus.dao.sql.HkDataSourceWrapper">
+	<bean id="dataSource" class="halo.dao.sql.HkDataSourceWrapper">
 		<property name="dataSourceMap">
 			<map>
 				<!-- 如果是mysql数据库，就要以mysql_为开始字符串 -->
@@ -39,9 +39,9 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
 	</context:component-scan>
 	<!-- 分区配置必须在hkObjQuery声明之前 -->
-	<bean id="hkObjQuery" class="com.dev3g.cactus.dao.query.HkObjQuery">
+	<bean id="hkObjQuery" class="halo.dao.query.HkObjQuery">
 		<property name="querySupport">
-			<bean class="com.dev3g.cactus.dao.query.MysqlQuerySupport">
+			<bean class="halo.dao.query.MysqlQuerySupport">
 				<property name="dataSource" ref="dataSource" />
 			</bean>
 		</property>
