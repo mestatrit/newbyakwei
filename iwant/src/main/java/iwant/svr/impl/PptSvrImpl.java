@@ -43,7 +43,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.dev3g.cactus.util.jmagick.ImageProcessor;
 import com.dev3g.cactus.util.jmagick.ImgFileInfo;
 import com.dev3g.cactus.util.jmagick.PicPoint;
 
@@ -367,8 +366,6 @@ public class PptSvrImpl implements PptSvr {
 			throws ImageProcessException {
 		ImgFileInfo imgFileInfo = ImgFileInfo.getImageFileInfo(imgFile);
 		if (imgFileInfo != null) {
-			ImageProcessor imageProcessor = new ImageProcessor(imgFileInfo);
-			imageProcessor.setMaxWidth(960);
 			String name = FileCnf.createFileName();
 			String dbPath = fileCnf.getFileSaveToDbPath(name);
 			String filePath = fileCnf.getFilePath(dbPath);
