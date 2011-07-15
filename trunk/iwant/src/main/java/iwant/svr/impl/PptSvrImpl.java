@@ -30,6 +30,7 @@ import iwant.svr.exception.PptNotFoundException;
 import iwant.svr.exception.ProjectNotFoundException;
 import iwant.svr.statusenum.UpdateSldePic0Result;
 import iwant.util.FileCnf;
+import iwant.util.PicPoint;
 import iwant.util.PicUtil;
 
 import java.io.File;
@@ -42,9 +43,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.util.jmagick.ImgFileInfo;
-import com.dev3g.cactus.util.jmagick.PicPoint;
 
 @Component("pptSvr")
 public class PptSvrImpl implements PptSvr {
@@ -364,34 +362,30 @@ public class PptSvrImpl implements PptSvr {
 
 	private void processSlideImage(Slide slide, File imgFile)
 			throws ImageProcessException {
-		ImgFileInfo imgFileInfo = ImgFileInfo.getImageFileInfo(imgFile);
-		if (imgFileInfo != null) {
-			String name = FileCnf.createFileName();
-			String dbPath = fileCnf.getFileSaveToDbPath(name);
-			String filePath = fileCnf.getFilePath(dbPath);
-			slide.setPic_path(dbPath);
-			ImageShaper shaper = ImageShaperFactory
-					.getImageShaper(ImageShaperFactory.SHAPER_JMAGICK);
-			try {
-				ImageParam imageParam = new ImageParam(imgFile, 0, 0, 0, true);
-				ImageSize scaleImageSize = new ImageSize(70, 70);
-				shaper.scale(imageParam, scaleImageSize, filePath,
-						PicUtil.SLIDE_PIC1_NAME);
-				imageParam = new ImageParam(imgFile, 0, 0, 0, true);
-				scaleImageSize = ImageSizeMaker.makeSize(imageParam
-						.getOriginInfo().getWidth(), imageParam.getOriginInfo()
-						.getHeight(), 960);
-				shaper.scale(imageParam, scaleImageSize, filePath,
-						PicUtil.SLIDE_PIC1_NAME);
-			}
-			catch (IOException e) {
-				log.error("processSlideImage image error : " + e);
-				throw new ImageProcessException();
-			}
-			catch (halo.util.image.ImageException e) {
-				log.error("processSlideImage image error : " + e);
-				throw new ImageProcessException();
-			}
+		String name = FileCnf.createFileName();
+		String dbPath = fileCnf.getFileSaveToDbPath(name);
+		String filePath = fileCnf.getFilePath(dbPath);
+		slide.setPic_path(dbPath);
+		ImageShaper shaper = ImageShaperFactory
+				.getImageShaper(ImageShaperFactory.SHAPER_JMAGICK);
+		try {
+			ImageParam imageParam = new ImageParam(imgFile, 0, 0, 0, true);
+			ImageSize scaleImageSize = new ImageSize(70, 70);
+			shaper.scale(imageParam, scaleImageSize, filePath,
+					PicUtil.SLIDE_PIC1_NAME);
+			imageParam = new ImageParam(imgFile, 0, 0, 0, true);
+			scaleImageSize = ImageSizeMaker.makeSize(imageParam.getOriginInfo()
+					.getWidth(), imageParam.getOriginInfo().getHeight(), 960);
+			shaper.scale(imageParam, scaleImageSize, filePath,
+					PicUtil.SLIDE_PIC1_NAME);
+		}
+		catch (IOException e) {
+			log.error("processSlideImage image error : " + e);
+			throw new ImageProcessException();
+		}
+		catch (halo.util.image.ImageException e) {
+			log.error("processSlideImage image error : " + e);
+			throw new ImageProcessException();
 		}
 	}
 

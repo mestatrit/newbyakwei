@@ -13,6 +13,7 @@ import iwant.svr.exception.PptNotFoundException;
 import iwant.svr.statusenum.UpdateSldePic0Result;
 import iwant.util.BackUrl;
 import iwant.util.BackUrlUtil;
+import iwant.util.PicPoint;
 import iwant.web.BaseAction;
 import iwant.web.admin.util.Err;
 
@@ -21,8 +22,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.dev3g.cactus.util.jmagick.PicPoint;
 
 @Component("/mgr/slide")
 public class SlideAction extends BaseAction {

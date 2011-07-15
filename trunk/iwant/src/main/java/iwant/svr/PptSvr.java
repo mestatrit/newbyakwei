@@ -10,12 +10,11 @@ import iwant.svr.exception.ImageProcessException;
 import iwant.svr.exception.PptNotFoundException;
 import iwant.svr.exception.ProjectNotFoundException;
 import iwant.svr.statusenum.UpdateSldePic0Result;
+import iwant.util.PicPoint;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
-
-import com.dev3g.cactus.util.jmagick.PicPoint;
 
 public interface PptSvr {
 

@@ -2,15 +2,15 @@ package iwant.bean.validate;
 
 import halo.util.HaloUtil;
 import halo.util.HaloValidate;
+import halo.util.image.OriginInfo;
 import iwant.bean.Slide;
 import iwant.svr.PptSvr;
 import iwant.web.admin.util.Err;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.dev3g.cactus.util.jmagick.ImgFileInfo;
 
 public class SlideValidator {
 
@@ -28,14 +28,14 @@ public class SlideValidator {
 				list.add(Err.SLIDE_IMG_FORMAT_ERR);
 			}
 			else {
-				ImgFileInfo imgFileInfo = ImgFileInfo.getImageFileInfo(imgFile);
-				if (imgFileInfo == null) {
-					list.add(Err.SLIDE_IMG_FORMAT_ERR);
-				}
-				else {
-					if (imgFileInfo.getImgFileSizeMB() > 3) {
+				try {
+					OriginInfo originInfo = new OriginInfo(imgFile);
+					if (originInfo.getImgFileSizeMB() > 3) {
 						list.add(Err.SLIDE_IMG_SIZE_ERR);
 					}
+				}
+				catch (IOException e) {
+					list.add(Err.SLIDE_IMG_FORMAT_ERR);
 				}
 			}
 		}

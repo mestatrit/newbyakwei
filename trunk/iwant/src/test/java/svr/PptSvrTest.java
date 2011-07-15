@@ -8,6 +8,7 @@ import iwant.bean.enumtype.ActiveType;
 import iwant.svr.exception.ImageProcessException;
 import iwant.svr.exception.PptNotFoundException;
 import iwant.svr.exception.ProjectNotFoundException;
+import iwant.util.PicPoint;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,8 +18,6 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.dev3g.cactus.util.jmagick.PicPoint;
 
 public class PptSvrTest extends BaseSvrTest {
 
