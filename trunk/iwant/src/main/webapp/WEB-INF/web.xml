@@ -21,12 +21,12 @@
 		</init-param>
 	</filter>
 	<filter>
-		<filter-name>HttpWrapperFilter</filter-name>
-		<filter-class>com.dev3g.cactus.web.action.HttpWrapperFilter</filter-class>
+		<filter-name>HaloWrapperFilter</filter-name>
+		<filter-class>halo.web.action.HaloWrapperFilter</filter-class>
 	</filter>
 	<filter>
 		<filter-name>ActionFilter</filter-name>
-		<filter-class>com.dev3g.cactus.web.action.ActionFilter</filter-class>
+		<filter-class>halo.web.action.ActionFilter</filter-class>
 	</filter>
 	<filter>
 		<filter-name>AdminFilter</filter-name>
@@ -38,7 +38,7 @@
 	</filter-mapping>
 	<!-- 包装request response -->
 	<filter-mapping>
-		<filter-name>HttpWrapperFilter</filter-name>
+		<filter-name>HaloWrapperFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
