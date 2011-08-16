@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms"
-	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
@@ -18,7 +23,8 @@
 				<entry key="mysql_iwant">
 					<bean class="com.mchange.v2.c3p0.ComboPooledDataSource">
 						<property name="driverClass" value="com.mysql.jdbc.Driver" />
-						<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/iwant?useUnicode=true&amp;characterEncoding=UTF-8" />
+						<property name="jdbcUrl"
+							value="jdbc:mysql://127.0.0.1:3306/iwant?useUnicode=true&amp;characterEncoding=UTF-8" />
 						<property name="user" value="root" />
 						<property name="password" value="boseeandbokee" />
 						<property name="maxStatements" value="200" />
@@ -33,10 +39,12 @@
 	</bean>
 	<context:annotation-config />
 	<context:component-scan base-package="iwant.dao.impl">
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Component" />
 	</context:component-scan>
 	<context:component-scan base-package="iwant.svr.impl">
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Component" />
 	</context:component-scan>
 	<!-- 分区配置必须在hkObjQuery声明之前 -->
 	<bean id="hkObjQuery" class="halo.dao.query.HkObjQuery">
@@ -46,7 +54,8 @@
 			</bean>
 		</property>
 	</bean>
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
@@ -55,7 +64,8 @@
 		</tx:attributes>
 	</tx:advice>
 	<aop:config proxy-target-class="true">
-		<aop:pointcut id="tr" expression="execution(* iwant.svr.impl.*SvrImpl.*Tx(..))" />
+		<aop:pointcut id="tr"
+			expression="execution(* iwant.svr.impl.*SvrImpl.*Tx(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="tr" />
 	</aop:config>
 	<bean id="slideFileCnf" class="iwant.util.FileCnf">
@@ -66,9 +76,7 @@
 		<property name="suburl" value="http://www.iwant.com/pic/slidepic/" />
 	</bean>
 	<bean id="apnsTool" class="iwant.util.apns.ApnsTool">
-		<!--
-		<property name="host" value="gateway.sandbox.push.apple.com" /> 
-		 -->
+		<!-- <property name="host" value="gateway.sandbox.push.apple.com" /> -->
 		<property name="host" value="gateway.push.apple.com" />
 		<property name="port" value="2195" />
 		<property name="p12FileName" value="productpush.p12" />
