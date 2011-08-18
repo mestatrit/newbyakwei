@@ -1,14 +1,15 @@
 package tuxiazi.webapi;
 
+import halo.util.ResourceConfig;
+import halo.util.VelocityUtil;
+import halo.web.action.Action;
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
+
 import org.apache.velocity.VelocityContext;
 
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.User;
-
-import com.hk.frame.util.VelocityUtil;
-import com.hk.frame.web.action.Action;
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
 
 public class BaseApiAction implements Action {
 
@@ -50,11 +51,14 @@ public class BaseApiAction implements Action {
 
 	protected void write(HkResponse resp, String vmpath, VelocityContext context) {
 		try {
-			resp.sendXML2(VelocityUtil.writeToString(vmpath, context));
-		}
-		catch (Exception e) {
+			resp.sendXML(VelocityUtil.writeToString(vmpath, context));
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	protected String getErrMsg(int err) {
+		return ResourceConfig.getTextFromResource("err", String.valueOf(err));
 	}
 }

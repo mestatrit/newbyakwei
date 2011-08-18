@@ -1,9 +1,9 @@
 package tuxiazi.dao.dbpartitionhelper;
 
-import java.util.Map;
+import halo.dao.partition.DbPartitionHelper;
+import halo.dao.query.PartitionTableInfo;
 
-import com.hk.frame.dao.query2.DbPartitionHelper;
-import com.hk.frame.dao.query2.PartitionTableInfo;
+import java.util.Map;
 
 public class TuxiaziDbPartitionHelper extends DbPartitionHelper {
 
@@ -12,7 +12,7 @@ public class TuxiaziDbPartitionHelper extends DbPartitionHelper {
 	@Override
 	public PartitionTableInfo parse(String name, Map<String, Object> ctxMap) {
 		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
-		partitionTableInfo.setDatabaseName(dsKey);
+		partitionTableInfo.setDsKey(dsKey);
 		partitionTableInfo.setTableName(name);
 		partitionTableInfo.setAliasName(name);
 		return partitionTableInfo;

@@ -1,13 +1,13 @@
 package tuxiazi.web;
 
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.Photo;
 import tuxiazi.svr.iface.PhotoService;
-
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
 
 @Component("/photo")
 public class PhotoAction extends BaseAction {

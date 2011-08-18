@@ -61,7 +61,7 @@ public class FeedServiceImpl implements FeedService {
 					null, "userid=?", new Object[] { userid }, "feedid asc",
 					maxSize - 1, count - maxSize);
 			for (Friend_photo_feed o : list) {
-				this.friend_photo_feedDao.delete(null, o);
+				this.friend_photo_feedDao.deleteById(o.getFeedid());
 			}
 		}
 	}

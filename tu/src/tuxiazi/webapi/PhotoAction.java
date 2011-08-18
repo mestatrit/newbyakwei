@@ -1,5 +1,10 @@
 package tuxiazi.webapi;
 
+import halo.util.DataUtil;
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
+import halo.web.util.SimplePage;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,11 +30,6 @@ import tuxiazi.svr.iface.UserService;
 import tuxiazi.util.Err;
 import tuxiazi.web.util.APIUtil;
 
-import com.hk.frame.util.DataUtil;
-import com.hk.frame.util.page.SimplePage;
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
-
 @Component("/api/photo")
 public class PhotoAction extends BaseApiAction {
 
@@ -52,7 +52,7 @@ public class PhotoAction extends BaseApiAction {
 		long photoid = req.getLong("photoid");
 		Photo photo = this.photoService.getPhoto(photoid, favUserid, true);
 		if (photo == null) {
-			APIUtil.writeErr(req, resp, Err.PHOTO_NOTEXIST);
+			APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
 			return null;
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -73,15 +73,15 @@ public class PhotoAction extends BaseApiAction {
 		long photoid = req.getLong("photoid");
 		Photo photo = this.photoService.getPhoto(photoid);
 		if (photo == null) {
-			APIUtil.writeErr(req, resp, Err.PHOTO_NOTEXIST);
+			APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
 			return null;
 		}
 		if (photo.getUserid() != user.getUserid()) {
-			APIUtil.writeErr(req, resp, Err.OP_NOPOWER);
+			APIUtil.writeErr(resp, Err.OP_NOPOWER);
 			return null;
 		}
 		this.photoService.deletePhoto(photo);
-		APIUtil.writeSuccess(req, resp);
+		APIUtil.writeSuccess(resp);
 		return null;
 	}
 
@@ -95,14 +95,14 @@ public class PhotoAction extends BaseApiAction {
 	public String prvupload(HkRequest req, HkResponse resp) {
 		File file = req.getFile("f");
 		if (file == null) {
-			APIUtil.writeErr(req, resp, Err.PHOTO_FILE_NOTEXIST);
+			APIUtil.writeErr(resp, Err.PHOTO_FILE_NOTEXIST);
 			return null;
 		}
 		User user = this.getUser(req);
 		UploadPhoto uploadPhoto = new UploadPhoto();
 		uploadPhoto.setUserid(user.getUserid());
 		uploadPhoto.setFile(file);
-		uploadPhoto.setName(DataUtil.limitTextRow(req.getHtmlRow("name"), 140));
+		uploadPhoto.setName(DataUtil.limitLength(req.getString("name"), 140));
 		uploadPhoto.setCreate_time(new Date());
 		uploadPhoto.setPrivacy_flg(req.getByte("privacy_flg"));
 		List<UploadPhoto> list = new ArrayList<UploadPhoto>();
@@ -181,9 +181,8 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
 			APIUtil.writeData(resp, map, "vm/friendphotos.vm");
-		}
-		catch (Exception e) {
-			APIUtil.writeErr(req, resp, Err.API_SYS_ERR);
+		} catch (Exception e) {
+			APIUtil.writeErr(resp, Err.API_SYS_ERR);
 		}
 		return null;
 	}
@@ -208,8 +207,8 @@ public class PhotoAction extends BaseApiAction {
 		try {
 			User user = this.userService.getUser(uid);
 			List<User_photo> list = this.photoService
-					.getUser_photoListByUserid(uid, true, userid, simplePage
-							.getBegin(), size);
+					.getUser_photoListByUserid(uid, true, userid,
+							simplePage.getBegin(), size);
 			for (User_photo o : list) {
 				if (o.getPhoto() != null) {
 					o.getPhoto().setUser(user);
@@ -218,9 +217,8 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
 			APIUtil.writeData(resp, map, "vm/userphotos.vm");
-		}
-		catch (Exception e) {
-			APIUtil.writeErr(req, resp, Err.API_SYS_ERR);
+		} catch (Exception e) {
+			APIUtil.writeErr(resp, Err.API_SYS_ERR);
 		}
 		return null;
 	}
@@ -237,11 +235,11 @@ public class PhotoAction extends BaseApiAction {
 		long photoid = req.getLong("photoid");
 		Photo photo = this.photoService.getPhoto(photoid);
 		if (photo == null) {
-			APIUtil.writeErr(req, resp, Err.PHOTO_NOTEXIST);
+			APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
 			return null;
 		}
 		this.photoService.createPhotoUserLike(user, photo);
-		APIUtil.writeSuccess(req, resp);
+		APIUtil.writeSuccess(resp);
 		return null;
 	}
 
@@ -256,12 +254,12 @@ public class PhotoAction extends BaseApiAction {
 		User user = this.getUser(req);
 		long photoid = req.getLong("photoid");
 		this.photoService.deletePhotoUserLike(user.getUserid(), photoid);
-		APIUtil.writeSuccess(req, resp);
+		APIUtil.writeSuccess(resp);
 		return null;
 	}
 
 	/**
-	 *更新热门图片
+	 * 更新热门图片
 	 * 
 	 * @param req
 	 * @param resp
@@ -274,7 +272,7 @@ public class PhotoAction extends BaseApiAction {
 	}
 
 	/**
-	 *最新热门图片
+	 * 最新热门图片
 	 * 
 	 * @param req
 	 * @param resp
@@ -289,7 +287,7 @@ public class PhotoAction extends BaseApiAction {
 	}
 
 	/**
-	 *喜欢某图片的人
+	 * 喜欢某图片的人
 	 * 
 	 * @param req
 	 * @param resp

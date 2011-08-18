@@ -1,5 +1,11 @@
 package tuxiazi.webapi;
 
+import halo.util.DataUtil;
+import halo.util.P;
+import halo.util.ResourceConfig;
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
+
 import javax.servlet.http.Cookie;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +20,6 @@ import weibo4j.User;
 import weibo4j.WeiboException;
 import weibo4j.http.AccessToken;
 import weibo4j.http.RequestToken;
-
-import com.hk.frame.util.DataUtil;
-import com.hk.frame.util.P;
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
 
 @Component("/api/auth")
 public class AuthAction extends BaseApiAction {
@@ -40,17 +41,16 @@ public class AuthAction extends BaseApiAction {
 			return "r:" + requestToken.getAuthorizationURL();
 		}
 		try {
-			AccessToken accessToken = SinaUtil.getAccessToken(this
-					.getOauth_sina_requestToken(req), this
-					.getOauth_sina_requestTokenSecret(req), req
-					.getString("oauth_verifier"));
+			AccessToken accessToken = SinaUtil.getAccessToken(
+					this.getOauth_sina_requestToken(req),
+					this.getOauth_sina_requestTokenSecret(req),
+					req.getString("oauth_verifier"));
 			String uid = accessToken.getUserId() + "";
 			User sina_user = SinaUtil.getUser(accessToken.getToken(),
 					accessToken.getTokenSecret(), uid);
 			if (sina_user == null) {
-				resp
-						.sendHtml(req.getText(String
-								.valueOf(Err.API_NO_SINA_USER)));
+				resp.sendHtml(this.getErrMsg(Err.API_NO_SINA_USER));
+
 				return null;
 			}
 			Api_user_sina apiUserSina = this.userService
@@ -63,8 +63,7 @@ public class AuthAction extends BaseApiAction {
 				this.userService.createApi_user_sina(apiUserSina, sina_user
 						.getScreenName(), sina_user.getProfileImageURL()
 						.toString());
-			}
-			else {
+			} else {
 				apiUserSina.setAccess_token(accessToken.getToken());
 				apiUserSina.setToken_secret(accessToken.getTokenSecret());
 				this.userService.updateApi_user_sina(apiUserSina);
@@ -72,9 +71,7 @@ public class AuthAction extends BaseApiAction {
 						.getUserid());
 				if (user != null) {
 					user.setNick(sina_user.getScreenName());
-					user
-							.setHead_path(sina_user.getProfileImageURL()
-									.toString());
+					user.setHead_path(sina_user.getProfileImageURL().toString());
 					this.userService.update(user);
 				}
 			}
@@ -86,9 +83,11 @@ public class AuthAction extends BaseApiAction {
 					+ apiUserSina.getUserid() + "&login_nick="
 					+ DataUtil.urlEncoder(sina_user.getScreenName());
 			return v;
-		}
-		catch (WeiboException e) {
-			resp.sendHtml(req.getText(String.valueOf(Err.API_SINA_ERR)));
+		} catch (WeiboException e) {
+			resp.sendHtml(this.getErrMsg(Err.API_SINA_ERR));
+
+			resp.sendHtml(ResourceConfig.getTextFromResource("err",
+					String.valueOf(Err.API_SINA_ERR)));
 			return null;
 		}
 	}

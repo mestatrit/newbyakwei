@@ -1,13 +1,20 @@
 package tuxiazi.svr.impl2;
 
+import halo.util.DataUtil;
+import halo.util.NumberUtil;
+import halo.util.ResourceConfig;
+import halo.util.image.ImageException;
+import halo.util.image.ImageShaper;
+import halo.util.image.ImageShaperFactory;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,14 +52,6 @@ import tuxiazi.svr.impl.jms.JsonKey;
 import tuxiazi.util.FileCnf;
 import tuxiazi.web.util.SinaUtil;
 import weibo4j.WeiboException;
-
-import com.hk.frame.util.DataUtil;
-import com.hk.frame.util.NumberUtil;
-import com.hk.frame.util.ResourceConfig;
-import com.hk.frame.util.image.ImageException;
-import com.hk.frame.util.image.JMagickUtil;
-import com.hk.frame.util.image.NotPermitImageFormatException;
-import com.hk.frame.util.image.OutOfSizeException;
 
 public class PhotoServiceImpl implements PhotoService {
 
@@ -192,8 +191,7 @@ public class PhotoServiceImpl implements PhotoService {
 				try {
 					SinaUtil.updateStatus(apiUserSina.getAccess_token(),
 							apiUserSina.getToken_secret(), content, imgFile);
-				}
-				catch (WeiboException e) {
+				} catch (WeiboException e) {
 					log.error("error while share to weibo");
 					log.error(e.toString());
 				}
@@ -214,6 +212,11 @@ public class PhotoServiceImpl implements PhotoService {
 	 */
 	private void proccessUpload(long userid, UploadPhotoResult result,
 			List<UploadPhoto> uploadPhotos, int x, int y, int width, int height) {
+		ImageShaper imageShaper = ImageShaperFactory
+				.getImageShaper(ImageShaperFactory.SHAPER_JMAGICK);
+		
+		
+		
 		JMagickUtil util = null;
 		Photo photo = null;
 		User user = this.userService.getUser(userid);
@@ -222,6 +225,7 @@ public class PhotoServiceImpl implements PhotoService {
 			String dbPath = fileCnf.getFileSaveToDbPath(name);
 			String filePath = fileCnf.getFilePath(dbPath);
 			// File newf = null;
+			
 			try {
 				util = new JMagickUtil(o.getFile(), fileCnf.getFileMaxSize());
 				util.setQuality(90);
@@ -250,18 +254,14 @@ public class PhotoServiceImpl implements PhotoService {
 				this.user_photoDao.save(null, userPhoto);
 				user.setPic_num(user.getPic_num() + 1);
 				result.addPhoto(photo);
-			}
-			catch (ImageException e) {
+			} catch (ImageException e) {
 				e.printStackTrace();
 				result.addErr_num(1);
-			}
-			catch (NotPermitImageFormatException e) {
+			} catch (NotPermitImageFormatException e) {
 				result.addErr_fmt_num(1);
-			}
-			catch (OutOfSizeException e) {
+			} catch (OutOfSizeException e) {
 				result.addErr_too_big_num(1);
-			}
-			finally {
+			} finally {
 				// if (newf != null) {
 				// if (newf.exists()) {
 				// newf.delete();
@@ -293,7 +293,7 @@ public class PhotoServiceImpl implements PhotoService {
 					null, null, "photoid asc", this.lasted_photo_max_count - 1,
 					count - this.lasted_photo_max_count);
 			for (Lasted_photo o : tmplist) {
-				this.lasted_photoDao.delete(null, o);
+				this.lasted_photoDao.deleteById(o.getPhotoid());
 			}
 		}
 	}
@@ -311,8 +311,8 @@ public class PhotoServiceImpl implements PhotoService {
 			if (o.isPrivacy()) {
 				continue;
 			}
-			sb.append(o.getPhotoid()).append(":").append(o.getUserid()).append(
-					",");
+			sb.append(o.getPhotoid()).append(":").append(o.getUserid())
+					.append(",");
 		}
 		jmsMsg.addData(JsonKey.photos, sb.toString());
 		jmsMsg.buildBody();
@@ -329,9 +329,9 @@ public class PhotoServiceImpl implements PhotoService {
 		this.feedService.deleteFriend_photo_feedByPhotoid(photo.getPhotoid());
 		this.user_photoDao.delete(null, "userid=? and photoid=?", new Object[] {
 				photo.getUserid(), photo.getPhotoid() });
-		this.photoDao.delete(null, photo);
-		this.hotPhotoDao.delete(null, "photoid=?", new Object[] { photo
-				.getPhotoid() });
+		this.photoDao.deleteById(photo.getPhotoid());
+		this.hotPhotoDao.delete(null, "photoid=?",
+				new Object[] { photo.getPhotoid() });
 		int count = this.user_photoDao.count(null, "userid=?",
 				new Object[] { photo.getUserid() });
 		User user = this.userService.getUser(photo.getUserid());

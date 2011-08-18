@@ -1,10 +1,9 @@
 package tuxiazi.bean;
 
+import halo.dao.annotation.Column;
+import halo.dao.annotation.Id;
+import halo.dao.annotation.Table;
 import tuxiazi.util.PhotoUtil;
-
-import com.hk.frame.dao.annotation.Column;
-import com.hk.frame.dao.annotation.Id;
-import com.hk.frame.dao.annotation.Table;
 
 /**
  * 热门图片，即图片的喜欢数量按照从多到少的排列，最多100条数据

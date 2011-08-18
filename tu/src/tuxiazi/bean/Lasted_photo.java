@@ -1,7 +1,7 @@
 package tuxiazi.bean;
 
-import com.hk.frame.dao.annotation.Id;
-import com.hk.frame.dao.annotation.Table;
+import halo.dao.annotation.Id;
+import halo.dao.annotation.Table;
 
 /**
  * 最新图片

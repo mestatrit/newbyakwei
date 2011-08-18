@@ -1,5 +1,7 @@
 package tuxiazi.svr.impl2;
 
+import halo.util.NumberUtil;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,8 +24,6 @@ import tuxiazi.svr.iface.FriendService;
 import tuxiazi.svr.iface.NoticeService;
 import tuxiazi.svr.iface.PhotoService;
 import tuxiazi.svr.iface.UserService;
-
-import com.hk.frame.util.NumberUtil;
 
 public class FriendServiceImpl implements FriendService {
 

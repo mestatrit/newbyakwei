@@ -1,11 +1,11 @@
 package tuxiazi.webapi;
 
+import halo.util.DataUtil;
+
 import java.util.Date;
 import java.util.Locale;
 
 import weibo4j.Status;
-
-import com.hk.frame.util.DataUtil;
 
 public class StatusWrapper {
 

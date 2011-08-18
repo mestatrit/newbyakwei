@@ -1,5 +1,10 @@
 package tuxiazi.webapi;
 
+import halo.util.DataUtil;
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
+import halo.web.util.SimplePage;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,11 +21,6 @@ import tuxiazi.svr.iface.PhotoService;
 import tuxiazi.util.Err;
 import tuxiazi.web.util.APIUtil;
 
-import com.hk.frame.util.DataUtil;
-import com.hk.frame.util.page.SimplePage;
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
-
 @Component("/api/photo/cmt")
 public class CmtAction extends BaseApiAction {
 
@@ -35,19 +35,18 @@ public class CmtAction extends BaseApiAction {
 		long photoid = req.getLong("photoid");
 		Photo photo = this.photoService.getPhoto(photoid);
 		if (photo == null) {
-			APIUtil.writeErr(req, resp, Err.PHOTO_NOTEXIST);
+			APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
 			return null;
 		}
 		PhotoCmt photoCmt = new PhotoCmt();
 		photoCmt.setPhotoid(photoid);
 		photoCmt.setUserid(user.getUserid());
 		photoCmt.setCreate_time(new Date());
-		photoCmt.setContent(DataUtil.limitTextRow(req.getHtmlRow("content"),
-				140));
+		photoCmt.setContent(DataUtil.limitLength(req.getString("content"), 140));
 		photoCmt.setUser(user);
 		int code = photoCmt.validate();
 		if (code != Err.SUCCESS) {
-			APIUtil.writeErr(req, resp, code);
+			APIUtil.writeErr(resp, code);
 			return null;
 		}
 		int withweibo = req.getInt("withweibo");
@@ -65,15 +64,15 @@ public class CmtAction extends BaseApiAction {
 		long photoid = req.getLong("photoid");
 		PhotoCmt photoCmt = this.photoCmtService.getPhotoCmt(photoid, cmtid);
 		if (photoCmt == null) {
-			APIUtil.writeErr(req, resp, Err.PHOTOCMT_NOTEXIST);
+			APIUtil.writeErr(resp, Err.PHOTOCMT_NOTEXIST);
 			return null;
 		}
 		if (photoCmt.getUserid() != user.getUserid()) {
-			APIUtil.writeErr(req, resp, Err.OP_NOPOWER);
+			APIUtil.writeErr(resp, Err.OP_NOPOWER);
 			return null;
 		}
 		this.photoCmtService.deletePhotoCmt(photoCmt);
-		APIUtil.writeSuccess(req, resp);
+		APIUtil.writeSuccess(resp);
 		return null;
 	}
 

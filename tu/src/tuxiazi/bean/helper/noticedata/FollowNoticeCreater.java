@@ -1,5 +1,7 @@
 package tuxiazi.bean.helper.noticedata;
 
+import halo.util.JsonUtil;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,8 +9,6 @@ import java.util.Map;
 import tuxiazi.bean.Notice;
 import tuxiazi.bean.benum.NoticeEnum;
 import tuxiazi.bean.benum.NoticeReadEnum;
-
-import com.hk.frame.util.JsonUtil;
 
 public class FollowNoticeCreater implements NoticeCreater {
 

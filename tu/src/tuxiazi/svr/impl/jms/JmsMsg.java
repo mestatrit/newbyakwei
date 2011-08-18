@@ -1,10 +1,10 @@
 package tuxiazi.svr.impl.jms;
 
+import halo.util.DataUtil;
+import halo.util.JsonUtil;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.hk.frame.util.DataUtil;
-import com.hk.frame.util.JsonUtil;
 
 public class JmsMsg {
 

@@ -1,5 +1,11 @@
 package tuxiazi.bean;
 
+import halo.dao.annotation.Column;
+import halo.dao.annotation.Id;
+import halo.dao.annotation.Table;
+import halo.util.DataUtil;
+import halo.util.JsonUtil;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,12 +15,6 @@ import java.util.Map;
 import tuxiazi.bean.benum.PhotoPrivacyEnum;
 import tuxiazi.svr.impl.jms.JsonKey;
 import tuxiazi.util.PhotoUtil;
-
-import com.hk.frame.dao.annotation.Column;
-import com.hk.frame.dao.annotation.Id;
-import com.hk.frame.dao.annotation.Table;
-import com.hk.frame.util.DataUtil;
-import com.hk.frame.util.JsonUtil;
 
 /**
  * 图片

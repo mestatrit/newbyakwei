@@ -1,8 +1,7 @@
 package tuxiazi.dao;
 
+import halo.dao.query.BaseDao;
 import tuxiazi.bean.Userid;
-
-import com.hk.frame.dao.query2.BaseDao;
 
 public class UseridDao extends BaseDao<Userid> {
 

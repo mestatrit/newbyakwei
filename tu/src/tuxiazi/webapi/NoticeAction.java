@@ -1,5 +1,9 @@
 package tuxiazi.webapi;
 
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
+import halo.web.util.SimplePage;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +17,6 @@ import tuxiazi.bean.benum.NoticeEnum;
 import tuxiazi.bean.benum.NoticeReadEnum;
 import tuxiazi.svr.iface.NoticeService;
 import tuxiazi.web.util.APIUtil;
-
-import com.hk.frame.util.page.SimplePage;
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
 
 @Component("/api/notice")
 public class NoticeAction extends BaseApiAction {

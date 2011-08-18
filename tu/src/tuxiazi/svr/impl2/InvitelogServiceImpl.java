@@ -1,5 +1,7 @@
 package tuxiazi.svr.impl2;
 
+import halo.util.NumberUtil;
+
 import java.util.Date;
 import java.util.List;
 
@@ -13,8 +15,6 @@ import tuxiazi.dao.InvitelogDao;
 import tuxiazi.svr.iface.InvitelogService;
 import tuxiazi.web.util.SinaUtil;
 import weibo4j.WeiboException;
-
-import com.hk.frame.util.NumberUtil;
 
 public class InvitelogServiceImpl implements InvitelogService {
 
