@@ -1,14 +1,14 @@
 package tuxiazi.bean;
 
+import halo.dao.annotation.Column;
+import halo.dao.annotation.Id;
+import halo.dao.annotation.Table;
+import halo.util.HaloValidate;
+
 import java.util.Date;
 
 import tuxiazi.util.Err;
 import tuxiazi.util.PhotoUtil;
-
-import com.hk.frame.dao.annotation.Column;
-import com.hk.frame.dao.annotation.Id;
-import com.hk.frame.dao.annotation.Table;
-import com.hk.frame.util.HkValidate;
 
 /**
  * 图片评论
@@ -91,7 +91,7 @@ public class PhotoCmt {
 	}
 
 	public int validate() {
-		if (!HkValidate.validateEmptyAndLength(this.content, true, 200)) {
+		if (!HaloValidate.validateEmptyAndLength(this.content, true, 200)) {
 			return Err.PHOTOCMT_CONTENT_ERROR;
 		}
 		return Err.SUCCESS;

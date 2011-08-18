@@ -1,10 +1,10 @@
 package tuxiazi.util;
 
+import halo.util.P;
+
 import java.io.File;
 import java.util.Calendar;
 import java.util.Random;
-
-import com.hk.frame.util.P;
 
 public class FileCnf {
 

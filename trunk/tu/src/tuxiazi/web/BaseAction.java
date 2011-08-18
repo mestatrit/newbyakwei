@@ -1,8 +1,8 @@
 package tuxiazi.web;
 
-import com.hk.frame.web.action.Action;
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
+import halo.web.action.Action;
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
 
 public class BaseAction implements Action {
 

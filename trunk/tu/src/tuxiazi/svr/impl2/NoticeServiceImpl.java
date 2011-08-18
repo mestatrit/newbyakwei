@@ -37,7 +37,7 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public void deleteNotice(Notice notice) {
-		this.noticeDao.delete(null, notice);
+		this.noticeDao.deleteById(notice.getNoticeid());
 	}
 
 	@Override

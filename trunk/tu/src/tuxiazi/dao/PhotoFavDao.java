@@ -1,8 +1,7 @@
 package tuxiazi.dao;
 
+import halo.dao.query.BaseDao;
 import tuxiazi.bean.PhotoFav;
-
-import com.hk.frame.dao.query2.BaseDao;
 
 public class PhotoFavDao extends BaseDao<PhotoFav> {
 

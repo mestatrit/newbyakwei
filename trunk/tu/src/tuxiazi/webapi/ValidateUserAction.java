@@ -1,5 +1,8 @@
 package tuxiazi.webapi;
 
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,9 +13,6 @@ import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.User;
 import tuxiazi.svr.iface.UserService;
 import tuxiazi.web.util.APIUtil;
-
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
 
 @Component("/api/validateuser")
 public class ValidateUserAction extends BaseApiAction {

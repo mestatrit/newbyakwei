@@ -1,5 +1,8 @@
 package tuxiazi.web.util;
 
+import halo.util.DataUtil;
+import halo.util.P;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +18,6 @@ import weibo4j.WeiboException;
 import weibo4j.http.AccessToken;
 import weibo4j.http.ImageItem;
 import weibo4j.http.RequestToken;
-
-import com.hk.frame.util.DataUtil;
-import com.hk.frame.util.P;
 
 public class SinaUtil {
 

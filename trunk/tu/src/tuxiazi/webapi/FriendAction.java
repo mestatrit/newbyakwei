@@ -1,5 +1,9 @@
 package tuxiazi.webapi;
 
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
+import halo.web.util.SimplePage;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +18,6 @@ import tuxiazi.svr.iface.FriendService;
 import tuxiazi.svr.iface.UserService;
 import tuxiazi.util.Err;
 import tuxiazi.web.util.APIUtil;
-
-import com.hk.frame.util.page.SimplePage;
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
 
 @Component("/api/friend")
 public class FriendAction extends BaseApiAction {
@@ -38,12 +38,12 @@ public class FriendAction extends BaseApiAction {
 	public String prvcreate(HkRequest req, HkResponse resp) {
 		long uid = req.getLong("uid");
 		if (uid <= 0) {
-			APIUtil.writeErr(req, resp, Err.USER_NOTEXIST);
+			APIUtil.writeErr(resp, Err.USER_NOTEXIST);
 			return null;
 		}
 		User user2 = this.userService.getUser(uid);
 		if (user2 == null) {
-			APIUtil.writeErr(req, resp, Err.USER_NOTEXIST);
+			APIUtil.writeErr(resp, Err.USER_NOTEXIST);
 			return null;
 		}
 		User user = this.getUser(req);
@@ -51,7 +51,7 @@ public class FriendAction extends BaseApiAction {
 		friend.setUserid(user.getUserid());
 		friend.setFriendid(uid);
 		this.friendService.createFriend(friend, true, true);
-		APIUtil.writeSuccess(req, resp);
+		APIUtil.writeSuccess(resp);
 		return null;
 	}
 
@@ -66,7 +66,7 @@ public class FriendAction extends BaseApiAction {
 		long uid = req.getLong("uid");
 		User user = this.getUser(req);
 		this.friendService.deleteFriend(user.getUserid(), uid, true);
-		APIUtil.writeSuccess(req, resp);
+		APIUtil.writeSuccess(resp);
 		return null;
 		// will
 		// long uid = req.getLong("uid");

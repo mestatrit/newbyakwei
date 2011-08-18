@@ -2,7 +2,7 @@ package tuxiazi.svr.test;
 
 import javax.annotation.Resource;
 
-import org.junit.After;
+import org.aspectj.lang.annotation.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -13,7 +13,7 @@ import tuxiazi.bean.Friend;
 import tuxiazi.svr.iface.FriendService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration( { "/applicationContext.xml" })
+@ContextConfiguration({ "/applicationContext.xml" })
 @Transactional
 public class FriendServiceTest {
 

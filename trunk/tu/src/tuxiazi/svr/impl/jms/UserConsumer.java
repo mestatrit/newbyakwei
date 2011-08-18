@@ -1,5 +1,7 @@
 package tuxiazi.svr.impl.jms;
 
+import halo.util.JsonUtil;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +17,6 @@ import tuxiazi.svr.iface.FriendService;
 import tuxiazi.svr.iface.UserService;
 import tuxiazi.web.util.SinaUtil;
 import weibo4j.WeiboException;
-
-import com.hk.frame.util.JsonUtil;
 
 public class UserConsumer {
 

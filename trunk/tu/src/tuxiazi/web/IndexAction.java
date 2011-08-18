@@ -1,9 +1,9 @@
 package tuxiazi.web;
 
-import org.springframework.stereotype.Component;
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
 
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
+import org.springframework.stereotype.Component;
 
 @Component("/index")
 public class IndexAction extends BaseAction {

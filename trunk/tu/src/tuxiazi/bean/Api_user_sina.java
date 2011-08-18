@@ -1,15 +1,16 @@
 package tuxiazi.bean;
 
-import com.hk.frame.dao.annotation.Column;
-import com.hk.frame.dao.annotation.Id;
-import com.hk.frame.dao.annotation.Table;
+import halo.dao.annotation.Column;
+import halo.dao.annotation.Id;
+import halo.dao.annotation.Table;
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 
 /**
  * 新浪用户
  * 
  * @author Administrator
  */
-@Table(name = "api_user_sina")
+@Table(name = "api_user_sina", partitionClass = TuxiaziDbPartitionHelper.class)
 public class Api_user_sina {
 
 	/**

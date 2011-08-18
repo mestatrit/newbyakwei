@@ -1,5 +1,7 @@
 package tuxiazi.svr.impl.jms;
 
+import halo.util.JsonUtil;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,8 +16,6 @@ import tuxiazi.bean.User;
 import tuxiazi.svr.iface.FeedService;
 import tuxiazi.svr.iface.FriendService;
 import tuxiazi.svr.iface.UserService;
-
-import com.hk.frame.util.JsonUtil;
 
 public class FeedConsumer {
 

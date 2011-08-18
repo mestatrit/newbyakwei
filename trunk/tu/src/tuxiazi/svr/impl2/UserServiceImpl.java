@@ -1,5 +1,7 @@
 package tuxiazi.svr.impl2;
 
+import halo.util.NumberUtil;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,8 +25,6 @@ import tuxiazi.svr.impl.jms.JmsMsg;
 import tuxiazi.svr.impl.jms.JsonKey;
 import tuxiazi.web.util.SinaUtil;
 import weibo4j.WeiboException;
-
-import com.hk.frame.util.NumberUtil;
 
 public class UserServiceImpl implements UserService {
 
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
 			this.api_user_sinaDao.delete(null, "userid=?",
 					new Object[] { apiUser.getUserid() });
 		}
-		this.api_userDao.delete(null, apiUser);
+		this.api_userDao.deleteById(apiUser.getOid());
 	}
 
 	@Override

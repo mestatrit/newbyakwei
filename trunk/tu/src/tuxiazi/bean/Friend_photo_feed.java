@@ -1,10 +1,10 @@
 package tuxiazi.bean;
 
-import java.util.Date;
+import halo.dao.annotation.Column;
+import halo.dao.annotation.Id;
+import halo.dao.annotation.Table;
 
-import com.hk.frame.dao.annotation.Column;
-import com.hk.frame.dao.annotation.Id;
-import com.hk.frame.dao.annotation.Table;
+import java.util.Date;
 
 /**
  * 用户关注的人的最近图片动态

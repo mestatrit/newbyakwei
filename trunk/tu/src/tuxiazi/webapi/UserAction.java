@@ -1,5 +1,8 @@
 package tuxiazi.webapi;
 
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,9 +14,6 @@ import tuxiazi.svr.iface.FriendService;
 import tuxiazi.svr.iface.UserService;
 import tuxiazi.util.Err;
 import tuxiazi.web.util.APIUtil;
-
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
 
 @Component("/api/user")
 public class UserAction extends BaseApiAction {

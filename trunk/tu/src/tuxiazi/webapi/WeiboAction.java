@@ -1,5 +1,8 @@
 package tuxiazi.webapi;
 
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,9 +20,6 @@ import tuxiazi.web.util.SinaUtil;
 import weibo4j.Status;
 import weibo4j.User;
 import weibo4j.WeiboException;
-
-import com.hk.frame.web.http.HkRequest;
-import com.hk.frame.web.http.HkResponse;
 
 @Component("/api/weibo")
 public class WeiboAction extends BaseApiAction {
@@ -65,9 +65,8 @@ public class WeiboAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("user", user);
 			APIUtil.writeData(resp, map, "vm/sinauser.vm");
-		}
-		catch (WeiboException e) {
-			APIUtil.writeErr(req, resp, Err.API_NO_SINA_USER);
+		} catch (WeiboException e) {
+			APIUtil.writeErr(resp, Err.API_NO_SINA_USER);
 		}
 		return null;
 	}
@@ -78,9 +77,9 @@ public class WeiboAction extends BaseApiAction {
 		int size = req.getInt("size", 20);
 		int uid = req.getInt("uid");
 		try {
-			List<Status> list = SinaUtil.getWeiboList(uid, apiUserSina
-					.getAccess_token(), apiUserSina.getToken_secret(), page,
-					size);
+			List<Status> list = SinaUtil.getWeiboList(uid,
+					apiUserSina.getAccess_token(),
+					apiUserSina.getToken_secret(), page, size);
 			List<StatusWrapper> wrapperlist = new ArrayList<StatusWrapper>();
 			for (Status o : list) {
 				StatusWrapper wrapper = new StatusWrapper(o);
@@ -89,9 +88,8 @@ public class WeiboAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", wrapperlist);
 			APIUtil.writeData(resp, map, "vm/sinastatus.vm");
-		}
-		catch (WeiboException e) {
-			APIUtil.writeErr(req, resp, Err.API_SINA_ERR);
+		} catch (WeiboException e) {
+			APIUtil.writeErr(resp, Err.API_SINA_ERR);
 		}
 		return null;
 	}
