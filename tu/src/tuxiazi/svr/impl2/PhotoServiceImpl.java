@@ -171,17 +171,11 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	@Override
-	public Photo getPhoto(long photoid) {
-		return this.photoDao.getById(photoid);
-	}
-
-	@Override
 	public Photo getPhoto(long photoid, long favUserid, boolean buildUser) {
 		return this.photoDao.getById(photoid, favUserid, buildUser);
 	}
 
-	@Override
-	public Map<Long, Photo> getPhotoMapInId(List<Long> idList) {
+	private Map<Long, Photo> getPhotoMapInId(List<Long> idList) {
 		if (idList.isEmpty()) {
 			return new HashMap<Long, Photo>();
 		}

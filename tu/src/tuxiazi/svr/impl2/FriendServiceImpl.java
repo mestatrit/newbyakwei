@@ -6,10 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -163,93 +160,5 @@ public class FriendServiceImpl implements FriendService {
 			this.feedService.deleteFriend_photo_feedByUseridAndPhoto_userid(
 					userid, friendid);
 		}
-	}
-
-	@Override
-	public Fans getFansByUseridAndFansid(long userid, long fansid) {
-		return this.fansDao.getByUseridAndFansid(userid, fansid);
-	}
-
-	@Override
-	public List<Long> getFansidListByUserid(long userid) {
-		return this.fansDao.getFansidListByUserid(userid);
-	}
-
-	@Override
-	public Friend getFriendByUseridAndFriendid(long userid, long friendid) {
-		return this.friendDao.getByUseridAndFriendid(userid, friendid);
-	}
-
-	@Override
-	public List<Fans> getFansListByUserid(long userid, boolean buildUser,
-			long relationUserid, int begin, int size) {
-		List<Fans> list = this.fansDao.getListByUserid(userid, begin, size);
-		if (buildUser) {
-			List<Long> idList = new ArrayList<Long>();
-			for (Fans o : list) {
-				idList.add(o.getFansid());
-			}
-			Map<Long, User> usermap = this.userService.getUserMapInId(idList);
-			for (Fans o : list) {
-				o.setFansUser(usermap.get(o.getFansid()));
-			}
-		}
-		if (relationUserid > 0) {
-			List<Long> friendidList = this
-					.getFriendUseridListByUserid(relationUserid);
-			Set<Long> set = new HashSet<Long>();
-			set.addAll(friendidList);
-			for (Fans o : list) {
-				if (set.contains(o.getFansid())) {
-					o.setFriendRef(true);
-				}
-			}
-		}
-		return list;
-	}
-
-	@Override
-	public List<Friend> getFriendListByUserid(long userid, boolean buildUser,
-			long relationUserid, int begin, int size) {
-		List<Friend> list = this.friendDao.getListByUserid(userid, begin, size);
-		if (buildUser) {
-			List<Long> idList = new ArrayList<Long>();
-			for (Friend o : list) {
-				idList.add(o.getFriendid());
-			}
-			Map<Long, User> usermap = this.userService.getUserMapInId(idList);
-			for (Friend o : list) {
-				o.setFriendUser(usermap.get(o.getFriendid()));
-			}
-		}
-		if (relationUserid == userid) {
-			for (Friend o : list) {
-				o.setFriendRef(true);
-			}
-		}
-		else {
-			if (relationUserid > 0) {
-				List<Long> friendidList = this
-						.getFriendUseridListByUserid(relationUserid);
-				Set<Long> set = new HashSet<Long>();
-				set.addAll(friendidList);
-				for (Friend o : list) {
-					if (set.contains(o.getFriendid())) {
-						o.setFriendRef(true);
-					}
-				}
-			}
-		}
-		return list;
-	}
-
-	@Override
-	public List<Long> getFriendUseridListByUserid(long userid) {
-		return this.friendDao.getFriendidListByUserid(userid);
-	}
-
-	@Override
-	public Set<Long> getFriendUseridSetByUserid(long userid) {
-		return new HashSet<Long>(this.getFriendUseridListByUserid(userid));
 	}
 }

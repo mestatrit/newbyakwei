@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import tuxiazi.bean.Fans;
 import tuxiazi.bean.Friend;
 import tuxiazi.bean.User;
+import tuxiazi.dao.FansDao;
+import tuxiazi.dao.FriendDao;
 import tuxiazi.svr.iface.FriendService;
 import tuxiazi.svr.iface.UserService;
 import tuxiazi.util.Err;
@@ -27,6 +29,12 @@ public class FriendAction extends BaseApiAction {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private FriendDao friendDao;
+
+	@Autowired
+	private FansDao fansDao;
 
 	/**
 	 * 创建关注关系
@@ -94,7 +102,7 @@ public class FriendAction extends BaseApiAction {
 		int page = req.getInt("page", 1);
 		int size = req.getInt("size", 20);
 		SimplePage simplePage = new SimplePage(size, page);
-		List<Friend> list = this.friendService.getFriendListByUserid(uid, true,
+		List<Friend> list = this.friendDao.getListByUserid(uid, true,
 				relationUserid, simplePage.getBegin(), simplePage.getSize());
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
@@ -112,7 +120,7 @@ public class FriendAction extends BaseApiAction {
 		int page = req.getInt("page", 1);
 		int size = req.getInt("size", 20);
 		SimplePage simplePage = new SimplePage(size, page);
-		List<Fans> list = this.friendService.getFansListByUserid(uid, true,
+		List<Fans> list = this.fansDao.getListByUserid(uid, true,
 				relationUserid, simplePage.getBegin(), simplePage.getSize());
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);

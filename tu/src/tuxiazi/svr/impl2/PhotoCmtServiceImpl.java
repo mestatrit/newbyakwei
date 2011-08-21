@@ -5,9 +5,7 @@ import halo.util.NumberUtil;
 import halo.util.ResourceConfig;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,6 +19,7 @@ import tuxiazi.bean.User;
 import tuxiazi.bean.helper.noticedata.PhotoCmtNoticeCreater;
 import tuxiazi.dao.PhotoCmtDao;
 import tuxiazi.dao.PhotoCmtidDao;
+import tuxiazi.dao.PhotoDao;
 import tuxiazi.svr.iface.NoticeService;
 import tuxiazi.svr.iface.PhotoCmtService;
 import tuxiazi.svr.iface.PhotoService;
@@ -48,6 +47,9 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 
 	@Autowired
 	private PhotoCmtidDao photoCmtidDao;
+
+	@Autowired
+	private PhotoDao photoDao;
 
 	private Log log = LogFactory.getLog(PhotoCmtServiceImpl.class);
 
@@ -117,7 +119,7 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 
 	@Override
 	public void deletePhotoCmt(PhotoCmt photoCmt) {
-		Photo photo = this.photoService.getPhoto(photoCmt.getPhotoid());
+		Photo photo = this.photoDao.getById(photoCmt.getPhotoid());
 		if (photo != null) {
 			photo.setCmt_num(photo.getCmt_num() - 1);
 			if (photo.getCmt_num() < 0) {
@@ -139,28 +141,5 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 	@Override
 	public void deletePhotoCmtByPhotoid(long photoid) {
 		this.photoCmtDao.deleteByPhotoid(photoid);
-	}
-
-	@Override
-	public PhotoCmt getPhotoCmt(long photoid, long cmtid) {
-		return this.photoCmtDao.getById(cmtid);
-	}
-
-	@Override
-	public List<PhotoCmt> getPhotoCmtListByPhotoid(long photoid,
-			boolean buildUser, int begin, int size) {
-		List<PhotoCmt> list = this.photoCmtDao.getListByPhotoid(photoid, begin,
-				size);
-		if (buildUser) {
-			List<Long> idList = new ArrayList<Long>();
-			for (PhotoCmt o : list) {
-				idList.add(o.getUserid());
-			}
-			Map<Long, User> map = this.userService.getUserMapInId(idList);
-			for (PhotoCmt o : list) {
-				o.setUser(map.get(o.getUserid()));
-			}
-		}
-		return list;
 	}
 }

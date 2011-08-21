@@ -26,8 +26,9 @@ import tuxiazi.bean.PhotoLikeUser;
 import tuxiazi.bean.UploadPhoto;
 import tuxiazi.bean.User;
 import tuxiazi.bean.User_photo;
+import tuxiazi.dao.Friend_photo_feedDao;
+import tuxiazi.dao.PhotoDao;
 import tuxiazi.svr.exception.ImageSizeOutOfLimitException;
-import tuxiazi.svr.iface.FeedService;
 import tuxiazi.svr.iface.PhotoService;
 import tuxiazi.svr.iface.UserService;
 import tuxiazi.util.Err;
@@ -40,10 +41,13 @@ public class PhotoAction extends BaseApiAction {
 	private PhotoService photoService;
 
 	@Autowired
-	private FeedService feedService;
+	private UserService userService;
 
 	@Autowired
-	private UserService userService;
+	private Friend_photo_feedDao friend_photo_feedDao;
+
+	@Autowired
+	private PhotoDao photoDao;
 
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
@@ -74,7 +78,7 @@ public class PhotoAction extends BaseApiAction {
 	public String prvdelete(HkRequest req, HkResponse resp) {
 		User user = this.getUser(req);
 		long photoid = req.getLong("photoid");
-		Photo photo = this.photoService.getPhoto(photoid);
+		Photo photo = this.photoDao.getById(photoid);
 		if (photo == null) {
 			APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
 			return null;
@@ -159,9 +163,8 @@ public class PhotoAction extends BaseApiAction {
 			APIUtil.write(resp, "vm/lasted.vm", context);
 			return null;
 		}
-		List<Friend_photo_feed> list = this.feedService
-				.getFriend_photo_feedListByUserid(user.getUserid(), true,
-						false, 0, 0, 1);
+		List<Friend_photo_feed> list = this.friend_photo_feedDao
+				.getListByUserid(user.getUserid(), true, false, 0, 0, 1);
 		if (list.size() > 0) {
 			VelocityContext context = new VelocityContext();
 			context.put("errcode", Err.SUCCESS);
@@ -193,9 +196,9 @@ public class PhotoAction extends BaseApiAction {
 		int size = req.getInt("size", 1);
 		try {
 			SimplePage simplePage = new SimplePage(size, page);
-			List<Friend_photo_feed> list = this.feedService
-					.getFriend_photo_feedListByUserid(user.getUserid(), true,
-							true, user.getUserid(), simplePage.getBegin(),
+			List<Friend_photo_feed> list = this.friend_photo_feedDao
+					.getListByUserid(user.getUserid(), true, true,
+							user.getUserid(), simplePage.getBegin(),
 							simplePage.getSize());
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
@@ -254,7 +257,7 @@ public class PhotoAction extends BaseApiAction {
 	public String prvlike(HkRequest req, HkResponse resp) {
 		User user = this.getUser(req);
 		long photoid = req.getLong("photoid");
-		Photo photo = this.photoService.getPhoto(photoid);
+		Photo photo = this.photoDao.getById(photoid);
 		if (photo == null) {
 			APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
 			return null;
@@ -274,7 +277,7 @@ public class PhotoAction extends BaseApiAction {
 	public String prvdellike(HkRequest req, HkResponse resp) {
 		User user = this.getUser(req);
 		long photoid = req.getLong("photoid");
-		Photo photo = this.photoService.getPhoto(photoid);
+		Photo photo = this.photoDao.getById(photoid);
 		if (photo != null) {
 			this.photoService.deletePhotoUserLike(user.getUserid(), photo);
 		}
