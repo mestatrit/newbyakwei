@@ -18,10 +18,10 @@ import tuxiazi.bean.User_photo;
 import tuxiazi.bean.helper.noticedata.FollowNoticeCreater;
 import tuxiazi.dao.FansDao;
 import tuxiazi.dao.FriendDao;
+import tuxiazi.dao.User_photoDao;
 import tuxiazi.svr.iface.FeedService;
 import tuxiazi.svr.iface.FriendService;
 import tuxiazi.svr.iface.NoticeService;
-import tuxiazi.svr.iface.PhotoService;
 import tuxiazi.svr.iface.UserService;
 
 public class FriendServiceImpl implements FriendService {
@@ -33,9 +33,6 @@ public class FriendServiceImpl implements FriendService {
 	private NoticeService noticeService;
 
 	@Autowired
-	private PhotoService photoService;
-
-	@Autowired
 	private FeedService feedService;
 
 	@Autowired
@@ -43,6 +40,9 @@ public class FriendServiceImpl implements FriendService {
 
 	@Autowired
 	private FansDao fansDao;
+
+	@Autowired
+	private User_photoDao user_photoDao;
 
 	private Comparator<User_photo> comparator = new Comparator<User_photo>() {
 
@@ -109,9 +109,8 @@ public class FriendServiceImpl implements FriendService {
 		}
 		if (getPhoto) {
 			// 获取被关注人的10张图片
-			List<User_photo> photolist = this.photoService
-					.getUser_photoListByUserid(friend.getFriendid(), false, 0,
-							0, 10);
+			List<User_photo> photolist = this.user_photoDao.getListByUserid(
+					friend.getFriendid(), false, 0, 0, 10);
 			// 按照photid排序(正序)从小到大
 			Collections.sort(photolist, comparator);
 			List<Friend_photo_feed> friendPhotoFeeds = new ArrayList<Friend_photo_feed>();

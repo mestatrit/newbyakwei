@@ -9,11 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,7 +25,6 @@ import tuxiazi.bean.PhotoLikeUser;
 import tuxiazi.bean.PhotoUserLike;
 import tuxiazi.bean.UploadPhoto;
 import tuxiazi.bean.User;
-import tuxiazi.bean.User_photo;
 import tuxiazi.bean.benum.NoticeEnum;
 import tuxiazi.bean.benum.NoticeReadEnum;
 import tuxiazi.bean.helper.noticedata.PhotoLikeNoticeCreater;
@@ -171,65 +166,8 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	@Override
-	public Photo getPhoto(long photoid, long favUserid, boolean buildUser) {
-		return this.photoDao.getById(photoid, favUserid, buildUser);
-	}
-
-	private Map<Long, Photo> getPhotoMapInId(List<Long> idList) {
-		if (idList.isEmpty()) {
-			return new HashMap<Long, Photo>();
-		}
-		Map<Long, Photo> map = new HashMap<Long, Photo>();
-		List<Photo> list = this.photoDao.getListInId(idList);
-		for (Photo o : list) {
-			map.put(o.getPhotoid(), o);
-		}
-		return map;
-	}
-
-	@Override
-	public List<User_photo> getUser_photoListByUserid(long userid,
-			boolean buildPhoto, long favUserid, int begin, int size) {
-		List<User_photo> list = this.user_photoDao.getListByUserid(userid,
-				begin, size);
-		if (buildPhoto) {
-			List<Long> idList = new ArrayList<Long>();
-			for (User_photo o : list) {
-				idList.add(o.getPhotoid());
-			}
-			Map<Long, Photo> map = this.getPhotoMapInId(idList);
-			for (User_photo o : list) {
-				o.setPhoto(map.get(o.getPhotoid()));
-			}
-		}
-		if (favUserid > 0 && favUserid != userid) {
-			List<PhotoUserLike> photoUserLikes = this.photoUserLikeDao
-					.getListByUserid(favUserid, begin, -1);
-			Set<Long> photoidset = new HashSet<Long>();
-			for (PhotoUserLike o : photoUserLikes) {
-				photoidset.add(o.getPhotoid());
-			}
-			for (User_photo o : list) {
-				if (photoidset.contains(o.getPhotoid())) {
-					if (o.getPhoto() != null) {
-						o.getPhoto().setOpliked(true);
-					}
-				}
-			}
-		}
-		return list;
-	}
-
-	@Override
 	public void updatePhoto(Photo photo) {
 		photo.update();
-	}
-
-	@Override
-	public List<Lasted_photo> getLasted_photoList(boolean buildPhoto,
-			boolean buildPhotoUser, long favUserid, int begin, int size) {
-		return this.lasted_photoDao.getList(buildPhoto, buildPhotoUser,
-				favUserid, begin, size);
 	}
 
 	@Override

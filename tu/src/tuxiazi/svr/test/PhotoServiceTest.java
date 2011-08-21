@@ -10,8 +10,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,8 +38,6 @@ public class PhotoServiceTest {
 
 	@Resource
 	private UserService userService;
-
-	private Log log = LogFactory.getLog(PhotoServiceTest.class);
 
 	private UploadPhotoResult uploadPhotoResult;
 
@@ -75,17 +71,6 @@ public class PhotoServiceTest {
 		catch (IOException e) {
 			Assert.fail(e.getMessage());
 		}
-	}
-
-	@Test
-	public void getLasted() {
-		// this.photoService.getLasted_photoList(true, false, 2, 0, 1);
-		long begin = System.currentTimeMillis();
-		for (int i = 0; i < 10000; i++) {
-			this.photoService.getLasted_photoList(true, false, 0, 0, 1);
-		}
-		long end = System.currentTimeMillis();
-		log.info("time [ " + (end - begin) + " ]");
 	}
 
 	@Test
