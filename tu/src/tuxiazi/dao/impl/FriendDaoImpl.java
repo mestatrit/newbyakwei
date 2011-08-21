@@ -8,10 +8,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.Friend;
 import tuxiazi.dao.FriendDao;
 
+@Component("friendDao")
 public class FriendDaoImpl extends BaseDao<Friend> implements FriendDao {
 
 	@Override

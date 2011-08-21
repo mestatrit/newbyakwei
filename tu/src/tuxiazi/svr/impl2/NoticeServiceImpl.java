@@ -3,6 +3,8 @@ package tuxiazi.svr.impl2;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import tuxiazi.bean.Notice;
 import tuxiazi.bean.benum.NoticeEnum;
 import tuxiazi.bean.benum.NoticeReadEnum;
@@ -11,11 +13,8 @@ import tuxiazi.svr.iface.NoticeService;
 
 public class NoticeServiceImpl implements NoticeService {
 
+	@Autowired
 	private NoticeDao noticeDao;
-
-	public void setNoticeDao(NoticeDao noticeDao) {
-		this.noticeDao = noticeDao;
-	}
 
 	@Override
 	public void createNotice(Notice notice) {

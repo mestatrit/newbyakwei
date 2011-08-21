@@ -8,10 +8,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.Fans;
 import tuxiazi.dao.FansDao;
 
+@Component("fansDao")
 public class FansDaoImpl extends BaseDao<Fans> implements FansDao {
 
 	@Override

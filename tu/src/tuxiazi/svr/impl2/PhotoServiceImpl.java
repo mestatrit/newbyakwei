@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.Friend_photo_feed;
@@ -52,39 +53,42 @@ import weibo4j.WeiboException;
 
 public class PhotoServiceImpl implements PhotoService {
 
+	@Autowired
 	private FileCnf fileCnf;
 
-	private int lasted_photo_max_count;
+	private int lasted_photo_max_count = 100;
 
+	@Autowired
 	private PhotoDao photoDao;
 
+	@Autowired
 	private FeedService feedService;
 
+	@Autowired
 	private HkMsgProducer hkMsgProducer;
 
+	@Autowired
 	private User_photoDao user_photoDao;
 
+	@Autowired
 	private Lasted_photoDao lasted_photoDao;
 
+	@Autowired
 	private HotPhotoDao hotPhotoDao;
 
+	@Autowired
 	private PhotoUserLikeDao photoUserLikeDao;
 
+	@Autowired
 	private PhotoLikeUserDao photoLikeUserDao;
 
+	@Autowired
 	private NoticeDao noticeDao;
 
+	@Autowired
 	private PhotoCmtDao photoCmtDao;
 
 	private final Log log = LogFactory.getLog(PhotoServiceImpl.class);
-
-	public void setLasted_photo_max_count(int lastedPhotoMaxCount) {
-		lasted_photo_max_count = lastedPhotoMaxCount;
-	}
-
-	public void setFileCnf(FileCnf fileCnf) {
-		this.fileCnf = fileCnf;
-	}
 
 	@Override
 	public Photo createPhoto(UploadPhoto uploadPhoto, boolean withweibo,

@@ -9,11 +9,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.PhotoLikeUser;
 import tuxiazi.bean.User;
 import tuxiazi.dao.PhotoLikeUserDao;
 
+@Component("photoLikeUserDao")
 public class PhotoLikeUserDaoImpl extends BaseDao<PhotoLikeUser> implements
 		PhotoLikeUserDao {
 

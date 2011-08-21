@@ -4,9 +4,12 @@ import halo.dao.query.BaseDao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import tuxiazi.bean.PhotoCmt;
 import tuxiazi.dao.PhotoCmtDao;
 
+@Component("photoCmtDao")
 public class PhotoCmtDaoImpl extends BaseDao<PhotoCmt> implements PhotoCmtDao {
 
 	@Override
