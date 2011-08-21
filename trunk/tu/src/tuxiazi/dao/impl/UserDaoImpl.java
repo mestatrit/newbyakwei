@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.User;
 import tuxiazi.bean.Userid;
 import tuxiazi.dao.UserDao;
 
+@Component("userDao")
 public class UserDaoImpl extends BaseDao<User> implements UserDao {
 
 	@Autowired

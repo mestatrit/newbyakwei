@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.Friend_photo_feed;
 import tuxiazi.bean.Photo;
@@ -17,6 +18,7 @@ import tuxiazi.bean.PhotoUserLike;
 import tuxiazi.bean.User;
 import tuxiazi.dao.Friend_photo_feedDao;
 
+@Component("friend_photo_feedDao")
 public class Friend_photo_feedDaoImpl extends BaseDao<Friend_photo_feed>
 		implements Friend_photo_feedDao {
 

@@ -29,12 +29,16 @@ import tuxiazi.svr.iface.UserService;
 
 public class FriendServiceImpl implements FriendService {
 
+	@Autowired
 	private UserService userService;
 
+	@Autowired
 	private NoticeService noticeService;
 
+	@Autowired
 	private PhotoService photoService;
 
+	@Autowired
 	private FeedService feedService;
 
 	@Autowired

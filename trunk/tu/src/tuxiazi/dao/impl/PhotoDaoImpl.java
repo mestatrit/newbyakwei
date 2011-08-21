@@ -8,12 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.Photo;
 import tuxiazi.bean.PhotoUserLike;
 import tuxiazi.bean.Photoid;
 import tuxiazi.dao.PhotoDao;
 
+@Component("photoDao")
 public class PhotoDaoImpl extends BaseDao<Photo> implements PhotoDao {
 
 	@Autowired

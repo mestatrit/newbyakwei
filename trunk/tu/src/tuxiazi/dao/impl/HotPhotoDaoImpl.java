@@ -4,10 +4,13 @@ import halo.dao.query.BaseDao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import tuxiazi.bean.HotPhoto;
 import tuxiazi.dao.HotPhotoDao;
 
-public class HotPhotoDaoImpl extends BaseDao<HotPhoto> implements HotPhotoDao{
+@Component("hotPhotoDao")
+public class HotPhotoDaoImpl extends BaseDao<HotPhoto> implements HotPhotoDao {
 
 	@Override
 	public Class<HotPhoto> getClazz() {

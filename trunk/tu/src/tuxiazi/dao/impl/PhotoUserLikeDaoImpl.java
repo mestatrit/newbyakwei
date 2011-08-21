@@ -4,9 +4,12 @@ import halo.dao.query.BaseDao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import tuxiazi.bean.PhotoUserLike;
 import tuxiazi.dao.PhotoUserLikeDao;
 
+@Component("photoUserLikeDao")
 public class PhotoUserLikeDaoImpl extends BaseDao<PhotoUserLike> implements
 		PhotoUserLikeDao {
 

@@ -1,10 +1,14 @@
 package tuxiazi.dao.impl;
 
 import halo.dao.query.BaseDao;
+
+import org.springframework.stereotype.Component;
+
 import tuxiazi.bean.Notice;
 import tuxiazi.bean.benum.NoticeReadEnum;
 import tuxiazi.dao.NoticeDao;
 
+@Component("noticeDao")
 public class NoticeDaoImpl extends BaseDao<Notice> implements NoticeDao {
 
 	@Override

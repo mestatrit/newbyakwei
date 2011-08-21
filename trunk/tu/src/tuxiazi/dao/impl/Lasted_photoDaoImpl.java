@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.Lasted_photo;
 import tuxiazi.bean.Photo;
@@ -17,6 +18,7 @@ import tuxiazi.bean.PhotoUserLike;
 import tuxiazi.bean.User;
 import tuxiazi.dao.Lasted_photoDao;
 
+@Component("lasted_photoDao")
 public class Lasted_photoDaoImpl extends BaseDao<Lasted_photo> implements
 		Lasted_photoDao {
 

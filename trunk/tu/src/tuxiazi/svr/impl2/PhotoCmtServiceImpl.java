@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.Photo;
@@ -30,41 +31,23 @@ import weibo4j.WeiboException;
 
 public class PhotoCmtServiceImpl implements PhotoCmtService {
 
+	@Autowired
 	private UserService userService;
 
+	@Autowired
 	private PhotoService photoService;
 
+	@Autowired
 	private FileCnf fileCnf;
 
+	@Autowired
 	private NoticeService noticeService;
 
+	@Autowired
 	private PhotoCmtDao photoCmtDao;
 
+	@Autowired
 	private PhotoCmtidDao photoCmtidDao;
-
-	public void setPhotoCmtDao(PhotoCmtDao photoCmtDao) {
-		this.photoCmtDao = photoCmtDao;
-	}
-
-	public void setPhotoCmtidDao(PhotoCmtidDao photoCmtidDao) {
-		this.photoCmtidDao = photoCmtidDao;
-	}
-
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
-
-	public void setPhotoService(PhotoService photoService) {
-		this.photoService = photoService;
-	}
-
-	public void setFileCnf(FileCnf fileCnf) {
-		this.fileCnf = fileCnf;
-	}
-
-	public void setNoticeService(NoticeService noticeService) {
-		this.noticeService = noticeService;
-	}
 
 	private Log log = LogFactory.getLog(PhotoCmtServiceImpl.class);
 
