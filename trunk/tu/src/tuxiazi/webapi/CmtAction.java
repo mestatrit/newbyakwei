@@ -16,8 +16,9 @@ import org.springframework.stereotype.Component;
 import tuxiazi.bean.Photo;
 import tuxiazi.bean.PhotoCmt;
 import tuxiazi.bean.User;
+import tuxiazi.dao.PhotoCmtDao;
+import tuxiazi.dao.PhotoDao;
 import tuxiazi.svr.iface.PhotoCmtService;
-import tuxiazi.svr.iface.PhotoService;
 import tuxiazi.util.Err;
 import tuxiazi.web.util.APIUtil;
 
@@ -28,12 +29,15 @@ public class CmtAction extends BaseApiAction {
 	private PhotoCmtService photoCmtService;
 
 	@Autowired
-	private PhotoService photoService;
+	private PhotoCmtDao photoCmtDao;
+
+	@Autowired
+	private PhotoDao photoDao;
 
 	public String prvcreate(HkRequest req, HkResponse resp) {
 		User user = this.getUser(req);
 		long photoid = req.getLong("photoid");
-		Photo photo = this.photoService.getPhoto(photoid);
+		Photo photo = this.photoDao.getById(photoid);
 		if (photo == null) {
 			APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
 			return null;
@@ -61,8 +65,7 @@ public class CmtAction extends BaseApiAction {
 	public String prvdelete(HkRequest req, HkResponse resp) {
 		User user = this.getUser(req);
 		long cmtid = req.getLong("cmtid");
-		long photoid = req.getLong("photoid");
-		PhotoCmt photoCmt = this.photoCmtService.getPhotoCmt(photoid, cmtid);
+		PhotoCmt photoCmt = this.photoCmtDao.getById(cmtid);
 		if (photoCmt == null) {
 			APIUtil.writeErr(resp, Err.PHOTOCMT_NOTEXIST);
 			return null;
@@ -90,8 +93,8 @@ public class CmtAction extends BaseApiAction {
 		int page = req.getInt("page", 1);
 		int size = req.getInt("size", 10);
 		SimplePage simplePage = new SimplePage(size, page);
-		List<PhotoCmt> list = this.photoCmtService.getPhotoCmtListByPhotoid(
-				photoid, true, simplePage.getBegin(), simplePage.getSize());
+		List<PhotoCmt> list = this.photoCmtDao.getListByPhotoid(photoid, true,
+				simplePage.getBegin(), simplePage.getSize());
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
 		APIUtil.writeData(resp, map, "vm/photocmtlist.vm");

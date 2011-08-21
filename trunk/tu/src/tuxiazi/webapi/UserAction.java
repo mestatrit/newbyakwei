@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.User;
-import tuxiazi.svr.iface.FriendService;
+import tuxiazi.dao.FriendDao;
 import tuxiazi.svr.iface.UserService;
 import tuxiazi.util.Err;
 import tuxiazi.web.util.APIUtil;
@@ -22,7 +22,7 @@ public class UserAction extends BaseApiAction {
 	private UserService userService;
 
 	@Autowired
-	private FriendService friendService;
+	private FriendDao friendDao;
 
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
@@ -37,8 +37,8 @@ public class UserAction extends BaseApiAction {
 		boolean isfriend = false;
 		User loginUser = this.getUser(req);
 		if (loginUser != null && loginUser.getUserid() != uid) {
-			if (this.friendService.getFriendByUseridAndFriendid(
-					loginUser.getUserid(), uid) != null) {
+			if (this.friendDao.getByUseridAndFriendid(loginUser.getUserid(),
+					uid) != null) {
 				isfriend = true;
 			}
 		}

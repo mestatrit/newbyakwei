@@ -5,16 +5,26 @@ import halo.dao.query.QueryParam;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.Friend;
+import tuxiazi.bean.User;
 import tuxiazi.dao.FriendDao;
+import tuxiazi.dao.UserDao;
 
 @Component("friendDao")
 public class FriendDaoImpl extends BaseDao<Friend> implements FriendDao {
+
+	@Autowired
+	private UserDao userDao;
 
 	@Override
 	public Class<Friend> getClazz() {
@@ -53,5 +63,40 @@ public class FriendDaoImpl extends BaseDao<Friend> implements FriendDao {
 				return rs.getLong("fansid");
 			}
 		});
+	}
+
+	@Override
+	public List<Friend> getListByUserid(long userid, boolean buildUser,
+			long relationUserid, int begin, int size) {
+		List<Friend> list = this.getListByUserid(relationUserid, begin, size);
+		if (buildUser) {
+			List<Long> idList = new ArrayList<Long>();
+			for (Friend o : list) {
+				idList.add(o.getFriendid());
+			}
+			Map<Long, User> usermap = this.userDao.getMapInId(idList);
+			for (Friend o : list) {
+				o.setFriendUser(usermap.get(o.getFriendid()));
+			}
+		}
+		if (relationUserid == userid) {
+			for (Friend o : list) {
+				o.setFriendRef(true);
+			}
+		}
+		else {
+			if (relationUserid > 0) {
+				List<Long> friendidList = this
+						.getFriendidListByUserid(relationUserid);
+				Set<Long> set = new HashSet<Long>();
+				set.addAll(friendidList);
+				for (Friend o : list) {
+					if (set.contains(o.getFriendid())) {
+						o.setFriendRef(true);
+					}
+				}
+			}
+		}
+		return list;
 	}
 }

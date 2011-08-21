@@ -49,12 +49,4 @@ public class FeedServiceImpl implements FeedService {
 		this.friend_photo_feedDao.deleteByUseridAndPhotoUserid(userid,
 				photo_userid);
 	}
-
-	@Override
-	public List<Friend_photo_feed> getFriend_photo_feedListByUserid(
-			long userid, boolean buildPhoto, boolean buildPhotoUser,
-			long favUserid, int begin, int size) {
-		return this.friend_photo_feedDao.getListByUserid(userid, buildPhoto,
-				buildPhotoUser, favUserid, begin, size);
-	}
 }

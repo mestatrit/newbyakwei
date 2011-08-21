@@ -98,10 +98,4 @@ public class PhotoServiceTest {
 			}
 		}
 	}
-
-	@Test
-	public void deletePhotoUserLike() {
-		Photo photo = this.photoService.getPhoto(31);
-		this.photoService.deletePhotoUserLike(userid2, photo);
-	}
 }

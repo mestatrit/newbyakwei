@@ -4,7 +4,6 @@ import halo.util.image.ImageException;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.HotPhoto;
@@ -41,27 +40,11 @@ public interface PhotoService {
 	 * 获得图片
 	 * 
 	 * @param photoid
-	 * @return
-	 */
-	Photo getPhoto(long photoid);
-
-	/**
-	 * 获得图片
-	 * 
-	 * @param photoid
 	 * @param favUserid
 	 * @param buildUser
 	 * @return
 	 */
 	Photo getPhoto(long photoid, long favUserid, boolean buildUser);
-
-	/**
-	 * 根据图片id 获得图片集合
-	 * 
-	 * @param idList
-	 * @return
-	 */
-	Map<Long, Photo> getPhotoMapInId(List<Long> idList);
 
 	/**
 	 * @param userid
