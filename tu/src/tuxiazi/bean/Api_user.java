@@ -3,6 +3,9 @@ package tuxiazi.bean;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
+import halo.util.HaloUtil;
+import halo.util.NumberUtil;
+import tuxiazi.dao.Api_userDao;
 
 /**
  * 用户所授权的第三方网站api信息
@@ -11,6 +14,19 @@ import halo.dao.annotation.Table;
  */
 @Table(name = "api_user")
 public class Api_user {
+
+	public Api_user() {
+	}
+
+	public Api_user(long userid, int api_type) {
+		this.userid = userid;
+		this.api_type = api_type;
+	}
+
+	public void save() {
+		Api_userDao dao = (Api_userDao) HaloUtil.getBean("api_userDao");
+		this.oid = NumberUtil.getLong(dao.save(this));
+	}
 
 	/**
 	 * 新浪授权

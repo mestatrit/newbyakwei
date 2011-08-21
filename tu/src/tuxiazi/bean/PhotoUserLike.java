@@ -3,6 +3,10 @@ package tuxiazi.bean;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
+import halo.util.HaloUtil;
+import halo.util.NumberUtil;
+import tuxiazi.dao.PhotoLikeUserDao;
+import tuxiazi.dao.PhotoUserLikeDao;
 
 /**
  * 用户喜欢的图片
@@ -53,5 +57,35 @@ public class PhotoUserLike {
 
 	public void setUserid(long userid) {
 		this.userid = userid;
+	}
+
+	public void save(long userid, long photoid) {
+		PhotoLikeUserDao photoLikeUserDao = (PhotoLikeUserDao) HaloUtil
+				.getBean("photoLikeUserDao");
+		this.userid = userid;
+		this.photoid = photoid;
+		this.save();
+		if (photoLikeUserDao.getByUseridAndPhotoid(this.userid, this.photoid) != null) {
+			return;
+		}
+		PhotoLikeUser photoLikeUser = new PhotoLikeUser();
+		photoLikeUser.setUserid(this.userid);
+		photoLikeUser.setPhotoid(this.photoid);
+		photoLikeUserDao.save(photoLikeUser);
+	}
+
+	public void delete() {
+		PhotoUserLikeDao dao = (PhotoUserLikeDao) HaloUtil
+				.getBean("photoUserLikeDao");
+		dao.deleteByUseridAndPhotoid(userid, photoid);
+		PhotoLikeUserDao photoLikeUserDao = (PhotoLikeUserDao) HaloUtil
+				.getBean("photoLikeUserDao");
+		photoLikeUserDao.deleteByUseridAndPhotoid(userid, photoid);
+	}
+
+	private void save() {
+		PhotoUserLikeDao dao = (PhotoUserLikeDao) HaloUtil
+				.getBean("photoUserLikeDao");
+		this.oid = NumberUtil.getLong(dao.save(this));
 	}
 }

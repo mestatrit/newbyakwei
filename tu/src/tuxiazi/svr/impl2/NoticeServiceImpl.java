@@ -22,17 +22,7 @@ public class NoticeServiceImpl implements NoticeService {
 		if (notice.getCreatetime() == null) {
 			notice.setCreatetime(new Date());
 		}
-		if (notice.getNotice_flg() == NoticeEnum.ADD_PHOTOLIKE.getValue()) {
-			Notice notice2 = this.noticeDao.getObject(null,
-					"userid=? and notice_flg=? and refoid=?", new Object[] {
-							notice.getUserid(), notice.getNotice_flg(),
-							notice.getRefoid() }, "noticeid desc");
-			if (notice2 != null) {
-				notice.setReadflg(notice2.getReadflg());
-				this.deleteNotice(notice2);
-			}
-		}
-		this.noticeDao.save(null, notice);
+		this.noticeDao.save(notice);
 	}
 
 	@Override
@@ -42,41 +32,40 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public Notice getNotice(long noticeid) {
-		return this.noticeDao.getById(null, noticeid);
+		return this.noticeDao.getById(noticeid);
 	}
 
 	@Override
 	public List<Notice> getNoticeListByUserid(long userid, int begin, int size) {
-		return this.noticeDao.getList(null, "userid=?",
-				new Object[] { userid }, "noticeid desc", begin, size);
+		return this.noticeDao.getList("userid=?", new Object[] { userid },
+				"noticeid desc", begin, size);
 	}
 
 	@Override
 	public int countNoticeByUseridAndNotice_flgForUnread(long userid,
 			NoticeEnum noticeEnum) {
-		return this.noticeDao.count(null,
-				"userid=? and notice_flg=? and readflg=?", new Object[] {
-						userid, noticeEnum.getValue(),
+		return this.noticeDao.count("userid=? and notice_flg=? and readflg=?",
+				new Object[] { userid, noticeEnum.getValue(),
 						NoticeReadEnum.UNREAD.getValue() });
 	}
 
 	@Override
 	public int countNoticeByUseridForUnread(long userid) {
-		return this.noticeDao.count(null, "userid=? and readflg=?",
-				new Object[] { userid, NoticeReadEnum.UNREAD.getValue() });
+		return this.noticeDao.count("userid=? and readflg=?", new Object[] {
+				userid, NoticeReadEnum.UNREAD.getValue() });
 	}
 
 	@Override
 	public List<Notice> getNoticeListByUseridAndReadflg(long userid,
 			NoticeReadEnum noticeReadEnum, int begin, int size) {
-		return this.noticeDao.getList(null, "userid=? and readflg=?",
-				new Object[] { userid, noticeReadEnum.getValue() },
-				"noticeid desc", begin, size);
+		return this.noticeDao.getList("userid=? and readflg=?", new Object[] {
+				userid, noticeReadEnum.getValue() }, "noticeid desc", begin,
+				size);
 	}
 
 	@Override
 	public void setNoticeReaded(long noticeid) {
-		this.noticeDao.updateBySQL(null, "readflg=?", "noticeid=?",
+		this.noticeDao.updateBySQL("readflg=?", "noticeid=?",
 				new Object[] { noticeid });
 	}
 }

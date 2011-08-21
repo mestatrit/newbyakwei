@@ -1,12 +1,9 @@
 package tuxiazi.dao;
 
-import halo.dao.query.BaseDao;
+import halo.dao.query.IDao;
 import tuxiazi.bean.Api_user;
 
-public class Api_userDao extends BaseDao<Api_user> {
+public interface Api_userDao extends IDao<Api_user> {
 
-	@Override
-	public Class<Api_user> getClazz() {
-		return Api_user.class;
-	}
+	public Api_user getByUseridAndApi_type(long userid, int apiType);
 }

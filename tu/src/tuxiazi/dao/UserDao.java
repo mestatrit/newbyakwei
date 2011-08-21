@@ -1,17 +1,17 @@
 package tuxiazi.dao;
 
-import halo.dao.query.BaseDao;
+import halo.dao.query.IDao;
+
+import java.util.List;
+import java.util.Map;
+
 import tuxiazi.bean.User;
 
-public class UserDao extends BaseDao<User> {
+public interface UserDao extends IDao<User> {
 
-	@Override
-	public Class<User> getClazz() {
-		return User.class;
-	}
+	public int addPi_num(long userid, int add);
 
-	public int addPi_num(Object keyValue, long userid, int add) {
-		return this.updateBySQL(keyValue, "pic_num=pic_num+?", "userid=?",
-				new Object[] { userid, add });
-	}
+	public Map<Long, User> getMapInId(List<Long> idList);
+
+	public List<User> getListInId(List<Long> idList);
 }

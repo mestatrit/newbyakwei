@@ -73,11 +73,11 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 		if (photo == null) {
 			return;
 		}
-		long cmtid = NumberUtil.getLong(this.photoCmtidDao.save(null,
-				new PhotoCmtid()));
+		long cmtid = NumberUtil.getLong(this.photoCmtidDao
+				.save(new PhotoCmtid()));
 		photoCmt.setCmtid(cmtid);
 		photoCmt.setUser(user);
-		this.photoCmtDao.save(null, photoCmt);
+		this.photoCmtDao.save(photoCmt);
 		photo.setCmt_num(photo.getCmt_num() + 1);
 		List<PhotoCmt> list = photo.getCmtList();
 		list.add(0, photoCmt);
@@ -90,8 +90,6 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 			photoCmtNoticeCreater.setCmtid(cmtid);
 			photoCmtNoticeCreater.setPhotoid(photo.getPhotoid());
 			photoCmtNoticeCreater.setSenderid(photoCmt.getUserid());
-			photoCmtNoticeCreater.setSender_nick(user.getNick());
-			photoCmtNoticeCreater.setSender_head(user.getHead_path());
 			photoCmtNoticeCreater.setContent(photoCmt.getContent());
 			this.noticeService
 					.createNotice(photoCmtNoticeCreater.buildNotice());
@@ -112,9 +110,8 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 					content = "针对自己 的图片评论道：“"
 							+ DataUtil.toText(photoCmt.getContent())
 							+ "” "
-							+ ResourceConfig.getText("photourl", photo
-									.getPhotoid()
-									+ "");
+							+ ResourceConfig.getText("photourl",
+									photo.getPhotoid() + "");
 				}
 				else {
 					content = "针对 @"
@@ -122,9 +119,8 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 							+ " 的图片评论道：“"
 							+ DataUtil.toText(photoCmt.getContent())
 							+ "” "
-							+ ResourceConfig.getText("photourl", photo
-									.getPhotoid()
-									+ "");
+							+ ResourceConfig.getText("photourl",
+									photo.getPhotoid() + "");
 				}
 				SinaUtil.updateStatus(apiUserSina.getAccess_token(),
 						apiUserSina.getToken_secret(), content, imgFile);
@@ -154,26 +150,24 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 			photo.buildRecentCmtData(list);
 			this.photoService.updatePhoto(photo);
 		}
-		this.photoCmtDao.delete(null, "cmtid=? and photoid=?", new Object[] {
-				photoCmt.getCmtid(), photoCmt.getPhotoid() });
+		this.photoCmtDao.deleteById(photoCmt.getCmtid());
 	}
 
 	@Override
 	public void deletePhotoCmtByPhotoid(long photoid) {
-		this.photoCmtDao.delete(null, "photoid=?", new Object[] { photoid });
+		this.photoCmtDao.deleteByPhotoid(photoid);
 	}
 
 	@Override
 	public PhotoCmt getPhotoCmt(long photoid, long cmtid) {
-		return this.photoCmtDao.getObject(null, "photoid=? and cmtid=?",
-				new Object[] { photoid, cmtid });
+		return this.photoCmtDao.getById(cmtid);
 	}
 
 	@Override
 	public List<PhotoCmt> getPhotoCmtListByPhotoid(long photoid,
 			boolean buildUser, int begin, int size) {
-		List<PhotoCmt> list = this.photoCmtDao.getList(null, "photoid=?",
-				new Object[] { photoid }, "cmtid desc", begin, size);
+		List<PhotoCmt> list = this.photoCmtDao.getListByPhotoid(photoid, begin,
+				size);
 		if (buildUser) {
 			List<Long> idList = new ArrayList<Long>();
 			for (PhotoCmt o : list) {

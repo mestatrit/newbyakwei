@@ -1,12 +1,7 @@
 package tuxiazi.dao;
 
-import halo.dao.query.BaseDao;
+import halo.dao.query.IDao;
 import tuxiazi.bean.PhotoCmtid;
 
-public class PhotoCmtidDao extends BaseDao<PhotoCmtid> {
-
-	@Override
-	public Class<PhotoCmtid> getClazz() {
-		return PhotoCmtid.class;
-	}
+public interface PhotoCmtidDao extends IDao<PhotoCmtid> {
 }

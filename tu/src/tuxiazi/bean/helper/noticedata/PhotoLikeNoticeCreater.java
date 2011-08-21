@@ -1,9 +1,6 @@
 package tuxiazi.bean.helper.noticedata;
 
-import halo.util.JsonUtil;
-
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import tuxiazi.bean.Notice;
@@ -16,10 +13,6 @@ public class PhotoLikeNoticeCreater implements NoticeCreater {
 
 	private long senderid;
 
-	private String sender_nick;
-
-	private String sender_head;
-
 	private long photoid;
 
 	public void setUserid(long userid) {
@@ -28,14 +21,6 @@ public class PhotoLikeNoticeCreater implements NoticeCreater {
 
 	public void setSenderid(long senderid) {
 		this.senderid = senderid;
-	}
-
-	public void setSender_nick(String senderNick) {
-		sender_nick = senderNick;
-	}
-
-	public void setSender_head(String senderHead) {
-		sender_head = senderHead;
 	}
 
 	public void setPhotoid(long photoid) {
@@ -50,12 +35,8 @@ public class PhotoLikeNoticeCreater implements NoticeCreater {
 		notice.setNotice_flg(NoticeEnum.ADD_PHOTOLIKE.getValue());
 		notice.setReadflg(NoticeReadEnum.UNREAD.getValue());
 		notice.setRefoid(this.photoid);
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("senderid", String.valueOf(this.senderid));
-		map.put("nick", this.sender_nick);
-		map.put("head", this.sender_head);
-		map.put("photoid", String.valueOf(this.photoid));
-		notice.setData(JsonUtil.toJson(map));
+		notice.setSenderid(this.senderid);
+		notice.setData("");
 		return notice;
 	}
 
@@ -63,8 +44,6 @@ public class PhotoLikeNoticeCreater implements NoticeCreater {
 	public String getIntro(Notice notice) {
 		Map<String, String> map = notice.getDataMap();
 		this.senderid = Long.valueOf(map.get("senderid"));
-		this.sender_nick = map.get("nick");
-		this.sender_head = map.get("head");
 		this.photoid = Long.valueOf(map.get("photoid"));
 		return "喜欢您的图片";
 	}

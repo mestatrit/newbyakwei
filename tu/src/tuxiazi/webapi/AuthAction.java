@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.Api_user;
 import tuxiazi.bean.Api_user_sina;
+import tuxiazi.bean.SinaUserFromAPI;
 import tuxiazi.svr.iface.UserService;
 import tuxiazi.util.Err;
 import tuxiazi.web.util.SinaUtil;
@@ -50,20 +51,20 @@ public class AuthAction extends BaseApiAction {
 					accessToken.getTokenSecret(), uid);
 			if (sina_user == null) {
 				resp.sendHtml(this.getErrMsg(Err.API_NO_SINA_USER));
-
 				return null;
 			}
 			Api_user_sina apiUserSina = this.userService
 					.getApi_user_sinaBySina_userid(sina_user.getId());
 			if (apiUserSina == null) {
-				apiUserSina = new Api_user_sina();
-				apiUserSina.setAccess_token(accessToken.getToken());
-				apiUserSina.setToken_secret(accessToken.getTokenSecret());
-				apiUserSina.setSina_userid(sina_user.getId());
-				this.userService.createApi_user_sina(apiUserSina, sina_user
-						.getScreenName(), sina_user.getProfileImageURL()
-						.toString());
-			} else {
+				SinaUserFromAPI sinaUserFromAPI = new SinaUserFromAPI(
+						accessToken.getToken(), accessToken.getTokenSecret(),
+						accessToken.getUserId(), sina_user.getScreenName(),
+						sina_user.getProfileBackgroundImageUrl().toString());
+				tuxiazi.bean.User user = this.userService
+						.createUserFromSina(sinaUserFromAPI);
+				apiUserSina = user.getApi_user_sina();
+			}
+			else {
 				apiUserSina.setAccess_token(accessToken.getToken());
 				apiUserSina.setToken_secret(accessToken.getTokenSecret());
 				this.userService.updateApi_user_sina(apiUserSina);
@@ -76,16 +77,23 @@ public class AuthAction extends BaseApiAction {
 				}
 			}
 			this.clearOauth_sina_cookie(req, resp);
-			String v = "r:" + req.getReturnUrl() + "?access_token="
-					+ accessToken.getToken() + "&token_secret="
+			String return_url = req.getString("return_url");
+			String v = "r:" + return_url;
+			if (return_url.indexOf("?") != -1) {
+				v += "&";
+			}
+			else {
+				v += "?";
+			}
+			v += "access_token=" + accessToken.getToken() + "&token_secret="
 					+ accessToken.getTokenSecret() + "&api_type="
 					+ Api_user.API_TYPE_SINA + "&userid="
 					+ apiUserSina.getUserid() + "&login_nick="
 					+ DataUtil.urlEncoder(sina_user.getScreenName());
 			return v;
-		} catch (WeiboException e) {
+		}
+		catch (WeiboException e) {
 			resp.sendHtml(this.getErrMsg(Err.API_SINA_ERR));
-
 			resp.sendHtml(ResourceConfig.getTextFromResource("err",
 					String.valueOf(Err.API_SINA_ERR)));
 			return null;

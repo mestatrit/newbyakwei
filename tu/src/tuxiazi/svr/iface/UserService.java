@@ -6,30 +6,26 @@ import java.util.Map;
 import tuxiazi.bean.Api_user;
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.SinaUser;
+import tuxiazi.bean.SinaUserFromAPI;
 import tuxiazi.bean.User;
+import tuxiazi.svr.exception.UserAlreadyExistException;
 
 public interface UserService {
 
-	/**
-	 * 通过新浪用户信息创建用户
-	 * 
-	 * @param apiUserSina
-	 * @param nick
-	 *            新浪昵称
-	 * @param head_path
-	 *            新浪头像 2010-11-7
-	 */
-	void createApi_user_sina(Api_user_sina apiUserSina, String nick,
-			String head_path);
+	User createUserFromSina(SinaUserFromAPI sinaUserFromAPI)
+			throws UserAlreadyExistException;
 
-	/**
-	 * 删除某个第三方网站的信息
-	 * 
-	 * @param apiUser
-	 *            2010-11-7
-	 */
-	void deleteApi_user(Api_user apiUser);
-
+	// /**
+	// * 通过新浪用户信息创建用户
+	// *
+	// * @param apiUserSina
+	// * @param nick
+	// * 新浪昵称
+	// * @param head_path
+	// * 新浪头像 2010-11-7
+	// */
+	// void createApi_user_sina(Api_user_sina apiUserSina, String nick,
+	// String head_path);
 	void updateApi_user_sina(Api_user_sina apiUserSina);
 
 	/**
@@ -54,8 +50,6 @@ public interface UserService {
 
 	Api_user_sina getApi_user_sinaByUserid(long userid);
 
-	void addUserPic_numByUserid(long userid, int add);
-
 	/**
 	 * 获取已经注册的新浪好友
 	 * 
@@ -79,10 +73,6 @@ public interface UserService {
 
 	List<User> getUserListInId(List<Long> idList);
 
-	// void addFriend_num(long userid, int num);
-	//
-	// void addFans_num(long userid, int num);
-
 	/**
 	 * 获得用户在新浪微博的粉丝列表，如果好友在系统中已经注册，就会有系统的信息在数据中
 	 * 
@@ -91,9 +81,9 @@ public interface UserService {
 	 * @param size
 	 * @return
 	 */
-	List<SinaUser> getSinaFansListBy(Api_user_sina apiUserSina, int page,
+	List<SinaUser> getSinaFansList(Api_user_sina apiUserSina, int page,
 			int size);
 
-	List<SinaUser> getSinaFriendListBy(Api_user_sina apiUserSina, int page,
+	List<SinaUser> getSinaFriendList(Api_user_sina apiUserSina, int page,
 			int size);
 }

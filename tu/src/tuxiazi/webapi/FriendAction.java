@@ -65,7 +65,9 @@ public class FriendAction extends BaseApiAction {
 	public String prvdelete(HkRequest req, HkResponse resp) {
 		long uid = req.getLong("uid");
 		User user = this.getUser(req);
-		this.friendService.deleteFriend(user.getUserid(), uid, true);
+		User _u = this.userService.getUser(user.getUserid());
+		User _f = this.userService.getUser(uid);
+		this.friendService.deleteFriend(_u, _f, true);
 		APIUtil.writeSuccess(resp);
 		return null;
 		// will

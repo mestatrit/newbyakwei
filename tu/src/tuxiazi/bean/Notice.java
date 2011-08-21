@@ -4,6 +4,7 @@ import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
 import halo.util.DataUtil;
+import halo.util.HaloUtil;
 import halo.util.JsonUtil;
 
 import java.util.Date;
@@ -11,10 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import tuxiazi.bean.benum.NoticeEnum;
+import tuxiazi.bean.benum.NoticeReadEnum;
 import tuxiazi.bean.helper.noticedata.FollowNoticeCreater;
 import tuxiazi.bean.helper.noticedata.NoticeCreater;
 import tuxiazi.bean.helper.noticedata.PhotoCmtNoticeCreater;
 import tuxiazi.bean.helper.noticedata.PhotoLikeNoticeCreater;
+import tuxiazi.dao.NoticeDao;
 import tuxiazi.util.PhotoUtil;
 
 /**
@@ -36,6 +39,20 @@ public class Notice {
 	 */
 	@Column
 	private long userid;
+
+	/**
+	 * 通知发送人 ,=0时，为系统发送通知
+	 */
+	@Column
+	private long senderid;
+
+	public long getSenderid() {
+		return senderid;
+	}
+
+	public void setSenderid(long senderid) {
+		this.senderid = senderid;
+	}
 
 	/**
 	 * 通知类型 {@link NoticeEnum}
@@ -117,6 +134,13 @@ public class Notice {
 		this.data = data;
 	}
 
+	public boolean isReaded() {
+		if (this.readflg == NoticeReadEnum.READED.getValue()) {
+			return true;
+		}
+		return false;
+	}
+
 	public String getFmtTime() {
 		return PhotoUtil.getFmtTime(this.createtime);
 	}
@@ -150,5 +174,10 @@ public class Notice {
 			return creater.getIntro(this);
 		}
 		return null;
+	}
+
+	public void save() {
+		NoticeDao dao = (NoticeDao) HaloUtil.getBean("noticeDao");
+		dao.save(this);
 	}
 }

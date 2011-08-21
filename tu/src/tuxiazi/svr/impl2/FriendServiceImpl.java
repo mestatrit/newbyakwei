@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import tuxiazi.bean.Fans;
 import tuxiazi.bean.Friend;
 import tuxiazi.bean.Friend_photo_feed;
@@ -35,33 +37,11 @@ public class FriendServiceImpl implements FriendService {
 
 	private FeedService feedService;
 
+	@Autowired
 	private FriendDao friendDao;
 
+	@Autowired
 	private FansDao fansDao;
-
-	public void setFansDao(FansDao fansDao) {
-		this.fansDao = fansDao;
-	}
-
-	public void setFriendDao(FriendDao friendDao) {
-		this.friendDao = friendDao;
-	}
-
-	public void setFeedService(FeedService feedService) {
-		this.feedService = feedService;
-	}
-
-	public void setPhotoService(PhotoService photoService) {
-		this.photoService = photoService;
-	}
-
-	public void setNoticeService(NoticeService noticeService) {
-		this.noticeService = noticeService;
-	}
-
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
 
 	private Comparator<User_photo> comparator = new Comparator<User_photo>() {
 
@@ -79,47 +59,44 @@ public class FriendServiceImpl implements FriendService {
 		if (friend.getFriendid() == friend.getUserid()) {
 			return;
 		}
-		if (this.friendDao.getObject(null, "userid=? and friendid=?",
-				new Object[] { friend.getUserid(), friend.getFriendid() }) != null) {
+		if (this.friendDao.getByUseridAndFriendid(friend.getUserid(),
+				friend.getFriendid()) != null) {
 			return;
 		}
 		// 查看对方是否已经加用户为好友
-		Friend friend2 = this.friendDao.getObject(null,
-				"userid=? and friendid=?", new Object[] { friend.getFriendid(),
-						friend.getUserid() });
+		Friend friend2 = this.friendDao.getByUseridAndFriendid(
+				friend.getFriendid(), friend.getUserid());
 		// 如果已经加用户为好友
 		if (friend2 != null) {
 			friend2.setFlg(Friend.FLG_BOTH);
 			friend.setFlg(Friend.FLG_BOTH);
-			this.friendDao.update(null, friend2);
+			friend2.update();
 		}
 		else {
 			friend.setFlg(Friend.FLG_NOBOTH);
 		}
 		// 创建好友关系
-		friend.setOid(NumberUtil.getLong(this.friendDao.save(null, friend)));
+		friend.save();
 		User user = this.userService.getUser(friend.getUserid());
 		if (sendNotice) {
 			// 发送follow的通知到对方
 			FollowNoticeCreater followNoticeCreater = new FollowNoticeCreater();
 			followNoticeCreater.setUserid(friend.getFriendid());
 			followNoticeCreater.setSenderid(friend.getUserid());
-			followNoticeCreater.setSender_nick(user.getNick());
-			followNoticeCreater.setSender_head(user.getHead_path());
 			this.noticeService.createNotice(followNoticeCreater.buildNotice());
 		}
 		// 更新好友数量
 		user.setFriend_num(user.getFriend_num() + 1);
-		this.userService.update(user);
+		user.update();
 		// 创建对方粉丝数据
-		Fans fans2 = this.fansDao.getObject(null, "userid=? and fansid=?",
-				new Object[] { friend.getFriendid(), friend.getUserid() });
+		Fans fans2 = this.fansDao.getByUseridAndFansid(friend.getFriendid(),
+				friend.getUserid());
 		if (fans2 == null) {
 			fans2 = new Fans();
 			fans2.setUserid(friend.getFriendid());
 			fans2.setFansid(friend.getUserid());
 			fans2.setFlg(friend.getFlg());
-			fans2.setOid(NumberUtil.getLong(this.fansDao.save(null, fans2)));
+			fans2.setOid(NumberUtil.getLong(this.fansDao.save(fans2)));
 			// 更新对方粉丝数量
 			User friendUser = this.userService.getUser(friend.getFriendid());
 			friendUser.setFans_num(friendUser.getFans_num() + 1);
@@ -127,7 +104,7 @@ public class FriendServiceImpl implements FriendService {
 		}
 		else {
 			fans2.setFlg(friend.getFlg());
-			this.fansDao.update(null, fans2);
+			this.fansDao.update(fans2);
 		}
 		if (getPhoto) {
 			// 获取被关注人的10张图片
@@ -152,36 +129,32 @@ public class FriendServiceImpl implements FriendService {
 	}
 
 	@Override
-	public void deleteFriend(long userid, long friendid, boolean delPhoto) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public void deleteFriend(User user, User friendUser, boolean delPhoto) {
 		long userid = user.getUserid();
 		long friendid = friendUser.getUserid();
-		int result = this.fansDao.delete(null, "userid=? and fansid=?",
-				new Object[] { friendid, userid });
-		if (result > 0) {
-			user.setFans_num(user.getFans_num() - 1);
-			if (user.getFans_num() < 0) {
-				user.setFans_num(0);
-			}
-			this.userService.update(friendUser);
+		// 从自己的好友列表中删除好友
+		this.friendDao.deleteByUseridAndFriendid(userid, friendid);
+		// 从对方的粉丝列表中删除粉丝
+		this.fansDao.deleteByUseridAndFansid(friendid, userid);
+		// 统计自己的好友数量
+		int friend_num = this.friendDao.countByUserid(userid);
+		// 统计对方的粉丝数量
+		int fans_num = this.fansDao.countByUserid(friendid);
+		user.setFriend_num(friend_num);
+		this.userService.update(user);
+		friendUser.setFans_num(fans_num);
+		this.userService.update(friendUser);
+		// 如果对方加我为好友，则更新取消相互关注的标志
+		Friend friend = this.friendDao.getByUseridAndFriendid(friendid, userid);
+		if (friend != null) {
+			friend.setFlg(Friend.FLG_NOBOTH);
 		}
-		this.friendDao.updateBySQL(null, "flg=?", "userid=? and friendid=?",
-				new Object[] { Friend.FLG_NOBOTH, friendid, userid });
-		this.fansDao.updateBySQL(null, "flg=?", "userid=? and friendid=?",
-				new Object[] { Friend.FLG_NOBOTH, userid, friendid });
-		result = this.friendDao.delete(null, "userid=? and friendid=?",
-				new Object[] { userid, friendid });
-		if (result > 0) {
-			user.setFriend_num(user.getFriend_num() - 1);
-			if (user.getFriend_num() < 0) {
-				user.setFriend_num(0);
-			}
-			this.userService.update(user);
+		Fans fans = this.fansDao.getByUseridAndFansid(userid, friendid);
+		if (fans != null) {
+			fans.setFlg(Friend.FLG_NOBOTH);
 		}
+		this.friendDao.update(friend);
+		this.fansDao.update(fans);
 		if (delPhoto) {
 			this.feedService.deleteFriend_photo_feedByUseridAndPhoto_userid(
 					userid, friendid);
@@ -190,32 +163,23 @@ public class FriendServiceImpl implements FriendService {
 
 	@Override
 	public Fans getFansByUseridAndFansid(long userid, long fansid) {
-		return this.fansDao.getObject(null, "userid=? and fansid=?",
-				new Object[] { userid, fansid });
+		return this.fansDao.getByUseridAndFansid(userid, fansid);
 	}
 
 	@Override
 	public List<Long> getFansidListByUserid(long userid) {
-		List<Fans> list = this.fansDao.getList(null, "userid=?",
-				new Object[] { userid }, null, 0, 0);
-		List<Long> idList = new ArrayList<Long>();
-		for (Fans o : list) {
-			idList.add(o.getFansid());
-		}
-		return idList;
+		return this.fansDao.getFansidListByUserid(userid);
 	}
 
 	@Override
 	public Friend getFriendByUseridAndFriendid(long userid, long friendid) {
-		return this.friendDao.getObject(null, "userid=? and friendid=?",
-				new Object[] { userid, friendid });
+		return this.friendDao.getByUseridAndFriendid(userid, friendid);
 	}
 
 	@Override
 	public List<Fans> getFansListByUserid(long userid, boolean buildUser,
 			long relationUserid, int begin, int size) {
-		List<Fans> list = this.fansDao.getList(null, "userid=?",
-				new Object[] { userid }, "oid desc", begin, size);
+		List<Fans> list = this.fansDao.getListByUserid(userid, begin, size);
 		if (buildUser) {
 			List<Long> idList = new ArrayList<Long>();
 			for (Fans o : list) {
@@ -243,8 +207,7 @@ public class FriendServiceImpl implements FriendService {
 	@Override
 	public List<Friend> getFriendListByUserid(long userid, boolean buildUser,
 			long relationUserid, int begin, int size) {
-		List<Friend> list = this.friendDao.getList(null, "userid=?",
-				new Object[] { userid }, "oid desc", begin, size);
+		List<Friend> list = this.friendDao.getListByUserid(userid, begin, size);
 		if (buildUser) {
 			List<Long> idList = new ArrayList<Long>();
 			for (Friend o : list) {
@@ -278,13 +241,7 @@ public class FriendServiceImpl implements FriendService {
 
 	@Override
 	public List<Long> getFriendUseridListByUserid(long userid) {
-		List<Friend> list = this.friendDao.getList(null, "userid=?",
-				new Object[] { userid }, null, 0, -1);
-		List<Long> idList = new ArrayList<Long>();
-		for (Friend o : list) {
-			idList.add(o.getFriendid());
-		}
-		return idList;
+		return this.friendDao.getFriendidListByUserid(userid);
 	}
 
 	@Override

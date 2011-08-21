@@ -1,12 +1,7 @@
 package tuxiazi.dao;
 
-import halo.dao.query.BaseDao;
+import halo.dao.query.IDao;
 import tuxiazi.bean.Userid;
 
-public class UseridDao extends BaseDao<Userid> {
-
-	@Override
-	public Class<Userid> getClazz() {
-		return Userid.class;
-	}
+public interface UseridDao extends IDao<Userid> {
 }

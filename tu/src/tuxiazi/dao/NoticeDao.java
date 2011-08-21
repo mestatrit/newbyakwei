@@ -1,12 +1,14 @@
 package tuxiazi.dao;
 
-import halo.dao.query.BaseDao;
+import halo.dao.query.IDao;
 import tuxiazi.bean.Notice;
+import tuxiazi.bean.benum.NoticeReadEnum;
 
-public class NoticeDao extends BaseDao<Notice> {
+public interface NoticeDao extends IDao<Notice> {
 
-	@Override
-	public Class<Notice> getClazz() {
-		return Notice.class;
-	}
+	public Notice getByUseridAndSenderidAndRefoidAndNotice_flg(long userid,
+			long senderid, long refoid, NoticeReadEnum noticeReadEnum);
+
+	public Notice getLastByUseridAndSenderidAndRefoid(long userid,
+			long senderid, long refoid);
 }

@@ -1,12 +1,14 @@
 package tuxiazi.dao;
 
-import halo.dao.query.BaseDao;
+import halo.dao.query.IDao;
+
+import java.util.List;
+
 import tuxiazi.bean.PhotoCmt;
 
-public class PhotoCmtDao extends BaseDao<PhotoCmt> {
+public interface PhotoCmtDao extends IDao<PhotoCmt> {
 
-	@Override
-	public Class<PhotoCmt> getClazz() {
-		return PhotoCmt.class;
-	}
+	public int deleteByPhotoid(long photoid);
+
+	public List<PhotoCmt> getListByPhotoid(long photoid, int begin, int size);
 }

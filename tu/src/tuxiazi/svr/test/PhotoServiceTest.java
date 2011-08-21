@@ -1,6 +1,9 @@
 package tuxiazi.svr.test;
 
+import halo.util.image.ImageException;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,15 +18,17 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.Photo;
 import tuxiazi.bean.UploadPhoto;
 import tuxiazi.bean.User;
+import tuxiazi.svr.exception.ImageSizeOutOfLimitException;
 import tuxiazi.svr.iface.PhotoService;
 import tuxiazi.svr.iface.UploadPhotoResult;
 import tuxiazi.svr.iface.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration( { "/applicationContext.xml" })
+@ContextConfiguration({ "/applicationContext.xml" })
 public class PhotoServiceTest {
 
 	private long userid = 3;
@@ -49,18 +54,27 @@ public class PhotoServiceTest {
 		up.setCreate_time(new Date());
 		up.setFile(new File("c:/test/284DF4F7812EF3C96C69253C12B1775F.jpg"));
 		list.add(up);
-		up = new UploadPhoto();
-		up.setName("bbb");
-		up.setUserid(3);
-		up.setCreate_time(new Date());
-		up.setFile(new File("c:/test/02.jpg"));
-		list.add(up);
-		uploadPhotoResult = this.photoService.createPhoto(userid, list, 0, 0,
-				0, 0);
-		Assert.assertNotNull(uploadPhotoResult);
-		Assert.assertNotNull(uploadPhotoResult.getPhotos());
-		Assert.assertEquals(2, uploadPhotoResult.getPhotos().size());
-		Assert.assertEquals(true, uploadPhotoResult.isSuccess());
+		User user = this.userService.getUser(userid);
+		Api_user_sina apiUserSina = this.userService
+				.getApi_user_sinaByUserid(userid);
+		try {
+			Photo photo = this.photoService.createPhoto(up, false, user,
+					apiUserSina);
+			Assert.assertNotNull(photo);
+			Assert.assertNotNull(uploadPhotoResult);
+			Assert.assertNotNull(uploadPhotoResult.getPhotos());
+			Assert.assertEquals(2, uploadPhotoResult.getPhotos().size());
+			Assert.assertEquals(true, uploadPhotoResult.isSuccess());
+		}
+		catch (ImageSizeOutOfLimitException e) {
+			Assert.fail(e.getMessage());
+		}
+		catch (ImageException e) {
+			Assert.fail(e.getMessage());
+		}
+		catch (IOException e) {
+			Assert.fail(e.getMessage());
+		}
 	}
 
 	@Test
@@ -87,6 +101,7 @@ public class PhotoServiceTest {
 
 	@Test
 	public void deletePhotoUserLike() {
-		this.photoService.deletePhotoUserLike(userid2, 31);
+		Photo photo = this.photoService.getPhoto(31);
+		this.photoService.deletePhotoUserLike(userid2, photo);
 	}
 }

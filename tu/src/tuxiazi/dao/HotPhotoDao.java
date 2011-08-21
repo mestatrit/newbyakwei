@@ -1,12 +1,14 @@
 package tuxiazi.dao;
 
-import halo.dao.query.BaseDao;
+import halo.dao.query.IDao;
+
+import java.util.List;
+
 import tuxiazi.bean.HotPhoto;
 
-public class HotPhotoDao extends BaseDao<HotPhoto> {
+public interface HotPhotoDao extends IDao<HotPhoto> {
 
-	@Override
-	public Class<HotPhoto> getClazz() {
-		return HotPhoto.class;
-	}
+	public int deleteByPhotoid(long photoid);
+
+	public List<HotPhoto> getList(int begin, int size);
 }

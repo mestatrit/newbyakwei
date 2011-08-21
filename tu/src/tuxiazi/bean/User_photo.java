@@ -3,6 +3,9 @@ package tuxiazi.bean;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
+import halo.util.HaloUtil;
+import halo.util.NumberUtil;
+import tuxiazi.dao.User_photoDao;
 
 /**
  * 用户的图片
@@ -86,5 +89,10 @@ public class User_photo {
 
 	public void setPrivacy_flg(byte privacyFlg) {
 		privacy_flg = privacyFlg;
+	}
+
+	public void save() {
+		User_photoDao dao = (User_photoDao) HaloUtil.getBean("user_photoDao");
+		this.oid = NumberUtil.getLong(dao.save(this));
 	}
 }

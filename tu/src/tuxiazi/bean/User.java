@@ -3,8 +3,11 @@ package tuxiazi.bean;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
+import halo.util.HaloUtil;
 
 import java.util.Date;
+
+import tuxiazi.dao.UserDao;
 
 /**
  * 用户表
@@ -13,6 +16,17 @@ import java.util.Date;
  */
 @Table(name = "user")
 public class User {
+
+	public User() {
+	}
+
+	private SinaUserFromAPI sinaUserFromAPI;
+
+	public User(SinaUserFromAPI sinaUserFromAPI) {
+		this.sinaUserFromAPI = sinaUserFromAPI;
+		this.nick = sinaUserFromAPI.getNick();
+		this.head_path = sinaUserFromAPI.getHead();
+	}
 
 	/**
 	 * 用户id
@@ -104,5 +118,47 @@ public class User {
 
 	public void setFriend_num(int friendNum) {
 		friend_num = friendNum;
+	}
+
+	private Api_user_sina api_user_sina;
+
+	private Api_user api_user;
+
+	public Api_user getApi_user() {
+		return api_user;
+	}
+
+	public Api_user_sina getApi_user_sina() {
+		return api_user_sina;
+	}
+
+	/**
+	 * 保存用户信息，以及创建其他相关信息
+	 */
+	public void save() {
+		this.create_time = new Date();
+		UserDao dao = (UserDao) HaloUtil.getBean("userDao");
+		dao.save(this);
+		this.api_user_sina = new Api_user_sina(userid, sinaUserFromAPI);
+		this.api_user_sina.save();
+		api_user = new Api_user(this.userid, Api_user.API_TYPE_SINA);
+		api_user.save();
+	}
+
+	public void update() {
+		UserDao dao = (UserDao) HaloUtil.getBean("userDao");
+		dao.update(this);
+	}
+
+	public void addPic_num(int add) {
+		this.pic_num = this.pic_num + add;
+		if (this.pic_num < 0) {
+			this.pic_num = 0;
+		}
+	}
+
+	public void updatePic_num(int count) {
+		this.pic_num = count;
+		this.update();
 	}
 }

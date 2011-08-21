@@ -3,15 +3,26 @@ package tuxiazi.bean;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
+import halo.util.HaloUtil;
+import tuxiazi.dao.Api_user_sinaDao;
 import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 
 /**
  * 新浪用户
  * 
- * @author Administrator
+ * @author akwei
  */
 @Table(name = "api_user_sina", partitionClass = TuxiaziDbPartitionHelper.class)
 public class Api_user_sina {
+
+	public Api_user_sina() {
+	}
+
+	public Api_user_sina(long userid, SinaUserFromAPI sinaUserFromAPI) {
+		this.userid = userid;
+		this.access_token = sinaUserFromAPI.getAccess_token();
+		this.token_secret = sinaUserFromAPI.getToken_secret();
+	}
 
 	/**
 	 * 新浪用户id
@@ -77,5 +88,17 @@ public class Api_user_sina {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public void save() {
+		Api_user_sinaDao dao = (Api_user_sinaDao) HaloUtil
+				.getBean("api_user_sinaDao");
+		dao.save(this);
+	}
+
+	public void update() {
+		Api_user_sinaDao dao = (Api_user_sinaDao) HaloUtil
+				.getBean("api_user_sinaDao");
+		dao.update(this);
 	}
 }

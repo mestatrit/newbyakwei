@@ -21,14 +21,6 @@ public interface FriendService {
 	void createFriend(Friend friend, boolean sendNotice, boolean getPhoto);
 
 	/**
-	 * @param userid
-	 * @param friendid
-	 * @param delPhoto
-	 *            是否把此人的图片从关注图片中移除 true:移除
-	 */
-	void deleteFriend(long userid, long friendid, boolean delPhoto);
-
-	/**
 	 * @param user
 	 * @param friendUser
 	 * @param delPhoto

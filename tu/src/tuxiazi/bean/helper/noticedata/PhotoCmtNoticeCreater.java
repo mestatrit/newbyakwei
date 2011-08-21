@@ -16,10 +16,6 @@ public class PhotoCmtNoticeCreater implements NoticeCreater {
 
 	private long senderid;
 
-	private String sender_nick;
-
-	private String sender_head;
-
 	private long cmtid;
 
 	private long photoid;
@@ -42,14 +38,6 @@ public class PhotoCmtNoticeCreater implements NoticeCreater {
 		this.senderid = senderid;
 	}
 
-	public void setSender_nick(String senderNick) {
-		sender_nick = senderNick;
-	}
-
-	public void setSender_head(String senderHead) {
-		sender_head = senderHead;
-	}
-
 	public void setCmtid(long cmtid) {
 		this.cmtid = cmtid;
 	}
@@ -66,10 +54,9 @@ public class PhotoCmtNoticeCreater implements NoticeCreater {
 		notice.setNotice_flg(NoticeEnum.ADD_PHOTOCMT.getValue());
 		notice.setReadflg(NoticeReadEnum.UNREAD.getValue());
 		notice.setRefoid(this.photoid);
+		notice.setSenderid(this.senderid);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("senderid", String.valueOf(this.senderid));
-		map.put("nick", this.sender_nick);
-		map.put("head", this.sender_head);
 		map.put("cmtid", String.valueOf(this.cmtid));
 		map.put("photoid", String.valueOf(this.photoid));
 		notice.setData(JsonUtil.toJson(map));
@@ -80,8 +67,6 @@ public class PhotoCmtNoticeCreater implements NoticeCreater {
 	public String getIntro(Notice notice) {
 		Map<String, String> map = notice.getDataMap();
 		this.senderid = Long.valueOf(map.get("senderid"));
-		this.sender_nick = map.get("nick");
-		this.sender_head = map.get("head");
 		this.photoid = Long.valueOf(map.get("photoid"));
 		this.cmtid = Long.valueOf(map.get("cmtid"));
 		return "评论了您的图片";

@@ -1,8 +1,11 @@
 package tuxiazi.bean;
 
+import tuxiazi.dao.FriendDao;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
+import halo.util.HaloUtil;
+import halo.util.NumberUtil;
 
 /**
  * 用户关注的人
@@ -93,5 +96,16 @@ public class Friend {
 
 	public void setFlg(byte flg) {
 		this.flg = flg;
+	}
+
+	public void save() {
+		FriendDao dao = (FriendDao) HaloUtil.getBean("friendDao");
+		dao.save(this);
+		this.friendid = NumberUtil.getLong(dao.save(this));
+	}
+
+	public void update() {
+		FriendDao dao = (FriendDao) HaloUtil.getBean("friendDao");
+		dao.update(this);
 	}
 }

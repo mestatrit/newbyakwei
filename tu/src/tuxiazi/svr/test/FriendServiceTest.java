@@ -2,7 +2,7 @@ package tuxiazi.svr.test;
 
 import javax.annotation.Resource;
 
-import org.aspectj.lang.annotation.After;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,13 +34,5 @@ public class FriendServiceTest {
 
 	@After
 	public void destory() {
-		Friend friend = new Friend();
-		friend.setUserid(userid);
-		friend.setFriendid(friendid);
-		this.friendService.deleteFriend(userid, friendid, true);
-		friend = new Friend();
-		friend.setUserid(friendid);
-		friend.setFriendid(userid);
-		this.friendService.deleteFriend(friendid, userid, true);
 	}
 }
