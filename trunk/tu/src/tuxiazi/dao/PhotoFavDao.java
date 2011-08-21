@@ -1,12 +1,7 @@
 package tuxiazi.dao;
 
-import halo.dao.query.BaseDao;
+import halo.dao.query.IDao;
 import tuxiazi.bean.PhotoFav;
 
-public class PhotoFavDao extends BaseDao<PhotoFav> {
-
-	@Override
-	public Class<PhotoFav> getClazz() {
-		return PhotoFav.class;
-	}
+public interface PhotoFavDao extends IDao<PhotoFav> {
 }

@@ -3,8 +3,11 @@ package tuxiazi.bean;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
+import halo.util.HaloUtil;
 
 import java.util.Date;
+
+import tuxiazi.dao.Friend_photo_feedDao;
 
 /**
  * 用户关注的人的最近图片动态
@@ -89,5 +92,24 @@ public class Friend_photo_feed {
 
 	public void setCreate_time(Date createTime) {
 		create_time = createTime;
+	}
+
+	public void buildPhotoFeed(Photo photo, long feedUserid) {
+		this.userid = feedUserid;
+		this.photoid = photo.getPhotoid();
+		this.create_time = photo.getCreate_time();
+		this.photo_userid = photo.getUserid();
+	}
+
+	public void save() {
+		Friend_photo_feedDao dao = (Friend_photo_feedDao) HaloUtil
+				.getBean("friend_photo_feedDao");
+		dao.save(this);
+	}
+
+	public void delete() {
+		Friend_photo_feedDao dao = (Friend_photo_feedDao) HaloUtil
+				.getBean("friend_photo_feedDao");
+		dao.deleteById(this.feedid);
 	}
 }

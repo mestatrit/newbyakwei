@@ -3,6 +3,9 @@ package tuxiazi.bean;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
+import halo.util.HaloUtil;
+import halo.util.NumberUtil;
+import tuxiazi.dao.PhotoLikeUserDao;
 
 /**
  * 喜欢图片的用户数据
@@ -64,4 +67,5 @@ public class PhotoLikeUser {
 	public void setUserid(long userid) {
 		this.userid = userid;
 	}
+
 }

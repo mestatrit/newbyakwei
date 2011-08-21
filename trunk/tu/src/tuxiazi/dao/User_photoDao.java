@@ -1,12 +1,16 @@
 package tuxiazi.dao;
 
-import halo.dao.query.BaseDao;
+import halo.dao.query.IDao;
+
+import java.util.List;
+
 import tuxiazi.bean.User_photo;
 
-public class User_photoDao extends BaseDao<User_photo> {
+public interface User_photoDao extends IDao<User_photo> {
 
-	@Override
-	public Class<User_photo> getClazz() {
-		return User_photo.class;
-	}
+	public int deleteByUseridAndPhotoid(long userid, long photoid);
+
+	public int countByUserid(long userid);
+
+	public List<User_photo> getListByUserid(long userid, int begin, int size);
 }

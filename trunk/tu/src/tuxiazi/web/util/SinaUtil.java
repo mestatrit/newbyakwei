@@ -29,7 +29,6 @@ public class SinaUtil {
 				Configuration.getOAuthConsumerSecret());
 		weibo.setOAuthAccessToken(access_token, token_secret);
 		Paging paging = new Paging(page, size);
-		paging.setBuildCursor(true);
 		return weibo.getFriendsStatuses(uid, paging);
 	}
 
@@ -41,7 +40,6 @@ public class SinaUtil {
 				Configuration.getOAuthConsumerSecret());
 		weibo.setOAuthAccessToken(access_token, token_secret);
 		Paging paging = new Paging(page, size);
-		paging.setBuildCursor(true);
 		return weibo.getFollowersStatuses(uid, paging);
 	}
 
@@ -60,11 +58,12 @@ public class SinaUtil {
 		weibo.setOAuthConsumer(Configuration.getOAuthConsumerKey(),
 				Configuration.getOAuthConsumerSecret());
 		weibo.setOAuthAccessToken(access_token, token_secret);
-		IDs ids = weibo.getFriendsIDs(uid);
+		Paging paging = new Paging(1, 5000);
+		IDs ids = weibo.getFriendsIDSByUserId(uid + "", paging);
 		List<Long> idList = new ArrayList<Long>();
-		int[] idarr = ids.getIDs();
-		for (int i = 0; i < idarr.length; i++) {
-			idList.add(Long.valueOf(idarr[i]));
+		long[] id = ids.getIDs();
+		for (int i = 0; i < id.length; i++) {
+			idList.add(id[i]);
 		}
 		return idList;
 	}
@@ -84,11 +83,12 @@ public class SinaUtil {
 		weibo.setOAuthConsumer(Configuration.getOAuthConsumerKey(),
 				Configuration.getOAuthConsumerSecret());
 		weibo.setOAuthAccessToken(access_token, token_secret);
-		IDs ids = weibo.getFollowersIDs(uid);
+		Paging paging = new Paging(1, 5000);
+		IDs ids = weibo.getFollowersIDSByUserId(uid + "", paging);
 		List<Long> idList = new ArrayList<Long>();
-		int[] idarr = ids.getIDs();
+		long[] idarr = ids.getIDs();
 		for (int i = 0; i < idarr.length; i++) {
-			idList.add(Long.valueOf(idarr[i]));
+			idList.add(idarr[i]);
 		}
 		return idList;
 	}
@@ -115,7 +115,7 @@ public class SinaUtil {
 		weibo.setOAuthConsumer(Configuration.getOAuthConsumerKey(),
 				Configuration.getOAuthConsumerSecret());
 		weibo.setOAuthAccessToken(access_token, token_secret);
-		weibo.createFriendship(friendid, true);
+		weibo.createFriendshipByUserid(friendid + "");
 	}
 
 	public static List<Status> getWeiboList(long userid, String access_token,
@@ -206,23 +206,16 @@ public class SinaUtil {
 		return weibo.getRateLimitStatus();
 	}
 
-	public static void sendMessage(String access_token, String token_secret,
-			long sinaUserid, String text) throws WeiboException {
-		Weibo weibo = new Weibo();
-		weibo.setOAuthConsumer(Configuration.getOAuthConsumerKey(),
-				Configuration.getOAuthConsumerSecret());
-		weibo.setOAuthAccessToken(access_token, token_secret);
-		weibo.sendDirectMessage(String.valueOf(sinaUserid), text);
-	}
-
 	public static void main(String[] args) throws WeiboException {
 		String access_token = "fa70c08f889270a4007d3bc3955deda7";
 		String token_secret = "5035cbe48f4220ee757d76571b992b50";
-		List<User> list = SinaUtil.getFansList(access_token, token_secret,
-				"1639525917", 1, 6);
-		for (User o : list) {
-			P.println(o.getScreenName() + " | "
-					+ o.getProfileImageURL().toString());
-		}
+		// List<User> list = SinaUtil.getFriendList(access_token, token_secret,
+		// "1639525917", 1, 6);
+		// for (User o : list) {
+		// P.println(o.getScreenName() + " | "
+		// + o.getProfileImageURL().toString());
+		// }
+		// ==========
+		SinaUtil.updateStatus(access_token, token_secret, "test api");
 	}
 }

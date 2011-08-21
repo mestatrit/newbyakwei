@@ -1,12 +1,17 @@
 package tuxiazi.dao;
 
-import halo.dao.query.BaseDao;
+import halo.dao.query.IDao;
+
+import java.util.List;
+
 import tuxiazi.bean.Lasted_photo;
 
-public class Lasted_photoDao extends BaseDao<Lasted_photo> {
+public interface Lasted_photoDao extends IDao<Lasted_photo> {
 
-	@Override
-	public Class<Lasted_photo> getClazz() {
-		return Lasted_photo.class;
-	}
+	public int count();
+
+	public List<Lasted_photo> getList(int begin, int size);
+
+	public List<Lasted_photo> getList(boolean buildPhoto,
+			boolean buildPhotoUser, long favUserid, int begin, int size);
 }

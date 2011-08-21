@@ -29,7 +29,7 @@ public class UserAction extends BaseApiAction {
 		long uid = req.getLong("uid");
 		User user = this.userService.getUser(uid);
 		if (user == null) {
-			APIUtil.writeErr(req, resp, Err.USER_NOTEXIST);
+			APIUtil.writeErr(resp, Err.USER_NOTEXIST);
 			return null;
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -37,8 +37,8 @@ public class UserAction extends BaseApiAction {
 		boolean isfriend = false;
 		User loginUser = this.getUser(req);
 		if (loginUser != null && loginUser.getUserid() != uid) {
-			if (this.friendService.getFriendByUseridAndFriendid(loginUser
-					.getUserid(), uid) != null) {
+			if (this.friendService.getFriendByUseridAndFriendid(
+					loginUser.getUserid(), uid) != null) {
 				isfriend = true;
 			}
 		}

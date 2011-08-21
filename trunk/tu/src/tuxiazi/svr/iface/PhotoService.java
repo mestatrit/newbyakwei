@@ -1,5 +1,8 @@
 package tuxiazi.svr.iface;
 
+import halo.util.image.ImageException;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -12,32 +15,13 @@ import tuxiazi.bean.PhotoUserLike;
 import tuxiazi.bean.UploadPhoto;
 import tuxiazi.bean.User;
 import tuxiazi.bean.User_photo;
+import tuxiazi.svr.exception.ImageSizeOutOfLimitException;
 
 public interface PhotoService {
 
-	/**
-	 * 上传图片
-	 * 
-	 * @param userid
-	 *            上传图片的用户
-	 * @param uploadPhotos
-	 *            上传图片的集合 @see{@link UploadPhoto}
-	 * @param x
-	 *            图片x坐标
-	 * @param y
-	 *            图片y坐标
-	 * @param width
-	 *            图片宽度
-	 * @param height
-	 *            图片高度
-	 * @return
-	 */
-	UploadPhotoResult createPhoto(long userid, List<UploadPhoto> uploadPhotos,
-			int x, int y, int width, int height);
-
-	UploadPhotoResult createPhoto(long userid, List<UploadPhoto> uploadPhotos,
-			int x, int y, int width, int height, boolean withweibo,
-			Api_user_sina apiUserSina);
+	Photo createPhoto(UploadPhoto uploadPhoto, boolean withweibo, User user,
+			Api_user_sina apiUserSina) throws ImageSizeOutOfLimitException,
+			ImageException, IOException;
 
 	/**
 	 * 更新图片数据
@@ -51,7 +35,7 @@ public interface PhotoService {
 	 * 
 	 * @param photo
 	 */
-	void deletePhoto(Photo photo);
+	void deletePhoto(Photo photo, User user);
 
 	/**
 	 * 获得图片
@@ -106,15 +90,7 @@ public interface PhotoService {
 			boolean buildPhotoUser, long favUserid, int begin, int size);
 
 	/**
-	 * 增加图片评论数量
-	 * 
-	 * @param photoid
-	 * @param add
-	 */
-	void addPhotoCmt_num(long photoid, int add);
-
-	/**
-	 *用户喜欢的图片，对图片进行收藏
+	 * 用户喜欢的图片，对图片进行收藏
 	 * 
 	 * @param user
 	 * @param photo
@@ -125,9 +101,9 @@ public interface PhotoService {
 	 * 删除某用户喜欢的某图片数据
 	 * 
 	 * @param userid
-	 * @param photoid
+	 * @param photo
 	 */
-	void deletePhotoUserLike(long userid, long photoid);
+	void deletePhotoUserLike(long userid, Photo photo);
 
 	/**
 	 * 计算热门图片

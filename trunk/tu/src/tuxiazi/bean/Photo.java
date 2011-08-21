@@ -4,16 +4,33 @@ import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
 import halo.util.DataUtil;
+import halo.util.FileUtil;
+import halo.util.HaloUtil;
 import halo.util.JsonUtil;
+import halo.util.image.ImageException;
+import halo.util.image.ImageParam;
+import halo.util.image.ImageShaper;
+import halo.util.image.ImageShaperFactory;
+import halo.util.image.ImageSize;
+import halo.util.image.ImageSizeMaker;
+import halo.util.image.OriginInfo;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import tuxiazi.bean.benum.PhotoPrivacyEnum;
+import tuxiazi.dao.PhotoDao;
+import tuxiazi.svr.exception.ImageSizeOutOfLimitException;
 import tuxiazi.svr.impl.jms.JsonKey;
+import tuxiazi.util.FileCnf;
 import tuxiazi.util.PhotoUtil;
 
 /**
@@ -23,6 +40,8 @@ import tuxiazi.util.PhotoUtil;
  */
 @Table(name = "photo")
 public class Photo {
+
+	private final Log log = LogFactory.getLog(Photo.class);
 
 	public static final String p1_houzhui = "p_1.jpg";
 
@@ -289,8 +308,8 @@ public class Photo {
 			map = new HashMap<String, String>();
 			map.put(JsonKey.cmtid, String.valueOf(o.getCmtid()));
 			map.put(JsonKey.content, String.valueOf(o.getContent()));
-			map.put(JsonKey.create_time, String.valueOf(o.getCreate_time()
-					.getTime()));
+			map.put(JsonKey.create_time,
+					String.valueOf(o.getCreate_time().getTime()));
 			map.put(JsonKey.userid, String.valueOf(o.getUserid()));
 			map.put(JsonKey.nick, o.getUser().getNick());
 			cmtjsondata.add(JsonUtil.toJson(map));
@@ -371,5 +390,77 @@ public class Photo {
 
 	public String getFmtTime() {
 		return PhotoUtil.getFmtTime(this.create_time);
+	}
+
+	public void upload(UploadPhoto uploadPhoto, FileCnf fileCnf, User user)
+			throws IOException, ImageException, ImageSizeOutOfLimitException {
+		PhotoDao dao = (PhotoDao) HaloUtil.getBean("photoDao");
+		String name = FileCnf.createFileName();
+		String dbPath = fileCnf.getFileSaveToDbPath(name);
+		String filePath = fileCnf.getFilePath(dbPath);
+		if (FileUtil.isBigger(uploadPhoto.getFile(), 1024 * 1024)) {
+			throw new ImageSizeOutOfLimitException("imageSize : [ "
+					+ uploadPhoto.getFile().length() + " bytes ]");
+		}
+		try {
+			this.processUploadImage(uploadPhoto.getFile(), filePath);
+			this.setPrivacy_flg(uploadPhoto.getPrivacy_flg());
+			this.setUserid(uploadPhoto.getUserid());
+			this.setName(uploadPhoto.getName());
+			this.setCreate_time(uploadPhoto.getCreate_time());
+			this.setPath(dbPath);
+			dao.save(this);
+			User_photo userPhoto = new User_photo();
+			userPhoto.setUserid(this.getUserid());
+			userPhoto.setPhotoid(this.getPhotoid());
+			userPhoto.setPrivacy_flg(this.getPrivacy_flg());
+			userPhoto.save();
+			user.setPic_num(user.getPic_num() + 1);
+			user.save();
+			this.processLastPhoto(this);
+		}
+		catch (IOException e) {
+			log.error("process image io error [ " + e.getMessage() + " ]");
+			throw e;
+		}
+		catch (ImageException e) {
+			log.error("process image error [ " + e.getMessage() + " ]");
+			throw e;
+		}
+	}
+
+	private void processLastPhoto(Photo photo) {
+		Lasted_photo lastedPhoto = new Lasted_photo(photo.getPhotoid());
+		lastedPhoto.save();
+	}
+
+	private void processUploadImage(File file, String filePath)
+			throws IOException, ImageException {
+		ImageShaper imageShaper = ImageShaperFactory
+				.getImageShaper(ImageShaperFactory.SHAPER_JMAGICK);
+		ImageParam imageParam = new ImageParam(file, 90, 0, 0, true);
+		OriginInfo originInfo = imageParam.getOriginInfo();
+		ImageSize scaleImageSize = ImageSizeMaker.makeSize(
+				originInfo.getWidth(), originInfo.getHeight(), 60);
+		imageShaper.scale(imageParam, scaleImageSize, filePath,
+				Photo.p1_houzhui);
+		scaleImageSize = ImageSizeMaker.makeSize(originInfo.getWidth(),
+				originInfo.getHeight(), 120);
+		imageShaper.scale(imageParam, scaleImageSize, filePath,
+				Photo.p2_houzhui);
+		scaleImageSize = ImageSizeMaker.makeSize(originInfo.getWidth(),
+				originInfo.getHeight(), 480);
+		imageShaper.scale(imageParam, scaleImageSize, filePath,
+				Photo.p4_houzhui);
+		imageParam.setQuality(95);
+		scaleImageSize = ImageSizeMaker.makeSize(originInfo.getWidth(),
+				originInfo.getHeight(), 640);
+		imageShaper.scale(imageParam, scaleImageSize, filePath,
+				Photo.p6_houzhui);
+	}
+
+	public void update() {
+		PhotoDao dao = (PhotoDao) HaloUtil.getBean("photoDao");
+		dao.update(this);
 	}
 }

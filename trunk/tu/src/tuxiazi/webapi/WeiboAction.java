@@ -35,7 +35,7 @@ public class WeiboAction extends BaseApiAction {
 		int size = req.getInt("size", 20);
 		Api_user_sina apiUserSina = this.getApiUserSina(req);
 		Map<String, Object> omap = new HashMap<String, Object>();
-		List<SinaUser> list = this.userService.getSinaFriendListBy(apiUserSina,
+		List<SinaUser> list = this.userService.getSinaFriendList(apiUserSina,
 				page, size);
 		omap.put("list", list);
 		APIUtil.writeData(resp, omap, "vm/sinafriendlist.vm");
@@ -47,7 +47,7 @@ public class WeiboAction extends BaseApiAction {
 		int size = req.getInt("size", 20);
 		Api_user_sina apiUserSina = this.getApiUserSina(req);
 		Map<String, Object> omap = new HashMap<String, Object>();
-		List<SinaUser> list = this.userService.getSinaFansListBy(apiUserSina,
+		List<SinaUser> list = this.userService.getSinaFansList(apiUserSina,
 				page, size);
 		omap.put("list", list);
 		APIUtil.writeData(resp, omap, "vm/sinafanslist.vm");

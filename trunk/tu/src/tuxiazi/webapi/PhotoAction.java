@@ -1,11 +1,13 @@
 package tuxiazi.webapi;
 
 import halo.util.DataUtil;
+import halo.util.image.ImageException;
 import halo.web.action.HkRequest;
 import halo.web.action.HkResponse;
 import halo.web.util.SimplePage;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +26,7 @@ import tuxiazi.bean.PhotoLikeUser;
 import tuxiazi.bean.UploadPhoto;
 import tuxiazi.bean.User;
 import tuxiazi.bean.User_photo;
+import tuxiazi.svr.exception.ImageSizeOutOfLimitException;
 import tuxiazi.svr.iface.FeedService;
 import tuxiazi.svr.iface.PhotoService;
 import tuxiazi.svr.iface.UserService;
@@ -80,7 +83,8 @@ public class PhotoAction extends BaseApiAction {
 			APIUtil.writeErr(resp, Err.OP_NOPOWER);
 			return null;
 		}
-		this.photoService.deletePhoto(photo);
+		User _u = this.userService.getUser(user.getUserid());
+		this.photoService.deletePhoto(photo, _u);
 		APIUtil.writeSuccess(resp);
 		return null;
 	}
@@ -111,12 +115,27 @@ public class PhotoAction extends BaseApiAction {
 		if (req.getInt("withweibo") == 1) {
 			withweibo = true;
 		}
-		this.photoService.createPhoto(user.getUserid(), list, req.getInt("x"),
-				req.getInt("y"), req.getInt("width"), req.getInt("height"),
-				withweibo, this.getApiUserSina(req));
-		VelocityContext context = new VelocityContext();
-		context.put("errcode", Err.SUCCESS);
-		APIUtil.write(resp, "vm/sinaerr.vm", context);
+		User _u = this.userService.getUser(user.getUserid());
+		try {
+			this.photoService.createPhoto(uploadPhoto, withweibo, _u,
+					this.getApiUserSina(req));
+			VelocityContext context = new VelocityContext();
+			context.put("errcode", Err.SUCCESS);
+			APIUtil.write(resp, "vm/sinaerr.vm", context);
+			return null;
+		}
+		catch (ImageSizeOutOfLimitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (ImageException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -181,7 +200,8 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
 			APIUtil.writeData(resp, map, "vm/friendphotos.vm");
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			APIUtil.writeErr(resp, Err.API_SYS_ERR);
 		}
 		return null;
@@ -217,7 +237,8 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
 			APIUtil.writeData(resp, map, "vm/userphotos.vm");
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			APIUtil.writeErr(resp, Err.API_SYS_ERR);
 		}
 		return null;
@@ -253,7 +274,10 @@ public class PhotoAction extends BaseApiAction {
 	public String prvdellike(HkRequest req, HkResponse resp) {
 		User user = this.getUser(req);
 		long photoid = req.getLong("photoid");
-		this.photoService.deletePhotoUserLike(user.getUserid(), photoid);
+		Photo photo = this.photoService.getPhoto(photoid);
+		if (photo != null) {
+			this.photoService.deletePhotoUserLike(user.getUserid(), photo);
+		}
 		APIUtil.writeSuccess(resp);
 		return null;
 	}
