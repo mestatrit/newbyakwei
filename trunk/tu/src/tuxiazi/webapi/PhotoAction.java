@@ -27,7 +27,9 @@ import tuxiazi.bean.UploadPhoto;
 import tuxiazi.bean.User;
 import tuxiazi.bean.User_photo;
 import tuxiazi.dao.Friend_photo_feedDao;
+import tuxiazi.dao.Lasted_photoDao;
 import tuxiazi.dao.PhotoDao;
+import tuxiazi.dao.User_photoDao;
 import tuxiazi.svr.exception.ImageSizeOutOfLimitException;
 import tuxiazi.svr.iface.PhotoService;
 import tuxiazi.svr.iface.UserService;
@@ -49,6 +51,12 @@ public class PhotoAction extends BaseApiAction {
 	@Autowired
 	private PhotoDao photoDao;
 
+	@Autowired
+	private User_photoDao user_photoDao;
+
+	@Autowired
+	private Lasted_photoDao lasted_photoDao;
+
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
 		long favUserid = 0;
@@ -57,7 +65,7 @@ public class PhotoAction extends BaseApiAction {
 			favUserid = user.getUserid();
 		}
 		long photoid = req.getLong("photoid");
-		Photo photo = this.photoService.getPhoto(photoid, favUserid, true);
+		Photo photo = this.photoDao.getById(photoid, favUserid, true);
 		if (photo == null) {
 			APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
 			return null;
@@ -155,8 +163,8 @@ public class PhotoAction extends BaseApiAction {
 	public String lasted(HkRequest req, HkResponse resp) throws Exception {
 		User user = this.getUser(req);
 		if (user == null) {
-			List<Lasted_photo> lastedlist = this.photoService
-					.getLasted_photoList(true, false, 0, 0, 1);
+			List<Lasted_photo> lastedlist = this.lasted_photoDao.getList(true,
+					false, 0, 0, 1);
 			VelocityContext context = new VelocityContext();
 			context.put("errcode", Err.SUCCESS);
 			context.put("lastedlist", lastedlist);
@@ -172,8 +180,8 @@ public class PhotoAction extends BaseApiAction {
 			APIUtil.write(resp, "vm/friend_lasted.vm", context);
 			return null;
 		}
-		List<Lasted_photo> lastedlist = this.photoService.getLasted_photoList(
-				true, false, user.getUserid(), 0, 1);
+		List<Lasted_photo> lastedlist = this.lasted_photoDao.getList(true,
+				false, user.getUserid(), 0, 1);
 		VelocityContext context = new VelocityContext();
 		context.put("errcode", Err.SUCCESS);
 		context.put("lastedlist", lastedlist);
@@ -229,9 +237,8 @@ public class PhotoAction extends BaseApiAction {
 		}
 		try {
 			User user = this.userService.getUser(uid);
-			List<User_photo> list = this.photoService
-					.getUser_photoListByUserid(uid, true, userid,
-							simplePage.getBegin(), size);
+			List<User_photo> list = this.user_photoDao.getListByUserid(uid,
+					true, userid, simplePage.getBegin(), size);
 			for (User_photo o : list) {
 				if (o.getPhoto() != null) {
 					o.getPhoto().setUser(user);
