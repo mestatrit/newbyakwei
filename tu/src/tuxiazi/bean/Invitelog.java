@@ -6,7 +6,9 @@ import halo.dao.annotation.Table;
 
 import java.util.Date;
 
-@Table(name = "invitelog")
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
+
+@Table(name = "invitelog", partitionClass = TuxiaziDbPartitionHelper.class)
 public class Invitelog {
 
 	@Id

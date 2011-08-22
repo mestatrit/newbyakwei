@@ -2,17 +2,20 @@ package tuxiazi.bean;
 
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
+import halo.dao.annotation.Table;
 import halo.util.HaloUtil;
 
 import java.util.Date;
 
 import tuxiazi.dao.PhotoLikeLogDao;
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 
 /**
  * 保存对图片的like日志，用来进行时间热门统计
  * 
  * @author akwei
  */
+@Table(name = "photolikelog", partitionClass = TuxiaziDbPartitionHelper.class)
 public class PhotoLikeLog {
 
 	@Id

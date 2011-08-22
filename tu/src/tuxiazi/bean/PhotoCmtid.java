@@ -1,5 +1,6 @@
 package tuxiazi.bean;
 
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
 
@@ -8,7 +9,7 @@ import halo.dao.annotation.Table;
  * 
  * @author akwei
  */
-@Table(name = "photocmtid")
+@Table(name = "photocmtid", partitionClass = TuxiaziDbPartitionHelper.class)
 public class PhotoCmtid {
 
 	@Id

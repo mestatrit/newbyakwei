@@ -18,7 +18,8 @@
 		<property name="uploadFileTempPath" value="/tuxiazitemp/" />
 		<property name="scanPathList">
 			<list>
-				<value>iwant.web</value>
+				<value>tuxiazi.web</value>
+				<value>tuxiazi.webapi</value>
 			</list>
 		</property>
 	</bean>

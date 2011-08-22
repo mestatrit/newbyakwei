@@ -3,6 +3,7 @@ package tuxiazi.bean;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 import tuxiazi.util.PhotoUtil;
 
 /**
@@ -10,7 +11,7 @@ import tuxiazi.util.PhotoUtil;
  * 
  * @author akwei
  */
-@Table(name = "hotphoto")
+@Table(name = "hotphoto", partitionClass = TuxiaziDbPartitionHelper.class)
 public class HotPhoto {
 
 	@Id

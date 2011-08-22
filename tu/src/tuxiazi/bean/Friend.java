@@ -1,6 +1,7 @@
 package tuxiazi.bean;
 
 import tuxiazi.dao.FriendDao;
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
@@ -10,9 +11,9 @@ import halo.util.NumberUtil;
 /**
  * 用户关注的人
  * 
- * @author Administrator
+ * @author akwei
  */
-@Table(name = "friend")
+@Table(name = "friend", partitionClass = TuxiaziDbPartitionHelper.class)
 public class Friend {
 
 	public static final byte FLG_NOBOTH = 0;

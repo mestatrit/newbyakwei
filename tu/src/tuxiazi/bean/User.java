@@ -8,13 +8,14 @@ import halo.util.HaloUtil;
 import java.util.Date;
 
 import tuxiazi.dao.UserDao;
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 
 /**
  * 用户表
  * 
  * @author Administrator
  */
-@Table(name = "user")
+@Table(name = "user", partitionClass = TuxiaziDbPartitionHelper.class)
 public class User {
 
 	public User() {

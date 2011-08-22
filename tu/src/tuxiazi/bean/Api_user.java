@@ -6,13 +6,14 @@ import halo.dao.annotation.Table;
 import halo.util.HaloUtil;
 import halo.util.NumberUtil;
 import tuxiazi.dao.Api_userDao;
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 
 /**
  * 用户所授权的第三方网站api信息
  * 
- * @author Administrator
+ * @author akwei
  */
-@Table(name = "api_user")
+@Table(name = "api_user", partitionClass = TuxiaziDbPartitionHelper.class)
 public class Api_user {
 
 	public Api_user() {
