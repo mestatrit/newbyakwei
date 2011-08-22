@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import tuxiazi.bean.Friend_photo_feed;
 import tuxiazi.bean.User;
 import tuxiazi.dao.FansDao;
+import tuxiazi.dao.UserDao;
 import tuxiazi.svr.iface.FeedService;
-import tuxiazi.svr.iface.UserService;
 
 public class FeedConsumer {
 
@@ -25,10 +25,10 @@ public class FeedConsumer {
 	private FeedService feedService;
 
 	@Autowired
-	private UserService userService;
+	private FansDao fansDao;
 
 	@Autowired
-	private FansDao fansDao;
+	private UserDao userDao;
 
 	public void processMessage(String value) {
 		JmsMsg jmsMsg = new JmsMsg(value);
@@ -42,7 +42,7 @@ public class FeedConsumer {
 	private void proccessCreatePhoto(String body) {
 		Map<String, String> map = JsonUtil.getMapFromJson(body);
 		long userid = Long.valueOf(map.get(JsonKey.userid));
-		User user = this.userService.getUser(userid);
+		User user = this.userDao.getById(userid);
 		if (user == null) {
 			return;
 		}

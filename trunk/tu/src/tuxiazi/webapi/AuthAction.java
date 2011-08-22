@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import tuxiazi.bean.Api_user;
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.SinaUserFromAPI;
+import tuxiazi.dao.Api_user_sinaDao;
+import tuxiazi.dao.UserDao;
 import tuxiazi.svr.iface.UserService;
 import tuxiazi.util.Err;
 import tuxiazi.web.util.SinaUtil;
@@ -29,6 +31,12 @@ public class AuthAction extends BaseApiAction {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private UserDao userDao;
+
+	@Autowired
+	private Api_user_sinaDao api_user_sinaDao;
 
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
@@ -53,8 +61,8 @@ public class AuthAction extends BaseApiAction {
 				resp.sendHtml(this.getErrMsg(Err.API_NO_SINA_USER));
 				return null;
 			}
-			Api_user_sina apiUserSina = this.userService
-					.getApi_user_sinaBySina_userid(sina_user.getId());
+			Api_user_sina apiUserSina = this.api_user_sinaDao.getById(sina_user
+					.getId());
 			if (apiUserSina == null) {
 				SinaUserFromAPI sinaUserFromAPI = new SinaUserFromAPI(
 						accessToken.getToken(), accessToken.getTokenSecret(),
@@ -68,7 +76,7 @@ public class AuthAction extends BaseApiAction {
 				apiUserSina.setAccess_token(accessToken.getToken());
 				apiUserSina.setToken_secret(accessToken.getTokenSecret());
 				this.userService.updateApi_user_sina(apiUserSina);
-				tuxiazi.bean.User user = this.userService.getUser(apiUserSina
+				tuxiazi.bean.User user = this.userDao.getById(apiUserSina
 						.getUserid());
 				if (user != null) {
 					user.setNick(sina_user.getScreenName());

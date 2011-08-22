@@ -18,6 +18,7 @@ import tuxiazi.bean.User_photo;
 import tuxiazi.bean.helper.noticedata.FollowNoticeCreater;
 import tuxiazi.dao.FansDao;
 import tuxiazi.dao.FriendDao;
+import tuxiazi.dao.UserDao;
 import tuxiazi.dao.User_photoDao;
 import tuxiazi.svr.iface.FeedService;
 import tuxiazi.svr.iface.FriendService;
@@ -43,6 +44,9 @@ public class FriendServiceImpl implements FriendService {
 
 	@Autowired
 	private User_photoDao user_photoDao;
+
+	@Autowired
+	private UserDao userDao;
 
 	private Comparator<User_photo> comparator = new Comparator<User_photo>() {
 
@@ -78,7 +82,7 @@ public class FriendServiceImpl implements FriendService {
 		}
 		// 创建好友关系
 		friend.save();
-		User user = this.userService.getUser(friend.getUserid());
+		User user = this.userDao.getById(friend.getUserid());
 		if (sendNotice) {
 			// 发送follow的通知到对方
 			FollowNoticeCreater followNoticeCreater = new FollowNoticeCreater();
@@ -99,7 +103,7 @@ public class FriendServiceImpl implements FriendService {
 			fans2.setFlg(friend.getFlg());
 			fans2.setOid(NumberUtil.getLong(this.fansDao.save(fans2)));
 			// 更新对方粉丝数量
-			User friendUser = this.userService.getUser(friend.getFriendid());
+			User friendUser = this.userDao.getById(friend.getFriendid());
 			friendUser.setFans_num(friendUser.getFans_num() + 1);
 			this.userService.update(friendUser);
 		}

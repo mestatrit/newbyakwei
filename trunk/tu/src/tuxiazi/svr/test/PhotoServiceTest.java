@@ -20,10 +20,11 @@ import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.Photo;
 import tuxiazi.bean.UploadPhoto;
 import tuxiazi.bean.User;
+import tuxiazi.dao.Api_user_sinaDao;
+import tuxiazi.dao.UserDao;
 import tuxiazi.svr.exception.ImageSizeOutOfLimitException;
 import tuxiazi.svr.iface.PhotoService;
 import tuxiazi.svr.iface.UploadPhotoResult;
-import tuxiazi.svr.iface.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "/applicationContext.xml" })
@@ -37,7 +38,10 @@ public class PhotoServiceTest {
 	private PhotoService photoService;
 
 	@Resource
-	private UserService userService;
+	private UserDao userDao;
+
+	@Resource
+	private Api_user_sinaDao api_user_sinaDao;
 
 	private UploadPhotoResult uploadPhotoResult;
 
@@ -50,9 +54,8 @@ public class PhotoServiceTest {
 		up.setCreate_time(new Date());
 		up.setFile(new File("c:/test/284DF4F7812EF3C96C69253C12B1775F.jpg"));
 		list.add(up);
-		User user = this.userService.getUser(userid);
-		Api_user_sina apiUserSina = this.userService
-				.getApi_user_sinaByUserid(userid);
+		User user = this.userDao.getById(userid);
+		Api_user_sina apiUserSina = this.api_user_sinaDao.getByUserid(userid);
 		try {
 			Photo photo = this.photoService.createPhoto(up, false, user,
 					apiUserSina);
@@ -77,7 +80,7 @@ public class PhotoServiceTest {
 	public void createPhotoUserLike() {
 		this.createPhoto();
 		if (uploadPhotoResult.isSuccess()) {
-			User user2 = this.userService.getUser(userid2);
+			User user2 = this.userDao.getById(userid2);
 			for (Photo photo : uploadPhotoResult.getPhotos()) {
 				this.photoService.createPhotoUserLike(user2, photo);
 			}

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.User;
 import tuxiazi.dao.FriendDao;
-import tuxiazi.svr.iface.UserService;
+import tuxiazi.dao.UserDao;
 import tuxiazi.util.Err;
 import tuxiazi.web.util.APIUtil;
 
@@ -19,15 +19,15 @@ import tuxiazi.web.util.APIUtil;
 public class UserAction extends BaseApiAction {
 
 	@Autowired
-	private UserService userService;
+	private FriendDao friendDao;
 
 	@Autowired
-	private FriendDao friendDao;
+	private UserDao userDao;
 
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
 		long uid = req.getLong("uid");
-		User user = this.userService.getUser(uid);
+		User user = this.userDao.getById(uid);
 		if (user == null) {
 			APIUtil.writeErr(resp, Err.USER_NOTEXIST);
 			return null;
