@@ -3,11 +3,13 @@ package tuxiazi.svr.impl2;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.Notice;
 import tuxiazi.dao.NoticeDao;
 import tuxiazi.svr.iface.NoticeService;
 
+@Component("noticeService")
 public class NoticeServiceImpl implements NoticeService {
 
 	@Autowired

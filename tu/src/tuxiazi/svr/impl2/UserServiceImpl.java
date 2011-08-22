@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.SinaUser;
@@ -20,6 +21,7 @@ import tuxiazi.svr.impl.jms.JsonKey;
 import tuxiazi.web.util.SinaUtil;
 import weibo4j.WeiboException;
 
+@Component("userService")
 public class UserServiceImpl implements UserService {
 
 	@Autowired
