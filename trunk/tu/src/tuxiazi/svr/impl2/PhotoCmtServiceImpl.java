@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.Photo;
@@ -28,6 +29,7 @@ import tuxiazi.util.FileCnf;
 import tuxiazi.web.util.SinaUtil;
 import weibo4j.WeiboException;
 
+@Component("photoCmtService")
 public class PhotoCmtServiceImpl implements PhotoCmtService {
 
 	@Autowired

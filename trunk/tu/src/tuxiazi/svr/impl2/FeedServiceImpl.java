@@ -3,11 +3,13 @@ package tuxiazi.svr.impl2;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.Friend_photo_feed;
 import tuxiazi.dao.Friend_photo_feedDao;
 import tuxiazi.svr.iface.FeedService;
 
+@Component("feedService")
 public class FeedServiceImpl implements FeedService {
 
 	@Autowired
