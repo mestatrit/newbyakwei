@@ -3,16 +3,14 @@ package tuxiazi.bean;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
-import halo.util.HaloUtil;
-import halo.util.NumberUtil;
-import tuxiazi.dao.PhotoLikeUserDao;
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 
 /**
  * 喜欢图片的用户数据
  * 
  * @author akwei
  */
-@Table(name = "photo_likeuser")
+@Table(name = "photo_likeuser", partitionClass = TuxiaziDbPartitionHelper.class)
 public class PhotoLikeUser {
 
 	@Id
@@ -67,5 +65,4 @@ public class PhotoLikeUser {
 	public void setUserid(long userid) {
 		this.userid = userid;
 	}
-
 }

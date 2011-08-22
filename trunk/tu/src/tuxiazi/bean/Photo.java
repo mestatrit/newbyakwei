@@ -28,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 
 import tuxiazi.bean.benum.PhotoPrivacyEnum;
 import tuxiazi.dao.PhotoDao;
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 import tuxiazi.svr.exception.ImageSizeOutOfLimitException;
 import tuxiazi.svr.impl.jms.JsonKey;
 import tuxiazi.util.FileCnf;
@@ -36,9 +37,9 @@ import tuxiazi.util.PhotoUtil;
 /**
  * 图片
  * 
- * @author Administrator
+ * @author akwei
  */
-@Table(name = "photo")
+@Table(name = "photo", partitionClass = TuxiaziDbPartitionHelper.class)
 public class Photo {
 
 	private final Log log = LogFactory.getLog(Photo.class);

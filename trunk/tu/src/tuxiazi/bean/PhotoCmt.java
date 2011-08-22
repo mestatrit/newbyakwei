@@ -7,6 +7,7 @@ import halo.util.HaloValidate;
 
 import java.util.Date;
 
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 import tuxiazi.util.Err;
 import tuxiazi.util.PhotoUtil;
 
@@ -15,7 +16,7 @@ import tuxiazi.util.PhotoUtil;
  * 
  * @author akwei
  */
-@Table(name = "photocmt")
+@Table(name = "photocmt", partitionClass = TuxiaziDbPartitionHelper.class)
 public class PhotoCmt {
 
 	@Id

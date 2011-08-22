@@ -1,14 +1,15 @@
 package tuxiazi.bean;
 
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
 
 /**
  * 图片id
  * 
- * @author Administrator
+ * @author akwei
  */
-@Table(name = "photoid")
+@Table(name = "photoid", partitionClass = TuxiaziDbPartitionHelper.class)
 public class Photoid {
 
 	/**

@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class TuxiaziDbPartitionHelper extends DbPartitionHelper {
 
-	private String dsKey = "ds_tuxiazi";
+	private String dsKey = "mysql_ds_tuxiazi";
 
 	@Override
 	public PartitionTableInfo parse(String name, Map<String, Object> ctxMap) {

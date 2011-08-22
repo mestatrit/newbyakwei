@@ -1,5 +1,6 @@
 package tuxiazi.bean;
 
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
@@ -7,9 +8,9 @@ import halo.dao.annotation.Table;
 /**
  * 粉丝（用户被哪些人关注）
  * 
- * @author Administrator
+ * @author akwei
  */
-@Table(name = "fans")
+@Table(name = "fans", partitionClass = TuxiaziDbPartitionHelper.class)
 public class Fans {
 
 	/**

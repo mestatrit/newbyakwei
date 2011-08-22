@@ -18,6 +18,7 @@ import tuxiazi.bean.helper.noticedata.NoticeCreater;
 import tuxiazi.bean.helper.noticedata.PhotoCmtNoticeCreater;
 import tuxiazi.bean.helper.noticedata.PhotoLikeNoticeCreater;
 import tuxiazi.dao.NoticeDao;
+import tuxiazi.dao.dbpartitionhelper.Tuxiazi_FeedDbPartitionHelper;
 import tuxiazi.util.PhotoUtil;
 
 /**
@@ -25,7 +26,7 @@ import tuxiazi.util.PhotoUtil;
  * 
  * @author akwei
  */
-@Table(name = "notice")
+@Table(name = "notice", partitionClass = Tuxiazi_FeedDbPartitionHelper.class)
 public class Notice {
 
 	/**

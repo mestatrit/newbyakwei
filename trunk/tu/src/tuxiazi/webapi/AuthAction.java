@@ -38,12 +38,23 @@ public class AuthAction extends BaseApiAction {
 	@Autowired
 	private Api_user_sinaDao api_user_sinaDao;
 
+	private String getServerUrl(HkRequest req) {
+		StringBuffer sb = new StringBuffer("http://");
+		sb.append(req.getServerName());
+		int port = req.getLocalPort();
+		if (port != 80) {
+			sb.append(":");
+			sb.append(port);
+		}
+		return sb.toString();
+	}
+
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
 		if (this.isForwardPage(req)) {
-			String back_url = "http://" + req.getServerName()
-					+ req.getContextPath() + "/api/auth?ch=1&api_type="
-					+ Api_user.API_TYPE_SINA + "&return_url="
+			String back_url = this.getServerUrl(req) + req.getContextPath()
+					+ "/api/auth?ch=1&api_type=" + Api_user.API_TYPE_SINA
+					+ "&return_url="
 					+ DataUtil.urlEncoder(req.getString("back_url"));
 			RequestToken requestToken = SinaUtil.getRequestToken(back_url);
 			this.setOAuth_sina_Cookie(req, resp, requestToken);

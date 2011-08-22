@@ -7,13 +7,14 @@ import halo.util.HaloUtil;
 import halo.util.NumberUtil;
 import tuxiazi.dao.PhotoLikeUserDao;
 import tuxiazi.dao.PhotoUserLikeDao;
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 
 /**
  * 用户喜欢的图片
  * 
  * @author akwei
  */
-@Table(name = "photo_userlike")
+@Table(name = "photo_userlike", partitionClass = TuxiaziDbPartitionHelper.class)
 public class PhotoUserLike {
 
 	@Id

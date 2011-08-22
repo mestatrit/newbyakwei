@@ -8,13 +8,14 @@ import halo.util.HaloUtil;
 import java.util.Date;
 
 import tuxiazi.dao.Friend_photo_feedDao;
+import tuxiazi.dao.dbpartitionhelper.Tuxiazi_FeedDbPartitionHelper;
 
 /**
  * 用户关注的人的最近图片动态
  * 
- * @author Administrator
+ * @author akwei
  */
-@Table(name = "friend_photo_feed")
+@Table(name = "friend_photo_feed", partitionClass = Tuxiazi_FeedDbPartitionHelper.class)
 public class Friend_photo_feed {
 
 	/**

@@ -6,13 +6,14 @@ import halo.dao.annotation.Table;
 import halo.util.HaloUtil;
 import halo.util.NumberUtil;
 import tuxiazi.dao.User_photoDao;
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 
 /**
  * 用户的图片
  * 
  * @author akwei
  */
-@Table(name = "user_photo")
+@Table(name = "user_photo", partitionClass = TuxiaziDbPartitionHelper.class)
 public class User_photo {
 
 	/**

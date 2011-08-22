@@ -1,6 +1,7 @@
 package tuxiazi.bean;
 
 import tuxiazi.dao.Lasted_photoDao;
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
 import halo.util.HaloUtil;
@@ -10,7 +11,7 @@ import halo.util.HaloUtil;
  * 
  * @author akwei
  */
-@Table(name = "lasted_photo")
+@Table(name = "lasted_photo", partitionClass = TuxiaziDbPartitionHelper.class)
 public class Lasted_photo {
 
 	public Lasted_photo() {
