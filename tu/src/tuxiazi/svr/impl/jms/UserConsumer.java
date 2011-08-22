@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.Friend;
+import tuxiazi.dao.Api_user_sinaDao;
 import tuxiazi.svr.iface.FriendService;
-import tuxiazi.svr.iface.UserService;
 import tuxiazi.web.util.SinaUtil;
 import weibo4j.WeiboException;
 
@@ -26,7 +26,7 @@ public class UserConsumer {
 	private FriendService friendService;
 
 	@Autowired
-	private UserService userService;
+	private Api_user_sinaDao api_user_sinaDao;
 
 	public void processMessage(String value) {
 		JmsMsg jmsMsg = new JmsMsg(value);
@@ -46,15 +46,15 @@ public class UserConsumer {
 		List<Long> frlist = null;
 		List<Long> fansidlist = null;
 		try {
-			frlist = SinaUtil.getFriendIdList(access_token, token_secret, Long
-					.valueOf(sina_userid));
+			frlist = SinaUtil.getFriendIdList(access_token, token_secret,
+					Long.valueOf(sina_userid));
 			fansidlist = SinaUtil.getFansIdList(access_token, token_secret,
 					Long.valueOf(sina_userid));
 			if (frlist != null) {
 				Set<Long> bothset = this.getBothset(frlist, fansidlist);
 				// 查看在新浪微博的好友是否有注册的，如果有，就关注
-				List<Api_user_sina> list = this.userService
-						.getApi_user_sinaListInSina_userid(frlist, true);
+				List<Api_user_sina> list = this.api_user_sinaDao
+						.getListInSina_userid(frlist, true);
 				Friend friend = null;
 				for (Api_user_sina o : list) {
 					friend = new Friend();

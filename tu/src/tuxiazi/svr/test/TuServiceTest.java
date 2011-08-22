@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import tuxiazi.bean.Api_user;
 import tuxiazi.bean.SinaUserFromAPI;
 import tuxiazi.bean.User;
+import tuxiazi.dao.Api_userDao;
+import tuxiazi.dao.UserDao;
 import tuxiazi.svr.exception.UserAlreadyExistException;
 import tuxiazi.svr.iface.UserService;
 
@@ -26,15 +28,21 @@ public class TuServiceTest {
 	@Resource
 	private UserService userService;
 
+	@Resource
+	private UserDao userDao;
+
+	@Resource
+	private Api_userDao api_userDao;
+
 	@Test
 	public void test_createApi_user_sina() {
 		SinaUserFromAPI sinaUserFromAPI = new SinaUserFromAPI("accesstoken",
 				"tokenSecret", 120394, "akwei", "head");
 		try {
 			User u = this.userService.createUserFromSina(sinaUserFromAPI);
-			User user = this.userService.getUser(u.getUserid());
+			User user = this.userDao.getById(u.getUserid());
 			Assert.assertNotNull(user);
-			Api_user apiUser = this.userService.getApi_userByUseridAndApi_type(
+			Api_user apiUser = this.api_userDao.getByUseridAndApi_type(
 					u.getUserid(), Api_user.API_TYPE_SINA);
 			Assert.assertNotNull(apiUser);
 			Assert.assertEquals(u.getUserid(), user.getUserid());

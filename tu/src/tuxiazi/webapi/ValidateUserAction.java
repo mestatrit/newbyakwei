@@ -11,14 +11,18 @@ import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.User;
-import tuxiazi.svr.iface.UserService;
+import tuxiazi.dao.Api_user_sinaDao;
+import tuxiazi.dao.UserDao;
 import tuxiazi.web.util.APIUtil;
 
 @Component("/api/validateuser")
 public class ValidateUserAction extends BaseApiAction {
 
 	@Autowired
-	private UserService userService;
+	private UserDao userDao;
+
+	@Autowired
+	private Api_user_sinaDao api_user_sinaDao;
 
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
@@ -28,8 +32,7 @@ public class ValidateUserAction extends BaseApiAction {
 		if (userid <= 0) {
 			return this.validateFail(resp);
 		}
-		Api_user_sina apiUserSina = userService
-				.getApi_user_sinaByUserid(userid);
+		Api_user_sina apiUserSina = api_user_sinaDao.getByUserid(userid);
 		if (apiUserSina == null) {
 			return this.validateFail(resp);
 		}
@@ -37,7 +40,7 @@ public class ValidateUserAction extends BaseApiAction {
 				|| !apiUserSina.getToken_secret().equals(token_secret)) {
 			return this.validateFail(resp);
 		}
-		User user = userService.getUser(apiUserSina.getUserid());
+		User user = userDao.getById(apiUserSina.getUserid());
 		if (user == null) {
 			return this.validateFail(resp);
 		}

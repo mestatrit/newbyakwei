@@ -20,18 +20,15 @@ import tuxiazi.bean.helper.noticedata.PhotoCmtNoticeCreater;
 import tuxiazi.dao.PhotoCmtDao;
 import tuxiazi.dao.PhotoCmtidDao;
 import tuxiazi.dao.PhotoDao;
+import tuxiazi.dao.UserDao;
 import tuxiazi.svr.iface.NoticeService;
 import tuxiazi.svr.iface.PhotoCmtService;
 import tuxiazi.svr.iface.PhotoService;
-import tuxiazi.svr.iface.UserService;
 import tuxiazi.util.FileCnf;
 import tuxiazi.web.util.SinaUtil;
 import weibo4j.WeiboException;
 
 public class PhotoCmtServiceImpl implements PhotoCmtService {
-
-	@Autowired
-	private UserService userService;
 
 	@Autowired
 	private PhotoService photoService;
@@ -50,6 +47,9 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 
 	@Autowired
 	private PhotoDao photoDao;
+
+	@Autowired
+	private UserDao userDao;
 
 	private Log log = LogFactory.getLog(PhotoCmtServiceImpl.class);
 
@@ -89,7 +89,7 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 			String filepath = this.fileCnf.getFilePath(photo.getPath());
 			File imgFile = FileCnf.getFile(filepath + Photo.p4_houzhui);
 			try {
-				User photoUser = this.userService.getUser(photo.getUserid());
+				User photoUser = this.userDao.getById(photo.getUserid());
 				String content = null;
 				if (user.getUserid() == photo.getUserid()) {
 					content = "针对自己 的图片评论道：“"

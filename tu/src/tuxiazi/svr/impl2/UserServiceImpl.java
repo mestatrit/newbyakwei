@@ -7,14 +7,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import tuxiazi.bean.Api_user;
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.SinaUser;
 import tuxiazi.bean.SinaUserFromAPI;
 import tuxiazi.bean.User;
-import tuxiazi.dao.Api_userDao;
 import tuxiazi.dao.Api_user_sinaDao;
-import tuxiazi.dao.UserDao;
 import tuxiazi.svr.exception.UserAlreadyExistException;
 import tuxiazi.svr.iface.UserService;
 import tuxiazi.svr.impl.jms.HkMsgProducer;
@@ -30,12 +27,6 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private Api_user_sinaDao api_user_sinaDao;
-
-	@Autowired
-	private UserDao userDao;
-
-	@Autowired
-	private Api_userDao api_userDao;
 
 	@Override
 	public User createUserFromSina(SinaUserFromAPI sinaUserFromAPI)
@@ -64,11 +55,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUser(long userid) {
-		return this.userDao.getById(userid);
-	}
-
-	@Override
 	public void update(User user) {
 		user.update();
 	}
@@ -78,69 +64,18 @@ public class UserServiceImpl implements UserService {
 		apiUserSina.update();
 	}
 
-	@Override
-	public Api_user getApi_userByUseridAndApi_type(long userid, int apiType) {
-		return this.api_userDao.getByUseridAndApi_type(userid, apiType);
-	}
-
-	@Override
-	public Api_user_sina getApi_user_sinaBySina_userid(long sina_userid) {
-		return this.api_user_sinaDao.getById(sina_userid);
-	}
-
-	@Override
-	public Api_user_sina getApi_user_sinaByUserid(long userid) {
-		return this.api_user_sinaDao.getByUserid(userid);
-	}
-
-	@Override
-	public Map<Long, Api_user_sina> getApi_user_sinaMapInSina_userid(
+	private Map<Long, Api_user_sina> getApi_user_sinaMapInSina_userid(
 			List<Long> idList, boolean buildUser) {
 		if (idList.isEmpty()) {
 			return new HashMap<Long, Api_user_sina>(0);
 		}
-		List<Api_user_sina> list = this.getApi_user_sinaListInSina_userid(
+		List<Api_user_sina> list = this.api_user_sinaDao.getListInSina_userid(
 				idList, buildUser);
 		Map<Long, Api_user_sina> map = new HashMap<Long, Api_user_sina>();
 		for (Api_user_sina o : list) {
 			map.put(o.getSina_userid(), o);
 		}
 		return map;
-	}
-
-	@Override
-	public List<Api_user_sina> getApi_user_sinaListInSina_userid(
-			List<Long> idList, boolean buildUser) {
-		if (idList.isEmpty()) {
-			return new ArrayList<Api_user_sina>(0);
-		}
-		List<Api_user_sina> list = this.api_user_sinaDao.getListInField(
-				"sina_userid", idList);
-		if (buildUser) {
-			List<Long> id2List = new ArrayList<Long>();
-			for (Api_user_sina o : list) {
-				id2List.add(o.getUserid());
-			}
-			List<User> userlist = this.getUserListInId(id2List);
-			Map<Long, User> usermap = new HashMap<Long, User>();
-			for (User o : userlist) {
-				usermap.put(o.getUserid(), o);
-			}
-			for (Api_user_sina o : list) {
-				o.setUser(usermap.get(o.getUserid()));
-			}
-		}
-		return list;
-	}
-
-	@Override
-	public Map<Long, User> getUserMapInId(List<Long> idList) {
-		return this.userDao.getMapInId(idList);
-	}
-
-	@Override
-	public List<User> getUserListInId(List<Long> idList) {
-		return this.userDao.getListInId(idList);
 	}
 
 	@Override

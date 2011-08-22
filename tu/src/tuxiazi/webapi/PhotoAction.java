@@ -27,12 +27,14 @@ import tuxiazi.bean.UploadPhoto;
 import tuxiazi.bean.User;
 import tuxiazi.bean.User_photo;
 import tuxiazi.dao.Friend_photo_feedDao;
+import tuxiazi.dao.HotPhotoDao;
 import tuxiazi.dao.Lasted_photoDao;
 import tuxiazi.dao.PhotoDao;
+import tuxiazi.dao.PhotoLikeUserDao;
+import tuxiazi.dao.UserDao;
 import tuxiazi.dao.User_photoDao;
 import tuxiazi.svr.exception.ImageSizeOutOfLimitException;
 import tuxiazi.svr.iface.PhotoService;
-import tuxiazi.svr.iface.UserService;
 import tuxiazi.util.Err;
 import tuxiazi.web.util.APIUtil;
 
@@ -41,9 +43,6 @@ public class PhotoAction extends BaseApiAction {
 
 	@Autowired
 	private PhotoService photoService;
-
-	@Autowired
-	private UserService userService;
 
 	@Autowired
 	private Friend_photo_feedDao friend_photo_feedDao;
@@ -56,6 +55,15 @@ public class PhotoAction extends BaseApiAction {
 
 	@Autowired
 	private Lasted_photoDao lasted_photoDao;
+
+	@Autowired
+	private HotPhotoDao hotPhotoDao;
+
+	@Autowired
+	private PhotoLikeUserDao photoLikeUserDao;
+
+	@Autowired
+	private UserDao userDao;
 
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
@@ -95,7 +103,7 @@ public class PhotoAction extends BaseApiAction {
 			APIUtil.writeErr(resp, Err.OP_NOPOWER);
 			return null;
 		}
-		User _u = this.userService.getUser(user.getUserid());
+		User _u = this.userDao.getById(user.getUserid());
 		this.photoService.deletePhoto(photo, _u);
 		APIUtil.writeSuccess(resp);
 		return null;
@@ -127,7 +135,7 @@ public class PhotoAction extends BaseApiAction {
 		if (req.getInt("withweibo") == 1) {
 			withweibo = true;
 		}
-		User _u = this.userService.getUser(user.getUserid());
+		User _u = this.userDao.getById(user.getUserid());
 		try {
 			this.photoService.createPhoto(uploadPhoto, withweibo, _u,
 					this.getApiUserSina(req));
@@ -236,7 +244,7 @@ public class PhotoAction extends BaseApiAction {
 			userid = loginuser.getUserid();
 		}
 		try {
-			User user = this.userService.getUser(uid);
+			User user = this.userDao.getById(uid);
 			List<User_photo> list = this.user_photoDao.getListByUserid(uid,
 					true, userid, simplePage.getBegin(), size);
 			for (User_photo o : list) {
@@ -313,7 +321,7 @@ public class PhotoAction extends BaseApiAction {
 	 * @return
 	 */
 	public String hot(HkRequest req, HkResponse resp) {
-		List<HotPhoto> list = this.photoService.getHotPhotoList(0, 40);
+		List<HotPhoto> list = this.hotPhotoDao.getList(0, 40);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
 		APIUtil.writeData(resp, map, "vm/hotphotos.vm");
@@ -337,9 +345,9 @@ public class PhotoAction extends BaseApiAction {
 			userid = user.getUserid();
 		}
 		SimplePage simplePage = new SimplePage(size, page);
-		List<PhotoLikeUser> list = this.photoService
-				.getPhotoLikeUserListByPhotoid(photoid, true, userid,
-						simplePage.getBegin(), simplePage.getSize());
+		List<PhotoLikeUser> list = this.photoLikeUserDao.getListByPhotoid(
+				photoid, true, userid, simplePage.getBegin(),
+				simplePage.getSize());
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
 		APIUtil.writeData(resp, map, "vm/photolikeuser.vm");

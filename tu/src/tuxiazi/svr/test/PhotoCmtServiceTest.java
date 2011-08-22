@@ -17,8 +17,8 @@ import tuxiazi.bean.PhotoCmt;
 import tuxiazi.bean.User;
 import tuxiazi.dao.PhotoCmtDao;
 import tuxiazi.dao.PhotoDao;
+import tuxiazi.dao.UserDao;
 import tuxiazi.svr.iface.PhotoCmtService;
-import tuxiazi.svr.iface.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "/applicationContext.xml" })
@@ -28,21 +28,21 @@ public class PhotoCmtServiceTest {
 	@Resource
 	private PhotoCmtService photoCmtService;
 
-	@Resource
-	private UserService userService;
-
 	@Autowired
 	private PhotoDao photoDao;
 
 	@Autowired
 	private PhotoCmtDao photoCmtDao;
 
+	@Autowired
+	private UserDao userDao;
+
 	@Test
 	public void createPhotoCmt() {
 		long userid = 2;
 		long photoid = 33;
 		Photo photo = this.photoDao.getById(photoid);
-		User user = this.userService.getUser(userid);
+		User user = this.userDao.getById(userid);
 		PhotoCmt photoCmt = new PhotoCmt();
 		photoCmt.setUserid(userid);
 		photoCmt.setPhotoid(photoid);

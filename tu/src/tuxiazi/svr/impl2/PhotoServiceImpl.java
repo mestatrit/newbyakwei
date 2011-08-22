@@ -21,7 +21,6 @@ import tuxiazi.bean.HotPhoto;
 import tuxiazi.bean.Lasted_photo;
 import tuxiazi.bean.Notice;
 import tuxiazi.bean.Photo;
-import tuxiazi.bean.PhotoLikeUser;
 import tuxiazi.bean.PhotoUserLike;
 import tuxiazi.bean.UploadPhoto;
 import tuxiazi.bean.User;
@@ -244,29 +243,5 @@ public class PhotoServiceImpl implements PhotoService {
 			long oid = NumberUtil.getLong(this.hotPhotoDao.save(hotPhoto));
 			hotPhoto.setOid(oid);
 		}
-	}
-
-	@Override
-	public List<HotPhoto> getHotPhotoList(int begin, int size) {
-		return this.hotPhotoDao.getList(begin, size);
-	}
-
-	@Override
-	public List<PhotoUserLike> getPhotoUserLikeListByUserid(long userid,
-			boolean buildPhoto, int begin, int size) {
-		return this.photoUserLikeDao.getListByUserid(userid, begin, size);
-	}
-
-	@Override
-	public PhotoUserLike getPhotoUserLikeByUseridAndPhotoid(long userid,
-			long photoid) {
-		return this.photoUserLikeDao.getByUseridAndPhotoid(userid, photoid);
-	}
-
-	@Override
-	public List<PhotoLikeUser> getPhotoLikeUserListByPhotoid(long photoid,
-			boolean buildUser, long refuserid, int begin, int size) {
-		return this.photoLikeUserDao.getListByPhotoid(photoid, buildUser,
-				refuserid, begin, size);
 	}
 }

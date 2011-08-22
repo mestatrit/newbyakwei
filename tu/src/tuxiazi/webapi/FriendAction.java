@@ -16,8 +16,8 @@ import tuxiazi.bean.Friend;
 import tuxiazi.bean.User;
 import tuxiazi.dao.FansDao;
 import tuxiazi.dao.FriendDao;
+import tuxiazi.dao.UserDao;
 import tuxiazi.svr.iface.FriendService;
-import tuxiazi.svr.iface.UserService;
 import tuxiazi.util.Err;
 import tuxiazi.web.util.APIUtil;
 
@@ -28,13 +28,13 @@ public class FriendAction extends BaseApiAction {
 	private FriendService friendService;
 
 	@Autowired
-	private UserService userService;
-
-	@Autowired
 	private FriendDao friendDao;
 
 	@Autowired
 	private FansDao fansDao;
+
+	@Autowired
+	private UserDao userDao;
 
 	/**
 	 * 创建关注关系
@@ -49,7 +49,7 @@ public class FriendAction extends BaseApiAction {
 			APIUtil.writeErr(resp, Err.USER_NOTEXIST);
 			return null;
 		}
-		User user2 = this.userService.getUser(uid);
+		User user2 = this.userDao.getById(uid);
 		if (user2 == null) {
 			APIUtil.writeErr(resp, Err.USER_NOTEXIST);
 			return null;
@@ -73,8 +73,8 @@ public class FriendAction extends BaseApiAction {
 	public String prvdelete(HkRequest req, HkResponse resp) {
 		long uid = req.getLong("uid");
 		User user = this.getUser(req);
-		User _u = this.userService.getUser(user.getUserid());
-		User _f = this.userService.getUser(uid);
+		User _u = this.userDao.getById(user.getUserid());
+		User _f = this.userDao.getById(uid);
 		this.friendService.deleteFriend(_u, _f, true);
 		APIUtil.writeSuccess(resp);
 		return null;
