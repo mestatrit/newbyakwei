@@ -4,6 +4,7 @@ import halo.web.action.HkRequest;
 import halo.web.action.HkResponse;
 import halo.web.util.SimplePage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,8 +64,12 @@ public class NoticeAction extends BaseApiAction {
 				list = this.noticeDao.getListByUserid(user.getUserid(), true,
 						simplePage.getBegin(), simplePage.getSize());
 			}
+			List<NoticeInfo> infolist = new ArrayList<NoticeInfo>(list.size());
+			for (Notice o : list) {
+				infolist.add(new NoticeInfo(o));
+			}
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("list", list);
+			map.put("infolist", infolist);
 			APIUtil.writeData(resp, map, "vm/notice.vm");
 		}
 		catch (Exception e) {

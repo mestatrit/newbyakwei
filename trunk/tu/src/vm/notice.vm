@@ -1,19 +1,19 @@
 <resp errcode="0" err_msg="">
 	<list>
-		#foreach($notice in $list)
+		#foreach($noticeinfo in $infolist)
 			<notice>
-				<noticeid>$!{notice.noticeid}</noticeid>
-				<userid>$!{notice.userid}</userid>
-				<create_time>$!{notice.fmtTime}</create_time>
-				<notice_flg>$!{notice.notice_flg}</notice_flg>
-				<readflg>$!{notice.readflg}</readflg>
+				<noticeid>$!{noticeinfo.notice.noticeid}</noticeid>
+				<userid>$!{noticeinfo.notice.userid}</userid>
+				<create_time>$!{noticeinfo.notice.fmtTime}</create_time>
+				<notice_flg>$!{noticeinfo.notice.notice_flg}</notice_flg>
+				<readflg>$!{noticeinfo.notice.readflg}</readflg>
 				<sender>
-					<userid>$!{notice.dataMap.get("senderid")}</userid>
-					<nick><![CDATA[$!{notice.dataMap.get("nick")}]]></nick>
-					<head><![CDATA[$!{notice.dataMap.get("head")}]]></head>
+					<userid>$!{noticeinfo.notice.sender.userid}</userid>
+					<nick><![CDATA[$!{noticeinfo.notice.sender.nick}]]></nick>
+					<head><![CDATA[$!{noticeinfo.notice.sender.head}]]></head>
 				</sender>
-				<photoid><![CDATA[$!{notice.dataMap.get("photoid")}]]></photoid>
-				<noticeintro><![CDATA[$!{notice.noticeIntro}]]></noticeintro>
+				<photoid><![CDATA[$!{noticeinfo.notice.refoid}]]></photoid>
+				<noticeintro><![CDATA[$!{noticeinfo.text}]]></noticeintro>
 			</notice>
 		#end
 	</list>
