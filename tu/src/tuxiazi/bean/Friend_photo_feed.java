@@ -95,13 +95,6 @@ public class Friend_photo_feed {
 		create_time = createTime;
 	}
 
-	public void buildPhotoFeed(Photo photo, long feedUserid) {
-		this.userid = feedUserid;
-		this.photoid = photo.getPhotoid();
-		this.create_time = photo.getCreate_time();
-		this.photo_userid = photo.getUserid();
-	}
-
 	public void save() {
 		Friend_photo_feedDao dao = (Friend_photo_feedDao) HaloUtil
 				.getBean("friend_photo_feedDao");
@@ -112,5 +105,16 @@ public class Friend_photo_feed {
 		Friend_photo_feedDao dao = (Friend_photo_feedDao) HaloUtil
 				.getBean("friend_photo_feedDao");
 		dao.deleteById(this.feedid);
+	}
+
+	public Friend_photo_feed() {
+	}
+
+	public Friend_photo_feed(long userid, long photoid, Date create_time,
+			long photo_userid) {
+		this.userid = userid;
+		this.photoid = photoid;
+		this.create_time = create_time;
+		this.photo_userid = photo_userid;
 	}
 }

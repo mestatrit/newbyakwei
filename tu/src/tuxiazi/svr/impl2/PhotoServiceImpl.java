@@ -105,8 +105,8 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	private void processFriend_photo_feed(Photo photo) {
-		Friend_photo_feed feed = new Friend_photo_feed();
-		feed.buildPhotoFeed(photo, photo.getUserid());
+		Friend_photo_feed feed = new Friend_photo_feed(photo.getUserid(),
+				photo.getPhotoid(), photo.getCreate_time(), photo.getUserid());
 		List<Friend_photo_feed> friendPhotoFeeds = new ArrayList<Friend_photo_feed>();
 		friendPhotoFeeds.add(feed);
 		// 先把图片创建到自己的队列中
