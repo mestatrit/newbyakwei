@@ -19,18 +19,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import tuxiazi.bean.benum.PhotoPrivacyEnum;
 import tuxiazi.dao.PhotoDao;
 import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 import tuxiazi.svr.exception.ImageSizeOutOfLimitException;
-import tuxiazi.svr.impl.jms.JsonKey;
 import tuxiazi.util.FileCnf;
 import tuxiazi.util.PhotoUtil;
 
@@ -89,22 +85,10 @@ public class Photo {
 	private String intro;
 
 	/**
-	 * 图片隐私属性
-	 */
-	@Column
-	private byte privacy_flg;
-
-	/**
 	 * 图片评论数量
 	 */
 	@Column
 	private int cmt_num;
-
-	/**
-	 * 最近10条评论数据
-	 */
-	@Column
-	private String recentCmtData;
 
 	/**
 	 * 喜欢这张图片的人的数量
@@ -204,21 +188,6 @@ public class Photo {
 		this.intro = intro;
 	}
 
-	public byte getPrivacy_flg() {
-		return privacy_flg;
-	}
-
-	public boolean isPrivacy() {
-		if (this.privacy_flg == PhotoPrivacyEnum.PRIVATE.getValue()) {
-			return true;
-		}
-		return false;
-	}
-
-	public void setPrivacy_flg(byte privacyFlg) {
-		privacy_flg = privacyFlg;
-	}
-
 	/**
 	 * @return
 	 */
@@ -252,78 +221,6 @@ public class Photo {
 
 	public void setCmt_num(int cmtNum) {
 		cmt_num = cmtNum;
-	}
-
-	/**
-	 * 存储的最近的5条评论
-	 * 
-	 * @return 2010-12-2
-	 */
-	public List<PhotoCmt> getCmtList() {
-		if (DataUtil.isEmpty(this.recentCmtData)) {
-			return new ArrayList<PhotoCmt>(0);
-		}
-		List<String> cmtjsondata = JsonUtil.getListFromJson(this.recentCmtData);
-		List<PhotoCmt> list = new ArrayList<PhotoCmt>(cmtjsondata.size());
-		Map<String, String> map = null;
-		PhotoCmt photoCmt = null;
-		User user = null;
-		for (String s : cmtjsondata) {
-			map = JsonUtil.getMapFromJson(s);
-			photoCmt = new PhotoCmt();
-			photoCmt.setCmtid(Long.valueOf(map.get(JsonKey.cmtid)));
-			photoCmt.setUserid(Long.valueOf(map.get(JsonKey.userid)));
-			photoCmt.setContent(map.get(JsonKey.content));
-			photoCmt.setCreate_time(new Date(Long.valueOf(map
-					.get(JsonKey.create_time))));
-			if (DataUtil.isNotEmpty(map.get(JsonKey.replyuserid))) {
-				photoCmt.setReplyuserid(Long.valueOf(map
-						.get(JsonKey.replyuserid)));
-			}
-			user = new User();
-			user.setUserid(Long.valueOf(map.get(JsonKey.userid)));
-			user.setNick(map.get(JsonKey.nick));
-			photoCmt.setUser(user);
-			list.add(photoCmt);
-		}
-		return list;
-	}
-
-	/**
-	 * 只保存前5条
-	 * 
-	 * @param list
-	 *            2010-12-2
-	 */
-	public void buildRecentCmtData(final List<PhotoCmt> list) {
-		List<PhotoCmt> _list = null;
-		if (list.size() > 5) {
-			_list = DataUtil.subList(list, 0, 5);
-		}
-		else {
-			_list = list;
-		}
-		List<String> cmtjsondata = new ArrayList<String>(_list.size());
-		Map<String, String> map = null;
-		for (PhotoCmt o : _list) {
-			map = new HashMap<String, String>();
-			map.put(JsonKey.cmtid, String.valueOf(o.getCmtid()));
-			map.put(JsonKey.content, String.valueOf(o.getContent()));
-			map.put(JsonKey.create_time,
-					String.valueOf(o.getCreate_time().getTime()));
-			map.put(JsonKey.userid, String.valueOf(o.getUserid()));
-			map.put(JsonKey.nick, o.getUser().getNick());
-			cmtjsondata.add(JsonUtil.toJson(map));
-		}
-		this.recentCmtData = JsonUtil.toJson(cmtjsondata);
-	}
-
-	public String getRecentCmtData() {
-		return recentCmtData;
-	}
-
-	public void setRecentCmtData(String recentCmtData) {
-		this.recentCmtData = recentCmtData;
 	}
 
 	public List<LikeUser> getLikeUserList() {
@@ -405,8 +302,7 @@ public class Photo {
 		}
 		try {
 			this.processUploadImage(uploadPhoto.getFile(), filePath);
-			this.setPrivacy_flg(uploadPhoto.getPrivacy_flg());
-			this.setUserid(uploadPhoto.getUserid());
+			this.setUserid(user.getUserid());
 			this.setName(uploadPhoto.getName());
 			this.setCreate_time(uploadPhoto.getCreate_time());
 			this.setPath(dbPath);
@@ -414,11 +310,7 @@ public class Photo {
 			User_photo userPhoto = new User_photo();
 			userPhoto.setUserid(this.getUserid());
 			userPhoto.setPhotoid(this.getPhotoid());
-			userPhoto.setPrivacy_flg(this.getPrivacy_flg());
 			userPhoto.save();
-			user.setPic_num(user.getPic_num() + 1);
-			user.save();
-			this.processLastPhoto(this);
 		}
 		catch (IOException e) {
 			log.error("process image io error [ " + e.getMessage() + " ]");
@@ -430,15 +322,10 @@ public class Photo {
 		}
 	}
 
-	private void processLastPhoto(Photo photo) {
-		Lasted_photo lastedPhoto = new Lasted_photo(photo.getPhotoid());
-		lastedPhoto.save();
-	}
-
 	private void processUploadImage(File file, String filePath)
 			throws IOException, ImageException {
 		ImageShaper imageShaper = ImageShaperFactory
-				.getImageShaper(ImageShaperFactory.SHAPER_JMAGICK);
+				.getImageShaper(ImageShaperFactory.SHAPER_MOCK);
 		ImageParam imageParam = new ImageParam(file, 90, 0, 0, true);
 		OriginInfo originInfo = imageParam.getOriginInfo();
 		ImageSize scaleImageSize = ImageSizeMaker.makeSize(

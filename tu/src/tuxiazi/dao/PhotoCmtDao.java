@@ -24,4 +24,6 @@ public interface PhotoCmtDao extends IDao<PhotoCmt> {
 	 */
 	List<PhotoCmt> getListByPhotoid(long photoid, boolean buildUser, int begin,
 			int size);
+
+	int countByPhotoid(long photoid);
 }

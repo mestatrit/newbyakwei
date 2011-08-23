@@ -6,8 +6,6 @@ import halo.util.ResourceConfig;
 import halo.web.action.HkRequest;
 import halo.web.action.HkResponse;
 
-import javax.servlet.http.Cookie;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -57,13 +55,17 @@ public class AuthAction extends BaseApiAction {
 					+ "&return_url="
 					+ DataUtil.urlEncoder(req.getString("back_url"));
 			RequestToken requestToken = SinaUtil.getRequestToken(back_url);
-			this.setOAuth_sina_Cookie(req, resp, requestToken);
+			this.storeSinaRequestToken(req, requestToken);
 			return "r:" + requestToken.getAuthorizationURL();
 		}
 		try {
+			RequestToken requestToken = this.getSinaRequestToken(req);
+			if (requestToken == null) {
+				resp.sendHtml("无法获取用户信息");
+				return null;
+			}
 			AccessToken accessToken = SinaUtil.getAccessToken(
-					this.getOauth_sina_requestToken(req),
-					this.getOauth_sina_requestTokenSecret(req),
+					requestToken.getToken(), requestToken.getTokenSecret(),
 					req.getString("oauth_verifier"));
 			String uid = accessToken.getUserId() + "";
 			User sina_user = SinaUtil.getUser(accessToken.getToken(),
@@ -79,9 +81,10 @@ public class AuthAction extends BaseApiAction {
 						accessToken.getToken(), accessToken.getTokenSecret(),
 						accessToken.getUserId(), sina_user.getScreenName(),
 						sina_user.getProfileBackgroundImageUrl().toString());
-				tuxiazi.bean.User user = this.userService
-						.createUserFromSina(sinaUserFromAPI);
-				apiUserSina = user.getApi_user_sina();
+				tuxiazi.bean.User user = this.userService.createUserFromSina(
+						sinaUserFromAPI, true);
+				apiUserSina = this.api_user_sinaDao.getByUserid(user
+						.getUserid());
 			}
 			else {
 				apiUserSina.setAccess_token(accessToken.getToken());
@@ -95,7 +98,7 @@ public class AuthAction extends BaseApiAction {
 					this.userService.update(user);
 				}
 			}
-			this.clearOauth_sina_cookie(req, resp);
+			this.clearSinaRequestToken(req);
 			String return_url = req.getString("return_url");
 			String v = "r:" + return_url;
 			if (return_url.indexOf("?") != -1) {
@@ -119,51 +122,17 @@ public class AuthAction extends BaseApiAction {
 		}
 	}
 
-	protected void setOAuth_sina_Cookie(HkRequest req, HkResponse resp,
+	protected void storeSinaRequestToken(HkRequest req,
 			RequestToken requestToken) {
-		Cookie cookie_sina_requestToken = new Cookie("sina_requestToken",
-				requestToken.getToken());
-		cookie_sina_requestToken.setPath("/");
-		cookie_sina_requestToken.setDomain(req.getServerName());
-		cookie_sina_requestToken.setMaxAge(COOKIE_MAXAGE);
-		resp.addCookie(cookie_sina_requestToken);
-		Cookie cookie_sina_requestTokenSecret = new Cookie(
-				"sina_requestTokenSecret", requestToken.getTokenSecret());
-		cookie_sina_requestTokenSecret.setPath("/");
-		cookie_sina_requestTokenSecret.setDomain(req.getServerName());
-		cookie_sina_requestTokenSecret.setMaxAge(COOKIE_MAXAGE);
-		resp.addCookie(cookie_sina_requestTokenSecret);
+		req.setSessionValue("sina_requestToken", requestToken);
 	}
 
-	protected void clearOauth_sina_cookie(HkRequest req, HkResponse resp) {
-		Cookie cookie_sina_requestToken = new Cookie("sina_requestToken", "");
-		cookie_sina_requestToken.setPath("/");
-		cookie_sina_requestToken.setDomain(req.getServerName());
-		cookie_sina_requestToken.setMaxAge(0);
-		resp.addCookie(cookie_sina_requestToken);
-		Cookie cookie_sina_requestTokenSecret = new Cookie(
-				"sina_requestTokenSecret", "");
-		cookie_sina_requestTokenSecret.setPath("/");
-		cookie_sina_requestTokenSecret.setDomain(req.getServerName());
-		cookie_sina_requestTokenSecret.setMaxAge(0);
-		resp.addCookie(cookie_sina_requestTokenSecret);
+	protected void clearSinaRequestToken(HkRequest req) {
+		req.removeSessionvalue("sina_requestToken");
 	}
 
-	protected String getOauth_sina_requestToken(HkRequest req) {
-		Cookie cookie_sina_requestToken = req.getCookie("sina_requestToken");
-		if (cookie_sina_requestToken != null) {
-			return cookie_sina_requestToken.getValue();
-		}
-		return "";
-	}
-
-	protected String getOauth_sina_requestTokenSecret(HkRequest req) {
-		Cookie cookie_sina_requestTokenSecret = req
-				.getCookie("sina_requestTokenSecret");
-		if (cookie_sina_requestTokenSecret != null) {
-			return cookie_sina_requestTokenSecret.getValue();
-		}
-		return "";
+	protected RequestToken getSinaRequestToken(HkRequest req) {
+		return (RequestToken) req.getSessionValue("sina_requestToken");
 	}
 
 	public static void main(String[] args) {

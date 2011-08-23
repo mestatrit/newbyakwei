@@ -92,6 +92,10 @@ public class PhotoServiceImpl implements PhotoService {
 			throws ImageSizeOutOfLimitException, ImageException, IOException {
 		Photo photo = new Photo();
 		photo.upload(uploadPhoto, fileCnf, user);
+		user.setPic_num(user.getPic_num() + 1);
+		user.update();
+		Lasted_photo lastedPhoto = new Lasted_photo(photo.getPhotoid());
+		lastedPhoto.save();
 		this.processLastedPhotoLimit();
 		this.processFriend_photo_feed(photo);
 		if (withweibo) {
@@ -172,10 +176,10 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	@Override
-	public void createPhotoUserLike(User user, Photo photo) {
+	public PhotoUserLike createPhotoUserLike(User user, Photo photo) {
 		if (this.photoUserLikeDao.getByUseridAndPhotoid(user.getUserid(),
 				photo.getPhotoid()) != null) {
-			return;
+			return null;
 		}
 		PhotoUserLike photoUserLike = new PhotoUserLike();
 		photoUserLike.save(user.getUserid(), photo.getPhotoid());
@@ -205,21 +209,17 @@ public class PhotoServiceImpl implements PhotoService {
 				notice.save();
 			}
 		}
+		return photoUserLike;
 	}
 
 	@Override
-	public void deletePhotoUserLike(long userid, Photo photo) {
+	public void deletePhotoUserLike(User user, Photo photo) {
 		long photoid = photo.getPhotoid();
+		long userid = user.getUserid();
 		PhotoUserLike photoUserLike = this.photoUserLikeDao
 				.getByUseridAndPhotoid(userid, photoid);
-		if (photo != null) {
+		if (photoUserLike != null) {
 			photoUserLike.delete();
-		}
-		List<PhotoUserLike> list = this.photoUserLikeDao.getListByPhotoid(
-				photoid, 0, 10);
-		List<Long> idList = new ArrayList<Long>();
-		for (PhotoUserLike o : list) {
-			idList.add(o.getUserid());
 		}
 		photo.removeLikeUser(userid);
 		photo.setLike_num(this.photoLikeUserDao.countByPhotoid(photo

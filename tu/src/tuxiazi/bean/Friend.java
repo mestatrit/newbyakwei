@@ -1,12 +1,12 @@
 package tuxiazi.bean;
 
-import tuxiazi.dao.FriendDao;
-import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
 import halo.util.HaloUtil;
 import halo.util.NumberUtil;
+import tuxiazi.dao.FriendDao;
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 
 /**
  * 用户关注的人
@@ -105,8 +105,38 @@ public class Friend {
 		this.friendid = NumberUtil.getLong(dao.save(this));
 	}
 
+	public boolean saveFriend(User user, User friendUser, boolean both) {
+		if (user.getUserid() == friendUser.getUserid()) {
+			throw new RuntimeException(
+					"addFriend must be not only one user userid:friendUserid ["
+							+ user.getUserid() + ":" + friendUser.getUserid()
+							+ "]");
+		}
+		FriendDao friendDao = (FriendDao) HaloUtil.getBean("friendDao");
+		if (friendDao.getByUseridAndFriendid(user.getUserid(),
+				friendUser.getUserid()) != null) {
+			// 已经是好友关系
+			return false;
+		}
+		this.userid = user.getUserid();
+		this.friendid = friendUser.getUserid();
+		if (both) {
+			this.flg = FLG_BOTH;
+		}
+		else {
+			this.flg = FLG_NOBOTH;
+		}
+		friendDao.save(this);
+		return true;
+	}
+
 	public void update() {
-		FriendDao dao = (FriendDao) HaloUtil.getBean("friendDao");
-		dao.update(this);
+		if (this.userid == this.friendid) {
+			throw new RuntimeException(
+					"addFriend must be not only one user userid:friendUserid ["
+							+ userid + ":" + friendid + "]");
+		}
+		FriendDao friendDao = (FriendDao) HaloUtil.getBean("friendDao");
+		friendDao.update(this);
 	}
 }

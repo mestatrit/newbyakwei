@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.Photo;
+import tuxiazi.bean.PhotoUserLike;
 import tuxiazi.bean.UploadPhoto;
 import tuxiazi.bean.User;
 import tuxiazi.svr.exception.ImageSizeOutOfLimitException;
@@ -36,15 +37,15 @@ public interface PhotoService {
 	 * @param user
 	 * @param photo
 	 */
-	void createPhotoUserLike(User user, Photo photo);
+	PhotoUserLike createPhotoUserLike(User user, Photo photo);
 
 	/**
 	 * 删除某用户喜欢的某图片数据
 	 * 
-	 * @param userid
+	 * @param user
 	 * @param photo
 	 */
-	void deletePhotoUserLike(long userid, Photo photo);
+	void deletePhotoUserLike(User user, Photo photo);
 
 	/**
 	 * 计算热门图片

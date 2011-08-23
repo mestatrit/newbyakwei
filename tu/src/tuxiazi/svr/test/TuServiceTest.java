@@ -10,9 +10,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import tuxiazi.bean.Api_user;
+import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.SinaUserFromAPI;
 import tuxiazi.bean.User;
 import tuxiazi.dao.Api_userDao;
+import tuxiazi.dao.Api_user_sinaDao;
 import tuxiazi.dao.UserDao;
 import tuxiazi.svr.exception.UserAlreadyExistException;
 import tuxiazi.svr.iface.UserService;
@@ -34,12 +36,16 @@ public class TuServiceTest {
 	@Resource
 	private Api_userDao api_userDao;
 
+	@Resource
+	Api_user_sinaDao api_user_sinaDao;
+
 	@Test
-	public void test_createApi_user_sina() {
-		SinaUserFromAPI sinaUserFromAPI = new SinaUserFromAPI("accesstoken",
-				"tokenSecret", 120394, "akwei", "head");
+	public void createUser() {
+		SinaUserFromAPI sinaUserFromAPI = new SinaUserFromAPI("accesstoken0",
+				"tokenSecret0", 120395, "akwei0", "head0");
 		try {
-			User u = this.userService.createUserFromSina(sinaUserFromAPI);
+			User u = this.userService
+					.createUserFromSina(sinaUserFromAPI, false);
 			User user = this.userDao.getById(u.getUserid());
 			Assert.assertNotNull(user);
 			Api_user apiUser = this.api_userDao.getByUseridAndApi_type(
@@ -48,6 +54,9 @@ public class TuServiceTest {
 			Assert.assertEquals(u.getUserid(), user.getUserid());
 			Assert.assertEquals(u.getUserid(), apiUser.getUserid());
 			Assert.assertEquals(Api_user.API_TYPE_SINA, apiUser.getApi_type());
+			Api_user_sina api_user_sina = this.api_user_sinaDao.getByUserid(u
+					.getUserid());
+			Assert.assertNotNull(api_user_sina);
 		}
 		catch (UserAlreadyExistException e) {
 			Assert.fail(e.getMessage());

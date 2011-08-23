@@ -21,10 +21,7 @@ public class User {
 	public User() {
 	}
 
-	private SinaUserFromAPI sinaUserFromAPI;
-
 	public User(SinaUserFromAPI sinaUserFromAPI) {
-		this.sinaUserFromAPI = sinaUserFromAPI;
 		this.nick = sinaUserFromAPI.getNick();
 		this.head_path = sinaUserFromAPI.getHead();
 	}
@@ -121,18 +118,6 @@ public class User {
 		friend_num = friendNum;
 	}
 
-	private Api_user_sina api_user_sina;
-
-	private Api_user api_user;
-
-	public Api_user getApi_user() {
-		return api_user;
-	}
-
-	public Api_user_sina getApi_user_sina() {
-		return api_user_sina;
-	}
-
 	/**
 	 * 保存用户信息，以及创建其他相关信息
 	 */
@@ -140,10 +125,6 @@ public class User {
 		this.create_time = new Date();
 		UserDao dao = (UserDao) HaloUtil.getBean("userDao");
 		dao.save(this);
-		this.api_user_sina = new Api_user_sina(userid, sinaUserFromAPI);
-		this.api_user_sina.save();
-		api_user = new Api_user(this.userid, Api_user.API_TYPE_SINA);
-		api_user.save();
 	}
 
 	public void update() {

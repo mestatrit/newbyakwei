@@ -2,6 +2,7 @@ package tuxiazi.dao.impl;
 
 import halo.dao.query.BaseDao;
 import halo.dao.query.QueryParam;
+import halo.util.NumberUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,6 +34,13 @@ public class FansDaoImpl extends BaseDao<Fans> implements FansDao {
 	@Override
 	public Class<Fans> getClazz() {
 		return Fans.class;
+	}
+
+	@Override
+	public Object save(Fans t) {
+		long id = NumberUtil.getLong(super.save(t));
+		t.setOid(id);
+		return id;
 	}
 
 	public Fans getByUseridAndFansid(long userid, long fansid) {

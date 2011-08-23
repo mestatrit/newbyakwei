@@ -28,12 +28,19 @@
 		<property name="resource" value="admin_err" />
 	</bean>
 	<bean id="fileCnf" class="tuxiazi.util.FileCnf">
+		<property name="root_path" value="/Users/fire9/test/tu/pub/pic/" />
+		<property name="tmpPhotoPath" value="/Users/fire9/test/tu/pub/tmppic/" />
+		<property name="fileMaxSize" value="2" />
+		<property name="directory" value="a/" />
+		<property name="domain" value="http://www.tuxiazi.com/pic/" />
+	</bean>
+<!-- 	<bean id="fileCnf" class="tuxiazi.util.FileCnf">
 		<property name="root_path" value="/home/tuxiazi/pub/pic/" />
 		<property name="tmpPhotoPath" value="/home/tuxiazi/pub/tmppic/" />
 		<property name="fileMaxSize" value="2" />
 		<property name="directory" value="a/" />
 		<property name="domain" value="http://www.tuxiazi.com/pic/" />
-	</bean>
+	</bean> -->
 	<bean class="tuxiazi.util.PhotoUtil">
 		<property name="fileCnf" ref="fileCnf" />
 	</bean>

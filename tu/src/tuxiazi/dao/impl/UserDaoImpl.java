@@ -34,6 +34,7 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao {
 	public Object save(User t) {
 		long userid = NumberUtil.getLong(this.useridDao.save(new Userid()));
 		t.setUserid(userid);
+		super.save(t);
 		return userid;
 	}
 

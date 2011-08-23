@@ -1,7 +1,6 @@
 package tuxiazi.web.util;
 
 import halo.util.DataUtil;
-import halo.util.P;
 
 import java.io.File;
 import java.util.ArrayList;

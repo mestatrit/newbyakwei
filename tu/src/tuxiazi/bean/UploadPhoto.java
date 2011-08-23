@@ -5,8 +5,6 @@ import java.util.Date;
 
 public class UploadPhoto {
 
-	private long userid;
-
 	private File file;
 
 	private String name;
@@ -21,14 +19,6 @@ public class UploadPhoto {
 
 	public byte getPrivacy_flg() {
 		return privacy_flg;
-	}
-
-	public long getUserid() {
-		return userid;
-	}
-
-	public void setUserid(long userid) {
-		this.userid = userid;
 	}
 
 	public File getFile() {

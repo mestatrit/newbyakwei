@@ -1,9 +1,11 @@
 package tuxiazi.bean;
 
-import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
+import halo.util.HaloUtil;
+import tuxiazi.dao.FansDao;
+import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 
 /**
  * 粉丝（用户被哪些人关注）
@@ -90,5 +92,40 @@ public class Fans {
 
 	public void setFlg(byte flg) {
 		this.flg = flg;
+	}
+
+	public boolean saveFans(User user, User fansUser, boolean both) {
+		if (user.getUserid() == fansUser.getUserid()) {
+			throw new RuntimeException(
+					"saveFans must be not only one user userid:fansUserid ["
+							+ user.getUserid() + ":" + fansUser.getUserid()
+							+ "]");
+		}
+		FansDao fansDao = (FansDao) HaloUtil.getBean("fansDao");
+		Fans fans = fansDao.getByUseridAndFansid(user.getUserid(),
+				fansUser.getUserid());
+		if (fans != null) {
+			return false;
+		}
+		this.userid = user.getUserid();
+		this.fansid = fansUser.getUserid();
+		if (both) {
+			this.flg = Friend.FLG_BOTH;
+		}
+		else {
+			this.flg = Friend.FLG_NOBOTH;
+		}
+		fansDao.save(this);
+		return true;
+	}
+
+	public void update() {
+		if (this.userid == this.fansid) {
+			throw new RuntimeException(
+					"saveFans must be not only one user userid:fansUserid ["
+							+ userid + ":" + fansid + "]");
+		}
+		FansDao fansDao = (FansDao) HaloUtil.getBean("fansDao");
+		fansDao.update(this);
 	}
 }

@@ -33,6 +33,12 @@ public class User_photoDaoImpl extends BaseDao<User_photo> implements
 		return User_photo.class;
 	}
 
+	@Override
+	public User_photo getByUseridAndPhotoid(long userid, long photoid) {
+		return this.getObject("userid=? and photoid=?", new Object[] { userid,
+				photoid });
+	}
+
 	public int deleteByUseridAndPhotoid(long userid, long photoid) {
 		return this.delete(null, "userid=? and photoid=?", new Object[] {
 				userid, photoid });

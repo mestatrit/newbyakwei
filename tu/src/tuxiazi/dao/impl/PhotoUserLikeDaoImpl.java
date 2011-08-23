@@ -1,6 +1,7 @@
 package tuxiazi.dao.impl;
 
 import halo.dao.query.BaseDao;
+import halo.util.NumberUtil;
 
 import java.util.List;
 
@@ -16,6 +17,13 @@ public class PhotoUserLikeDaoImpl extends BaseDao<PhotoUserLike> implements
 	@Override
 	public Class<PhotoUserLike> getClazz() {
 		return PhotoUserLike.class;
+	}
+
+	@Override
+	public Object save(PhotoUserLike t) {
+		long id = NumberUtil.getLong(super.save(t));
+		t.setOid(id);
+		return id;
 	}
 
 	public int deleteByPhotoid(long photoid) {
