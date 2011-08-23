@@ -1,6 +1,7 @@
 package tuxiazi.dao.impl;
 
 import halo.dao.query.BaseDao;
+import halo.util.NumberUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,6 +35,13 @@ public class Friend_photo_feedDaoImpl extends BaseDao<Friend_photo_feed>
 	@Override
 	public Class<Friend_photo_feed> getClazz() {
 		return Friend_photo_feed.class;
+	}
+
+	@Override
+	public Object save(Friend_photo_feed t) {
+		long id = NumberUtil.getLong(super.save(t));
+		t.setFeedid(id);
+		return id;
 	}
 
 	public int countByUserid(long userid) {
