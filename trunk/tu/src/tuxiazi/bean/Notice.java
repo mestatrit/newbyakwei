@@ -13,10 +13,6 @@ import java.util.Map;
 
 import tuxiazi.bean.benum.NoticeEnum;
 import tuxiazi.bean.benum.NoticeReadEnum;
-import tuxiazi.bean.helper.noticedata.FollowNoticeCreater;
-import tuxiazi.bean.helper.noticedata.NoticeCreater;
-import tuxiazi.bean.helper.noticedata.PhotoCmtNoticeCreater;
-import tuxiazi.bean.helper.noticedata.PhotoLikeNoticeCreater;
 import tuxiazi.dao.NoticeDao;
 import tuxiazi.dao.dbpartitionhelper.Tuxiazi_FeedDbPartitionHelper;
 import tuxiazi.util.PhotoUtil;
@@ -46,6 +42,16 @@ public class Notice {
 	 */
 	@Column
 	private long senderid;
+
+	private User sender;
+
+	public void setSender(User sender) {
+		this.sender = sender;
+	}
+
+	public User getSender() {
+		return sender;
+	}
 
 	public long getSenderid() {
 		return senderid;
@@ -158,23 +164,6 @@ public class Notice {
 			}
 		}
 		return dataMap;
-	}
-
-	public String getNoticeIntro() {
-		NoticeCreater creater = null;
-		if (this.notice_flg == NoticeEnum.ADD_FOLLOW.getValue()) {
-			creater = new FollowNoticeCreater();
-		}
-		else if (this.notice_flg == NoticeEnum.ADD_PHOTOCMT.getValue()) {
-			creater = new PhotoCmtNoticeCreater();
-		}
-		else if (this.notice_flg == NoticeEnum.ADD_PHOTOLIKE.getValue()) {
-			creater = new PhotoLikeNoticeCreater();
-		}
-		if (creater != null) {
-			return creater.getIntro(this);
-		}
-		return null;
 	}
 
 	public void save() {

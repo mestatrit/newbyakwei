@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.Notice;
+import tuxiazi.bean.benum.NoticeReadEnum;
 import tuxiazi.dao.NoticeDao;
 import tuxiazi.svr.iface.NoticeService;
 
@@ -30,7 +31,6 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public void setNoticeReaded(long noticeid) {
-		this.noticeDao.updateBySQL("readflg=?", "noticeid=?",
-				new Object[] { noticeid });
+		this.noticeDao.updateReaded(noticeid, NoticeReadEnum.READED.getValue());
 	}
 }

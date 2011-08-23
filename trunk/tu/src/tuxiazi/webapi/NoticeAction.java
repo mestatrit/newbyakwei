@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +30,8 @@ public class NoticeAction extends BaseApiAction {
 	@Autowired
 	private NoticeDao noticeDao;
 
+	private final Log log = LogFactory.getLog(NoticeAction.class);
+
 	/**
 	 * 获取最新通知.如果有未读通知，就显示最新的未读通知，如果没有未读，就显示最新的通知
 	 * 
@@ -37,28 +41,36 @@ public class NoticeAction extends BaseApiAction {
 	 * @throws Exception
 	 */
 	public String prvlasted(HkRequest req, HkResponse resp) throws Exception {
-		User user = this.getUser(req);
-		int page = req.getInt("page", 1);
-		int size = req.getInt("size", 20);
-		SimplePage simplePage = new SimplePage(size, page);
-		int unreadcount = this.noticeDao.countByUseridForUnread(user
-				.getUserid());
-		List<Notice> list = null;
-		if (unreadcount > 0) {
-			list = this.noticeDao.getListByUseridAndReadflg(user.getUserid(),
-					NoticeReadEnum.UNREAD, simplePage.getBegin(),
-					simplePage.getSize());
-			for (Notice o : list) {
-				this.noticeService.setNoticeReaded(o.getNoticeid());
+		try {
+			User user = this.getUser(req);
+			int page = req.getInt("page", 1);
+			int size = req.getInt("size", 20);
+			SimplePage simplePage = new SimplePage(size, page);
+			int unreadcount = this.noticeDao.countByUseridForUnread(user
+					.getUserid());
+			// 如果有未读信息，就获取未读通知
+			// 如果没有，就获取所有已读的通知
+			List<Notice> list = null;
+			if (unreadcount > 0) {
+				list = this.noticeDao.getListByUseridAndReadflg(
+						user.getUserid(), NoticeReadEnum.UNREAD, true,
+						simplePage.getBegin(), simplePage.getSize());
+				for (Notice o : list) {
+					this.noticeService.setNoticeReaded(o.getNoticeid());
+				}
 			}
+			else {
+				list = this.noticeDao.getListByUserid(user.getUserid(), true,
+						simplePage.getBegin(), simplePage.getSize());
+			}
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			APIUtil.writeData(resp, map, "vm/notice.vm");
 		}
-		else {
-			list = this.noticeDao.getListByUserid(user.getUserid(),
-					simplePage.getBegin(), simplePage.getSize());
+		catch (Exception e) {
+			log.error(e.getMessage());
+			this.writeSysErr(resp);
 		}
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list);
-		APIUtil.writeData(resp, map, "vm/notice.vm");
 		return null;
 	}
 
@@ -71,24 +83,30 @@ public class NoticeAction extends BaseApiAction {
 	 * @throws Exception
 	 */
 	public String prvinfo(HkRequest req, HkResponse resp) throws Exception {
-		User user = this.getUser(req);
-		// 评论通知
-		int cmt_unread_count = this.noticeDao
-				.countByUseridAndNotice_flgForUnread(user.getUserid(),
-						NoticeEnum.ADD_PHOTOCMT);
-		// 喜欢通知
-		int like_unread_count = this.noticeDao
-				.countByUseridAndNotice_flgForUnread(user.getUserid(),
-						NoticeEnum.ADD_PHOTOLIKE);
-		// follow通知
-		int follow_unread_count = this.noticeDao
-				.countByUseridAndNotice_flgForUnread(user.getUserid(),
-						NoticeEnum.ADD_FOLLOW);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("cmt_unread_count", cmt_unread_count);
-		map.put("like_unread_count", like_unread_count);
-		map.put("follow_unread_count", follow_unread_count);
-		APIUtil.writeData(resp, map, "vm/noticeinfo.vm");
+		try {
+			User user = this.getUser(req);
+			// 评论通知
+			int cmt_unread_count = this.noticeDao
+					.countByUseridAndNotice_flgForUnread(user.getUserid(),
+							NoticeEnum.ADD_PHOTOCMT);
+			// 喜欢通知
+			int like_unread_count = this.noticeDao
+					.countByUseridAndNotice_flgForUnread(user.getUserid(),
+							NoticeEnum.ADD_PHOTOLIKE);
+			// follow通知
+			int follow_unread_count = this.noticeDao
+					.countByUseridAndNotice_flgForUnread(user.getUserid(),
+							NoticeEnum.ADD_FOLLOW);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("cmt_unread_count", cmt_unread_count);
+			map.put("like_unread_count", like_unread_count);
+			map.put("follow_unread_count", follow_unread_count);
+			APIUtil.writeData(resp, map, "vm/noticeinfo.vm");
+		}
+		catch (Exception e) {
+			log.error(e.getMessage());
+			this.writeSysErr(resp);
+		}
 		return null;
 	}
 
@@ -100,13 +118,18 @@ public class NoticeAction extends BaseApiAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String prvunreadcount(HkRequest req, HkResponse resp)
-			throws Exception {
-		User user = this.getUser(req);
-		int count = this.noticeDao.countByUseridForUnread(user.getUserid());
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("count", count);
-		APIUtil.writeData(resp, map, "vm/unreadcount.vm");
+	public String prvunreadcount(HkRequest req, HkResponse resp) {
+		try {
+			User user = this.getUser(req);
+			int count = this.noticeDao.countByUseridForUnread(user.getUserid());
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("count", count);
+			APIUtil.writeData(resp, map, "vm/unreadcount.vm");
+		}
+		catch (Exception e) {
+			log.error(e.getMessage());
+			this.writeSysErr(resp);
+		}
 		return null;
 	}
 }

@@ -10,6 +10,8 @@ import org.apache.velocity.VelocityContext;
 
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.User;
+import tuxiazi.util.Err;
+import tuxiazi.web.util.APIUtil;
 
 public class BaseApiAction implements Action {
 
@@ -52,10 +54,15 @@ public class BaseApiAction implements Action {
 	protected void write(HkResponse resp, String vmpath, VelocityContext context) {
 		try {
 			resp.sendXML(VelocityUtil.writeToString(vmpath, context));
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	protected void writeSysErr(HkResponse resp) {
+		APIUtil.writeErr(resp, Err.API_SYS_ERR);
 	}
 
 	protected String getErrMsg(int err) {

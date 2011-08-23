@@ -16,7 +16,8 @@ public interface NoticeDao extends IDao<Notice> {
 	public Notice getLastByUseridAndSenderidAndRefoid(long userid,
 			long senderid, long refoid);
 
-	public List<Notice> getListByUserid(long userid, int begin, int size);
+	public List<Notice> getListByUserid(long userid, boolean buildSender,
+			int begin, int size);
 
 	/**
 	 * 根据读取状态获取通知数据集合
@@ -28,7 +29,8 @@ public interface NoticeDao extends IDao<Notice> {
 	 * @return
 	 */
 	List<Notice> getListByUseridAndReadflg(long userid,
-			NoticeReadEnum noticeReadEnum, int begin, int size);
+			NoticeReadEnum noticeReadEnum, boolean buildSender, int begin,
+			int size);
 
 	/**
 	 * 根据不同类型获得未读通知
@@ -46,4 +48,6 @@ public interface NoticeDao extends IDao<Notice> {
 	 * @return
 	 */
 	int countByUseridForUnread(long userid);
+
+	int updateReaded(long noticeid, int read_flg);
 }
