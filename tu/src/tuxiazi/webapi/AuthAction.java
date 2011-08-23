@@ -2,7 +2,6 @@ package tuxiazi.webapi;
 
 import halo.util.DataUtil;
 import halo.util.P;
-import halo.util.ResourceConfig;
 import halo.web.action.HkRequest;
 import halo.web.action.HkResponse;
 
@@ -16,6 +15,7 @@ import tuxiazi.dao.Api_user_sinaDao;
 import tuxiazi.dao.UserDao;
 import tuxiazi.svr.iface.UserService;
 import tuxiazi.util.Err;
+import tuxiazi.web.util.APIUtil;
 import tuxiazi.web.util.SinaUtil;
 import weibo4j.User;
 import weibo4j.WeiboException;
@@ -55,13 +55,14 @@ public class AuthAction extends BaseApiAction {
 					+ "&return_url="
 					+ DataUtil.urlEncoder(req.getString("back_url"));
 			RequestToken requestToken = SinaUtil.getRequestToken(back_url);
-			this.storeSinaRequestToken(req, requestToken);
+			req.setSessionValue("sina_requestToken", requestToken);
 			return "r:" + requestToken.getAuthorizationURL();
 		}
 		try {
-			RequestToken requestToken = this.getSinaRequestToken(req);
+			RequestToken requestToken = (RequestToken) req
+					.getSessionValue("sina_requestToken");
 			if (requestToken == null) {
-				resp.sendHtml("无法获取用户信息");
+				APIUtil.writeErr(resp, Err.API_REQUESTTOKEN_NOT_EXIST);
 				return null;
 			}
 			AccessToken accessToken = SinaUtil.getAccessToken(
@@ -71,7 +72,7 @@ public class AuthAction extends BaseApiAction {
 			User sina_user = SinaUtil.getUser(accessToken.getToken(),
 					accessToken.getTokenSecret(), uid);
 			if (sina_user == null) {
-				resp.sendHtml(this.getErrMsg(Err.API_NO_SINA_USER));
+				APIUtil.writeErr(resp, Err.API_NO_SINA_USER);
 				return null;
 			}
 			Api_user_sina apiUserSina = this.api_user_sinaDao.getById(sina_user
@@ -98,7 +99,7 @@ public class AuthAction extends BaseApiAction {
 					this.userService.update(user);
 				}
 			}
-			this.clearSinaRequestToken(req);
+			req.removeSessionvalue("sina_requestToken");
 			String return_url = req.getString("return_url");
 			String v = "r:" + return_url;
 			if (return_url.indexOf("?") != -1) {
@@ -115,24 +116,9 @@ public class AuthAction extends BaseApiAction {
 			return v;
 		}
 		catch (WeiboException e) {
-			resp.sendHtml(this.getErrMsg(Err.API_SINA_ERR));
-			resp.sendHtml(ResourceConfig.getTextFromResource("err",
-					String.valueOf(Err.API_SINA_ERR)));
+			APIUtil.writeErr(resp, Err.API_SINA_ERR);
 			return null;
 		}
-	}
-
-	protected void storeSinaRequestToken(HkRequest req,
-			RequestToken requestToken) {
-		req.setSessionValue("sina_requestToken", requestToken);
-	}
-
-	protected void clearSinaRequestToken(HkRequest req) {
-		req.removeSessionvalue("sina_requestToken");
-	}
-
-	protected RequestToken getSinaRequestToken(HkRequest req) {
-		return (RequestToken) req.getSessionValue("sina_requestToken");
 	}
 
 	public static void main(String[] args) {

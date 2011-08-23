@@ -15,7 +15,6 @@ import tuxiazi.bean.PhotoUserLike;
 import tuxiazi.bean.Photoid;
 import tuxiazi.dao.PhotoDao;
 import tuxiazi.dao.UserDao;
-import tuxiazi.dao.User_photoDao;
 
 @Component("photoDao")
 public class PhotoDaoImpl extends BaseDao<Photo> implements PhotoDao {
@@ -25,9 +24,6 @@ public class PhotoDaoImpl extends BaseDao<Photo> implements PhotoDao {
 
 	@Autowired
 	private UserDao userDao;
-
-	@Autowired
-	private User_photoDao user_photoDao;
 
 	@Autowired
 	private PhotoUserLikeDaoImpl photoUserLikeDao;

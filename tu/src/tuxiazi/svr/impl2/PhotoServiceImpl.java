@@ -27,7 +27,6 @@ import tuxiazi.bean.UploadPhoto;
 import tuxiazi.bean.User;
 import tuxiazi.bean.benum.NoticeEnum;
 import tuxiazi.bean.benum.NoticeReadEnum;
-import tuxiazi.bean.helper.noticedata.PhotoLikeNoticeCreater;
 import tuxiazi.dao.HotPhotoDao;
 import tuxiazi.dao.Lasted_photoDao;
 import tuxiazi.dao.NoticeDao;
@@ -190,10 +189,6 @@ public class PhotoServiceImpl implements PhotoService {
 		photo.update();
 		// 发送通知给图片所有者,如果是自己就不发送通知
 		if (user.getUserid() != photo.getUserid()) {
-			PhotoLikeNoticeCreater o = new PhotoLikeNoticeCreater();
-			o.setUserid(photo.getUserid());
-			o.setSenderid(user.getUserid());
-			o.setPhotoid(photo.getPhotoid());
 			// 对用户图片打分进行特殊处理。只要通知存在，就不添加新通知
 			Notice notice = this.noticeDao.getLastByUseridAndSenderidAndRefoid(
 					photo.getUserid(), user.getUserid(), photo.getPhotoid());

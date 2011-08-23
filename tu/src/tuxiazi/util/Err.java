@@ -63,4 +63,9 @@ public interface Err {
 	 * 发送私信
 	 */
 	int API_SINA_MESSAGE_ERR = 12;
+
+	/**
+	 * 认证信息丢失
+	 */
+	int API_REQUESTTOKEN_NOT_EXIST = 13;
 }
