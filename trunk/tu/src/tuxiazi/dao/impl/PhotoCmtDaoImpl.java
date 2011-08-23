@@ -36,6 +36,7 @@ public class PhotoCmtDaoImpl extends BaseDao<PhotoCmt> implements PhotoCmtDao {
 		long cmtid = NumberUtil.getLong(this.photoCmtidDao
 				.save(new PhotoCmtid()));
 		t.setCmtid(cmtid);
+		super.save(t);
 		return cmtid;
 	}
 
