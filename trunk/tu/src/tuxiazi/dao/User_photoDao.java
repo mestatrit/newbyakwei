@@ -25,4 +25,6 @@ public interface User_photoDao extends IDao<User_photo> {
 	 */
 	List<User_photo> getListByUserid(long userid, boolean buildPhoto,
 			long favUserid, int begin, int size);
+
+	User_photo getByUseridAndPhotoid(long userid, long photoid);
 }

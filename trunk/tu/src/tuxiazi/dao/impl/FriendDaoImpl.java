@@ -2,6 +2,7 @@ package tuxiazi.dao.impl;
 
 import halo.dao.query.BaseDao;
 import halo.dao.query.QueryParam;
+import halo.util.NumberUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,6 +30,13 @@ public class FriendDaoImpl extends BaseDao<Friend> implements FriendDao {
 	@Override
 	public Class<Friend> getClazz() {
 		return Friend.class;
+	}
+
+	@Override
+	public Object save(Friend t) {
+		long id = NumberUtil.getLong(super.save(t));
+		t.setOid(id);
+		return id;
 	}
 
 	public Friend getByUseridAndFriendid(long userid, long friendid) {

@@ -34,12 +34,6 @@ public class User_photo {
 	@Column
 	private long userid;
 
-	/**
-	 * 图片隐私属性
-	 */
-	@Column
-	private byte privacy_flg;
-
 	private Photo photo;
 
 	private User user;
@@ -82,14 +76,6 @@ public class User_photo {
 
 	public void setPhoto(Photo photo) {
 		this.photo = photo;
-	}
-
-	public byte getPrivacy_flg() {
-		return privacy_flg;
-	}
-
-	public void setPrivacy_flg(byte privacyFlg) {
-		privacy_flg = privacyFlg;
 	}
 
 	public void save() {

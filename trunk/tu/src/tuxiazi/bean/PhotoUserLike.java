@@ -4,7 +4,6 @@ import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
 import halo.util.HaloUtil;
-import halo.util.NumberUtil;
 import tuxiazi.dao.PhotoLikeUserDao;
 import tuxiazi.dao.PhotoUserLikeDao;
 import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
@@ -87,6 +86,6 @@ public class PhotoUserLike {
 	private void save() {
 		PhotoUserLikeDao dao = (PhotoUserLikeDao) HaloUtil
 				.getBean("photoUserLikeDao");
-		this.oid = NumberUtil.getLong(dao.save(this));
+		dao.save(this);
 	}
 }

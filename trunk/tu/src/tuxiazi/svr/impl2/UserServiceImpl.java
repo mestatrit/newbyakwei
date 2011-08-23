@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import tuxiazi.bean.Api_user;
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.SinaUser;
 import tuxiazi.bean.SinaUserFromAPI;
@@ -31,8 +32,8 @@ public class UserServiceImpl implements UserService {
 	private Api_user_sinaDao api_user_sinaDao;
 
 	@Override
-	public User createUserFromSina(SinaUserFromAPI sinaUserFromAPI)
-			throws UserAlreadyExistException {
+	public User createUserFromSina(SinaUserFromAPI sinaUserFromAPI,
+			boolean sendJms) throws UserAlreadyExistException {
 		Api_user_sina api_user_sina = this.api_user_sinaDao
 				.getById(sinaUserFromAPI.getSinaUserId());
 		if (api_user_sina != null) {
@@ -41,18 +42,25 @@ public class UserServiceImpl implements UserService {
 		}
 		User user = new User(sinaUserFromAPI);
 		user.save();
-		JmsMsg jmsMsg = new JmsMsg();
-		jmsMsg.setHead(JmsMsg.HEAD_PHOTO_CREATEUSER);
-		jmsMsg.addData(JsonKey.userid,
-				String.valueOf(user.getApi_user_sina().getUserid()));
-		jmsMsg.addData(JsonKey.sina_userid,
-				String.valueOf(user.getApi_user_sina().getSina_userid()));
-		jmsMsg.addData(JsonKey.access_token, user.getApi_user_sina()
-				.getAccess_token());
-		jmsMsg.addData(JsonKey.token_secret, user.getApi_user_sina()
-				.getToken_secret());
-		jmsMsg.buildBody();
-		this.hkMsgProducer.send(jmsMsg.toMessage());
+		api_user_sina = new Api_user_sina(user.getUserid(), sinaUserFromAPI);
+		api_user_sina.save();
+		Api_user api_user = new Api_user(user.getUserid(),
+				Api_user.API_TYPE_SINA);
+		api_user.save();
+		if (sendJms) {
+			JmsMsg jmsMsg = new JmsMsg();
+			jmsMsg.setHead(JmsMsg.HEAD_PHOTO_CREATEUSER);
+			jmsMsg.addData(JsonKey.userid,
+					String.valueOf(api_user_sina.getUserid()));
+			jmsMsg.addData(JsonKey.sina_userid,
+					String.valueOf(api_user_sina.getSina_userid()));
+			jmsMsg.addData(JsonKey.access_token,
+					api_user_sina.getAccess_token());
+			jmsMsg.addData(JsonKey.token_secret,
+					api_user_sina.getToken_secret());
+			jmsMsg.buildBody();
+			this.hkMsgProducer.send(jmsMsg.toMessage());
+		}
 		return user;
 	}
 

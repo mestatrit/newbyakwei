@@ -1,6 +1,7 @@
 package tuxiazi.dao.impl;
 
 import halo.dao.query.BaseDao;
+import halo.util.NumberUtil;
 
 import java.util.List;
 
@@ -17,6 +18,13 @@ public class NoticeDaoImpl extends BaseDao<Notice> implements NoticeDao {
 	@Override
 	public Class<Notice> getClazz() {
 		return Notice.class;
+	}
+
+	@Override
+	public Object save(Notice t) {
+		long id = NumberUtil.getLong(super.save(t));
+		t.setNoticeid(id);
+		return id;
 	}
 
 	public Notice getByUseridAndSenderidAndRefoidAndNotice_flg(long userid,

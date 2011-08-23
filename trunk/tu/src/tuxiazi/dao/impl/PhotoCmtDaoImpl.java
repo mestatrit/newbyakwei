@@ -1,6 +1,7 @@
 package tuxiazi.dao.impl;
 
 import halo.dao.query.BaseDao;
+import halo.util.NumberUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import tuxiazi.bean.PhotoCmt;
+import tuxiazi.bean.PhotoCmtid;
 import tuxiazi.bean.User;
 import tuxiazi.dao.PhotoCmtDao;
+import tuxiazi.dao.PhotoCmtidDao;
 import tuxiazi.dao.UserDao;
 
 @Component("photoCmtDao")
@@ -20,9 +23,20 @@ public class PhotoCmtDaoImpl extends BaseDao<PhotoCmt> implements PhotoCmtDao {
 	@Autowired
 	private UserDao userDao;
 
+	@Autowired
+	private PhotoCmtidDao photoCmtidDao;
+
 	@Override
 	public Class<PhotoCmt> getClazz() {
 		return PhotoCmt.class;
+	}
+
+	@Override
+	public Object save(PhotoCmt t) {
+		long cmtid = NumberUtil.getLong(this.photoCmtidDao
+				.save(new PhotoCmtid()));
+		t.setCmtid(cmtid);
+		return cmtid;
 	}
 
 	public int deleteByPhotoid(long photoid) {
@@ -32,6 +46,10 @@ public class PhotoCmtDaoImpl extends BaseDao<PhotoCmt> implements PhotoCmtDao {
 	public List<PhotoCmt> getListByPhotoid(long photoid, int begin, int size) {
 		return this.getList("photoid=?", new Object[] { photoid },
 				"cmtid desc", begin, size);
+	}
+
+	public int countByPhotoid(long photoid) {
+		return this.count("photoid=?", new Object[] { photoid });
 	}
 
 	@Override

@@ -124,7 +124,6 @@ public class PhotoAction extends BaseApiAction {
 		}
 		User user = this.getUser(req);
 		UploadPhoto uploadPhoto = new UploadPhoto();
-		uploadPhoto.setUserid(user.getUserid());
 		uploadPhoto.setFile(file);
 		uploadPhoto.setName(DataUtil.limitLength(req.getString("name"), 140));
 		uploadPhoto.setCreate_time(new Date());
@@ -293,8 +292,9 @@ public class PhotoAction extends BaseApiAction {
 		User user = this.getUser(req);
 		long photoid = req.getLong("photoid");
 		Photo photo = this.photoDao.getById(photoid);
+		User _user = this.userDao.getById(user.getUserid());
 		if (photo != null) {
-			this.photoService.deletePhotoUserLike(user.getUserid(), photo);
+			this.photoService.deletePhotoUserLike(_user, photo);
 		}
 		APIUtil.writeSuccess(resp);
 		return null;

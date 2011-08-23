@@ -55,10 +55,9 @@ public class FriendAction extends BaseApiAction {
 			return null;
 		}
 		User user = this.getUser(req);
-		Friend friend = new Friend();
-		friend.setUserid(user.getUserid());
-		friend.setFriendid(uid);
-		this.friendService.createFriend(friend, true, true);
+		User _user = this.userDao.getById(user.getUserid());
+		User _friendUser = this.userDao.getById(uid);
+		this.friendService.createFriend(_user, _friendUser, true, true);
 		APIUtil.writeSuccess(resp);
 		return null;
 	}

@@ -5,7 +5,6 @@ import halo.web.action.HkRequest;
 import halo.web.action.HkResponse;
 import halo.web.util.SimplePage;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +17,11 @@ import tuxiazi.bean.PhotoCmt;
 import tuxiazi.bean.User;
 import tuxiazi.dao.PhotoCmtDao;
 import tuxiazi.dao.PhotoDao;
+import tuxiazi.dao.UserDao;
 import tuxiazi.svr.iface.PhotoCmtService;
 import tuxiazi.util.Err;
 import tuxiazi.web.util.APIUtil;
+import tuxiazi.webapi.form.PhotoCmtForm;
 
 @Component("/api/photo/cmt")
 public class CmtAction extends BaseApiAction {
@@ -34,6 +35,9 @@ public class CmtAction extends BaseApiAction {
 	@Autowired
 	private PhotoDao photoDao;
 
+	@Autowired
+	private UserDao userDao;
+
 	public String prvcreate(HkRequest req, HkResponse resp) {
 		User user = this.getUser(req);
 		long photoid = req.getLong("photoid");
@@ -42,20 +46,22 @@ public class CmtAction extends BaseApiAction {
 			APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
 			return null;
 		}
-		PhotoCmt photoCmt = new PhotoCmt();
-		photoCmt.setPhotoid(photoid);
-		photoCmt.setUserid(user.getUserid());
-		photoCmt.setCreate_time(new Date());
-		photoCmt.setContent(DataUtil.limitLength(req.getString("content"), 140));
-		photoCmt.setUser(user);
-		int code = photoCmt.validate();
+		PhotoCmtForm form = new PhotoCmtForm(DataUtil.limitLength(
+				req.getString("content"), 140));
+		int code = form.validate();
 		if (code != Err.SUCCESS) {
 			APIUtil.writeErr(resp, code);
 			return null;
 		}
 		int withweibo = req.getInt("withweibo");
-		this.photoCmtService.createPhotoCmt(photo, photoCmt, user, withweibo,
-				this.getApiUserSina(req));
+		boolean sendWeibo = false;
+		if (withweibo == 1) {
+			sendWeibo = true;
+		}
+		User _user = this.userDao.getById(user.getUserid());
+		PhotoCmt photoCmt = this.photoCmtService.createPhotoCmt(photo,
+				DataUtil.limitLength(req.getString("content"), 140), _user,
+				null, sendWeibo, this.getApiUserSina(req));
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("photoCmt", photoCmt);
 		APIUtil.writeData(resp, map, "vm/photocmt_create.vm");
@@ -74,7 +80,8 @@ public class CmtAction extends BaseApiAction {
 			APIUtil.writeErr(resp, Err.OP_NOPOWER);
 			return null;
 		}
-		this.photoCmtService.deletePhotoCmt(photoCmt);
+		Photo photo = photoDao.getById(photoCmt.getPhotoid());
+		this.photoCmtService.deletePhotoCmt(photo, photoCmt);
 		APIUtil.writeSuccess(resp);
 		return null;
 	}

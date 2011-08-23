@@ -10,7 +10,7 @@ import tuxiazi.svr.exception.UserAlreadyExistException;
 
 public interface UserService {
 
-	User createUserFromSina(SinaUserFromAPI sinaUserFromAPI)
+	User createUserFromSina(SinaUserFromAPI sinaUserFromAPI, boolean sendJms)
 			throws UserAlreadyExistException;
 
 	void updateApi_user_sina(Api_user_sina apiUserSina);

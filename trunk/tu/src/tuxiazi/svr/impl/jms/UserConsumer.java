@@ -12,8 +12,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import tuxiazi.bean.Api_user_sina;
-import tuxiazi.bean.Friend;
+import tuxiazi.bean.User;
 import tuxiazi.dao.Api_user_sinaDao;
+import tuxiazi.dao.UserDao;
 import tuxiazi.svr.iface.FriendService;
 import tuxiazi.web.util.SinaUtil;
 import weibo4j.WeiboException;
@@ -24,6 +25,9 @@ public class UserConsumer {
 
 	@Autowired
 	private FriendService friendService;
+
+	@Autowired
+	private UserDao userDao;
 
 	@Autowired
 	private Api_user_sinaDao api_user_sinaDao;
@@ -39,7 +43,6 @@ public class UserConsumer {
 
 	private void proccessCreateUser(String body) {
 		Map<String, String> map = JsonUtil.getMapFromJson(body);
-		long userid = Long.valueOf(map.get(JsonKey.userid));
 		String sina_userid = map.get(JsonKey.sina_userid);
 		String access_token = map.get(JsonKey.access_token);
 		String token_secret = map.get(JsonKey.token_secret);
@@ -55,27 +58,20 @@ public class UserConsumer {
 				// 查看在新浪微博的好友是否有注册的，如果有，就关注
 				List<Api_user_sina> list = this.api_user_sinaDao
 						.getListInSina_userid(frlist, true);
-				Friend friend = null;
 				for (Api_user_sina o : list) {
-					friend = new Friend();
-					friend.setUserid(userid);
-					friend.setFriendid(o.getUserid());
-					friend.setFlg(Friend.FLG_NOBOTH);
+					User _user = this.userDao.getById(o.getUserid());
+					User _friendUser = this.userDao.getById(o.getUserid());
 					try {
 						boolean sendNotice = false;
 						if (bothset.contains(o.getSina_userid())) {
 							// 发送通知告诉对方我也来了
 							sendNotice = true;
 							// 让双方相互关注
-							Friend friend2 = new Friend();
-							friend2.setUserid(o.getUserid());
-							friend2.setFriendid(userid);
-							friend2.setFlg(Friend.FLG_BOTH);
-							this.friendService.createFriend(friend2, false,
-									false);
+							this.friendService.createFriend(_user, _friendUser,
+									false, false);
 						}
-						this.friendService.createFriend(friend, sendNotice,
-								true);
+						this.friendService.createFriend(_friendUser, _user,
+								sendNotice, true);
 					}
 					catch (Exception e) {
 						log.error(e.getMessage());

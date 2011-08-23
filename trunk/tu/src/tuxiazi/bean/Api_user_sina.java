@@ -19,6 +19,7 @@ public class Api_user_sina {
 	}
 
 	public Api_user_sina(long userid, SinaUserFromAPI sinaUserFromAPI) {
+		this.sina_userid = sinaUserFromAPI.getSinaUserId();
 		this.userid = userid;
 		this.access_token = sinaUserFromAPI.getAccess_token();
 		this.token_secret = sinaUserFromAPI.getToken_secret();

@@ -3,12 +3,12 @@ package tuxiazi.bean;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
-import halo.util.HaloValidate;
+import halo.util.HaloUtil;
 
 import java.util.Date;
 
+import tuxiazi.dao.PhotoCmtDao;
 import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
-import tuxiazi.util.Err;
 import tuxiazi.util.PhotoUtil;
 
 /**
@@ -91,18 +91,21 @@ public class PhotoCmt {
 		return PhotoUtil.getFmtTime(this.create_time);
 	}
 
-	public int validate() {
-		if (!HaloValidate.validateEmptyAndLength(this.content, true, 200)) {
-			return Err.PHOTOCMT_CONTENT_ERROR;
-		}
-		return Err.SUCCESS;
-	}
-
 	public long getReplyuserid() {
 		return replyuserid;
 	}
 
 	public void setReplyuserid(long replyuserid) {
 		this.replyuserid = replyuserid;
+	}
+
+	public void save() {
+		PhotoCmtDao dao = (PhotoCmtDao) HaloUtil.getBean("photoCmtDao");
+		dao.save(this);
+	}
+
+	public void delete() {
+		PhotoCmtDao dao = (PhotoCmtDao) HaloUtil.getBean("photoCmtDao");
+		dao.deleteById(this.cmtid);
 	}
 }
