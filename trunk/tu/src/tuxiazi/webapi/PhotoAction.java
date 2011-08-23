@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -65,22 +67,30 @@ public class PhotoAction extends BaseApiAction {
 	@Autowired
 	private UserDao userDao;
 
+	private final Log log = LogFactory.getLog(PhotoAction.class);
+
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
-		long favUserid = 0;
-		User user = this.getUser(req);
-		if (user != null) {
-			favUserid = user.getUserid();
+		try {
+			long favUserid = 0;
+			User user = this.getUser(req);
+			if (user != null) {
+				favUserid = user.getUserid();
+			}
+			long photoid = req.getLong("photoid");
+			Photo photo = this.photoDao.getById(photoid, favUserid, true);
+			if (photo == null) {
+				APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
+				return null;
+			}
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("photo", photo);
+			APIUtil.writeData(resp, map, "vm/photo.vm");
 		}
-		long photoid = req.getLong("photoid");
-		Photo photo = this.photoDao.getById(photoid, favUserid, true);
-		if (photo == null) {
-			APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
-			return null;
+		catch (Exception e) {
+			log.error(e.getMessage());
+			this.writeSysErr(resp);
 		}
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("photo", photo);
-		APIUtil.writeData(resp, map, "vm/photo.vm");
 		return null;
 	}
 
@@ -92,20 +102,26 @@ public class PhotoAction extends BaseApiAction {
 	 * @return 2010-11-8
 	 */
 	public String prvdelete(HkRequest req, HkResponse resp) {
-		User user = this.getUser(req);
-		long photoid = req.getLong("photoid");
-		Photo photo = this.photoDao.getById(photoid);
-		if (photo == null) {
-			APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
-			return null;
+		try {
+			User user = this.getUser(req);
+			long photoid = req.getLong("photoid");
+			Photo photo = this.photoDao.getById(photoid);
+			if (photo == null) {
+				APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
+				return null;
+			}
+			if (photo.getUserid() != user.getUserid()) {
+				APIUtil.writeErr(resp, Err.OP_NOPOWER);
+				return null;
+			}
+			User _u = this.userDao.getById(user.getUserid());
+			this.photoService.deletePhoto(photo, _u);
+			APIUtil.writeSuccess(resp);
 		}
-		if (photo.getUserid() != user.getUserid()) {
-			APIUtil.writeErr(resp, Err.OP_NOPOWER);
-			return null;
+		catch (Exception e) {
+			log.error(e.getMessage());
+			this.writeSysErr(resp);
 		}
-		User _u = this.userDao.getById(user.getUserid());
-		this.photoService.deletePhoto(photo, _u);
-		APIUtil.writeSuccess(resp);
 		return null;
 	}
 
@@ -114,46 +130,52 @@ public class PhotoAction extends BaseApiAction {
 	 * 
 	 * @param req
 	 * @param resp
-	 * @return 2010-11-8
+	 * @return 0:成功<br/>
+	 *         14:图片超出1M限制<br/>
+	 *         15:图片处理出错<br/>
+	 *         4:系统出错<br/>
 	 */
 	public String prvupload(HkRequest req, HkResponse resp) {
-		File file = req.getFile("f");
-		if (file == null) {
-			APIUtil.writeErr(resp, Err.PHOTO_FILE_NOTEXIST);
-			return null;
-		}
-		User user = this.getUser(req);
-		UploadPhoto uploadPhoto = new UploadPhoto();
-		uploadPhoto.setFile(file);
-		uploadPhoto.setName(DataUtil.limitLength(req.getString("name"), 140));
-		uploadPhoto.setCreate_time(new Date());
-		uploadPhoto.setPrivacy_flg(req.getByte("privacy_flg"));
-		List<UploadPhoto> list = new ArrayList<UploadPhoto>();
-		list.add(uploadPhoto);
-		boolean withweibo = false;
-		if (req.getInt("withweibo") == 1) {
-			withweibo = true;
-		}
-		User _u = this.userDao.getById(user.getUserid());
 		try {
+			File file = req.getFile("f");
+			if (file == null) {
+				APIUtil.writeErr(resp, Err.PHOTO_FILE_NOTEXIST);
+				return null;
+			}
+			User user = this.getUser(req);
+			UploadPhoto uploadPhoto = new UploadPhoto();
+			uploadPhoto.setFile(file);
+			uploadPhoto
+					.setName(DataUtil.limitLength(req.getString("name"), 140));
+			uploadPhoto.setCreate_time(new Date());
+			uploadPhoto.setPrivacy_flg(req.getByte("privacy_flg"));
+			List<UploadPhoto> list = new ArrayList<UploadPhoto>();
+			list.add(uploadPhoto);
+			boolean withweibo = false;
+			if (req.getInt("withweibo") == 1) {
+				withweibo = true;
+			}
+			User _u = this.userDao.getById(user.getUserid());
 			this.photoService.createPhoto(uploadPhoto, withweibo, _u,
 					this.getApiUserSina(req));
 			VelocityContext context = new VelocityContext();
 			context.put("errcode", Err.SUCCESS);
 			APIUtil.write(resp, "vm/sinaerr.vm", context);
-			return null;
 		}
 		catch (ImageSizeOutOfLimitException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			APIUtil.writeErr(resp, Err.API_PHOTO_OUTOF_LIMIT);
 		}
 		catch (ImageException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e.getMessage());
+			APIUtil.writeErr(resp, Err.API_PHOTO_PROCESS_ERROR);
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e.getMessage());
+			APIUtil.writeErr(resp, Err.API_PHOTO_PROCESS_ERROR);
+		}
+		catch (Exception e) {
+			log.error(e.getMessage());
+			this.writeSysErr(resp);
 		}
 		return null;
 	}
@@ -197,7 +219,7 @@ public class PhotoAction extends BaseApiAction {
 	}
 
 	/**
-	 * 获取好友的最新公开图片
+	 * 获取好友的最新图片
 	 * 
 	 * @param req
 	 * @param resp
@@ -220,7 +242,8 @@ public class PhotoAction extends BaseApiAction {
 			APIUtil.writeData(resp, map, "vm/friendphotos.vm");
 		}
 		catch (Exception e) {
-			APIUtil.writeErr(resp, Err.API_SYS_ERR);
+			log.error(e.getMessage());
+			this.writeSysErr(resp);
 		}
 		return null;
 	}
@@ -256,7 +279,8 @@ public class PhotoAction extends BaseApiAction {
 			APIUtil.writeData(resp, map, "vm/userphotos.vm");
 		}
 		catch (Exception e) {
-			APIUtil.writeErr(resp, Err.API_SYS_ERR);
+			log.error(e.getMessage());
+			this.writeSysErr(resp);
 		}
 		return null;
 	}
@@ -266,18 +290,24 @@ public class PhotoAction extends BaseApiAction {
 	 * 
 	 * @param req
 	 * @param resp
-	 * @return
+	 * @return 6:图片不存在<br/>
 	 */
 	public String prvlike(HkRequest req, HkResponse resp) {
-		User user = this.getUser(req);
-		long photoid = req.getLong("photoid");
-		Photo photo = this.photoDao.getById(photoid);
-		if (photo == null) {
-			APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
-			return null;
+		try {
+			User user = this.getUser(req);
+			long photoid = req.getLong("photoid");
+			Photo photo = this.photoDao.getById(photoid);
+			if (photo == null) {
+				APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
+				return null;
+			}
+			this.photoService.createPhotoUserLike(user, photo);
+			APIUtil.writeSuccess(resp);
 		}
-		this.photoService.createPhotoUserLike(user, photo);
-		APIUtil.writeSuccess(resp);
+		catch (Exception e) {
+			log.error(e.getMessage());
+			this.writeSysErr(resp);
+		}
 		return null;
 	}
 
@@ -289,14 +319,20 @@ public class PhotoAction extends BaseApiAction {
 	 * @return
 	 */
 	public String prvdellike(HkRequest req, HkResponse resp) {
-		User user = this.getUser(req);
-		long photoid = req.getLong("photoid");
-		Photo photo = this.photoDao.getById(photoid);
-		User _user = this.userDao.getById(user.getUserid());
-		if (photo != null) {
-			this.photoService.deletePhotoUserLike(_user, photo);
+		try {
+			User user = this.getUser(req);
+			long photoid = req.getLong("photoid");
+			Photo photo = this.photoDao.getById(photoid);
+			User _user = this.userDao.getById(user.getUserid());
+			if (photo != null) {
+				this.photoService.deletePhotoUserLike(_user, photo);
+			}
+			APIUtil.writeSuccess(resp);
 		}
-		APIUtil.writeSuccess(resp);
+		catch (Exception e) {
+			log.error(e.getMessage());
+			this.writeSysErr(resp);
+		}
 		return null;
 	}
 
@@ -321,10 +357,16 @@ public class PhotoAction extends BaseApiAction {
 	 * @return
 	 */
 	public String hot(HkRequest req, HkResponse resp) {
-		List<HotPhoto> list = this.hotPhotoDao.getList(0, 40);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list);
-		APIUtil.writeData(resp, map, "vm/hotphotos.vm");
+		try {
+			List<HotPhoto> list = this.hotPhotoDao.getList(0, 40);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			APIUtil.writeData(resp, map, "vm/hotphotos.vm");
+		}
+		catch (Exception e) {
+			log.error(e.getMessage());
+			this.writeSysErr(resp);
+		}
 		return null;
 	}
 
@@ -336,21 +378,27 @@ public class PhotoAction extends BaseApiAction {
 	 * @return
 	 */
 	public String likeuser(HkRequest req, HkResponse resp) {
-		int page = req.getInt("page");
-		int size = req.getInt("size");
-		long photoid = req.getLong("photoid");
-		User user = this.getUser(req);
-		long userid = 0;
-		if (user != null) {
-			userid = user.getUserid();
+		try {
+			int page = req.getInt("page");
+			int size = req.getInt("size");
+			long photoid = req.getLong("photoid");
+			User user = this.getUser(req);
+			long userid = 0;
+			if (user != null) {
+				userid = user.getUserid();
+			}
+			SimplePage simplePage = new SimplePage(size, page);
+			List<PhotoLikeUser> list = this.photoLikeUserDao.getListByPhotoid(
+					photoid, true, userid, simplePage.getBegin(),
+					simplePage.getSize());
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			APIUtil.writeData(resp, map, "vm/photolikeuser.vm");
 		}
-		SimplePage simplePage = new SimplePage(size, page);
-		List<PhotoLikeUser> list = this.photoLikeUserDao.getListByPhotoid(
-				photoid, true, userid, simplePage.getBegin(),
-				simplePage.getSize());
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list);
-		APIUtil.writeData(resp, map, "vm/photolikeuser.vm");
+		catch (Exception e) {
+			log.error(e.getMessage());
+			this.writeSysErr(resp);
+		}
 		return null;
 	}
 }

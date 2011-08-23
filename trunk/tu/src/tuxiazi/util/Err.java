@@ -68,4 +68,8 @@ public interface Err {
 	 * 认证信息丢失
 	 */
 	int API_REQUESTTOKEN_NOT_EXIST = 13;
+
+	int API_PHOTO_OUTOF_LIMIT = 14;
+
+	int API_PHOTO_PROCESS_ERROR = 15;
 }
