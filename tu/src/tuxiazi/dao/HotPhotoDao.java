@@ -11,4 +11,6 @@ public interface HotPhotoDao extends IDao<HotPhoto> {
 	public int deleteByPhotoid(long photoid);
 
 	public List<HotPhoto> getList(int begin, int size);
+
+	int deleteAll();
 }

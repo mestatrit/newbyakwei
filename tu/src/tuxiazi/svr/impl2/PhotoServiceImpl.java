@@ -1,7 +1,6 @@
 package tuxiazi.svr.impl2;
 
 import halo.util.DataUtil;
-import halo.util.NumberUtil;
 import halo.util.ResourceConfig;
 import halo.util.image.ImageException;
 
@@ -34,6 +33,7 @@ import tuxiazi.dao.NoticeDao;
 import tuxiazi.dao.PhotoCmtDao;
 import tuxiazi.dao.PhotoDao;
 import tuxiazi.dao.PhotoLikeLogDao;
+import tuxiazi.dao.PhotoLikeReport;
 import tuxiazi.dao.PhotoLikeUserDao;
 import tuxiazi.dao.PhotoUserLikeDao;
 import tuxiazi.dao.User_photoDao;
@@ -241,16 +241,22 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	@Override
-	public void createHotPhotos() {
-		List<Photo> list = this.photoDao.getList(null, null, null,
-				"like_num desc,photoid desc", 0, 100);
-		this.hotPhotoDao.delete(null, null, null);
-		for (Photo o : list) {
-			HotPhoto hotPhoto = new HotPhoto();
-			hotPhoto.setPhotoid(o.getPhotoid());
-			hotPhoto.setPath(o.getPath());
-			long oid = NumberUtil.getLong(this.hotPhotoDao.save(hotPhoto));
-			hotPhoto.setOid(oid);
+	public void createHotPhotos(Date begin, Date end) {
+		List<PhotoLikeReport> list = this.photoLikeLogDao
+				.buildPhotoLikeReportListByTime(begin, end);
+		// 获取新的热门大于50才进行全部删除
+		if (list.size() > 50) {
+			this.hotPhotoDao.deleteAll();
+		}
+		for (PhotoLikeReport o : list) {
+			this.hotPhotoDao.deleteByPhotoid(o.getPhotoid());
+			Photo photo = this.photoDao.getById(o.getPhotoid());
+			if (photo != null) {
+				HotPhoto hotPhoto = new HotPhoto();
+				hotPhoto.setPhotoid(o.getPhotoid());
+				hotPhoto.setPath(photo.getPath());
+				hotPhoto.save();
+			}
 		}
 	}
 }
