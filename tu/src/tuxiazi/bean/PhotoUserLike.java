@@ -1,5 +1,7 @@
 package tuxiazi.bean;
 
+import java.util.Date;
+
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
@@ -19,6 +21,17 @@ public class PhotoUserLike {
 	@Id
 	private long oid;
 
+	@Column
+	private long photoid;
+
+	@Column
+	private long userid;
+
+	@Column
+	private Date createtime;
+
+	private String nick;
+
 	public long getOid() {
 		return oid;
 	}
@@ -26,14 +39,6 @@ public class PhotoUserLike {
 	public void setOid(long oid) {
 		this.oid = oid;
 	}
-
-	@Column
-	private long photoid;
-
-	@Column
-	private long userid;
-
-	private String nick;
 
 	public void setNick(String nick) {
 		this.nick = nick;
@@ -59,11 +64,20 @@ public class PhotoUserLike {
 		this.userid = userid;
 	}
 
-	public void save(long userid, long photoid) {
+	public Date getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
+	}
+
+	public void save(long userid, long photoid, Date createtime) {
 		PhotoLikeUserDao photoLikeUserDao = (PhotoLikeUserDao) HaloUtil
 				.getBean("photoLikeUserDao");
 		this.userid = userid;
 		this.photoid = photoid;
+		this.createtime = createtime;
 		this.save();
 		if (photoLikeUserDao.getByUseridAndPhotoid(this.userid, this.photoid) != null) {
 			return;

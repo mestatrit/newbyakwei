@@ -22,6 +22,7 @@ import tuxiazi.bean.HotPhoto;
 import tuxiazi.bean.Lasted_photo;
 import tuxiazi.bean.Notice;
 import tuxiazi.bean.Photo;
+import tuxiazi.bean.PhotoLikeLog;
 import tuxiazi.bean.PhotoUserLike;
 import tuxiazi.bean.UploadPhoto;
 import tuxiazi.bean.User;
@@ -32,6 +33,7 @@ import tuxiazi.dao.Lasted_photoDao;
 import tuxiazi.dao.NoticeDao;
 import tuxiazi.dao.PhotoCmtDao;
 import tuxiazi.dao.PhotoDao;
+import tuxiazi.dao.PhotoLikeLogDao;
 import tuxiazi.dao.PhotoLikeUserDao;
 import tuxiazi.dao.PhotoUserLikeDao;
 import tuxiazi.dao.User_photoDao;
@@ -82,6 +84,9 @@ public class PhotoServiceImpl implements PhotoService {
 
 	@Autowired
 	private PhotoCmtDao photoCmtDao;
+
+	@Autowired
+	private PhotoLikeLogDao photoLikeLogDao;
 
 	private final Log log = LogFactory.getLog(PhotoServiceImpl.class);
 
@@ -181,12 +186,17 @@ public class PhotoServiceImpl implements PhotoService {
 			return null;
 		}
 		PhotoUserLike photoUserLike = new PhotoUserLike();
-		photoUserLike.save(user.getUserid(), photo.getPhotoid());
+		photoUserLike.save(user.getUserid(), photo.getPhotoid(), new Date());
 		// 更新图片喜欢数量，更新喜欢此图片的人信息
 		photo.addLikeUser(user.getUserid(), user.getNick());
 		photo.setLike_num(this.photoLikeUserDao.countByPhotoid(photo
 				.getPhotoid()));
 		photo.update();
+		// 记录日志，便于进行热度分析
+		PhotoLikeLog photoLikeLog = new PhotoLikeLog(photoUserLike.getOid(),
+				photo.getPhotoid(), user.getUserid(),
+				photoUserLike.getCreatetime());
+		photoLikeLog.save();
 		// 发送通知给图片所有者,如果是自己就不发送通知
 		if (user.getUserid() != photo.getUserid()) {
 			// 对用户图片打分进行特殊处理。只要通知存在，就不添加新通知
@@ -215,6 +225,8 @@ public class PhotoServiceImpl implements PhotoService {
 				.getByUseridAndPhotoid(userid, photoid);
 		if (photoUserLike != null) {
 			photoUserLike.delete();
+			// 删除热度日志
+			this.photoLikeLogDao.deleteById(photoUserLike.getOid());
 		}
 		photo.removeLikeUser(userid);
 		photo.setLike_num(this.photoLikeUserDao.countByPhotoid(photo
