@@ -18,8 +18,18 @@ import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 @Table(name = "photolikelog", partitionClass = TuxiaziDbPartitionHelper.class)
 public class PhotoLikeLog {
 
+	public PhotoLikeLog() {
+	}
+
+	public PhotoLikeLog(long oid, long photoid, long userid, Date createtime) {
+		this.oid = oid;
+		this.photoid = photoid;
+		this.userid = userid;
+		this.createtime = createtime;
+	}
+
 	@Id
-	private long logid;
+	private long oid;
 
 	@Column
 	private long photoid;
@@ -30,12 +40,12 @@ public class PhotoLikeLog {
 	@Column
 	private Date createtime;
 
-	public long getLogid() {
-		return logid;
+	public void setOid(long oid) {
+		this.oid = oid;
 	}
 
-	public void setLogid(long logid) {
-		this.logid = logid;
+	public long getOid() {
+		return oid;
 	}
 
 	public long getPhotoid() {

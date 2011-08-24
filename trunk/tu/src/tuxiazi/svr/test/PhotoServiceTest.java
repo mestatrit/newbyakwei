@@ -139,6 +139,21 @@ public class PhotoServiceTest {
 	}
 
 	@Test
+	public void createPhotoUserLike() {
+		PhotoUserLike photoUserLike = this.photoService.createPhotoUserLike(
+				this.user1, this.photo);
+		Assert.assertNotNull(photoUserLike);
+		Assert.assertEquals(this.user1.getUserid(), photoUserLike.getUserid());
+		Assert.assertEquals(this.photo.getPhotoid(), photoUserLike.getPhotoid());
+		PhotoLikeUser photoLikeUser = this.photoLikeUserDao
+				.getByUseridAndPhotoid(this.user1.getUserid(),
+						this.photo.getPhotoid());
+		Assert.assertNotNull(photoLikeUser);
+		Assert.assertEquals(this.user1.getUserid(), photoLikeUser.getUserid());
+		Assert.assertEquals(this.photo.getPhotoid(), photoLikeUser.getPhotoid());
+	}
+
+	@Test
 	public void deletePhotoUserLike() {
 		PhotoUserLike photoUserLike = this.photoService.createPhotoUserLike(
 				this.user1, this.photo);
