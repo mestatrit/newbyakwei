@@ -9,6 +9,7 @@ import halo.web.util.SimplePage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -344,7 +345,11 @@ public class PhotoAction extends BaseApiAction {
 	 * @return
 	 */
 	public String makehot(HkRequest req, HkResponse resp) {
-		this.photoService.createHotPhotos();
+		Calendar begincal = Calendar.getInstance();
+		begincal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+		Calendar endcal = Calendar.getInstance();
+		endcal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+		this.photoService.createHotPhotos(begincal.getTime(), endcal.getTime());
 		resp.sendHtml("make hot ok");
 		return null;
 	}

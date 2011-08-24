@@ -3,6 +3,7 @@ package tuxiazi.svr.iface;
 import halo.util.image.ImageException;
 
 import java.io.IOException;
+import java.util.Date;
 
 import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.Photo;
@@ -50,5 +51,5 @@ public interface PhotoService {
 	/**
 	 * 计算热门图片
 	 */
-	void createHotPhotos();
+	void createHotPhotos(Date begin, Date end);
 }

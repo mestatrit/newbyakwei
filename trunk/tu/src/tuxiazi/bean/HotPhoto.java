@@ -3,6 +3,8 @@ package tuxiazi.bean;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
+import halo.util.HaloUtil;
+import tuxiazi.dao.HotPhotoDao;
 import tuxiazi.dao.dbpartitionhelper.TuxiaziDbPartitionHelper;
 import tuxiazi.util.PhotoUtil;
 
@@ -16,14 +18,6 @@ public class HotPhoto {
 
 	@Id
 	private long oid;
-
-	public long getOid() {
-		return oid;
-	}
-
-	public void setOid(long oid) {
-		this.oid = oid;
-	}
 
 	@Column
 	private long photoid;
@@ -65,5 +59,18 @@ public class HotPhoto {
 	 */
 	public String getP4url() {
 		return PhotoUtil.getP4url(path);
+	}
+
+	public void save() {
+		HotPhotoDao dao = (HotPhotoDao) HaloUtil.getBean("hotPhotoDao");
+		dao.save(this);
+	}
+
+	public long getOid() {
+		return oid;
+	}
+
+	public void setOid(long oid) {
+		this.oid = oid;
 	}
 }
