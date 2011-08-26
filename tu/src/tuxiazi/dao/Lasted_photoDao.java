@@ -13,5 +13,6 @@ public interface Lasted_photoDao extends IDao<Lasted_photo> {
 	public List<Lasted_photo> getList(int begin, int size);
 
 	public List<Lasted_photo> getList(boolean buildPhoto,
-			boolean buildPhotoUser, long favUserid, int begin, int size);
+			boolean buildPhotoUser, long favUserid, boolean buildCmt,
+			boolean buildCmtUser, int begin, int size);
 }

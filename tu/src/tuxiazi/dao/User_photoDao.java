@@ -12,8 +12,6 @@ public interface User_photoDao extends IDao<User_photo> {
 
 	public int countByUserid(long userid);
 
-	public List<User_photo> getListByUserid(long userid, int begin, int size);
-
 	/**
 	 * @param userid
 	 * @param buildPhoto
@@ -24,7 +22,8 @@ public interface User_photoDao extends IDao<User_photo> {
 	 * @return 2010-11-13
 	 */
 	List<User_photo> getListByUserid(long userid, boolean buildPhoto,
-			long favUserid, int begin, int size);
+			boolean buildPhotoUser, long favUserid, boolean buildCmt,
+			boolean buildCmtUser, int begin, int size);
 
 	User_photo getByUseridAndPhotoid(long userid, long photoid);
 }

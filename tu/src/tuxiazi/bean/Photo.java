@@ -102,7 +102,17 @@ public class Photo {
 	@Column
 	private String like_user;
 
+	private List<PhotoCmt> photoCmtList;
+
 	private boolean opliked;
+
+	public void setPhotoCmtList(List<PhotoCmt> photoCmtList) {
+		this.photoCmtList = photoCmtList;
+	}
+
+	public List<PhotoCmt> getPhotoCmtList() {
+		return photoCmtList;
+	}
 
 	public void setOpliked(boolean opliked) {
 		this.opliked = opliked;

@@ -48,21 +48,19 @@ public class User_photoDaoImpl extends BaseDao<User_photo> implements
 		return this.count("userid=?", new Object[] { userid });
 	}
 
-	public List<User_photo> getListByUserid(long userid, int begin, int size) {
-		return this.getList("userid=?", new Object[] { userid },
-				"photoid desc", begin, size);
-	}
-
 	@Override
 	public List<User_photo> getListByUserid(long userid, boolean buildPhoto,
-			long favUserid, int begin, int size) {
-		List<User_photo> list = this.getListByUserid(userid, begin, size);
+			boolean buildPhotoUser, long favUserid, boolean buildCmt,
+			boolean buildCmtUser, int begin, int size) {
+		List<User_photo> list = this.getList("userid=?",
+				new Object[] { userid }, "photoid desc", begin, size);
 		if (buildPhoto) {
 			List<Long> idList = new ArrayList<Long>();
 			for (User_photo o : list) {
 				idList.add(o.getPhotoid());
 			}
-			Map<Long, Photo> map = this.photoDao.getMapInId(idList);
+			Map<Long, Photo> map = this.photoDao.getMapInId(idList,
+					buildPhotoUser, buildCmt, buildCmtUser);
 			for (User_photo o : list) {
 				o.setPhoto(map.get(o.getPhotoid()));
 			}

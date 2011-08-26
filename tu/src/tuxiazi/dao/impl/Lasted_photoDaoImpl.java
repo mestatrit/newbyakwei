@@ -45,14 +45,16 @@ public class Lasted_photoDaoImpl extends BaseDao<Lasted_photo> implements
 	}
 
 	public List<Lasted_photo> getList(boolean buildPhoto,
-			boolean buildPhotoUser, long favUserid, int begin, int size) {
+			boolean buildPhotoUser, long favUserid, boolean buildCmt,
+			boolean buildCmtUser, int begin, int size) {
 		List<Lasted_photo> list = this.getList(begin, size);
 		if (buildPhoto) {
 			List<Long> idList = new ArrayList<Long>();
 			for (Lasted_photo o : list) {
 				idList.add(o.getPhotoid());
 			}
-			Map<Long, Photo> map = this.photoDao.getMapInId(idList);
+			Map<Long, Photo> map = this.photoDao.getMapInId(idList,
+					buildPhotoUser, buildCmt, buildCmtUser);
 			for (Lasted_photo o : list) {
 				o.setPhoto(map.get(o.getPhotoid()));
 			}

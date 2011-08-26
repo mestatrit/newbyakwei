@@ -44,11 +44,6 @@ public class PhotoCmtDaoImpl extends BaseDao<PhotoCmt> implements PhotoCmtDao {
 		return this.delete("photoid=?", new Object[] { photoid });
 	}
 
-	public List<PhotoCmt> getListByPhotoid(long photoid, int begin, int size) {
-		return this.getList("photoid=?", new Object[] { photoid },
-				"cmtid desc", begin, size);
-	}
-
 	public int countByPhotoid(long photoid) {
 		return this.count("photoid=?", new Object[] { photoid });
 	}
@@ -56,7 +51,8 @@ public class PhotoCmtDaoImpl extends BaseDao<PhotoCmt> implements PhotoCmtDao {
 	@Override
 	public List<PhotoCmt> getListByPhotoid(long photoid, boolean buildUser,
 			int begin, int size) {
-		List<PhotoCmt> list = this.getListByPhotoid(photoid, begin, size);
+		List<PhotoCmt> list = this.getList("photoid=?",
+				new Object[] { photoid }, "cmtid desc", begin, size);
 		if (buildUser) {
 			List<Long> idList = new ArrayList<Long>();
 			for (PhotoCmt o : list) {

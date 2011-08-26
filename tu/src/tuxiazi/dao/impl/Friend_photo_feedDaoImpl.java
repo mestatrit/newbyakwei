@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
 import tuxiazi.bean.Friend_photo_feed;
 import tuxiazi.bean.Photo;
 import tuxiazi.bean.PhotoUserLike;
-import tuxiazi.bean.User;
 import tuxiazi.dao.Friend_photo_feedDao;
 
 @Component("friend_photo_feedDao")
@@ -25,9 +23,6 @@ public class Friend_photo_feedDaoImpl extends BaseDao<Friend_photo_feed>
 
 	@Autowired
 	private PhotoDaoImpl photoDao;
-
-	@Autowired
-	private UserDaoImpl userDao;
 
 	@Autowired
 	private PhotoUserLikeDaoImpl photoUserLikeDao;
@@ -50,7 +45,7 @@ public class Friend_photo_feedDaoImpl extends BaseDao<Friend_photo_feed>
 
 	public List<Friend_photo_feed> getListByUserid(long userid,
 			boolean buildPhoto, boolean buildPhotoUser, long favUserid,
-			int begin, int size) {
+			boolean buildCmt, boolean buildCmtUser, int begin, int size) {
 		List<Friend_photo_feed> list = this.getList("userid=?",
 				new Object[] { userid }, "photoid desc", begin, size);
 		if (buildPhoto) {
@@ -58,22 +53,10 @@ public class Friend_photo_feedDaoImpl extends BaseDao<Friend_photo_feed>
 			for (Friend_photo_feed o : list) {
 				idList.add(o.getPhotoid());
 			}
-			Map<Long, Photo> map = this.photoDao.getMapInId(idList);
+			Map<Long, Photo> map = this.photoDao.getMapInId(idList,
+					buildPhotoUser, buildCmt, buildCmtUser);
 			for (Friend_photo_feed o : list) {
 				o.setPhoto(map.get(o.getPhotoid()));
-			}
-			if (buildPhotoUser) {
-				idList = new ArrayList<Long>();
-				for (Entry<Long, Photo> e : map.entrySet()) {
-					idList.add(e.getValue().getUserid());
-				}
-				Map<Long, User> usermap = this.userDao.getMapInId(idList);
-				for (Friend_photo_feed o : list) {
-					if (o.getPhoto() != null) {
-						o.getPhoto().setUser(
-								usermap.get(o.getPhoto().getUserid()));
-					}
-				}
 			}
 			if (favUserid > 0) {
 				List<PhotoUserLike> photoUserLikes = this.photoUserLikeDao
