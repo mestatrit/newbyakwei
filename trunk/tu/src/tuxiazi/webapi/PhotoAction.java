@@ -194,7 +194,7 @@ public class PhotoAction extends BaseApiAction {
 		User user = this.getUser(req);
 		if (user == null) {
 			List<Lasted_photo> lastedlist = this.lasted_photoDao.getList(true,
-					false, 0, 0, 1);
+					false, 0, false, false, 0, 1);
 			VelocityContext context = new VelocityContext();
 			context.put("errcode", Err.SUCCESS);
 			context.put("lastedlist", lastedlist);
@@ -202,7 +202,8 @@ public class PhotoAction extends BaseApiAction {
 			return null;
 		}
 		List<Friend_photo_feed> list = this.friend_photo_feedDao
-				.getListByUserid(user.getUserid(), true, false, 0, 0, 1);
+				.getListByUserid(user.getUserid(), true, false, 0, false,
+						false, 0, 1);
 		if (list.size() > 0) {
 			VelocityContext context = new VelocityContext();
 			context.put("errcode", Err.SUCCESS);
@@ -211,7 +212,7 @@ public class PhotoAction extends BaseApiAction {
 			return null;
 		}
 		List<Lasted_photo> lastedlist = this.lasted_photoDao.getList(true,
-				false, user.getUserid(), 0, 1);
+				false, user.getUserid(), false, false, 0, 1);
 		VelocityContext context = new VelocityContext();
 		context.put("errcode", Err.SUCCESS);
 		context.put("lastedlist", lastedlist);
@@ -236,8 +237,8 @@ public class PhotoAction extends BaseApiAction {
 			SimplePage simplePage = new SimplePage(size, page);
 			List<Friend_photo_feed> list = this.friend_photo_feedDao
 					.getListByUserid(user.getUserid(), true, true,
-							user.getUserid(), simplePage.getBegin(),
-							simplePage.getSize());
+							user.getUserid(), true, true,
+							simplePage.getBegin(), simplePage.getSize());
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
 			APIUtil.writeData(resp, map, "vm/friendphotos.vm");
@@ -250,8 +251,6 @@ public class PhotoAction extends BaseApiAction {
 	}
 
 	/**
-	 * 用户图片,如果当前访问用户与登录用户是同一个用户，则获取所有图片
-	 * 
 	 * @param req
 	 * @param resp
 	 * @return 2010-11-30
@@ -268,8 +267,9 @@ public class PhotoAction extends BaseApiAction {
 		}
 		try {
 			User user = this.userDao.getById(uid);
-			List<User_photo> list = this.user_photoDao.getListByUserid(uid,
-					true, userid, simplePage.getBegin(), size);
+			List<User_photo> list = this.user_photoDao
+					.getListByUserid(userid, true, true, userid, true, true,
+							simplePage.getBegin(), size);
 			for (User_photo o : list) {
 				if (o.getPhoto() != null) {
 					o.getPhoto().setUser(user);

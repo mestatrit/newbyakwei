@@ -32,8 +32,8 @@ public class FeedServiceImpl implements FeedService {
 		int count = this.friend_photo_feedDao.countByUserid(userid);
 		if (count > maxSize) {
 			List<Friend_photo_feed> list = this.friend_photo_feedDao
-					.getListByUserid(userid, false, false, 0, maxSize - 1,
-							count - maxSize);
+					.getListByUserid(userid, false, false, 0, false, false,
+							maxSize - 1, count - maxSize);
 			for (Friend_photo_feed o : list) {
 				o.delete();
 			}

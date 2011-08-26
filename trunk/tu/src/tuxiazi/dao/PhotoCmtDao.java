@@ -10,8 +10,6 @@ public interface PhotoCmtDao extends IDao<PhotoCmt> {
 
 	public int deleteByPhotoid(long photoid);
 
-	public List<PhotoCmt> getListByPhotoid(long photoid, int begin, int size);
-
 	/**
 	 * 获得某图片的评论集合
 	 * 
