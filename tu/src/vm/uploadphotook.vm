@@ -1,0 +1,11 @@
+<resp errcode="0" err_msg="">
+<photo>
+	<photoid>$!{photo.photoid}</photoid>
+	<name><![CDATA[$!{photo.name}]]></name>
+	<create_time><![CDATA[$!{photo.fmtTime}]]></create_time>
+	<p1url><![CDATA[$!{photo.p1url}]]></p1url>
+	<p2url><![CDATA[$!{photo.p2url}]]></p2url>
+	<p4url><![CDATA[$!{photo.p4url}]]></p4url>
+	<p6url><![CDATA[$!{photo.p6url}]]></p6url>
+</photo>
+</resp>

@@ -5,8 +5,8 @@
 	<photoid>$!{up.photoid}</photoid>
 	<name><![CDATA[$!{up.photo.name}]]></name>
 	<cmt_num>$!{up.photo.cmt_num}</cmt_num>
-	<opliked>$!{up.photo.opliked}</opliked>
 	<like_num>$!{up.photo.like_num}</like_num>
+	<opliked>$!{up.photo.opliked}</opliked>
 	<create_time><![CDATA[$!{up.photo.fmtTime}]]></create_time>
 	<p1url><![CDATA[$!{up.photo.p1url}]]></p1url>
 	<p2url><![CDATA[$!{up.photo.p2url}]]></p2url>

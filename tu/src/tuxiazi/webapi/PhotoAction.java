@@ -157,11 +157,11 @@ public class PhotoAction extends BaseApiAction {
 				withweibo = true;
 			}
 			User _u = this.userDao.getById(user.getUserid());
-			this.photoService.createPhoto(uploadPhoto, withweibo, _u,
-					this.getApiUserSina(req));
-			VelocityContext context = new VelocityContext();
-			context.put("errcode", Err.SUCCESS);
-			APIUtil.write(resp, "vm/sinaerr.vm", context);
+			Photo photo = this.photoService.createPhoto(uploadPhoto, withweibo,
+					_u, this.getApiUserSina(req));
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("photo", photo);
+			APIUtil.writeData(resp, map, "vm/uploadphotook.vm");
 		}
 		catch (ImageSizeOutOfLimitException e) {
 			APIUtil.writeErr(resp, Err.API_PHOTO_OUTOF_LIMIT);
