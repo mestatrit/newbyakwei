@@ -87,8 +87,7 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("photo", photo);
 			APIUtil.writeData(resp, map, "vm/photo.vm");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -118,8 +117,7 @@ public class PhotoAction extends BaseApiAction {
 			User _u = this.userDao.getById(user.getUserid());
 			this.photoService.deletePhoto(photo, _u);
 			APIUtil.writeSuccess(resp);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -162,19 +160,15 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("photo", photo);
 			APIUtil.writeData(resp, map, "vm/uploadphotook.vm");
-		}
-		catch (ImageSizeOutOfLimitException e) {
+		} catch (ImageSizeOutOfLimitException e) {
 			APIUtil.writeErr(resp, Err.API_PHOTO_OUTOF_LIMIT);
-		}
-		catch (ImageException e) {
+		} catch (ImageException e) {
 			log.error(e.getMessage());
 			APIUtil.writeErr(resp, Err.API_PHOTO_PROCESS_ERROR);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			log.error(e.getMessage());
 			APIUtil.writeErr(resp, Err.API_PHOTO_PROCESS_ERROR);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -231,8 +225,14 @@ public class PhotoAction extends BaseApiAction {
 	 */
 	public String prvfriendphotos(HkRequest req, HkResponse resp) {
 		User user = this.getUser(req);
-		int page = req.getInt("page", 1);
-		int size = req.getInt("size", 1);
+		int page = req.getInt("page");
+		int size = req.getInt("size");
+		if (page <= 0) {
+			page = 1;
+		}
+		if (size <= 0) {
+			size = 10;
+		}
 		try {
 			SimplePage simplePage = new SimplePage(size, page);
 			List<Friend_photo_feed> list = this.friend_photo_feedDao
@@ -242,8 +242,7 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
 			APIUtil.writeData(resp, map, "vm/friendphotos.vm");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -278,8 +277,7 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
 			APIUtil.writeData(resp, map, "vm/userphotos.vm");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -304,8 +302,7 @@ public class PhotoAction extends BaseApiAction {
 			}
 			this.photoService.createPhotoUserLike(user, photo);
 			APIUtil.writeSuccess(resp);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -329,8 +326,7 @@ public class PhotoAction extends BaseApiAction {
 				this.photoService.deletePhotoUserLike(_user, photo);
 			}
 			APIUtil.writeSuccess(resp);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -367,8 +363,7 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
 			APIUtil.writeData(resp, map, "vm/hotphotos.vm");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -399,8 +394,7 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
 			APIUtil.writeData(resp, map, "vm/photolikeuser.vm");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
