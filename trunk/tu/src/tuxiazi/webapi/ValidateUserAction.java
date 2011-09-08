@@ -51,6 +51,7 @@ public class ValidateUserAction extends BaseApiAction {
 			}
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("validate", true);
+			map.put("user", user);
 			APIUtil.writeData(resp, map, "vm/validateuser.vm");
 		}
 		catch (Exception e) {

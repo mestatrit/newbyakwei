@@ -17,7 +17,7 @@
 				<entry key="mysql_ds_tuxiazi">
 					<bean class="com.mchange.v2.c3p0.ComboPooledDataSource">
 						<property name="driverClass" value="com.mysql.jdbc.Driver" />
-						<property name="jdbcUrl" value="jdbc:mysql://localhost/tuxiazi?useUnicode=true&amp;characterEncoding=UTF-8" />
+						<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1/tuxiazi?useUnicode=true&amp;characterEncoding=UTF-8" />
 						<property name="user" value="root" />
 						<property name="password" value="boseeandbokee" />
 						<property name="maxStatements" value="200" />
@@ -30,7 +30,7 @@
 				<entry key="mysql_ds_tuxiazi_feed">
 					<bean class="com.mchange.v2.c3p0.ComboPooledDataSource">
 						<property name="driverClass" value="com.mysql.jdbc.Driver" />
-						<property name="jdbcUrl" value="jdbc:mysql://localhost/tuxiazi_feed?useUnicode=true&amp;characterEncoding=UTF-8" />
+						<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1/tuxiazi_feed?useUnicode=true&amp;characterEncoding=UTF-8" />
 						<property name="user" value="root" />
 						<property name="password" value="boseeandbokee" />
 						<property name="maxStatements" value="200" />

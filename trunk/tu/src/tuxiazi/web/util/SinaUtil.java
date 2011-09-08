@@ -206,15 +206,16 @@ public class SinaUtil {
 	}
 
 	public static void main(String[] args) throws WeiboException {
-		String access_token = "fa70c08f889270a4007d3bc3955deda7";
-		String token_secret = "5035cbe48f4220ee757d76571b992b50";
-		// List<User> list = SinaUtil.getFriendList(access_token, token_secret,
-		// "1639525917", 1, 6);
+		String access_token = "fe251807d45e2157f7a5d45c8cbf6921";
+		String token_secret = "30423d96a6429dbf8957ae7cd9c45773";
+//		SinaUtil.getFriendIdList(access_token, token_secret, 1752481465);
+		 List<User> list = SinaUtil.getFriendList(access_token, token_secret,
+		 "1639525917", 1, 6);
 		// for (User o : list) {
 		// P.println(o.getScreenName() + " | "
 		// + o.getProfileImageURL().toString());
 		// }
 		// ==========
-		SinaUtil.updateStatus(access_token, token_secret, "test api");
+//		SinaUtil.updateStatus(access_token, token_secret, "test api");
 	}
 }
