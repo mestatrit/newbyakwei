@@ -1,3 +1,9 @@
 <resp errcode="0" err_msg="">
 <validate>${validate}</validate>
+#if($user)
+<user>
+	<userid>${user.userid}</userid>
+	<nick><![CDATA[$!{user.nick}]]></nick>
+</user>
+#end
 </resp>

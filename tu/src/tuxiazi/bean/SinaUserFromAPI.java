@@ -12,10 +12,10 @@ public class SinaUserFromAPI {
 
 	private String head;
 
-	public SinaUserFromAPI(String token_secret, String access_token,
+	public SinaUserFromAPI(String access_token, String token_secret,
 			long sinaUserId, String nick, String head) {
-		this.token_secret = token_secret;
 		this.access_token = access_token;
+		this.token_secret = token_secret;
 		this.sinaUserId = sinaUserId;
 		this.nick = nick;
 		this.head = head;
