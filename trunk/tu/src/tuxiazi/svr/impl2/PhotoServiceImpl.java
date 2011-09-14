@@ -152,8 +152,7 @@ public class PhotoServiceImpl implements PhotoService {
 		try {
 			SinaUtil.updateStatus(apiUserSina.getAccess_token(),
 					apiUserSina.getToken_secret(), content, imgFile);
-		}
-		catch (WeiboException e) {
+		} catch (WeiboException e) {
 			log.error("error when share to weibo upload photo");
 			log.error(e.toString());
 		}
@@ -258,5 +257,15 @@ public class PhotoServiceImpl implements PhotoService {
 				hotPhoto.save();
 			}
 		}
+	}
+
+	@Override
+	public void sharePhoto(Photo photo, Api_user_sina api_user_sina,
+			String content) throws WeiboException {
+		String path = this.fileCnf.getFilePath(photo.getPath());
+		File file = new File(path);
+		SinaUtil.updateStatus(api_user_sina.getAccess_token(),
+				api_user_sina.getToken_secret(), content, file);
+
 	}
 }

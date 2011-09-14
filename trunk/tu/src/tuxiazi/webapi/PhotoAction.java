@@ -1,6 +1,7 @@
 package tuxiazi.webapi;
 
 import halo.util.DataUtil;
+import halo.util.ResourceConfig;
 import halo.util.image.ImageException;
 import halo.web.action.HkRequest;
 import halo.web.action.HkResponse;
@@ -21,6 +22,7 @@ import org.apache.velocity.VelocityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import tuxiazi.bean.Api_user_sina;
 import tuxiazi.bean.Friend_photo_feed;
 import tuxiazi.bean.HotPhoto;
 import tuxiazi.bean.Lasted_photo;
@@ -40,6 +42,7 @@ import tuxiazi.svr.exception.ImageSizeOutOfLimitException;
 import tuxiazi.svr.iface.PhotoService;
 import tuxiazi.util.Err;
 import tuxiazi.web.util.APIUtil;
+import weibo4j.WeiboException;
 
 @Component("/api/photo")
 public class PhotoAction extends BaseApiAction {
@@ -87,7 +90,8 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("photo", photo);
 			APIUtil.writeData(resp, map, "vm/photo.vm");
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -117,7 +121,8 @@ public class PhotoAction extends BaseApiAction {
 			User _u = this.userDao.getById(user.getUserid());
 			this.photoService.deletePhoto(photo, _u);
 			APIUtil.writeSuccess(resp);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -160,15 +165,19 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("photo", photo);
 			APIUtil.writeData(resp, map, "vm/uploadphotook.vm");
-		} catch (ImageSizeOutOfLimitException e) {
+		}
+		catch (ImageSizeOutOfLimitException e) {
 			APIUtil.writeErr(resp, Err.API_PHOTO_OUTOF_LIMIT);
-		} catch (ImageException e) {
+		}
+		catch (ImageException e) {
 			log.error(e.getMessage());
 			APIUtil.writeErr(resp, Err.API_PHOTO_PROCESS_ERROR);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			log.error(e.getMessage());
 			APIUtil.writeErr(resp, Err.API_PHOTO_PROCESS_ERROR);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -242,7 +251,8 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
 			APIUtil.writeData(resp, map, "vm/friendphotos.vm");
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -277,7 +287,8 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
 			APIUtil.writeData(resp, map, "vm/userphotos.vm");
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -302,7 +313,8 @@ public class PhotoAction extends BaseApiAction {
 			}
 			this.photoService.createPhotoUserLike(user, photo);
 			APIUtil.writeSuccess(resp);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -326,7 +338,8 @@ public class PhotoAction extends BaseApiAction {
 				this.photoService.deletePhotoUserLike(_user, photo);
 			}
 			APIUtil.writeSuccess(resp);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -363,7 +376,8 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
 			APIUtil.writeData(resp, map, "vm/hotphotos.vm");
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -394,9 +408,46 @@ public class PhotoAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
 			APIUtil.writeData(resp, map, "vm/photolikeuser.vm");
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
+		}
+		return null;
+	}
+
+	/**
+	 * 分享图片
+	 * 
+	 * @param req
+	 * @param resp
+	 * @return
+	 */
+	public String sharephoto(HkRequest req, HkResponse resp) {
+		long photoid = req.getLong("photoid");
+		Photo photo = this.photoDao.getById(photoid);
+		if (photo == null) {
+			APIUtil.writeErr(resp, Err.PHOTO_NOTEXIST);
+			return null;
+		}
+		User user = this.getUser(req);
+		User photoUser = this.userDao.getById(photo.getUserid());
+		String content = null;
+		if (user.getUserid() == photo.getUserid()) {
+			content = ResourceConfig.getTextFromResource("i18n",
+					"sharemyphototemplate", photoid);
+		}
+		else {
+			content = ResourceConfig.getTextFromResource("i18n",
+					"sharephototemplate", photoUser.getNick(), photoid);
+		}
+		Api_user_sina api_user_sina = this.getApiUserSina(req);
+		try {
+			this.photoService.sharePhoto(photo, api_user_sina, content);
+			APIUtil.writeSuccess(resp);
+		}
+		catch (WeiboException e) {
+			APIUtil.writeErr(resp, Err.API_SINA_ERR);
 		}
 		return null;
 	}

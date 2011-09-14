@@ -11,6 +11,7 @@ import tuxiazi.bean.PhotoUserLike;
 import tuxiazi.bean.UploadPhoto;
 import tuxiazi.bean.User;
 import tuxiazi.svr.exception.ImageSizeOutOfLimitException;
+import weibo4j.WeiboException;
 
 public interface PhotoService {
 
@@ -52,4 +53,15 @@ public interface PhotoService {
 	 * 计算热门图片
 	 */
 	void createHotPhotos(Date begin, Date end);
+
+	/**
+	 * 分享图片
+	 * 
+	 * @param photo
+	 * @param api_user_sina
+	 * @param content
+	 * @throws WeiboException
+	 */
+	void sharePhoto(Photo photo, Api_user_sina api_user_sina, String content)
+			throws WeiboException;
 }
