@@ -423,7 +423,7 @@ public class PhotoAction extends BaseApiAction {
 	 * @param resp
 	 * @return
 	 */
-	public String sharephoto(HkRequest req, HkResponse resp) {
+	public String prvsharephoto(HkRequest req, HkResponse resp) {
 		long photoid = req.getLong("photoid");
 		Photo photo = this.photoDao.getById(photoid);
 		if (photo == null) {
