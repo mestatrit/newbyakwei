@@ -5,8 +5,9 @@
 	<create_time><![CDATA[$!{photoCmt.getFmtCreate_time()}]]></create_time>
 	<replyuserid>${photoCmt.replyuserid}</replyuserid>
 	<user>
-		<userid>${photoCmt.user.userid}</userid>
-		<nick><![CDATA[${photoCmt.user.nick}]]></nick>
+		<userid>${user.userid}</userid>
+		<nick><![CDATA[${user.nick}]]></nick>
+		<head><![CDATA[${user.head_path}]]></head>
 	</user>
 </cmt>
 </resp>
