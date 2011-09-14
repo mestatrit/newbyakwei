@@ -78,9 +78,9 @@ public class CmtAction extends BaseApiAction {
 					this.getApiUserSina(req));
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("photoCmt", photoCmt);
+			map.put("user", _user);
 			APIUtil.writeData(resp, map, "vm/photocmt_create.vm");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -113,8 +113,7 @@ public class CmtAction extends BaseApiAction {
 			Photo photo = photoDao.getById(photoCmt.getPhotoid());
 			this.photoCmtService.deletePhotoCmt(photo, photoCmt);
 			APIUtil.writeSuccess(resp);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
@@ -139,8 +138,7 @@ public class CmtAction extends BaseApiAction {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
 			APIUtil.writeData(resp, map, "vm/photocmtlist.vm");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			this.writeSysErr(resp);
 		}
