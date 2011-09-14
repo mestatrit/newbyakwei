@@ -21,7 +21,7 @@
 		<pic_num><![CDATA[$!{feed.photo.user.pic_num}]]></pic_num>
 	</user>
 	<cmtlist>
-		#foreach($cmt in $feed.photo.getCmtList())
+		#foreach($cmt in $feed.photo.photoCmtList)
 		<cmt>
 			<cmtid>${cmt.cmtid}</cmtid>
 			<content><![CDATA[$!{cmt.content}]]></content>
