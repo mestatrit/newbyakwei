@@ -86,8 +86,7 @@ public class AuthAction extends BaseApiAction {
 						sinaUserFromAPI, true);
 				apiUserSina = this.api_user_sinaDao.getByUserid(user
 						.getUserid());
-			}
-			else {
+			} else {
 				apiUserSina.setAccess_token(accessToken.getToken());
 				apiUserSina.setToken_secret(accessToken.getTokenSecret());
 				this.userService.updateApi_user_sina(apiUserSina);
@@ -104,18 +103,25 @@ public class AuthAction extends BaseApiAction {
 			String v = "r:" + return_url;
 			if (return_url.indexOf("?") != -1) {
 				v += "&";
-			}
-			else {
+			} else {
 				v += "?";
 			}
-			v += "access_token=" + accessToken.getToken() + "&token_secret="
-					+ accessToken.getTokenSecret() + "&api_type="
-					+ Api_user.API_TYPE_SINA + "&userid="
-					+ apiUserSina.getUserid() + "&login_nick="
-					+ DataUtil.urlEncoder(sina_user.getScreenName());
+			// 认证成功后，返回userid,nick,headpic
+			v += "access_token="
+					+ accessToken.getToken()
+					+ "&token_secret="
+					+ accessToken.getTokenSecret()
+					+ "&api_type="
+					+ Api_user.API_TYPE_SINA
+					+ "&userid="
+					+ apiUserSina.getUserid()
+					+ "&login_nick="
+					+ DataUtil.urlEncoder(sina_user.getScreenName())
+					+ "&head="
+					+ DataUtil.urlEncoder(sina_user.getProfileImageURL()
+							.toString());
 			return v;
-		}
-		catch (WeiboException e) {
+		} catch (WeiboException e) {
 			APIUtil.writeErr(resp, Err.API_SINA_ERR);
 			return null;
 		}
