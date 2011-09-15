@@ -277,7 +277,7 @@ public class PhotoAction extends BaseApiAction {
 		try {
 			User user = this.userDao.getById(uid);
 			List<User_photo> list = this.user_photoDao
-					.getListByUserid(userid, true, true, userid, true, true,
+					.getListByUserid(uid, true, true, userid, true, true,
 							simplePage.getBegin(), size);
 			for (User_photo o : list) {
 				if (o.getPhoto() != null) {
