@@ -30,6 +30,7 @@
 			<user>
 				<userid>${cmt.user.userid}</userid>
 				<nick><![CDATA[${cmt.user.nick}]]></nick>
+				<head><![CDATA[$!{cmt.user.head_path}]]></head>
 			</user>
 		</cmt>
 		#end
