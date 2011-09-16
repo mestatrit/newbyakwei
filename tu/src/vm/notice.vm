@@ -10,7 +10,7 @@
 				<sender>
 					<userid>$!{noticeinfo.notice.sender.userid}</userid>
 					<nick><![CDATA[$!{noticeinfo.notice.sender.nick}]]></nick>
-					<head><![CDATA[$!{noticeinfo.notice.sender.head}]]></head>
+					<head><![CDATA[$!{noticeinfo.notice.sender.head_path}]]></head>
 				</sender>
 				<photoid><![CDATA[$!{noticeinfo.notice.refoid}]]></photoid>
 				<noticeintro><![CDATA[$!{noticeinfo.text}]]></noticeintro>

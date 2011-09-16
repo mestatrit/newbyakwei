@@ -70,9 +70,7 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 			notice.setRefoid(photo.getPhotoid());
 			notice.setSenderid(photoCmt.getUserid());
 			Map<String, String> map = new HashMap<String, String>();
-			map.put("senderid", String.valueOf(notice.getSenderid()));
 			map.put("cmtid", String.valueOf(photoCmt.getCmtid()));
-			map.put("photoid", String.valueOf(photo.getPhotoid()));
 			notice.setData(JsonUtil.toJson(map));
 			notice.save();
 		}
