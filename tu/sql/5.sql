@@ -14,3 +14,4 @@ CREATE TABLE photolikelog (
   KEY idx_0 (createtime,photoid)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+delete from tuxiazi_feed.notice where senderid=0;
