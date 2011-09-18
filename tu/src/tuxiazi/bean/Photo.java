@@ -335,7 +335,7 @@ public class Photo {
 	private void processUploadImage(File file, String filePath)
 			throws IOException, ImageException {
 		ImageShaper imageShaper = ImageShaperFactory
-				.getImageShaper(ImageShaperFactory.SHAPER_MOCK);
+				.getImageShaper(ImageShaperFactory.SHAPER_JMAGICK);
 		ImageParam imageParam = new ImageParam(file, 90, 0, 0, true);
 		OriginInfo originInfo = imageParam.getOriginInfo();
 		ImageSize scaleImageSize = ImageSizeMaker.makeSize(
