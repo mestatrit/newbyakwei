@@ -1,0 +1,567 @@
+如何使用分布式数据库开发
+
+对于数据库分布式访问的spring xml配置如下：
+
+配置过程包括2个主要方面
+
+1 数据源配置、工具类配置
+2 分库分表的路由规则配置
+首先进行第一项关于数据源的配置：
+在配置数据库连接池时，使用halo.dao.sql.HkDataSourceWrapper，然后对每一个数据库实例配置一个key，方便程序用来选择数据源
+
+<bean id="dataSource" class="halo.dao.sql.HkDataSourceWrapper">
+    <property name="dataSourceMap">
+        <map>
+            <!-- 如果是mysql数据库，就要以mysql_为开始字符串 -->
+            <entry key="mysql_iwant">
+                <bean class="com.mchange.v2.c3p0.ComboPooledDataSource">
+                    <property name="driverClass" value="com.mysql.jdbc.Driver" />
+                    <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=UTF-8" />
+                    <property name="user" value="root" />
+                    <property name="password" value="root" />
+                    <property name="maxStatements" value="200" />
+                    <property name="idleConnectionTestPeriod" value="60" />
+                    <property name="maxPoolSize" value="200" />
+                    <property name="initialPoolSize" value="20" />
+                    <property name="minPoolSize" value="20" />
+                </bean>
+            </entry>
+        </map>
+    </property>
+</bean>
+<bean id="hkObjQuery" class="halo.dao.query.HkObjQuery">
+    <property name="querySupport">
+        <bean class="halo.dao.query.MysqlQuerySupport">
+			<property name="dataSource" ref="dataSource" />
+        </bean>
+    </property>
+</bean>
+
+=================================================================
+
+使用jdbc方式访问数据库，halo提供的数据库访问方式可以提供分库分表的功能
+
+首先，先看不分库分表的开发方式
+
+创建与数据库对应的javabean
+示例代码：
+package bean;
+
+import java.util.Date;
+
+import com.dev3g.cactus.dao.annotation.Column;
+import com.dev3g.cactus.dao.annotation.Id;
+import com.dev3g.cactus.dao.annotation.Table;
+
+/**
+ * 目前字段类型只支持long,int,byte,short,float,char,double,String,java.util.Date
+ * 
+ * @author akwei
+ */
+// @Table(name = "user",partitionid="userPart")
+// //如果通过spring实例化分表分析器，只需要指定partitionid=beanid
+// @Table(name = "user", partitionClass = TestUserDbPartitionHelper.class) //
+// partitionClass=指定分表分析器类型
+// @Table(name = "user", partitionClass =
+// DbPartitionHelperDef.class)//默认使用不分表分库的分析器，写法同下
+@Table(name = "user")
+// 默认使用不分表分库的分析器
+public class User {
+
+        @Id
+        private long userid;
+
+        @Column
+        // 标明是与数据库对应的列，如果与数据库对应的列写法不一样包括大小写，那么就需要这样写：@Column("db_user_nick")
+        private String nick;
+
+        @Column
+        private String addr;
+
+        @Column
+        private String intro;
+
+        @Column
+        private int sex;
+
+        @Column
+        private Date createtime;
+
+......此处省略setter getter方法。
+}
+
+=================================================================
+
+insert sql 创建数据到数据库
+ // 通过spring获取，获取方式有很多，可以注入等
+HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil.getBean("hkObjQuery");
+Map<String, Object> ctxMap = new HashMap<String, Object>();
+// 设置分区关键值(根据userid进行分表分库规则设置)
+ctxMap.put("userid", 1);
+// 通过分区分析器分析，返回分区信息
+PartitionTableInfo partitionTableInfo = hkObjQuery.parse(
+                TestUser.class, ctxMap);
+// 创建insert sql
+String insert_sql = "insert into " + partitionTableInfo.getTableName()
+                + "(id,nick) values(?,?)";
+// 设置参数
+Object[] values = new Object[] { 1, "akwei" };
+// 使用sql操作
+hkObjQuery.insertBySQL(partitionTableInfo.getDsKey(), insert_sql,
+                values);
+
+=================================================================
+
+update sql 更新数据库数据
+
+HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil.getBean("hkObjQuery");
+Map<String, Object> ctxMap = new HashMap<String, Object>();
+// 设置分区关键值
+ctxMap.put("userid", 1);
+// 通过分区分析器分析，返回分区信息
+PartitionTableInfo partitionTableInfo = hkObjQuery.parse(
+                TestUser.class, ctxMap);
+// 创建update sql
+String update_sql = "update " + partitionTableInfo.getTableName()
+                + " set nick=?,gender=?,birthday=?";
+// 设置参数
+Object[] values = new Object[] { "akwei", 0, new Date(), 1 };
+// 使用sql update 操作
+hkObjQuery.updateBySQL(partitionTableInfo.getDsKey(), update_sql,
+                values);
+                
+=================================================================
+
+delete sql 从数据库删除数据
+
+HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil.getBean("hkObjQuery");
+Map<String, Object> ctxMap = new HashMap<String, Object>();
+// 设置分区关键值
+ctxMap.put("testuser.userid", 1);
+// 通过分区分析器分析，返回分区信息
+PartitionTableInfo partitionTableInfo = hkObjQuery.parse(
+                TestUser.class, ctxMap);
+// 创建update sql
+String update_sql = "delete from " + partitionTableInfo.getTableName()
+                + " where userid=?";
+// 设置参数
+Object[] values = new Object[] { 1 };
+// 使用sql update 操作
+hkObjQuery.updateBySQL(partitionTableInfo.getDsKey(), update_sql,
+                values);
+
+=================================================================
+
+select 取结果集 (单表)
+
+HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil.getBean("hkObjQuery");
+Map<String, Object> ctxMap = new HashMap<String, Object>();
+// 设置分区关键值
+ctxMap.put("userid", 1);
+// 通过分区分析器分析，返回分区信息
+PartitionTableInfo partitionTableInfo = hkObjQuery.parse(
+                TestUser.class, ctxMap);
+// 创建select_sql
+String select_sql = "select * from "
+                + partitionTableInfo.getTableName() + " where nick=? limit ?,?";
+Object[] values = new Object[] { "akwei", 0, 10 };
+//结果集组装，使用spring RowMapper类
+List<TestUser> list = hkObjQuery.getListBySQL(partitionTableInfo
+                .getDsKey(), select_sql, values, 0, -1,
+                new RowMapper<TestUser>() {
+
+                        @Override
+                        public TestUser mapRow(ResultSet arg0, int arg1)
+                                        throws SQLException {
+                                // TODO Auto-generated method stub 组装结果集
+                                return null;
+                        }
+                });
+                
+=================================================================
+
+select 取结果集，join操作多表
+
+HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil.getBean("hkObjQuery");
+Map<String, Object> ctxMap = new HashMap<String, Object>();
+// 设置分区关键值
+ctxMap.put("userid", 1);
+ctxMap.put("memberuserid", 1);
+// 通过分区分析器分析，返回分区信息
+PartitionTableInfo[] partitionTableInfos = hkObjQuery.parse(
+                new Class<?>[] { TestUser.class, Member.class }, ctxMap);
+// 创建select_sql,sql中表的别名请使用表实体类中定义的@Table(name = "testuser")
+String select_sql = "select * from "
+                + partitionTableInfos[0].getTableName()
+                + " , "
+                + partitionTableInfos[1].getTableName()
+                + " where nick=? and testuser.userid=member.memberuserid limit ?,?";
+Object[] values = new Object[] { "akwei", 1, 10 };
+List<TestUser> list = hkObjQuery.getListBySQL(partitionTableInfos[0]
+                .getDsKey(), select_sql, values, 0, -1,
+                new RowMapper<TestUser>() {
+
+                        @Override
+                        public TestUser mapRow(ResultSet arg0, int arg1)
+                                        throws SQLException {
+                                // TODO Auto-generated method stub 组装结果集
+                                return null;
+                        }
+                });
+
+=================================================================
+
+select 获取单对象
+
+HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil.getBean("hkObjQuery");
+Map<String, Object> ctxMap = new HashMap<String, Object>();
+// 设置分区关键值
+ctxMap.put("userid", 1);
+// 通过分区分析器分析，返回分区信息
+PartitionTableInfo partitionTableInfo = hkObjQuery.parse(
+                TestUser.class, ctxMap);
+// 创建select_sql
+String select_sql = "select * from "
+                + partitionTableInfo.getTableName() + " where nick=? limit ?,?";
+Object[] values = new Object[] { "akwei", 0, 1 };
+hkObjQuery.getObjectBySQL(partitionTableInfo.getDsKey(), select_sql,
+                values, new RowMapper<TestUser>() {
+
+                        @Override
+                        public TestUser mapRow(ResultSet arg0, int arg1)
+                                        throws SQLException {
+                                // TODO Auto-generated method stub 组装结果集
+                                return null;
+                        }
+                });
+
+=================================================================
+
+select count sql 获取count数据
+
+HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil.getBean("hkObjQuery");
+Map<String, Object> ctxMap = new HashMap<String, Object>();
+// 设置分区关键值
+ctxMap.put("userid", 1);
+// 通过分区分析器分析，返回分区信息
+PartitionTableInfo partitionTableInfo = hkObjQuery.parse(
+                TestUser.class, ctxMap);
+// 创建select_sql
+String select_sql = "select count(*) from "
+                + partitionTableInfo.getTableName() + " where nick=?";
+Object[] values = new Object[] { "akwei" };
+int count = hkObjQuery.getNumberBySQL(partitionTableInfo.getDsKey(),
+                select_sql, values).intValue();
+
+=================================================================
+
+如果你觉得这样使用jdbc太繁琐，那么请看下面提供的简单访问方式:
+
+=================================================================
+
+对象方式 insert 数据
+
+HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil.getBean("hkObjQuery");
+// 创建数据对象
+TestUser testUser = new TestUser();
+testUser.setUserid(1);
+testUser.setNick("akweiwei");
+testUser.setGender((byte) 1);
+testUser.setMoney(29.9);
+testUser.setPurchase(21.1f);
+// 设置分区参数以及值
+// 创建操作
+Object obj = hkObjQuery.insertObj("userid", testUser.getUserid(), testUser);
+// 如果设置mysql数据库表id自增，返回值obj代表自增id的值
+
+=================================================================
+
+update 更新对象
+
+HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil.getBean("hkObjQuery");
+TestUser testUser =//对象从数据库获得
+testUser.setUserid(1);
+testUser.setNick("akweiwei");
+testUser.setGender((byte) 1);
+testUser.setMoney(29.9);
+testUser.setPurchase(21.1f);
+// 设置分区参数以及值
+// update，要更新对象，对象必须有id
+hkObjQuery.updateObj("userid", testUser.getUserid(), testUser);
+
+=================================================================
+
+deleteById 根据id删除对象
+
+HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil.getBean("hkObjQuery");
+long id = 100;
+hkObjQuery.deleteById("userid", new Long(100), TestUser.class, id);
+
+=================================================================
+
+delete 根据条件删除对象
+
+HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil.getBean("hkObjQuery");
+// 设置分区参数以及值
+DeleteParam deleteParam = new DeleteParam("userid", new Long(10));
+// 设置查询条件与参数
+deleteParam.setWhereAndParams("nick=?", new Object[] { "akwei" });
+// delete，设置要删除的对象类型
+hkObjQuery.delete(deleteParam, TestUser.class);
+
+=================================================================
+
+update 根据条件更新部分列数据
+
+HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil.getBean("hkObjQuery");
+UpdateParam updateParam = new UpdateParam("userid", 1);
+updateParam.init(new String[] { "gender", "createtime", "nick" },
+		"nick=?", new Object[] { 1, new Date(), "akweiwei", "aaa" });
+// update
+hkObjQuery.update(updateParam, TestUser.class);
+                
+=================================================================
+
+select count 获得统计数据
+
+HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil.getBean("hkObjQuery");
+// count
+// 设置分区参数以及值
+CountParam countParam = new CountParam("userid", new Long(2));
+// 设置要统计的类
+countParam.addClass(TestUser.class);
+// 设置查询条件与参数
+countParam.setWhereAndParams("nick=?", new Object[] { "akweiwei" });
+hkObjQuery.count(countParam);
+
+=================================================================
+
+select list 获得结果集数据
+
+获得的结果数据可有框架自动组装，不必让用户自己实现RowMapper
+
+HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil.getBean("hkObjQuery");
+QueryParam queryParam = new QueryParam("userid", new Long(4));
+// 添加需要查询的表,如果查询的表与返回值类型相同，可不设置此参数
+queryParam.addClass(TestUser.class);
+// 设置查询范围如果size为<0时，取所有数据
+queryParam.setRange(0, 10);
+queryParam.setWhereAndParams("testuser.nick=?",
+		new Object[] { "akwei" });
+queryParam.setOrder("gender desc");
+// select
+List<TestUser> list = hkObjQuery.getList(queryParam, TestUser.class);
+// hkObjQuery.getList(queryParam, mapper);//为自定义RowMapper方式
+
+=================================================================
+
+select list 多表关联查询
+
+// 虽然支持多表查询，但是仍然不建议使用
+final HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil
+		.getBean("hkObjQuery");
+QueryParam queryParam = new QueryParam("userid", new Long(4));
+// 添加需要查询的表，此添加顺序会影响返回列的顺序
+queryParam.addClass(TestUser.class);
+queryParam.addClass(Member.class);
+// 设置分区参数以及值
+queryParam.addKeyAndValue("memberuserid", new Long(4));
+// 设置查询范围
+queryParam.setRange(0, -1);
+// 设置查询条件，尽量使用别名区分表
+// 设置查询参数
+queryParam.setWhereAndParams(
+		"testuser.userid=member.memberuserid and testuser.userid=?",
+		new Object[] { 4 });
+// 设置排序
+queryParam.setOrder("testuser.nick asc");
+// 返回值的rowmapper
+RowMapper<Member> mapper = new RowMapper<Member>() {
+
+	@Override
+	public Member mapRow(ResultSet arg0, int arg1) throws SQLException {
+		// 返回所有列时，可以使用表对应的类
+		TestUser testUser = hkObjQuery.getRowMapper(TestUser.class)
+				.mapRow(arg0, arg1);
+		Member member = hkObjQuery.getRowMapper(Member.class).mapRow(
+				arg0, arg1);
+		member.setTestUser(testUser);
+		return member;
+	}
+};
+// select
+List<Member> list = hkObjQuery.getList(queryParam, mapper);
+
+=================================================================
+
+select count 多表关联统计数据
+
+HkObjQuery hkObjQuery = (HkObjQuery) HaloUtil.getBean("hkObjQuery");
+CountParam countParam = new CountParam();
+// 设置要统计的类
+countParam.addClass(TestUser.class);
+countParam.addClass(Member.class);
+// 设置分区参数以及值
+countParam.addKeyAndValue("userid", new Long(4));
+countParam.addKeyAndValue("memberuserid", new Long(4));
+// 设置查询条件与参数
+countParam.setWhereAndParams(
+		"testuser.userid=member.memberuserid and testuser.userid=?",
+		new Object[] { 4 });
+// count
+hkObjQuery.count(countParam);
+
+=================================================================
+
+如果你在使用Dao方式访问数据库，那么写法会更简单
+如何使用Dao方式操作数据
+
+=================================================================
+
+创建dao接口，继承com.dev3g.cactus.dao.query.IDao
+
+示例代码：
+
+package demo.svr.dao;
+
+import java.util.List;
+
+import com.dev3g.cactus.dao.query.IDao;
+
+import demo.bean.UserInfo;
+
+public interface UserInfoDao extends IDao<UserInfo> {
+
+        List<UserInfo> getListByGender(int gender, int begin, int size);
+}
+
+实现接口
+
+package demo.svr.dao.impl;
+
+import java.util.List;
+
+import com.dev3g.cactus.dao.query.BaseDao;
+
+import demo.bean.UserInfo;
+import demo.svr.dao.UserInfoDao;
+
+/**
+ * insert update delete selectById 等单表操作的方法已经在IDao中定义，并在BaseDao中实现，所以可以直接用
+ * 
+ * @author akwei
+ */
+public class UserInfoDaoImpl extends BaseDao<UserInfo> implements UserInfoDao {
+
+        @Override
+        public Class<UserInfo> getClazz() {
+                // 返回对应的class，用来指定当前dao操作的表
+                return UserInfo.class;
+        }
+
+        @Override
+        public List<UserInfo> getListByGender(int gender, int begin, int size) {
+                return this.getList("gender=?", new Object[] { gender }, "nick asc",
+                                begin, size);
+                // 如果是按照gender分表：
+//              return this.getList(gender, "gender=?", new Object[] { gender },
+//                              "nick asc", begin, size);
+        }
+}
+如果要进行 insert update delete getById的操作，不需要在接口中声明，因为IDao已经声明过这些方法了，BaseDao?已经实现了这些方法，所以可以直接调用这些方法，例如在service中调用：
+
+创建Service接口:
+
+package demo.svr;
+
+import demo.bean.UserInfo;
+
+public interface UserInfoService {
+
+        void createUserInfo(UserInfo userInfo);
+
+        void updateUserInfo(UserInfo userInfo);
+
+        void deleteUserInfo(long userid);
+
+        UserInfo getUserInfo(long userid);
+}
+实现Service接口：
+
+package demo.svr.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import demo.bean.UserInfo;
+import demo.svr.UserInfoService;
+import demo.svr.dao.UserInfoDao;
+
+public class UserInfoSvrviceImpl implements UserInfoService {
+
+        @Autowired
+        private UserInfoDao userInfoDao;
+
+        @Override
+        public void createUserInfo(UserInfo userInfo) {
+                this.userInfoDao.save(userInfo);
+        }
+
+        @Override
+        public void deleteUserInfo(long userid) {
+                this.userInfoDao.deleteById(userid);
+        }
+
+        @Override
+        public UserInfo getUserInfo(long userid) {
+                return this.userInfoDao.getById(userid);
+        }
+
+        @Override
+        public void updateUserInfo(UserInfo userInfo) {
+                this.userInfoDao.update(userInfo);
+        }
+}
+
+=================================================================
+
+
+
+=================================================================
+
+
+
+=================================================================
+
+
+
+=================================================================
+
+如果需要分表分库操作，请继承halo.dao.partition.DbPartitionHelper，实现public PartitionTableInfo parse(String name, Map<String, Object> ctxMap) 方法,此方法就是需要分析分库分表规则。
+
+示例代码：
+
+package query;
+
+import java.util.Map;
+
+import halo.dao.partition.DbPartitionHelper;
+import halo.dao.query.PartitionTableInfo;
+
+public class TestUserDbPartitionHelper extends DbPartitionHelper {
+
+	@Override
+	public PartitionTableInfo parse(String tableLogicName, Map<String, Object> ctxMap) {
+		// 取出在程序中传递的分表分库关键字
+		long userid = (Long) ctxMap.get("userid");
+		// 对关键字进行分析，最终要获得真实操作的数据源key,表名称
+		String lastChar = this.get01(userid);
+		PartitionTableInfo partitionTableInfo = new PartitionTableInfo();
+		// 设置表的逻辑表名称，也是表的别名
+		partitionTableInfo.setAliasName(tableLogicName);
+		// 设置通过分析后获得的真实表名称
+		partitionTableInfo.setTableName("testuser" + lastChar);
+		// 设置通过分析后获得的真实数据源key(此key在配置数据源时指定)
+		partitionTableInfo.setDsKey("mysql_test" + lastChar);
+		return partitionTableInfo;
+	}
+}
