@@ -340,9 +340,9 @@ public class Photo {
 		OriginInfo originInfo = imageParam.getOriginInfo();
 		ImageSize scaleImageSize = ImageSizeMaker.makeSize(
 				originInfo.getWidth(), originInfo.getHeight(), 60);
-		File f= imageShaper.scale(imageParam, scaleImageSize, filePath,
+		imageShaper.scale(imageParam, scaleImageSize, filePath,
 				Photo.p1_houzhui);
-		System.out.println(f.getAbsolutePath());
+//		System.out.println(f.getAbsolutePath());
 		scaleImageSize = ImageSizeMaker.makeSize(originInfo.getWidth(),
 				originInfo.getHeight(), 120);
 		imageShaper.scale(imageParam, scaleImageSize, filePath,
@@ -361,5 +361,16 @@ public class Photo {
 	public void update() {
 		PhotoDao dao = (PhotoDao) HaloUtil.getBean("photoDao");
 		dao.update(this);
+	}
+	public static void main(String[] args) throws IOException, ImageException {
+		ImageShaper imageShaper = ImageShaperFactory
+		.getImageShaper(ImageShaperFactory.SHAPER_JMAGICK);
+		ImageParam imageParam = new ImageParam(new File("d:/test/test0.jpg"), 90, 0, 0, true);
+		OriginInfo originInfo = imageParam.getOriginInfo();
+		ImageSize scaleImageSize = ImageSizeMaker.makeSize(
+				originInfo.getWidth(), originInfo.getHeight(), 60);
+		File f= imageShaper.scale(imageParam, scaleImageSize, "d:/home/tuxiazi/pub/pic/a/2011/9/18/18/1316341059640x6nt9k/",
+				Photo.p1_houzhui);
+		System.out.println(f.getAbsolutePath());
 	}
 }
