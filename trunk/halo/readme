@@ -1,0 +1,224 @@
+web 框架使用方法：
+本框架使用的spring版本为3.0以上版本,jdk1.6以上，如果有特殊需求，请自行现在源代码进行调整
+<!-- 请在 web.xml中添加 -->
+<!-- 1，加载spring applicationContext.xml，文件名称可自定义 -->
+<context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/classes/applicationContext.xml</param-value>
+</context-param>
+
+<!-- 2，启动spring -->
+<listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
+
+<!-- 3，添加过滤器，目的是为了对上传文件与HttpServletRequest,HttpServletResponse进行包装 -->
+<filter>
+        <filter-name>HaloWrapperFilter</filter-name>
+        <filter-class>halo.web.action.HaloWrapperFilter</filter-class>
+</filter>
+
+<!-- 4，添加运行过滤器，进行程序解析 -->
+<filter>
+        <filter-name>ActionFilter</filter-name>
+        <filter-class>halo.web.action.ActionFilter</filter-class>
+</filter>
+
+<!-- 5，添加过滤器的url匹配，此匹配应该放到编码过滤器之后，其他过滤器之前 -->
+<filter-mapping>
+        <filter-name>HaloWrapperFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+</filter-mapping>
+
+<!-- 6，添加过滤器的url匹配，此匹配应该放到所有过滤器之后 -->
+<filter-mapping>
+        <filter-name>ActionFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+</filter-mapping>
+
+======================================================================
+<!-- 在spring的配置文件中添加 -->
+<!-- 1，启动annotation方式 -->
+<context:annotation-config />
+<!-- 2，配置工具类 -->
+<bean id="hkUtil" class="halo.util.HaloUtil" />
+<!-- 3，添加配置信息 -->
+<bean id="webCnf" class="halo.web.action.util.WebCnf">
+	<!-- 如果需要对url get方式进行编码，就需要配置一下2项 -->
+	<!-- 原get 方式编码，非必须 -->
+	<property name="sourceCharset" value="ISO-8859-1" />
+	<!-- 原get 目标编码，非必须 -->
+	<property name="targetCharset" value="UTF-8" />
+	<!-- 设置是否需要限制url的文件上传，true:之允许配置过的uri接受文件上传，false:允许任意url接受文件上传，非必须 -->
+	<property name="mustCheckUpload" value="true" />
+	<!-- 设置对应uri的文件上传，以及大小限制，如果设置了 mustCheckUpload=true，则，只有以下的uri才允许文件上传，非必须 -->
+	<property name="fileUploadCheckUriCnfList">
+		<list>
+			<!-- 格式为取出[requestContextPath之后的uri，去掉.do等后缀]:[文件大小(单位M)] -->
+			<value>/user_list:80</value>
+		</list>
+	</property>
+	<!-- 配置文件上传的临时目录 -->
+	<property name="uploadFileTempPath" value="/cactustemp/" />
+	<!-- 配置action的扫描目录，目录可以深度扫描，只需要定义根目录 -->
+	<property name="scanPathList">
+	        <list>
+	                <value>action.web</value>
+	        </list>
+	</property>
+</bean>
+======================================================================
+spring.xml最简配置：
+<context:annotation-config />
+<!-- must config -->
+<bean id="hkUtil" class="halo.util.HaloUtil" />
+<bean id="webCnf" class="halo.web.util.WebCnf">
+	<property name="uploadFileTempPath" value="/cactustemp/" />
+	<property name="scanPathList">
+		<list>
+			<value>action.web</value>
+		</list>
+	</property>
+</bean>
+
+======================================================================
+
+如何使用action:
+
+下面为action的例子
+
+package action;
+
+import org.springframework.stereotype.Component;
+
+import halo.web.action.Action;
+import halo.web.action.HkRequest;
+import halo.web.action.HkResponse;
+import halo.web.action.WebCnf;
+
+/**
+ * 假设配置的{@link WebCnf#setUrl_extension(String)}值为.do
+ * 
+ * @author akwei
+ */
+@Component("/hello")
+public class HelloAction implements Action {
+
+        /**
+         * 请求为 http://localhost:8080/webapp/hello.do
+         */
+        @Override
+        public String execute(HkRequest req, HkResponse resp) throws Exception {
+                return "/page/hello.jsp";
+        }
+
+        /**
+         * 请求为 http://localhost:8080/webapp/hello_method1.do
+         * 
+         * @param req
+         * @param resp
+         * @return
+         * @throws Exception
+         */
+        public String method1(HkRequest req, HkResponse resp) throws Exception {
+                return "/page/1.jsp";
+                // forward到/page/1.jsp
+        }
+
+        /**
+         * 请求为 http://localhost:8080/webapp/hello_method2.do
+         * 
+         * @param req
+         * @param resp
+         * @return
+         * @throws Exception
+         */
+        public String metod2(HkRequest req, HkResponse resp) throws Exception {
+                return "r:/page/2.jsp";
+                // redirect到/page/2.jsp
+        }
+
+        /**
+         * 请求为 http://localhost:8080/webapp/hello_method4.do
+         * 
+         * @param req
+         * @param resp
+         * @return
+         * @throws Exception
+         */
+        public String method4(HkRequest req, HkResponse resp) throws Exception {
+                return "r:/test_hello.do?v=1";
+                // redirect到${requestContextpath}/test_hello.do?v=1
+        }
+
+        /**
+         * 请求为 http://localhost:8080/webapp/hello_method5.do
+         * 
+         * @param req
+         * @param resp
+         * @return
+         * @throws Exception
+         */
+        public String method5(HkRequest req, HkResponse resp) throws Exception {
+                // 假如你使用其他代理服务器(apache,ngnix)进行urlrewrite
+                // 定义的url为 http://www.xxx.com/login
+                return "rr:/login";
+                // redirect到 http://www.xxx.com/login上
+        }
+
+        /**
+         * 请求为 http://localhost:8080/webapp/hello_method6.do
+         * 
+         * @param req
+         * @param resp
+         * @return
+         * @throws Exception
+         */
+        public String method6(HkRequest req, HkResponse resp) throws Exception {
+                // 需要定义到应用之外的url
+                return "r:http://www.google.com";
+                // 只能为redirect方式
+        }
+}
+
+======================================================================
+HkRequest中的各种方法使用:
+继承了HttpServletRequest
+ public String execute(HkRequest req, HkResponse resp) throws Exception {
+        req.setAttribute("key", "value");
+        int num = req.getInt("num");// 获得int 数据
+        num = req.getInt("num", 1);// 获得int 数据，如果没有num参数，则默认返回 值1
+        long num_long = req.getInt("sysid");
+        num_long = req.getLong("num", 9L);
+        double num_double = req.getDouble("num");
+        num_double = req.getDouble("num", 4.0d);
+        float num_float = req.getFloat("num");
+        num_float = req.getFloat("num", 89f);
+        byte num_byte = req.getByte("num");
+        num_byte = req.getByte("num", (byte) 8);
+        boolean bool = req.getBoolean("bool");
+        String value = req.getString("name");// 获得String 参数值
+        value = req.getString("name", "default");
+        value = req.getStringRow("name");// 获得String值，并强制取消回车与换行
+        String[] values = req.getStrings("name");// 获得一组String 值
+        int[] nums = req.getInts("nums");
+        long[] num_longs = req.getLongs("nums");
+        Cookie cookie = req.getCookie("cookie_name");// 根据name获得cookie
+        File file = req.getFile("file_name");// 根据name获得上传的文件
+        File[] files = req.getFiles();// 获得所有上传的文件
+        String fileName = req.getOriginalFileName("file_name");// 获得文件存储的原文件名称
+        Object obj_in_session = req.getSessionValue("key");// 获得存储到session中的数据
+        req.setSessionValue("key", obj_in_session);// 存储数据到session;
+        return null;
+}
+
+======================================================================
+HkResponse中的方法使用:
+继承了HttpServletResponse
+
+// 向页面输出xml数据，xml头信息已经输出<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+resp.sendXML("<resp>hello</resp>");
+// 向页面输出数据html页面显示
+resp.sendHtml("data");
