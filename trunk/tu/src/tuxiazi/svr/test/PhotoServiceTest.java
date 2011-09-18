@@ -82,28 +82,28 @@ public class PhotoServiceTest {
 		catch (UserAlreadyExistException e) {
 			Assert.fail(e.getMessage());
 		}
-		UploadPhoto up = new UploadPhoto();
-		up.setName("aaa");
-		up.setCreate_time(new Date());
-		up.setFile(new File("/Users/fire9/test/test.png"));
-		Api_user_sina apiUserSina = this.api_user_sinaDao
-				.getByUserid(this.user0.getUserid());
-		try {
-			photo = this.photoService.createPhoto(up, false, this.user0,
-					apiUserSina);
-		}
-		catch (ImageSizeOutOfLimitException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (ImageException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		UploadPhoto up = new UploadPhoto();
+//		up.setName("aaa");
+//		up.setCreate_time(new Date());
+//		up.setFile(new File("/Users/fire9/test/test.png"));
+//		Api_user_sina apiUserSina = this.api_user_sinaDao
+//				.getByUserid(this.user0.getUserid());
+//		try {
+//			photo = this.photoService.createPhoto(up, false, this.user0,
+//					apiUserSina);
+//		}
+//		catch (ImageSizeOutOfLimitException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		catch (ImageException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	@Test
@@ -111,7 +111,7 @@ public class PhotoServiceTest {
 		UploadPhoto up = new UploadPhoto();
 		up.setName("aaa");
 		up.setCreate_time(new Date());
-		up.setFile(new File("/Users/fire9/test/test.png"));
+		up.setFile(new File("d:/test/test0.jpg"));
 		Api_user_sina apiUserSina = this.api_user_sinaDao
 				.getByUserid(this.user0.getUserid());
 		try {

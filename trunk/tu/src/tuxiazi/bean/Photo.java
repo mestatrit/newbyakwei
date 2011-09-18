@@ -340,8 +340,9 @@ public class Photo {
 		OriginInfo originInfo = imageParam.getOriginInfo();
 		ImageSize scaleImageSize = ImageSizeMaker.makeSize(
 				originInfo.getWidth(), originInfo.getHeight(), 60);
-		imageShaper.scale(imageParam, scaleImageSize, filePath,
+		File f= imageShaper.scale(imageParam, scaleImageSize, filePath,
 				Photo.p1_houzhui);
+		System.out.println(f.getAbsolutePath());
 		scaleImageSize = ImageSizeMaker.makeSize(originInfo.getWidth(),
 				originInfo.getHeight(), 120);
 		imageShaper.scale(imageParam, scaleImageSize, filePath,
