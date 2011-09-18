@@ -51,6 +51,7 @@ public class JmagickImageShaper implements ImageShaper {
 	@Override
 	public File scale(ImageParam imageParam, ImageSize scaleImageSize,
 			String path, String name) throws ImageException {
+		this.mkdirs(path);
 		try {
 			ImageInfo info = this.createImageInfo(imageParam);
 			info = this.processQuality(imageParam, info);
