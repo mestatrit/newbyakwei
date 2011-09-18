@@ -15,8 +15,8 @@
 	<!-- must config -->
 	<bean id="hkUtil" class="halo.util.HaloUtil" />
 	<bean id="webCnf" class="halo.web.util.WebCnf">
-		<!-- <property name="uploadFileTempPath" value="/tuxiazitemp/" /> -->
-		<property name="uploadFileTempPath" value="/Users/fire9/mydev/temp/tuxiazitemp/" />
+		<property name="uploadFileTempPath" value="/tuxiazitemp/" />
+		<!-- <property name="uploadFileTempPath" value="/Users/fire9/mydev/temp/tuxiazitemp/" /> -->
 		<property name="scanPathList">
 			<list>
 				<value>tuxiazi.web</value>
@@ -28,15 +28,7 @@
 	<bean id="resourceConfig" class="halo.util.ResourceConfig" lazy-init="false">
 		<property name="resource" value="admin_err" />
 	</bean>
-	<!--
-	<bean id="fileCnf" class="tuxiazi.util.FileCnf">
-		<property name="root_path" value="/Users/fire9/mydev/temp/tuxiazipub/pic/" />
-		<property name="tmpPhotoPath" value="/Users/fire9/mydev/temp/tuxiazipub/tmppic/" />
-		<property name="fileMaxSize" value="2" />
-		<property name="directory" value="a/" />
-		<property name="domain" value="http://www.tuxiazi.com/pic/" />
-	</bean>
-	  -->
+	<!-- <bean id="fileCnf" class="tuxiazi.util.FileCnf"> <property name="root_path" value="/Users/fire9/mydev/temp/tuxiazipub/pic/" /> <property name="tmpPhotoPath" value="/Users/fire9/mydev/temp/tuxiazipub/tmppic/" /> <property name="fileMaxSize" value="2" /> <property name="directory" value="a/" /> <property name="domain" value="http://www.tuxiazi.com/pic/" /> </bean> -->
 	<bean id="fileCnf" class="tuxiazi.util.FileCnf">
 		<property name="root_path" value="d:/home/tuxiazi/pub/pic/" />
 		<property name="tmpPhotoPath" value="d:/home/tuxiazi/pub/tmppic/" />
@@ -44,7 +36,6 @@
 		<property name="directory" value="a/" />
 		<property name="domain" value="http://www.tuxiazi.com/pic/" />
 	</bean>
-	
 	<bean class="tuxiazi.util.PhotoUtil">
 		<property name="fileCnf" ref="fileCnf" />
 	</bean>
