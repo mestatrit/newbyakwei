@@ -162,6 +162,7 @@ public class PhotoAction extends BaseApiAction {
 			User _u = this.userDao.getById(user.getUserid());
 			Photo photo = this.photoService.createPhoto(uploadPhoto, withweibo,
 					_u, this.getApiUserSina(req));
+			photo.setUser(_u);
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("photo", photo);
 			APIUtil.writeData(resp, map, "vm/uploadphotook.vm");
