@@ -62,6 +62,7 @@ public class PhotoDaoImpl extends BaseDao<Photo> implements PhotoDao {
 	public Object save(Photo t) {
 		long photoid = NumberUtil.getLong(this.photoidDao.save(new Photoid()));
 		t.setPhotoid(photoid);
+		super.save(t);
 		return photoid;
 	}
 
