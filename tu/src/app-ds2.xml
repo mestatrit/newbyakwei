@@ -55,7 +55,7 @@
 		<property name="querySupport">
 			<bean class="halo.dao.query.MysqlQuerySupport">
 				<property name="dataSource" ref="dataSource" />
-				<property name="debugSQL" value="true" />
+				<property name="debugSQL" value="false" />
 			</bean>
 		</property>
 	</bean>
