@@ -30,8 +30,8 @@
 	</bean>
 	<!-- <bean id="fileCnf" class="tuxiazi.util.FileCnf"> <property name="root_path" value="/Users/fire9/mydev/temp/tuxiazipub/pic/" /> <property name="tmpPhotoPath" value="/Users/fire9/mydev/temp/tuxiazipub/tmppic/" /> <property name="fileMaxSize" value="2" /> <property name="directory" value="a/" /> <property name="domain" value="http://www.tuxiazi.com/pic/" /> </bean> -->
 	<bean id="fileCnf" class="tuxiazi.util.FileCnf">
-		<property name="root_path" value="d:/home/tuxiazi/pub/pic/" />
-		<property name="tmpPhotoPath" value="d:/home/tuxiazi/pub/tmppic/" />
+		<property name="root_path" value="/home/tuxiazi/pub/pic/" />
+		<property name="tmpPhotoPath" value="/home/tuxiazi/pub/tmppic/" />
 		<property name="fileMaxSize" value="2" />
 		<property name="directory" value="a/" />
 		<property name="domain" value="http://www.tuxiazi.com/pic/" />
