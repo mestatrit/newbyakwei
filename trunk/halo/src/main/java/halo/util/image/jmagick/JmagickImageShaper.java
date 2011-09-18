@@ -18,6 +18,10 @@ import magick.PreviewType;
 
 public class JmagickImageShaper implements ImageShaper {
 
+	static {
+		System.setProperty("jmagick.systemclassloader", "no");
+	}
+
 	@Override
 	public File cut(ImageParam imageParam, ImageRect cutImageRect, String path,
 			String name) throws ImageException {

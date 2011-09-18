@@ -51,6 +51,7 @@ public class ActionExe {
 			return actionMapping.getAction().execute(hkRequest, hkResponse);
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			throw e;
 		}
 		finally {
