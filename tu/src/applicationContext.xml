@@ -26,7 +26,7 @@
 	</bean>
 	<!-- 语言配置 -->
 	<bean id="resourceConfig" class="halo.util.ResourceConfig" lazy-init="false">
-		<property name="resource" value="admin_err" />
+		<property name="resource" value="err" />
 	</bean>
 	<!-- <bean id="fileCnf" class="tuxiazi.util.FileCnf"> <property name="root_path" value="/Users/fire9/mydev/temp/tuxiazipub/pic/" /> <property name="tmpPhotoPath" value="/Users/fire9/mydev/temp/tuxiazipub/tmppic/" /> <property name="fileMaxSize" value="2" /> <property name="directory" value="a/" /> <property name="domain" value="http://www.tuxiazi.com/pic/" /> </bean> -->
 	<bean id="fileCnf" class="tuxiazi.util.FileCnf">
