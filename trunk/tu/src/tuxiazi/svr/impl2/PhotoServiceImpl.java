@@ -145,14 +145,17 @@ public class PhotoServiceImpl implements PhotoService {
 		if (DataUtil.isNotEmpty(photo.getName())) {
 			content = photo.getName();
 		}
-		content = content + " "
-				+ ResourceConfig.getText("photourl", photo.getPhotoid());
+		content = content
+				+ " "
+				+ ResourceConfig.getTextFromResource("photourl",
+						photo.getPhotoid() + "");
 		String filepath = this.fileCnf.getFilePath(photo.getPath());
 		File imgFile = FileCnf.getFile(filepath + Photo.p4_houzhui);
 		try {
 			SinaUtil.updateStatus(apiUserSina.getAccess_token(),
 					apiUserSina.getToken_secret(), content, imgFile);
-		} catch (WeiboException e) {
+		}
+		catch (WeiboException e) {
 			log.error("error when share to weibo upload photo");
 			log.error(e.toString());
 		}
@@ -266,6 +269,5 @@ public class PhotoServiceImpl implements PhotoService {
 		File file = new File(path);
 		SinaUtil.updateStatus(api_user_sina.getAccess_token(),
 				api_user_sina.getToken_secret(), content, file);
-
 	}
 }
