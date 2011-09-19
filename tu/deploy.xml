@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="deploy_tu" default="default" basedir=".">
+	<property name="basedeploypath" value="d:/deploy_upload" />
+	<property name="projectname" value="tu" />
+	<property name="deploy_classespath" value="${basedeploypath}/${projectname}/WEB-INF/classes" />
+	<property name="deploy_libpath" value="${basedeploypath}/${projectname}/WEB-INF/lib" />
+	<property name="deploy_jsppath" value="${basedeploypath}/${projectname}/WEB-INF" />
+	<property name="deploy_outerjsppath" value="${basedeploypath}/${projectname}" />
+	<property name="deploy_webxmlpath" value="${basedeploypath}/${projectname}/WEB-INF" />
+	<description>description</description>
+	<!-- ================================= 
+        target: default              
+       ================================= -->
+	<target name="default">
+		<echo>deploy webapp</echo>
+		<delete dir="${basedeploypath}/${projectname}" />
+		<mkdir dir="${basedeploypath}/${projectname}" />
+		<mkdir dir="${deploy_classespath}" />
+		<mkdir dir="${deploy_libpath}" />
+		<copy todir="${deploy_classespath}">
+			<fileset dir="WebRoot/WEB-INF/classes">
+				<include name="**/*.class" />
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+		<copy todir="${deploy_libpath}">
+			<fileset dir="WebRoot/WEB-INF/lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${deploy_jsppath}">
+			<fileset dir="WebRoot/WEB-INF/">
+				<include name="**/*.jsp" />
+				<include name="**/*.html" />
+			</fileset>
+		</copy>
+		<copy todir="${deploy_outerjsppath}">
+			<fileset dir="WebRoot">
+				<include name="**/*.jsp" />
+				<include name="**/*.html" />
+			</fileset>
+		</copy>
+		<copy file="WebRoot/WEB-INF/web.xml" tofile="${deploy_webxmlpath}/web.xml" />
+	</target>
+</project>
