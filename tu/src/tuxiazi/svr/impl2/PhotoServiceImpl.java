@@ -147,7 +147,7 @@ public class PhotoServiceImpl implements PhotoService {
 		}
 		content = content
 				+ " "
-				+ ResourceConfig.getTextFromResource("photourl",
+				+ ResourceConfig.getTextFromResource("i18n", "photourl",
 						photo.getPhotoid() + "");
 		String filepath = this.fileCnf.getFilePath(photo.getPath());
 		File imgFile = FileCnf.getFile(filepath + Photo.p4_houzhui);
