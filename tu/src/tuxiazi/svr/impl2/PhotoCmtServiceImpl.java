@@ -90,8 +90,8 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 				content = "针对自己 的图片评论道：“"
 						+ DataUtil.toText(photoCmt.getContent())
 						+ "” "
-						+ ResourceConfig.getText("photourl", photo.getPhotoid()
-								+ "");
+						+ ResourceConfig.getTextFromResource("i18n",
+								"photourl", photo.getPhotoid() + "");
 			}
 			else {
 				content = "针对 @"
@@ -99,8 +99,8 @@ public class PhotoCmtServiceImpl implements PhotoCmtService {
 						+ " 的图片评论道：“"
 						+ DataUtil.toText(photoCmt.getContent())
 						+ "” "
-						+ ResourceConfig.getText("photourl", photo.getPhotoid()
-								+ "");
+						+ ResourceConfig.getTextFromResource("i18n",
+								"photourl", photo.getPhotoid() + "");
 			}
 			SinaUtil.updateStatus(apiUserSina.getAccess_token(),
 					apiUserSina.getToken_secret(), content, imgFile);

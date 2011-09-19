@@ -2,10 +2,23 @@
 <photo>
 	<photoid>$!{photo.photoid}</photoid>
 	<name><![CDATA[$!{photo.name}]]></name>
+	<cmt_num>$!{photo.cmt_num}</cmt_num>
+	<like_num>$!{photo.like_num}</like_num>
+	<opliked>$!{photo.opliked}</opliked>
 	<create_time><![CDATA[$!{photo.fmtTime}]]></create_time>
 	<p1url><![CDATA[$!{photo.p1url}]]></p1url>
 	<p2url><![CDATA[$!{photo.p2url}]]></p2url>
 	<p4url><![CDATA[$!{photo.p4url}]]></p4url>
 	<p6url><![CDATA[$!{photo.p6url}]]></p6url>
+	<user>
+		<userid>$!{photo.user.userid}</userid>
+		<nick><![CDATA[$!{photo.user.nick}]]></nick>
+		<head><![CDATA[$!{photo.user.head_path}]]></head>
+		<pic_num><![CDATA[$!{photo.user.pic_num}]]></pic_num>
+	</user>
+	<cmtlist>
+	</cmtlist>
+	<likeuserlist>
+	</likeuserlist>
 </photo>
 </resp>
