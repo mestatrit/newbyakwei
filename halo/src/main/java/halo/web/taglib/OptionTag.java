@@ -28,8 +28,10 @@ public class OptionTag extends BaseTag {
 			writer.append(this.value.toString());
 		}
 		writer.append("\"");
-		if (parent.getCheckedvalue() != null && this.value != null
-				&& parent.getCheckedvalue().equals(this.value)) {
+		if (parent.getCheckedvalue() != null
+				&& this.value != null
+				&& parent.getCheckedvalue().toString()
+						.equals(this.value.toString())) {
 			writer.append(" selected=\"selected\"");
 		}
 		writer.append(">");
