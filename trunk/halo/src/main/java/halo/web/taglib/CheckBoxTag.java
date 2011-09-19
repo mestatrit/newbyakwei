@@ -48,8 +48,8 @@ public class CheckBoxTag extends BaseTag {
 			writer.append(" name=\"").append(this.name.toString()).append("\"");
 		}
 		if (this.clazz != null) {
-			writer.append(" clazz=\"").append(this.clazz.toString()).append(
-					"\"");
+			writer.append(" clazz=\"").append(this.clazz.toString())
+					.append("\"");
 		}
 		if (value != null) {
 			writer.append(" value=\"").append(value.toString()).append("\"");
@@ -62,7 +62,7 @@ public class CheckBoxTag extends BaseTag {
 				if (this.checkedvalues != null) {
 					String[] ts = this.checkedvalues.split(",");
 					for (String s : ts) {
-						if (this.value.equals(s)) {
+						if (this.value.toString().equals(s)) {
 							writer.append(" checked=\"checked\"");
 							break;
 						}
