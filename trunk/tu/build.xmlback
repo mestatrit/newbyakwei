@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="kjdh" default="default" basedir=".">
+	<description>description</description>
+	<!-- ================================= 
+        target: default              
+       ================================= -->
+	<target name="default">
+		<echo>build web app</echo>
+		<antcall target="build_simpleframe" />
+	</target>
+	<!-- - - - - - - - - - - - - - - - - - 
+        target: init                      
+       - - - - - - - - - - - - - - - - - -->
+	<target name="build_simpleframe">
+		<echo>begin build simple frame</echo>
+		<jar basedir="../simpleframe/bin" destfile="WEB-INF/lib/simpleframe.jar" encoding="utf-8">
+		</jar>
+	</target>
+</project>
