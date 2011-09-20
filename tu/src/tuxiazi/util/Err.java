@@ -72,4 +72,6 @@ public interface Err {
 	int API_PHOTO_OUTOF_LIMIT = 14;
 
 	int API_PHOTO_PROCESS_ERROR = 15;
+
+	int API_BUG_CONTENT_ERROR = 16;
 }
