@@ -12,6 +12,8 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 	<context:annotation-config />
+	<import resource="app-ds.xml" />
+	<import resource="app-job2.xml" />
 	<!-- must config -->
 	<bean id="hkUtil" class="halo.util.HaloUtil" />
 	<bean id="webCnf" class="halo.web.util.WebCnf">
@@ -26,6 +28,4 @@
 	<bean id="resourceConfig" class="halo.util.ResourceConfig" lazy-init="false">
 		<property name="resource" value="admin_err" />
 	</bean>
-	<import resource="app-ds.xml" />
-	<import resource="app-job2.xml" />
 </beans>
