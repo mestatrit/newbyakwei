@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="deploy_tu" default="default" basedir=".">
 	<property name="basedeploypath" value="./build" />
-	<property name="projectname" value="tu" />
+	<property name="projectname" value="iwant" />
 	<property name="deploy_classespath" value="${basedeploypath}/${projectname}/WEB-INF/classes" />
 	<property name="deploy_libpath" value="${basedeploypath}/${projectname}/WEB-INF/lib" />
 	<property name="deploy_jsppath" value="${basedeploypath}/${projectname}/WEB-INF" />
