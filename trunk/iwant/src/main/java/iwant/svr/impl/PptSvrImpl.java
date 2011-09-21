@@ -377,7 +377,7 @@ public class PptSvrImpl implements PptSvr {
 			scaleImageSize = ImageSizeMaker.makeSize(imageParam.getOriginInfo()
 					.getWidth(), imageParam.getOriginInfo().getHeight(), 960);
 			shaper.scale(imageParam, scaleImageSize, filePath,
-					PicUtil.SLIDE_PIC1_NAME);
+					PicUtil.SLIDE_PIC2_NAME);
 		}
 		catch (IOException e) {
 			log.error("processSlideImage image error : " + e);
