@@ -17,7 +17,7 @@ function initialize() {
 	geocoder = new google.maps.Geocoder();
 	var latlng = new google.maps.LatLng(centerLat, centerLng);
 	var myOptions = {
-	  zoom: 10,
+	  zoom: 14,
 	  center: latlng,
 	  mapTypeId: google.maps.MapTypeId.ROADMAP
 	}
@@ -95,6 +95,9 @@ function updateok(err,err_msg,v){
 
 $(document).ready(function(){
 	initialize();
+	if(document.getElementById("search_addr").value.length>0){
+		searchlatlng();
+	}
 });
 </script>
 </c:set>
@@ -123,6 +126,7 @@ $(document).ready(function(){
 	<a class="more" href="${appctx_path }/mgr/project_back.do">返回</a>
 	</div>
 	<div class="mod_content">
+		<div style="color: green">输入地址进行查询找出比较精确的位置，然后保存该位置</div>
 		<div>
 			<div class="f_l">
 				<form method="post" onsubmit="searchlatlng();return false;" action="#">

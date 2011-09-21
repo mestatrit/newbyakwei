@@ -30,9 +30,6 @@
 				<div class="f_l">
 					<a href="javascript:toupdate(${ppt.pptid })" class="split-r" id="op_update_${ppt.pptid }">修改</a>
 					<a href="javascript:opdel(${ppt.pptid })" class="split-r" id="op_delete_${ppt.pptid }">删除</a>
-					<c:if test="${mainPpt==null}">
-					<a id="op_setmain_${ppt.pptid}" href="javascript:setmain(${ppt.pptid})">设为项目简介</a>
-					</c:if>
 				</div>
 				<div class="clr"></div>
 			</li>
