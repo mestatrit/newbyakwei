@@ -44,7 +44,7 @@
 			</c:if>
 		</ul>
 		<div>
-			<c:set var="page_url" scope="request">${appctx_path }/mgr/project.do?catid=${catid }&amp;name=${projectSearchCdn.encName }</c:set>
+			<c:set var="page_url" scope="request">${appctx_path }/mgr/project.do?catid=${catid }&amp;name=${projectSearchCdn.encName }&amp;did=${projectSearchCdn.did }</c:set>
 			<jsp:include page="../../inc/pagesupport_inc.jsp"></jsp:include>
 		</div>
 	</div>
