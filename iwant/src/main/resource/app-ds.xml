@@ -73,7 +73,7 @@
 		<property name="tmpPhotoPath" value="/home/iwant/pub/tmppic/slidepic/" />
 		<property name="fileMaxSize" value="3" />
 		<property name="directory" value="a/" />
-		<property name="suburl" value="http://www.iwant.com/pic/slidepic/" />
+		<property name="suburl" value="http://woxiang.huoku.com/pic/slidepic/" />
 	</bean>
 	<bean id="apnsTool" class="iwant.util.apns.ApnsTool">
 		<!-- <property name="host" value="gateway.sandbox.push.apple.com" /> -->
