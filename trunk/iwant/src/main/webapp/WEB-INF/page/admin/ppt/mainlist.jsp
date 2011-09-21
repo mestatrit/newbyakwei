@@ -45,7 +45,7 @@
 			</c:if>
 		</ul>
 		<div>
-			<c:set var="page_url" scope="request">${appctx_path }/mgr/ppt_maillist.do?name=${mainPptSearchCdn.encName }</c:set>
+			<c:set var="page_url" scope="request">${appctx_path }/mgr/ppt_maillist.do?name=${mainPptSearchCdn.encName }&amp;did=${mainPptSearchCdn.did }</c:set>
 			<jsp:include page="../../inc/pagesupport_inc.jsp"></jsp:include>
 		</div>
 	</div>
