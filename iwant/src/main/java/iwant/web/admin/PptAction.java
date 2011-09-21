@@ -457,11 +457,13 @@ public class PptAction extends BaseAction {
 	}
 
 	/**
+	 * 此功能暂停
 	 * @param req
 	 * @param resp
 	 * @return
 	 * @throws Exception
 	 */
+	@Deprecated
 	public String setmain(HkRequest req, HkResponse resp) throws Exception {
 		long pptid = req.getLong("pptid");
 		this.pptSvr.changePptToMainPpt(pptid);
