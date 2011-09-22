@@ -2,6 +2,7 @@
 <project name="deploy_tu" default="default" basedir=".">
 	<property name="basedeploypath" value="./build" />
 	<property name="projectname" value="iwant" />
+	<property name="deploy_staticpath" value="${basedeploypath}/${projectname}/static" />
 	<property name="deploy_classespath" value="${basedeploypath}/${projectname}/WEB-INF/classes" />
 	<property name="deploy_libpath" value="${basedeploypath}/${projectname}/WEB-INF/lib" />
 	<property name="deploy_jsppath" value="${basedeploypath}/${projectname}/WEB-INF" />
@@ -15,8 +16,20 @@
 		<echo>deploy webapp</echo>
 		<delete dir="${basedeploypath}/${projectname}" />
 		<mkdir dir="${basedeploypath}/${projectname}" />
+		<mkdir dir="${deploy_staticpath}" />
 		<mkdir dir="${deploy_classespath}" />
 		<mkdir dir="${deploy_libpath}" />
+		<mkdir dir="${deploy_jsppath}" />
+		<mkdir dir="${deploy_outerjsppath}" />
+		<copy todir="${deploy_staticpath}">
+			<fileset dir="src/main/webapp/static">
+				<include name="**/*.css" />
+				<include name="**/*.jpg" />
+				<include name="**/*.png" />
+				<include name="**/*.gif" />
+				<include name="**/*.js" />
+			</fileset>
+		</copy>
 		<copy todir="${deploy_classespath}">
 			<fileset dir="src/main/webapp/WEB-INF/classes">
 				<include name="**/*.class" />
@@ -27,18 +40,18 @@
 			</fileset>
 		</copy>
 		<copy todir="${deploy_libpath}">
-			<fileset dir="WebRoot/WEB-INF/lib">
+			<fileset dir="src/main/webapp/WEB-INF/lib">
 				<include name="**/*.jar" />
 			</fileset>
 		</copy>
 		<copy todir="${deploy_jsppath}">
-			<fileset dir="WebRoot/WEB-INF/">
+			<fileset dir="src/main/webapp/WEB-INF/">
 				<include name="**/*.jsp" />
 				<include name="**/*.html" />
 			</fileset>
 		</copy>
 		<copy todir="${deploy_outerjsppath}">
-			<fileset dir="WebRoot">
+			<fileset dir="src/main/webapp">
 				<include name="**/*.jsp" />
 				<include name="**/*.html" />
 			</fileset>
