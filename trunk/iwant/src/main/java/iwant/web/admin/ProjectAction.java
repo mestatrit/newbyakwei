@@ -132,7 +132,7 @@ public class ProjectAction extends BaseAction {
 		project.setAddr(req.getStringRow("addr", ""));
 		project.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
 		project.setDescr(req.getString("descr", ""));
-		project.setTel(req.getString("tel"));
+		project.setTel(req.getString("tel", ""));
 		project.setDid(req.getInt("did"));
 		List<String> errlist = ProjectValidate.validate(project);
 		if (errlist.size() > 0) {
