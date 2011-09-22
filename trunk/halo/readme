@@ -99,7 +99,6 @@ import halo.web.action.HkResponse;
 import halo.web.action.WebCnf;
 
 /**
- * 假设配置的{@link WebCnf#setUrl_extension(String)}值为.do
  * 
  * @author akwei
  */
