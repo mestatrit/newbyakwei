@@ -80,6 +80,6 @@
 		<property name="host" value="gateway.push.apple.com" />
 		<property name="port" value="2195" />
 		<property name="p12FileName" value="productpush.p12" />
-		<property name="p12FileKey" value="" />
+		<property name="p12FileKey" value="82883729306akwei" />
 	</bean>
 </beans>
