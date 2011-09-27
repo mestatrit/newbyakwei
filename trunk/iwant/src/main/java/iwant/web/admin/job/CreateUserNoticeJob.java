@@ -65,8 +65,8 @@ public class CreateUserNoticeJob {
 						.getProjectFansListByProjectid(notice.getProjectid(),
 								0, -1);
 				for (ProjectFans fans : fanslist) {
-					this.noticeSvr.createUserNotice(o.getNoticeid(), fans
-							.getUserid());
+					this.noticeSvr.createUserNotice(o.getNoticeid(),
+							fans.getUserid());
 				}
 			}
 			this.noticeSvr.deleteNoticeQueue(o);
