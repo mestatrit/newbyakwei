@@ -99,7 +99,7 @@ public class NoticeSvrImpl implements NoticeSvr {
 
 	@Override
 	public void deleteUserNotice(UserNotice userNotice) {
-		this.userNoticeDao.deleteById(userNotice.getNoticeid());
+		this.userNoticeDao.deleteById(userNotice.getSysid());
 	}
 
 	@Override
