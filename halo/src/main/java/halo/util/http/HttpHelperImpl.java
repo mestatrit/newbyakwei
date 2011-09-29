@@ -30,8 +30,8 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 
 public class HttpHelperImpl implements HttpHelper {
 
-	private InnerHttpMethodRetryHandler innerHttpMethodRetryHandler = new InnerHttpMethodRetryHandler();
-
+	// private InnerHttpMethodRetryHandler innerHttpMethodRetryHandler = new
+	// InnerHttpMethodRetryHandler();
 	private MultiThreadedHttpConnectionManager httpManager;
 
 	private boolean proxy;
@@ -48,7 +48,7 @@ public class HttpHelperImpl implements HttpHelper {
 	}
 
 	@Override
-	public HttpResponse doPostResult(String url, HttpData httpData)
+	public HttpResponse doPostResult(String url, HttpData httpData, int retry)
 			throws HttpHelperException, ConnectException {
 		HttpMethodEnum en;
 		if (httpData.getHttpFiles().size() > 0) {
@@ -59,7 +59,7 @@ public class HttpHelperImpl implements HttpHelper {
 		}
 		HttpMethod method = this.createMethod(en, url, httpData);
 		try {
-			return this.getHttpResult(method);
+			return this.getHttpResult(method, retry);
 		}
 		catch (Exception e) {
 			throw new HttpHelperException(e);
@@ -67,12 +67,12 @@ public class HttpHelperImpl implements HttpHelper {
 	}
 
 	@Override
-	public HttpResponse doGetResult(String url, HttpData httpData)
+	public HttpResponse doGetResult(String url, HttpData httpData, int retry)
 			throws HttpHelperException, ConnectException {
 		HttpMethod method = this
 				.createMethod(HttpMethodEnum.GET, url, httpData);
 		try {
-			return this.getHttpResult(method);
+			return this.getHttpResult(method, retry);
 		}
 		catch (Exception e) {
 			throw new HttpHelperException(e);
@@ -109,15 +109,15 @@ public class HttpHelperImpl implements HttpHelper {
 		return client;
 	}
 
-	private void initMethod(HttpMethod method) {
+	private void initMethod(HttpMethod method, int retry) {
 		method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
-				this.innerHttpMethodRetryHandler);
+				new InnerHttpMethodRetryHandler(retry));
 	}
 
-	private HttpResponse getHttpResult(HttpMethod method)
+	private HttpResponse getHttpResult(HttpMethod method, int retry)
 			throws ConnectException, HttpHelperException {
 		HttpResponse httpResponse = new HttpResponse();
-		this.initMethod(method);
+		this.initMethod(method, retry);
 		InputStream is = null;
 		BufferedReader reader = null;
 		HttpClient client = createHttpClient();
@@ -242,8 +242,8 @@ public class HttpHelperImpl implements HttpHelper {
 			}
 			method.getParams().setBooleanParameter(
 					HttpMethodParams.USE_EXPECT_CONTINUE, true);
-			MultipartRequestEntity mre = new MultipartRequestEntity(list
-					.toArray(new Part[list.size()]), method.getParams());
+			MultipartRequestEntity mre = new MultipartRequestEntity(
+					list.toArray(new Part[list.size()]), method.getParams());
 			method.setRequestEntity(mre);
 		}
 		return method;
@@ -278,8 +278,8 @@ public class HttpHelperImpl implements HttpHelper {
 	static class InnerHttpMethodRetryHandler extends
 			DefaultHttpMethodRetryHandler {
 
-		public InnerHttpMethodRetryHandler() {
-			super(20, true);
+		public InnerHttpMethodRetryHandler(int retry) {
+			super(retry, true);
 		}
 	}
 }
