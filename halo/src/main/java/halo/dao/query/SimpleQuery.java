@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * 不进行分表分库时，用此类进行操作
  * 
- * @author fire9
+ * @author akwei
  */
 public class SimpleQuery {
 
