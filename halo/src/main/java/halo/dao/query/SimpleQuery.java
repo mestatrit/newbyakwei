@@ -12,12 +12,11 @@ import java.util.Map;
  */
 public class SimpleQuery {
 
-	public SimpleQuery(HkObjQuery hkObjQuery) {
-		super();
+	private HkObjQuery hkObjQuery;
+
+	public void setHkObjQuery(HkObjQuery hkObjQuery) {
 		this.hkObjQuery = hkObjQuery;
 	}
-
-	private HkObjQuery hkObjQuery;
 
 	public <T> int count(Class<T> clazz, String where, Object[] params) {
 		CountParam countParam = new CountParam();
