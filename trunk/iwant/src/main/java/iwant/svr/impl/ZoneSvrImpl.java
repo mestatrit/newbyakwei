@@ -1,6 +1,7 @@
 package iwant.svr.impl;
 
 import halo.util.NumberUtil;
+import halo.util.P;
 import iwant.bean.City;
 import iwant.bean.Country;
 import iwant.bean.District;
@@ -55,8 +56,8 @@ public class ZoneSvrImpl implements ZoneSvr {
 	@Override
 	public void createCity(City city) throws DuplicateCityNameException,
 			ProvinceNotFoundException {
-		if (this.cityDao.isExistByProvinceidAndName(city.getProvinceid(), city
-				.getName())) {
+		if (this.cityDao.isExistByProvinceidAndName(city.getProvinceid(),
+				city.getName())) {
 			throw new DuplicateCityNameException();
 		}
 		Province province = this.getProvince(city.getProvinceid());
@@ -123,8 +124,8 @@ public class ZoneSvrImpl implements ZoneSvr {
 	@Override
 	public void updateCity(City city) throws DuplicateCityNameException,
 			ProvinceNotFoundException {
-		if (this.cityDao.isExistByProvinceidAndNameAndNotCityid(city
-				.getProvinceid(), city.getName(), city.getCityid())) {
+		if (this.cityDao.isExistByProvinceidAndNameAndNotCityid(
+				city.getProvinceid(), city.getName(), city.getCityid())) {
 			throw new DuplicateCityNameException();
 		}
 		Province province = this.getProvince(city.getProvinceid());
@@ -138,8 +139,9 @@ public class ZoneSvrImpl implements ZoneSvr {
 	@Override
 	public void updateProvince(Province province)
 			throws DuplicateProvinceNameException {
-		if (this.provinceDao.isExistByCountryidAndNameAndNotProvinceid(province
-				.getCountryid(), province.getName(), province.getProvinceid())) {
+		if (this.provinceDao.isExistByCountryidAndNameAndNotProvinceid(
+				province.getCountryid(), province.getName(),
+				province.getProvinceid())) {
 			throw new DuplicateProvinceNameException();
 		}
 		this.provinceDao.update(province);
@@ -184,8 +186,8 @@ public class ZoneSvrImpl implements ZoneSvr {
 	@Override
 	public void updateDistrict(District district)
 			throws DuplicateDistrictNameException {
-		if (this.districtDao.isExistByCityidAndNameAndNotDid(district
-				.getCityid(), district.getName(), district.getDid())) {
+		if (this.districtDao.isExistByCityidAndNameAndNotDid(
+				district.getCityid(), district.getName(), district.getDid())) {
 			throw new DuplicateDistrictNameException();
 		}
 		City city = this.getCity(district.getCityid());
@@ -205,8 +207,8 @@ public class ZoneSvrImpl implements ZoneSvr {
 
 	@Override
 	public District getDistrictByCityidAndNameLike(int cityid, String name) {
-		return this.districtDao.getByCityidAndNameLike(cityid, this
-				.formatZoneName(name));
+		return this.districtDao.getByCityidAndNameLike(cityid,
+				this.formatZoneName(name));
 	}
 
 	@Override
@@ -228,5 +230,12 @@ public class ZoneSvrImpl implements ZoneSvr {
 		return this.provinceDao.getList("countryid=? and hide_flg=?",
 				new Object[] { countryid, ZoneHideType.SHOW.getValue() },
 				"order_flg asc", 0, -1);
+	}
+
+	@Override
+	public void testUpdateCityTx(City city) {
+		P.println("begin update data");
+		this.cityDao.updateBySQL("order_flg=order_flg+1", "cityid=76", null);
+		P.println("end update data");
 	}
 }
