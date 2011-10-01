@@ -41,7 +41,7 @@ public class BaseQuerySupport extends SimpleJdbcDaoSupport {
 			return this.getJdbcTemplate().batchUpdate(sql, bpss);
 		}
 		catch (DataAccessException e) {
-			throw e;
+			throw new HaloQueryException(e);
 		}
 	}
 
@@ -72,7 +72,7 @@ public class BaseQuerySupport extends SimpleJdbcDaoSupport {
 			ps = null;
 			DataSourceUtils.releaseConnection(con, getDataSource());
 			con = null;
-			throw new RuntimeException(e);
+			throw new HaloQueryException(e);
 		}
 		finally {
 			JdbcUtils.closeResultSet(rs);
@@ -108,7 +108,7 @@ public class BaseQuerySupport extends SimpleJdbcDaoSupport {
 			ps = null;
 			DataSourceUtils.releaseConnection(con, getDataSource());
 			con = null;
-			throw new RuntimeException(e);
+			throw new HaloQueryException(e);
 		}
 		finally {
 			JdbcUtils.closeResultSet(rs);
@@ -151,7 +151,7 @@ public class BaseQuerySupport extends SimpleJdbcDaoSupport {
 			ps = null;
 			DataSourceUtils.releaseConnection(con, getDataSource());
 			con = null;
-			throw new RuntimeException(e);
+			throw new HaloQueryException(e);
 		}
 		finally {
 			JdbcUtils.closeResultSet(rs);
@@ -182,7 +182,7 @@ public class BaseQuerySupport extends SimpleJdbcDaoSupport {
 			ps = null;
 			DataSourceUtils.releaseConnection(con, getDataSource());
 			con = null;
-			throw new RuntimeException(e);
+			throw new HaloQueryException(e);
 		}
 		finally {
 			JdbcUtils.closeResultSet(rs);
