@@ -1,5 +1,7 @@
 package halo.dao.query;
 
+import halo.util.NumberUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -97,6 +99,10 @@ public class SimpleQuery {
 
 	public <T> Object save(T t) {
 		return this.hkObjQuery.insertObj(null, null, t);
+	}
+
+	public <T> Number saveForNumber(T t) {
+		return NumberUtil.getNumber(this.save(t));
 	}
 
 	public <T> int update(T t) {
