@@ -1,7 +1,6 @@
 package iwant.svr.impl;
 
 import halo.util.NumberUtil;
-import halo.util.P;
 import iwant.bean.City;
 import iwant.bean.Country;
 import iwant.bean.District;
@@ -230,12 +229,5 @@ public class ZoneSvrImpl implements ZoneSvr {
 		return this.provinceDao.getList("countryid=? and hide_flg=?",
 				new Object[] { countryid, ZoneHideType.SHOW.getValue() },
 				"order_flg asc", 0, -1);
-	}
-
-	@Override
-	public void testUpdateCityTx(City city) {
-		P.println("begin update data");
-		this.cityDao.updateBySQL("order_flg=order_flg+1", "cityid=76", null);
-		P.println("end update data");
 	}
 }

@@ -61,8 +61,6 @@ public interface ZoneSvr {
 	void updateCity(City city) throws DuplicateCityNameException,
 			ProvinceNotFoundException;
 
-	void testUpdateCityTx(City city);
-
 	/**
 	 * 删除城市
 	 * 
