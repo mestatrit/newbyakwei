@@ -4,6 +4,7 @@ import halo.web.util.PageSupport;
 import halo.web.util.SimplePage;
 
 import java.io.File;
+import java.text.DateFormat;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -72,6 +73,10 @@ public interface HkRequest extends HttpServletRequest {
 
 	float getFloat(String key, float num);
 
+	short getShort(String key, short num);
+
+	short getShort(String key);
+
 	byte getByte(String key);
 
 	byte getByteAndSetAttr(String key);
@@ -124,4 +129,8 @@ public interface HkRequest extends HttpServletRequest {
 	 * @return
 	 */
 	boolean isUploadExceedSize();
+
+	<T> void buildBean(T t);
+
+	void setDateFormat(DateFormat dateFormat);
 }

@@ -10,6 +10,10 @@ import halo.web.util.WebCnf;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,9 +21,31 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-// test
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class HkRequestImpl extends HttpServletRequestWrapper implements
 		HkRequest {
+
+	private final Log log = LogFactory.getLog(HkRequestImpl.class);
+
+	private final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+	private static final String TYPE_LONG = "long";
+
+	private static final String TYPE_INT = "int";
+
+	private static final String TYPE_BYTE = "byte";
+
+	private static final String TYPE_SHORT = "short";
+
+	private static final String TYPE_FLOAT = "float";
+
+	private static final String TYPE_DOUBLE = "double";
+
+	private static final String TYPE_STRING = String.class.getName();
+
+	private static final String TYPE_DATE = Date.class.getName();
 
 	private HttpServletRequest httpServletRequest;
 
@@ -212,6 +238,16 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 	@Override
 	public int getInt(String key) {
 		return this.getNumber(key).intValue();
+	}
+
+	@Override
+	public short getShort(String key) {
+		return this.getNumber(key).shortValue();
+	}
+
+	@Override
+	public short getShort(String key, short num) {
+		return this.getNumber(key, num).shortValue();
 	}
 
 	@Override
@@ -478,5 +514,68 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 			return false;
 		}
 		return b.booleanValue();
+	}
+
+	private DateFormat dateFormat;
+
+	@Override
+	public void setDateFormat(DateFormat dateFormat) {
+		this.dateFormat = dateFormat;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> void buildBean(T t) {
+		ClassInfo<T> classInfo = (ClassInfo<T>) ClassInfoFactory.getClassInfo(t
+				.getClass());
+		for (Field field : classInfo.getFields()) {
+			this.setFieldValue(field, t);
+		}
+	}
+
+	private <T> void setFieldValue(Field field, T t) {
+		String v = this.getParameter(field.getName());
+		if (v == null) {
+			return;
+		}
+		String type = field.getType().getName();
+		try {
+			if (type.equals(TYPE_BYTE)) {
+				field.setByte(t, this.getByte(field.getName()));
+			}
+			else if (type.equals(TYPE_DATE)) {
+				field.set(
+						t,
+						this.getDateFormat().parse(
+								this.getString(field.getName())));
+			}
+			else if (type.equals(TYPE_DOUBLE)) {
+				field.setDouble(t, this.getDouble(field.getName()));
+			}
+			else if (type.equals(TYPE_FLOAT)) {
+				field.setFloat(t, this.getFloat(field.getName()));
+			}
+			else if (type.equals(TYPE_INT)) {
+				field.setInt(t, this.getInt(field.getName()));
+			}
+			else if (type.equals(TYPE_LONG)) {
+				field.setLong(t, this.getLong(field.getName()));
+			}
+			else if (type.equals(TYPE_SHORT)) {
+				field.setShort(t, this.getShort(field.getName()));
+			}
+			else if (type.equals(TYPE_STRING)) {
+				field.set(t, this.getString(field.getName()));
+			}
+		}
+		catch (Exception e) {
+			log.warn(e.getMessage());
+		}
+	}
+
+	public DateFormat getDateFormat() {
+		if (this.dateFormat == null) {
+			this.dateFormat = new SimpleDateFormat(DATE_FORMAT);
+		}
+		return dateFormat;
 	}
 }
