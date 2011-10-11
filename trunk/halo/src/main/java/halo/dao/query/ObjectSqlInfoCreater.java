@@ -59,7 +59,6 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 	/**
 	 * 在配置文件中定义的会提前加载
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		ObjectSqlInfo<?> objectSqlInfo = null;
@@ -70,7 +69,7 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 			log.info("load tablebean [ " + cnf.getClassName()
 					+ " ] with helper [ "
 					+ cnf.getDbPartitionHelper().getClass().getName() + " ]");
-			objectSqlInfo = new ObjectSqlInfo(cnf);
+			objectSqlInfo = new ObjectSqlInfo<Object>(cnf);
 			objectSqlInfoMap.put(cnf.getClassName(), objectSqlInfo);
 		}
 	}

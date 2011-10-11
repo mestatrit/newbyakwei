@@ -40,8 +40,8 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 				+ Type.getInternalName(SqlUpdateMapper.class) + "<"
 				+ Type.getDescriptor(objectSqlInfo.getClazz()) + ">;";
 		classWriter.visit(V1_5, ACC_PUBLIC, mapperClassName, signature,
-				"java/lang/Object", new String[] { Type
-						.getInternalName(SqlUpdateMapper.class) });
+				"java/lang/Object",
+				new String[] { Type.getInternalName(SqlUpdateMapper.class) });
 		// 构造方法
 		MethodVisitor methodVisitor = classWriter.visitMethod(ACC_PUBLIC,
 				"<init>", "()V", null, null);
@@ -105,23 +105,23 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 			Field field, ObjectSqlInfo<T> objectSqlInfo) {
 		String type = getFieldReturnType(field);
 		String methodName = getGetMethodName(objectSqlInfo.getIdField());
-		methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-				.getInternalName(objectSqlInfo.getClazz()), methodName, "()"
-				+ Type.getDescriptor(field.getType()));
+		methodVisitor.visitMethodInsn(INVOKEVIRTUAL,
+				Type.getInternalName(objectSqlInfo.getClazz()), methodName,
+				"()" + Type.getDescriptor(field.getType()));
 		FieldTypeUtil.checkIdFieldType(field);
 		if (type.equals("int")) {
-			methodVisitor.visitMethodInsn(INVOKESTATIC, Type
-					.getInternalName(ParamListUtil.class), "toObject",
+			methodVisitor.visitMethodInsn(INVOKESTATIC,
+					Type.getInternalName(ParamListUtil.class), "toObject",
 					"(I)Ljava/lang/Object;");
 		}
 		else if (type.equals("long")) {
-			methodVisitor.visitMethodInsn(INVOKESTATIC, Type
-					.getInternalName(ParamListUtil.class), "toObject",
+			methodVisitor.visitMethodInsn(INVOKESTATIC,
+					Type.getInternalName(ParamListUtil.class), "toObject",
 					"(J)Ljava/lang/Object;");
 		}
 		else if (type.equals("java.lang.String")) {
-			methodVisitor.visitMethodInsn(INVOKESTATIC, Type
-					.getInternalName(ParamListUtil.class), "toObject",
+			methodVisitor.visitMethodInsn(INVOKESTATIC,
+					Type.getInternalName(ParamListUtil.class), "toObject",
 					"(Ljava/lang/String;)Ljava/lang/Object;");
 		}
 	}
@@ -129,25 +129,24 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 	private <T> void visitGetParamsForInsert(ClassWriter classWriter,
 			MethodVisitor methodVisitor, ObjectSqlInfo<T> objectSqlInfo) {
 		MethodVisitor _methodVisitor = methodVisitor;
-		_methodVisitor = classWriter.visitMethod(ACC_PUBLIC,
-				"getParamsForInsert", "("
-						+ Type.getDescriptor(objectSqlInfo.getClazz()) + ")"
+		_methodVisitor = classWriter.visitMethod(
+				ACC_PUBLIC,
+				"getParamsForInsert",
+				"(" + Type.getDescriptor(objectSqlInfo.getClazz()) + ")"
 						+ Type.getDescriptor(Object[].class), null, null);
 		_methodVisitor.visitMaxs(3, 3);
-		_methodVisitor.visitTypeInsn(NEW, Type
-				.getInternalName(ParamListUtil.class));
+		_methodVisitor.visitTypeInsn(NEW,
+				Type.getInternalName(ParamListUtil.class));
 		_methodVisitor.visitInsn(DUP);
-		_methodVisitor.visitMethodInsn(INVOKESPECIAL, Type
-				.getInternalName(ParamListUtil.class), "<init>", "()V");
+		_methodVisitor.visitMethodInsn(INVOKESPECIAL,
+				Type.getInternalName(ParamListUtil.class), "<init>", "()V");
 		_methodVisitor.visitVarInsn(ASTORE, 2);
 		_methodVisitor.visitVarInsn(ALOAD, 2);
-		int i = 0;
 		for (Field f : objectSqlInfo.getAllfieldList()) {
 			visitGetParamsForInsertAndUpdate(_methodVisitor, f, objectSqlInfo);
-			i++;
 		}
-		_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-				.getInternalName(ParamListUtil.class), "toObjects",
+		_methodVisitor.visitMethodInsn(INVOKEVIRTUAL,
+				Type.getInternalName(ParamListUtil.class), "toObjects",
 				"()[Ljava/lang/Object;");
 		_methodVisitor.visitInsn(ARETURN);
 		_methodVisitor.visitEnd();
@@ -156,28 +155,27 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 	private <T> void visitGetParamsForUpdate(ClassWriter classWriter,
 			MethodVisitor methodVisitor, ObjectSqlInfo<T> objectSqlInfo) {
 		MethodVisitor _methodVisitor = methodVisitor;
-		_methodVisitor = classWriter.visitMethod(ACC_PUBLIC,
-				"getParamsForUpdate", "("
-						+ Type.getDescriptor(objectSqlInfo.getClazz()) + ")"
+		_methodVisitor = classWriter.visitMethod(
+				ACC_PUBLIC,
+				"getParamsForUpdate",
+				"(" + Type.getDescriptor(objectSqlInfo.getClazz()) + ")"
 						+ Type.getDescriptor(Object[].class), null, null);
 		_methodVisitor.visitMaxs(3, 3);
-		_methodVisitor.visitTypeInsn(NEW, Type
-				.getInternalName(ParamListUtil.class));
+		_methodVisitor.visitTypeInsn(NEW,
+				Type.getInternalName(ParamListUtil.class));
 		_methodVisitor.visitInsn(DUP);
-		_methodVisitor.visitMethodInsn(INVOKESPECIAL, Type
-				.getInternalName(ParamListUtil.class), "<init>", "()V");
+		_methodVisitor.visitMethodInsn(INVOKESPECIAL,
+				Type.getInternalName(ParamListUtil.class), "<init>", "()V");
 		_methodVisitor.visitVarInsn(ASTORE, 2);
 		_methodVisitor.visitVarInsn(ALOAD, 2);
-		int i = 0;
-		List<Field> list = new ArrayList<Field>(objectSqlInfo
-				.getFieldIgnoreIdList());
+		List<Field> list = new ArrayList<Field>(
+				objectSqlInfo.getFieldIgnoreIdList());
 		list.add(objectSqlInfo.getIdField());
 		for (Field f : list) {
 			visitGetParamsForInsertAndUpdate(_methodVisitor, f, objectSqlInfo);
-			i++;
 		}
-		_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-				.getInternalName(ParamListUtil.class), "toObjects",
+		_methodVisitor.visitMethodInsn(INVOKEVIRTUAL,
+				Type.getInternalName(ParamListUtil.class), "toObjects",
 				"()[Ljava/lang/Object;");
 		_methodVisitor.visitInsn(ARETURN);
 		_methodVisitor.visitEnd();
@@ -189,47 +187,55 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		MethodVisitor _methodVisitor = methodVisitor;
 		_methodVisitor.visitVarInsn(ALOAD, 1);
 		String type = getFieldReturnType(field);
-		_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-				.getInternalName(objectSqlInfo.getClazz()),
-				getGetMethodName(field), "()"
-						+ Type.getDescriptor(field.getType()));
+		_methodVisitor.visitMethodInsn(INVOKEVIRTUAL,
+				Type.getInternalName(objectSqlInfo.getClazz()),
+				getGetMethodName(field),
+				"()" + Type.getDescriptor(field.getType()));
 		FieldTypeUtil.checkFieldType(field);
 		if (type.equals("int")) {
-			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-					.getInternalName(ParamListUtil.class), "addInt", "(I)V");
+			_methodVisitor
+					.visitMethodInsn(INVOKEVIRTUAL,
+							Type.getInternalName(ParamListUtil.class),
+							"addInt", "(I)V");
 		}
 		else if (type.equals("long")) {
-			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-					.getInternalName(ParamListUtil.class), "addLong", "(J)V");
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL,
+					Type.getInternalName(ParamListUtil.class), "addLong",
+					"(J)V");
 		}
 		else if (type.equals("short")) {
-			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-					.getInternalName(ParamListUtil.class), "addShort", "(S)V");
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL,
+					Type.getInternalName(ParamListUtil.class), "addShort",
+					"(S)V");
 		}
 		else if (type.equals("char")) {
-			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-					.getInternalName(ParamListUtil.class), "addChar", "(C)V");
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL,
+					Type.getInternalName(ParamListUtil.class), "addChar",
+					"(C)V");
 		}
 		else if (type.equals("byte")) {
-			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-					.getInternalName(ParamListUtil.class), "addByte", "(B)V");
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL,
+					Type.getInternalName(ParamListUtil.class), "addByte",
+					"(B)V");
 		}
 		else if (type.equals("float")) {
-			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-					.getInternalName(ParamListUtil.class), "addFloat", "(F)V");
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL,
+					Type.getInternalName(ParamListUtil.class), "addFloat",
+					"(F)V");
 		}
 		else if (type.equals("double")) {
-			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-					.getInternalName(ParamListUtil.class), "addDouble", "(D)V");
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL,
+					Type.getInternalName(ParamListUtil.class), "addDouble",
+					"(D)V");
 		}
 		else if (type.equals("java.lang.String")) {
-			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-					.getInternalName(ParamListUtil.class), "addString",
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL,
+					Type.getInternalName(ParamListUtil.class), "addString",
 					"(Ljava/lang/String;)V");
 		}
 		else if (type.equals("java.util.Date")) {
-			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, Type
-					.getInternalName(ParamListUtil.class), "addDate",
+			_methodVisitor.visitMethodInsn(INVOKEVIRTUAL,
+					Type.getInternalName(ParamListUtil.class), "addDate",
 					"(Ljava/util/Date;)V");
 		}
 		_methodVisitor.visitVarInsn(ALOAD, 2);
@@ -245,11 +251,11 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		_methodVisitor.visitMaxs(2, 2);
 		_methodVisitor.visitVarInsn(ALOAD, 0);
 		_methodVisitor.visitVarInsn(ALOAD, 1);
-		_methodVisitor.visitTypeInsn(CHECKCAST, Type
-				.getInternalName(objectSqlInfo.getClazz()));
+		_methodVisitor.visitTypeInsn(CHECKCAST,
+				Type.getInternalName(objectSqlInfo.getClazz()));
 		_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, mapperClassName,
-				"getIdParam", "("
-						+ Type.getDescriptor(objectSqlInfo.getClazz())
+				"getIdParam",
+				"(" + Type.getDescriptor(objectSqlInfo.getClazz())
 						+ ")Ljava/lang/Object;");
 		_methodVisitor.visitInsn(ARETURN);
 	}
@@ -264,11 +270,11 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		_methodVisitor.visitMaxs(2, 2);
 		_methodVisitor.visitVarInsn(ALOAD, 0);
 		_methodVisitor.visitVarInsn(ALOAD, 1);
-		_methodVisitor.visitTypeInsn(CHECKCAST, Type
-				.getInternalName(objectSqlInfo.getClazz()));
+		_methodVisitor.visitTypeInsn(CHECKCAST,
+				Type.getInternalName(objectSqlInfo.getClazz()));
 		_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, mapperClassName,
-				"getParamsForUpdate", "("
-						+ Type.getDescriptor(objectSqlInfo.getClazz())
+				"getParamsForUpdate",
+				"(" + Type.getDescriptor(objectSqlInfo.getClazz())
 						+ ")[Ljava/lang/Object;");
 		_methodVisitor.visitInsn(ARETURN);
 	}
@@ -283,11 +289,11 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 		_methodVisitor.visitMaxs(2, 2);
 		_methodVisitor.visitVarInsn(ALOAD, 0);
 		_methodVisitor.visitVarInsn(ALOAD, 1);
-		_methodVisitor.visitTypeInsn(CHECKCAST, Type
-				.getInternalName(objectSqlInfo.getClazz()));
+		_methodVisitor.visitTypeInsn(CHECKCAST,
+				Type.getInternalName(objectSqlInfo.getClazz()));
 		_methodVisitor.visitMethodInsn(INVOKEVIRTUAL, mapperClassName,
-				"getParamsForInsert", "("
-						+ Type.getDescriptor(objectSqlInfo.getClazz())
+				"getParamsForInsert",
+				"(" + Type.getDescriptor(objectSqlInfo.getClazz())
 						+ ")[Ljava/lang/Object;");
 		_methodVisitor.visitInsn(ARETURN);
 	}

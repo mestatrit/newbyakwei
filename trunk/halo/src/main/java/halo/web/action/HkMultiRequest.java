@@ -17,11 +17,9 @@ class HkMultiRequest extends HttpServletRequestWrapper {
 		String type2 = req.getContentType();
 		if (type1 == null && type2 != null) {
 			type = type2;
-		}
-		else if (type2 == null && type1 != null) {
+		} else if (type2 == null && type1 != null) {
 			type = type1;
-		}
-		else if (type1 != null && type2 != null) {
+		} else if (type1 != null && type2 != null) {
 			type = (type1.length() > type2.length() ? type1 : type2);
 		}
 		if (type == null
@@ -44,9 +42,8 @@ class HkMultiRequest extends HttpServletRequestWrapper {
 		return this.request.getParameter(name);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public Enumeration getParameterNames() {
+	public Enumeration<String> getParameterNames() {
 		Set<String> set = this.request.getParameterNames();
 		Vector<String> v = new Vector<String>();
 		v.addAll(set);
