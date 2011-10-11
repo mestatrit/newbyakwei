@@ -130,7 +130,17 @@ public interface HkRequest extends HttpServletRequest {
 	 */
 	boolean isUploadExceedSize();
 
+	/**
+	 * 对给定对象属性通过request赋值，不存在的parameter将不会赋值
+	 * 
+	 * @param t
+	 */
 	<T> void buildBean(T t);
 
+	/**
+	 * 设置获得日期的格式化类
+	 * 
+	 * @param dateFormat
+	 */
 	void setDateFormat(DateFormat dateFormat);
 }
