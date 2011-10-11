@@ -1,5 +1,7 @@
 package halo.web.action;
 
+import halo.util.ClassInfo;
+import halo.util.ClassInfoFactory;
 import halo.util.DataUtil;
 import halo.web.action.upload.cos.ExceededSizeException;
 import halo.web.util.MessageUtil;

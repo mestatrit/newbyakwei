@@ -1,4 +1,4 @@
-package halo.web.action;
+package halo.util;
 
 import java.util.HashMap;
 import java.util.Map;
