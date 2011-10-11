@@ -52,7 +52,7 @@ public abstract class BeanValidator<T> {
 	 * 
 	 * @return
 	 */
-	public ValidateMsg validate() {
+	public ErrorResult validate() {
 		@SuppressWarnings("unchecked")
 		ClassInfo<T> classInfo = (ClassInfo<T>) ClassInfoFactory.getClassInfo(t
 				.getClass());
@@ -62,10 +62,15 @@ public abstract class BeanValidator<T> {
 		return null;
 	}
 
+	private void validateNumber(Object obj, String expression) {
+		
+
+	}
+
 	/**
 	 * 当验证通过返回空list。验证不通过返回自定义的信息集合
 	 * 
 	 * @return
 	 */
-	public abstract List<ValidateMsg> validateBatch();
+	public abstract List<ErrorResult> validateBatch();
 }

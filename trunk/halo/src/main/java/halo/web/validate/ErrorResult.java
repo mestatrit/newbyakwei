@@ -1,12 +1,12 @@
 package halo.web.validate;
 
-public class ValidateMsg {
+public class ErrorResult {
 
 	private String name;
 
 	private Object message;
 
-	public ValidateMsg(String name, Object message) {
+	public ErrorResult(String name, Object message) {
 		super();
 		this.name = name;
 		this.message = message;
