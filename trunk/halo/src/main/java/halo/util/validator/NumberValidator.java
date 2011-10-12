@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public class NumberValidator extends Validator {
 
 	@Override
-	public Object exec(String expression, Object message, Object obj) {
+	public boolean exec(String expression, Object obj) {
 		BigDecimal min = null;
 		BigDecimal max = null;
 		// 解析
@@ -44,7 +44,7 @@ public class NumberValidator extends Validator {
 		}
 		// 验证数据
 		if (obj == null) {
-			return message;
+			return false;
 		}
 		BigDecimal v;
 		try {
@@ -55,14 +55,14 @@ public class NumberValidator extends Validator {
 		}
 		int res = v.compareTo(min);
 		if (res == -1) {
-			return message;
+			return false;
 		}
 		if (max != null) {
 			res = v.compareTo(max);
 			if (res == 1) {
-				return message;
+				return false;
 			}
 		}
-		return null;
+		return true;
 	}
 }

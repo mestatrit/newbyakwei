@@ -16,7 +16,7 @@ import halo.util.DataUtil;
 public class StringValidator extends Validator {
 
 	@Override
-	public Object exec(String expression, Object message, Object obj) {
+	public boolean exec(String expression, Object obj) {
 		int minlen = 0;
 		int maxlen = 0;
 		boolean emptyCheck = true;
@@ -43,16 +43,16 @@ public class StringValidator extends Validator {
 		// 数据验证
 		if (emptyCheck) {
 			if (DataUtil.isEmpty(obj.toString())) {
-				return message;
+				return false;
 			}
 		}
 		if (obj == null) {
-			return null;
+			return true;
 		}
 		String v = obj.toString();
 		if (v.length() >= minlen && v.length() <= maxlen) {
-			return null;
+			return true;
 		}
-		return message;
+		return false;
 	}
 }

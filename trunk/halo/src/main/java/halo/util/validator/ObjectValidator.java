@@ -7,9 +7,9 @@ import java.util.List;
  * 
  * @author akwei
  */
-public interface ObjectValidator {
+public interface ObjectValidator<T> {
 
-	<T> Object exec(T t);
+	Object exec(T t);
 
-	<T> List<Object> execBatch(T t);
+	List<Object> execBatch(T t);
 }
