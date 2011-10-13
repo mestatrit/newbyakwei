@@ -1,9 +1,14 @@
 package halo.util.validator.test;
 
+import halo.util.JsonUtil;
+import halo.util.P;
+import halo.util.validator.ErrResult;
 import halo.util.validator.ObjectValidator;
 import halo.util.validator.ValidatorCreator;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -13,17 +18,37 @@ public class TestValidator {
 	public void validate() {
 		User user = new User();
 		user.setAge(10);
-		user.setName("akweiwei");
+		user.setName("akweiweiwei");
 		user.setBirthday(new Date());
 		user.setCreatetime(new Date());
 		user.setGender((byte) 0);
-		user.setStatus("hahhahahah");
+//		user.setStatus("");
 		user.setUserid(190);
 		ValidatorCreator validatorCreator = ValidatorCreator
 				.getDefaultValidatorCreator();
 		ObjectValidator validator = new ObjectValidator(user, validatorCreator);
-		validator.addExpr("age", "number{min=10;max=100}msgage");
-		validator.exec();
+		validator.addExpr("age", "number{min:10,max:100,msg:\"hello age\"}");
+		validator.addExpr("name",
+				"string{minlen:10,maxlen:100,msg:\"hello name\"}");
+		validator
+				.addExpr("birthday",
+						"date{min:\"1980-12-19\",max:\"2020-12-19\",msg:\"hello birthday\"}");
+		validator.addExpr("status",
+				"string{minlen:4,maxlen:10,empty:1,msg:\"hello status\"}");
+		validator.addExpr("userid", "number{max:10,msg:\"hello userid\"}");
+		ErrResult errResult = validator.exec();
+		if (errResult != null) {
+			P.println(errResult.getMsg());
+		}
+		List<ErrResult> list = validator.execBatch();
+		for (ErrResult o : list) {
+			P.println(o.getName() + " | " + o.getMsg());
+		}
+	}
+
+	public static void main(String[] args) {
+		String s = "{minlen:4,maxlen:20,empty:1,msg:\"hello string0\"}";
+		Map<String, String> map = JsonUtil.getMapFromJson(s);
 	}
 }
 

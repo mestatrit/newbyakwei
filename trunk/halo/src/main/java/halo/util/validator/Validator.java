@@ -1,5 +1,7 @@
 package halo.util.validator;
 
+import halo.util.JsonObj;
+
 public interface Validator {
 
 	/**
@@ -7,14 +9,14 @@ public interface Validator {
 	 * 
 	 * <pre>
 	 * 表达式写法，其中{}中的数据为expr
-	 * string{minlen=4;maxlen=20;empty=true}message
-	 * string{minlen=4;maxlen=20}message
-	 * email{minlen=4;maxlen=20;empty=false}message
-	 * number{min=2.6;max=3.9}message
+	 * string{minlen:4,maxlen:20,empty:1,msg:\"hello string0\"}
+	 * string{minlen:4,maxlen:20,msg:\"hello string1\"}
+	 * email{minlen:4,maxlen:20,empty:0,msg:\"hello email\"}
+	 * number{min:2.6,max:3.9,msg:\"hello num\"}
 	 * <br/>
-	 * @param expr 验证规则表达式的子表达式，为{}中的数据
+	 * @param jsonObj 验证规则表达式的json表现形式
 	 * @param obj 待验证的数据
 	 * @return 返回不为空的数据表示验证失败，返回值表示失败信息 返回值为null表示验证成功
 	 */
-	boolean exec(String expr, Object obj);
+	boolean exec(JsonObj jsonObj, Object obj);
 }

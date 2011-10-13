@@ -2,6 +2,8 @@ package halo.util.validator;
 
 import halo.util.ClassInfo;
 import halo.util.ClassInfoFactory;
+import halo.util.JsonObj;
+import halo.util.JsonUtil;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -19,9 +21,9 @@ public class ObjectValidator {
 
 	private String tmp_key;
 
-	private String tmp_subExpr;
-
 	private String tmp_message;
+
+	private JsonObj jsonObj;
 
 	private final Map<String, String> exprMap = new LinkedHashMap<String, String>();
 
@@ -35,7 +37,7 @@ public class ObjectValidator {
 		exprMap.put(fieldName, expr);
 	}
 
-	public <T> String exec() {
+	public <T> ErrResult exec() {
 		@SuppressWarnings("unchecked")
 		ClassInfo<T> classInfo = (ClassInfo<T>) ClassInfoFactory
 				.getClassInfo(instance.getClass());
@@ -49,8 +51,8 @@ public class ObjectValidator {
 				value = field.get(instance);
 				this.parseExpr(e.getValue());
 				validator = this.validatorCreator.getValidator(tmp_key);
-				if (!validator.exec(this.tmp_subExpr, value)) {
-					return this.tmp_message;
+				if (!validator.exec(this.jsonObj, value)) {
+					return new ErrResult(e.getKey(), this.tmp_message);
 				}
 			}
 			catch (Exception e1) {
@@ -60,8 +62,8 @@ public class ObjectValidator {
 		return null;
 	}
 
-	public <T> List<String> execBatch() {
-		List<String> list = new ArrayList<String>();
+	public <T> List<ErrResult> execBatch() {
+		List<ErrResult> list = new ArrayList<ErrResult>();
 		@SuppressWarnings("unchecked")
 		ClassInfo<T> classInfo = (ClassInfo<T>) ClassInfoFactory
 				.getClassInfo(instance.getClass());
@@ -75,8 +77,8 @@ public class ObjectValidator {
 				value = field.get(instance);
 				this.parseExpr(e.getValue());
 				validator = this.validatorCreator.getValidator(tmp_key);
-				if (!validator.exec(this.tmp_subExpr, value)) {
-					list.add(this.tmp_message);
+				if (!validator.exec(this.jsonObj, value)) {
+					list.add(new ErrResult(e.getKey(), this.tmp_message));
 				}
 			}
 			catch (Exception e1) {
@@ -87,10 +89,10 @@ public class ObjectValidator {
 	}
 
 	private void parseExpr(String expr) {
-		int idx0 = expr.indexOf("{");
-		this.tmp_key = expr.substring(0, idx0);
-		int idx1 = expr.indexOf("}");
-		this.tmp_subExpr = expr.substring(idx0 + 1, idx1);
-		this.tmp_message = expr.substring(idx1 + 1);
+		int idx = expr.indexOf("{");
+		this.tmp_key = expr.substring(0, idx);
+		String json = expr.substring(idx);
+		this.jsonObj = JsonUtil.getJsonObj(json);
+		this.tmp_message = this.jsonObj.getString("msg");
 	}
 }
