@@ -1,5 +1,8 @@
 package halo.util.validator;
 
+import halo.util.DataUtil;
+import halo.util.JsonObj;
+
 import java.math.BigDecimal;
 
 /**
@@ -15,29 +18,16 @@ import java.math.BigDecimal;
 public class NumberValidator implements Validator {
 
 	@Override
-	public boolean exec(String expression, Object obj) {
+	public boolean exec(JsonObj jsonObj, Object obj) {
 		BigDecimal min = null;
 		BigDecimal max = null;
-		// 解析
-		String[] arr = expression.split(";");
-		if (arr == null) {
-			throw new IllegalExpressionException("illegal expression [ "
-					+ expression + " ]");
+		String s_min = jsonObj.getString("min");
+		String s_max = jsonObj.getString("max");
+		if (DataUtil.isNotEmpty(s_min)) {
+			min = new BigDecimal(s_min);
 		}
-		try {
-			for (String s : arr) {
-				if (s.startsWith("min=")) {
-					min = new BigDecimal(s.substring(4));
-					continue;
-				}
-				if (s.startsWith("max=")) {
-					max = new BigDecimal(s.substring(4));
-					continue;
-				}
-			}
-		}
-		catch (Exception e) {
-			throw new IllegalExpressionException(e);
+		if (DataUtil.isNotEmpty(s_max)) {
+			max = new BigDecimal(s_max);
 		}
 		// 验证数据
 		if (obj == null) {

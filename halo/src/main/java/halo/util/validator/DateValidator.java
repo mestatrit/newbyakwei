@@ -1,5 +1,8 @@
 package halo.util.validator;
 
+import halo.util.DataUtil;
+import halo.util.JsonObj;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,38 +12,24 @@ public class DateValidator implements Validator {
 	private final static String fmt = "yyyy-MM-dd HH:mm:ss";
 
 	@Override
-	public boolean exec(String subExpr, Object obj) {
-		String s_min = null;
-		String s_max = null;
+	public boolean exec(JsonObj jsonObj, Object obj) {
+		String s_min = jsonObj.getString("min");
+		String s_max = jsonObj.getString("max");
 		Date min = null;
 		Date max = null;
 		// 解析
-		String[] arr = subExpr.split(";");
-		if (arr == null) {
-			throw new IllegalExpressionException("illegal expression [ "
-					+ subExpr + " ]");
-		}
-		try {
-			for (String s : arr) {
-				if (s.startsWith("min=")) {
-					s_min = s.substring(4);
-					continue;
-				}
-				if (s.startsWith("max=")) {
-					s_max = s.substring(4);
-					continue;
-				}
-			}
-		}
-		catch (Exception e) {
-			throw new IllegalExpressionException(e);
-		}
 		SimpleDateFormat sdf = new SimpleDateFormat(fmt);
 		try {
-			if (s_min != null) {
+			if (DataUtil.isNotEmpty(s_min)) {
+				if (s_min.trim().length() == 10) {
+					s_min = s_min.trim() + " 00:00:00";
+				}
 				min = sdf.parse(s_min);
 			}
-			if (s_max != null) {
+			if (DataUtil.isNotEmpty(s_max)) {
+				if (s_max.trim().length() == 10) {
+					s_max = s_max.trim() + " 00:00:00";
+				}
 				max = sdf.parse(s_max);
 			}
 		}
