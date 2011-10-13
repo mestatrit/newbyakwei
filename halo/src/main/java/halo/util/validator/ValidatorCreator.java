@@ -17,6 +17,7 @@ public class ValidatorCreator {
 		validatorCreator = new ValidatorCreator();
 		validatorCreator.register("string", new StringValidator());
 		validatorCreator.register("number", new NumberValidator());
+		validatorCreator.register("date", new DateValidator());
 	}
 
 	/**

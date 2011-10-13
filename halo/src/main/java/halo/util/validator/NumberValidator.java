@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * 
  * @author akwei
  */
-public class NumberValidator extends Validator {
+public class NumberValidator implements Validator {
 
 	@Override
 	public boolean exec(String expression, Object obj) {
@@ -27,20 +27,17 @@ public class NumberValidator extends Validator {
 		try {
 			for (String s : arr) {
 				if (s.startsWith("min=")) {
-					min = new BigDecimal(s.substring(7));
+					min = new BigDecimal(s.substring(4));
 					continue;
 				}
 				if (s.startsWith("max=")) {
-					max = new BigDecimal(s.substring(7));
+					max = new BigDecimal(s.substring(4));
 					continue;
 				}
 			}
 		}
 		catch (Exception e) {
 			throw new IllegalExpressionException(e);
-		}
-		if (min == null) {
-			min = new BigDecimal(0);
 		}
 		// 验证数据
 		if (obj == null) {
@@ -53,12 +50,14 @@ public class NumberValidator extends Validator {
 		catch (Exception e) {
 			throw new IllegalExpressionException(e);
 		}
-		int res = v.compareTo(min);
-		if (res == -1) {
-			return false;
+		if (min != null) {
+			int res = v.compareTo(min);
+			if (res == -1) {
+				return false;
+			}
 		}
 		if (max != null) {
-			res = v.compareTo(max);
+			int res = v.compareTo(max);
 			if (res == 1) {
 				return false;
 			}

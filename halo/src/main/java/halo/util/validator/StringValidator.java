@@ -13,12 +13,12 @@ import halo.util.DataUtil;
  * <pre>
  * @author akwei
  */
-public class StringValidator extends Validator {
+public class StringValidator implements Validator {
 
 	@Override
 	public boolean exec(String expression, Object obj) {
 		int minlen = 0;
-		int maxlen = 0;
+		int maxlen = -1;
 		boolean emptyCheck = true;
 		// 表达式解析
 		String[] arr = expression.split(";");
@@ -50,9 +50,12 @@ public class StringValidator extends Validator {
 			return true;
 		}
 		String v = obj.toString();
-		if (v.length() >= minlen && v.length() <= maxlen) {
-			return true;
+		if (v.length() < minlen) {
+			return false;
 		}
-		return false;
+		if (maxlen > -1 && v.length() > maxlen) {
+			return false;
+		}
+		return true;
 	}
 }
