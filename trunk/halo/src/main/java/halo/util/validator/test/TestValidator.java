@@ -1,6 +1,5 @@
 package halo.util.validator.test;
 
-import halo.util.JsonUtil;
 import halo.util.P;
 import halo.util.validator.ErrResult;
 import halo.util.validator.ObjectValidator;
@@ -8,7 +7,6 @@ import halo.util.validator.ValidatorCreator;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Test;
 
@@ -22,7 +20,7 @@ public class TestValidator {
 		user.setBirthday(new Date());
 		user.setCreatetime(new Date());
 		user.setGender((byte) 0);
-//		user.setStatus("");
+		// user.setStatus("");
 		user.setUserid(190);
 		ValidatorCreator validatorCreator = ValidatorCreator
 				.getDefaultValidatorCreator();
@@ -44,11 +42,6 @@ public class TestValidator {
 		for (ErrResult o : list) {
 			P.println(o.getName() + " | " + o.getMsg());
 		}
-	}
-
-	public static void main(String[] args) {
-		String s = "{minlen:4,maxlen:20,empty:1,msg:\"hello string0\"}";
-		Map<String, String> map = JsonUtil.getMapFromJson(s);
 	}
 }
 
