@@ -11,9 +11,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class ObjectValidator<T> {
+public class ObjectValidator {
 
-	private T t;
+	private Object instance;
 
 	private ValidatorCreator validatorCreator;
 
@@ -25,14 +25,20 @@ public class ObjectValidator<T> {
 
 	private final Map<String, String> exprMap = new LinkedHashMap<String, String>();
 
+	public <T> ObjectValidator(T instance, ValidatorCreator validatorCreator) {
+		super();
+		this.instance = instance;
+		this.validatorCreator = validatorCreator;
+	}
+
 	public void addExpr(String fieldName, String expr) {
 		exprMap.put(fieldName, expr);
 	}
 
-	public String exec() {
+	public <T> String exec() {
 		@SuppressWarnings("unchecked")
-		ClassInfo<T> classInfo = (ClassInfo<T>) ClassInfoFactory.getClassInfo(t
-				.getClass());
+		ClassInfo<T> classInfo = (ClassInfo<T>) ClassInfoFactory
+				.getClassInfo(instance.getClass());
 		Set<Entry<String, String>> set = exprMap.entrySet();
 		Field field;
 		Object value;
@@ -40,7 +46,7 @@ public class ObjectValidator<T> {
 		for (Entry<String, String> e : set) {
 			field = classInfo.getField(e.getKey());
 			try {
-				value = field.get(t);
+				value = field.get(instance);
 				this.parseExpr(e.getValue());
 				validator = this.validatorCreator.getValidator(tmp_key);
 				if (!validator.exec(this.tmp_subExpr, value)) {
@@ -54,11 +60,11 @@ public class ObjectValidator<T> {
 		return null;
 	}
 
-	public List<String> execBatch() {
+	public <T> List<String> execBatch() {
 		List<String> list = new ArrayList<String>();
 		@SuppressWarnings("unchecked")
-		ClassInfo<T> classInfo = (ClassInfo<T>) ClassInfoFactory.getClassInfo(t
-				.getClass());
+		ClassInfo<T> classInfo = (ClassInfo<T>) ClassInfoFactory
+				.getClassInfo(instance.getClass());
 		Set<Entry<String, String>> set = exprMap.entrySet();
 		Field field;
 		Object value;
@@ -66,7 +72,7 @@ public class ObjectValidator<T> {
 		for (Entry<String, String> e : set) {
 			field = classInfo.getField(e.getKey());
 			try {
-				value = field.get(t);
+				value = field.get(instance);
 				this.parseExpr(e.getValue());
 				validator = this.validatorCreator.getValidator(tmp_key);
 				if (!validator.exec(this.tmp_subExpr, value)) {
