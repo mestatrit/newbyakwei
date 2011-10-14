@@ -25,24 +25,32 @@ public class ObjectValidator {
 
 	private JsonObj jsonObj;
 
+	private String filePath;
+
 	private final Map<String, String> exprMap = new LinkedHashMap<String, String>();
 
-	public <T> ObjectValidator(T instance, ValidatorCreator validatorCreator) {
+	public <T> ObjectValidator(T instance) {
 		super();
 		this.instance = instance;
+	}
+
+	public <T> ObjectValidator(T instance, ValidatorCreator validatorCreator) {
+		this(instance, validatorCreator, null);
+	}
+
+	public ObjectValidator(Object instance, String filePath) {
+		this(instance, null, filePath);
+	}
+
+	public ObjectValidator(Object instance, ValidatorCreator validatorCreator,
+			String filePath) {
+		this.instance = instance;
 		this.validatorCreator = validatorCreator;
-	}
-
-	public void addExprFromMap(Map<String, String> map) {
-		exprMap.putAll(map);
-	}
-
-	public void addExprFromFile(String filePath) {
-		this.addExprFromMap(ValidateFileParser.parseFile(filePath));
-	}
-
-	public void addExpr(String fieldName, String expr) {
-		exprMap.put(fieldName, expr);
+		this.setFilePath(filePath);
+		if (this.validatorCreator == null) {
+			this.validatorCreator = ValidatorCreator
+					.getDefaultValidatorCreator();
+		}
 	}
 
 	public <T> ErrResult exec() {
@@ -102,5 +110,32 @@ public class ObjectValidator {
 		String json = expr.substring(idx);
 		this.jsonObj = JsonUtil.getJsonObj(json);
 		this.tmp_message = this.jsonObj.getString("msg");
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+		if (this.filePath != null) {
+			this.addExprFromFile(filePath);
+		}
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public ValidatorCreator getValidatorCreator() {
+		return validatorCreator;
+	}
+
+	public void addExprFromMap(Map<String, String> map) {
+		exprMap.putAll(map);
+	}
+
+	public void addExprFromFile(String filePath) {
+		this.addExprFromMap(ValidateFileParser.parseFile(filePath));
+	}
+
+	public void addExpr(String fieldName, String expr) {
+		exprMap.put(fieldName, expr);
 	}
 }
