@@ -17,20 +17,31 @@ public class DateValidator implements Validator {
 		String s_max = jsonObj.getString("max");
 		Date min = null;
 		Date max = null;
+		Date now = new Date();
 		// 解析
 		SimpleDateFormat sdf = new SimpleDateFormat(fmt);
 		try {
 			if (DataUtil.isNotEmpty(s_min)) {
-				if (s_min.trim().length() == 10) {
-					s_min = s_min.trim() + " 00:00:00";
+				if (s_min.equals("now")) {
+					min = now;
 				}
-				min = sdf.parse(s_min);
+				else {
+					if (s_min.trim().length() == 10) {
+						s_min = s_min.trim() + " 00:00:00";
+					}
+					min = sdf.parse(s_min);
+				}
 			}
 			if (DataUtil.isNotEmpty(s_max)) {
-				if (s_max.trim().length() == 10) {
-					s_max = s_max.trim() + " 00:00:00";
+				if (s_max.equals("now")) {
+					max = now;
 				}
-				max = sdf.parse(s_max);
+				else {
+					if (s_max.trim().length() == 10) {
+						s_max = s_max.trim() + " 00:00:00";
+					}
+					max = sdf.parse(s_max);
+				}
 			}
 		}
 		catch (ParseException e) {

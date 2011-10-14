@@ -30,7 +30,7 @@ public class TestValidator {
 				"string{minlen:10,maxlen:100,msg:\"hello name\"}");
 		validator
 				.addExpr("birthday",
-						"date{min:\"1980-12-19\",max:\"2020-12-19\",msg:\"hello birthday\"}");
+						"date{min:\"1980-12-19\",max:\"now\",msg:\"hello birthday\"}");
 		validator.addExpr("status",
 				"string{minlen:4,maxlen:10,empty:1,msg:\"hello status\"}");
 		validator.addExpr("userid", "number{max:10,msg:\"hello userid\"}");
