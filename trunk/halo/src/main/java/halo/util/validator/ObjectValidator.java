@@ -33,6 +33,14 @@ public class ObjectValidator {
 		this.validatorCreator = validatorCreator;
 	}
 
+	public void addExprFromMap(Map<String, String> map) {
+		exprMap.putAll(map);
+	}
+
+	public void addExprFromFile(String filePath) {
+		this.addExprFromMap(ValidateFileParser.parseFile(filePath));
+	}
+
 	public void addExpr(String fieldName, String expr) {
 		exprMap.put(fieldName, expr);
 	}
