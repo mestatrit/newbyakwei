@@ -27,15 +27,15 @@ public class TestValidator {
 		ObjectValidator validator = new ObjectValidator(user, validatorCreator);
 		validator.addExprFromFile(TestValidator.class.getResource("").getPath()
 				+ "user.v");
-		 validator.addExpr("age", "number{min:10,max:100,msg:\"hello age\"}");
-		 validator.addExpr("name",
-		 "string{minlen:10,maxlen:100,msg:\"hello name\"}");
-		 validator
-		 .addExpr("birthday",
-		 "date{min:\"1980-12-19\",max:\"now\",msg:\"hello birthday\"}");
-		 validator.addExpr("status",
-		 "string{minlen:4,maxlen:10,empty:1,msg:\"hello status\"}");
-		 validator.addExpr("userid", "number{max:10,msg:\"hello userid\"}");
+//		 validator.addExpr("age", "number{min:10,max:100,msg:\"hello age\"}");
+//		 validator.addExpr("name",
+//		 "string{minlen:10,maxlen:100,msg:\"hello name\"}");
+//		 validator
+//		 .addExpr("birthday",
+//		 "date{min:\"1980-12-19\",max:\"now\",msg:\"hello birthday\"}");
+//		 validator.addExpr("status",
+//		 "string{minlen:4,maxlen:10,empty:1,msg:\"hello status\"}");
+//		 validator.addExpr("userid", "number{max:10,msg:\"hello userid\"}");
 		ErrResult errResult = validator.exec();
 		if (errResult != null) {
 			P.println(errResult.getMsg());
