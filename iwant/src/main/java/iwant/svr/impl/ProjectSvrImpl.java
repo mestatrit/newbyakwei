@@ -5,10 +5,12 @@ import iwant.bean.District;
 import iwant.bean.Project;
 import iwant.bean.ProjectRecycle;
 import iwant.bean.ProjectidCreator;
+import iwant.bean.Slide;
 import iwant.dao.ProjectDao;
 import iwant.dao.ProjectRecycleDao;
 import iwant.dao.ProjectSearchCdn;
 import iwant.dao.ProjectidCreatorDao;
+import iwant.dao.SlideDao;
 import iwant.svr.ProjectSvr;
 import iwant.svr.ZoneSvr;
 import iwant.svr.exception.DistrictNotFoundException;
@@ -32,6 +34,9 @@ public class ProjectSvrImpl implements ProjectSvr {
 
 	@Autowired
 	private ZoneSvr zoneSvr;
+
+	@Autowired
+	private SlideDao slideDao;
 
 	@Override
 	public void createProject(Project project) throws DistrictNotFoundException {
@@ -96,5 +101,26 @@ public class ProjectSvrImpl implements ProjectSvr {
 	@Override
 	public List<Project> getProjectListByDid(int did, int begin, int size) {
 		return this.projectDao.getListByDid(did, begin, size);
+	}
+
+	@Override
+	public void tempupdate() {
+		int begin = 0;
+		int size = 100;
+		List<Project> list = this.projectDao.getList(null, null,
+				"projectid desc", begin, size);
+		while (!list.isEmpty()) {
+			for (Project project : list) {
+				List<Slide> slist = this.slideDao.getListByProjectid(
+						project.getProjectid(), 0, 1);
+				if (!slist.isEmpty()) {
+					project.setPath(slist.get(0).getPic_path());
+					this.projectDao.update(project);
+				}
+			}
+			begin = begin + size;
+			list = this.projectDao.getList(null, null, "projectid desc", begin,
+					size);
+		}
 	}
 }
