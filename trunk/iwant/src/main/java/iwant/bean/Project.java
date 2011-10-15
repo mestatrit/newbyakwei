@@ -86,6 +86,20 @@ public class Project {
 	@Column
 	private int did;
 
+	/**
+	 * 图片路径
+	 */
+	@Column
+	private String path;
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
 	public void setCityid(int cityid) {
 		this.cityid = cityid;
 	}
