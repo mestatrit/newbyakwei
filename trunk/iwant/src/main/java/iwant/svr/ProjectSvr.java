@@ -3,7 +3,6 @@ package iwant.svr;
 import iwant.bean.Project;
 import iwant.bean.ProjectRecycle;
 import iwant.dao.ProjectSearchCdn;
-import iwant.svr.exception.CategoryNotFoundException;
 import iwant.svr.exception.DistrictNotFoundException;
 
 import java.util.List;
@@ -15,16 +14,14 @@ public interface ProjectSvr {
 	 * 
 	 * @param project
 	 */
-	void createProject(Project project) throws CategoryNotFoundException,
-			DistrictNotFoundException;
+	void createProject(Project project) throws DistrictNotFoundException;
 
 	/**
 	 * 更新project
 	 * 
 	 * @param project
 	 */
-	void updateProject(Project project) throws CategoryNotFoundException,
-			DistrictNotFoundException;
+	void updateProject(Project project) throws DistrictNotFoundException;
 
 	/**
 	 * 获得project
@@ -50,7 +47,7 @@ public interface ProjectSvr {
 	List<Project> getProjectListByCdn(ProjectSearchCdn projectSearchCdn,
 			int begin, int size);
 
-	List<Project> getProjectListByCatidAndDid(int catid, int did, int begin, int size);
+	List<Project> getProjectListByDid(int did, int begin, int size);
 
 	void deleteProjectRecycle(ProjectRecycle projectRecycle);
 }

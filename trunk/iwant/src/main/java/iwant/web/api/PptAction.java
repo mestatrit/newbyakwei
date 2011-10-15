@@ -3,10 +3,8 @@ package iwant.web.api;
 import halo.web.action.HkRequest;
 import halo.web.action.HkResponse;
 import halo.web.util.SimplePage;
-import iwant.bean.Category;
 import iwant.bean.Project;
 import iwant.bean.Slide;
-import iwant.svr.CategorySvr;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
 import iwant.web.admin.util.Err;
@@ -20,9 +18,6 @@ import org.springframework.stereotype.Component;
 
 @Component("/api/ppt")
 public class PptAction extends BaseApiAction {
-
-	@Autowired
-	private CategorySvr categorySvr;
 
 	@Autowired
 	private PptSvr pptSvr;
@@ -43,21 +38,12 @@ public class PptAction extends BaseApiAction {
 		if (size > 20) {
 			size = 20;
 		}
-		int catid = req.getInt("catid");
-		if (catid <= 0) {
-			List<Category> list = this.categorySvr.getCategoryListForAll();
-			if (!list.isEmpty()) {
-				Category category = list.get(0);
-				catid = category.getCatid();
-				SimplePage simplePage = new SimplePage(size, page);
-				List<Project> plist = this.projectSvr
-						.getProjectListByCatidAndDid(catid, did,
-								simplePage.getBegin(), simplePage.getSize());
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("list", plist);
-				APIUtil.writeData(resp, map, "vm/mainpptlist.vm");
-			}
-		}
+		SimplePage simplePage = new SimplePage(size, page);
+		List<Project> plist = this.projectSvr.getProjectListByDid(did,
+				simplePage.getBegin(), simplePage.getSize());
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", plist);
+		APIUtil.writeData(resp, map, "vm/mainpptlist.vm");
 		return null;
 	}
 

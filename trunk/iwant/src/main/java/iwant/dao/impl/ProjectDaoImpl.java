@@ -8,9 +8,7 @@ import iwant.dao.ProjectDao;
 import iwant.dao.ProjectSearchCdn;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -35,10 +33,9 @@ public class ProjectDaoImpl extends BaseDao<Project> implements ProjectDao {
 	}
 
 	@Override
-	public List<Project> getListByCatidAndDid(int catid, int did, int begin,
-			int size) {
-		return this.getList("catid=? and did=?", new Object[] { catid, did },
-				"projectid desc", begin, size);
+	public List<Project> getListByDid(int did, int begin, int size) {
+		return this.getList("did=?", new Object[] { did }, "projectid desc",
+				begin, size);
 	}
 
 	@Override
@@ -47,10 +44,6 @@ public class ProjectDaoImpl extends BaseDao<Project> implements ProjectDao {
 		StringBuilder sb = new StringBuilder("1=1");
 		List<Object> objlist = new ArrayList<Object>();
 		if (projectSearchCdn != null) {
-			if (projectSearchCdn.getCatid() > 0) {
-				sb.append(" and catid=?");
-				objlist.add(projectSearchCdn.getCatid());
-			}
 			if (DataUtil.isNotEmpty(projectSearchCdn.getName())) {
 				sb.append(" and name like ?");
 				objlist.add("%" + projectSearchCdn.getName() + "%");
@@ -65,15 +58,5 @@ public class ProjectDaoImpl extends BaseDao<Project> implements ProjectDao {
 		return this.getList(null, sb.toString(),
 				objlist.toArray(new Object[objlist.size()]), "projectid desc",
 				begin, size);
-	}
-
-	@Override
-	public Map<Long, Project> getMapInId(List<Long> idList) {
-		List<Project> list = this.getListInField(null, "projectid", idList);
-		Map<Long, Project> map = new HashMap<Long, Project>();
-		for (Project o : list) {
-			map.put(o.getProjectid(), o);
-		}
-		return map;
 	}
 }

@@ -24,9 +24,6 @@ public class ProjectValidate {
 		if (!HaloValidate.validateLength(o.getTel(), false, 100)) {
 			list.add(Err.PROJECT_TEL_ERR);
 		}
-		if (o.getCatid() <= 0) {
-			list.add(Err.PROJECT_CATID_ERR);
-		}
 		if (o.getDid() <= 0) {
 			list.add(Err.PROJECT_DID_ERR);
 		}

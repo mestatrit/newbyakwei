@@ -7,7 +7,6 @@ import iwant.bean.Slide;
 import iwant.bean.validate.SlideValidator;
 import iwant.svr.PptSvr;
 import iwant.svr.exception.ImageProcessException;
-import iwant.svr.exception.PptNotFoundException;
 import iwant.svr.statusenum.UpdateSldePic0Result;
 import iwant.util.BackUrl;
 import iwant.util.BackUrlUtil;
@@ -68,9 +67,6 @@ public class SlideAction extends BaseAction {
 			this.opCreateSuccess(req);
 			return this.onSuccess(req, "createok", slide.getSlideid());
 		}
-		catch (PptNotFoundException e) {
-			return this.onError(req, Err.PPT_NOT_EXIST, "noppterr", null);
-		}
 		catch (ImageProcessException e) {
 			errlist.add(Err.PROCESS_IMAGEFILE_ERR);
 			return this.onErrorList(req, errlist, "createerr");
@@ -102,9 +98,6 @@ public class SlideAction extends BaseAction {
 			this.pptSvr.updateSlide(slide, imgFile);
 			this.opCreateSuccess(req);
 			return this.onSuccess(req, "updateok", null);
-		}
-		catch (PptNotFoundException e) {
-			return this.onError(req, Err.PPT_NOT_EXIST, "noppterr", null);
 		}
 		catch (ImageProcessException e) {
 			errlist.add(Err.PROCESS_IMAGEFILE_ERR);

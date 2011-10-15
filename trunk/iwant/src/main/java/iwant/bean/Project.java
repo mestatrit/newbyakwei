@@ -34,12 +34,6 @@ public class Project {
 	private String descr;
 
 	/**
-	 * 分类id
-	 */
-	@Column
-	private int catid;
-
-	/**
 	 * 地址
 	 */
 	@Column
@@ -257,14 +251,6 @@ public class Project {
 
 	public String getDescr() {
 		return descr;
-	}
-
-	public int getCatid() {
-		return catid;
-	}
-
-	public void setCatid(int catid) {
-		this.catid = catid;
 	}
 
 	public void setAddr(String addr) {
