@@ -2,7 +2,6 @@ package iwant.svr;
 
 import iwant.bean.Slide;
 import iwant.svr.exception.ImageProcessException;
-import iwant.svr.exception.PptNotFoundException;
 import iwant.svr.statusenum.UpdateSldePic0Result;
 import iwant.util.PicPoint;
 
@@ -17,8 +16,7 @@ public interface PptSvr {
 	 * @param slide
 	 * @param imgFile
 	 */
-	void createSlide(Slide slide, File imgFile) throws PptNotFoundException,
-			ImageProcessException;
+	void createSlide(Slide slide, File imgFile) throws ImageProcessException;
 
 	/**
 	 * 更新幻灯页数据
@@ -26,8 +24,7 @@ public interface PptSvr {
 	 * @param slide
 	 * @param imgFile
 	 */
-	void updateSlide(Slide slide, File imgFile) throws PptNotFoundException,
-			ImageProcessException;
+	void updateSlide(Slide slide, File imgFile) throws ImageProcessException;
 
 	int countSlideByProjectid(long projectid);
 

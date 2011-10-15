@@ -12,7 +12,6 @@ import iwant.dao.ProjectSearchCdn;
 import iwant.svr.CategorySvr;
 import iwant.svr.ProjectSvr;
 import iwant.svr.ZoneSvr;
-import iwant.svr.exception.CategoryNotFoundException;
 import iwant.svr.exception.DistrictNotFoundException;
 import iwant.util.ActiveTypeCreater;
 import iwant.util.BackUrl;
@@ -45,12 +44,6 @@ public class ProjectAction extends BaseAction {
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
 		req.setAttribute("op_project", true);
-		List<Category> catlist = this.categorySvr.getCategoryListForAll();
-		req.setAttribute("catlist", catlist);
-		if (catlist.isEmpty()) {
-			return "r:/mgr/cat_create.do";
-		}
-		Category category = catlist.get(0);
 		int cityid = this.getLoginCityid(req);
 		List<District> districtlist = this.zoneSvr
 				.getDistrictListByCityid(cityid);
@@ -61,7 +54,6 @@ public class ProjectAction extends BaseAction {
 		}
 		SimplePage page = req.getSimplePage(20);
 		ProjectSearchCdn projectSearchCdn = new ProjectSearchCdn();
-		projectSearchCdn.setCatid(category.getCatid());
 		projectSearchCdn.setName(req.getStringRow("name"));
 		projectSearchCdn.setDid(did);
 		projectSearchCdn.setActiveType(ActiveTypeCreater.getActiveType(req
@@ -173,8 +165,6 @@ public class ProjectAction extends BaseAction {
 			project.setLng(req.getDouble("lng"));
 			try {
 				this.projectSvr.updateProject(project);
-			}
-			catch (CategoryNotFoundException e) {
 			}
 			catch (DistrictNotFoundException e) {
 			}

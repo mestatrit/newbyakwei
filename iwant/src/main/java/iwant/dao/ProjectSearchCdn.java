@@ -7,8 +7,6 @@ public class ProjectSearchCdn {
 
 	private String name;
 
-	private int catid;
-
 	private int did;
 
 	private ActiveType activeType;
@@ -27,14 +25,6 @@ public class ProjectSearchCdn {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public int getCatid() {
-		return catid;
-	}
-
-	public void setCatid(int catid) {
-		this.catid = catid;
 	}
 
 	public ActiveType getActiveType() {

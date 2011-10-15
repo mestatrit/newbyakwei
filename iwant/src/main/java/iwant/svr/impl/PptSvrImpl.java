@@ -15,7 +15,6 @@ import iwant.dao.ProjectDao;
 import iwant.dao.SlideDao;
 import iwant.svr.PptSvr;
 import iwant.svr.exception.ImageProcessException;
-import iwant.svr.exception.PptNotFoundException;
 import iwant.svr.statusenum.UpdateSldePic0Result;
 import iwant.util.FileCnf;
 import iwant.util.PicPoint;
@@ -62,7 +61,7 @@ public class PptSvrImpl implements PptSvr {
 
 	@Override
 	public void createSlide(Slide slide, File imgFile)
-			throws PptNotFoundException, ImageProcessException {
+			throws ImageProcessException {
 		this.processSlideImage(slide, imgFile);
 		int count = this.slideDao.countByProjectid(slide.getProjectid());
 		slide.setOrder_flag(count + 1);
@@ -77,7 +76,7 @@ public class PptSvrImpl implements PptSvr {
 
 	@Override
 	public void updateSlide(Slide slide, File imgFile)
-			throws PptNotFoundException, ImageProcessException {
+			throws ImageProcessException {
 		String oldPic = slide.getPic_path();
 		if (imgFile != null) {
 			this.processSlideImage(slide, imgFile);

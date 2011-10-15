@@ -9,10 +9,8 @@ import iwant.dao.ProjectDao;
 import iwant.dao.ProjectRecycleDao;
 import iwant.dao.ProjectSearchCdn;
 import iwant.dao.ProjectidCreatorDao;
-import iwant.svr.CategorySvr;
 import iwant.svr.ProjectSvr;
 import iwant.svr.ZoneSvr;
-import iwant.svr.exception.CategoryNotFoundException;
 import iwant.svr.exception.DistrictNotFoundException;
 
 import java.util.List;
@@ -35,15 +33,8 @@ public class ProjectSvrImpl implements ProjectSvr {
 	@Autowired
 	private ZoneSvr zoneSvr;
 
-	@Autowired
-	private CategorySvr categorySvr;
-
 	@Override
-	public void createProject(Project project)
-			throws CategoryNotFoundException, DistrictNotFoundException {
-		if (this.categorySvr.getCategory(project.getCatid()) == null) {
-			throw new CategoryNotFoundException();
-		}
+	public void createProject(Project project) throws DistrictNotFoundException {
 		District district = this.zoneSvr.getDistrict(project.getDid());
 		if (district == null) {
 			throw new DistrictNotFoundException();
@@ -73,11 +64,7 @@ public class ProjectSvrImpl implements ProjectSvr {
 	}
 
 	@Override
-	public void updateProject(Project project)
-			throws CategoryNotFoundException, DistrictNotFoundException {
-		if (this.categorySvr.getCategory(project.getCatid()) == null) {
-			throw new CategoryNotFoundException();
-		}
+	public void updateProject(Project project) throws DistrictNotFoundException {
 		District district = this.zoneSvr.getDistrict(project.getDid());
 		if (district == null) {
 			throw new DistrictNotFoundException();
@@ -107,8 +94,7 @@ public class ProjectSvrImpl implements ProjectSvr {
 	}
 
 	@Override
-	public List<Project> getProjectListByCatidAndDid(int catid, int did,
-			int begin, int size) {
-		return this.projectDao.getListByCatidAndDid(catid, did, begin, size);
+	public List<Project> getProjectListByDid(int did, int begin, int size) {
+		return this.projectDao.getListByDid(did, begin, size);
 	}
 }
