@@ -4,7 +4,7 @@
 <form id="frm" method="post" onsubmit="subfrm(this.id)" target="hideframe" action="${form_action }">
 <input type="hidden" name="ch" value="1"/>
 <input type="hidden" name="catid" value="${catid }"/>
-<table class="formt" cellpadding="0" cellspacing="0">
+<table class="formt">
 	<tr>
 		<td width="90" align="right">名称</td>
 		<td>

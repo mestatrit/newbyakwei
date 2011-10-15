@@ -5,7 +5,7 @@
 <input type="hidden" name="ch" value="1"/>
 <input type="hidden" name="projectid" value="${projectid}"/>
 <input type="hidden" name="slideid" value="${slideid}"/>
-<table class="formt" cellpadding="0" cellspacing="0">
+<table class="formt">
 	<tr>
 		<td width="90" align="right">标题</td>
 		<td>

@@ -1,0 +1,12 @@
+<resp errcode="$!{errcode}" err_msg="$!{err_msg}">
+<list>
+#foreach($ppt in $list)
+<project>
+<projectid>$!{project.projectid}</projectid>
+<name><![CDATA[$!{project.name}]]></name>
+<pic1url><![CDATA[$!{project.getPic1Url()}]]></pic1url>
+<pic2url><![CDATA[$!{project.getPic2Url()}]]></pic2url>
+</project>
+#end
+</list>
+</resp>
