@@ -11,9 +11,6 @@
 		<li>
 			<a href="${appctx_path }/mgr/project.do" class="<c:if test="${op_project }">sel</c:if>">项目管理</a>
 		</li>
-		<li>
-			<a href="${appctx_path }/mgr/ppt_mainlist.do?active_flag=<%=ActiveType.ACTIVE.getValue() %>" class="<c:if test="${op_mianppt }">sel</c:if>">项目简介管理</a>
-		</li>
 	</ul>
 </div>
 <div class="f_r" style="width: 710px;">

@@ -1,10 +1,8 @@
 package iwant.bean.validate;
 
-import halo.util.HaloUtil;
 import halo.util.HaloValidate;
 import halo.util.image.OriginInfo;
 import iwant.bean.Slide;
-import iwant.svr.PptSvr;
 import iwant.web.admin.util.Err;
 
 import java.io.File;
@@ -19,9 +17,6 @@ public class SlideValidator {
 		List<String> list = new ArrayList<String>();
 		if (!HaloValidate.validateEmptyAndLength(slide.getTitle(), false, 20)) {
 			list.add(Err.SLIDE_TITLE_ERR);
-		}
-		if (!HaloValidate.validateLength(slide.getDescr(), false, 300)) {
-			list.add(Err.SLIDE_DESCR_ERR);
 		}
 		if (forCreate) {
 			if (imgFile == null) {
@@ -38,11 +33,6 @@ public class SlideValidator {
 					list.add(Err.SLIDE_IMG_FORMAT_ERR);
 				}
 			}
-		}
-		PptSvr pptSvr = (PptSvr) HaloUtil.getBean("pptSvr");
-		if (pptSvr.getPpt(slide.getPptid()) == null
-				&& pptSvr.getMainPpt(slide.getPptid()) == null) {
-			list.add(Err.SLIDE_PPTID_ERR);
 		}
 		return list;
 	}

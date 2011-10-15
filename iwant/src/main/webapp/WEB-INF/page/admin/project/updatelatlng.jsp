@@ -123,7 +123,7 @@ $(document).ready(function(){
 </style>
 <div class="mod">
 	<div class="mod_title"><hk:value value="${project.name }" onerow="true"/>地图设置
-	<a class="more" href="${appctx_path }/mgr/project_back.do">返回</a>
+	<a class="more" href="${appctx_path }/mgr/project_view.do?projectid=${projectid}">返回</a>
 	</div>
 	<div class="mod_content">
 		<div style="color: green">输入地址进行查询找出比较精确的位置，然后保存该位置</div>

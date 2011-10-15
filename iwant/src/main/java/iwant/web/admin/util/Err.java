@@ -29,8 +29,6 @@ public interface Err {
 
 	String SLIDE_TITLE_ERR = "10";
 
-	String SLIDE_DESCR_ERR = "12";
-
 	String SLIDE_IMG_FORMAT_ERR = "13";
 
 	String SLIDE_IMG_SIZE_ERR = "14";
@@ -80,4 +78,22 @@ public interface Err {
 	String PROVINCE_NOT_EXIST = "36";
 
 	String PROCESS_IMAGEFILE_ERR = "pro1";
+
+	String PROJECT_RONGJILV_ERR = "36";
+
+	String PROJECT_LVHUALV_ERR = "37";
+
+	String PROJECT_MRATE_ERR = "38";
+
+	String PROJECT_CARSPACE_ERR = "39";
+
+	String PROJECT_BUILDTIME_ERR = "40";
+
+	String PROJECT_MTYPE_ERR = "41";
+
+	String PROJECT_TRAFFIC_ERR = "42";
+
+	String PROJECT_NEARDESCR_ERR = "43";
+
+	String PROJECT_BUILDTYPE_ERR = "44";
 }

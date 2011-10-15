@@ -3,7 +3,7 @@
 %>
 <form id="frm" method="post" enctype="multipart/form-data" onsubmit="subfrm(this.id)" target="hideframe" action="${form_action }">
 <input type="hidden" name="ch" value="1"/>
-<input type="hidden" name="pptid" value="${pptid}"/>
+<input type="hidden" name="projectid" value="${projectid}"/>
 <input type="hidden" name="slideid" value="${slideid}"/>
 <table class="formt" cellpadding="0" cellspacing="0">
 	<tr>
@@ -12,14 +12,6 @@
 			<input maxlength="20" name="title" value="<hk:value value="${slide.title }"/>" class="text"/>
 			<div class="ruo"><hk:data key="10"/></div>
 			<div class="infowarn" id="err_title"></div>
-		</td>
-	</tr>
-	<tr>
-		<td width="90" align="right">描述</td>
-		<td>
-			<textarea name="descr" style="width: 270px;height: 80px;"><hk:value value="${slide.descr}" textarea="true"/></textarea>
-			<div class="ruo"><hk:data key="12"/></div>
-			<div class="infowarn" id="err_descr"></div>
 		</td>
 	</tr>
 	<tr>
@@ -42,7 +34,7 @@
 		<td width="90" align="right"></td>
 		<td>
 			<input type="submit" value="提交" class="btn split-r"/>
-			<a href="${appctx_path }/mgr/slide_back.do?pptid=${pptid}">返回</a>
+			<a href="${appctx_path }/mgr/slide.do?projectid=${projectid}">返回</a>
 		</td>
 	</tr>
 </table>
@@ -50,7 +42,6 @@
 
 <script type="text/javascript">
 var err_code_<%=Err.SLIDE_TITLE_ERR %>={objid:"err_title"};
-var err_code_<%=Err.SLIDE_DESCR_ERR%>={objid:"err_descr"};
 var err_code_<%=Err.SLIDE_IMG_FORMAT_ERR%>={objid:"err_f"};
 var err_code_<%=Err.SLIDE_IMG_SIZE_ERR%>={objid:"err_f"};
 var err_code_<%=Err.PROCESS_IMAGEFILE_ERR%>={objid:"err_f"};
@@ -64,7 +55,6 @@ function subfrm(frmid){
 	glassid=addGlass(frmid,false);
 	submited=true;
 	setHtml('err_title','');
-	setHtml('err_descr','');
 	setHtml('err_f','');
 	return true;
 }
@@ -95,29 +85,17 @@ function updateerr(json,errorlist){
 
 function createok(err,err_msg,v){
 	if(getObj('file_').value.length>0){
-		tourl('${appctx_path}/mgr/slide_setpic1.do?pptid=${pptid}&slideid='+v);
+		tourl('${appctx_path}/mgr/slide_setpic1.do?projectid=${projectid}&slideid='+v);
 		return;
 	}
-	if(from=='mainppt'){
-		tourl('${appctx_path}/mgr/ppt_viewmain.do?pptid=${pptid}');
-		return;
-	}
-	tourl('${appctx_path}/mgr/ppt_view.do?pptid=${pptid}');
+	tourl('${appctx_path}/mgr/slide.do?projectid=${projectid}');
 }
 
 function updateok(err,err_msg,v){
 	if(getObj('file_').value.length>0){
-		tourl('${appctx_path}/mgr/slide_setpic1.do?pptid=${pptid}&slideid=${slideid}');
+		tourl('${appctx_path}/mgr/slide_setpic1.do?projectid=${projectid}&slideid=${slideid}');
 		return;
 	}
-	if(from=='mainppt'){
-		tourl('${appctx_path}/mgr/ppt_viewmain.do?pptid=${pptid}');
-		return;
-	}
-	tourl('${appctx_path}/mgr/ppt_view.do?pptid=${slide.pptid}');
-}
-function noppterr(err,err_msg,v){
-	alert('简报不存在');
-	tourl('${appctx_path}/mgr/project.do');
+	tourl('${appctx_path}/mgr/slide.do?projectid=${projectid}');
 }
 </script>

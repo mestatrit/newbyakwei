@@ -2,7 +2,6 @@ package iwant.web.admin.job;
 
 import iwant.bean.ProjectRecycle;
 import iwant.bean.Slide;
-import iwant.svr.FollowProjectSvr;
 import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
 
@@ -25,9 +24,6 @@ public class DeleteProjectJob {
 	@Autowired
 	private PptSvr pptSvr;
 
-	@Autowired
-	private FollowProjectSvr followProjectSvr;
-
 	private boolean processing;
 
 	private final Log log = LogFactory.getLog(DeleteProjectJob.class);
@@ -42,12 +38,12 @@ public class DeleteProjectJob {
 					0, 100);
 			List<Slide> slideList = null;
 			for (ProjectRecycle o : list) {
-				this.followProjectSvr.deleteFollowProjectByProjectid(o
-						.getProjectid());
-				slideList = this.pptSvr.getSlideListByProjectid(o
-						.getProjectid(), 0, 100);
-				for (Slide slide : slideList) {
-					this.pptSvr.deleteSlide(slide);
+				slideList = this.pptSvr.getSlideListByProjectid(
+						o.getProjectid(), 0, 100);
+				while (!slideList.isEmpty()) {
+					for (Slide slide : slideList) {
+						this.pptSvr.deleteSlide(slide);
+					}
 				}
 				this.projectSvr.deleteProjectRecycle(o);
 			}

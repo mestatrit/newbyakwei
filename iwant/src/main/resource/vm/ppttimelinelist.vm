@@ -1,15 +1,15 @@
 <resp errcode="$!{errcode}" err_msg="$!{err_msg}">
 <list>
-#foreach($o in $list)
+#foreach($ppt in $list)
 <ppt>
-<pptid>$!{o.ppt.pptid}</pptid>
-<projectid>$!{o.ppt.projectid}</projectid>
-<name><![CDATA[$!{o.ppt.name}]]></name>
-<pic1url><![CDATA[$!{o.ppt.getPic1Url()}]]></pic1url>
-<pic2url><![CDATA[$!{o.ppt.getPic2Url()}]]></pic2url>
+<pptid>$!{project.projectid}</pptid>
+<projectid>$!{project.projectid}</projectid>
+<name><![CDATA[$!{project.name}]]></name>
+<pic1url><![CDATA[$!{project.getPic1Url()}]]></pic1url>
+<pic2url><![CDATA[$!{project.getPic2Url()}]]></pic2url>
 <project>
-<projectid>$!{o.ppt.project.projectid}</projectid>
-<name><![CDATA[$!{o.ppt.project.name}]]></name>
+<projectid>$!{project.projectid}</projectid>
+<name><![CDATA[$!{project.name}]]></name>
 </project>
 </ppt>
 #end

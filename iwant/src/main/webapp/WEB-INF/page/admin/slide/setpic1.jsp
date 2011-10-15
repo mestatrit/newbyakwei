@@ -43,7 +43,7 @@ function subpicfrm(frmid){
 	return true;
 }
 function updateok(err,err_msg,v){
-	tourl('${appctx_path}/mgr/ppt_view.do?pptid=${slide.pptid}');
+	tourl('${appctx_path}/mgr/slide.do?projectid=${slide.projectid}&myslideid=${slideid}');
 }
 
 function updateerr(err,err_msg,v){
@@ -94,7 +94,7 @@ $(document).ready(function(){
 					<input type="hidden" name="y0" />
 					<input type="hidden" name="y1" />
 					<input type="submit" class="btn split-r" value="确定"/>
-					<a href="${appctx_path}/mgr/ppt_view.do?pptid=${pptid}">返回</a>
+					<a href="${appctx_path}/mgr/ppt_view.do?projectid=${projectid}">返回</a>
 				</form>
 			</div>
 		</td>
