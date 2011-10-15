@@ -22,7 +22,7 @@ public class ProjectAction extends BaseApiAction {
 
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
-		long projectid = req.getLong("project");
+		long projectid = req.getLong("projectid");
 		Project project = this.projectSvr.getProject(projectid);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("project", project);

@@ -1,6 +1,6 @@
 <resp errcode="$!{errcode}" err_msg="$!{err_msg}">
 <list>
-#foreach($ppt in $list)
+#foreach($project in $list)
 <project>
 <projectid>$!{project.projectid}</projectid>
 <name><![CDATA[$!{project.name}]]></name>

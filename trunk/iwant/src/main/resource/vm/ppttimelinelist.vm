@@ -1,6 +1,6 @@
 <resp errcode="$!{errcode}" err_msg="$!{err_msg}">
 <list>
-#foreach($ppt in $list)
+#foreach($project in $list)
 <ppt>
 <pptid>$!{project.projectid}</pptid>
 <projectid>$!{project.projectid}</projectid>
