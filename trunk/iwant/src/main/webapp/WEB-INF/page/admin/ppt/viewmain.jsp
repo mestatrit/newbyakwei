@@ -14,7 +14,7 @@
 	</div>
 	<div class="mod_content">
 		<div>
-			<table class="formt" cellpadding="0" cellspacing="0">
+			<table class="formt">
 				<c:if test="${not empty ppt.pic_path}">
 				<tr>
 					<td width="90" align="right">&nbsp;</td>

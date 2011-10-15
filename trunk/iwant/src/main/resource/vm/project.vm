@@ -1,0 +1,22 @@
+<resp errcode="$!{errcode}" err_msg="$!{err_msg}">
+<project>
+<projectid>$!{project.projectid}</projectid>
+<name><![CDATA[$!{project.name}]]></name>
+<descr><![CDATA[$!{project.descr}]]></descr>
+<addr><![CDATA[$!{project.addr}]]></addr>
+<traffic><![CDATA[$!{project.traffic}]]></traffic>
+<tel><![CDATA[$!{project.tel}]]></tel>
+<lat><![CDATA[$!{project.lat}]]></lat>
+<lng><![CDATA[$!{project.lng}]]></lng>
+<rongjilv><![CDATA[$!{project.rongjilv}]]></rongjilv>
+<lvhualv><![CDATA[$!{project.lvhualv}]]></lvhualv>
+<buildtime><![CDATA[$!{project.buildtime}]]></buildtime>
+<buildtype><![CDATA[$!{project.buildtype}]]></buildtype>
+<mtype><![CDATA[$!{project.mtype}]]></mtype>
+<mrate><![CDATA[$!{project.mrate}]]></mrate>
+<neardescr><![CDATA[$!{project.neardescr}]]></neardescr>
+<carspace><![CDATA[$!{project.carspace}]]></carspace>
+<pic1url><![CDATA[$!{project.getPic1Url()}]]></pic1url>
+<pic2url><![CDATA[$!{project.getPic2Url()}]]></pic2url>
+</project>
+</resp>

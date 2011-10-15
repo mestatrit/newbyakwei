@@ -8,7 +8,7 @@
 			<form id="frm" action="${appctx_path }/sitemgrlogin.do" onsubmit="return subfrm(this.id)" method="post" target="hideframe">
 				<input type="hidden" name="ch" value="1"/>
 				<div class="infowarn" id="errmsg"></div>
-				<table class="formt" cellpadding="0" cellspacing="0">
+				<table class="formt">
 					<tr>
 						<td width="90">用户名：</td>
 						<td><input type="text" class="text" name="username" maxlength="20"/></td>

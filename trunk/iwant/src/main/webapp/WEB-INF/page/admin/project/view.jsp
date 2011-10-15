@@ -9,7 +9,7 @@
 	</div>
 	<div class="mod_content">
 		<div>
-			<table class="formt" cellpadding="0" cellspacing="0">
+			<table class="formt">
 				<tr>
 					<td width="90" align="right">名称</td>
 					<td>

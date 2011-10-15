@@ -14,7 +14,7 @@ ${page_title }
 		<div class="mod_content">
 			<div>
 				<form id="frm" method="post" action="${appctx_path }/mgr/zone_changecity.do">
-					<table class="formt" cellpadding="0" cellspacing="0">
+					<table class="formt">
 						<tr>
 							<td width="90" align="right">
 							选择城市
