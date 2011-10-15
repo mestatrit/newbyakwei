@@ -54,9 +54,9 @@ public class PptAction extends BaseApiAction {
 	 * @throws Exception
 	 */
 	public String slidelist(HkRequest req, HkResponse resp) throws Exception {
-		long pptid = req.getLong("pptid");
-		List<Slide> list = this.pptSvr.getSlideListByProjectid(pptid, 0, 50);
-		long projectid = pptid;
+		long projectid = req.getLong("pptid");
+		List<Slide> list = this.pptSvr
+				.getSlideListByProjectid(projectid, 0, 50);
 		Project project = this.projectSvr.getProject(projectid);
 		if (project == null) {
 			APIUtil.writeErr(resp, Err.RESOURCE_NOT_EXIST);
