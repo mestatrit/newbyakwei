@@ -50,4 +50,6 @@ public interface ProjectSvr {
 	List<Project> getProjectListByDid(int did, int begin, int size);
 
 	void deleteProjectRecycle(ProjectRecycle projectRecycle);
+
+	void tempupdate();
 }
