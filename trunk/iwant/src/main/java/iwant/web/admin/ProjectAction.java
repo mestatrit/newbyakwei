@@ -1,6 +1,5 @@
 package iwant.web.admin;
 
-import halo.util.DataUtil;
 import halo.util.DateUtil;
 import halo.web.action.HkRequest;
 import halo.web.action.HkResponse;
@@ -11,7 +10,6 @@ import iwant.bean.Project;
 import iwant.bean.validate.ProjectValidate;
 import iwant.dao.ProjectSearchCdn;
 import iwant.svr.CategorySvr;
-import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
 import iwant.svr.ZoneSvr;
 import iwant.svr.exception.CategoryNotFoundException;
@@ -40,9 +38,6 @@ public class ProjectAction extends BaseAction {
 
 	@Autowired
 	private ProjectSvr projectSvr;
-
-	@Autowired
-	private PptSvr pptSvr;
 
 	@Autowired
 	private ZoneSvr zoneSvr;
@@ -97,13 +92,8 @@ public class ProjectAction extends BaseAction {
 			return this.getAdminPath("project/create.jsp");
 		}
 		Project project = new Project();
-		project.setName(req.getStringRow("name"));
-		project.setAddr(req.getStringRow("addr", ""));
-		project.setCatid(req.getInt("catid"));
+		req.buildBean(project);
 		project.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
-		project.setDescr(req.getString("descr", ""));
-		project.setTel(req.getString("tel", ""));
-		project.setDid(req.getInt("did"));
 		List<String> errlist = ProjectValidate.validate(project);
 		if (errlist.size() > 0) {
 			return this.onErrorList(req, errlist, "createerr");
@@ -128,30 +118,14 @@ public class ProjectAction extends BaseAction {
 			req.setAttribute("backUrl", backUrl);
 			return this.getAdminPath("project/update.jsp");
 		}
-		project.setName(req.getStringRow("name"));
-		project.setAddr(req.getStringRow("addr", ""));
-		project.setCreatetime(DateUtil.createNoMillisecondTime(new Date()));
-		project.setDescr(req.getString("descr", ""));
-		project.setTel(req.getString("tel", ""));
-		project.setDid(req.getInt("did"));
+		req.buildBean(project);
 		List<String> errlist = ProjectValidate.validate(project);
 		if (errlist.size() > 0) {
 			return this.onErrorList(req, errlist, "updateerr");
 		}
 		this.projectSvr.updateProject(project);
-		this.pptSvr.updateMainPptCityidAndDidByProjectid(
-				project.getProjectid(), project.getCityid(), project.getDid());
 		this.opUpdateSuccess(req);
 		return this.onSuccess(req, "updateok", null);
-	}
-
-	public String back(HkRequest req, HkResponse resp) throws Exception {
-		BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
-		String url = backUrl.getLastUrl();
-		if (DataUtil.isNotEmpty(url)) {
-			return "r:" + url;
-		}
-		return "r:/mgr/project.do";
 	}
 
 	/**

@@ -20,12 +20,6 @@ public class Slide {
 	private long slideid;
 
 	/**
-	 * pptid
-	 */
-	@Column
-	private long pptid;
-
-	/**
 	 * 排序号
 	 */
 	@Column
@@ -36,12 +30,6 @@ public class Slide {
 	 */
 	@Column
 	private String title;
-
-	/**
-	 * 描述信息
-	 */
-	@Column
-	private String descr;
 
 	/**
 	 * 图片路径
@@ -60,14 +48,6 @@ public class Slide {
 		this.slideid = slideid;
 	}
 
-	public long getPptid() {
-		return pptid;
-	}
-
-	public void setPptid(long pptid) {
-		this.pptid = pptid;
-	}
-
 	public int getOrder_flag() {
 		return order_flag;
 	}
@@ -82,14 +62,6 @@ public class Slide {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public void setDescr(String descr) {
-		this.descr = descr;
-	}
-
-	public String getDescr() {
-		return descr;
 	}
 
 	public String getPic_path() {

@@ -17,24 +17,18 @@ public class SlideDaoImpl extends BaseDao<Slide> implements SlideDao {
 	}
 
 	@Override
-	public List<Slide> getListByPptidOrdered(long pptid) {
-		return this.getList(null, "pptid=?", new Object[] { pptid },
-				"order_flag asc", 0, -1);
-	}
-
-	@Override
 	public List<Slide> getListByProjectid(long projectid, int begin, int size) {
-		return this.getList(null, "projectid=?", new Object[] { projectid },
-				null, 0, -1);
-	}
-
-	@Override
-	public int countByPptid(long pptid) {
-		return this.count(null, "pptid=?", new Object[] { pptid });
+		return this.getList("projectid=?", new Object[] { projectid },
+				"order_flag asc", begin, size);
 	}
 
 	@Override
 	public Slide getBySlideid(long slideid) {
 		return this.getById(null, slideid);
+	}
+
+	@Override
+	public int countByProjectid(long projectid) {
+		return this.count(null, "projectid=?", new Object[] { projectid });
 	}
 }

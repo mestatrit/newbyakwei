@@ -7,7 +7,6 @@ import iwant.svr.exception.CategoryNotFoundException;
 import iwant.svr.exception.DistrictNotFoundException;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ProjectSvr {
 
@@ -51,7 +50,7 @@ public interface ProjectSvr {
 	List<Project> getProjectListByCdn(ProjectSearchCdn projectSearchCdn,
 			int begin, int size);
 
-	void deleteProjectRecycle(ProjectRecycle projectRecycle);
+	List<Project> getProjectListByCatidAndDid(int catid, int did, int begin, int size);
 
-	Map<Long, Project> getProjectMap(List<Long> idList);
+	void deleteProjectRecycle(ProjectRecycle projectRecycle);
 }

@@ -16,4 +16,6 @@ public interface ProjectDao extends IDao<Project> {
 			int size);
 
 	Map<Long, Project> getMapInId(List<Long> idList);
+
+	List<Project> getListByCatidAndDid(int catid, int did, int begin, int size);
 }

@@ -7,11 +7,9 @@ import java.util.List;
 
 public interface SlideDao extends IDao<Slide> {
 
-	List<Slide> getListByPptidOrdered(long pptid);
-
 	List<Slide> getListByProjectid(long projectid, int begin, int size);
 
-	int countByPptid(long pptid);
+	int countByProjectid(long projectid);
 
 	Slide getBySlideid(long slideid);
 }

@@ -3,6 +3,7 @@ package iwant.bean;
 import halo.dao.annotation.Column;
 import halo.dao.annotation.Id;
 import halo.dao.annotation.Table;
+import iwant.util.PicUtil;
 
 import java.util.Date;
 
@@ -91,6 +92,132 @@ public class Project {
 	 */
 	@Column
 	private String path;
+
+	/**
+	 * 容积率
+	 */
+	@Column
+	private String rongjilv;
+
+	/**
+	 * 绿化率
+	 */
+	@Column
+	private String lvhualv;
+
+	/**
+	 * 物业费
+	 */
+	@Column
+	private String mrate;
+
+	/**
+	 * 车位
+	 */
+	@Column
+	private String carspace;
+
+	/**
+	 * 建筑年代
+	 */
+	@Column
+	private String buildtime;
+
+	/**
+	 * 建筑类别
+	 */
+	@Column
+	private String buildtype;
+
+	/**
+	 * 物业类型
+	 */
+	@Column
+	private String mtype;
+
+	/**
+	 * 交通
+	 */
+	@Column
+	private String traffic;
+
+	/**
+	 * 周边
+	 */
+	@Column
+	private String neardescr;
+
+	public String getTraffic() {
+		return traffic;
+	}
+
+	public void setTraffic(String traffic) {
+		this.traffic = traffic;
+	}
+
+	public String getNeardescr() {
+		return neardescr;
+	}
+
+	public void setNeardescr(String neardescr) {
+		this.neardescr = neardescr;
+	}
+
+	public String getRongjilv() {
+		return rongjilv;
+	}
+
+	public void setRongjilv(String rongjilv) {
+		this.rongjilv = rongjilv;
+	}
+
+	public String getLvhualv() {
+		return lvhualv;
+	}
+
+	public void setLvhualv(String lvhualv) {
+		this.lvhualv = lvhualv;
+	}
+
+	public String getMrate() {
+		return mrate;
+	}
+
+	public void setMrate(String mrate) {
+		this.mrate = mrate;
+	}
+
+	public String getCarspace() {
+		return carspace;
+	}
+
+	public void setCarspace(String carspace) {
+		this.carspace = carspace;
+	}
+
+	public String getBuildtime() {
+		return buildtime;
+	}
+
+	public void setBuildtime(String buildtime) {
+		this.buildtime = buildtime;
+	}
+
+	public String getBuildtype() {
+		return buildtype;
+	}
+
+	public void setBuildtype(String buildtype) {
+		this.buildtype = buildtype;
+	}
+
+	public String getMtype() {
+		return mtype;
+	}
+
+	public void setMtype(String mtype) {
+		this.mtype = mtype;
+	}
 
 	public String getPath() {
 		return path;
@@ -210,5 +337,13 @@ public class Project {
 
 	public void setLng(double lng) {
 		this.lng = lng;
+	}
+
+	public String getPic1Url() {
+		return PicUtil.getSlidePic1Url(this.path);
+	}
+
+	public String getPic2Url() {
+		return PicUtil.getSlidePic2Url(this.path);
 	}
 }

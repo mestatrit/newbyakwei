@@ -10,14 +10,12 @@ import iwant.dao.ProjectRecycleDao;
 import iwant.dao.ProjectSearchCdn;
 import iwant.dao.ProjectidCreatorDao;
 import iwant.svr.CategorySvr;
-import iwant.svr.PptSvr;
 import iwant.svr.ProjectSvr;
 import iwant.svr.ZoneSvr;
 import iwant.svr.exception.CategoryNotFoundException;
 import iwant.svr.exception.DistrictNotFoundException;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,9 +31,6 @@ public class ProjectSvrImpl implements ProjectSvr {
 
 	@Autowired
 	private ProjectidCreatorDao projectidCreatorDao;
-
-	@Autowired
-	private PptSvr pptSvr;
 
 	@Autowired
 	private ZoneSvr zoneSvr;
@@ -66,7 +61,6 @@ public class ProjectSvrImpl implements ProjectSvr {
 		if (project == null) {
 			return;
 		}
-		this.pptSvr.deletePptByProjectid(projectid);
 		ProjectRecycle projectRecycle = new ProjectRecycle();
 		projectRecycle.setProjectid(projectid);
 		this.projectRecycleDao.save(projectRecycle);
@@ -113,7 +107,8 @@ public class ProjectSvrImpl implements ProjectSvr {
 	}
 
 	@Override
-	public Map<Long, Project> getProjectMap(List<Long> idList) {
-		return this.projectDao.getMapInId(idList);
+	public List<Project> getProjectListByCatidAndDid(int catid, int did,
+			int begin, int size) {
+		return this.projectDao.getListByCatidAndDid(catid, did, begin, size);
 	}
 }

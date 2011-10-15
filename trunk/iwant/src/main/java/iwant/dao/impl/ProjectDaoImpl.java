@@ -29,8 +29,16 @@ public class ProjectDaoImpl extends BaseDao<Project> implements ProjectDao {
 			return this
 					.getList(null, null, null, "projectid desc", begin, size);
 		}
-		return this.getList(null, "active_flag=?", new Object[] { activeType
-				.getValue() }, "projectid desc", begin, size);
+		return this.getList(null, "active_flag=?",
+				new Object[] { activeType.getValue() }, "projectid desc",
+				begin, size);
+	}
+
+	@Override
+	public List<Project> getListByCatidAndDid(int catid, int did, int begin,
+			int size) {
+		return this.getList("catid=? and did=?", new Object[] { catid, did },
+				"projectid desc", begin, size);
 	}
 
 	@Override
@@ -54,9 +62,9 @@ public class ProjectDaoImpl extends BaseDao<Project> implements ProjectDao {
 			sb.append(" and did=?");
 			objlist.add(projectSearchCdn.getDid());
 		}
-		return this.getList(null, sb.toString(), objlist
-				.toArray(new Object[objlist.size()]), "projectid desc", begin,
-				size);
+		return this.getList(null, sb.toString(),
+				objlist.toArray(new Object[objlist.size()]), "projectid desc",
+				begin, size);
 	}
 
 	@Override

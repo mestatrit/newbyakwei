@@ -3,8 +3,6 @@ package iwant.web.admin;
 import halo.util.DataUtil;
 import halo.web.action.HkRequest;
 import halo.web.action.HkResponse;
-import iwant.bean.MainPpt;
-import iwant.bean.Ppt;
 import iwant.bean.Slide;
 import iwant.bean.validate.SlideValidator;
 import iwant.svr.PptSvr;
@@ -29,6 +27,19 @@ public class SlideAction extends BaseAction {
 	@Autowired
 	private PptSvr pptSvr;
 
+	@Override
+	public String execute(HkRequest req, HkResponse resp) throws Exception {
+		long projectid = req.getLongAndSetAttr("projectid");
+		List<Slide> list = this.pptSvr
+				.getSlideListByProjectid(projectid, 0, 50);
+		req.setAttribute("list", list);
+		if (this.pptSvr.countSlideByProjectid(projectid) < 20) {
+			req.setAttribute("canaddslide", true);
+		}
+		req.reSetAttribute("myslideid");
+		return this.getAdminPath("slide/list.jsp");
+	}
+
 	/**
 	 * @param req
 	 * @param resp
@@ -36,24 +47,15 @@ public class SlideAction extends BaseAction {
 	 * @throws Exception
 	 */
 	public String create(HkRequest req, HkResponse resp) {
-		long pptid = req.getLongAndSetAttr("pptid");
+		long projectid = req.getLongAndSetAttr("projectid");
 		if (this.isForwardPage(req)) {
-			Ppt ppt = this.pptSvr.getPpt(pptid);
-			req.setAttribute("ppt", ppt);
-			if (ppt == null) {
-				MainPpt mainPpt = this.pptSvr.getMainPpt(pptid);
-				req.setAttribute("ppt", mainPpt);
-			}
-			req.setAttribute("op_project", true);
-			req.reSetAttribute("from");
 			return this.getAdminPath("slide/create.jsp");
 		}
 		Slide slide = new Slide();
 		slide.setTitle(req.getStringRow("title"));
-		slide.setDescr(req.getString("descr", ""));
-		slide.setPptid(req.getLong("pptid"));
+		slide.setProjectid(req.getLong("projectid"));
 		File imgFile = req.getFile("f");
-		if (!this.pptSvr.isCanAddSlide(pptid)) {
+		if (this.pptSvr.countSlideByProjectid(projectid) > 20) {
 			return this.onError(req, Err.SLIDE_CREATE_LIMIT_ERR, "createerr2",
 					null);
 		}
@@ -88,24 +90,9 @@ public class SlideAction extends BaseAction {
 		}
 		if (this.isForwardPage(req)) {
 			req.setAttribute("slide", slide);
-			Ppt ppt = this.pptSvr.getPpt(slide.getPptid());
-			req.setAttribute("ppt", ppt);
-			if (ppt == null) {
-				MainPpt mainPpt = this.pptSvr.getMainPpt(slide.getPptid());
-				req.setAttribute("ppt", mainPpt);
-				req.setAttribute("pptid", mainPpt.getPptid());
-			}
-			else {
-				req.setAttribute("pptid", ppt.getPptid());
-			}
-			req.setAttribute("op_project", true);
-			BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
-			backUrl.push(req.getString("back_url"));
-			req.setAttribute("backUrl", backUrl);
 			return this.getAdminPath("slide/update.jsp");
 		}
 		slide.setTitle(req.getStringRow("title"));
-		slide.setDescr(req.getString("descr", ""));
 		File imgFile = req.getFile("f");
 		List<String> errlist = SlideValidator.validate(slide, imgFile, false);
 		if (!errlist.isEmpty()) {
@@ -138,20 +125,7 @@ public class SlideAction extends BaseAction {
 		}
 		if (this.isForwardPage(req)) {
 			req.setAttribute("slide", slide);
-			Ppt ppt = this.pptSvr.getPpt(slide.getPptid());
-			req.setAttribute("ppt", ppt);
-			if (ppt == null) {
-				MainPpt mainPpt = this.pptSvr.getMainPpt(slide.getPptid());
-				req.setAttribute("ppt", mainPpt);
-				req.setAttribute("pptid", mainPpt.getPptid());
-			}
-			else {
-				req.setAttribute("pptid", ppt.getPptid());
-			}
-			req.setAttribute("op_project", true);
-			BackUrl backUrl = BackUrlUtil.getBackUrl(req, resp);
-			backUrl.push(req.getString("back_url"));
-			req.setAttribute("backUrl", backUrl);
+			req.reSetAttribute("projectid");
 			return this.getAdminPath("slide/setpic1.jsp");
 		}
 		PicPoint picRect = new PicPoint(req.getInt("x0"), req.getInt("y0"),
