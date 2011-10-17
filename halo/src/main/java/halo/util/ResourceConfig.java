@@ -42,7 +42,6 @@ public class ResourceConfig {
 				return rb.getString(key);
 			}
 			catch (Exception e) {
-				P.println("resource no mapping [ " + key + " ]");
 				return key;
 			}
 		}
@@ -54,10 +53,6 @@ public class ResourceConfig {
 			return MessageFormat.format(value, args);
 		}
 		catch (Exception e) {
-			P.println("************** begin *************************");
-			P.println(e.getMessage());
-			P.println("resource no mapping [ " + key + " ]");
-			P.println("*************** end **************************");
 			return key;
 		}
 	}
