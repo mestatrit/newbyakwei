@@ -12,6 +12,29 @@ public class ResourceConfig {
 		ResourceConfig.resource = resource;
 	}
 
+	public static String getMesage(Locale locale, String resource, String key,
+			Object... args) {
+		ResourceBundle rb = ResourceBundle.getBundle(resource, locale);
+		if (args == null) {
+			try {
+				return rb.getString(key);
+			}
+			catch (Exception e) {
+				return key;
+			}
+		}
+		try {
+			String value = rb.getString(key);
+			if (value == null) {
+				return key;
+			}
+			return MessageFormat.format(value, args);
+		}
+		catch (Exception e) {
+			return key;
+		}
+	}
+
 	public static String getText(Locale locale, String key, Object... args) {
 		ResourceBundle rb = ResourceBundle.getBundle(resource, locale);
 		if (args == null) {

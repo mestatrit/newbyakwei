@@ -18,6 +18,8 @@ public class PropertiesTag extends BaseTag {
 
 	private Object key;
 
+	private String resource;
+
 	private String arg0;
 
 	private String arg1;
@@ -28,20 +30,32 @@ public class PropertiesTag extends BaseTag {
 
 	@Override
 	protected void adapter(JspWriter writer) throws IOException {
-		String res = null;
+		String result = null;
 		Locale locale = (Locale) this.getRequest().getAttribute(
 				HaloI18n.I18N_KEY);
 		if (locale == null) {
 			locale = Locale.SIMPLIFIED_CHINESE;
 		}
 		if (arg0 == null && arg1 == null && arg2 == null && arg3 == null) {
-			res = ResourceConfig.getText(locale, key.toString());
+			if (resource == null) {
+				result = ResourceConfig.getText(locale, key.toString());
+			}
+			else {
+				result = ResourceConfig.getMesage(locale, resource,
+						key.toString());
+			}
 		}
 		else {
-			res = ResourceConfig.getText(locale, key.toString(),
-					this.buildArg());
+			if (resource == null) {
+				result = ResourceConfig.getText(locale, key.toString(),
+						this.buildArg());
+			}
+			else {
+				result = ResourceConfig.getMesage(locale, resource,
+						key.toString(), this.buildArg());
+			}
 		}
-		writer.append(res);
+		writer.append(result);
 	}
 
 	private Object[] buildArg() {
@@ -71,6 +85,10 @@ public class PropertiesTag extends BaseTag {
 
 	public void setKey(Object key) {
 		this.key = key;
+	}
+
+	public void setResource(String resource) {
+		this.resource = resource;
 	}
 
 	public void setArg0(String arg0) {
