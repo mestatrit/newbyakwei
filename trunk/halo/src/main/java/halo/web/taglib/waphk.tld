@@ -17,6 +17,10 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
+			<name>encode</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
 			<name>textarea</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>

@@ -16,6 +16,12 @@ public class HtmlValueTag extends BaseTag {
 
 	private boolean textarea;
 
+	private boolean encode;
+
+	public void setEncode(boolean encode) {
+		this.encode = encode;
+	}
+
 	public void setTextarea(boolean textarea) {
 		this.textarea = textarea;
 	}
@@ -34,7 +40,11 @@ public class HtmlValueTag extends BaseTag {
 			return;
 		}
 		if (onerow) {
-			writer.append(DataUtil.toHtmlSimpleOneRow(this.value));
+			String v = DataUtil.toHtmlSimpleOneRow(this.value);
+			if (this.encode) {
+				v = DataUtil.urlEncoder(v);
+			}
+			writer.append(v);
 			return;
 		}
 		if (this.textarea) {
