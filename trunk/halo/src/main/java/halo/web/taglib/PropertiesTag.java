@@ -16,7 +16,7 @@ public class PropertiesTag extends BaseTag {
 
 	private int DEF_SIZE = 4;
 
-	private String key;
+	private Object key;
 
 	private String arg0;
 
@@ -35,10 +35,11 @@ public class PropertiesTag extends BaseTag {
 			locale = Locale.SIMPLIFIED_CHINESE;
 		}
 		if (arg0 == null && arg1 == null && arg2 == null && arg3 == null) {
-			res = ResourceConfig.getText(locale, key);
+			res = ResourceConfig.getText(locale, key.toString());
 		}
 		else {
-			res = ResourceConfig.getText(locale, key, this.buildArg());
+			res = ResourceConfig.getText(locale, key.toString(),
+					this.buildArg());
 		}
 		writer.append(res);
 	}
