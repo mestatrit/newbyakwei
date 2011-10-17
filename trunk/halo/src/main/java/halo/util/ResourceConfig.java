@@ -50,7 +50,13 @@ public class ResourceConfig {
 		if (args == null) {
 			return rb.getString(key);
 		}
-		String value = rb.getString(key);
+		String value;
+		try {
+			value = rb.getString(key);
+		}
+		catch (Exception e) {
+			return key;
+		}
 		if (value == null) {
 			return key;
 		}
