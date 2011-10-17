@@ -115,7 +115,16 @@ public class ObjectValidator {
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 		if (this.filePath != null) {
-			this.addExprFromFile(filePath);
+			if (this.filePath.startsWith("classpath:")) {
+				String p = this.filePath.substring(10);
+				if (p.startsWith("/")) {
+					p = p.substring(1);
+				}
+				this.filePath = this.getClass().getClassLoader()
+						.getResource("").getPath()
+						+ p;
+			}
+			this.addExprFromFile(this.filePath);
 		}
 	}
 
