@@ -35,7 +35,8 @@ public class StringValidator implements Validator {
 		}
 		// 数据验证
 		if (!canEmpty) {
-			if (DataUtil.isEmpty(obj.toString())) {
+			String v = (String) obj;
+			if (DataUtil.isEmpty(v)) {
 				return false;
 			}
 		}
