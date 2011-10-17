@@ -69,7 +69,7 @@ public class PropertiesTag extends BaseTag {
 		return true;
 	}
 
-	public void setKey(String key) {
+	public void setKey(Object key) {
 		this.key = key;
 	}
 
