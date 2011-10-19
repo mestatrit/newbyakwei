@@ -11,7 +11,6 @@
 		</div>
 		<div style="padding-left: 50">
 		<form method="get" action="${appctx_path}/mgr/project.do">
-			<input type="hidden" name="catid" value="${projectSearchCdn.catid}"/>
 			名称：<input type="text" class="text" name="name" value="<hk:value value="${projectSearchCdn.name}" onerow="true"/>"/>
 			地区：
 			<hk:select name="did" checkedvalue="${projectSearchCdn.did}">
