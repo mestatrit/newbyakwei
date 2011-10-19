@@ -4,13 +4,13 @@ ALTER TABLE iwant.project ADD COLUMN rongjilv VARCHAR(50) NOT NULL AFTER path, A
 
 ALTER TABLE iwant.project ADD COLUMN buildtime VARCHAR(50) NOT NULL AFTER neardescr, ADD COLUMN carspace VARCHAR(50) NOT NULL AFTER buildtime;
 
-ALTER TABLE iwant.project ADD COLUMN orderflg INTEGER UNSIGNED NOT NULL AFTER mtype, DROP INDEX Index_2, ADD INDEX Index_2 USING BTREE(did, orderflg);
-
 ALTER TABLE iwant.slide DROP COLUMN pptid,DROP COLUMN descr, DROP INDEX Index_2, ADD INDEX Index_3(projectid);
 
 ALTER TABLE iwant.project ADD COLUMN buildtype VARCHAR(50) NOT NULL AFTER carspace;
 
 ALTER TABLE iwant.project ADD COLUMN mtype VARCHAR(50) NOT NULL AFTER buildtype;
+
+ALTER TABLE iwant.project ADD COLUMN orderflg INTEGER UNSIGNED NOT NULL AFTER mtype, DROP INDEX Index_2, ADD INDEX Index_2 USING BTREE(did, orderflg);
 
 ALTER TABLE iwant.project DROP COLUMN catid;
 
