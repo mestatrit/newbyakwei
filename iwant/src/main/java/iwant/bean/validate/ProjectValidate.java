@@ -15,10 +15,10 @@ public class ProjectValidate {
 		if (!HaloValidate.validateEmptyAndLength(o.getName(), false, 20)) {
 			list.add(Err.PROJECT_NAME_ERR);
 		}
-		if (!HaloValidate.validateLength(o.getDescr(), false, 300)) {
+		if (!HaloValidate.validateEmptyAndLength(o.getDescr(), false, 3000)) {
 			list.add(Err.PROJECT_DESCR_ERR);
 		}
-		if (!HaloValidate.validateLength(o.getAddr(), false, 100)) {
+		if (!HaloValidate.validateEmptyAndLength(o.getAddr(), false, 100)) {
 			list.add(Err.PROJECT_ADDR_ERR);
 		}
 		if (!HaloValidate.validateLength(o.getTel(), false, 100)) {
@@ -51,7 +51,7 @@ public class ProjectValidate {
 		if (!HaloValidate2.validateEmptyAndLength(o.getTraffic(), 300)) {
 			list.add(Err.PROJECT_TRAFFIC_ERR);
 		}
-		if (!HaloValidate2.validateEmptyAndLength(o.getNeardescr(), 300)) {
+		if (!HaloValidate2.validateEmptyAndLength(o.getNeardescr(), 1000)) {
 			list.add(Err.PROJECT_NEARDESCR_ERR);
 		}
 		return list;
