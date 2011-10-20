@@ -5,6 +5,7 @@ import halo.web.action.HkRequest;
 import halo.web.action.HkResponse;
 import iwant.bean.City;
 import iwant.bean.District;
+import iwant.bean.Province;
 import iwant.svr.ZoneSvr;
 import iwant.web.admin.util.Err;
 
@@ -47,13 +48,16 @@ public class ZoneAction extends BaseApiAction {
 		if (DataUtil.isEmpty(districtname)) {
 			return APIUtil.writeErr(resp, Err.DISTRICT_NOT_EXIST);
 		}
-		District district = this.zoneSvr.getDistrictByCityidAndNameLike(city
-				.getCityid(), districtname);
+		District district = this.zoneSvr.getDistrictByCityidAndNameLike(
+				city.getCityid(), districtname);
 		if (district == null) {
 			return APIUtil.writeErr(resp, Err.DISTRICT_NOT_EXIST);
 		}
+		Province province = this.zoneSvr.getProvince(city.getProvinceid());
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("district", district);
+		map.put("city", city);
+		map.put("province", province);
 		return APIUtil.writeData(resp, map, "vm/district.vm");
 	}
 
