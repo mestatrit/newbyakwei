@@ -7,5 +7,9 @@
 			<cityid>$!{city.cityid}</cityid>
 			<name><![CDATA[$!{city.name}]]></name>
 		</city>
+		<province>
+			<provinceid>$!{province.provinceid}</provinceid>
+			<name><![CDATA[$!{province.name}]]></name>
+		</province>
 	</district>
 </resp>
