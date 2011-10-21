@@ -96,4 +96,6 @@ public interface Err {
 	String PROJECT_NEARDESCR_ERR = "43";
 
 	String PROJECT_BUILDTYPE_ERR = "44";
+
+	String PROJECT_AVRPRICE_ERR = "45";
 }

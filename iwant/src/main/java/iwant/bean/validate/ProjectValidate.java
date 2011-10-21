@@ -54,6 +54,9 @@ public class ProjectValidate {
 		if (!HaloValidate2.validateEmptyAndLength(o.getNeardescr(), 2000)) {
 			list.add(Err.PROJECT_NEARDESCR_ERR);
 		}
+		if (!HaloValidate2.validateLength(o.getAvrprice(), 20)) {
+			list.add(Err.PROJECT_AVRPRICE_ERR);
+		}
 		return list;
 	}
 }
