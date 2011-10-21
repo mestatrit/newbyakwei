@@ -6,6 +6,7 @@
 <name><![CDATA[$!{project.name}]]></name>
 <pic1url><![CDATA[$!{project.getPic1Url()}]]></pic1url>
 <pic2url><![CDATA[$!{project.getPic2Url()}]]></pic2url>
+<avrprice><![CDATA[$!{project.avrprice}]]></avrprice>
 </project>
 #end
 </list>

@@ -141,6 +141,17 @@ public class Project {
 	@Column
 	private String neardescr;
 
+	@Column
+	private String avrprice;
+
+	public String getAvrprice() {
+		return avrprice;
+	}
+
+	public void setAvrprice(String avrprice) {
+		this.avrprice = avrprice;
+	}
+
 	public String getTraffic() {
 		return traffic;
 	}
