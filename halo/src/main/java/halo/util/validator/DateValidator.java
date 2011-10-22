@@ -15,8 +15,19 @@ public class DateValidator implements Validator {
 	public boolean exec(JsonObj jsonObj, Object obj) {
 		String s_min = jsonObj.getString("min");
 		String s_max = jsonObj.getString("max");
+		String s_empty = jsonObj.getString("empty");
 		Date min = null;
 		Date max = null;
+		boolean canEmpty = false;
+		if (DataUtil.isNotEmpty(s_empty) && s_empty.equals("1")) {
+			canEmpty = true;
+		}
+		if (canEmpty && obj == null) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
 		Date now = new Date();
 		// 解析
 		SimpleDateFormat sdf = new SimpleDateFormat(fmt);
