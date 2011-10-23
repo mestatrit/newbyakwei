@@ -203,7 +203,7 @@ public class ServletUtil {
 		}
 		t = t.trim();
 		if (t.length() == 0) {
-			return null;
+			return "";
 		}
 		if (CHARSET_TARGET == null) {
 			return t;
