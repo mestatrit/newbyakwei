@@ -129,7 +129,7 @@ public class WebCnf implements InitializingBean {
 	 * 
 	 * <pre>
 	 * 配置示例:
-	 *  /user/head/upload.do:2
+	 *  /user/head/upload:2 , uri最后忽略.do 等后缀
 	 * </pre>
 	 * 
 	 * @param fileUploadCheckUriList
