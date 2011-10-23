@@ -542,7 +542,9 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 		Enumeration<String> e = this.getParameterNames();
 		while (e.hasMoreElements()) {
 			Field field = classInfo.getField(e.nextElement());
-			this.setFieldValue(field, t);
+			if (field != null) {
+				this.setFieldValue(field, t);
+			}
 		}
 	}
 
