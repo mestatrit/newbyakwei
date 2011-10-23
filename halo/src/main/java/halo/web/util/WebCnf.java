@@ -127,6 +127,11 @@ public class WebCnf implements InitializingBean {
 	/**
 	 * 设置文件上传所允许通过的urlmapping以及允许上传文件的大小以MB来计算
 	 * 
+	 * <pre>
+	 * 配置示例:
+	 *  /user/head/upload.do:2
+	 * </pre>
+	 * 
 	 * @param fileUploadCheckUriList
 	 */
 	public void setFileUploadCheckUriCnfList(
