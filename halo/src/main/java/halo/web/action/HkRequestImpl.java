@@ -566,7 +566,7 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 				field.setShort(t, this.getShort(field.getName()));
 			}
 			else if (type.equals(TYPE_STRING)) {
-				field.set(t, this.getString(field.getName()));
+				field.set(t, this.getString(field.getName(), ""));
 			}
 		}
 		catch (Exception e) {
