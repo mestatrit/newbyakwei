@@ -15,6 +15,14 @@
 		</td>
 	</tr>
 	<tr>
+		<td width="90" align="right">均价</td>
+		<td>
+			<input maxlength="20" name="avrprice" value="<hk:value value="${project.avrprice }" onerow="true"/>" class="text"/>
+			<div class="ruo"><hk:data key="45"/></div>
+			<div class="infowarn" id="err_avrprice"></div>
+		</td>
+	</tr>
+	<tr>
 		<td width="90" align="right">地区</td>
 		<td>
 			<jsp:include page="../inc/zone_district_inc.jsp"></jsp:include>
@@ -149,6 +157,7 @@ var err_code_<%=Err.PROJECT_TRAFFIC_ERR%>={objid:"err_traffic"};
 var err_code_<%=Err.PROJECT_NEARDESCR_ERR%>={objid:"err_neardescr"};
 var err_code_<%=Err.PROJECT_CARSPACE_ERR%>={objid:"err_carspace"};
 var err_code_<%=Err.PROJECT_MTYPE_ERR%>={objid:"err_mtype"};
+var err_code_<%=Err.PROJECT_AVRPRICE_ERR%>={objid:"err_avrprice"};
 
 var glassid=null;
 var submited=false;
@@ -174,6 +183,7 @@ function subfrm(frmid){
 	setHtml('err_neardescr','');
 	setHtml('err_carspace','');
 	setHtml('err_traffic','');
+	setHtml('err_avrprice','');
 	return true;
 }
 
