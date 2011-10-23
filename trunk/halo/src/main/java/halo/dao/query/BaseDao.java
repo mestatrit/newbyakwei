@@ -7,6 +7,12 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * 废弃，不适用
+ * 
+ * @author akwei
+ * @param <T>
+ */
 public abstract class BaseDao<T> implements IDao<T> {
 
 	private static final String empty_key = "";
@@ -62,8 +68,7 @@ public abstract class BaseDao<T> implements IDao<T> {
 	/**
 	 * 根据id查询对象
 	 * 
-	 * @param key
-	 *            分区关键值
+	 * @param key 分区关键值
 	 * @param idValue
 	 * @return
 	 */
@@ -80,18 +85,12 @@ public abstract class BaseDao<T> implements IDao<T> {
 	}
 
 	/**
-	 * @param key
-	 *            分区关键值
-	 * @param where
-	 *            条件sql片段
-	 * @param params
-	 *            sql对应参数
-	 * @param order
-	 *            排序sql片段
-	 * @param begin
-	 *            开始记录位置
-	 * @param size
-	 *            <0时，取所有符合条件数据
+	 * @param key 分区关键值
+	 * @param where 条件sql片段
+	 * @param params sql对应参数
+	 * @param order 排序sql片段
+	 * @param begin 开始记录位置
+	 * @param size <0时，取所有符合条件数据
 	 * @return
 	 */
 	@Override
@@ -183,8 +182,7 @@ public abstract class BaseDao<T> implements IDao<T> {
 	/**
 	 * 创建对象
 	 * 
-	 * @param key
-	 *            分区关键值
+	 * @param key 分区关键值
 	 * @param t
 	 * @return
 	 */
@@ -205,8 +203,7 @@ public abstract class BaseDao<T> implements IDao<T> {
 	/**
 	 * 更新对象
 	 * 
-	 * @param key
-	 *            分区关键值
+	 * @param key 分区关键值
 	 * @param t
 	 * @return
 	 */
