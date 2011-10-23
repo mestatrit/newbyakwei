@@ -17,6 +17,12 @@
 					</td>
 				</tr>
 				<tr>
+					<td width="90" align="right">均价</td>
+					<td>
+						<hk:value value="${project.avrprice }" onerow="true"/>
+					</td>
+				</tr>
+				<tr>
 					<td width="90" align="right">电话</td>
 					<td>
 						<hk:value value="${project.tel }" onerow="true"/>
