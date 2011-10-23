@@ -16,6 +16,7 @@ import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -529,7 +530,12 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 	public <T> void buildBean(T t) {
 		ClassInfo<T> classInfo = (ClassInfo<T>) ClassInfoFactory.getClassInfo(t
 				.getClass());
-		for (Field field : classInfo.getFields()) {
+		// for (Field field : classInfo.getFields()) {
+		// this.setFieldValue(field, t);
+		// }
+		Enumeration<String> e = this.getParameterNames();
+		while (e.hasMoreElements()) {
+			Field field = classInfo.getField(e.nextElement());
 			this.setFieldValue(field, t);
 		}
 	}
