@@ -11,13 +11,13 @@ import javax.imageio.stream.ImageInputStream;
 
 public class OriginInfo {
 
-	public static final String IMGTYPE_JPEG = "jpeg";
+	public static final String IMGTYPE_JPEG = "JPEG";
 
-	public static final String IMGTYPE_GIF = "gif";
+	public static final String IMGTYPE_GIF = "GIF";
 
-	public static final String IMGTYPE_BMP = "bmp";
+	public static final String IMGTYPE_BMP = "BMP";
 
-	public static final String IMGTYPE_PNG = "png";
+	public static final String IMGTYPE_PNG = "PNG";
 
 	private int width;
 
@@ -39,20 +39,20 @@ public class OriginInfo {
 				this.height = reader.getHeight(0);
 				this.file = file;
 				String imgTypeName = reader.getFormatName().toLowerCase();
-				if (imgTypeName.equals("jpeg")) {
+				if (imgTypeName.equalsIgnoreCase("jpeg")) {
 					this.imageType = ImageType.JPEG;
 				}
-				else if (imgTypeName.equals("bmp")) {
+				else if (imgTypeName.equalsIgnoreCase("bmp")) {
 					this.imageType = ImageType.BMP;
 				}
-				else if (imgTypeName.equals("png")) {
+				else if (imgTypeName.equalsIgnoreCase("png")) {
 					this.imageType = ImageType.PNG;
 				}
-				else if (imgTypeName.equals("gif")) {
+				else if (imgTypeName.equalsIgnoreCase("gif")) {
 					this.imageType = ImageType.GIF;
 				}
 				else {
-					this.imageType = ImageType.JPEG;
+					this.imageType = ImageType.UNKNOWN;
 				}
 			}
 		}

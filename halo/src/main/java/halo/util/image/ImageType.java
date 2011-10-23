@@ -1,7 +1,7 @@
 package halo.util.image;
 
 public enum ImageType {
-	JPEG(0), BMP(1), PNG(2), GIF(3);
+	JPEG(0), BMP(1), PNG(2), GIF(3), UNKNOWN(4);
 
 	int value;
 
