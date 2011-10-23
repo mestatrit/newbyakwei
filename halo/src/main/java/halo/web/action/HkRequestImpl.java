@@ -283,6 +283,12 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 		return ServletUtil.getNumbers(getHttpServletRequest(), key);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Enumeration<String> getParameterNames() {
+		return this.getHttpServletRequest().getParameterNames();
+	}
+
 	@Override
 	public int[] getInts(String key) {
 		Number[] n = getNumbers(key);

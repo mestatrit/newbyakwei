@@ -17,9 +17,11 @@ class HkMultiRequest extends HttpServletRequestWrapper {
 		String type2 = req.getContentType();
 		if (type1 == null && type2 != null) {
 			type = type2;
-		} else if (type2 == null && type1 != null) {
+		}
+		else if (type2 == null && type1 != null) {
 			type = type1;
-		} else if (type1 != null && type2 != null) {
+		}
+		else if (type1 != null && type2 != null) {
 			type = (type1.length() > type2.length() ? type1 : type2);
 		}
 		if (type == null
