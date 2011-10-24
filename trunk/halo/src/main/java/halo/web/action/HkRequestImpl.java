@@ -15,10 +15,14 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -532,16 +536,30 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 		this.dateFormat = dateFormat;
 	}
 
-	@SuppressWarnings("unchecked")
 	public <T> void buildBean(T t) {
-		ClassInfo<T> classInfo = (ClassInfo<T>) ClassInfoFactory.getClassInfo(t
-				.getClass());
-		// for (Field field : classInfo.getFields()) {
-		// this.setFieldValue(field, t);
-		// }
+		this.buildBean(t, null);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> void buildBean(T t, String[] exceptParameters) {
+		Set<String> set = new HashSet<String>();
+		List<String> list = new ArrayList<String>();
+		if (exceptParameters != null) {
+			for (String s : exceptParameters) {
+				set.add(s);
+			}
+		}
 		Enumeration<String> e = this.getParameterNames();
 		while (e.hasMoreElements()) {
-			Field field = classInfo.getField(e.nextElement());
+			String v = e.nextElement();
+			if (!set.contains(v)) {
+				list.add(v);
+			}
+		}
+		ClassInfo<T> classInfo = (ClassInfo<T>) ClassInfoFactory.getClassInfo(t
+				.getClass());
+		for (String name : list) {
+			Field field = classInfo.getField(name);
 			if (field != null) {
 				this.setFieldValue(field, t);
 			}
