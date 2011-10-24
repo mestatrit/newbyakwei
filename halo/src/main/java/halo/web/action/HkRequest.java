@@ -138,6 +138,14 @@ public interface HkRequest extends HttpServletRequest {
 	<T> void buildBean(T t);
 
 	/**
+	 * 对给定对象属性通过request赋值，不存在的parameter将不会赋值
+	 * 
+	 * @param t
+	 * @param exceptParameters 不通过patameter进行赋值的属性名称
+	 */
+	<T> void buildBean(T t, String[] exceptParameters);
+
+	/**
 	 * 设置获得日期的格式化类
 	 * 
 	 * @param dateFormat
