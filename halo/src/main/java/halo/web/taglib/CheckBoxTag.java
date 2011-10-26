@@ -41,8 +41,8 @@ public class CheckBoxTag extends BaseTag {
 	@Override
 	protected void adapter(JspWriter writer) throws IOException {
 		writer.append("<input type=\"checkbox\"");
-		if (this.id != null) {
-			writer.append(" id=\"").append(this.id.toString()).append("\"");
+		if (this.oid != null) {
+			writer.append(" id=\"").append(this.oid.toString()).append("\"");
 		}
 		if (this.name != null) {
 			writer.append(" name=\"").append(this.name.toString()).append("\"");
