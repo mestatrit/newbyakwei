@@ -93,6 +93,10 @@ public class ObjectValidator {
 				value = field.get(instance);
 				this.parseExpr(e.getValue());
 				validator = this.validatorCreator.getValidator(tmp_key);
+				if (validator == null) {
+					throw new RuntimeException("unknown validate [ "
+							+ e.getValue() + " ]");
+				}
 				if (!validator.exec(this.jsonObj, value)) {
 					list.add(new ErrResult(e.getKey(), this.tmp_message));
 				}
