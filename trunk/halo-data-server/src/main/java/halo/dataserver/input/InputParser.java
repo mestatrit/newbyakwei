@@ -1,6 +1,5 @@
 package halo.dataserver.input;
 
-import halo.dataserver.sqlinfo.InputSqlInfo;
 
 public interface InputParser {
 

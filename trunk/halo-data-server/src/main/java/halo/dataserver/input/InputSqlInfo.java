@@ -1,4 +1,6 @@
-package halo.dataserver.sqlinfo;
+package halo.dataserver.input;
+
+import halo.dataserver.sqlinfo.SqlParameter;
 
 import java.util.List;
 import java.util.Map;
