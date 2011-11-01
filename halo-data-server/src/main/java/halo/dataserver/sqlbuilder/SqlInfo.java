@@ -1,6 +1,6 @@
 package halo.dataserver.sqlbuilder;
 
-import halo.dataserver.sqlinfo.SqlParameter;
+import halo.dataserver.pub.SqlParameter;
 
 import java.util.List;
 
