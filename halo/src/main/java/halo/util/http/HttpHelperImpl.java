@@ -134,9 +134,9 @@ public class HttpHelperImpl implements HttpHelper {
 			is = method.getResponseBodyAsStream();
 			reader = new BufferedReader(new InputStreamReader(is, "utf-8"));
 			StringBuilder sb = new StringBuilder();
-			String tmp = null;
-			while ((tmp = reader.readLine()) != null) {
-				sb.append(tmp);
+			char[] ch = new char[3096];
+			while (reader.read(ch) != -1) {
+				sb.append(ch);
 			}
 			httpResponse.setStatusCode(method.getStatusCode());
 			httpResponse.setStatusText(method.getStatusText());
