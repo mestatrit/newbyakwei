@@ -40,12 +40,6 @@ public class Project {
 	private String addr;
 
 	/**
-	 * 排序号，从大到小
-	 */
-	@Column
-	private long order_flag;
-
-	/**
 	 * 是否激活
 	 */
 	@Column
@@ -85,7 +79,7 @@ public class Project {
 	 * 图片路径
 	 */
 	@Column
-	private String path;
+	private String path = "";
 
 	/**
 	 * 容积率
@@ -110,12 +104,6 @@ public class Project {
 	 */
 	@Column
 	private String carspace;
-
-	/**
-	 * 建筑年代
-	 */
-	@Column
-	private String buildtime;
 
 	/**
 	 * 建筑类别
@@ -200,14 +188,6 @@ public class Project {
 		this.carspace = carspace;
 	}
 
-	public String getBuildtime() {
-		return buildtime;
-	}
-
-	public void setBuildtime(String buildtime) {
-		this.buildtime = buildtime;
-	}
-
 	public String getBuildtype() {
 		return buildtype;
 	}
@@ -270,14 +250,6 @@ public class Project {
 
 	public String getAddr() {
 		return addr;
-	}
-
-	public long getOrder_flag() {
-		return order_flag;
-	}
-
-	public void setOrder_flag(long orderFlag) {
-		order_flag = orderFlag;
 	}
 
 	public int getActive_flag() {
