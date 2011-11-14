@@ -142,7 +142,6 @@ var err_code_<%=Err.PROJECT_CATID_ERR%>={objid:"err_catid"};
 var err_code_<%=Err.PROJECT_DID_ERR%>={objid:"err_did"};
 var err_code_<%=Err.PROJECT_RONGJILV_ERR%>={objid:"err_rongjilv"};
 var err_code_<%=Err.PROJECT_LVHUALV_ERR%>={objid:"err_lvhualv"};
-var err_code_<%=Err.PROJECT_BUILDTIME_ERR%>={objid:"err_buildtime"};
 var err_code_<%=Err.PROJECT_BUILDTYPE_ERR%>={objid:"err_buildtype"};
 var err_code_<%=Err.PROJECT_MRATE_ERR%>={objid:"err_mrate"};
 var err_code_<%=Err.PROJECT_TRAFFIC_ERR%>={objid:"err_traffic"};
@@ -168,7 +167,6 @@ function subfrm(frmid){
 	setHtml('err_did','');
 	setHtml('err_rongjilv','');
 	setHtml('err_lvhualv','');
-	setHtml('err_buildtime','');
 	setHtml('err_buildtype','');
 	setHtml('err_mrate','');
 	setHtml('err_mtype','');

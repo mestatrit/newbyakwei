@@ -65,12 +65,6 @@
 					</td>
 				</tr>
 				<tr>
-					<td width="90" align="right">建筑年代</td>
-					<td>
-						<hk:value value="${project.buildtime}"/>
-					</td>
-				</tr>
-				<tr>
 					<td width="90" align="right">建筑类表</td>
 					<td>
 						<hk:value value="${project.buildtype}"/>
