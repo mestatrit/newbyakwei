@@ -39,9 +39,6 @@ public class ProjectValidate {
 		if (!HaloValidate2.validateEmptyAndLength(o.getCarspace(), 50)) {
 			list.add(Err.PROJECT_CARSPACE_ERR);
 		}
-		if (!HaloValidate2.validateEmptyAndLength(o.getBuildtime(), 20)) {
-			list.add(Err.PROJECT_BUILDTIME_ERR);
-		}
 		if (!HaloValidate2.validateEmptyAndLength(o.getBuildtype(), 20)) {
 			list.add(Err.PROJECT_BUILDTYPE_ERR);
 		}
