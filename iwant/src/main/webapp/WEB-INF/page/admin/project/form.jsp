@@ -88,14 +88,6 @@
 		</td>
 	</tr>
 	<tr>
-		<td width="90" align="right">建筑年代</td>
-		<td>
-			<input maxlength="30" name="buildtime" value="<hk:value value="${project.buildtime }" onerow="true"/>" class="text"/>
-			<div class="ruo"><hk:data key="40"/></div>
-			<div class="infowarn" id="err_buildtime"></div>
-		</td>
-	</tr>
-	<tr>
 		<td width="90" align="right">建筑类型</td>
 		<td>
 			<input maxlength="30" name="buildtype" value="<hk:value value="${project.buildtype }" onerow="true"/>" class="text"/>
