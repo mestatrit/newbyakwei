@@ -44,8 +44,10 @@ public class RadioTag extends BaseTag {
 		if (value != null) {
 			writer.append(" value=\"").append(value.toString()).append("\"");
 		}
-		if (this.value != null && parent.getCheckedvalue() != null
-				&& this.value.equals(parent.getCheckedvalue())) {
+		if (this.value != null
+				&& parent.getCheckedvalue() != null
+				&& this.value.toString().equals(
+						parent.getCheckedvalue().toString())) {
 			writer.append(" checked=\"checked\"");
 		}
 		writer.append("/>");
