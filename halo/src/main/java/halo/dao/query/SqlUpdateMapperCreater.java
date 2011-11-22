@@ -76,6 +76,10 @@ public class SqlUpdateMapperCreater extends ClassLoader implements Opcodes {
 	private <T> void visitGetIdParam(ClassWriter classWriter,
 			MethodVisitor methodVisitor, Field field,
 			ObjectSqlInfo<T> objectSqlInfo) {
+		if (field == null) {
+			throw new RuntimeException("no id field in "
+					+ objectSqlInfo.getClazz().getName());
+		}
 		MethodVisitor _methodVisitor = methodVisitor;
 		_methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "getIdParam", "("
 				+ Type.getDescriptor(objectSqlInfo.getClazz())
