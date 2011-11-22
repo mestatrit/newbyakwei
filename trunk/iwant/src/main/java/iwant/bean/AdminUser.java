@@ -35,7 +35,7 @@ public class AdminUser {
 	}
 
 	/**
-	 *通过加密字符来创建对象,不会对密码字段赋值
+	 * 通过加密字符来创建对象,不会对密码字段赋值
 	 * 
 	 * @param secretKey
 	 * @throws NoAdminUserException
@@ -131,33 +131,35 @@ public class AdminUser {
 	}
 
 	public static void main(String[] args) {
-//		P.println("guilinadmin");
-//		P.println(desUtil.encrypt("adminekgjegke"));
-//		P.println("liuzhouadmin");
-//		P.println(desUtil.encrypt("adminelgcdifj"));
-//		P.println("wuzhouadmin");
-//		P.println(desUtil.encrypt("adminefdkvefg"));
-//		P.println("beihaiadmin");
-//		P.println(desUtil.encrypt("adminejgcxeid"));
-//		P.println("fangchenggangadmin");
-//		P.println(desUtil.encrypt("admingpeitoew"));
-//		P.println("qinzhouadmin");
-//		P.println(desUtil.encrypt("admindjetiwow"));
-//		P.println("guigangadmin");
-//		P.println(desUtil.encrypt("admineurnchew"));
-//		P.println("yulinadmin");
-//		P.println(desUtil.encrypt("adminowpppppe"));
-//		P.println("baiseadmin");
-//		P.println(desUtil.encrypt("adminewqpeotm"));
-//		P.println("hezhouadmin");
-//		P.println(desUtil.encrypt("adminwiejdmeo"));
-//		P.println("hechiadmin");
-//		P.println(desUtil.encrypt("admineueyrtww"));
-//		P.println("laibinadmin");
-//		P.println(desUtil.encrypt("admindmdbcgew"));
-//		P.println("chongzuoadmin");
-//		P.println(desUtil.encrypt("admineueyfhwt"));
-		P.println("huizhou");
-		P.println(desUtil.encrypt("adminkeugjdsk"));
+		// P.println("guilinadmin");
+		// P.println(desUtil.encrypt("adminekgjegke"));
+		// P.println("liuzhouadmin");
+		// P.println(desUtil.encrypt("adminelgcdifj"));
+		// P.println("wuzhouadmin");
+		// P.println(desUtil.encrypt("adminefdkvefg"));
+		// P.println("beihaiadmin");
+		// P.println(desUtil.encrypt("adminejgcxeid"));
+		// P.println("fangchenggangadmin");
+		// P.println(desUtil.encrypt("admingpeitoew"));
+		// P.println("qinzhouadmin");
+		// P.println(desUtil.encrypt("admindjetiwow"));
+		// P.println("guigangadmin");
+		// P.println(desUtil.encrypt("admineurnchew"));
+		// P.println("yulinadmin");
+		// P.println(desUtil.encrypt("adminowpppppe"));
+		// P.println("baiseadmin");
+		// P.println(desUtil.encrypt("adminewqpeotm"));
+		// P.println("hezhouadmin");
+		// P.println(desUtil.encrypt("adminwiejdmeo"));
+		// P.println("hechiadmin");
+		// P.println(desUtil.encrypt("admineueyrtww"));
+		// P.println("laibinadmin");
+		// P.println(desUtil.encrypt("admindmdbcgew"));
+		// P.println("chongzuoadmin");
+		// P.println(desUtil.encrypt("admineueyfhwt"));
+		// P.println("huizhou");
+		// P.println(desUtil.encrypt("adminkeugjdsk"));
+		P.println("foshan");
+		P.println(desUtil.encrypt("adminekgurl"));
 	}
 }
