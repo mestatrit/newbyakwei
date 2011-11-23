@@ -56,7 +56,9 @@ public class CheckBoxTag extends BaseTag {
 		}
 		if (this.value != null) {
 			if (this.checkedvalue != null) {
-				if (this.value.equals(this.checkedvalue.toString())) {
+				String s_v = this.value.toString();
+				String s_ch = this.checkedvalue.toString();
+				if (s_v.equals(s_ch)) {
 					writer.append(" checked=\"checked\"");
 				}
 				if (this.checkedvalues != null) {
