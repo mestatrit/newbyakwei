@@ -80,6 +80,7 @@ public class SlideAction extends BaseAction {
 	 * @throws Exception
 	 */
 	public String update(HkRequest req, HkResponse resp) {
+		req.reSetAttribute("projectid");
 		Slide slide = this.pptSvr.getSlide(req.getLongAndSetAttr("slideid"));
 		if (slide == null) {
 			return null;
