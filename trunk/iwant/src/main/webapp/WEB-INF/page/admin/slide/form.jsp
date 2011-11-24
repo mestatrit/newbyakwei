@@ -3,7 +3,7 @@
 %>
 <form id="frm" method="post" enctype="multipart/form-data" onsubmit="subfrm(this.id)" target="hideframe" action="${form_action }">
 <input type="hidden" name="ch" value="1"/>
-<input type="hidden" name="projectid" value="${slide.projectid}"/>
+<input type="hidden" name="projectid" value="${projectid}"/>
 <input type="hidden" name="slideid" value="${slideid}"/>
 <table class="formt">
 	<tr>
@@ -34,7 +34,7 @@
 		<td width="90" align="right"></td>
 		<td>
 			<input type="submit" value="提交" class="btn split-r"/>
-			<a href="${appctx_path }/mgr/slide.do?projectid=${slide.projectid}">返回</a>
+			<a href="${appctx_path }/mgr/slide.do?projectid=${projectid}">返回</a>
 		</td>
 	</tr>
 </table>
@@ -85,17 +85,17 @@ function updateerr(json,errorlist){
 
 function createok(err,err_msg,v){
 	if(getObj('file_').value.length>0){
-		tourl('${appctx_path}/mgr/slide_setpic1.do?projectid=${slide.projectid}&slideid='+v);
+		tourl('${appctx_path}/mgr/slide_setpic1.do?projectid=${projectid}&slideid='+v);
 		return;
 	}
-	tourl('${appctx_path}/mgr/slide.do?projectid=${slide.projectid}');
+	tourl('${appctx_path}/mgr/slide.do?projectid=${projectid}');
 }
 
 function updateok(err,err_msg,v){
 	if(getObj('file_').value.length>0){
-		tourl('${appctx_path}/mgr/slide_setpic1.do?projectid=${slide.projectid}&slideid=${slideid}');
+		tourl('${appctx_path}/mgr/slide_setpic1.do?projectid=${projectid}&slideid=${slideid}');
 		return;
 	}
-	tourl('${appctx_path}/mgr/slide.do?projectid=${slide.projectid}');
+	tourl('${appctx_path}/mgr/slide.do?projectid=${projectid}');
 }
 </script>
