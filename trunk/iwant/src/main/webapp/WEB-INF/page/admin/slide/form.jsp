@@ -85,17 +85,17 @@ function updateerr(json,errorlist){
 
 function createok(err,err_msg,v){
 	if(getObj('file_').value.length>0){
-		tourl('${appctx_path}/mgr/slide_setpic1.do?projectid=${projectid}&slideid='+v);
+		tourl('${appctx_path}/mgr/slide_setpic1.do?projectid=${slide.projectid}&slideid='+v);
 		return;
 	}
-	tourl('${appctx_path}/mgr/slide.do?projectid=${projectid}');
+	tourl('${appctx_path}/mgr/slide.do?projectid=${slide.projectid}');
 }
 
 function updateok(err,err_msg,v){
 	if(getObj('file_').value.length>0){
-		tourl('${appctx_path}/mgr/slide_setpic1.do?projectid=${projectid}&slideid=${slideid}');
+		tourl('${appctx_path}/mgr/slide_setpic1.do?projectid=${slide.projectid}&slideid=${slideid}');
 		return;
 	}
-	tourl('${appctx_path}/mgr/slide.do?projectid=${projectid}');
+	tourl('${appctx_path}/mgr/slide.do?projectid=${slide.projectid}');
 }
 </script>
