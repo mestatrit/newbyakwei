@@ -3,7 +3,7 @@
 %>
 <form id="frm" method="post" enctype="multipart/form-data" onsubmit="subfrm(this.id)" target="hideframe" action="${form_action }">
 <input type="hidden" name="ch" value="1"/>
-<input type="hidden" name="projectid" value="${projectid}"/>
+<input type="hidden" name="projectid" value="${slide.projectid}"/>
 <input type="hidden" name="slideid" value="${slideid}"/>
 <table class="formt">
 	<tr>
@@ -34,7 +34,7 @@
 		<td width="90" align="right"></td>
 		<td>
 			<input type="submit" value="提交" class="btn split-r"/>
-			<a href="${appctx_path }/mgr/slide.do?projectid=${projectid}">返回</a>
+			<a href="${appctx_path }/mgr/slide.do?projectid=${slide.projectid}">返回</a>
 		</td>
 	</tr>
 </table>
