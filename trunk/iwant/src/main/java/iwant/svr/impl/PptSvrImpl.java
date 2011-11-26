@@ -60,7 +60,7 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public void createSlide(Slide slide, File imgFile)
+	public void createSlideTx(Slide slide, File imgFile)
 			throws ImageProcessException {
 		this.processSlideImage(slide, imgFile);
 		int count = this.slideDao.countByProjectid(slide.getProjectid());
@@ -75,7 +75,7 @@ public class PptSvrImpl implements PptSvr {
 	}
 
 	@Override
-	public void updateSlide(Slide slide, File imgFile)
+	public void updateSlideTx(Slide slide, File imgFile)
 			throws ImageProcessException {
 		String oldPic = slide.getPic_path();
 		if (imgFile != null) {
@@ -89,7 +89,7 @@ public class PptSvrImpl implements PptSvr {
 			this.projectDao.update(project);
 		}
 		else {
-			if (slide.getPic_path().equals(project.getPath())) {
+			if (oldPic.equals(project.getPath())) {
 				project.setPath(slide.getPic_path());
 				this.projectDao.update(project);
 			}

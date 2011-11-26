@@ -16,7 +16,7 @@ public interface PptSvr {
 	 * @param slide
 	 * @param imgFile
 	 */
-	void createSlide(Slide slide, File imgFile) throws ImageProcessException;
+	void createSlideTx(Slide slide, File imgFile) throws ImageProcessException;
 
 	/**
 	 * 更新幻灯页数据
@@ -24,7 +24,7 @@ public interface PptSvr {
 	 * @param slide
 	 * @param imgFile
 	 */
-	void updateSlide(Slide slide, File imgFile) throws ImageProcessException;
+	void updateSlideTx(Slide slide, File imgFile) throws ImageProcessException;
 
 	int countSlideByProjectid(long projectid);
 

@@ -63,7 +63,7 @@ public class SlideAction extends BaseAction {
 			return this.onErrorList(req, errlist, "createerr");
 		}
 		try {
-			this.pptSvr.createSlide(slide, imgFile);
+			this.pptSvr.createSlideTx(slide, imgFile);
 			this.opCreateSuccess(req);
 			return this.onSuccess(req, "createok", slide.getSlideid());
 		}
@@ -96,7 +96,7 @@ public class SlideAction extends BaseAction {
 			return this.onErrorList(req, errlist, "updateerr");
 		}
 		try {
-			this.pptSvr.updateSlide(slide, imgFile);
+			this.pptSvr.updateSlideTx(slide, imgFile);
 			this.opCreateSuccess(req);
 			return this.onSuccess(req, "updateok", null);
 		}
@@ -150,8 +150,8 @@ public class SlideAction extends BaseAction {
 		int slide_order_flag = slide.getOrder_flag();
 		slide.setOrder_flag(pos_slide.getOrder_flag());
 		pos_slide.setOrder_flag(slide_order_flag);
-		this.pptSvr.updateSlide(slide, null);
-		this.pptSvr.updateSlide(pos_slide, null);
+		this.pptSvr.updateSlideTx(slide, null);
+		this.pptSvr.updateSlideTx(pos_slide, null);
 		req.setSessionValue("myslideid", slideid);
 		return null;
 	}
