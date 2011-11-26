@@ -94,7 +94,13 @@
 						<a href="javascript:viewslidelist()" class="split-r">图片管理</a>
 						<a href="javascript:toupdate()" class="split-r">修改</a>
 						<a href="javascript:toupdatelatlng()" class="split-r">地图设置</a>
-						<a href="${appctx_path }/mgr/project.do">返回</a>
+						<c:set var="lastUrl" value="${backUrl.lastUrl }"/>
+						<c:if test="${not empty lastUrl }">
+							<a href="${lastUrl }">返回</a>
+						</c:if>
+						<c:if test="${empty lastUrl }">
+							<a href="${appctx_path }/mgr/project.do">返回</a>
+						</c:if>
 					</td>
 				</tr>
 			</table>

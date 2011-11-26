@@ -29,6 +29,9 @@
 					<c:if test="${idx.index>0}"><a href="javascript:chgposup(${slide.slideid })" class="split-r" id="op_chgposup${slide.slideid }">上移</a></c:if>
 					<c:if test="${idx.index<fn:length(list)-1}"><a href="javascript:chgposdown(${slide.slideid })" class="split-r" id="op_chgposdown${slide.slideid }">下移</a></c:if>
 					<a href="javascript:toupdateslide(${slide.slideid })" class="split-r" id="op_updateslide_${slide.slideid }">修改</a>
+					<c:if test="${project.path != slide.pic_path }">
+						<a href="javascript:setprojectpic(${slide.slideid })" class="split-r" id="op_setprojectpic_${slide.slideid }">设为项目主图</a>
+					</c:if>
 					<a href="javascript:opdelslide(${slide.slideid })" class="split-r" id="op_deleteslide_${slide.slideid }">删除</a>
 					</p>
 				</div>
@@ -134,6 +137,22 @@ function chgpos(slideid,pos_slideid,opobjid){
 	$.ajax({
 		type:"POST",
 		url:"${appctx_path}/mgr/slide_chgpos.do?slideid="+slideid+"&pos_slideid="+pos_slideid,
+		cache:false,
+    	dataType:"html",
+		success:function(data){
+			refreshurl();
+		},
+		error:function(data){
+			removeGlass(glassid_op);
+			alert('服务器出错，请刷新页面稍后继续操作');
+		}
+	});
+}
+function setprojectpic(slideid){
+	var glassid_op=addGlass("op_setprojectpic_"+slideid,true);
+	$.ajax({
+		type:"POST",
+		url:"${appctx_path}/mgr/slide_setprojectpic.do?slideid="+slideid,
 		cache:false,
     	dataType:"html",
 		success:function(data){
