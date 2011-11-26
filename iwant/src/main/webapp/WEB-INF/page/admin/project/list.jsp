@@ -26,6 +26,11 @@
 			</li>
 			<c:forEach var="project" items="${list }" varStatus="idx">
 			<li>
+				<div class="f_l imgcol">
+					<c:if test="${not empty project.path }">
+						<a href="javascript:view(${pproject.projectid })"><img src="${project.pic1Url }"/></a>
+					</c:if>
+				</div>
 				<div class="f_l" style="width: 150px;margin-right: 20px">
 					<a href="javascript:view(${project.projectid})"><hk:value value="${project.name }" onerow="true"/></a>
 				</div>
