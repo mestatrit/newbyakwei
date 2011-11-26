@@ -632,3 +632,12 @@ ul.mgrmenu li a.sel{
 	border: 1px solid #000000;
 	float: left;
 }
+.imgcol{
+	margin-right: 10px;
+	width: 40px;
+	height: 40px;
+}
+.imgcol img{
+	width: 40px;
+	height: 40px;
+}
