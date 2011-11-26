@@ -3,9 +3,11 @@ package iwant.web.admin;
 import halo.util.DataUtil;
 import halo.web.action.HkRequest;
 import halo.web.action.HkResponse;
+import iwant.bean.Project;
 import iwant.bean.Slide;
 import iwant.bean.validate.SlideValidator;
 import iwant.svr.PptSvr;
+import iwant.svr.ProjectSvr;
 import iwant.svr.exception.ImageProcessException;
 import iwant.svr.statusenum.UpdateSldePic0Result;
 import iwant.util.BackUrl;
@@ -26,9 +28,14 @@ public class SlideAction extends BaseAction {
 	@Autowired
 	private PptSvr pptSvr;
 
+	@Autowired
+	private ProjectSvr projectSvr;
+
 	@Override
 	public String execute(HkRequest req, HkResponse resp) throws Exception {
 		long projectid = req.getLongAndSetAttr("projectid");
+		Project project = this.projectSvr.getProject(projectid);
+		req.setAttribute("project", project);
 		List<Slide> list = this.pptSvr
 				.getSlideListByProjectid(projectid, 0, 50);
 		req.setAttribute("list", list);
@@ -131,6 +138,24 @@ public class SlideAction extends BaseAction {
 			return this.onSuccess(req, "updateok", null);
 		}
 		return this.onError(req, Err.PROCESS_IMAGEFILE_ERR, "updateerr", null);
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String setprojectpic(HkRequest req, HkResponse resp)
+			throws Exception {
+		Slide slide = this.pptSvr.getSlide(req.getLongAndSetAttr("slideid"));
+		if (slide == null) {
+			return null;
+		}
+		Project project = this.projectSvr.getProject(slide.getProjectid());
+		project.setPath(slide.getPic_path());
+		this.projectSvr.updateProject(project);
+		return null;
 	}
 
 	/**
