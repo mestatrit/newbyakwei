@@ -42,7 +42,7 @@ public class DeleteProjectJob {
 						o.getProjectid(), 0, 100);
 				while (!slideList.isEmpty()) {
 					for (Slide slide : slideList) {
-						this.pptSvr.deleteSlide(slide);
+						this.pptSvr.deleteSlideTx(slide);
 					}
 				}
 				this.projectSvr.deleteProjectRecycle(o);
