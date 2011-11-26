@@ -30,7 +30,7 @@ public interface PptSvr {
 
 	List<Slide> getSlideListByProjectid(long projectid, int begin, int size);
 
-	void deleteSlide(Slide slide);
+	void deleteSlideTx(Slide slide);
 
 	Slide getSlide(long slideid);
 

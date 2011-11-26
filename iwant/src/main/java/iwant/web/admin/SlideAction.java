@@ -167,7 +167,7 @@ public class SlideAction extends BaseAction {
 		if (slide == null) {
 			return null;
 		}
-		this.pptSvr.deleteSlide(slide);
+		this.pptSvr.deleteSlideTx(slide);
 		this.opDeleteSuccess(req);
 		return null;
 	}
