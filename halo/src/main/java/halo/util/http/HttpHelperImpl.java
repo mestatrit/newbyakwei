@@ -32,8 +32,6 @@ public class HttpHelperImpl implements HttpHelper {
 
 	// private InnerHttpMethodRetryHandler innerHttpMethodRetryHandler = new
 	// InnerHttpMethodRetryHandler();
-	private MultiThreadedHttpConnectionManager httpManager;
-
 	private boolean proxy;
 
 	private String proxyUrl;
@@ -44,7 +42,6 @@ public class HttpHelperImpl implements HttpHelper {
 
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
-		httpManager.getParams().setConnectionTimeout(this.timeout);
 	}
 
 	@Override
@@ -91,16 +88,11 @@ public class HttpHelperImpl implements HttpHelper {
 		this.proxyUrl = proxyUrl;
 	}
 
-	public HttpHelperImpl() {
-		httpManager = new MultiThreadedHttpConnectionManager();
-	}
-
-	private HttpConnectionManager getHttpManager() {
-		return httpManager;
-	}
-
 	private HttpClient createHttpClient() {
-		HttpClient client = new HttpClient(getHttpManager());
+		HttpClient client = new HttpClient();
+		client.getHttpConnectionManager().getParams()
+				.setConnectionTimeout(timeout);
+		client.getParams().setConnectionManagerTimeout(timeout);
 		if (proxy) {
 			HostConfiguration hcf = new HostConfiguration();
 			hcf.setProxy(this.proxyUrl, this.proxyPort);
@@ -248,7 +240,6 @@ public class HttpHelperImpl implements HttpHelper {
 		}
 		return method;
 	}
-
 	static class InnerPostMethod extends PostMethod {
 
 		public InnerPostMethod(String url) {
@@ -260,7 +251,6 @@ public class HttpHelperImpl implements HttpHelper {
 			return "UTF-8";
 		}
 	}
-
 	enum HttpMethodEnum {
 		GET(0), POST(1), MULTIPOST(2);
 
@@ -274,7 +264,6 @@ public class HttpHelperImpl implements HttpHelper {
 			return value;
 		}
 	}
-
 	static class InnerHttpMethodRetryHandler extends
 			DefaultHttpMethodRetryHandler {
 
