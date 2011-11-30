@@ -15,10 +15,8 @@ import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -30,8 +28,6 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 
 public class HttpHelperImpl implements HttpHelper {
 
-	// private InnerHttpMethodRetryHandler innerHttpMethodRetryHandler = new
-	// InnerHttpMethodRetryHandler();
 	private boolean proxy;
 
 	private String proxyUrl;
