@@ -56,8 +56,8 @@ public class ProjectDaoImpl extends BaseDao<Project> implements ProjectDao {
 			objlist.add(projectSearchCdn.getDid());
 		}
 		return this.getList(null, sb.toString(),
-				objlist.toArray(new Object[objlist.size()]), "projectid desc",
-				begin, size);
+				objlist.toArray(new Object[objlist.size()]),
+				"order_flg asc,projectid desc", begin, size);
 	}
 
 	@Override
