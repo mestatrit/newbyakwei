@@ -104,6 +104,18 @@ public class ProjectSvrImpl implements ProjectSvr {
 	}
 
 	@Override
+	public void changeProjectOrder_flg(long projectid, long chg_projectid) {
+		Project project = this.getProject(projectid);
+		Project chg_Project = this.getProject(chg_projectid);
+		if (project != null && chg_Project != null) {
+			this.projectDao.updateOrder_flg(chg_projectid,
+					project.getOrder_flg());
+			this.projectDao.updateOrder_flg(projectid,
+					chg_Project.getOrder_flg());
+		}
+	}
+
+	@Override
 	public void tempupdate() {
 		int begin = 0;
 		int size = 100;
@@ -122,5 +134,10 @@ public class ProjectSvrImpl implements ProjectSvr {
 			list = this.projectDao.getList(null, null, "projectid desc", begin,
 					size);
 		}
+	}
+
+	@Override
+	public void updateProjectOrder_flg(long projectid, int order_flg) {
+		this.projectDao.updateOrder_flg(projectid, order_flg);
 	}
 }

@@ -132,6 +132,17 @@ public class Project {
 	@Column
 	private String avrprice;
 
+	@Column
+	private int order_flg;
+
+	public int getOrder_flg() {
+		return order_flg;
+	}
+
+	public void setOrder_flg(int order_flg) {
+		this.order_flg = order_flg;
+	}
+
 	public String getAvrprice() {
 		return avrprice;
 	}
