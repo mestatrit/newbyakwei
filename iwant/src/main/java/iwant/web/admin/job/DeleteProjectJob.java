@@ -7,8 +7,6 @@ import iwant.svr.ProjectSvr;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -26,8 +24,7 @@ public class DeleteProjectJob {
 
 	private boolean processing;
 
-	private final Log log = LogFactory.getLog(DeleteProjectJob.class);
-
+	// private final Log log = LogFactory.getLog(DeleteProjectJob.class);
 	public void invoke() {
 		if (processing) {
 			return;
@@ -49,7 +46,7 @@ public class DeleteProjectJob {
 			}
 		}
 		catch (Exception e) {
-			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 		this.processing = false;
 	}
