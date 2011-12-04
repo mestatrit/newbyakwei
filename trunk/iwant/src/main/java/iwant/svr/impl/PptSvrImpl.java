@@ -52,25 +52,27 @@ public class PptSvrImpl implements PptSvr {
 		this.deleteSlideOldPic(slide.getPic_path());
 		this.slideDao.deleteById(slide.getSlideid());
 		Project project = this.projectDao.getById(slide.getProjectid());
-		boolean updateProjectPath = false;
-		if (DataUtil.isEmpty(project.getPath())) {
-			updateProjectPath = true;
-		}
-		else {
-			if (slide.getPic_path().equals(project.getPath())) {
+		if (project != null) {
+			boolean updateProjectPath = false;
+			if (DataUtil.isEmpty(project.getPath())) {
 				updateProjectPath = true;
 			}
-		}
-		if (updateProjectPath) {
-			List<Slide> list = this.slideDao.getListByProjectid(
-					slide.getProjectid(), 0, 1);
-			if (!list.isEmpty()) {
-				project.setPath(list.get(0).getPic_path());
-			}
 			else {
-				project.setPath("");
+				if (slide.getPic_path().equals(project.getPath())) {
+					updateProjectPath = true;
+				}
 			}
-			this.projectDao.update(project);
+			if (updateProjectPath) {
+				List<Slide> list = this.slideDao.getListByProjectid(
+						slide.getProjectid(), 0, 1);
+				if (!list.isEmpty()) {
+					project.setPath(list.get(0).getPic_path());
+				}
+				else {
+					project.setPath("");
+				}
+				this.projectDao.update(project);
+			}
 		}
 	}
 
