@@ -21,7 +21,10 @@
 		</div>
 		<ul class="rowlist">
 			<li>
+				<div class="f_l imgcol">
+				</div>
 				<div class="f_l" style="width: 150px;margin-right: 20px">名称</div>
+				<div class="f_l" style="width: 150px;margin-right: 20px">顺序号</div>
 				<div class="clr"></div>
 			</li>
 			<c:forEach var="project" items="${list }" varStatus="idx">
