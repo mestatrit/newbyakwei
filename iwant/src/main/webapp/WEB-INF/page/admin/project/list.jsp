@@ -42,6 +42,7 @@
 				</div>
 				<div class="f_l">
 					<a href="javascript:toupdate(${project.projectid })" class="split-r" id="op_update_${project.projectid }">修改</a>
+					<a href="javascript:showOrderWin(${project.projectid },${project.order_flg })" class="split-r">修改序号</a>
 					<a href="javascript:opdel(${project.projectid })" class="split-r" id="op_delete_${project.projectid }">删除</a>
 				</div>
 				<div class="clr"></div>
@@ -66,9 +67,9 @@ $(document).ready(function(){
 		$(this).removeClass('enter');
 	});
 });
-function showOrderWin(projectid){
-	var html='<div id="op_order_'+projectid+'"><input id="id_order" type="text" class="text" style="width: 70px"/><input type="button" onclick="setorder('+projectid+')" class="btn"/></div>';
-	createWin("orderwin",300,200,"更改序号",html,"hideOrderwin()");
+function showOrderWin(projectid,order_flg){
+	var html='<div id="op_order_'+projectid+'"><div>序号越小，排名越靠前</div><input id="id_order" type="text" class="text" value="'+order_flg+'" maxlength="10" style="width: 150px"/><input type="button" onclick="setorder('+projectid+')" class="btn" value="提交"/></div>';
+	createWin("orderwin",350,200,"更改序号",html,"hideOrderwin()");
 }
 function hideOrderwin(){
 	hideWindow("orderwin");
