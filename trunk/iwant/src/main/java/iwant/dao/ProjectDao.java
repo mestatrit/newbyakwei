@@ -15,4 +15,6 @@ public interface ProjectDao extends IDao<Project> {
 			int size);
 
 	List<Project> getListByDid(int did, int begin, int size);
+
+	void updateOrder_flg(long projectid, int order_flg);
 }

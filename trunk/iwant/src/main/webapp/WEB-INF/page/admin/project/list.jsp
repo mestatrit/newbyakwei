@@ -34,6 +34,9 @@
 				<div class="f_l" style="width: 150px;margin-right: 20px">
 					<a href="javascript:view(${project.projectid})"><hk:value value="${project.name }" onerow="true"/></a>
 				</div>
+				<div class="f_l" style="width: 150px;margin-right: 20px">
+					${project.order_flg }
+				</div>
 				<div class="f_l">
 					<a href="javascript:toupdate(${project.projectid })" class="split-r" id="op_update_${project.projectid }">修改</a>
 					<a href="javascript:opdel(${project.projectid })" class="split-r" id="op_delete_${project.projectid }">删除</a>
@@ -51,6 +54,7 @@
 		</div>
 	</div>
 </div>
+
 <script type="text/javascript">
 $(document).ready(function(){
 	$('ul.rowlist li').bind('mouseenter', function(){
@@ -59,6 +63,29 @@ $(document).ready(function(){
 		$(this).removeClass('enter');
 	});
 });
+function showOrderWin(projectid){
+	var html='<div id="op_order_'+projectid+'"><input id="id_order" type="text" class="text" style="width: 70px"/><input type="button" onclick="setorder('+projectid+')" class="btn"/></div>';
+	createWin("orderwin",300,200,"更改序号",html,"hideOrderwin()");
+}
+function hideOrderwin(){
+	hideWindow("orderwin");
+}
+function setorder(projectid){
+	var glassid_op=addGlass('op_order_'+projectid,false);
+	$.ajax({
+		type:"POST",
+		url:"${appctx_path}/mgr/project_setorderflg.do?projectid="+projectid+"&order_flg="+getObj('id_order').value,
+		cache:false,
+    	dataType:"html",
+		success:function(data){
+			refreshurl();
+		},
+		error:function(data){
+			removeGlass(glassid_op);
+			alert('服务器出错，请刷新页面稍后继续操作');
+		}
+	});
+}
 function tocreate(){
 	tourl('${appctx_path}/mgr/project_create.do');
 }

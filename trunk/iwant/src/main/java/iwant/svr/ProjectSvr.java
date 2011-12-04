@@ -23,6 +23,10 @@ public interface ProjectSvr {
 	 */
 	void updateProject(Project project) throws DistrictNotFoundException;
 
+	void changeProjectOrder_flg(long projectid, long chg_projectid);
+
+	void updateProjectOrder_flg(long projectid, int order_flg);
+
 	/**
 	 * 获得project
 	 * 

@@ -149,6 +149,32 @@ public class ProjectAction extends BaseAction {
 	 * @param req
 	 * @param resp
 	 * @return
+	 * @throws Exception
+	 */
+	public String setorderflg(HkRequest req, HkResponse resp) throws Exception {
+		long projectid = req.getLong("projectid");
+		int order_flg = req.getInt("order_flg");
+		this.projectSvr.updateProjectOrder_flg(projectid, order_flg);
+		return null;
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
+	 * @throws Exception
+	 */
+	public String chgorderflg(HkRequest req, HkResponse resp) throws Exception {
+		long projectid = req.getLong("projectid");
+		long chg_projectid = req.getLong("chg_projectid");
+		this.projectSvr.changeProjectOrder_flg(projectid, chg_projectid);
+		return null;
+	}
+
+	/**
+	 * @param req
+	 * @param resp
+	 * @return
 	 */
 	public String updatelatlng(HkRequest req, HkResponse resp) {
 		long projectid = req.getLongAndSetAttr("projectid");
