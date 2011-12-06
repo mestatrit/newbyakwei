@@ -89,6 +89,7 @@ public class ProjectSvrImpl implements ProjectSvr {
 		return this.projectDao.getListByCdn(projectSearchCdn, begin, size);
 	}
 
+	@Override
 	public List<ProjectRecycle> getProjectRecycleList(int begin, int size) {
 		return this.projectRecycleDao.getList(begin, size);
 	}
