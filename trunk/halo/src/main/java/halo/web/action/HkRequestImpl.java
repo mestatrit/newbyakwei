@@ -536,10 +536,12 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 		this.dateFormat = dateFormat;
 	}
 
+	@Override
 	public <T> void buildBean(T t) {
 		this.buildBean(t, null);
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> void buildBean(T t, String[] exceptParameters) {
 		Set<String> set = new HashSet<String>();
