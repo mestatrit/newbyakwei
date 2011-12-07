@@ -114,16 +114,6 @@ public class ServletUtil {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		finally {
-			if (writer != null) {
-				try {
-					writer.close();
-				}
-				catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
 	}
 
 	public static Number[] getNumbers(HttpServletRequest request, String key) {
@@ -341,16 +331,6 @@ public class ServletUtil {
 		}
 		catch (IOException e) {
 			throw new RuntimeException(e);
-		}
-		finally {
-			if (writer != null) {
-				try {
-					writer.close();
-				}
-				catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 	}
 
