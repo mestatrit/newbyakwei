@@ -4,6 +4,7 @@ package halo.web.action.upload.cos;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
 import javax.servlet.ServletInputStream;
 
 /**
