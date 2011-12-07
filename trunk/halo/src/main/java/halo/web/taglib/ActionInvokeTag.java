@@ -11,6 +11,12 @@ public class ActionInvokeTag extends BaseTag {
 
 	private String mappinguri;
 
+	private boolean flush;
+
+	public void setFlush(boolean flush) {
+		this.flush = flush;
+	}
+
 	public void setMappinguri(String mappinguri) {
 		this.mappinguri = mappinguri;
 	}
@@ -21,6 +27,9 @@ public class ActionInvokeTag extends BaseTag {
 
 	@Override
 	protected void adapter(JspWriter writer) throws Exception {
+		if (flush) {
+			writer.flush();
+		}
 		ActionExe actionExe = WebCnf.getInstance().getActionExe();
 		if (actionExe == null) {
 			return;
