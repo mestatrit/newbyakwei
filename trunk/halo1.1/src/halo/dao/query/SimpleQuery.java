@@ -118,7 +118,9 @@ public class SimpleQuery {
 		StringBuilder sb = new StringBuilder("update ");
 		sb.append(partitionTableInfo.getTableName());
 		sb.append(" set ").append(updateSqlSegment);
-		sb.append(" where ").append(where);
+		if (where != null) {
+			sb.append(" where ").append(where);
+		}
 		return this.hkObjQuery.updateBySQL(partitionTableInfo.getDsKey(),
 				sb.toString(), params);
 	}
