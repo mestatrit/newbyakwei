@@ -1,5 +1,7 @@
 package halo.dao.query;
 
+import halo.util.NumberUtil;
+
 import java.util.List;
 import java.util.Map;
 
@@ -86,6 +88,10 @@ public class HkObjQuery extends HkQuery {
 				SqlBuilder.createInsertSQL(partitionTableInfo,
 						objectSqlInfo.getColumns()), objectSqlInfo
 						.getSqlUpdateMapper().getParamsForInsert(t));
+	}
+
+	public <T> Object insertObjForNumber(String key, Object keyValue, T t) {
+		return NumberUtil.getNumber(this.insertObj(key, keyValue, t));
 	}
 
 	@SuppressWarnings("unchecked")
