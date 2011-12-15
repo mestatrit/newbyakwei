@@ -21,6 +21,10 @@ public class HkQuery {
 		this.querySupport = querySupport;
 	}
 
+	public QuerySupport getQuerySupport() {
+		return querySupport;
+	}
+
 	/**
 	 * 获rowmapper，先从表映射的对象开始匹配，如果没有，就到结果集resultsetdata中进行查找
 	 * 

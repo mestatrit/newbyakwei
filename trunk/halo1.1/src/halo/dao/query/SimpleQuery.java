@@ -20,6 +20,10 @@ public class SimpleQuery {
 		this.hkObjQuery = hkObjQuery;
 	}
 
+	public HkObjQuery getHkObjQuery() {
+		return hkObjQuery;
+	}
+
 	public <T> int count(Class<T> clazz, String where, Object[] params) {
 		CountParam countParam = new CountParam();
 		countParam.addClass(clazz);
