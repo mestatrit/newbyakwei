@@ -93,18 +93,17 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 	private TableCnf createTableCnfFromClass(Class<?> clazz) {
 		String className = clazz.getName();
 		Table table = clazz.getAnnotation(Table.class);
-		if (table != null) {
-			TableCnf tableCnf = new TableCnf();
-			tableCnf.setClassName(className);
-			tableCnf.setDbPartitionHelper(this
-					.getDbPartitionHelperFromTableAnnotation(table));
-			log.info("load tablebean [ " + tableCnf.getClassName()
-					+ " ] with helper [ "
-					+ tableCnf.getDbPartitionHelper().getClass().getName()
-					+ " ]");
-			return tableCnf;
+		if (table == null) {
+			throw new RuntimeException(className + " no tableCnf");
 		}
-		return null;
+		TableCnf tableCnf = new TableCnf();
+		tableCnf.setClassName(className);
+		tableCnf.setDbPartitionHelper(this
+				.getDbPartitionHelperFromTableAnnotation(table));
+		log.info("load tablebean [ " + tableCnf.getClassName()
+				+ " ] with helper [ "
+				+ tableCnf.getDbPartitionHelper().getClass().getName() + " ]");
+		return tableCnf;
 	}
 
 	private DbPartitionHelper getDbPartitionHelperFromTableAnnotation(

@@ -90,7 +90,7 @@ public class HkObjQuery extends HkQuery {
 						.getSqlUpdateMapper().getParamsForInsert(t));
 	}
 
-	public <T> Object insertObjForNumber(String key, Object keyValue, T t) {
+	public <T> Number insertObjForNumber(String key, Object keyValue, T t) {
 		return NumberUtil.getNumber(this.insertObj(key, keyValue, t));
 	}
 
