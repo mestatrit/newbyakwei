@@ -300,7 +300,7 @@ public class ServletUtil {
 	}
 
 	public static void sendJson(HttpServletResponse response, String value) {
-		response.setContentType("text/json;charset=UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
 		StringBuilder sb = new StringBuilder();
 		sb.append(value);
 		sendValue(response, sb.toString());
