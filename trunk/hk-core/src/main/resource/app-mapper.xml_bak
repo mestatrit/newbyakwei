@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:flow="http://www.springframework.org/schema/webflow-config" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms" xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:osgi-compendium="http://www.springframework.org/schema/osgi-compendium" xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+		http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	<bean id="tableClassRowMapperFactory" class="com.hk.frame.dao.mapper.TableClassRowMapperFactory">
+		<property name="list">
+			<list>
+				<bean class="com.hk.svr.pub.rowmapper.HkAdViewMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.HkAdMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserInviteConfigMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.InviteCodeDataMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.InviteCodeMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserCmpFuncMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserDateCheckInCmpMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.TmpDataMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.ObjPhotoMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserCmpEnjoyMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserEquipmentMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserEquEnjoyMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserCmpPointMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserEquPointMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.ApiUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CityMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.PcityMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.ProvinceMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CountryMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.IpCityMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.IpCityRangeMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CityCodeMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmdDataMapper" />
+				<!--
+					<bean class="com.hk.svr.pub.rowmapper.ReadyOpenBoxMapper" />
+				-->
+				<!-- event -->
+				<bean class="com.hk.svr.pub.rowmapper.NoticeMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.FeedMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.FeedInfoMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserRecentFeedMapper" />
+				<!-- information -->
+				<bean class="com.hk.svr.pub.rowmapper.InfoSmsPortMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.InformationMapper" />
+				<!-- group   -->
+				<bean class="com.hk.svr.pub.rowmapper.HkGroupMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.HkGroupUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.HkUserGroupMapper" />
+				<!-- msg   -->
+				<bean class="com.hk.svr.pub.rowmapper.PvtChatMainMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.PvtChatMapper" />
+				<!-- box   -->
+				<bean class="com.hk.svr.pub.rowmapper.BoxMapper" />
+				<!--
+					<bean class="com.hk.svr.pub.rowmapper.TmpBoxMapper" /> <bean class="com.hk.svr.pub.rowmapper.OpenBoxMapper" /> <bean class="com.hk.svr.pub.rowmapper.PreBoxMapper" /> <bean
+					class="com.hk.svr.pub.rowmapper.OverBoxMapper" />
+				-->
+				<bean class="com.hk.svr.pub.rowmapper.BoxPrizeMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserBoxPrizeMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserBoxOpenMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.TmpBoxInfoMapper" />
+				<!-- user  -->
+				<bean class="com.hk.svr.pub.rowmapper.VipUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserRecentUpdateMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserWebBindMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.RandnumMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserNoticeInfoMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.InviteMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserBindInfoMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.AdminUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.BomberMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserOtherInfoMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.FollowMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.FollowedMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.BlockUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserProtectMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserFgtMailMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.IpUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.IpCityRangeUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.IpCityUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserCardMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.ActSysNumMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.ChgCardActMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.ChgCardActUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.MyUserCardMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.DefFollowUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserToolMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.AdminHkbMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.HkbLogMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserSmsPortMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.ScoreLogMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserContactDegreeMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.RegCodeMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.RegCodeUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserMailAuthMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.RegfromUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.ProUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.ImpressionMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.WelProUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserAuthorTagMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.AuthorTagMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.AuthorApplyMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.RecentVisitorMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserUpdateMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserFgtSmsMapper" />
+				<!-- company -->
+				<bean class="com.hk.svr.pub.rowmapper.CompanyMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CompanyTagMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CompanyTagRefMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.EmployeeMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.BizCircleMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.BizCircleRefMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.BuildingTagMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.BuildingTagRefMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CompanyReviewMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CompanyUserScoreMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CompanyBizCircleMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CompanyFeedMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CompanyReviewDelMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CompanyPhotoMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.AuthCompanyMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CompanyAwardMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CompanyMoneyMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpProductMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpProductSortMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpCommentMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpSmsPortMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpWatchMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpBulletinMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpLinkMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpRecruitMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpInfoMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CompanyUserStatusMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpFollowMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpModuleMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CouponMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpZoneInfoMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserCouponMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpHkbLogMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpAdminHkbLogMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.HkObjArticleMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.HkObjOrderHkbLogMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.KeyTagMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.HkObjKeyTagMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.HkObjOrderMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.HkObjKeyTagOrderMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.HkObjKeyTagOrderDefMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.HkObjOrderDefMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.HkObjKindOrderMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.KeyTagSearchInfoMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CompanyKindMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpChildKindMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpChildKindRefMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpZoneTagMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserCmpReviewMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpProductPhotoMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpProductReviewMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpProductUserScoreMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpProductUserStatusMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserCmpProductReviewMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpProductTagMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpProductTagRefMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.OrderFormUserInfoMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.OrderFormMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpMemberMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpMemberGradeMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.OrderItemMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpMemberMoneyLogMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpTableMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpTableSortMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpTablePhotoMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpPersonTableMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpOrderTableMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpTableDailyDataMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpTablePhotoSetMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpUnionMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpUnionKindMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpUnionOpUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpUnionReqMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpUnionFeedMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpUnionNoticeMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpUnionBoardMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpUnionLinkMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserProductMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpProductFavMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpUnionCmdKindMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpActMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpActUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpActCostMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpActStepCostMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpActKindMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpActCmtMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpActIdDataMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmdCmpMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmdProductMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.ZoneAdminMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpCheckInUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpCheckInUserLogMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpTipMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserCmpTipMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpTagMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpTagRefMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpAdminGroupMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpAdminGroupRefMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.BadgeMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.HandleCheckInUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserBadgeMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.MayorMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpPhotoVoteMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.PhotoCmtMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpTipDelMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserCmpTipDelMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserLastCheckInMapper" />
+				<!-- 企业网站相关 -->
+				<bean class="com.hk.svr.pub.rowmapper.CmpMyBbsMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpBbsKindMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpBbsIdDataMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpBbsMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpBbsContentMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpBbsDelMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpBbsReplyIdDataMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpBbsReplyMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpBbsReplyDelMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpAdminUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpBomberMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpContactMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpJoinInApplyMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpSellNetMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpMsgMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpArticleMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpArticleContentMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpFileMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpNavMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpFrLinkMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpAdMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpRefUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpLanguageRefMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpSellNetKindMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpProductAttrMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpProductSortAttrMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpProductSortAttrModuleMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpHomePicAdMapper" />
+				<!-- short url -->
+				<bean class="com.hk.svr.pub.rowmapper.ShortUrlMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.ShortUrlDataMapper" />
+				<!-- 足迹群组 -->
+				<bean class="com.hk.svr.pub.rowmapper.CmpGroupMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpGroupUserMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpGroupSmsPortMapper" />
+				<!-- laba  -->
+				<bean class="com.hk.svr.pub.rowmapper.UserTagMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserRecentLabaMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.BombLabaMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.PinkLabaMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.TagClickMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.TagMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.IpCityLabaMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.LabaMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserLabaReplyMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.LabaReplyMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.TagLabaMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.LabaTagMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.FavLabaMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.IpCityRangeLabaMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.LabaDelMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserLabaReplyDelMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.LabaReplyDelMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.LabaRootReplyMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.LabaRootReplyDelMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.IpCityLabaDelMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.TagLabaDelMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.LabaTagDelMapper" />
+				<!--
+					<bean class="com.hk.svr.pub.rowmapper.FavLabaDelMapper" />
+				-->
+				<bean class="com.hk.svr.pub.rowmapper.IpCityRangeLabaDelMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserLabaMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserLabaDelMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.RefLabaMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CompanyRefLabaMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CompanyRefLabaDelMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.RespLabaMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.CmpTemplateMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.LabaCmtMapper" />
+				<!-- photo  -->
+				<bean class="com.hk.svr.pub.rowmapper.PhotoMapper" />
+				<!-- act  -->
+				<bean class="com.hk.svr.pub.rowmapper.ActMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.ActUserMapper" />
+				<!-- usersms -->
+				<bean class="com.hk.svr.pub.rowmapper.UserSmsMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.UserBatchSmsMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.MsgIdDataMapper" />
+				<bean class="com.hk.svr.pub.rowmapper.HkObjMapper" />
+			</list>
+		</property>
+	</bean>
+</beans>

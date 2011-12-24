@@ -1,0 +1,47 @@
+CREATE TABLE  e_huoku.item (
+  itemid bigint(20) unsigned NOT NULL auto_increment,	//火酷自增id
+  num_iid bigint(20) unsigned NOT NULL,					//商品数字id
+  detail_url varchar(200) default NULL,					//商品url
+  title varchar(70) NOT NULL,							//商品标题,不能超过60字节
+  nick varchar(20) NOT NULL,							//卖家昵称
+  item_type varchar(20) NOT NULL,						//商品类型(fixed:一口价;auction:拍卖)注：取消团购
+  cid bigint(20) unsigned NOT NULL,						//商品所属的叶子类目 id 
+  pic_url varchar(200) default NULL,					//商品主图片地址 
+  num int(10) unsigned NOT NULL,						//商品数量
+  valid_thru int(10) unsigned NOT NULL,					//有效期,7或者14（默认是14天）
+  list_time datetime NOT NULL,							//上架时间（格式：yyyy-MM-dd HH:mm:ss）
+  delist_time datetime NOT NULL,						//下架时间（格式：yyyy-MM-dd HH:mm:ss） 
+  stuff_status tinyint(1) unsigned NOT NULL,			//商品新旧程度(全新:new(1)，闲置:unused(2)，二手：second(3))，数字对应火酷数据格式
+  location varchar(45) default NULL,					//商品所在地 
+  price double NOT NULL,								//商品价格，格式：5.00；单位：元；精确到：分
+  freight_payer tinyint(1) unsigned NOT NULL,			//运费承担方式,seller（卖家承担）(0)，buyer(买家承担）(1)
+  has_invoice tinyint(1) unsigned NOT NULL,				//是否有发票,true/false,1/0
+  has_warranty tinyint(1) unsigned NOT NULL,			//是否有保修,true/false,1/0
+  modified datetime NOT NULL,							//商品修改时间（格式：yyyy-MM-dd HH:mm:ss）
+  score int(10) unsigned NOT NULL,						//商品所属卖家的信用等级数，1表示1心，2表示2心……，只有调用商品搜索:taobao.items.get和taobao.items.search的时候才能返回
+  volume int(10) unsigned NOT NULL,						//商品30天交易量，只有调用商品搜索:taobao.items.get和taobao.items.search的时候才能返回
+  props varchar(200) default NULL,						//商品属性 格式：pid:vid;pid:vid 
+  props_name varchar(400) default NULL,					//商品属性名称。标识着props内容里面的pid和vid所对应的名称。格式为：pid1:vid1:pid_name1:vid_name1;pid2:vid2:pid_name2:vid_name2……
+  createtime datetime NOT NULL,							//在火酷创建时间
+  product_id bigint(20) unsigned NOT NULL,				//淘宝产品id
+  last_modified datetime NOT NULL,						//火酷最后更新时间
+  one_station tinyint(1) unsigned NOT NULL,				//是否淘1站商品
+  PRIMARY KEY  (itemid),
+  KEY Index_2 (product_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+商品描述表：
+CREATE TABLE  e_huoku.item_intro (
+  itemid bigint(20) unsigned NOT NULL auto_increment,		//商品火酷id
+  content text NOT NULL,									//商品描述
+  PRIMARY KEY  (itemid)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+商品图片表
+CREATE TABLE  e_huoku.item_img (
+  imgid bigint(20) unsigned NOT NULL auto_increment,		//图片id
+  itemid bigint(20) unsigned NOT NULL,						//商品火酷id
+  url varchar(200) NOT NULL,								//图片地址
+  position int(10) unsigned NOT NULL,						//图片序号
+  PRIMARY KEY  (imgid)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

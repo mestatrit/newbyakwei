@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:flow="http://www.springframework.org/schema/webflow-config" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms" xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:osgi-compendium="http://www.springframework.org/schema/osgi-compendium" xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+		http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	<bean id="bombService" class="com.hk.svr.impl.BombServiceImpl" />
+	<bean id="apiUserService" class="com.hk.svr.impl.ApiUserServiceImpl">
+	</bean>
+	<bean id="userService" class="com.hk.svr.impl.UserServiceImpl">
+		<property name="userIdxDir" value="/home/huoku/pub/idx/user/" />
+	</bean>
+	<bean id="userEventListenerImpl" class="com.hk.listener.user.impl.UserEventListenerImpl" />
+	<bean id="zoneService" class="com.hk.svr.impl.ZoneServiceImpl" />
+	<bean id="tagService" class="com.hk.svr.impl.TagServiceImpl" />
+	<bean id="ipCityService" class="com.hk.svr.impl.IpCityServiceImpl" />
+	<bean id="noticeService" class="com.hk.svr.impl.NoticeServiceImpl" />
+	<bean id="noticeProcessor" class="com.hk.svr.notice.NoticeProcessor">
+		<property name="size" value="10" />
+	</bean>
+	<bean id="feedService" class="com.hk.svr.impl.FeedServiceImpl" />
+	<bean id="groupService" class="com.hk.svr.impl.GroupServiceImpl" />
+	<bean id="companyService" class="com.hk.svr.impl.CompanyServiceImpl">
+		<property name="idxDir" value="/home/huoku/pub/idx/company/" />
+		<property name="cmpTagRefDir" value="/home/huoku/pub/idx/cmptagref/" />
+	</bean>
+	<bean id="companyTagService" class="com.hk.svr.impl.CompanyTagServiceImpl" />
+	<bean id="employeeService" class="com.hk.svr.impl.EmployeeServiceImpl" />
+	<bean id="bizCircleService" class="com.hk.svr.impl.BizCircleServiceImpl" />
+	<bean id="buildingTagService" class="com.hk.svr.impl.BuildingTagServiceImpl" />
+	<bean id="infoSmsPortService" class="com.hk.svr.impl.InfoSmsPortServiceImpl" />
+	<bean id="chgCardActService" class="com.hk.svr.impl.ChgCardActServiceImpl" />
+	<bean id="userCardService" class="com.hk.svr.impl.UserCardServiceImpl" />
+	<bean id="informationService" class="com.hk.svr.impl.InformationServiceImpl" />
+	<bean id="companyPhotoService" class="com.hk.svr.impl.CompanyPhotoServiceImpl" />
+	<bean id="photoService" class="com.hk.svr.impl.PhotoServiceImpl" />
+	<bean id="userSmsPortService" class="com.hk.svr.impl.UserSmsPortServiceImpl" />
+	<bean id="actService" class="com.hk.svr.impl.ActServiceImpl" />
+	<bean id="actSysNumService" class="com.hk.svr.impl.ActSysNumServiceImpl" />
+	<bean id="userSmsService" class="com.hk.svr.impl.UserSmsServiceImpl" />
+	<bean id="regCodeService" class="com.hk.svr.impl.RegCodeServiceImpl" />
+	<bean id="cmpCommentService" class="com.hk.svr.impl.CmpCommentServiceImpl" />
+	<bean id="userMailAuthService" class="com.hk.svr.impl.UserMailAuthServiceImpl" />
+	<bean id="cmpSmsPortService" class="com.hk.svr.impl.CmpSmsPortServiceImpl" />
+	<bean id="cmpBulletinService" class="com.hk.svr.impl.CmpBulletinServiceImpl" />
+	<bean id="cmpLinkService" class="com.hk.svr.impl.CmpLinkServiceImpl" />
+	<bean id="cmpInfoService" class="com.hk.svr.impl.CmpInfoServiceImpl" />
+	<bean id="cmpFollowService" class="com.hk.svr.impl.CmpFollowServiceImpl" />
+	<bean id="templateService" class="com.hk.svr.impl.TemplateServiceImpl" />
+	<bean id="impressionService" class="com.hk.svr.impl.ImpressionServiceImpl" />
+	<bean id="hkObjArticleService" class="com.hk.svr.impl.HkObjArticleServiceImpl" />
+	<bean id="authorTagService" class="com.hk.svr.impl.AuthorTagServiceImpl" />
+	<bean id="hkObjService" class="com.hk.svr.impl.HkObjServiceImpl" />
+	<bean id="keyTagService" class="com.hk.svr.impl.KeyTagServiceImpl" />
+	<bean id="orderDefService" class="com.hk.svr.impl.OrderDefServiceImpl" />
+	<bean id="hkObjKindOrderService" class="com.hk.svr.impl.HkObjKindOrderServiceImpl" />
+	<bean id="cmpGroupService" class="com.hk.svr.impl.CmpGroupServiceImpl" />
+	<bean id="hkObjKeyTagOrderService" class="com.hk.svr.impl.HkObjKeyTagOrderServiceImpl" />
+	<bean id="hkObjOrderService" class="com.hk.svr.impl.HkObjOrderServiceImpl" />
+	<bean id="companyKindService" class="com.hk.svr.impl.CompanyKindServiceImpl" />
+	<bean id="cmdDataService" class="com.hk.svr.impl.CmdDataServiceImpl" />
+	<bean id="recentVisitorService" class="com.hk.svr.impl.RecentVisitorServiceImpl" />
+	<bean id="orderFormService" class="com.hk.svr.impl.OrderFormServiceImpl" />
+	<bean id="cmpMemberService" class="com.hk.svr.impl.CmpMemberServiceImpl" />
+	<bean id="cmpTableService" class="com.hk.svr.impl.CmpTableServiceImpl" />
+	<bean id="cmpUnionService" class="com.hk.svr.impl.CmpUnionServiceImpl" />
+	<bean id="cmpUnionMessageService" class="com.hk.svr.impl.CmpUnionMessageServiceImpl" />
+	<bean id="shortUrlService" class="com.hk.svr.impl.ShortUrlServiceImpl" />
+	<bean id="followService" class="com.hk.svr.wrapper.FollowServiceWrapper">
+		<property name="followService">
+			<bean id="followService_local" class="com.hk.svr.impl.FollowServiceImpl">
+			</bean>
+		</property>
+		<property name="followEventListenerList">
+			<list>
+				<ref bean="userEventListenerImpl" />
+			</list>
+		</property>
+	</bean>
+	<bean id="labaService" class="com.hk.svr.wrapper.LabaServiceWrapper">
+		<property name="labaService">
+			<bean class="com.hk.svr.impl.LabaServiceImpl">
+				<property name="labaIdxDir" value="/home/huoku/pub/idx/laba/" />
+			</bean>
+		</property>
+		<property name="followService" ref="followService" />
+		<property name="labaEventListenerList">
+			<list>
+				<bean class="com.hk.listener.laba.impl.LabaEventListenerImpl" />
+			</list>
+		</property>
+	</bean>
+	<bean id="msgService" class="com.hk.svr.wrapper.MsgServiceWrapper">
+		<property name="msgEventListenerList">
+			<list>
+				<bean class="com.hk.listener.msg.impl.MsgEventListenerImpl" />
+			</list>
+		</property>
+		<property name="msgService">
+			<bean class="com.hk.svr.impl.MsgServiceImpl" />
+		</property>
+	</bean>
+	<bean id="cmpProductService" class="com.hk.svr.impl.CmpProductServiceImpl" />
+	<bean id="cmpActService" class="com.hk.svr.wrapper.CmpActServiceWrapper">
+		<constructor-arg index="0">
+			<bean class="com.hk.svr.impl.CmpActServiceImpl" />
+		</constructor-arg>
+		<property name="cmpActEventListenerList">
+			<list>
+				<bean class="com.hk.listener.act.impl.CmpActEventListenerImpl" />
+			</list>
+		</property>
+	</bean>
+	<bean id="couponService" class="com.hk.svr.impl.CouponServiceImpl" />
+	<bean id="zoneAdminService" class="com.hk.svr.impl.ZoneAdminServiceImpl" />
+	<bean id="cmpTipService" class="com.hk.svr.impl.CmpTipServiceImpl" />
+	<bean id="cmpTagService" class="com.hk.svr.impl.CmpTagServiceImpl" />
+	<bean id="cmpAdminGroupService" class="com.hk.svr.impl.CmpAdminGroupServiceImpl" />
+	<bean id="badgeService" class="com.hk.svr.impl.BadgeServiceImpl" />
+	<bean id="handleService" class="com.hk.svr.impl.HandleServiceImpl" />
+	<bean id="vipUserService" class="com.hk.svr.impl.VipUserServiceImpl" />
+	<bean id="cmpCheckInService" class="com.hk.svr.impl.CmpCheckInServiceImpl">
+		<property name="nightCheckInHourBegin" value="23" />
+		<property name="nightCheckInHourEnd" value="5" />
+	</bean>
+	<bean id="userFgtPwdService" class="com.hk.svr.impl.UserFgtPwdServiceImpl" />
+	<bean id="equipmentService" class="com.hk.svr.impl.EquipmentServiceImpl" />
+	<bean id="boxService" class="com.hk.svr.impl.BoxServiceImpl" />
+	<bean id="objPhotoService" class="com.hk.svr.impl.ObjPhotoServiceImpl" />
+	<bean id="tmpDataService" class="com.hk.svr.impl.TmpDataServiceImpl" />
+	<bean id="userCmpFuncService" class="com.hk.svr.impl.UserCmpFuncServiceImpl" />
+	<bean id="inviteService" class="com.hk.svr.impl.InviteServiceImpl" />
+	<bean id="hkAdService" class="com.hk.svr.impl.HkAdServiceImpl" />
+	<bean id="cmpBbsService" class="com.hk.svr.impl.CmpBbsServiceImpl" />
+	<bean id="cmpContactService" class="com.hk.svr.impl.CmpContactServiceImpl" />
+	<bean id="cmpAdminUserService" class="com.hk.svr.impl.CmpAdminUserServiceImpl" />
+	<bean id="cmpBomberService" class="com.hk.svr.impl.CmpBomberServiceImpl" />
+	<bean id="cmpJoinInApplyService" class="com.hk.svr.impl.CmpJoinInApplyServiceImpl" />
+	<bean id="cmpMsgService" class="com.hk.svr.impl.CmpMsgServiceImpl" />
+	<bean id="cmpSellNetService" class="com.hk.svr.impl.CmpSellNetServiceImpl" />
+	<bean id="cmpArticleService" class="com.hk.svr.impl.CmpArticleServiceImpl" />
+	<bean id="cmpNavService" class="com.hk.svr.impl.CmpNavServiceImpl" />
+	<bean id="cmpFileService" class="com.hk.svr.impl.CmpFileServiceImpl" />
+	<bean id="cmpFrLinkService" class="com.hk.svr.impl.CmpFrLinkServiceImpl" />
+	<bean id="cmpAdService" class="com.hk.svr.impl.CmpAdServiceImpl" />
+	<bean id="cmpRefUserService" class="com.hk.svr.impl.CmpRefUserServiceImpl" />
+	<!-- *********************** process *********************** -->
+	<bean id="handleEquipmentProcessor" class="com.hk.svr.equipment.HandleEquipmentProcessor" />
+	<bean id="cmpCheckInProcessor" class="com.hk.svr.processor.CmpCheckInProcessor">
+		<property name="checkInWithCreateLaba" value="false" />
+	</bean>
+	<bean id="badgeProcessor" class="com.hk.svr.processor.BadgeProcessor" />
+	<bean id="cmpTipProcessor" class="com.hk.svr.processor.CmpTipProcessor" />
+	<bean id="boxProcessor" class="com.hk.svr.processor.BoxProcessor" />
+	<bean id="companyProcessor" class="com.hk.svr.processor.CompanyProcessor" />
+	<bean id="userProcessor" class="com.hk.svr.processor.UserProcessor" />
+	<bean id="feedProcessor" class="com.hk.svr.processor.FeedProcessor" />
+	<bean id="couponProcessor" class="com.hk.svr.processor.CouponProcessor" />
+	<bean id="equipmentProcessor" class="com.hk.svr.processor.EquipmentProcessor" />
+	<bean id="inviteProcessor" class="com.hk.svr.processor.InviteProcessor" />
+	<bean id="hkAdProcessor" class="com.hk.svr.processor.HkAdProcessor" />
+	<bean id="cmpFileProcessor" class="com.hk.svr.processor.CmpFileProcessor" />
+	<bean id="cmpNavProcessor" class="com.hk.svr.processor.CmpNavProcessor" />
+	<bean id="cmpArticleProcessor" class="com.hk.svr.processor.CmpArticleProcessor" />
+	<bean id="cmpBbsProcessor" class="com.hk.svr.processor.CmpBbsProcessor" />
+	<bean id="cmpAdminUserProcessor" class="com.hk.svr.processor.CmpAdminUserProcessor" />
+	<bean id="cmpBomberProcessor" class="com.hk.svr.processor.CmpBomberProcessor" />
+	<bean id="cmpProductProcessor" class="com.hk.svr.processor.CmpProductProcessor" />
+	<bean id="companyPhotoProcessor" class="com.hk.svr.processor.CompanyPhotoProcessor" />
+	<bean id="cmpAdProcessor" class="com.hk.svr.processor.CmpAdProcessor" />
+	<bean id="cmpRefUserProcessor" class="com.hk.svr.processor.CmpRefUserProcessor" />
+	<bean id="cmpInfoProcessor" class="com.hk.svr.processor.CmpInfoProcessor" />
+</beans>

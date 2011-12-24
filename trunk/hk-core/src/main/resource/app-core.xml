@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:flow="http://www.springframework.org/schema/webflow-config" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms" xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:osgi-compendium="http://www.springframework.org/schema/osgi-compendium" xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+		http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	<!-- 
+	<context:component-scan base-package="com.hk" />
+	 -->
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+	<bean id="hkUtil" class="com.hk.frame.util.HkUtil">
+		<property name="scanPathList">
+			<list>
+				<value>com.hk</value>
+				<value>web</value>
+				<value>com.etbhk</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="taoBaoUtil" class="com.hk.svr.pub.TaoBaoUtil" lazy-init="false">
+		<!-- 顾问家
+	 -->
+		<!-- 
+		<property name="appkey" value="12124174" />
+		<property name="secret" value="d6a9560a84109cc171bcfcba89d5260d" />
+	  -->
+		<property name="appkey" value="12130917" />
+		<property name="secret" value="00fb2a19b73de74d3561cf41dbea38b6" />
+		<property name="serviceUrl" value="http://gw.api.taobao.com/router/rest" />
+		<property name="taobaoke_nick" value="larrywong" />
+		<property name="testflg" value="3" />
+	</bean>
+	<bean id="hkSvrUtil" class="com.hk.svr.pub.HkSvrUtil">
+		<property name="serviceUserId" value="4433" />
+		<!-- 最低竞排价格 -->
+		<property name="minOrderMoney" value="10" />
+	</bean>
+	<!-- 图片处理目录配置 -->
+	<bean id="tbImageConfig" class="com.hk.svr.pub.TbImageConfig">
+		<!-- 头像目录地址 -->
+		<property name="headRootPath" value="/home/huoku/pub/tbhead" />
+		<!-- 头像目录当前使用地址,以后a可以换成b,原来的还是a -->
+		<property name="headCurrentUploadRootPath" value="/a" />
+		<!-- 头像显示的url -->
+		<property name="headUrl" value="http://p.huoku.com/tbhead" />
+	</bean>
+	<bean id="imageConfig" class="com.hk.svr.pub.ImageConfig">
+		<!-- 头像目录地址 -->
+		<property name="headRootPath" value="/home/huoku/pub/head" />
+		<!-- 头像目录当前使用地址,以后a可以换成b,原来的还是a -->
+		<property name="headCurrentUploadRootPath" value="/a" />
+		<!-- 头像显示的url -->
+		<property name="headUrl" value="http://p.huoku.com/head" />
+		<!-- company logo -->
+		<property name="companyHeadRootPath" value="/home/huoku/pub/chead" />
+		<property name="companyHeadCurrentUploadRootPath" value="/a" />
+		<property name="companyHeadUrl" value="http://p.huoku.com/chead" />
+		<!-- 图片显示的url -->
+		<property name="userPicUrl" value="http://p.huoku.com/cpic" />
+		<!-- 图片根目录 -->
+		<property name="userPicRootPath" value="/home/huoku/pub/cpic" />
+		<!-- 图片目录当前使用目录,a可以换成其它,原来的还是a -->
+		<property name="userPicCurrentUploadPath" value="/a" />
+		<!-- coupon -->
+		<property name="couponPicUrl" value="http://p.huoku.com/ccpic" />
+		<property name="couponPicRootPath" value="/home/huoku/pub/ccpic" />
+		<property name="couponPicCurrentUploadPath" value="/a" />
+		<!-- unionlogo -->
+		<property name="unionLogoUrl" value="http://p.huoku.com/unionlogo" />
+		<property name="unionLogoRootPath" value="/home/huoku/pub/unionlogo" />
+		<property name="unionLogoCurrentUploadPath" value="/a" />
+		<property name="tempUploadRootPath" value="/home/huoku/pub/temppic" />
+		<property name="tempUploadPicUrl" value="http://p.huoku.com/temppic" />
+		<property name="tempUploadCurrentUploadPath" value="/a" />
+		<!-- badge -->
+		<property name="badgeRootPath" value="/home/huoku/pub/badge" />
+		<property name="badgeCurrentUploadRootPath" value="/a" />
+		<property name="badgeUrl" value="http://p.huoku.com/badge" />
+		<property name="boxPrizeCurrentUploadRootPath" value="/a" />
+		<property name="boxPrizeRootPath" value="/home/huoku/pub/boxprize" />
+		<property name="boxPrizeUrl" value="http://p.huoku.com/boxprize" />
+		<!-- 宝箱，优惠券使用的图片 -->
+		<property name="photoPicCurrentUploadPath" value="/a" />
+		<property name="photoPicRootPath" value="/home/huoku/pub/boxprizepic" />
+		<property name="photoPicUrl" value="http://p.huoku.com/boxprizepic" />
+		<!-- 广告图片 -->
+		<property name="hkAdPicCurrentUploadPath" value="/a" />
+		<property name="hkAdPicRootPath" value="/home/huoku/pub/show" />
+		<property name="hkAdPicUrl" value="http://p.huoku.com/show" />
+		<!-- 企业网站相关 -->
+		<property name="cmpFileRootPath" value="/home/huoku/pub/cmpref/cmpfile" />
+		<property name="cmpFileCurrentUploadPath" value="/a" />
+		<property name="cmpfileUrl" value="http://p.huoku.com/cmpref/cmpfile" />
+		<property name="cmpNavRootPath" value="/home/huoku/pub/cmpref/cmpnav" />
+		<property name="cmpNavCurrentUploadPath" value="/a" />
+		<property name="cmpNavUrl" value="http://p.huoku.com/cmpref/cmpnav" />
+		<property name="cmpAdPicCurrentUploadPath" value="/a" />
+		<property name="cmpAdPicRootPath" value="/home/huoku/pub/cmpref/cmpgg" />
+		<property name="cmpAdPicUrl" value="http://p.huoku.com/cmpref/cmpgg" />
+		<!-- 企业焦点图 -->
+		<property name="cmpHomePicAdCurrentUploadPath" value="/a" />
+		<property name="cmpHomePicAdRootPath" value="/home/huoku/pub/cmpref/cmphomepic" />
+		<property name="cmpHomePicAdUrl" value="http://p.huoku.com/cmpref/cmphomepic" />
+		<!-- 企业分类广告图 -->
+		<property name="cmpProductSortPicCurrentUploadPath" value="/a" />
+		<property name="cmpProductSortPicRootPath" value="/home/huoku/pub/cmpref/cmpproductsort" />
+		<property name="cmpProductSortPicUrl" value="http://p.huoku.com/cmpref/cmpproductsort" />
+		<!-- 企业文件 -->
+		<property name="cmpDownFileCurrentUploadPath" value="/a" />
+		<property name="cmpDownFileRootPath" value="/home/huoku/pub/cmpref/cmpdownfile" />
+		<property name="cmpDownFileUrl" value="http://p.huoku.com/cmpref/cmpdownfile" />
+		<!-- 企业视频 -->
+		<property name="cmpVideoCurrentUploadPath" value="/a" />
+		<property name="cmpVideoRootPath" value="/home/huoku/pub/cmpref/cmpvideo" />
+		<property name="cmpVideoUrl" value="http://p.huoku.com/cmpref/cmpvideo" />
+		<!-- 企业下属机构文章图片 -->
+		<property name="cmpOrgFileRootPath" value="/home/huoku/pub/cmpref/cmporgfile" />
+		<property name="cmpOrgFileCurrentUploadPath" value="/a" />
+		<property name="cmpOrgFileUrl" value="http://p.huoku.com/cmpref/cmporgfile" />
+		<!-- 企业下属机构标题图片 -->
+		<property name="cmpOrgBgRootPath" value="/home/huoku/pub/cmpref/cmporgbg" />
+		<property name="cmpOrgBgCurrentUploadPath" value="/a" />
+		<property name="cmpOrgBgUrl" value="http://p.huoku.com/cmpref/cmporgbg" />
+		<!-- 企业全文搜索索引文件存放目录 -->
+		<property name="cmpIdxRootPath" value="/home/huoku/pub/cmpref/idx" />
+		<!-- 企业预订类角色人物的图片 -->
+		<property name="cmpActorPicRootPath" value="/home/huoku/pub/cmpref/cmpactor" />
+		<property name="cmpActorPicCurrentUploadPath" value="/a" />
+		<property name="cmpActorPicUrl" value="http://p.huoku.com/cmpref/cmpactor" />
+	</bean>
+	<!-- 密码保护信息设置 -->
+	<bean class="com.hk.svr.pub.ProtectConfig">
+		<property name="list">
+			<list>
+				<value>你的小学学校名称</value>
+				<value>你最喜欢的歌曲</value>
+				<value>你最喜欢的歌手是</value>
+				<value>对你影像最深的老师是</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 火酷币配置 -->
+	<bean id="hkbConfig" class="com.hk.svr.pub.HkbConfig">
+		<!-- 开启信息台 -->
+		<property name="openinfo" value="50" />
+		<property name="invite" value="100" />
+		<property name="authCompany" value="200000" />
+		<!-- 已修改 -->
+		<property name="createSmsLaba" value="10" />
+		<property name="sendSms" value="10" />
+		<property name="createSmsCompanyReview" value="10" />
+	</bean>
+	<!-- 积分配置 -->
+	<bean id="scoreConfig" class="com.hk.svr.pub.ScoreConfig">
+		<property name="createHead" value="100" />
+		<property name="createNickName" value="100" />
+		<property name="createLaba" value="5" />
+		<property name="createLabaFromSms" value="30" />
+		<property name="invite" value="100" />
+		<property name="keyOnclickInLaba" value="5" />
+		<property name="register" value="1000" />
+		<property name="createIntro" value="100" />
+		<property name="createArea" value="100" />
+		<property name="createRepository" value="10" />
+		<property name="createSex" value="100" />
+		<property name="usekey" value="5" />
+		<property name="deleteLaba" value="30" />
+		<property name="clickTagInLaba" value="5" />
+		<property name="refLaba" value="5" />
+		<property name="replyLaba" value="5" />
+		<property name="validateEmail" value="50" />
+		<property name="cancelValidateEmail" value="50" />
+		<property name="createSmsCompanyReview" value="30" />
+	</bean>
+	<!-- 荣誉配置 -->
+	<bean id="honorConfig" class="com.hk.svr.pub.HonorConfig">
+		<property name="createHead" value="100" />
+		<property name="createNickName" value="100" />
+		<property name="createLaba" value="5" />
+		<property name="createLabaFromSms" value="30" />
+		<property name="invite" value="100" />
+		<property name="keyOnclickInLaba" value="5" />
+		<property name="register" value="1000" />
+		<property name="createIntro" value="100" />
+		<property name="createArea" value="100" />
+		<property name="createRepository" value="10" />
+		<property name="createSex" value="100" />
+		<property name="usekey" value="5" />
+		<property name="openinfo" value="50" />
+	</bean>
+	<!-- 报到点数配置 -->
+	<bean id="checkInPointConfig" class="com.hk.svr.pub.CheckInPointConfig">
+		<property name="firstCheckIn" value="5" />
+		<property name="dateFirstCheckIn" value="1" />
+		<property name="dateSecondCheckIn" value="2" />
+		<property name="otherCheckIn" value="1" />
+		<property name="companyCreate" value="5" />
+		<property name="openBoxPoints" value="5" />
+		<property name="userReg" value="10" />
+	</bean>
+
+	<!-- 宝箱类型设置 -->
+	<bean class="com.hk.svr.pub.BoxTypeUtil">
+		<property name="typeStringMap">
+			<map>
+				<entry key="1" value="餐厅" />
+				<entry key="2" value="娱乐" />
+				<entry key="3" value="购物" />
+				<entry key="4" value="出行" />
+				<entry key="5" value="其他" />
+			</map>
+		</property>
+	</bean>
+	<!-- 宝箱开启方式设置 -->
+	<bean class="com.hk.svr.pub.BoxOpenTypeUtil">
+		<property name="map">
+			<map>
+				<entry key="0" value="短信和网站" />
+				<entry key="1" value="短信" />
+				<entry key="2" value="网站" />
+			</map>
+		</property>
+	</bean>
+	<!-- 宝箱开启频率设置 -->
+	<bean class="com.hk.svr.pub.BoxPretypeUtil">
+		<property name="map">
+			<map>
+				<entry key="1" value="小时:3600000" />
+				<entry key="2" value="天:86400000" />
+				<entry key="3" value="星期:604800000" />
+				<entry key="4" value="月:2592000000" />
+				<entry key="5" value="半年:15552000000" />
+				<entry key="6" value="年:31104000000" />
+			</map>
+		</property>
+	</bean>
+	<bean id="arrive" class="com.hk.bean.CompanyUserStatusDescr">
+		<property name="past" value="companyuserstatusdesc.past0" />
+		<property name="will" value="companyuserstatusdesc.will0" />
+	</bean>
+	<bean id="parentKind_1" class="com.hk.bean.ParentKind">
+		<property name="kindId" value="1" />
+		<property name="name" value="吃喝" />
+	</bean>
+	<bean id="parentKind_2" class="com.hk.bean.ParentKind">
+		<property name="kindId" value="2" />
+		<property name="name" value="玩乐" />
+	</bean>
+	<bean id="parentKind_3" class="com.hk.bean.ParentKind">
+		<property name="kindId" value="3" />
+		<property name="name" value="购物" />
+	</bean>
+	<bean id="parentKind_4" class="com.hk.bean.ParentKind">
+		<property name="kindId" value="4" />
+		<property name="name" value="丽人" />
+	</bean>
+	<bean id="parentKind_5" class="com.hk.bean.ParentKind">
+		<property name="kindId" value="5" />
+		<property name="name" value="酒店" />
+	</bean>
+	<bean id="parentKind_6" class="com.hk.bean.ParentKind">
+		<property name="kindId" value="6" />
+		<property name="name" value="运动健身" />
+	</bean>
+	<bean id="parentKind_7" class="com.hk.bean.ParentKind">
+		<property name="kindId" value="7" />
+		<property name="name" value="结婚" />
+	</bean>
+	<bean id="parentKind_8" class="com.hk.bean.ParentKind">
+		<property name="kindId" value="8" />
+		<property name="name" value="其他" />
+	</bean>
+	<bean id="parentKind_100" class="com.hk.bean.ParentKind">
+		<property name="kindId" value="100" />
+		<property name="name" value="交通" />
+	</bean>
+	<bean id="companyKindUtil" class="com.hk.bean.CompanyKindUtil">
+		<property name="parentmap">
+			<map>
+				<entry key="1" value-ref="parentKind_1" />
+				<entry key="2" value-ref="parentKind_2" />
+				<entry key="3" value-ref="parentKind_3" />
+				<entry key="4" value-ref="parentKind_4" />
+				<entry key="5" value-ref="parentKind_5" />
+				<entry key="6" value-ref="parentKind_6" />
+				<entry key="7" value-ref="parentKind_7" />
+				<entry key="100" value-ref="parentKind_100" />
+			</map>
+		</property>
+	</bean>
+	<!-- 企业评分设置 -->
+	<bean class="com.hk.svr.impl.CompanyScoreConfig">
+		<property name="map">
+			<map>
+				<entry key="3">
+					<bean class="com.hk.svr.impl.CompanyScoreConfig">
+						<property name="score" value="3" />
+						<property name="sysScore" value="3" />
+					</bean>
+				</entry>
+				<entry key="2">
+					<bean class="com.hk.svr.impl.CompanyScoreConfig">
+						<property name="score" value="2" />
+						<property name="sysScore" value="2" />
+					</bean>
+				</entry>
+				<entry key="1">
+					<bean class="com.hk.svr.impl.CompanyScoreConfig">
+						<property name="score" value="1" />
+						<property name="sysScore" value="1" />
+					</bean>
+				</entry>
+				<entry key="-1">
+					<bean class="com.hk.svr.impl.CompanyScoreConfig">
+						<property name="score" value="-1" />
+						<property name="sysScore" value="-1" />
+					</bean>
+				</entry>
+				<entry key="-2">
+					<bean class="com.hk.svr.impl.CompanyScoreConfig">
+						<property name="score" value="-2" />
+						<property name="sysScore" value="-2" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean class="com.hk.svr.pub.EquipmentConfig">
+		<property name="map">
+			<map>
+				<entry key="1">
+					<bean class="com.hk.bean.Equipment">
+						<property name="eid" value="1" />
+						<property name="name" value="报到卡" />
+						<property name="intro" value="让你在一个地方能够多报到1次，本报到可以获得点数，但是仍然为无效报到" />
+						<property name="rate" value="0.8" />
+						<property name="goalflg" value="1" />
+						<property name="drivenflg" value="1" />
+					</bean>
+				</entry>
+				<entry key="2">
+					<bean class="com.hk.bean.Equipment">
+						<property name="eid" value="2" />
+						<property name="name" value="瞌睡卡" />
+						<property name="intro" value="让某个人接下来的1次报到全部无法获得点数" />
+						<property name="rate" value="0.8" />
+						<property name="funcflg" value="1" />
+						<property name="vsflg" value="1" />
+						<property name="drivenflg" value="1" />
+						<property name="opponentList">
+							<list>
+								<value>3</value>
+								<value>7</value>
+								<value>9</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="3">
+					<bean class="com.hk.bean.Equipment">
+						<property name="eid" value="3" />
+						<property name="name" value="风油精卡" />
+						<property name="intro" value="可以让自己身上的瞌睡卡失效" />
+						<property name="rate" value="0.8" />
+						<property name="vsflg" value="1" />
+					</bean>
+				</entry>
+				<entry key="4">
+					<bean class="com.hk.bean.Equipment">
+						<property name="eid" value="4" />
+						<property name="name" value="双倍卡" />
+						<property name="intro" value="可以让接下来的1次报到得到加倍的点数" />
+						<property name="rate" value="0.8" />
+						<property name="goalflg" value="1" />
+						<property name="drivenflg" value="1" />
+					</bean>
+				</entry>
+				<entry key="5">
+					<bean class="com.hk.bean.Equipment">
+						<property name="eid" value="5" />
+						<property name="name" value="地主卡" />
+						<property name="intro" value="直接获得下一个报到地方的地主" />
+						<property name="rate" value="0.003" />
+						<property name="goalflg" value="1" />
+						<property name="drivenflg" value="1" />
+					</bean>
+				</entry>
+				<entry key="6">
+					<bean class="com.hk.bean.Equipment">
+						<property name="eid" value="6" />
+						<property name="name" value="剥削卡" />
+						<property name="intro" value="直接从地主身上剥削1/3的点数到自己身上" />
+						<property name="rate" value="0.008" />
+						<property name="funcflg" value="1" />
+						<property name="vsflg" value="1" />
+						<property name="drivenflg" value="1" />
+						<property name="opponentList">
+							<list>
+								<value>8</value>
+								<value>7</value>
+								<value>9</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="7">
+					<bean class="com.hk.bean.Equipment">
+						<property name="eid" value="7" />
+						<property name="name" value="自保卡" />
+						<property name="intro" value="拥有自保卡的用户，在被别人使用副作用卡的时候，自动无效" />
+						<property name="rate" value="0.8" />
+						<property name="vsflg" value="1" />
+					</bean>
+				</entry>
+				<entry key="8">
+					<bean class="com.hk.bean.Equipment">
+						<property name="eid" value="8" />
+						<property name="name" value="复活卡" />
+						<property name="intro" value="可以恢复掉最后一次被剥削卡灭掉的点数" />
+						<property name="rate" value="0.8" />
+						<property name="vsflg" value="1" />
+					</bean>
+				</entry>
+				<entry key="9">
+					<bean class="com.hk.bean.Equipment">
+						<property name="eid" value="9" />
+						<property name="name" value="反射卡" />
+						<property name="intro" value="可以让任何释放在自己身上副作用卡反射到对方身上" />
+						<property name="rate" value="0.1" />
+						<property name="vsflg" value="1" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+		<property name="funcMap">
+			<map>
+				<entry key="1">
+					<bean class="com.hk.svr.equipment.Func1" />
+				</entry>
+				<entry key="2">
+					<bean class="com.hk.svr.equipment.Func2" />
+				</entry>
+				<entry key="3">
+					<bean class="com.hk.svr.equipment.Func3" />
+				</entry>
+				<entry key="4">
+					<bean class="com.hk.svr.equipment.Func4" />
+				</entry>
+				<entry key="5">
+					<bean class="com.hk.svr.equipment.Func5" />
+				</entry>
+				<entry key="6">
+					<bean class="com.hk.svr.equipment.Func6" />
+				</entry>
+				<entry key="7">
+					<bean class="com.hk.svr.equipment.Func7" />
+				</entry>
+				<entry key="8">
+					<bean class="com.hk.svr.equipment.Func8" />
+				</entry>
+				<entry key="9">
+					<bean class="com.hk.svr.equipment.Func9" />
+				</entry>
+			</map>
+		</property>
+		<property name="sosFuncMap">
+			<map>
+				<entry key="2">
+					<bean class="com.hk.svr.equipment.FuncSos2" />
+				</entry>
+				<entry key="6">
+					<bean class="com.hk.svr.equipment.FuncSos6" />
+				</entry>
+			</map>
+		</property>
+		<property name="equipmentPointMap">
+			<map>
+				<entry key="4">
+					<!-- 双倍卡获得双倍积分 -->
+					<bean class="com.hk.svr.equipment.Point4" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<!-- 徽章相关配置 -->
+	<bean id="noLimitHandleUserBadge" class="com.hk.svr.badge.NoLimitHandleUserBadge" />
+	<bean id="l1HandleUserBadge" class="com.hk.svr.badge.L1HandleUserBadge" />
+	<bean id="l2HandleUserBadge" class="com.hk.svr.badge.L2HandleUserBadge" />
+	<bean id="l3HandleUserBadge" class="com.hk.svr.badge.L3HandleUserBadge" />
+	<bean id="l4HandleUserBadge" class="com.hk.svr.badge.L4HandleUserBadge" />
+	<bean id="l5HandleUserBadge" class="com.hk.svr.badge.L5HandleUserBadge" />
+	<bean id="l1001HandleUserBadge" class="com.hk.svr.badge.L1001HandleUserBadge" />
+	<bean id="l1002HandleUserBadge" class="com.hk.svr.badge.L1002HandleUserBadge" />
+	<bean id="l1003HandleUserBadge" class="com.hk.svr.badge.L1003HandleUserBadge" />
+	<bean id="l1004HandleUserBadge" class="com.hk.svr.badge.L1004HandleUserBadge" />
+	<bean id="l1005HandleUserBadge" class="com.hk.svr.badge.L1005HandleUserBadge" />
+	<bean id="l1006HandleUserBadge" class="com.hk.svr.badge.L1006HandleUserBadge" />
+	<bean id="l1007HandleUserBadge" class="com.hk.svr.badge.L1007HandleUserBadge" />
+	<bean id="l1008HandleUserBadge" class="com.hk.svr.badge.L1008HandleUserBadge" />
+	<bean id="l1009HandleUserBadge" class="com.hk.svr.badge.L1009HandleUserBadge" />
+	<bean id="l1010HandleUserBadge" class="com.hk.svr.badge.L1010HandleUserBadge" />
+	<bean id="l1011HandleUserBadge" class="com.hk.svr.badge.L1011HandleUserBadge" />
+	<bean id="l1012HandleUserBadge" class="com.hk.svr.badge.L1012HandleUserBadge" />
+	<bean id="l1013HandleUserBadge" class="com.hk.svr.badge.L1013HandleUserBadge" />
+	<bean id="l1014HandleUserBadge" class="com.hk.svr.badge.L1014HandleUserBadge" />
+	<bean id="handleUserBadgeProcessor" class="com.hk.svr.badge.HandleUserBadgeProcessor">
+		<property name="map">
+			<map>
+				<entry key="0" value-ref="noLimitHandleUserBadge" />
+				<entry key="1:1" value-ref="l1HandleUserBadge" />
+				<entry key="1:2" value-ref="l2HandleUserBadge" />
+				<entry key="1:3" value-ref="l3HandleUserBadge" />
+				<entry key="1:4" value-ref="l4HandleUserBadge" />
+				<entry key="1:5" value-ref="l5HandleUserBadge" />
+				<entry key="2:1001" value-ref="l1001HandleUserBadge" />
+				<entry key="2:1002" value-ref="l1002HandleUserBadge" />
+				<entry key="2:1003" value-ref="l1003HandleUserBadge" />
+				<entry key="2:1004" value-ref="l1004HandleUserBadge" />
+				<entry key="2:1005" value-ref="l1005HandleUserBadge" />
+				<entry key="2:1006" value-ref="l1006HandleUserBadge" />
+				<entry key="2:1007" value-ref="l1007HandleUserBadge" />
+				<entry key="2:1008" value-ref="l1008HandleUserBadge" />
+				<entry key="2:1009" value-ref="l1009HandleUserBadge" />
+				<entry key="2:1010" value-ref="l1010HandleUserBadge" />
+				<entry key="2:1011" value-ref="l1011HandleUserBadge" />
+				<entry key="2:1012" value-ref="l1012HandleUserBadge" />
+				<entry key="2:1013" value-ref="l1013HandleUserBadge" />
+				<entry key="2:1014" value-ref="l1014HandleUserBadge" />
+			</map>
+		</property>
+	</bean>
+	<!-- 用户道具配置 -->
+	<bean id="userToolConfig" class="com.hk.svr.pub.UserToolConfig">
+		<property name="companyStatusNormalAddGroundCount" value="1" />
+		<property name="companyStatusGoodAddGroundCount" value="2" />
+		<property name="companyStatusVeryGoodAddGroundCount" value="3" />
+		<property name="createCompanyAddGroundCount" value="1" />
+		<property name="companyStatusFreezeGroundCount" value="1" />
+		<property name="initGroundCount" value="3" />
+	</bean>
+	<!-- 企业功能配置 -->
+	<bean class="com.hk.bean.CmpFuncUtil">
+		<property name="cmpFuncList">
+			<list>
+				<bean class="com.hk.bean.CmpFunc">
+					<property name="oid" value="1" />
+					<property name="name" value="美容美发预约" />
+				</bean>
+				<bean class="com.hk.bean.CmpFunc">
+					<property name="oid" value="2" />
+					<property name="name" value="自定义数据表" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="httpUtil" class="com.hk.frame.web.http.HttpUtil"></bean>
+	<import resource="app-company-template.xml" />
+	<import resource="app-ds.xml" />
+	<import resource="app-svr.xml" />
+	<!-- 
+	 -->
+	<import resource="app-jms.xml" />
+	<bean class="com.hk.svr.pub.InitBean">
+		<property name="init" value="true" />
+	</bean>
+</beans>

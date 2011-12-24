@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="false" xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:flow="http://www.springframework.org/schema/webflow-config" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:osgi-compendium="http://www.springframework.org/schema/osgi-compendium" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+		http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	<bean class="com.hk.frame.dao.DaoDebugMode" lazy-init="false">
+		<property name="sqlDeubg" value="false" />
+	</bean>
+	<bean id="dataSource1" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost/huoku3?useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="user" value="root" />
+		<property name="password" value="boseeandbokee" />
+		<property name="maxStatements" value="200" />
+		<property name="idleConnectionTestPeriod" value="60" />
+		<property name="maxPoolSize" value="200" />
+		<property name="initialPoolSize" value="20" />
+		<property name="minPoolSize" value="20" />
+	</bean>
+	<bean id="e_huoku" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost/e_huoku?useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="user" value="root" />
+		<property name="password" value="boseeandbokee" />
+		<property name="maxStatements" value="200" />
+		<property name="idleConnectionTestPeriod" value="60" />
+		<property name="maxPoolSize" value="200" />
+		<property name="initialPoolSize" value="20" />
+		<property name="minPoolSize" value="20" />
+	</bean>
+	<bean id="e_huoku_news" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost/e_huoku_news?useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="user" value="root" />
+		<property name="password" value="boseeandbokee" />
+		<property name="maxStatements" value="200" />
+		<property name="idleConnectionTestPeriod" value="60" />
+		<property name="maxPoolSize" value="200" />
+		<property name="initialPoolSize" value="20" />
+		<property name="minPoolSize" value="20" />
+	</bean>
+	<bean id="dataSource" class="com.hk.frame.datasource.HkDataSourceWrapper">
+		<property name="dataSourceMap">
+			<map>
+				<entry key="ds1" value-ref="dataSource1" />
+				<entry key="e_huoku" value-ref="e_huoku" />
+				<entry key="e_huoku_news" value-ref="e_huoku_news" />
+			</map>
+		</property>
+	</bean>
+	<bean id="hkDaoSupport" class="com.hk.frame.dao.HkDaoSupport">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="modPartition" class="com.hk.frame.dao.query.partition.impl.ModPartition" />
+	<bean id="dbPartition" class="com.hk.frame.dao.query.partition.impl.DbPartition">
+		<property name="ds" value="ds1" />
+	</bean>
+	<bean id="e_huoku_dbPartition" class="com.hk.frame.dao.query.partition.impl.DbPartition">
+		<property name="ds" value="e_huoku" />
+	</bean>
+	<bean id="e_huoku_news_dbPartition" class="com.hk.frame.dao.query.partition.impl.DbPartition">
+		<property name="ds" value="e_huoku_news" />
+	</bean>
+	<bean id="yuming_dbPartition" class="com.hk.frame.dao.query.partition.impl.DbPartition">
+		<property name="ds" value="e_huoku_news" />
+	</bean>
+	<bean id="rangePartition" class="com.hk.frame.dao.query.partition.impl.RangPartition" />
+	<bean id="pointTableAndDbPartition" class="com.hk.frame.dao.query.partition.impl.PointTableAndDbPartition" />
+	<bean id="queryManager" class="com.hk.frame.dao.query.QueryManager">
+		<property name="rowMapperPath" value="com.hk.svr.pub.rowmapper" />
+		<property name="hkDaoSupport" ref="hkDaoSupport" />
+		<property name="tablePartitionConfig">
+			<map>
+				<!-- 卖域名 -->
+				<entry key="com.hk.bean.yuming.Domain" value-ref="dbPartition" />
+				<!-- 淘宝版火酷 -->
+				<entry key="com.hk.bean.taobao.Tb_Itemid" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Item_Cmtid" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Userid" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Item" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Item_Cat" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Item_Cat_Ref" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Item_User_Ref" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Item_Img" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Item_Cmt" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Item_Cmt_Reply" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Item_Score" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Follow" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Followed" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Shop" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Shop_Cat" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_User" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_User_Api" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_User_Ask" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Sina_User" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.ApiInvoke" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.ApiInvokeRate" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Answerid" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Askid" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Ask" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Ask_Index" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_User_Ask" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Answer" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Answer_Status" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Ask_Cat" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Admin" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_News" value-ref="e_huoku_news_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Newsid" value-ref="e_huoku_news_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_User_News" value-ref="e_huoku_news_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Friend_News" value-ref="e_huoku_news_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Domain" value-ref="e_huoku_news_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Domainid" value-ref="e_huoku_news_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Domain_Item" value-ref="e_huoku_news_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Sysuser" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_Notice" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_UserItemDailyReport" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_UserItemMonthReport" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_UserItemWeekReport" value-ref="e_huoku_dbPartition" />
+				<entry key="com.hk.bean.taobao.Tb_CmdItem" value-ref="e_huoku_dbPartition" />
+				<!-- 淘宝版火酷  end-->
+				<!-- 老版火酷 -->
+				<entry key="com.hk.bean.HkAdView" value-ref="dbPartition" />
+				<entry key="com.hk.bean.HkAd" value-ref="dbPartition" />
+				<entry key="com.hk.bean.InviteCodeData" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserInviteConfig" value-ref="dbPartition" />
+				<entry key="com.hk.bean.InviteCode" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserCmpFunc" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserDateCheckInCmp" value-ref="dbPartition" />
+				<entry key="com.hk.bean.TmpData" value-ref="dbPartition" />
+				<entry key="com.hk.bean.ObjPhoto" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserCmpEnjoy" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserEquEnjoy" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserEquipment" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserCmpPoint" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserEquPoint" value-ref="dbPartition" />
+				<!-- api -->
+				<entry key="com.hk.bean.ApiUser" value-ref="dbPartition" />
+				<!-- zone -->
+				<entry key="com.hk.bean.CityCode" value-ref="dbPartition" />
+				<entry key="com.hk.bean.City" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Pcity" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Country" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Province" value-ref="dbPartition" />
+				<entry key="com.hk.bean.IpCity" value-ref="dbPartition" />
+				<entry key="com.hk.bean.IpCityRange" value-ref="dbPartition" />
+				<!-- msg -->
+				<entry key="com.hk.bean.PvtChat" value-ref="dbPartition" />
+				<entry key="com.hk.bean.PvtChatMain" value-ref="dbPartition" />
+				<entry key="com.hk.bean.VipUser" value-ref="dbPartition" />
+
+				<!-- box -->
+				<entry key="com.hk.bean.SeqBox" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Box" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmdData" value-ref="dbPartition" />
+				<entry key="com.hk.bean.BoxPrize" value-ref="dbPartition" />
+				<entry key="com.hk.bean.TmpBoxInfo" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserBoxOpen" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserBoxPrize" value-ref="dbPartition" />
+				<!-- user -->
+				<entry key="com.hk.bean.VipUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.AdminUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.User" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserOtherInfo" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Followed" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Follow" value-ref="dbPartition" />
+				<entry key="com.hk.bean.BlockUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserProtect" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserFgtMail" value-ref="dbPartition" />
+				<entry key="com.hk.bean.IpUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.IpCityRangeUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.IpCityUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserCard" value-ref="dbPartition" />
+				<entry key="com.hk.bean.ActSysNum" value-ref="dbPartition" />
+				<entry key="com.hk.bean.ChgCardAct" value-ref="dbPartition" />
+				<entry key="com.hk.bean.ChgCardActUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.MyUserCard" value-ref="dbPartition" />
+				<entry key="com.hk.bean.DefFollowUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserTool" value-ref="dbPartition" />
+				<entry key="com.hk.bean.AdminHkb" value-ref="dbPartition" />
+				<entry key="com.hk.bean.HkbLog" value-ref="dbPartition" />
+				<entry key="com.hk.bean.ScoreLog" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserSmsPort" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserContactDegree" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Bomber" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserRecentUpdate" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserWebBind" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserTag" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserBindInfo" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Invite" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Feed" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserRecentFeed" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Randnum" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserNoticeInfo" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Notice" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Feed" value-ref="dbPartition" />
+				<entry key="com.hk.bean.FeedInfo" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserRecentFeed" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Information" value-ref="dbPartition" />
+				<entry key="com.hk.bean.RegCode" value-ref="dbPartition" />
+				<entry key="com.hk.bean.RegCodeUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserMailAuth" value-ref="dbPartition" />
+				<entry key="com.hk.bean.RegfromUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.ProUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Impression" value-ref="dbPartition" />
+				<entry key="com.hk.bean.WelProUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.AuthorTag" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserAuthorTag" value-ref="dbPartition" />
+				<entry key="com.hk.bean.AuthorApply" value-ref="dbPartition" />
+				<entry key="com.hk.bean.RecentVisitor" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserUpdate" value-ref="dbPartition" />
+				<entry key="com.hk.bean.HandleCheckInUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserFgtSms" value-ref="dbPartition" />
+				<!-- user group -->
+				<entry key="com.hk.bean.HkGroup" value-ref="dbPartition" />
+				<entry key="com.hk.bean.HkGroupUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.HkUserGroup" value-ref="dbPartition" />
+				<!-- company -->
+				<entry key="com.hk.bean.Employee" value-ref="dbPartition" />
+				<entry key="com.hk.bean.BizCircle" value-ref="dbPartition" />
+				<entry key="com.hk.bean.BizCircleRef" value-ref="dbPartition" />
+				<entry key="com.hk.bean.BuildingTag" value-ref="dbPartition" />
+				<entry key="com.hk.bean.BuildingTagRef" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Company" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CompanyTag" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CompanyTagRef" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CompanyReview" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CompanyUserScore" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CompanyBizCircle" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CompanyFeed" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CompanyReviewDel" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CompanyUserStatus" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CompanyPhoto" value-ref="dbPartition" />
+				<entry key="com.hk.bean.AuthCompany" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CompanyAward" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CompanyMoney" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpProduct" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpProductSort" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpComment" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpSmsPort" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpWatch" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpBulletin" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpLink" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpRecruit" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpTemplate" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpInfo" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpFollow" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpModule" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Coupon" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpZoneInfo" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserCoupon" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpHkbLog" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpAdminHkbLog" value-ref="dbPartition" />
+				<entry key="com.hk.bean.HkObjArticle" value-ref="dbPartition" />
+				<entry key="com.hk.bean.HkObjOrder" value-ref="dbPartition" />
+				<entry key="com.hk.bean.HkObjKeyTagOrder" value-ref="dbPartition" />
+				<entry key="com.hk.bean.HkObjOrderDef" value-ref="dbPartition" />
+				<entry key="com.hk.bean.HkObjKeyTagOrderDef" value-ref="dbPartition" />
+				<entry key="com.hk.bean.KeyTag" value-ref="dbPartition" />
+				<entry key="com.hk.bean.HkObjKeyTag" value-ref="dbPartition" />
+				<entry key="com.hk.bean.KeyTagSearchInfo" value-ref="dbPartition" />
+				<entry key="com.hk.bean.HkObjKindOrder" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CompanyKind" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpChildKind" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpChildKindRef" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpZoneTag" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserCmpReview" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpProductPhoto" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpProductReview" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpProductUserScore" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpProductUserStatus" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserCmpProductReview" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpProductTag" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpProductTagRef" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpProductFav" value-ref="dbPartition" />
+				<entry key="com.hk.bean.OrderFormUserInfo" value-ref="dbPartition" />
+				<entry key="com.hk.bean.OrderForm" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpMember" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpMemberGrade" value-ref="dbPartition" />
+				<entry key="com.hk.bean.OrderItem" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpMemberMoneyLog" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpTable" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpTableSort" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpTablePhoto" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpPersonTable" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpOrderTable" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpTableDailyData" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpTablePhotoSet" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpUnion" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpUnionKind" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpUnionOpUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpUnionReq" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpUnionFeed" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpUnionNotice" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpUnionBoard" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpUnionLink" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserProduct" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpUnionCmdKind" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpAct" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpActUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpActCost" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpActStepCost" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpActCmt" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpActKind" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpActIdData" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmdCmp" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmdProduct" value-ref="dbPartition" />
+				<entry key="com.hk.bean.ZoneAdmin" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpCheckInUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpCheckInUserLog" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpTip" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserCmpTip" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpTag" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpTagRef" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Badge" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpAdminGroupRef" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpAdminGroup" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserBadge" value-ref="dbPartition" />
+				<entry key="com.hk.bean.HandleCheckInUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Mayor" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpPhotoVote" value-ref="dbPartition" />
+				<entry key="com.hk.bean.PhotoCmt" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpTipDel" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserCmpTipDel" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserCmpTipIdData" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpTipIdData" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserLastCheckIn" value-ref="dbPartition" />
+				<!-- 企业网站相关数据 -->
+				<entry key="com.hk.bean.CmpFrLink" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpMyBbs" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpBbsKind" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpBbsIdData" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpBbs" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpBbsDel" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpBbsContent" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpBbsReplyIdData" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpBbsReply" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpBbsReplyDel" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpBomber" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpAdminUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpContact" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpJoinInApply" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpSellNet" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpMsg" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpArticle" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpArticleContent" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpFile" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpNav" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpAd" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpRefUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpLanguageRef" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpSellNetKind" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpProductSortAttrModule" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpProductSortAttr" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpProductAttr" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpHomePicAd" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpProductSortFile" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpDownFile" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpArticleGroup" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpSvrCnf" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpVideo" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpOtherWebInfo" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpPageBlock" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpArticleBlock" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpAdBlock" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpAdGroup" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpArticleTag" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpArticleTagRef" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpAdRef" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpOrgNav" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpOrg" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpOrgApply" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpOrgArticle" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpOrgArticleContent" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpOrgStudyAd" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpOrgStudyAdContent" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpOrgMsg" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpOrgFile" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpOrgStudyAdUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpStudyKind" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpActor" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpActorRole" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpActorSpTime" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpActorSvrRef" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpPhotoSet" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpPhotoSetRef" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpSvr" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpSvrKind" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpReserve" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpArticleNavPink" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpUserTableData" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpUserTableField" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpUserTableDataOption" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpUserTableDataValue" value-ref="dbPartition" />
+				<!-- 足迹功能表 -->
+				<entry key="com.hk.bean.CmpFuncRef" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpOtherInfo" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpActorPink" value-ref="dbPartition" />
+				<!--
+				<entry key="com.hk.bean.CmpActorCmt" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpActorScore" value-ref="dbPartition" /> 
+				 -->
+				<!-- 足迹群组 暂时不使用 -->
+				<entry key="com.hk.bean.CmpGroup" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpGroupUser" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpGroupSmsPort" value-ref="dbPartition" />
+				<!-- smsport -->
+				<entry key="com.hk.bean.InfoSmsPort" value-ref="dbPartition" />
+				<!-- laba -->
+				<entry key="com.hk.bean.UserRecentLaba" value-ref="dbPartition" />
+				<entry key="com.hk.bean.RefLaba" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CompanyRefLaba" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CompanyRefLabaDel" value-ref="dbPartition" />
+				<entry key="com.hk.bean.RespLaba" value-ref="dbPartition" />
+				<entry key="com.hk.bean.LabaRootReply" value-ref="dbPartition" />
+				<entry key="com.hk.bean.LabaRootReplyDel" value-ref="dbPartition" />
+				<entry key="com.hk.bean.TagClick" value-ref="dbPartition" />
+				<entry key="com.hk.bean.BombLaba" value-ref="dbPartition" />
+				<entry key="com.hk.bean.PinkLaba" value-ref="dbPartition" />
+				<entry key="com.hk.bean.LabaSeq" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Tag" value-ref="dbPartition" />
+				<entry key="com.hk.bean.Laba" value-ref="dbPartition" />
+				<entry key="com.hk.bean.LabaReply" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserLabaReply" value-ref="dbPartition" />
+				<entry key="com.hk.bean.IpCityLaba" value-ref="dbPartition" />
+				<entry key="com.hk.bean.TagLaba" value-ref="dbPartition" />
+				<entry key="com.hk.bean.LabaTag" value-ref="dbPartition" />
+				<entry key="com.hk.bean.FavLaba" value-ref="dbPartition" />
+				<entry key="com.hk.bean.IpCityRangeLaba" value-ref="dbPartition" />
+				<entry key="com.hk.bean.LabaDel" value-ref="dbPartition" />
+				<entry key="com.hk.bean.LabaReplyDel" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserLabaReplyDel" value-ref="dbPartition" />
+				<entry key="com.hk.bean.IpCityLabaDel" value-ref="dbPartition" />
+				<entry key="com.hk.bean.TagLabaDel" value-ref="dbPartition" />
+				<entry key="com.hk.bean.LabaTagDel" value-ref="dbPartition" />
+				<entry key="com.hk.bean.IpCityRangeLabaDel" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserLaba" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserLabaDel" value-ref="dbPartition" />
+				<entry key="com.hk.bean.CmpFollow" value-ref="dbPartition" />
+				<entry key="com.hk.bean.LabaCmt" value-ref="dbPartition" />
+				<!-- short url -->
+				<entry key="com.hk.bean.ShortUrl" value-ref="dbPartition" />
+				<entry key="com.hk.bean.ShortUrlData" value-ref="dbPartition" />
+				<!-- photo -->
+				<entry key="com.hk.bean.Photo" value-ref="dbPartition" />
+				<!-- act -->
+				<entry key="com.hk.bean.Act" value-ref="dbPartition" />
+				<entry key="com.hk.bean.ActUser" value-ref="dbPartition" />
+				<!-- usersms -->
+				<entry key="com.hk.bean.MsgIdData" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserSms" value-ref="dbPartition" />
+				<entry key="com.hk.bean.UserBatchSms" value-ref="dbPartition" />
+				<entry key="com.hk.bean.HkObj" value-ref="dbPartition" />
+			</map>
+		</property>
+	</bean>
+	<bean id="myTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" autowire="byName" />
+	<tx:advice id="txAdvice" transaction-manager="myTransactionManager">
+		<tx:attributes>
+			<tx:method name="*" rollback-for="java.lang.Exception" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="tr"
+			expression="execution(* com.hk.svr.impl.*ServiceImpl.*(..)) and !execution(* com.hk.svr.impl.*ServiceImpl.count*(..)) and !execution(* com.hk.svr.impl.*ServiceImpl.get*(..)) and !execution(* com.hk.svr.implex.*ServiceImplEx.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="tr" />
+	</aop:config>
+</beans>
