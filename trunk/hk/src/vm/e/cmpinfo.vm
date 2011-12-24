@@ -1,0 +1,9 @@
+<resp status="ok">
+	#if($o)
+	<cmpinfo>
+		<companyid>$!{o.companyId}</companyid>
+		<domain>$!{o.domain}</domain>
+		<templateid>$!{o.templateId}</templateid>
+	</cmpinfo>
+	#end
+</resp>

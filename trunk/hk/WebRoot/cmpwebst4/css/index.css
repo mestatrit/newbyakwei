@@ -1,0 +1,44 @@
+.idx_mainpic{
+	float:left;
+	width:600px;
+	overflow:hidden;
+}
+.idx_mainpic .pic{
+	float:left;
+	width:320px;
+	overflow:hidden;
+	text-align:center;
+}
+.idx_mainpic .content{
+	float:left;
+	width:280px;
+	overflow:hidden;
+}
+.idx_mainpic .content .inner{
+	padding:5px 5px 5px 10px;
+}
+.login{
+	float:right;
+	width:180px;
+	overflow:hidden;
+}
+.news{
+	float:left;
+	width:300px;
+	overflow:hidden;
+}
+.news .new_row{
+	padding:5px 3px;
+}
+.popproduct{
+	float:left;
+}
+.pro{
+	width:240px;
+	margin:3px;
+	float:left;
+}
+.pro img{
+	width: 240px;
+	height: 240px;
+}

@@ -1,0 +1,24 @@
+<resp status="ok">
+	<cmprequestinfo>
+		#if($cmpInfo)
+		<cmpinfo>
+			<companyid>$!{cmpInfo.companyId}</companyid>
+			<domain>$!{cmpInfo.domain}</domain>
+			<templateid>$!{cmpInfo.templateId}</templateid>
+		</cmpinfo>
+		#end
+		#if($cmpUnion)
+		<cmpunion>
+			<uid>$!{cmpUnion.uid}</uid>
+			<name><![CDATA[$!{cmpUnion.name}]]></name>
+			<domain><![CDATA[$!{cmpUnion.domain}]]></domain>
+			<webname><![CDATA[$!{cmpUnion.webName}]]></webname>
+			<traffic><![CDATA[$!{cmpUnion.traffic}]]></traffic>
+			<intro><![CDATA[$!{cmpUnion.intro}]]></intro>
+			<logo><![CDATA[$!{cmpUnion.logo}]]></logo>
+			<userid>$!{cmpUnion.userid}</userid>
+			<addr><![CDATA[$!{cmpUnion.addr}]]></addr>
+		</cmpunion>
+		#end
+	</cmprequestinfo>
+</resp>

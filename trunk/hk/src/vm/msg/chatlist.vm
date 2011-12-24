@@ -1,0 +1,20 @@
+<resp status="ok">
+	<chatlist>
+		#foreach($o in $chatlist)
+		<chat>
+			<chatid>$!{o.chatId}</chatid>
+			<userid>$!{o.userId}</userid>
+			<senderid>$!{o.senderId}</senderid>
+			<createtime>$!{o.time}</createtime>
+			<msg><![CDATA[$!{o.msg}]]></msg>
+			<smsflg>$!{o.smsflg}</smsflg>
+			<smsmsgid>$!{o.smsmsgId}</smsmsgid>
+			<sender>
+				<userid>$!{o.sender.userId}</userid>
+				<nickname><![CDATA[$!{o.sender.nickName}]]></nickname>
+				<head>$!{o.sender.head48Pic}</head>
+			</sender>
+		</chat>
+		#end
+	</chatlist>
+</resp>

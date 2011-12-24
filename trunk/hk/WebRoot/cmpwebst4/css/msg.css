@@ -1,0 +1,76 @@
+.userop_l{
+float: left;
+width:140px;
+}
+.userop_r{
+float: right;
+width:640px;
+}
+.userop{
+text-align: center;
+}
+.userop a{
+font-size:16px;
+display: block;
+text-decoration: none;
+padding: 5px 0;
+font-weight: bold;
+}
+.userop a:hover,
+.userop a.active
+{
+background-color: #2398C9;
+color: #fff;
+text-decoration: none;
+}
+ul.msglist,
+ul.msglist li{
+	list-style: none;
+}
+ul.msglist{
+	padding-top: 20px;
+}
+ul.msglist li{
+	padding: 5px;
+	border-bottom: 1px dashed #e5e5e5;
+}
+ul.msglist li.unread{
+	font-weight: bold;
+	background-color: #EEEEEE;
+}
+ul.msglist li .msg-body{
+	padding-left: 70px;
+	height: 100%;
+}
+ul.msglist li .body-unread{
+	font-weight: bold;
+}
+ul.msglist li .msg-body .user{
+	margin-left: -70px;
+	float: left;
+	width: 60px;
+	text-align: center;
+	font-weight: bold;
+	
+}
+ul.msglist li .msg-body .content{
+	float: left;
+	width: 550px;
+}
+ul.msglist li .msg-body .del_act{
+	float: left;
+	width: 50px;
+	text-align: center;
+}
+ul.msglist li .msg-body  a.del{
+	color: #cccccc;
+}
+ul.msglist li .msg-body  a.del:hover{
+	color:#2398C9;
+}
+ul.msglist li.bg2 .msg-body  a.del{
+	color:#2398C9;
+}
+
+
+

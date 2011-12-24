@@ -1,0 +1,37 @@
+
+web.pub.filter.SysFilter 控制了企业站点的权限以及用户登录情况的判断
+
+企业网站的运行首先会通过 com.hk.web.pub.action.RouteAction 进行运行，根据请求的域名进行判定，是否具有企业网站资格，
+
+如果有资格，就会定向到 web.pub.action.IndexAction 进入网站首页
+
+其链接功能可参照注释
+
+链接参考 apache 中的配置:
+	#web首页
+	rewriterule ^/$ /sys/route.do [P,L]
+	#wap首页
+	rewriterule ^/m/?$ /sys/route.do?wapflg=1 [P,L]
+	#web首页
+	rewriterule ^/index/?$ /sys/route.do?wapflg=0 [P,L]
+	#栏目
+	rewriterule ^/column/([0-9]+)/([0-9]+)/?$ /epp/web/cmpnav.do?companyId=$1&navId=$2 [P,L]
+	#文章列表
+	rewriterule ^/articles/([0-9]+)/([0-9]+)/?$ /epp/web/cmparticle.do?companyId=$1&navId=$2 [P,L]
+	#文章列表分页>2时
+	rewriterule ^/articles/([0-9]+)/([0-9]+)/([0-9]+)/?$ /epp/web/cmparticle.do?companyId=$1&navId=$2&page=$3 [P,L]
+	#文章
+	rewriterule ^/article/([0-9]+)/([0-9]+)/([0-9]+).html$ /epp/web/cmparticle_view.do?companyId=$1&navId=$2&oid=$3 [P,L]
+	#友情链接
+	rewriterule ^/([0-9]+)/link.html$ /epp/web/cmpfrlink.do?companyId=$1 [P,L]
+	#产品列表
+	rewriterule ^/products/([0-9]+)/([0-9]+)/?$ /epp/web/product.do?companyId=$1&navId=$2 [P,L]
+	#产品列表>2时
+	rewriterule ^/products/([0-9]+)/([0-9]+)/([0-9]+)/?$ /epp/web/product.do?companyId=$1&navId=$2&page=$3 [P,L]
+	#分类产品列表
+	rewriterule ^/products/([0-9]+)/([0-9]+)/sort/([0-9]+)/?$ /epp/web/product.do?companyId=$1&navId=$2&sortId=$3 [P,L]
+	#分类产品列表>2时
+	rewriterule ^/products/([0-9]+)/([0-9]+)/([0-9]+)/([0-9]+)/?$ /epp/web/product.do?companyId=$1&navId=$2&sortId=$3&page=$4 [P,L]
+	#产品
+	rewriterule ^/product/([0-9]+)/([0-9]+)/([0-9]+)/([0-9]+).html$ /epp/web/product_view.do?companyId=$1&navId=$2&sortId=$3&productId=$4 [P,L]
+	

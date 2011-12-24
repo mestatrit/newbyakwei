@@ -1,0 +1,16 @@
+<resp status="ok">
+	<cmpmodulelist>
+		#foreach($o in $list)
+		<cmpmodule>
+			<companyid>$!{o.companyId}</companyid>
+			<templateid>$!{o.templateId}</templateid>
+			<moduleid>$!{o.moduleId}</moduleid>
+			<title><![CDATA[$!{o.title}]]></title>
+			<intro><![CDATA[$!{o.intro}]]></intro>
+			<funcurl><![CDATA[$!{o.tmlModule.funcurl}]]></funcurl>
+			<admin_title><![CDATA[$!{o.tmlModule.admin_title}]]></admin_title>
+			<admin_funcurl><![CDATA[$!{o.tmlModule.admin_funcurl}]]></admin_funcurl>
+		</cmpmodule>
+		#end
+	</cmpmodulelist>
+</resp>

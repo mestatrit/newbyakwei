@@ -1,0 +1,23 @@
+<resp status="ok">
+	<usercoupon>
+		<oid>$!{userCoupon.oid}</oid>
+		<mcode>$!{userCoupon.mcode}</mcode>
+		<createtime>$!{userCoupon.getCreateTimeData()}</createtime>
+		<endtime>$!{userCoupon.getEndTimeData()}</endtime>
+		<coupon>
+			<couponid>$!{userCoupon.coupon.couponId}</couponid>
+			<companyid>$!{userCoupon.coupon.companyId}</companyid>
+			<limitday>$!{userCoupon.coupon.limitDay}</limitday>
+			<overdueflg>$!{userCoupon.coupon.overdueflg}</overdueflg>
+			<amount>$!{userCoupon.coupon.amount}</amount>
+			<dcount>$!{userCoupon.coupon.dcount}</dcount>
+			<name><![CDATA[$!{userCoupon.coupon.name}]]></name>
+			<content><![CDATA[$!{userCoupon.coupon.content}]]></content>
+			<remark><![CDATA[$!{userCoupon.coupon.remark}]]></remark>
+			<createtime>$!{userCoupon.coupon.getCreateTimeData()}</createtime>
+			<endtime>$!{userCoupon.coupon.getEndTimeData()}</endtime>
+			<available>$!{userCoupon.coupon.available}</available>
+			<pic240>$!{userCoupon.coupon.pic240}</pic240>
+		</coupon>
+	</usercoupon>
+</resp>

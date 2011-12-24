@@ -1,0 +1,523 @@
+编译和安装 apr 1.2
+cd srclib/apr
+./configure --prefix=/usr/local/apr/
+make
+make install
+
+# 编译和安装 apr-util 1.2
+cd ../apr-util
+./configure --prefix=/usr/local/apr-util/ --with-apr=/usr/local/apr/
+make
+make install
+
+# 配置 httpd
+cd ../../
+./configure --with-apr=/usr/local/apr/ --with-apr-util=/usr/local/apr-util/
+
+ 
+
+jdk 安装:
+
+   linux下JDK安装     2006-09-20 13:13:29 
+
+1.下载JDK文件bin格式
+http://gceclub.sun.com.cn/NASApp/sme/docroot/ecommunity/management/login.jsp?goto=/NASApp/sme/docroot/ecommunity/down.jsp?file=J2SE/jdk-1_5_0_08-linux-i586.bin
+/***********************/
+2.到bin文件所在文件夹下chmod 755 jdk-1_5_0_08-linux-i586.bin
+3.执行./jdk-1_5_0_08-linux-i586.bin进行解压
+4.将解压好的文件夹拷贝到/opt/java/目录下
+5.到/etc/profile.d/目录下
+6.创建JAVA.sh文件
+7.以文本编译器形式打开此文件写入设置环境变量
+JAVA_HOME=/opt/java/jdk1.5.0_08       /*****注意这里是你拷贝到 /opt/java/下的文件夹的名称
+CLASSPATH=$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar
+PATH=$JAVA_HOME/bin:$PATH
+RESIN_HOME=/home/resin
+export JAVA_HOME RESIN_HOME CLASSPATH PATH
+/***********************/
+
+#chmod  u+x  ./j2sdk-1_4_2_04-linux-i586-rpm.bin 
+ 
+#  ./j2sdk-1_4_2_04-linux-i586-rpm.bin 
+ 
+#  rpm  -ivh  j2sdk-1_4_2_04-linux-i586-rpm 
+/***********************/
+vi /etc/profile
+//***********/
+环境变量实例：
+JAVA_HOME=/home/bosee/jdk1.5.0_08
+TOMCAT_HOME=/home/bosee/tomcat5
+CLASSPATH=.:/home/bosee/tomcat5/common/lib/mysql-connector-java-5.0.3-bin.jar:/home/bosee/tomcat5/common/lib/activation.jar:/home/bosee/tomcat5/common/lib/mail.jar
+PATH=$JAVA_HOME/bin:$TOMCAT_HOME/bin:$PATH
+export JAVA_HOME CLASSPATH PATH
+export PATH=$PATH:/home/bosee/ImageMagick/bin
+export LD_LIBRARY_PATH=/home/bosee/tool/JMagick-6.2.6-0/lib:/home/bosee/ImageMagick/lib
+export DYLD_LIBRARY_PATH=/home/bosee/tool/JMagick-6.2.6-0/lib:/home/bosee/ImageMagick/lib:/home/bosee/ImageMagick/lib
+export CLASSPATH=$CLASSPATH:/home/bosee/tool/JMagick-6.2.6-0/classes
+export CLASSPATH=$CLASSPATH:/home/bosee/tomcat5/common/lib/EUCPCommHTTP.jar
+export PATH JAVA_HOME
+//***********/
+shell执行source /etc/profile
+
+
+
+
+
+
+
+
+
+
+最新环境变量
+
+
+
+
+
+
+
+JAVA_HOME=/usersoft/jdk1.5.0_08
+
+TOMCAT_HOME=/home/bosee/tomcat5
+MAGICK_HOME=/usersoft/imagemagick
+JMAGICK_HOME=/usersoft/jmagick
+CLASSPATH=.:$CLASSPATH
+PATH=$JAVA_HOME/bin:$PATH
+export JAVA_HOME CLASSPATH  PATH  MAGICK_HOME JMAGICK_HOME
+export PATH=$PATH:$MAGICK_HOME:/bin
+export LD_LIBRARY_PATH=$JMAGICK_HOME/lib:$MAGICK_HOME/lib
+export DYLD_LIBRARY_PATH=$JMAGICK_HOME/lib:$MAGICK_HOME/lib
+export CLASSPATH=$CLASSPATH:$JMAGICK_HOME/classes
+export CLASSPATH=$CLASSPATH
+export JAVA_HOME CLASSPATH  PATH
+
+
+
+查看环境变量，JAVA_HOME，CATALINA_HOME，都配置的是正确的，有点迷糊了才google了一把，好不容易找到一个地方贴出答案，说把$CATALINA_HOME/bin目录下所有.sh文件添加一个可执行权限。按照这个说法做了，也是正确。对shell也不熟悉，也没有仔细去研究是不是catalina.sh中调用其他的sh文件而那个文件没有X权限导致的。谁要是知道这个原因，就麻烦告知我了。先谢过了哈。：）
+
+
+imagemagick 安装系列
+
+
+
+
+cd /usr/bin/
+rm java
+rm javac
+ln -s /opt/bokee/java/jdk1.5.0_12/bin/java java
+ln -s /opt/bokee/java/jdk1.5.0_12/bin/javac javac
+
+如果java javac已经指对目录了,上面就不用设置了
+
+安装jpeg包:
+
+http://www.ijg.org/files/jpegsrc.v6b.tar.gz
+tar -zvxf jpegsrc.v6b.tar.gz
+cd jpeg-6b/
+./configure --enable-shared --enable-static ; make ; make install
+
+安装png包
+
+
+先在http://sourceforge.net/projects/libpng/上下载最新的libpng包
+tar -xzvf libpng-1.2.12.tar.gz
+cd libpng-1.2.12
+　　 cp scripts/makefile.std makefile
+　　 make
+　　 make install
+
+先在http://www.yeo.id.au/jmagick/上下载最新的ImageMagick和JMagick包
+
+安装ImageMagick包
+tar xzvf ImageMagick-6.2.6.tar.gz
+./configure --prefix=/opt/ImageMagick --enable-shared --enable-static
+
+make
+make install
+
+
+
+
+安装JMagick包
+tar xzvf JMagick-6.2.6-0.tar.gz
+autoconf
+./configure --prefix=/opt/JMagick --with-magick-home=/opt/bokee/ImageMagick --enable-share --enable-static --with-java-home=/opt/bokee/java/jdk1.5.0_12
+make all
+make install
+
+这样就安装完成，接下来的就是配置环境变量。
+
+vi /etc/profile
+
+加入:
+JAVA_HOME="/opt/java/jdk1.5.0_12"
+export PATH=$PATH:$JAVA_HOME/bin
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+
+export PATH=$PATH:/opt/ImageMagick/bin
+export LD_LIBRARY_PATH=:/opt/JMagick/lib:/opt/ImageMagick/lib
+export DYLD_LIBRARY_PATH=:/opt/JMagick/lib:/opt/ImageMagick/lib
+export CLASSPATH=$CLASSPATH:/opt/JMagick/lib
+
+
+mysql安装：
+
+你必须执行的安装MySQL源码分发版的基本命令是：
+
+shell> groupadd mysql
+shell> useradd -g mysql mysql
+shell> gunzip < mysql-VERSION.tar.gz | tar -xvf -shell> cd mysql-VERSION
+shell> ./configure --prefix=/usr/local/mysql --with-charset=gbk
+shell> make
+shell> make install
+shell> cp support-files/my-medium.cnf /etc/my.cnf
+shell> cd /usr/local/mysql
+shell> bin/mysql_install_db --user=mysql
+shell> chown -R root  .
+shell> chown -R mysql var
+shell> chgrp -R mysql .
+shell> bin/mysqld_safe --user=mysql &
+
+
+在所有东西被安装以后，你应当使用该命令初始化并且测试你的分发版：
+
+shell> /usr/local/mysql/bin/mysqld_safe --user=mysql &
+
+
+
+
+关闭mysql
+
+
+
+
+ mysqladmin shutdown
+
+
+
+
+
+刷新权限
+
+FLUSH PRIVILEGES;
+
+
+
+
+ 
+
+禁止root 远程登录
+Linux 用户都知道不能用 root telnet 到远程主机。然而，用普通用户登录，然后 su 为 root 也不是一个可行的办法。 那么，对 OpenSSH 而言，这样的办法可行么？
+
+答案是：否！因为 OpenSSH 虽然对你的口令加了密，但是利用 dsniff 这样的工具就可以嗅探到加密的网络数据。因此，需要禁止 root 用户远程登录，然后允许 root 的本地登录。
+
+第一步是在 /etc/ssh/sshd_config 中把
+
+PermitRootLogin yes
+
+修改为：
+
+PermitRootLogin no
+
+然后重新启动 sshd：
+
+/etc/rc.d/init.d/sshd restart
+
+添加可登录用户
+
+
+AllowUsers yuanwei
+
+
+
+
+最后，保证 telnet 没有在系统的任何地方，如果需要远程登录，就采用 OpenSSH。
+
+
+apache安装
+
+tar -zvxf httpd-2.0.55.tar.gz
+cd httpd-2.0.55
+./configure --prefix=/usersoft/http --enable-module=so --enable-rewrite=shared --enable-proxy --with-mpm=worker --with-threads=yes
+
+
+
+
+
+
+
+./configure --prefix=/usersoft/httpd2.0.61/ --enable-module=so --enable-rewrite=shared --enable-proxy --with-mpm=worker --with-threads=yes
+
+make
+make install
+
+ ./configure --prefix=/opt/app/httpd2061 --enable-module=so --enable-rewrite=shared --enable-proxy --with-mpm=worker --with-threads=yes --with-apr=/usr/local/apr-httpd/ --with-apr-util=/usr/local/apr-util-httpd/
+
+ 
+
+for svn:
+
+ 
+
+./configure --prefix=/opt/tool/httpd --enable-module=so --enable-rewrite=shared --enable-proxy --with-mpm=worker --with-threads=yes --with-apr=/usr/local/apr/bin/apr-1-config --with-apr-util=/usr/local/apr-util/bin/apu-1-config --enable-so --enable-dav=share
+
+ 
+
+正式使用
+
+
+./configure --prefix=/opt/tool/httpd --enable-module=so --enable-rewrite=shared --enable-proxy --with-mpm=worker --with-threads=yes --enable-so --enable-dav=share
+
+ 
+
+tomcat-connector 安装
+
+tar xvfz jakarta-tomcat-connectors-1.2.15-src.tar.gz
+cd jakarta-tomcat-connectors-1.2.15-src/jk/native/
+./buildconf.sh
+./configure --with-apxs=/usersoft/httpd2.0.61/bin/apxs   --with-java-home=/usersoft/jdk1.5.0_08/
+make
+make install
+
+
+php 安装
+
+所要使用的软件包
+curl-7.15.0.tar.gz
+freetype-2.1.5.tar.gz
+gzip-1.2.4.tar.gz
+httpd-2.2.0.tar.gz
+j2sdk-1_4_2_12-linux-i586.rpm
+jakarta-tomcat-5.0.28.tar.gz
+jakarta-tomcat-connectors-1.2.15-src.tar.gz
+libxml2-2.6.26.tar.gz
+mysql-standard-5.0.22-linux-i686.tar.gz
+php-5.1.4.tar.gz
+zlib-1.1.3.tar.gz
+
+下载最新稳定版本php-5.1.6.tar.gz，下载地址：http://down.itlearner.com/soft/2355.shtml
+
+1. 安装zlib (安装libpng和gd前需要先安装zlib)，下载地址：http://down.itlearner.com/soft/2359.shtml
+# tar zxvf zlib-1.2.3.tar.gz
+# cd  zlib-1.2.3
+# ./configure
+# make;make install
+
+2. 安装libpng，下载地址：http://down.itlearner.com/soft/2362.shtml
+# tar zxvf libpng-1.2.12.tar.gz
+# cd libpng-1.2.12
+# ./configure
+# make;make install
+
+3. 安装freetype，下载地址：http://down.itlearner.com/soft/2361.shtml
+# tar zxvf freetype-2.2.1.tar.gz
+# cd freetype-2.1.10
+# ./configure --prefix=/usr/local/freetype
+# make;make install
+
+4. 安装jpeg，下载地址：http://down.itlearner.com/soft/2360.shtml
+# tar zxvf jpegsrc.v6b.tar.gz
+# cd jpeg-6b
+# mkdir /usr/local/jpeg
+# mkdir /usr/local/jpeg/bin
+# mkdir /usr/local/jpeg/lib
+# mkdir /usr/local/jpeg/include
+# mkdir /usr/local/jpeg/man
+# mkdir /usr/local/jpeg/man/man1
+# ./configure --prefix=/usr/local/jpeg --enable-shared --enable-static
+# make;make install
+
+5. 安装gd，下载地址：http://down.itlearner.com/soft/2357.shtml
+# tar zxvf gd-2.0.33.tar.gz
+# cd gd-2.0.33
+# ./configure --prefix=/usr/local/gd --with-jpeg=/usr/local/jpeg --with-freetype=/usr/local/freetype --with-png --with-zlib
+//编译过程中会看到如下信息
+** Configuration summary for gd 2.0.33:
+
+   Support for PNG library:          yes
+   Support for JPEG library:         yes
+   Support for Freetype 2.x library: yes
+   Support for Fontconfig library:   no
+   Support for Xpm library:          no
+   Support for pthreads:             yes
+//可以看到png 、 jpeg 、 freetype都已经安装上了
+# make
+# make install
+
+6. 正式安装php
+# tar zxvf php-5.1.6.tar.gz
+# cd php-5.1.6
+# ./configure --prefix=/usr/local/php5 --with-apxs2=/usr/local/apache2/bin/apxs --with-mysql=/usr/local/mysql --with-gd 
+--with-zlib --with-png --with-jpeg --with-freetype --enable-sockets --with-iconv --enable-mbstring --enable-track-vars 
+--enable-force-cgi-redirect --with-config-file-path=/usr/local/php5/etc
+
+./configure --prefix=/usr/local/php5 --with-apxs2=/opt/app/httpd2061/bin/apxs --with-mysql=/usr/local/mysql --with-gd --with-zlib 
+--enable-sockets --with-iconv --enable-mbstring --enable-track-vars --enable-force-cgi-redirect 
+--with-config-file-path=/usr/local/php5/etc
+
+
+mysql 安装
+
+shell> groupadd mysql
+shell> useradd -g mysql mysql
+shell> gunzip < mysql-VERSION.tar.gz | tar -xvf -
+shell> cd mysql-VERSION
+shell> ./configure --prefix=/usr/local/mysql
+shell> make
+shell> make install
+shell> cp support-files/my-medium.cnf /etc/my.cnf
+shell> cd /usr/local/mysql
+shell> bin/mysql_install_db --user=mysql
+shell> chown -R root  .
+shell> chown -R mysql var
+shell> chgrp -R mysql .
+shell> bin/mysqld_safe --user=mysql &
+
+
+mantis 编码修改
+
+
+我们原先使用的mantis，数据库中的数据是utf8格式的。当把数据倒入到另外一台服务器，并升级到1.0.rc2后，出现了两个问题： 
+
+1 页面编码无论怎么修改，都缺省是gbk，而我们希望是utf8
+
+2 从数据库中读取出来的内容是乱码
+
+解决方法：
+
+1 用户登录进去后，选择语言为(文件config_inc.php)
+$g_default_language = 'chinese_simplified_utf8';
+
+2 修改core/lang_api.php，将下面的方法中的部分代码注释掉：
+
+    function lang_get_default() {
+        global $g_active_language;
+
+        $t_lang = false;
+
+        # Confirm that the user''s language can be determined
+        //if ( auth_is_user_authenticated() ) {
+        //  $t_lang = user_pref_get_language( auth_get_current_user_id() );
+        //}
+
+        # Otherwise fall back to default
+        if ( false === $t_lang ) {
+            $t_lang = config_get( ''default_language'' );
+        }
+
+        //if ( ''auto'' == $t_lang ) {
+        //      $t_lang = lang_map_auto();
+        //}
+
+        # Remember the language
+        $g_active_language = $t_lang;
+
+        return $t_lang;
+    }
+
+ 
+
+
+mantis 安装
+
+$mysqladmin -u root -p密码 create mantis
+$mysql -u root -p密码
+mysql>GRANT SELECT,INSERT,UPDATE,DELETE,INDEX, ALTER,CREATE,DROP,REFERENCES ON mantis.* TO mantis@localhost IDENTIFIED BY '你指定的密码';
+mysql>FLUSH PRIVILEGES;
+mysql>\q
+
+3)修改配置文件
+
+
+$cd mantis
+$cp config_inc.php.sample config_inc.php 
+$vi config_inc.php
+修改以下几行为
+$g_db_username = "mantis";
+$g_db_password = "你在建立用户时指定的密码";
+$g_database_name = "mantis";
+增加以下几行
+$g_path = "http://www.yourdomain.com/bugtrack/";
+$g_icon_path = $g_path."images/"; 
+$g_absolute_path = "/解压缩的目录/mantis/";#此处的mantis要和第1）步中mv的目标一致
+$g_use_iis = OFF;#我用的是linux
+$g_show_version = ON;
+然后根据具体情况设置那一堆email.
+
+4)做汉化
+　　有几个人已经做了汉化，此处只需要配置
+
+
+$vi config_inc.php
+修改下一行为
+$g_default_language = 'chinese_simplified';
+$vi sql/db_generate.sql 
+language varchar(32) NOT NULL default 'chinese_simplified',
+
+5)创建数据库的表
+
+
+$mysql -u mantis -p你指定的密码 mantis < sql/db_generate.sql
+
+6)修改apache的配置文件并重新启动
+
+
+$vi /etc/httpd/conf/httpd.conf
+增加以下几行（供参考）：
+Alias /bugtrack/ "/解压缩目录/mantis/"
+
+Options Indexes MultiViews Includes FollowSymLinks +ExecCGI
+AllowOverride None
+Order allow,deny
+Allow from all
+
+注:此处的bugtrack要与第三步中的$g_path中的bugtrack保持一致
+$su -
+#service httpd restart
+
+7)通过浏览器访问http://www.yourdomain.com/bugtrack/。
+如果出现登录页面，则一切OK！
+
+
+3、应用
+
+　　以administrator用户登录，密码为root，新建一个用户，权限为administrate。以新用户登录，删除administor.
+　　同时，将安装目录/mantis下admin目录删除。
+
+
+ln 
+这是linux中一个非常重要命令，请大家一定要熟悉。它的功能是为某一个文件在另外一个位置建立一个同不的链接，这个命令最常用的参数是-s,具体用法是：ln -s 源文件 目标文件。
+当 我们需要在不同的目录，用到相同的文件时，我们不需要在每一个需要的目录下都放一个必须相同的文件，我们只要在某个固定的目录，放上该文件，然后在其它的 目录下用ln命令链接（link）它就可以，不必重复的占用磁盘空间。例如：ln -s /bin/less /usr/local/bin/less
+-s 是代号（symbolic）的意思。
+这 里有两点要注意：第一，ln命令会保持每一处链接文件的同步性，也就是说，不论你改动了哪一处，其它的文件都会发生相同的变化；第二，ln的链接又软链接 和硬链接两种，软链接就是ln -s ** **,它只会在你选定的位置上生成一个文件的镜像，不会占用磁盘空间，硬链接ln ** **,没有参数-s, 它会在你选定的位置上生成一个和源文件大小相同的文件，无论是软链接还是硬链接，文件都保持同步变化。
+如果你用ls察看一个目录时，发现有的文件后面有一个@的符号，那就是一个用ln命令生成的文件，用ls -l命令去察看，就可以看到显示的link的路径了。  
+
+ 
+
+svn安装：
+
+./configure --prefix=/usr/local/svn1.4.2 --with-apxs=/usr/local/httpd/bin/apxs --with-apr=/usr/local/apr/bin/apr-1-config --with-apr-util=/usr/local/apr-util/bin/apu-1-config 
+
+make;make install
+ 
+windows:
+ 
+Subversion 从1.4版本开始，可以以windows系统服务的形式在开机时自动运行。但Subversion安装程序还不能把自己安装成windows服务，需要我们自己进行手动安装，方法如下： 打开一个DOS命令窗口，执行如下命令：　　
+
+
+sc create svnserve binPath= "\"C:\Program Files\Subversion\bin\svnserve.exe\" --service --root e:\svn" displayname= "Subversion Repository" depend= Tcpip start= auto 　　
+
+
+其中，sc是windows自带的服务配置程序，参数binPath表示svnserve可执行文件的安装路径，由于路径中的"Program Files"带有空格，因此整个路径需要用双引号引起来。而双引号本身是个特殊字符，需要进行转移，因此在路径前后的两个双引号都需要写成\"
+
+
+--service参数表示以windows服务的形式运行，--root指明svn repository的位置，service参数与root参数都作为binPath的一部分，因此与svnserve.exe的路径一起被包含在一对双引号当中，而这对双引号不需要进行转义。
+
+
+displayname表示在windows服务列表中显示的名字， depend =Tcpip 表示svnserve服务的运行需要tcpip服务，start=auto表示开机后自动运行。　　
+
+
+安装服务后，svnserve要等下次开机时才会自动运行。　　
+
+
+若要卸载svn服务，则执行 sc delete svnserve 即可。

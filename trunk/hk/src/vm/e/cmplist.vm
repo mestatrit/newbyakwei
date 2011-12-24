@@ -1,0 +1,10 @@
+<resp status="ok">
+	<cmplist>
+		#foreach($c in $list)
+		<company>
+			<companyid>$!{c.companyId}</companyid>
+			<name><![CDATA[$!{c.name}]]></name>
+		</company>
+		#end
+	</cmplist>
+</resp>

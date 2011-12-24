@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="false" xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:flow="http://www.springframework.org/schema/webflow-config" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:osgi-compendium="http://www.springframework.org/schema/osgi-compendium" xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+		http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	<!--
+		<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" /> <context:component-scan base-package="com.hk"> </context:component-scan> <context:component-scan
+		base-package="web"> </context:component-scan>
+	-->
+	<bean id="contentFilterUtil" class="com.hk.frame.util.ContentFilterUtil" lazy-init="false">
+		<constructor-arg index="0" value="confilter.txt" />
+	</bean>
+	<bean id="webUtil" class="web.pub.util.WebUtil" lazy-init="false">
+		<property name="defDomain" value="vip.huoku.com" />
+	</bean>
+	<bean id="viewObjUtil" class="com.hk.web.util.ViewObjUtil" lazy-init="false">
+		<property name="filePath" value="viewobj" />
+	</bean>
+	<bean id="msnRobot" class="com.hk.im.msn.MsnRobotMock" lazy-init="false">
+		<property name="start" value="true" />
+		<property name="email" value="huoku.com@hotmail.com" />
+		<property name="password" value="bosee.cn" />
+		<property name="msnAdapter">
+			<bean class="com.hk.im.msn.adapter.HkMsnAdapter">
+				<property name="displayName" value="火酷机器人www.huoku.com" />
+				<property name="personalMessage" value="火酷，让你知道哪里最火什么最酷" />
+			</bean>
+		</property>
+	</bean>
+	<!-- mail 配置  -->
+	<bean id="mailUtil" class="com.hk.frame.util.mail.MailUtilMock" lazy-init="false">
+		<property name="deleteMail" value="true" />
+		<property name="maxAttachmentLen" value="3" />
+		<property name="mailReadPer" value="10" />
+		<property name="mailSender">
+			<bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
+				<property name="host" value="smtp.163.com" />
+				<property name="javaMailProperties">
+					<props>
+						<prop key="mail.smtp.auth">true</prop>
+					</props>
+				</property>
+				<property name="username" value="larry4500@163.com" />
+				<property name="password" value="master" />
+			</bean>
+		</property>
+	</bean>
+	<!-- 短信程序 -->
+	<bean id="smsConfig" class="com.hk.sms.SmsConfig" lazy-init="false">
+		<property name="spNumber" value="1066916025" />
+		<property name="httpKey" value="akweiflyshow" />
+		<property name="proxy" value="false" />
+		<property name="receiveUrl" value="http://58.83.224.86:8080/smsweb2/read.do" />
+		<property name="sendUrl" value="http://58.83.224.86:8080/smsweb2/savemtsms.do" />
+		<property name="batchSendUrl" value="http://58.83.224.86:8080/smsweb2/savebatchmtsms.do" />
+		<!--
+			<property name="receiveUrl" value="http://localhost:8088/smsweb2/read.do" /> <property name="sendUrl" value="http://localhost:8088/smsweb2/savemtsms.do" /> <property name="batchSendUrl"
+			value="http://localhost:8088/smsweb2/savebatchmtsms.do" /> http://58.83.224.86:8080/smsweb2/receive.do
+		-->
+	</bean>
+	<bean id="smsClient" class="com.hk.sms.SmsClientMock" lazy-init="false">
+		<property name="smsConfig" ref="smsConfig" />
+	</bean>
+	<!-- 语言配置 -->
+	<bean id="resourceConfig" class="com.hk.frame.util.ResourceConfig" lazy-init="false">
+		<property name="resource" value="appres" />
+	</bean>
+	<!-- ip黑名单配置 -->
+	<bean id="blackIpUtil" class="com.hk.web.util.BlackIpUtil" lazy-init="false">
+		<property name="ipMap">
+			<map></map>
+		</property>
+	</bean>
+	<!-- 系统配置 -->
+	<bean id="hkWebConfig" class="com.hk.web.util.HkWebConfig" lazy-init="false">
+		<property name="devMode" value="true" />
+		<property name="cookie_domain" value=".huoku.com" />
+		<property name="pvtpwd" value="200971" />
+		<property name="webDomain" value="www.huoku.com" />
+		<property name="version" value="v1" />
+		<property name="sysFollowUserId" value="3" />
+		<property name="loginValidateFollow" value="false" />
+		<!--
+			<property name="boxDomain" value="b.huoku.com" /> <property name="userDomain" value="www.huoku.com" /> <property name="squareDomain" value="z.huoku.com" /> <property name="ipSquareDomain"
+			value="ip.huoku.com" /> <property name="citySquareDomain" value="c.huoku.com" /> <property name="nearBySquareDomain" value="n.huoku.com" />
+		-->
+		<property name="shortUrlDomain" value="http://u.huoku.com" />
+		<property name="contextPath" value="" />
+		<property name="dmImg" value="st/img/dm.png" />
+		<property name="replyImg" value="st/img/reply.png" />
+		<property name="retweetImg" value="st/img/retweet.png" />
+		<property name="retweet2Img" value="st/img/retweet2.png" />
+		<property name="starGreyImg" value="st/img/star_grey.png" />
+		<property name="starImg" value="st/img/star.png" />
+		<property name="delImg" value="st/img/del.gif" />
+		<property name="googleApiKey" value="ABQIAAAAkQpuppuD1_QypIsrwIucBRS0h3FEHwLNJo6ge1-OUF8FYTgdTRSZiKKsquqAcdWwCEXJ8Nwcoh2rVg" />
+		<property name="protected_domainSet">
+			<set>
+				<value>feed</value>
+				<value>coupon</value>
+				<value>main</value>
+				<value>login</value>
+				<value>logout</value>
+				<value>signup</value>
+				<value>venues</value>
+				<value>venue</value>
+				<value>item</value>
+				<value>items</value>
+				<value>user</value>
+				<value>users</value>
+				<value>laba</value>
+				<value>todo</value>
+				<value>list</value>
+				<value>photo</value>
+				<value>index</value>
+				<value>help</value>
+				<value>overview</value>
+				<value>userbadge</value>
+				<value>search</value>
+				<value>createtip</value>
+				<value>deleteusercmptip</value>
+				<value>deletecmptip</value>
+				<value>createusercmptipdone</value>
+				<value>createusercmptiptodo</value>
+				<value>updatecompanylocation</value>
+			</set>
+		</property>
+	</bean>
+	<import resource="classpath:/app-core.xml" />
+	<!-- 
+	<import resource="app-jobinvoke.xml" />
+	 -->
+	<import resource="app-interceptor.xml" />
+	<import resource="app-css.xml" />
+</beans>

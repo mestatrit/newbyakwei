@@ -1,0 +1,3 @@
+<resp status="ok">
+	<authmail>$!{authmail}</authmail>
+</resp>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:flow="http://www.springframework.org/schema/webflow-config" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:osgi-compendium="http://www.springframework.org/schema/osgi-compendium" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+		http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	<bean id="showModeUtil" class="com.hk.frame.web.view.ShowModeUtil">
+		<property name="modeList">
+			<list>
+				<bean class="com.hk.frame.web.view.ShowMode">
+					<property name="modeId" value="0" />
+					<property name="name" value="普通手机" />
+					<property name="touchMode" value="false" />
+					<property name="showBigImg" value="false" />
+					<property name="showImg" value="true" />
+				</bean>
+				<bean class="com.hk.frame.web.view.ShowMode">
+					<property name="modeId" value="1" />
+					<property name="name" value="仅仅显示文本" />
+					<property name="touchMode" value="false" />
+					<property name="showBigImg" value="false" />
+					<property name="showImg" value="false" />
+				</bean>
+				<bean class="com.hk.frame.web.view.ShowMode">
+					<property name="modeId" value="2" />
+					<property name="name" value="台式\笔记本" />
+					<property name="touchMode" value="false" />
+					<property name="showBigImg" value="true" />
+					<property name="showImg" value="true" />
+				</bean>
+				<bean class="com.hk.frame.web.view.ShowMode">
+					<property name="modeId" value="3" />
+					<property name="name" value="触摸式手机" />
+					<property name="touchMode" value="true" />
+					<property name="showBigImg" value="false" />
+					<property name="showImg" value="true" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="cssColorUtil" class="com.hk.frame.web.view.CssColorUtil">
+		<property name="cssColorList">
+			<list>
+				<bean class="com.hk.frame.web.view.CssColor">
+					<property name="cssColorId" value="0" />
+					<property name="name" value="light blue晴空蓝" />
+					<property name="anchorColor" value="13819F" />
+					<property name="backGroundColor" value="E7F2F5" />
+					<property name="fontColor" value="333" />
+					<property name="smallAnchorColor" value="555" />
+					<property name="smallFontColor" value="555" />
+					<property name="oddBackGroundColor" value="fff" />
+					<property name="evenBackGroundColor" value="E7F2F5" />
+					<property name="replyBackGroundColor" value="D0E1E5" />
+					<property name="replyEvenBackGroundColor" value="BAC8CC" />
+					<property name="menuBackGroundColor" value="00CCFF" />
+					<property name="menuFontColor" value="333" />
+					<property name="menuAnchorColor" value="13819F" />
+				</bean>
+				<bean class="com.hk.frame.web.view.CssColor">
+					<property name="cssColorId" value="1" />
+					<property name="name" value="ugly orange橙色" />
+					<property name="anchorColor" value="b50" />
+					<property name="backGroundColor" value="ddd" />
+					<property name="fontColor" value="111" />
+					<property name="smallAnchorColor" value="555" />
+					<property name="smallFontColor" value="555" />
+					<property name="oddBackGroundColor" value="fff" />
+					<property name="evenBackGroundColor" value="eee" />
+					<property name="replyBackGroundColor" value="ffa" />
+					<property name="replyEvenBackGroundColor" value="dd9" />
+					<property name="menuBackGroundColor" value="e81" />
+					<property name="menuFontColor" value="c40" />
+					<property name="menuAnchorColor" value="b50" />
+				</bean>
+				<bean class="com.hk.frame.web.view.CssColor">
+					<property name="cssColorId" value="2" />
+					<property name="name" value="touch blue深蓝" />
+					<property name="anchorColor" value="138" />
+					<property name="backGroundColor" value="ddd" />
+					<property name="fontColor" value="111" />
+					<property name="smallAnchorColor" value="555" />
+					<property name="smallFontColor" value="555" />
+					<property name="oddBackGroundColor" value="fff" />
+					<property name="evenBackGroundColor" value="eee" />
+					<property name="replyBackGroundColor" value="ffa" />
+					<property name="replyEvenBackGroundColor" value="dd9" />
+					<property name="menuBackGroundColor" value="138" />
+					<property name="menuFontColor" value="fff" />
+					<property name="menuAnchorColor" value="138" />
+				</bean>
+				<bean class="com.hk.frame.web.view.CssColor">
+					<property name="cssColorId" value="3" />
+					<property name="name" value="sickly green绿色" />
+					<property name="anchorColor" value="293C03" />
+					<property name="backGroundColor" value="ccc" />
+					<property name="fontColor" value="000" />
+					<property name="smallAnchorColor" value="555" />
+					<property name="smallFontColor" value="555" />
+					<property name="oddBackGroundColor" value="fff" />
+					<property name="evenBackGroundColor" value="eee" />
+					<property name="replyBackGroundColor" value="CCE691" />
+					<property name="replyEvenBackGroundColor" value="ACC671" />
+					<property name="menuBackGroundColor" value="495C23" />
+					<property name="menuFontColor" value="919C35" />
+					<property name="menuAnchorColor" value="293C03" />
+				</bean>
+				<bean class="com.hk.frame.web.view.CssColor">
+					<property name="cssColorId" value="4" />
+					<property name="name" value="twitter" />
+					<property name="anchorColor" value="1481B1" />
+					<property name="backGroundColor" value="FFF" />
+					<property name="fontColor" value="333" />
+					<property name="smallAnchorColor" value="555" />
+					<property name="smallFontColor" value="555" />
+					<property name="oddBackGroundColor" value="FFF" />
+					<property name="evenBackGroundColor" value="EEE" />
+					<property name="replyBackGroundColor" value="FFA" />
+					<property name="replyEvenBackGroundColor" value="DD9" />
+					<property name="menuBackGroundColor" value="9AE4E8" />
+					<property name="menuFontColor" value="333" />
+					<property name="menuAnchorColor" value="1481B1" />
+				</bean>
+				<bean class="com.hk.frame.web.view.CssColor">
+					<property name="cssColorId" value="5" />
+					<property name="name" value="whimsical pink迷情粉" />
+					<property name="anchorColor" value="c06" />
+					<property name="backGroundColor" value="fcd" />
+					<property name="fontColor" value="623" />
+					<property name="smallAnchorColor" value="c8a" />
+					<property name="smallFontColor" value="c8a" />
+					<property name="oddBackGroundColor" value="fee" />
+					<property name="evenBackGroundColor" value="fde" />
+					<property name="replyBackGroundColor" value="ffa" />
+					<property name="replyEvenBackGroundColor" value="dd9" />
+					<property name="menuBackGroundColor" value="C06" />
+					<property name="menuFontColor" value="fee" />
+					<property name="menuAnchorColor" value="c06" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="urlModeUtil" class="com.hk.frame.web.view.UrlModeUtil">
+		<property name="urlModeList">
+			<list>
+				<bean class="com.hk.frame.web.view.UrlMode">
+					<property name="urlModeId" value="1" />
+					<property name="name" value="转化为手机页面打开" />
+					<property name="needGwt" value="true" />
+				</bean>
+				<bean class="com.hk.frame.web.view.UrlMode">
+					<property name="urlModeId" value="2" />
+					<property name="name" value="直接打开链接" />
+					<property name="needGwt" value="false" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

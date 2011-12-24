@@ -1,0 +1,455 @@
+/******************** 圆角模块1 ****************************/
+.rd .l,
+.rd .r,
+.rd .mid{
+	line-height:0px;
+	font-size:0px;
+}
+.mod-1{
+	float:left;
+}
+.mod-1 .bg,
+.mod-1 .bg-bottom {
+	width:169px;
+}
+.mod-1 .bg .rd,
+.mod-1 .bg-bottom .rd
+{
+	width:100%;
+}
+.mod-1 .bg .rd .l,
+.mod-1 .bg-bottom .rd .l
+{
+	float:left;
+	width:5px;
+	margin:0px;
+	padding:0px;
+	height:5px;
+}
+.mod-1 .bg .rd .r,
+.mod-1 .bg-bottom .rd .r
+{
+	float:right;
+	width:5px;
+	margin:0px;
+	padding:0px;
+	height:5px;
+}
+.mod-1 .bg .rd .mid,
+.mod-1 .bg-bottom .rd .mid
+{
+	float:left;
+	height:5px;
+	margin:0px;
+	padding:0px;
+	width:159px;
+}
+.mod-1 .bg .rd .l{
+	background:url(../img/rd-1/rd-1-l.gif) no-repeat;
+}
+.mod-1 .bg .rd .r{
+	background:url(../img/rd-1/rd-1-r.gif) no-repeat;
+}
+.mod-1 .bg .rd .mid{
+	background:url(../img/rd-1/rd-1-mid.gif) repeat-x;
+}
+.mod-1 .bg-bottom .rd .r{
+	background:url(../img/rd-1/rd-1-bottom-r.gif) no-repeat;
+}
+.mod-1 .bg-bottom .rd .l{
+	background:url(../img/rd-1/rd-1-bottom-l.gif) no-repeat;
+}
+.mod-1 .bg-bottom .rd .mid{
+	background:url(../img/rd-1/rd-1-bottom-mid.gif) repeat-x;
+}
+.mod-1 .tit{
+	font-size:14px;
+	line-height:14px;
+	padding:3px 0px;
+	text-indent:10px;
+	color:#fff;
+	font-weight:bold;
+	background:url(../img/bg-1.gif) repeat-x;
+}
+.mod-1 .subtit{
+	/*background:url(../img/bg-grey.gif) repeat;*/
+	background:#EFEFEF;
+	border-bottom:1px solid #CDCDCD;
+	color:#333333;
+	text-indent:10px;
+	font-size:14px;
+}
+.mod-1 .subtit a{
+	display:block;
+	color:#333333;
+	background: transparent url(../img/arrow.png) no-repeat 180px 5px;
+}
+.mod-1 .subtit a:hover{
+	color:#0085CF;
+	background-color: #D6E5F2;
+}
+.mod-1 .cont{
+	display:block;
+	border-left:1px solid #CDCDCD;
+	border-right:1px solid #CDCDCD;
+}
+/******************** 圆角模块1 end ****************************/
+
+
+/******************** 圆角模块3 ****************************/
+.mod-3{
+	float:left;
+}
+.mod-3 .bg,
+.mod-3 .bg-bottom {
+	background:#fff;
+	width:169px;
+}
+.mod-3 .bg .rd,
+.mod-3 .bg-bottom .rd
+{
+	width:100%;
+}
+.mod-3 .bg .rd .l,
+.mod-3 .bg-bottom .rd .l
+{
+	float:left;
+	width:5px;
+	margin:0px;
+	padding:0px;
+	height:5px;
+}
+.mod-3 .bg .rd .r,
+.mod-3 .bg-bottom .rd .r
+{
+	float:right;
+	width:5px;
+	margin:0px;
+	padding:0px;
+	height:5px;
+}
+.mod-3 .bg .rd .mid,
+.mod-3 .bg-bottom .rd .mid
+{
+	float:left;
+	height:5px;
+	margin:0px;
+	padding:0px;
+	width:159px;
+}
+.mod-3 .bg .rd .l{
+	background:url(../img/rd-3/rd-3-l.gif) no-repeat;
+}
+.mod-3 .bg .rd .r{
+	background:url(../img/rd-3/rd-3-r.gif) no-repeat;
+}
+.mod-3 .bg .rd .mid{
+	background:url(../img/rd-3/rd-3-mid.gif) repeat-x;
+}
+.mod-3 .bg-bottom .rd .r{
+	background:url(../img/rd-2-bottom-r.gif) no-repeat;
+}
+.mod-3 .bg-bottom .rd .l{
+	background:url(../img/rd-2-bottom-l.gif) no-repeat;
+}
+.mod-3 .bg-bottom .rd .mid{
+	background:url(../img/rd-2-bottom-mid.gif) repeat-x;
+}
+.mod-3 .cont{
+	background:#fff;
+	border-left:1px solid #CDCDCD;
+	border-right:1px solid #CDCDCD;
+}
+/******************** 圆角模块3 end ****************************/
+/******************** 圆角模块4 ****************************/
+.mod-4{
+	float:left;
+}
+.mod-4 .bg,
+.mod-4 .bg-bottom {
+	width:169px;
+}
+.mod-4 .bg .rd,
+.mod-4 .bg-bottom .rd
+{
+	width:100%;
+}
+.mod-4 .bg .rd .l,
+.mod-4 .bg-bottom .rd .l
+{
+	float:left;
+	width:5px;
+	margin:0px;
+	padding:0px;
+	height:5px;
+}
+.mod-4 .bg .rd .r,
+.mod-4 .bg-bottom .rd .r
+{
+	float:right;
+	width:5px;
+	margin:0px;
+	padding:0px;
+	height:5px;
+}
+.mod-4 .bg .rd .mid,
+.mod-4 .bg-bottom .rd .mid
+{
+	float:left;
+	height:5px;
+	margin:0px;
+	padding:0px;
+	width:159px;
+}
+.mod-4 .bg .rd .l{
+	background:url(../img/rd-4/rd-4-l.gif) no-repeat;
+}
+.mod-4 .bg .rd .r{
+	background:url(../img/rd-4/rd-4-r.gif) no-repeat;
+}
+.mod-4 .bg .rd .mid{
+	background:url(../img/rd-4/rd-4-mid.gif) repeat;
+}
+.mod-4 .bg-bottom .rd .r{
+	background:url(../img/rd-2-bottom-r.gif) no-repeat;
+}
+.mod-4 .bg-bottom .rd .l{
+	background:url(../img/rd-2-bottom-l.gif) no-repeat;
+}
+.mod-4 .bg-bottom .rd .mid{
+	background:url(../img/rd-2-bottom-mid.gif) repeat-x;
+}
+.mod-4 .tit{
+	line-height:14px;
+	padding:3px 0px;
+	text-indent:10px;
+	color:#fff;
+	font-weight:bold;
+	font-size:14px;
+	background:url(../img/bg-2.gif) repeat-x;
+}
+.mod-4 .tit a{color:#fff;}
+.mod-4 .cont{
+	border-left:1px solid #CDCDCD;
+	border-right:1px solid #CDCDCD;
+}
+/******************** 圆角模块4 end ****************************/
+
+/******************** 圆角模块5 ****************************/
+.mod-5{
+	float:left;
+}
+.mod-5 .bg,
+.mod-5 .bg-bottom {
+	width:169px;
+}
+.mod-5 .bg .rd,
+.mod-5 .bg-bottom .rd
+{
+	width:100%;
+}
+.mod-5 .bg .rd .l,
+.mod-5 .bg-bottom .rd .l
+{
+	float:left;
+	width:4px;
+	margin:0px;
+	padding:0px;
+	height:4px;
+}
+.mod-5 .bg .rd .r,
+.mod-5 .bg-bottom .rd .r
+{
+	float:right;
+	width:4px;
+	margin:0px;
+	padding:0px;
+	height:4px;
+}
+.mod-5 .bg .rd .mid,
+.mod-5 .bg-bottom .rd .mid
+{
+	float:left;
+	height:4px;
+	margin:0px;
+	padding:0px;
+	width:161px;
+}
+.mod-5 .bg .rd .l{
+	background:url(../img/rd-5/rd-5-l.gif) no-repeat;
+}
+.mod-5 .bg .rd .r{
+	background:url(../img/rd-5/rd-5-r.gif) no-repeat;
+}
+.mod-5 .bg .rd .mid{
+	background:url(../img/rd-5/rd-5-mid.gif) repeat-x;
+}
+.mod-5 .bg-bottom .rd .r{
+	background:url(../img/rd-5/rd-5-bottom-r.gif) no-repeat;
+}
+.mod-5 .bg-bottom .rd .l{
+	background:url(../img/rd-5/rd-5-bottom-l.gif) no-repeat;
+}
+.mod-5 .bg-bottom .rd .mid{
+	background:url(../img/rd-5/rd-5-bottom-mid.gif) repeat-x;
+}
+.mod-5 .cont{
+	border-left:1px solid #CDCDCD;
+	border-right:1px solid #CDCDCD;
+	background:url(../img/bg-3.gif) repeat-x;
+}
+/******************** 圆角模块5 end ****************************/
+
+/******************** 圆角模块6 ****************************/
+.mod-6{
+	float:left;
+}
+.mod-6 .bg,
+.mod-6 .bg-bottom {
+	width:169px;
+}
+.mod-6 .bg .rd,
+.mod-6 .bg-bottom .rd
+{
+	width:100%;
+}
+.mod-6 .bg .rd .l,
+.mod-6 .bg-bottom .rd .l
+{
+	float:left;
+	width:4px;
+	margin:0px;
+	padding:0px;
+	height:4px;
+}
+.mod-6 .bg .rd .r,
+.mod-6 .bg-bottom .rd .r
+{
+	float:right;
+	width:4px;
+	margin:0px;
+	padding:0px;
+	height:4px;
+}
+.mod-6 .bg .rd .mid,
+.mod-6 .bg-bottom .rd .mid
+{
+	float:left;
+	height:4px;
+	margin:0px;
+	padding:0px;
+	width:161px;
+}
+.mod-6 .bg .rd .l{
+	background:url(../img/rd-6/rd-6-l.gif) no-repeat;
+}
+.mod-6 .bg .rd .r{
+	background:url(../img/rd-6/rd-6-r.gif) no-repeat;
+}
+.mod-6 .bg .rd .mid{
+	background:url(../img/rd-6/rd-6-mid.gif) repeat-x;
+}
+.mod-6 .bg-bottom .rd .r{
+	background:url(../img/rd-6/rd-6-bottom-r.gif) no-repeat;
+}
+.mod-6 .bg-bottom .rd .l{
+	background:url(../img/rd-6/rd-6-bottom-l.gif) no-repeat;
+}
+.mod-6 .bg-bottom .rd .mid{
+	background:url(../img/rd-6/rd-6-bottom-mid.gif) repeat-x;
+}
+.mod-6 .cont{
+	height:100px;
+	width:169px;
+	background:url(../img/bg-4.gif) repeat-x;
+}
+/******************** 圆角模块6 end ****************************/
+
+.mod-7{
+	border:1px solid #CDCDCD;
+	border-right:0px;
+}
+.mod-7 .tit{
+	border-bottom:1px solid #CDCDCD;
+	line-height:30px;
+	font-size:14px;
+	font-weight:bold;
+	background:#EFEFEF;
+	text-indent:10px;
+}
+.mod-7 .cont{
+	padding:3px;
+}
+
+/******************** 圆角模块6 ****************************/
+.mod-8{
+	width:980px;
+}
+.mod-8 .bg,
+.mod-8 .bg-bottom {
+	width:980px;
+}
+.mod-8 .bg .rd,
+.mod-8 .bg-bottom .rd
+{
+	width:100%;
+}
+.mod-8 .bg .rd .l{
+	float:left;
+	width:6px;
+	margin:0px;
+	padding:0px;
+	height:7px;
+	background:url(../img/rd-8/rd-8-l.png) no-repeat;
+}
+.mod-8 .bg .rd .r{
+	float:right;
+	width:6px;
+	margin:0px;
+	padding:0px;
+	height:7px;
+	background:url(../img/rd-8/rd-8-r.png) no-repeat;
+}
+.mod-8 .bg .rd .mid
+{
+	float:left;
+	height:7px;
+	margin:0px;
+	padding:0px;
+	width:968px;
+	background:url(../img/rd-8/rd-8-mid.png) repeat-x;
+}
+.mod-8 .bg-bottom .rd .l
+{
+	float:left;
+	width:6px;
+	margin:0px;
+	padding:0px;
+	height:6px;
+	background:url(../img/rd-8/rd-8-bottom-l.png) no-repeat;
+}
+.mod-8 .bg-bottom .rd .r
+{
+	float:right;
+	width:6px;
+	margin:0px;
+	padding:0px;
+	height:6px;
+	background:url(../img/rd-8/rd-8-bottom-r.png) no-repeat;
+}
+.mod-8 .bg-bottom .rd .mid
+{
+	float:left;
+	height:6px;
+	margin:0px;
+	padding:0px;
+	width:968px;
+	background:url(../img/rd-8/rd-8-bottom-mid.png) repeat-x;
+}
+.mod-8 .cont{
+	width:978px;
+	border-left:1px solid #CDCDCD;
+	border-right:1px solid #CDCDCD;
+	background:#fff;
+}
+/******************** 圆角模块6 end ****************************/
