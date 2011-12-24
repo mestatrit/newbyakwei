@@ -1,0 +1,25 @@
+<resp status="ok">
+	<mainlist>
+		#foreach($o in $mainlist)
+		<main>
+			<mainid>$!{o.mainId}</mainid>
+			<userid>$!{o.userId}</userid>
+			<user2id>$!{o.user2Id}</user2id>
+			<createtime>$!{o.time}</createtime>
+			<noreadcount>$!{o.noReadCount}</noreadcount>
+			<msg><![CDATA[$!{o.getMsg()}]]></msg>
+			<readflg>$!{o.readflg}</readflg>
+			<user>
+				<userid>$!{o.user.userId}</userid>
+				<nickname><![CDATA[$!{o.user.nickName}]]></nickname>
+				<head>$!{o.user.head48Pic}</head>
+			</user>
+			<user2>
+				<userid>$!{o.user2.userId}</userid>
+				<nickname><![CDATA[$!{o.user2.nickName}]]></nickname>
+				<head>$!{o.user2.head48Pic}</head>
+			</user2>
+		</main>
+		#end
+	</mainlist>
+</resp>

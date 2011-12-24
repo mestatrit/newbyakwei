@@ -1,0 +1,17 @@
+<resp status="ok">
+	<cmpphoto>
+		#if($p.path==$company.headPath)
+			<top>true</top>
+		#else
+			<top>false</top>
+		#end
+		<photo>
+			<photoid>$!{p.photoId}</photoid>
+			<name>$!{p.name}</name>
+			<pic60>$!{p.getPic60()}</pic60>
+			<pic240>$!{p.getPic240()}</pic240>
+			<pic320>$!{p.getPic320()}</pic320>
+			<pic640>$!{p.getPic640()}</pic640>
+		</photo>
+	</cmpphoto>
+</resp>

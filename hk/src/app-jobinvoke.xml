@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:flow="http://www.springframework.org/schema/webflow-config" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:osgi-compendium="http://www.springframework.org/schema/osgi-compendium" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+		http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	<bean id="indexAskJob" class="com.etbhk.job.TbHkJob" />
+	<!-- 更新商品数据 -->
+	<bean id="updateTb_ItemTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject" ref="indexAskJob" />
+				<property name="targetMethod" value="updateTb_Item" />
+			</bean>
+		</property>
+		<property name="cronExpression">
+			<!-- 每天晚上3点执行 -->
+			<value>0 0 3 * * ?</value>
+		</property>
+	</bean>
+	<!-- 最火的商品排序字段值更新 -->
+	<bean id="updateHuoItmeInfoTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject" ref="indexAskJob" />
+				<property name="targetMethod" value="updateHuoItmeInfo" />
+			</bean>
+		</property>
+		<!-- 2分钟后开始  -->
+		<property name="startDelay" value="120000" />
+		<!-- 5分钟时间间隔  -->
+		<property name="repeatInterval" value="300000" />
+	</bean>
+	<!-- 问题索引 -->
+	<bean id="addAskDocIntoIndexTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject" ref="indexAskJob" />
+				<property name="targetMethod" value="addAskDocIntoIndex" />
+			</bean>
+		</property>
+		<!-- 2分钟时间间隔  -->
+		<property name="startDelay" value="10000" />
+		<!-- 20秒钟时间间隔  -->
+		<property name="repeatInterval" value="10000" />
+	</bean>
+	<bean id="indexAllAskTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject" ref="indexAskJob" />
+				<property name="targetMethod" value="indexAllAsk" />
+			</bean>
+		</property>
+		<property name="cronExpression">
+			<!-- 每天晚上3点执行 -->
+			<value>0 0 3 * * ?</value>
+		</property>
+	</bean>
+	<!-- 企业文章索引 -->
+	<bean id="indexCmpArticleJob" class="com.hk.web.company.job.IndexCmpArticleJob" />
+	<bean id="indexCmpArticleJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject" ref="indexCmpArticleJob" />
+				<property name="targetMethod" value="invoke" />
+			</bean>
+		</property>
+		<!-- 10分钟时间间隔  -->
+		<property name="startDelay" value="1000000" />
+		<property name="repeatInterval" value="1000000" />
+	</bean>
+	<!-- 徽章任务 -->
+	<bean id="handleUserJob" class="com.hk.web.company.job.HandleUserJob" />
+	<bean id="handleUserJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject" ref="handleUserJob" />
+				<property name="targetMethod" value="invoke" />
+			</bean>
+		</property>
+		<!-- 90s后启动 -->
+		<property name="startDelay" value="90000" />
+		<!-- 10s重复 -->
+		<property name="repeatInterval" value="10000" />
+	</bean>
+	<!-- 足迹索引 -->
+	<bean id="indexCompanyJob" class="com.hk.web.company.job.IndexCompanyJob" />
+	<bean id="indexSearchCompanyTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject" ref="indexCompanyJob" />
+				<property name="targetMethod" value="invoke" />
+			</bean>
+		</property>
+		<!-- 5分钟 -->
+		<property name="startDelay" value="300000" />
+		<property name="repeatInterval" value="300000" />
+	</bean>
+	<!-- 喇叭索引 -->
+	<bean id="indexSearchLabaJob" class="com.hk.web.laba.job.IndexSearchLabaJob" />
+	<bean id="indexSearchLabaTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject" ref="indexSearchLabaJob" />
+				<property name="targetMethod" value="invoke" />
+			</bean>
+		</property>
+		<!-- 30分钟更新一次索引 -->
+		<!-- 
+			<property name="startDelay" value="1800000" />
+			<property name="repeatInterval" value="1800000" />
+		-->
+		<!-- 10分钟 -->
+		<property name="startDelay" value="1000000" />
+		<property name="repeatInterval" value="1000000" />
+	</bean>
+	<!-- 更新频道hot值   -->
+	<bean id="hotUpdateJob" class="com.hk.web.laba.job.HotUpdateJob" />
+	<bean id="hotUpdateJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject" ref="hotUpdateJob" />
+				<property name="targetMethod">
+					<value>invoke</value>
+				</property>
+			</bean>
+		</property>
+		<property name="cronExpression">
+			<value>0 0 3 * * ?</value>
+			<!--
+				"0 0 3 * * ?" 每天中午12点触发 1.秒 0-59 2.分钟 0-59 3.小时 0-23 4.月份中的日期 1-31 5.月份 1-12或者Jan Feb Mar Apr May Jun Jul Aug Sept Oct Nov Dec 6.星期中的日期 1-7或者MON,TUE,WED,THU,FRI,SAT,SUN.
+			-->
+		</property>
+	</bean>
+	<!-- 监控当前msn机器人,如果掉线,重新登录 -->
+	<bean id="msgRobotTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject" ref="msnRobot" />
+				<property name="targetMethod" value="invoke" />
+			</bean>
+		</property>
+		<!-- 启动延迟时间 -->
+		<property name="startDelay" value="60000" />
+		<!-- 间隔时间 -->
+		<property name="repeatInterval" value="30000" />
+	</bean>
+	<!-- 异步通知调用 -->
+	<bean id="noticeTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject">
+					<bean class="com.hk.web.notice.job.NoticeJob" />
+				</property>
+				<property name="targetMethod" value="invoke" />
+			</bean>
+		</property>
+		<!-- 启动短信发送程序延迟时间 -->
+		<property name="startDelay" value="60000" />
+		<!-- 间隔时间 -->
+		<property name="repeatInterval" value="30000" />
+	</bean>
+	<bean id="smsJobDetailTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class=" org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean ">
+				<property name="targetObject" ref="smsJob2" />
+				<property name="targetMethod" value="invoke" />
+			</bean>
+		</property>
+		<!-- 启动短信发送程序延迟时间 -->
+		<property name="startDelay" value="60000" />
+		<!-- 间隔时间 -->
+		<property name="repeatInterval" value="5000" />
+	</bean>
+	<!-- 短信监控 -->
+	<bean id="joinCmpActCmd" class="com.hk.sms.cmd.JoinCmpActCmd" />
+	<bean id="openBoxCmd" class="com.hk.sms.cmd.OpenBoxCmd" />
+	<bean id="createLabaCmd" class="com.hk.sms.cmd.CreateLabaCmd" />
+	<bean id="chgCardActCmd" class="com.hk.sms.cmd.ChgCardActCmd" />
+	<bean id="mgrCompanyCmd" class="com.hk.sms.cmd.MgrCompanyCmd" />
+	<bean id="rootSmsPort" class="com.hk.sms2.smsport.RootSmsPort">
+		<property name="cmddatacmdmap">
+			<map>
+				<entry key="1" value-ref="openBoxCmd" />
+				<entry key="2" value-ref="joinCmpActCmd" />
+			</map>
+		</property>
+		<property name="cmdMap">
+			<map>
+				<entry key="startwith:#@">
+					<bean class="com.hk.sms.cmd.InviteCmd" />
+				</entry>
+				<!--
+					<entry key="startwith:hk"> <bean class="com.hk.sms.cmd.RegCodeRegisteCmd" /> </entry> <entry key="startwith:bx"> <bean class="com.hk.sms.cmd.OpenBoxCmd" /> </entry>
+				-->
+				<entry key="startwith:bd">
+					<bean class="com.hk.sms.cmd.BindCmd" />
+				</entry>
+				<entry key="startwith:yz">
+					<bean class="com.hk.sms.cmd.Bind2Cmd" />
+				</entry>
+				<entry key="startwith:xm">
+					<bean class="com.hk.sms.cmd.UpdateNickName" />
+				</entry>
+				<entry key="startwith:yh">
+					<bean class="com.hk.sms.cmd.CreateUserCouponCmd" />
+				</entry>
+				<entry key="换名片">
+					<bean class="com.hk.sms.cmd.CreateChgCardActCmd">
+						<!-- 默认2个小时 -->
+						<property name="delPersistHour" value="2" />
+					</bean>
+				</entry>
+				<entry key="0">
+					<bean class="com.hk.sms.cmd.MgrCompanyCmd" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="regcoderegistesmsport" class="com.hk.sms2.smsport.DefSmsPortProcessAble">
+		<property name="baseSmsPort" value="2" />
+		<property name="cmdMap">
+			<map>
+				<entry key="*">
+					<bean class="com.hk.sms.cmd.RegCodeRegisteCmd" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="actRootSmsPort" class="com.hk.sms2.smsport.ActRootSmsPort">
+		<property name="baseSmsPort" value="3" />
+		<property name="cmdMap">
+			<map></map>
+		</property>
+	</bean>
+	<bean id="smsPort114" class="com.hk.sms2.smsport.DefSmsPortProcessAble">
+		<property name="baseSmsPort" value="114" />
+		<property name="cmdMap">
+			<map>
+				<entry key="*">
+					<bean class="com.hk.sms.cmd.LabaReplyCmd" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="updateNickName_smsPort" class="com.hk.sms2.smsport.DefSmsPortProcessAble">
+		<property name="baseSmsPort" value="1" />
+		<property name="cmdMap">
+			<map>
+				<entry key="*">
+					<bean class="com.hk.sms.cmd.UpdateNickNameCmd" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="updatePwd_smsPort" class="com.hk.sms2.smsport.DefSmsPortProcessAble">
+		<property name="baseSmsPort" value="7" />
+		<property name="cmdMap">
+			<map>
+				<entry key="*">
+					<bean class="com.hk.sms.cmd.UpdatePwdCmd" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<!-- 信息台 -->
+	<bean id="userinfomation_smsport" class="com.hk.sms2.smsport.DefSmsPortProcessAble">
+		<property name="baseSmsPort" value="68" />
+		<property name="cmdMap">
+			<map>
+				<entry key="*">
+					<bean class="com.hk.sms.cmd.UserInfomationCmd" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<!-- 火酷号 -->
+	<bean id="usersms_smsport" class="com.hk.sms2.smsport.DefSmsPortProcessAble">
+		<property name="baseSmsPort" value="88" />
+		<property name="cmdMap">
+			<map>
+				<entry key="*">
+					<bean class="com.hk.sms.cmd.UserSmsPortCmd" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<!-- 足迹通道 -->
+	<bean id="cmpSmsPortProcessAble" class="com.hk.sms2.smsport.DefSmsPortProcessAble">
+		<property name="baseSmsPort" value="89" />
+		<property name="cmdMap">
+			<map>
+				<entry key="startwith:mc">
+					<bean class="com.hk.sms.cmd.MgrCmpUpdateNameCmd" />
+				</entry>
+				<entry key="startwith:dh">
+					<bean class="com.hk.sms.cmd.MgrCmpUpdateTelphoneCmd" />
+				</entry>
+				<entry key="startwith:dz">
+					<bean class="com.hk.sms.cmd.MgrCmpUpdateAddrCmd" />
+				</entry>
+				<entry key="startwith:js">
+					<bean class="com.hk.sms.cmd.MgrCmpUpdateIntroCmd" />
+				</entry>
+				<entry key="startwith:jt">
+					<bean class="com.hk.sms.cmd.MgrCmpUpdateTrafficCmd" />
+				</entry>
+				<entry key="startwith:zb">
+					<bean class="com.hk.sms.cmd.MgrCmpBindMobileCmd" />
+				</entry>
+				<entry key="*">
+					<bean class="com.hk.sms.cmd.AddCompanyReviewCmd" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="smsJob2" class="com.hk.sms2.SmsJob2">
+		<property name="smsPortMap">
+			<map>
+				<!--
+					<entry key="13*" value-ref="smsPort114" /> <entry key="15*" value-ref="smsPort114" /> <entry key="18*" value-ref="smsPort114" /> <entry key="381" value-ref="smsPort381" /> <entry key="382"
+					value-ref="smsPort382" /> <entry key="383" value-ref="smsPort383" />
+				-->
+				<entry key="1" value-ref="updateNickName_smsPort" />
+				<entry key="2" value-ref="regcoderegistesmsport" />
+				<entry key="3" value-ref="actRootSmsPort" />
+				<entry key="7" value-ref="updatePwd_smsPort" />
+				<entry key="114" value-ref="smsPort114" />
+				<entry key="68*" value-ref="userinfomation_smsport" />
+				<entry key="88*" value-ref="usersms_smsport" />
+				<entry key="89*" value-ref="cmpSmsPortProcessAble" />
+			</map>
+		</property>
+	</bean>
+	<!-- 短信交互session定时清理器 -->
+	<bean id="smsSessionTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class=" org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean ">
+				<property name="targetObject">
+					<bean class="com.hk.web.util.SmsSessionUtil">
+						<property name="sessionTime" value="20" />
+					</bean>
+				</property>
+				<property name="targetMethod" value="invoke" />
+			</bean>
+		</property>
+		<property name="startDelay" value="300000" />
+		<property name="repeatInterval" value="300000" />
+	</bean>
+	<!-- 清除无效的验证码数字 -->
+	<bean id="clearTimeoutRandnumTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject">
+					<bean class="com.hk.web.user.job.ClearTimeoutRandnumJob" />
+				</property>
+				<property name="targetMethod" value="invoke" />
+			</bean>
+		</property>
+		<property name="startDelay" value="180000" />
+		<!-- 间隔时间 -->
+		<property name="repeatInterval" value="660000" />
+	</bean>
+	<!-- 用户索引 -->
+	<bean id="indexSearchUserJob" class="com.hk.web.user.job.IndexSearchUserJob" />
+	<bean id="indexSearchUserJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject" ref="indexSearchUserJob" />
+				<property name="targetMethod" value="invoke" />
+			</bean>
+		</property>
+		<property name="startDelay" value="1800000" />
+		<!-- 间隔时间 -->
+		<property name="repeatInterval" value="1800000" />
+	</bean>
+	<!-- 更新用户活跃度  -->
+	<bean id="userRecentUpdateJob" class="com.hk.web.user.job.UserRecentUpdateJob" />
+	<!-- 配置调度任务,复杂定制模式,月份中的日期和星期不能同时设置   -->
+	<bean id="userRecentUpdateJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject">
+					<ref bean="userRecentUpdateJob" />
+				</property>
+				<property name="targetMethod">
+					<value>invoke</value>
+				</property>
+			</bean>
+		</property>
+		<property name="cronExpression">
+			<value>0 0 2 * * ?</value>
+			<!--
+				"0 0 12 * * ?" 每天中午12点触发 1.秒 0-59 2.分钟 0-59 3.小时 0-23 4.月份中的日期 1-31 5.月份 1-12或者Jan Feb Mar Apr May Jun Jul Aug Sept Oct Nov Dec 6.星期中的日期 1-7或者MON,TUE,WED,THU,FRI,SAT,SUN.
+			-->
+		</property>
+	</bean>
+	<!-- 启动间隔时间来更新活动暗号的状态和过期时间 -->
+	<bean id="cardJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject">
+					<bean class="com.hk.web.card.job.CardJob" />
+				</property>
+				<property name="targetMethod" value="invoke" />
+			</bean>
+		</property>
+		<property name="startDelay" value="180000" />
+		<!-- 间隔时间 -->
+		<property name="repeatInterval" value="180000" />
+	</bean>
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="updateTb_ItemTrigger" />
+				<ref bean="updateHuoItmeInfoTrigger" />
+				<ref bean="addAskDocIntoIndexTrigger" />
+				<ref bean="indexAllAskTrigger" />
+				<ref bean="indexCmpArticleJobTrigger" />
+				<ref bean="handleUserJobTrigger" />
+				<ref bean="indexSearchCompanyTrigger" />
+				<ref bean="msgRobotTrigger" />
+				<ref bean="noticeTrigger" />
+				<ref bean="indexSearchLabaTrigger" />
+				<ref bean="indexSearchUserJobTrigger" />
+				<ref bean="clearTimeoutRandnumTrigger" />
+				<ref bean="userRecentUpdateJobTrigger" />
+				<ref bean="cardJobTrigger" />
+				<ref bean="hotUpdateJobTrigger" />
+				<ref bean="smsSessionTrigger" />
+				<ref bean="smsJobDetailTrigger" />
+				<!--
+				-->
+			</list>
+		</property>
+	</bean>
+</beans>

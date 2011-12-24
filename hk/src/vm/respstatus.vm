@@ -1,0 +1,21 @@
+<resp status="$!{status}">
+	<err code="$!{code}" msg="$!{msg}"/>
+	#if($sharelaba)
+		<labaid>$!{labaId}</labaid>
+	#end
+	#if($sendmsg)
+		<mainid>$!{mainId}</mainid>
+		#if($smssend)
+		<smssend>$!{smssend}</smssend>
+		#end
+	#end
+	#if($bulletincreate)
+		<bulletinid>$!{bulletinId}</bulletinid>
+	#end
+	#if($createcoupon)
+		<couponid>$!{couponId}</couponid>
+	#end
+	#if($createusercoupon)
+		<oid>$!{oid}</oid>
+	#end
+</resp>

@@ -1,0 +1,19 @@
+<resp status="ok">
+	<reviewlist>
+		#foreach($vo in $volist)
+		<review>
+			<labaid>$!{vo.companyReview.labaId}</labaid>
+			<userid>$!{vo.companyReview.userId}</userid>
+			<createtime>$!{vo.companyReview.time}</createtime>
+			<content><![CDATA[$!{vo.content}]]></content>
+			<hasmorecontent>$!{vo.hasMoreContent}</hasmorecontent>
+			<score>$!{vo.companyReview.score}</score>
+			<user>
+				<userid>$!{vo.companyReview.userId}</userid>
+				<nickname><![CDATA[$!{vo.user.nickName}]]></nickname>
+				<head>$!{vo.user.head48Pic}</head>
+			</user>
+		</review>
+		#end
+	</reviewlist>
+</resp>

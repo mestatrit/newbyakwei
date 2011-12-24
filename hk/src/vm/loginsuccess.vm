@@ -1,0 +1,8 @@
+<resp status="ok">
+	<session_key value="$!{session_key}"/>
+	<user>
+		<userid>$!{user.userId}</userid>
+		<nickname>$!{user.nickName}</nickname>
+		<head>$!{user.head48Pic}</head>
+	</user>
+</resp>

@@ -1,0 +1,10 @@
+<resp status="ok">
+	<list>
+		#foreach($o in $list)
+		<companykind>
+			<kindid>$!{o.kindId}</kindid>
+			<name>$!{o.name}</name>
+		</companykind>
+		#end
+	</list>
+</resp>

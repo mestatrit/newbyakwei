@@ -1,0 +1,369 @@
+.alphacube {
+	border: 6px solid #222222;
+	background: #222222;
+}
+.alphacube .nw {
+	background: #fff;
+	height:20px;
+}
+
+.alphacube .ne {
+	background: #fff;
+	height:20px;
+}
+
+.alphacube .n {
+	background: #fff;
+	height:20px;
+	margin:0;
+	padding: 0;
+	text-align:left;
+	overflow: hidden;
+}
+.alphacube .n .title{
+	float: left;
+	background: #fff url(../img/popup_grey_crn_tl.gif) no-repeat right top;
+	color:#435270;
+	font-family: "Myriad Pro", "Myriad Web", Myriad, "HelveticaNeue-light", "Helvetica Neue", "Lucida Grande", Geneva, Helvetica, Arial, sans-serif;
+	font-weight: normal;
+	font-size:18px;
+	height:30px;
+	margin:0;
+	padding:0 16px 0 11px;
+	text-align:left;
+	overflow: hidden;
+}
+.alphacube .w .title{
+	background: #fff;
+	color: #000;
+	font-family: "Myriad Pro", "Myriad Web", Myriad, "HelveticaNeue-light", "Helvetica Neue", "Lucida Grande", Geneva, Helvetica, Arial, sans-serif;
+	font-weight: bold;
+	font-size:16px;
+	height:20px;
+	line-height: 20px;
+	margin-bottom: 20px;
+	padding: 0;
+	text-align:left;
+	overflow: hidden;
+	border-bottom: 1px solid #e5e5e5;
+	position: relative;
+}
+.alphacube .title_link{
+	float: right;
+	font-family: "Myriad Pro", "Myriad Web", Myriad, "HelveticaNeue-light", "Helvetica Neue", "Lucida Grande", Geneva, Helvetica, Arial, sans-serif;
+	font-weight: normal;
+	font-size:13px;
+	height:33px;
+	margin:0;
+	padding:0 10px 0 0;
+	text-align:left;
+	overflow: hidden;
+	color: #1C293C;
+	line-height: 33px;
+}
+.alphacube .comment{
+ 	padding:10px 0 0 10px;
+ 	font-size: 13px;
+ 	float: left;
+ 	height: 23px;
+ }
+.alphacube .content {
+	background: #fff;
+	color: #666666;
+	font-size:12px;
+	overflow:hidden;
+	padding-bottom: 13px;
+}
+
+.alphacube .content form table {
+	margin: 0px auto 0px auto;
+}
+.alphacube .content form table table{
+	padding: 0 0 0 0px;
+	margin: 0px auto;
+}
+.alphacube .content form table td{
+	vertical-align: top;
+}
+
+.alphacube .w {
+	background: #fff;
+	padding: 0 20px;
+
+}
+
+.alphacube .e {
+	border: none;
+	background: #fff; 
+}
+.alphacube .e1 {
+	border: none;
+	background: #fff; 
+}
+.sw {
+	height:1px;
+	font-size: 1px;
+	background: #FFF;
+}
+#login_win .sw {
+	height:10px;
+	background: url(../img/bg_row.gif) repeat left top;
+	position: absolute;
+	top: 235px;
+	width: 100%;
+}
+#new_message_win .sw {
+	height:10px;
+	background: url(../img/bg_row.gif) repeat left top;
+	position: absolute;
+	top: 300px;
+	width: 100%;
+}
+
+.alphacube .se {
+	font-size:2px;
+	height:20px;
+	padding-right:20px;*/
+}
+
+.alphacube .s {
+	font-size:11px;
+	height:20px;
+	overflow:hidden;*/
+}
+
+.alphacube .se_resize_handle {
+	font-size:2px;
+	height:20px;
+	padding-right:20px;*/
+}
+
+.alphacube .se_sizer {
+  width:12px;
+  height:12px;
+}
+
+.alphacube .buttons {
+  height: 35px;
+  background: #222222;
+  padding: 0;
+  margin: 0;
+}
+
+.alphacube .buttons a.close {
+	background: url(../img/close-popup.gif) no-repeat left 2px;
+	display:block;
+	height:35px;
+	float:right;
+	width:81px;
+	font-size:1px;
+	
+}
+
+.alphacube .buttons a.maximize {
+	background:transparent url(../img/buttons.gif) no-repeat 0 -36px;
+	display:block;
+	height:18px;
+	float:left;
+	width:23px;
+	font-size:1px;
+	padding-top:1px; /* padding-top = buttons order, it will be reset to 0, do not use padding, use margin*/
+	display: none;
+}
+.alphacube .buttons a:hover.maximize {
+	background:transparent url(../img/buttons.gif) no-repeat 0 -54px;
+	display: none;
+}
+
+.alphacube .buttons a.minimize {
+	background:transparent url(../img/buttons.gif) no-repeat 0 -72px;
+	display:block;
+	height:18px;
+	float:left;
+	width:23px;
+ 	font-size:1px;
+    padding-top:0px; /* padding-top = buttons order, it will be reset to 0, do not use padding, use margin*/
+	display: none;
+}
+
+.alphacube .buttons a:hover.minimize {
+	background:transparent url(../img/buttons.gif) no-repeat 0 -90px;
+	display: none;
+}
+
+.alphacube .buttons a.minimize.disabled, .alphacube .buttons.over a.minimize.disabled  {
+	background:transparent url(../img/buttons.gif) no-repeat 0 -108px !important;
+	display: none;
+}
+
+
+.alphacube_overlay {
+	background-color: #efefef;
+	filter:alpha(opacity=60);
+	-moz-opacity: 0.6;
+	opacity: 0.6;
+}
+
+.alphacube_wired {
+	background:#efefef;
+	border:1px #000 dashed;
+	filter:alpha(opacity=60);
+	opacity:0.6;
+	position:absolute;
+	-moz-opacity:0.6;
+}
+
+/**** For devider box in popup *****/
+.alphacube .content .dev{
+	background: url(../img/popup_grey_crn_bl.gif) no-repeat left top;
+	position: relative;
+	height: 61px;
+}
+.alphacube .content .dev_r{
+	background: url(../img/popup_grey_crn_br.gif) no-repeat right top;
+	height: 9px;
+	width: 9px;
+	position: absolute;
+	top: 0px;
+	right: -10px;
+}
+.alphacube .content .dev_white{
+	position: absolute;
+	top: 9px;
+	left: 0px;
+	height: 20px;
+	width: 420px;
+	background: #fff;
+}
+.alphacube .content .title1{
+	display: block;
+	position: relative;
+	top: 29px;
+	left: 0px;
+	float: left;
+	background: #fff url(../img/popup_grey_crn_tl.gif) no-repeat right top;
+	color:#435270;
+	font-family: "Myriad Pro", "Myriad Web", Myriad, "HelveticaNeue-light", "Helvetica Neue", "Lucida Grande", Geneva, Helvetica, Arial, sans-serif;
+	font-weight: normal;
+	font-size:18px;
+	height:33px;
+	margin:0;
+	padding:0 16px 0 11px;
+	text-align:left;
+	overflow: hidden;
+}
+.alphacube .content .corn_br{
+	display: block;
+	position: absolute;
+	top: 29px;
+	right: -10px;
+	float: right;
+	background: url(../img/popup_grey_crn_tr1.gif) no-repeat right top;
+	height: 9px;
+	width: 9px;
+}
+/*** For popup Login **************************/
+
+html > body #login_win .content {
+	border-top:none;
+}
+.login_dev div{
+	padding-left: 37px;
+	text-align: center;
+}
+.login_dev div span{
+	display: block;
+	padding: 10px 0; 
+	font-size: 16px;
+}
+*html .login_dev div span{
+	height: 68px;
+}
+#login_win .form_login{
+	text-align: center;
+	padding: 0 0 45px 0;
+}
+
+/*********************************************************/
+html > body #new_message_win .content {
+	border-top:none;
+}
+#new_message_win .form_login{
+	text-align: center;
+	padding: 0 0 45px 0;
+}
+#new_message_win .form_singup{
+	
+}
+#new_message_win .login_dev div{
+	padding: 0px 0px 10px 0px;
+	text-align: left;
+	font-size: 14px;
+}
+/************************************/
+
+.alphacube .content form table.manage_domains {
+	padding:0;
+	margin:0;
+}
+.alphacube .content form table.manage_domains td{
+	vertical-align: middle;
+}
+
+.footer_widget{
+	height: 13px; 
+	overflow:hidden;
+	padding-top: 10px;
+	font-size: 11px;
+	line-height: 23px;
+	color: #3F3F3F;
+	width: 100%;
+	height: 25px !important;
+}
+.footer_widget div.f_l{
+	position: absolute;
+	height: 25px; 
+	float: none; 
+}
+.footer_widget div.f_r{
+	position: absolute;
+	height: 17px;
+	right: 0px; 
+	float: none;
+	padding-top:8px; 
+}
+.footer_widget img{
+	vertical-align: middle;
+}
+.footer_widget .f_r a,
+.footer_widget .f_r a:visited,
+.footer_widget .f_r a:hover{
+	display: block;
+	width: 73px;
+	height: 17px;
+	background: url(../img/btn-red.gif) no-repeat left top;
+	font-size: 9px;
+	color: #fff;
+	line-height: 17px;
+	text-align: center;
+	cursor:pointer;
+	text-decoration: none;
+}
+
+element.style {
+	z-index:224;
+}
+#dot_line1.sw {
+	height:10px;
+	background: url(../img/bg_row.gif) repeat left top;
+	position: absolute;
+	top: 200px;
+	width: 100%;
+}
+#dot_line2.sw {
+	height:10px;
+	background: url(../img/bg_row.gif) repeat left top;
+	position: absolute;
+	top: 360px;
+	width: 100%;
+}

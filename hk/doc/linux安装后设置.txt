@@ -1,0 +1,169 @@
+禁止root远程登录:(设置后重启ssh)
+	运行 /etc/ssh/sshd_config
+	将   PermitRootLogin yes
+	改为 PermitRootLogin no
+
+添加能远程登录的用户:
+	/etc/rc.d/init.d/sshd restart
+	添加可登录用户
+	AllowUsers yuanwei
+
+
+字符集
+	/etc/sysconfig/i18n
+	LANG="zh_CN.GB18030"
+	LANGUAGE="zh_CN.GB18030:zh_CN.GB2312:zh_CN"
+	SUPPORTED="zh_CN.GB18030:zh_CN:zh:en_US.UTF-8:en_US:en"
+	SYSFONT="lat0-sun16"
+
+
+上传服务器软件
+
+软件安装到 /usersoft
+
+安装jdk
+	安装中出现 Do you agree to the above license terms? [yes or no] 选择yes
+	到/usr/java/中复制文件到/usersoft
+
+设置环境变量
+vi /etc/profile
+JAVA_HOME=/usersoft/jdk1.5.0_08
+TOMCAT_HOME=/home/bosee/tomcat5
+CLASSPATH=.
+PATH=$JAVA_HOME/bin:$TOMCAT_HOME/bin:$PATH
+export JAVA_HOME CLASSPATH PATH
+
+==========最新环境变量===============
+
+JAVA_HOME=/usersoft/jdk1.5.0_08
+
+TOMCAT_HOME=/home/bosee/tomcat5
+MAGICK_HOME=/usersoft/imagemagick
+JMAGICK_HOME=/usersoft/jmagick
+CLASSPATH=.:$CLASSPATH
+PATH=$JAVA_HOME/bin:$PATH
+export JAVA_HOME CLASSPATH  PATH  MAGICK_HOME JMAGICK_HOME
+export PATH=$PATH:$MAGICK_HOME:/bin
+export LD_LIBRARY_PATH=$JMAGICK_HOME/lib:$MAGICK_HOME/lib
+export DYLD_LIBRARY_PATH=$JMAGICK_HOME/lib:$MAGICK_HOME/lib
+export CLASSPATH=$CLASSPATH:$JMAGICK_HOME/classes
+export CLASSPATH=$CLASSPATH
+export JAVA_HOME CLASSPATH  PATH
+=======================
+
+安装imagemagick
+
+安装jpeg包:
+
+http://www.ijg.org/files/jpegsrc.v6b.tar.gz
+tar -zvxf jpegsrc.v6b.tar.gz
+cd jpeg-6b/
+./configure --enable-shared --enable-static ; make ; make install
+
+安装png包
+
+
+先在http://sourceforge.net/projects/libpng/上下载最新的libpng包
+tar -xzvf libpng-1.2.12.tar.gz
+cd libpng-1.2.12
+　　 cp scripts/makefile.std makefile
+　　 make
+　　 make install
+
+先在http://www.yeo.id.au/jmagick/上下载最新的ImageMagick和JMagick包
+
+安装ImageMagick包
+tar xzvf ImageMagick-6.2.6.tar.gz
+./configure --prefix=/usersoft/imagick --enable-shared --enable-static
+make
+make install
+
+
+安装JMagick包
+tar xzvf JMagick-6.2.6-0.tar.gz
+autoconf
+./configure --prefix=/usersoft/jmagick --with-magick-home=/usersoft/imagick --enable-shared --enable-static --with-java-home=/usersoft/jdk1.5.0_08
+make all
+make install
+
+
+JAVA_HOME=/usersoft/jdk1.5.0_08
+TOMCAT_HOME=/home/bosee/tomcat5
+MAGICK_HOME=/usersoft/imagemagick
+JMAGICK_HOME=/usersoft/jmagick
+CLASSPATH=.:$CLASSPATH
+PATH=$JAVA_HOME/bin:$PATH
+export JAVA_HOME CLASSPATH  PATH  MAGICK_HOME JMAGICK_HOME
+export PATH=$PATH:$MAGICK_HOME:/bin
+export LD_LIBRARY_PATH=$JMAGICK_HOME/lib:$MAGICK_HOME/lib
+export DYLD_LIBRARY_PATH=$JMAGICK_HOME/lib:$MAGICK_HOME/lib
+export CLASSPATH=$CLASSPATH:$JMAGICK_HOME/classes
+export CLASSPATH=$CLASSPATH
+export JAVA_HOME CLASSPATH  PATH
+
+
+
+
+
+apache安装正式使用
+./configure --prefix=/usersoft/httpd2.0.61/ --enable-module=so --enable-rewrite=shared --enable-proxy --with-mpm=worker 
+--with-threads=yes --enable-so --enable-dav=share
+
+make
+make install
+
+tomcat-connector 安装
+tar xvfz jakarta-tomcat-connectors-1.2.15-src.tar.gz
+cd native/
+./buildconf.sh
+./configure --with-apxs=/usersoft/httpd2.0.61/bin/apxs   --with-java-home=/usersoft/jdk1.5.0_08/
+make
+make install
+
+复制worker.properties
+
+
+mysql安装：
+
+你必须执行的安装MySQL源码分发版的基本命令是：
+
+shell> groupadd mysql
+shell> useradd -g mysql mysql
+shell> gunzip < mysql-VERSION.tar.gz | tar -xvf -shell> cd mysql-VERSION
+shell> ./configure --prefix=/usr/local/mysql --with-charset=utf8
+shell> make
+shell> make install
+shell> cp support-files/my-medium.cnf /etc/my.cnf
+shell> cd /usr/local/mysql
+shell> bin/mysql_install_db --user=mysql
+shell> chown -R root  .
+shell> chown -R mysql var
+shell> chgrp -R mysql .
+shell> bin/mysqld_safe --user=mysql &
+
+
+在所有东西被安装以后，你应当使用该命令初始化并且测试你的分发版：
+
+shell> /usr/local/mysql/bin/mysqld_safe --user=mysql &
+
+关闭mysql
+
+mysqladmin shutdown
+
+
+刷新权限
+
+FLUSH PRIVILEGES;
+
+复制tomcat到服务器
+
+
+
+
+格式化完后我们需要进行挂载分区， 
+
+#mkdir www //创建/www目录，我们将把新的分区挂到www下
+
+#mount /dev/sdb1 /www  //将/dev/sdb1挂载到/www
+
+/dev/sdb1               /newspace               ext3    defaults        1 2

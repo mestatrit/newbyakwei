@@ -1,0 +1,2 @@
+<%@ page language="java" pageEncoding="UTF-8"%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%><%@ taglib uri="/WEB-INF/waphk.tld" prefix="hk"
+%><a href="/p/${current_notice.dataMap.userid }">${current_notice.dataMap.nick }</a> 回复了你的点评 ：${current_notice.dataMap.item_cmt_reply_content} <a class="b" href="${ctx_path }/tb/itemcmt?cmtid=${current_notice.dataMap.item_cmtid}"> ....</a>

@@ -1,0 +1,3 @@
+<resp status="fail">
+	<err code="$!{code}" msg="$!{msg}"/>
+</resp>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:flow="http://www.springframework.org/schema/webflow-config" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:osgi-compendium="http://www.springframework.org/schema/osgi-compendium" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+		http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	<bean id="mobileBindInterceptor" class="com.hk.web.pub.interceptor.MobileBindInterceptor" />
+	<bean id="authedCmpInterceptor" class="com.hk.web.company.interceptor.AuthedCmpInterceptor" />
+	<bean id="cmpInterceptor" class="com.hk.web.company.interceptor.CmpInterceptor" />
+	<bean id="cmpStatusCheckSuccessInterceptor" class="com.hk.web.company.interceptor.CmpStatusCheckSuccessInterceptor" />
+	<bean id="applyAuthCompany" class="com.hk.frame.web.interceptor.HkInterceprotStack">
+		<property name="list">
+			<list>
+				<ref bean="mobileBindInterceptor" />
+				<ref bean="cmpInterceptor" />
+				<ref bean="cmpStatusCheckSuccessInterceptor" />
+			</list>
+		</property>
+	</bean>
+	<bean id="cloudIntercepotrUtil" class="com.hk.frame.web.interceptor.HkIntercepotorUtil">
+		<property name="interceptorMap">
+			<map>
+				<!-- userset -->
+				<entry key="/user/set/set_tosetregcode" value-ref="mobileBindInterceptor" />
+				<entry key="/user/set/set_setregcode" value-ref="mobileBindInterceptor" />
+				<!--
+					<entry key="/laba/op/op_tobomblaba" value-ref="bombInterceptor" /> <entry key="/laba/op/op_confirmbomblaba" value-ref="bombInterceptor" /> <entry key="/laba/op/op_bomblaba"
+					value-ref="bombInterceptor" /> <entry key="/laba/op/op_topinklaba" value-ref="bombInterceptor" /> <entry key="/laba/op/op_confirmpinklaba" value-ref="bombInterceptor" /> <entry
+					key="/laba/op/op_pinklaba" value-ref="bombInterceptor" />
+				-->
+				<!-- opcompany -->
+				<entry key="/e/op/op_toApplyAuth" value-ref="applyAuthCompany" />
+				<entry key="/e/op/op_toApplyAuth2" value-ref="applyAuthCompany" />
+				<entry key="/e/op/op_applyAuth" value-ref="applyAuthCompany" />
+			</map>
+		</property>
+	</bean>
+</beans>

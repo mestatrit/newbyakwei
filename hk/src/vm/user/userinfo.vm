@@ -1,0 +1,16 @@
+<resp status="ok">
+	<user>
+		<userid>$!{user.userId}</userid>
+		<nickname><![CDATA[$!{user.nickName}]]></nickname>
+		<head>$!{user.head48Pic}</head>
+		<name><![CDATA[$!{info.name}]]></name>
+		<birthdaymonth>$!{info.birthdayMonth}</birthdaymonth>
+		<birthdaydate>$!{info.birthdayDate}</birthdaydate>
+		<sex>$!{info.sex}</sex>
+		<intro><![CDATA[$!{info.intro}]]></intro>
+		<city>
+			<cityid>$!{city.cityId}</cityid>
+			<city><![CDATA[$!{city.city}]]></city>
+		</city>
+	</user>
+</resp>

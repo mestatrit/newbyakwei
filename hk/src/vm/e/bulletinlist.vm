@@ -1,0 +1,13 @@
+<resp status="ok">
+	<bulletinlist>
+		#foreach($o in $list)
+		<bulletin>
+			<bulletinid>$!{o.bulletinId}</bulletinid>
+			<companyid>$!{o.companyId}</companyid>
+			<title><![CDATA[$!{o.title}]]></title>
+			<content><![CDATA[$!{o.content}]]></content>
+			<createtime><![CDATA[$!{o.getTime()}]]></createtime>
+		</bulletin>
+		#end
+	</bulletinlist>
+</resp>

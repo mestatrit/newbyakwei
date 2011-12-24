@@ -1,0 +1,14 @@
+/***********首页 图片展播***************/
+.slides { position:relative; overflow:hidden; width:704px; height:340px; }
+.slide-pic { overflow:hidden; width:703px; }
+.slide-pic img { width:701px; height:338px; border:1px solid #E4E4E4; }
+.slide-pic li { display:none; }
+.slide-pic li.cur { display:block; }
+.slide-li { position:absolute; left:0; bottom:0; }
+.slide-li li { float:left; width:175px; height:30px; line-height:30px; margin-right:1px; text-align:center; }
+.slide-li a { display:block; width:174px; height:30px; font-size:14px; color:#FFF; }
+.slide-li .cur a, .slide-li a:hover { color:#333; text-decoration:none; }
+.op li { background:#666; opacity: 0.6; filter:alpha(opacity=60); }
+.op li.cur { background:#FFF; }
+.slide-txt span { display:none; }
+

@@ -1,0 +1,34 @@
+网站首页都由apache 进行 urlrewrite
+
+程序中
+火酷网站首页  /index_route.do
+	程序中对应的action为IndexAction的route方法
+	wap 首页 /index_h.do
+	程序中对应的action为IndexAction的h方法
+	url规则：
+		action中@Component("/index")的值对应url的前半部分如果运行方法为execute，则无附加字符
+		例如：
+		/index.do
+		对用的Action 中@Component("/index"),方法为 public String execute(HkRequest req, HkResponse resp) 
+		/index_hello.do 
+		对用的Action 中@Component("/index"),方法为 public String hello(HkRequest req, HkResponse resp) 
+		所以根据url找到相应的Action的办法就是根据url规律进行查找
+		程序最好是XXAction中XXX忽略大小写后与url对应, "_"做为方法连接符，后面跟着的就是方法名
+		例如：
+		/epp/hello_ok.do
+		action java文件可以为epp.HelloAction，然后里面有个ok(HkRequest req, HkResponse resp) 方法
+		
+		
+企业网站首页 /epp/index.do
+
+
+Service定义
+每个Service尽量不要与其他Service有包含关系，如果已经存在包含关系请尽量改正
+
+如果必要的数据交互请用Processor进行组装，然后标明统一调用Processor中的方法
+
+Service中 get load find都为读取数据 create update delete为更新数据
+例如
+getXXXListByCmpIdAndFlg为根据cpid 与flg参数的值 获取某个集合
+
+程序中没有定义dao层，采用了Query代码query中定义了对于数据的更新以及查找操作

@@ -1,0 +1,25 @@
+html{color:#000;background:#fff;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,legend,input,button,textarea,p,blockquote,thead,tbody,tfoot,th,td{margin:0;padding:0;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+li{list-style:none;}
+fieldset,img{border:0;}
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}
+input,button,textarea,select{*font-size:100%;}
+legend{color:#000;}
+table{border-collapse:collapse;border-spacing:0;}
+caption,th{text-align:left;font-style:inherit;font-weight:inherit;}
+.f12{font-size:12px;}    .f12b{font-size:12px;font-weight:bold;}
+.f14{font-size:14px;}    .f14b{font-size:14px;font-weight:bold;}
+.f16{font-size:16px;}    .f16b{font-size:16px;font-weight:bold;}
+.f18{font-size:18px;}    .f18b{font-size:18px;font-weight:bold;}
+.fL{float:left;}         .fR{float:right;}
+.cL{clear:left;}         .cR{clear:right;}
+.dN{display:none;}		 .dB{display:block;}    .dI{display:inline;}
+.aC{text-align:center;}  .aL{text-align:left;}  .aR{text-align:right;}
+.cB{clear:both;font-size:1px;width:1px;height:0;visibility:hidden;line-height:0;}
+.hand{cursor:pointer;}
+.fwB{font-weight:bold;}
+.fontTahoma{ font-family:Tahoma;}
+body{font-size:12px; font-family:Verdana,Arial,"ËÎÌו"; color:#333;}
+a:link,a:visited{color:#333;text-decoration:none;}
+a:hover{color:#a10000;text-decoration:none;}

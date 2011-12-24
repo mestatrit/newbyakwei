@@ -1,0 +1,3 @@
+<resp status="ok">
+	<companycheckstatus>$!{checkstatus}</companycheckstatus>
+</resp>

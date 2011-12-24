@@ -1,0 +1,3 @@
+<resp status="$!{status}">
+	<available>$!{available}</available>
+</resp>

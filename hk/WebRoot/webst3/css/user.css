@@ -1,0 +1,40 @@
+.userinfo{
+	margin-bottom:20px;
+	font-size:14px;
+}
+.userinfo img{
+	border:none;
+	border-top:0px;
+	border-right:0px;
+	border-bottom:0px;
+	border-left:0px;
+}
+.userinfo table{
+	width:100%;
+}
+.userinfo table tr td.headimg{
+	width:260px;
+	text-align: center;
+}
+.userinfo table tr td.headimg img{
+	border:1px solid #e5e5e5;
+	padding:3px;
+	width:180px;
+	height:180px;
+}
+.userinfo div.usertopname{
+	padding:5px;
+}
+
+.userinfo table tr td.info{
+	font-size:14px;
+}
+.userinfo .useropt{
+	padding:10px 0px;
+	text-align:center;
+	font-size:14px;
+	background:#EFEFEF;
+}
+.userinfo .useropt a{
+	padding:0px 10px;
+}

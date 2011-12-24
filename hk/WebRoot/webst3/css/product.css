@@ -1,0 +1,193 @@
+.phototop{
+	margin-bottom:10px;
+	line-height: 46px;
+}
+span.product-name{
+	font-size:46px;
+	font-weight:bold;
+}
+span.product-price{
+	margin-left:10px;
+	font-size:26px;
+	font-weight:bold;
+}
+.product{
+	padding-bottom:20px;
+	padding-left:10px;
+	padding-top:10px;
+	overflow:hidden;
+}
+.smallcon{
+	margin-bottom:10px;
+	width:800px;
+}
+.smallcon .smallcon-inner{
+	padding:0px 15px;
+	overflow:hidden;
+	position:relative;
+}
+a.photo{
+}
+li.smallphoto{
+	display:block;
+	float:left;
+	margin:10px 5px 0px 5px;
+	padding:0px;
+}
+li.smallphoto img
+{
+	width:50px;
+	height:40px;
+
+}
+li.smallphoto a:hover img
+li.smallphoto-active a img
+{
+	filter:alpha(opacity=50);opacity:0.5;
+}
+li.smallphoto a:active img
+{
+	filter:alpha(opacity=50);opacity:0.5;
+}
+.previous_button{
+	float: left;
+	position: relative; top: 15px;
+	width: 20px;
+  	height: 32px;
+	cursor: pointer;
+	background:url(../img/btn-left-a.gif) no-repeat center;
+}
+.next_button {
+  margin: 0px; position: relative; top:15px;
+  float:left;
+  width: 20px;
+  height: 32px;
+  background: url(../img/btn-right-a.gif) no-repeat left center;
+  cursor: pointer;
+  margin-left:5px;
+}
+.slider{
+	width: 600px;
+	height:50px;
+	position: relative;
+	float: left;
+	overflow:hidden;
+}
+.product-photo{
+	position:relative;
+	float:left;
+	width:800px;
+	overflow:hidden;
+	text-align: center;
+	z-index: 9999;
+}
+.product-photo img{
+}
+.imgarrow{
+	left:0px;
+	top:0px;
+	position: absolute;
+	width: 798px;
+	height:800px;
+	z-index: 999;
+}
+.product-act{
+	float:left;
+	padding-left:5px;
+}
+.product-act2{
+	padding-top:10px;
+}
+.product-act2 a{
+	color: #000;
+	text-decoration: none;
+	font-weight:bold;
+	line-height: 24px;
+	margin: 0px 18px;
+	padding:0px;
+	display:block;
+	float: left;
+	cursor: pointer;
+	font-size:16px;
+}
+.product-act2 a:hover{
+	color:#0085CF;
+}
+.product-act2 .act2-split {
+	border-left:1px solid #e7e7e7;
+	width:1px;
+	height:24px;
+	float:left;
+	line-height: 1px;
+}
+.product-act ul li{
+	padding:5px 10px;
+	line-height:25px;
+	font-size:16px;
+	font-weight:bold;
+	width:130px;
+}
+.product-act ul li a{
+	display:block;
+}
+.product-act ul li a:hover{
+	background-color:#ccc;
+}
+
+.mod_btm{
+	width:980px;
+}
+.mod_btm .mod_btm-bottom-l{
+	float:left;
+	width:6px;
+	height:658px;
+	background:url(../img/rd-btm/l.gif) no-repeat;
+}
+.mod_btm .mod_btm-bottom-r{
+	float:right;
+	width:6px;
+	height:58px;
+	background:url(../img/rd-btm/r.gif) no-repeat;
+}
+.mod_btm .mod_btm-bottom-mid{
+	text-align:center;
+	float:left;
+	width:968px;
+	height:58px;
+	background:url(../img/rd-btm/mid.gif) repeat-x;
+}
+.product-body2{
+	padding:10px 40px 0px 40px;
+}
+.product-body2 .l-body{
+	width:210px;
+}
+.product-body2 .r-body{
+	width:648px;
+}
+.imgslider{
+margin: 0px; padding: 0px; position: relative; list-style-type: none; z-index: 1; width: 2890px; left:0px;
+}
+ul.product-list2 li{
+	height: 25px;
+	overflow: hidden;
+}
+ul.product-list2 li.hasimg{
+	height: 40px;
+	overflow: hidden;
+}
+ul.product-list2 li a{
+	display: block;
+	font-size: 14px;
+	font-weight: normal;
+	text-decoration: none;
+}
+ul.product-list2 li a:hover{
+	text-decoration: underline;
+	background: none;
+}
+ul.product-list2 li img{
+	width: 32px;
+	height: 32px;
+	vertical-align: middle;
+}

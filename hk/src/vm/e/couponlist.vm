@@ -1,0 +1,14 @@
+<resp status="ok">
+	<list>
+		#foreach($o in $list)
+		<coupon>
+			<couponid>$!{o.couponId}</couponid>
+			<overdueflg>$!{o.overdueflg}</overdueflg>
+			<amount>$!{o.amount}</amount>
+			<dcount>$!{o.dcount}</dcount>
+			<name><![CDATA[$!{o.name}]]></name>
+			<available>$!{o.available}</available>
+		</coupon>
+		#end
+	</list>
+</resp>

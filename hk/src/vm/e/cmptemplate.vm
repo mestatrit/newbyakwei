@@ -1,0 +1,6 @@
+<resp status="ok">
+	<cmptemplate>
+		<companyid>$!{o.companyId}</companyid>
+		<templateid>$!{o.templateId}</templateid>
+	</cmptemplate>
+</resp>

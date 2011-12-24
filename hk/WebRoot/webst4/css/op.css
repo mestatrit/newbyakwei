@@ -1,0 +1,25 @@
+.userop_l{
+float: left;
+width:140px;
+}
+.userop_r{
+float: right;
+width:640px;
+}
+.userop{
+text-align: center;
+}
+.userop a{
+font-size:16px;
+display: block;
+text-decoration: none;
+padding: 5px 0;
+font-weight: bold;
+}
+.userop a:hover,
+.userop a.active
+{
+background-color: #2398C9;
+color: #fff;
+text-decoration: none;
+}

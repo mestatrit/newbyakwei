@@ -1,0 +1,79 @@
+服务器软件包括
+	Apache 2.0.63 (mod_rewrite,mod_proxy)
+	Tomcat 5.5.17
+	jdk-1_5_0_08-linux-i586-rpm.bin
+	Java 1.5.08
+	ImageMagick-6.2.6-8.tar.gz
+	JMagick-6.2.6-0.tar.gz
+	jpegsrc.v6b.tar.gz
+	libpng-1.2.12.tar.gz
+	php-5.2.9.tar.gz
+	curl-7.19.6.tar.gz
+	freetype-2.3.9.tar.gz
+	gd-2.0.35.tar.gz
+	jpegsrc.v6b.tar.gz
+	libpng-1.2.40.tar.gz
+	libxml2-2.6.32.tar.gz
+	libxslt-1.1.25.tar.gz
+	zlib-1.2.3.tar.gz
+	mysql-5.0.85.tar.gz
+	tomcat-connectors-1.2.28-src.tar.gz
+
+火酷与博色的图片以及其他文件都存储在	/newspace 下
+
+博色网站目录在 /home/bosee
+/home/bose/pub 是 /newspace/bosee/pub/的快捷链接
+
+火酷网站目录在  /home/huoku
+/home/huoku/pub 是 /newspace/huoku/pub 的快捷链接
+
+mysql数据库安装在 /newspace/install   user:root    pwd:boseeandbokee
+
+php 5.2.9安装在 /newspace/install
+
+目前火酷与博色使用的是2个tomcat
+火酷使用 /home/bosee/tomcat , 博色使用 /home/bosee/tomcata
+
+apache 安装在 /opt/app
+
+ImageMagick 安装在 /opt/app
+
+Jmagick 安装在  /opt/app
+
+
+文件安装过程 :(以下安装的目录名为举例，实际安装请根据情况定制目录)
+
+jdk安装
+	到bin文件所在文件夹下chmod 755 jdk-1_5_0_08-linux-i586.bin
+	执行./jdk-1_5_0_08-linux-i586.bin进行解压
+	将解压好的文件夹拷贝到/opt/java/目录下
+	到/etc/profile.d/目录下(可省)
+	创建JAVA.sh文件(可省)
+
+
+
+
+环境变量
+JAVA_HOME=/usersoft/jdk1.5.0_08
+
+TOMCAT_HOME=/home/bosee/tomcat5
+MAGICK_HOME=/usersoft/imagemagick
+JMAGICK_HOME=/usersoft/jmagick
+CLASSPATH=.:$CLASSPATH
+PATH=$JAVA_HOME/bin:$PATH
+export JAVA_HOME CLASSPATH  PATH  MAGICK_HOME JMAGICK_HOME
+export PATH=$PATH:$MAGICK_HOME:/bin
+export LD_LIBRARY_PATH=$JMAGICK_HOME/lib:$MAGICK_HOME/lib
+export DYLD_LIBRARY_PATH=$JMAGICK_HOME/lib:$MAGICK_HOME/lib
+export CLASSPATH=$CLASSPATH:$JMAGICK_HOME/classes
+export CLASSPATH=$CLASSPATH
+export JAVA_HOME CLASSPATH  PATH
+
+tomcat6下解决 jsp标签中引号解析问题:
+
+修改Tomcat目录：D:\Java\tomcat-6.0.20\conf下面的catalina.properties文件，在最后面加入：
+org.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=false
+###############################################
+用到jmagick的地方，把jmagick.jar放入tomcat下的lib中
+
+

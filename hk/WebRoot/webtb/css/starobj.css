@@ -1,0 +1,43 @@
+ul.starlist, ul.starlist li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    float: left;
+}
+
+ul.starlist li {
+    float: left;
+    width: 17px;
+    height: 17px;
+    margin-right: 3px;
+    border: none;
+}
+
+ul.starlist li a, ul.starlist li a:hover {
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+ul.starlist li img {
+    width: 17px;
+    height: 17px;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.starttip {
+    float: left;
+    margin-left: 10px;
+}
+
+.startclr {
+    float: none;
+    clear: both;
+    line-height: 0;
+    font-size: 0;
+    height: 0;
+}

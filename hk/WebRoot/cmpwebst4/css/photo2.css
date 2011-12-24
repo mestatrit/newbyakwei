@@ -1,0 +1,59 @@
+html {overflow:-moz-scrollbars-vertical;}
+.bigphotoouter{
+	float:left;
+	width: 840px;
+	border: 2px solid #dddddd;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+.bigphoto{
+	text-align:center;
+}
+.rcon{
+	float:right;
+	width:110px;
+}
+.smphotocon{
+	height:448px;
+	position:relative;
+	overflow:hidden;
+}
+.smphoto{
+	height:672px;
+	width:110px;
+	overflow:hidden;
+	position:absolute;
+	top:-112px;
+	left:0px;
+}
+.pboxouter{
+	width:110px;
+	height:112px;
+	position:relative;
+}
+.pbox{
+	width:100px;
+	border:1px solid #e5e5e5;
+	background-color:#ffffff;
+}
+.pbox img{
+	width:100px;
+	height:100px;
+	cursor:pointer;
+	display: inline;
+}
+a.divbtn{
+	padding:5px;
+	background-color:#D5D5D5;
+	text-align:center;
+	font-weight:bold;
+	font-size:16px;
+	cursor:pointer;
+	display:block;
+}
+.imgseled{
+	border: 3px solid #A9CD20;
+}
+.disabled{
+	color: #cccccc;
+}

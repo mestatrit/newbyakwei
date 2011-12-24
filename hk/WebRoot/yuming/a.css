@@ -1,0 +1,58 @@
+html,body,div,dl,dt,dd,h1,h2,h3,h4,h5,h6,p,a,form,fieldset,select,input,ul,li,table,td,th,img,textarea
+	{
+	padding: 0px;
+	margin: 0px;
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #000000;
+	line-height: 25px;
+	width: auto;
+	margin: 0;
+	padding: 0;
+	background-color: #FFFFFF;
+	word-break: break-all;
+	word-wrap: break-word;
+	margin-left: 20px;
+	margin-top: 20px;
+}
+div.domainlist div.name{
+	float:left;
+	width: 300px;
+}
+.f_l{
+	float:left;
+}
+.split-r{
+	margin-right: 30px;
+}
+.clr {
+    float: none;
+    clear: both;
+    line-height: 0;
+    font-size: 0;
+    height: 0;
+}
+.btn {
+    background-color: #A9CD20;
+    border: 3px solid #CBEB7F;
+    color: #FFFFFF;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 3px 20px !important; /*******ie8 ff opera safari******/ *padding:
+    3px 0px !important; /****ie7****/ * padding:
+    3px 0px;
+    padding:
+    3px 0px; /***ie6***/
+-moz-border-radius:
+    5px;
+    -webkit-border-radius:
+    5px;
+}
+#hk {
+    margin-right: auto;
+    margin-left: auto;
+    width: 700px;
+}

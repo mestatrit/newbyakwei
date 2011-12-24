@@ -1,0 +1,15 @@
+<resp status="ok">
+	<userlist>
+		#foreach($vo in $userlist)
+		<user>
+			<userid>$!{vo.user.userId}</userid>
+			<nickname><![CDATA[$!{vo.user.nickName}]]></nickname>
+			<head>$!{vo.user.head48Pic}</head>
+			<laba>
+				<labaid>$!{vo.labaVo.laba.labaId}</labaid>
+				<content><![CDATA[$!{vo.labaVo.content}]]></content>
+			</laba>
+		</user>
+		#end
+	</userlist>
+</resp>

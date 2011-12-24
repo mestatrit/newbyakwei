@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 2.6//EN" "http://tuckey.org/res/dtds/urlrewrite2.6.dtd">
+<urlrewrite>
+	<rule>
+		<from>^/$</from>
+		<to type="forward">%{context-path}/sys/route.do</to>
+	</rule>
+	<rule>
+		<from>^/m/?$</from>
+		<to type="forward">%{context-path}/sys/route.do?wapflg=1</to>
+	</rule>
+	<rule>
+		<from>^/index/?$</from>
+		<to type="forward">%{context-path}/sys/route.do?wapflg=0</to>
+	</rule>
+	<rule>
+		<from>^/edu/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/org/org.do?companyId=$1&amp;orgId=$2</to>
+	</rule>
+	<rule>
+		<from>^/edu/([0-9]+)/([0-9]+)/column/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/org/org_nav.do?companyId=$1&amp;orgId=$2&amp;orgnavId=$3</to>
+	</rule>
+	<rule>
+		<from>^/edu/([0-9]+)/([0-9]+)/articles/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/org/article.do?companyId=$1&amp;orgId=$2&amp;orgnavId=$3</to>
+	</rule>
+	<rule>
+		<from>^/edu/([0-9]+)/([0-9]+)/articles/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/org/article.do?companyId=$1&amp;orgId=$2&amp;orgnavId=$3&amp;page=$4</to>
+	</rule>
+	<rule>
+		<from>^/edu/([0-9]+)/([0-9]+)/article/([0-9]+)/([0-9]+).html?$</from>
+		<to type="forward">%{context-path}/epp/web/org/article_view.do?companyId=$1&amp;orgId=$2&amp;orgnavId=$3&amp;oid=$4</to>
+	</rule>
+	<rule>
+		<from>^/edu/([0-9]+)/([0-9]+)/msg/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/org/msg.do?companyId=$1&amp;orgId=$2&amp;orgnavId=$3</to>
+	</rule>
+	<rule>
+		<from>^/edu/([0-9]+)/([0-9]+)/zhaosheng/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/org/studyad.do?companyId=$1&amp;orgId=$2&amp;orgnavId=$3</to>
+	</rule>
+	<rule>
+		<from>^/edu/([0-9]+)/([0-9]+)/zhaosheng/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/org/studyad.do?companyId=$1&amp;orgId=$2&amp;orgnavId=$3&amp;page=$4</to>
+	</rule>
+	<rule>
+		<from>^/edu/([0-9]+)/([0-9]+)/zhaosheng/([0-9]+)/([0-9]+).html?$</from>
+		<to type="forward">%{context-path}/epp/web/org/studyad_view.do?companyId=$1&amp;orgId=$2&amp;orgnavId=$3&amp;adid=$4</to>
+	</rule>
+	<rule>
+		<from>^/column/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/cmpnav.do?companyId=$1&amp;navId=$2</to>
+	</rule>
+	<rule>
+		<from>^/zhaosheng/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/studyad.do?companyId=$1&amp;kindId=$2</to>
+	</rule>
+	<rule>
+		<from>^/zhaosheng/([0-9]+)/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/studyad.do?companyId=$1&amp;kindId=$2&amp;page=$3</to>
+	</rule>
+	<rule>
+		<from>^/articles/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/cmparticle.do?companyId=$1&amp;navId=$2</to>
+	</rule>
+	<rule>
+		<from>^/articles/([0-9]+)/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/cmparticle.do?companyId=$1&amp;navId=$2&amp;page=$3</to>
+	</rule>
+	<rule>
+		<from>^/articlelist/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/cmparticle_list.do?companyId=$1&amp;navId=$2</to>
+	</rule>
+	<rule>
+		<from>^/articlelist/([0-9]+)/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/cmparticle_list.do?companyId=$1&amp;navId=$2&amp;page=$3</to>
+	</rule>
+	<rule>
+		<from>^/article/([0-9]+)/([0-9]+)/([0-9]+).html$</from>
+		<to type="forward">%{context-path}/epp/web/cmparticle_view.do?companyId=$1&amp;navId=$2&amp;oid=$3</to>
+	</rule>
+	<rule>
+		<from>^/tag/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/cmparticle_tagarticle.do?companyId=$1&amp;tagId=$2</to>
+	</rule>
+	<rule>
+		<from>^/tag/([0-9]+)/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/cmparticle_tagarticle.do?companyId=$1&amp;tagId=$2&amp;page=$3</to>
+	</rule>
+	<rule>
+		<from>^/([0-9]+)/link.html$</from>
+		<to type="forward">%{context-path}/epp/web/cmpfrlink.do?companyId=$1</to>
+	</rule>
+	<rule>
+		<from>^/products/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/product.do?companyId=$1&amp;navId=$2</to>
+	</rule>
+	<rule>
+		<from>^/products/([0-9]+)/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/product.do?companyId=$1&amp;navId=$2&amp;page=$3</to>
+	</rule>
+	<rule>
+		<from>^/products/([0-9]+)/([0-9]+)/sort/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/product.do?companyId=$1&amp;navId=$2&amp;sortId=$3</to>
+	</rule>
+	<rule>
+		<from>^/products/([0-9]+)/([0-9]+)/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/product.do?companyId=$1&amp;navId=$2&amp;sortId=$3&amp;page=$4</to>
+	</rule>
+	<rule>
+		<from>^/product/([0-9]+)/([0-9]+)/([0-9]+)/([0-9]+).html$</from>
+		<to type="forward">%{context-path}/epp/web/product_view.do?companyId=$1&amp;navId=$2&amp;sortId=$3&amp;productId=$4</to>
+	</rule>
+	<rule>
+		<from>^/actors/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/actor.do?companyId=$1&amp;navId=$2</to>
+	</rule>
+	<rule>
+		<from>^/actors/([0-9]+)/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/actor.do?companyId=$1&amp;navId=$2&amp;page=$3</to>
+	</rule>
+	<rule>
+		<from>^/actors/([0-9]+)/([0-9]+)/role/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/actor.do?companyId=$1&amp;navId=$2&amp;roleId=$3</to>
+	</rule>
+	<rule>
+		<from>^/actors/([0-9]+)/([0-9]+)/role/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/actor.do?companyId=$1&amp;navId=$2&amp;roleId=$3&amp;page=$4</to>
+	</rule>
+	<rule>
+		<from>^/actor/([0-9]+)/([0-9]+)/?$</from>
+		<to type="forward">%{context-path}/epp/web/actor_view.do?companyId=$1&amp;actorId=$2</to>
+	</rule>
+</urlrewrite>

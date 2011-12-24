@@ -1,0 +1,58 @@
+.venue_pic{
+	padding-bottom: 20px;
+}
+.venue_pic .pic_l{
+	float: left;
+	width: 600px;
+}
+.venue_pic .pic_l .pic_name{
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+.venue_pic .pic_r{
+	float: right;
+	width: 250px;
+}
+.venue_pic .pic_body{
+	text-align: center;
+	overflow: hidden;
+}
+.venue_pic .pic_action{
+	padding-bottom: 10px;
+}
+.venue_pic .pic_pre,
+.venue_pic .pic_next{
+	float: left;
+	width: 70px;
+	text-align: center;
+}
+.venue_pic .pic_box{
+	float: left;
+	text-align: center;
+	background-color: #ffffff;
+	padding: 2px;
+	width: 60px;
+	height: 60px;
+	overflow: hidden;
+	margin: 0 5px;
+	border: 1px solid #ccc;
+}
+.pic_other .other_piccon{
+	height: 65px;
+}
+.pic_other_data{
+	padding:20px 0;
+	background-color:#F3F3F3;
+	border:1px solid #E3E3E3;
+}
+a.vote{
+	float:left;
+	display:block;
+	height:22px;
+	padding-left: 21px;
+	background: url(../img/icon_favorite_gray.png) no-repeat left top;
+}
+a.vote:hover{
+	background: url(../img/icon_favorite.png) no-repeat left top;
+}

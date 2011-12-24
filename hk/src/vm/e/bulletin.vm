@@ -1,0 +1,9 @@
+<resp status="ok">
+	<bulletin>
+		<bulletinid>$!{o.bulletinId}</bulletinid>
+		<companyid>$!{o.companyId}</companyid>
+		<title><![CDATA[$!{o.title}]]></title>
+		<content><![CDATA[$!{o.content}]]></content>
+		<createtime><![CDATA[$!{o.getTime()}]]></createtime>
+	</bulletin>
+</resp>

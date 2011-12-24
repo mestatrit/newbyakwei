@@ -1,0 +1,119 @@
+.showbg{/** fadeout 效果背景设定 *可设也可以不设**/
+}
+
+.link_nor{
+background-color: #333333;
+font: normal 76% "Arial", "Lucida Grande",Verdana, Sans-Serif;
+border: 2px solid #808000;
+padding:0px 4px 0px 4px;
+text-align:center;
+color:white
+}
+
+
+.link_act
+{
+background-color:#808000;
+font: normal 76% "Arial", "Lucida Grande",Verdana, Sans-Serif;
+border: 2px solid #808000;
+padding:0px 4px 0px 4px;
+text-align:center;
+color:white
+}
+
+span.shuiyin{/** 水印**/
+font: normal 76% "Arial", "Lucida Grande",Verdana, Sans-Serif;
+color:black
+}
+
+.gray
+{/** 封面**/
+background-color: gray;
+position: absolute;
+border: 0px solid #9F6D11;
+z-index: 100;
+}
+
+
+.opa{/** 水印的透明度**/
+color:white;
+padding:10px 20px 0px 20px;
+position: absolute;
+z-index: 101;
+background-color: #FFA928;
+opacity:0.5;
+filter: alpha(opacity=50);
+filter:progid:DXImageTransform.Microsoft.Alpha
+(Opacity=100,FinishOpacity=50, Style=3, StartX=0, FinishX=100, StartY=0,FinishY=16);
+-moz-opacity: 0.5;
+}
+
+.box_name{
+	padding:5px;
+	font-weight: bold;
+}
+.boxprize_bd{
+	border: 1px solid #cccccc;
+}
+.boxprize_con{
+	border: 1px solid #cccccc;
+	padding-bottom: 20px;
+	background-color: #eeeeee;
+}
+.boxprize{
+	border-bottom: 1px solid #cccccc;
+}
+
+.boxprize_tit{
+	background-color: #999999;
+	font-size: 24px;
+	font-weight: bold;
+	color: #ffffff;
+	padding:5px;
+}
+.box_tit{
+	padding-top:20px;
+	text-align: center;
+	font-size: 26px;
+	font-weight: bold;
+	color: #000000;
+	border-bottom: 1px solid #cccccc;
+	padding-bottom: 20px;
+}
+.box_time{
+	padding-top: 20px;
+	text-align: center;
+}
+.box_time2{
+	font-weight: bold;
+	color: #000000;
+	font-size: 16px;
+}
+.boxcon{
+	padding:5px;
+	padding-bottom:20px;
+	border: 2px solid #dddddd;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-moz-border-radius-bottomright: 5px;
+	-webkit-border-top-left-radius: 5px; 
+	-webkit-border-bottom-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px; 
+	-webkit-border-bottom-right-radius: 5px;
+}
+.boxprizelist{
+	height: 100%;
+}
+.boxprizelist .prize{
+	padding: 5px;
+	border-bottom: 1px solid #e5e5e5;
+}
+.boxprizelist .prize .prizepic{
+	float: left;
+	width: 60px;
+	height: 60px;
+}
+.boxprizelist .prize .prizebody{
+	margin-left: 70px;
+}

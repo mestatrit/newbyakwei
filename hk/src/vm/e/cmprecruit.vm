@@ -1,0 +1,7 @@
+<resp status="ok">
+	<cmprecruit>
+		<companyid>$!{o.companyId}</companyid>
+		<title><![CDATA[$!{o.title}]]></title>
+		<content><![CDATA[$!{o.content}]]></content>
+	</cmprecruit>
+</resp>

@@ -1,0 +1,27 @@
+<resp status="$!{status}">
+	<err code="$!{code}" msg="$!{msg}"/>
+	#if($labacreate)
+	<laba>
+		<labaid>$!{vo.laba.labaId}</labaid>
+		<userid>$!{vo.laba.userId}</userid>
+		<createtime>$!{vo.laba.time}</createtime>
+		<replycount>$!{vo.laba.replyCount}</replycount>
+		<sendfrom>$!{vo.laba.sendFrom}</sendfrom>
+		<content><![CDATA[$!{vo.content}]]></content>
+		<favorite>$!{vo.fav}</favorite>
+		<source><![CDATA[$!{vo.source}]]></source>
+		<sourceurl><![CDATA[$!{vo.sourceurl}]]></sourceurl>
+		<user>
+			<userid>$!{vo.laba.userId}</userid>
+			<nickname><![CDATA[$!{vo.laba.user.nickName}]]></nickname>
+			<head>$!{vo.laba.user.head48Pic}</head>
+		</user>
+	</laba>
+	#end
+	#if($reviewcreate)
+		<labaid>$!{labaId}</labaid>
+	#end
+	#if($cmtcreate)
+		<cmtid>$!{cmtId}</cmtid>
+	#end
+</resp>

@@ -1,0 +1,19 @@
+<resp status="ok">
+	<cmtlist>
+		#foreach($vo in $cmtlist)
+		<cmt>
+			<cmtid>$!{vo.cmpComment.cmtId}</cmtid>
+			<userid>$!{vo.cmpComment.userId}</userid>
+			<createtime>$!{vo.cmpComment.time}</createtime>
+			<content><![CDATA[$!{vo.content}]]></content>
+			<source><![CDATA[$!{vo.source}]]></source>
+			<sourceurl><![CDATA[$!{vo.sourceurl}]]></sourceurl>
+			<user>
+				<userid>$!{vo.cmpComment.user.userId}</userid>
+				<nickname><![CDATA[$!{vo.cmpComment.user.nickName}]]></nickname>
+				<head>$!{vo.cmpComment.user.head48Pic}</head>
+			</user>
+		</cmt>
+		#end
+	</cmtlist>
+</resp>

@@ -1,0 +1,17 @@
+<resp status="ok">
+	<coupon>
+		<couponid>$!{o.couponId}</couponid>
+		<companyid>$!{o.companyId}</companyid>
+		<limitday>$!{o.limitDay}</limitday>
+		<overdueflg>$!{o.overdueflg}</overdueflg>
+		<amount>$!{o.amount}</amount>
+		<dcount>$!{o.dcount}</dcount>
+		<name><![CDATA[$!{o.name}]]></name>
+		<content><![CDATA[$!{o.content}]]></content>
+		<remark><![CDATA[$!{o.remark}]]></remark>
+		<createtime>$!{o.getCreateTimeData()}</createtime>
+		<endtime>$!{o.getEndTimeData()}</endtime>
+		<available>$!{o.available}</available>
+		<pic240>$!{o.pic240}</pic240>
+	</coupon>
+</resp>
