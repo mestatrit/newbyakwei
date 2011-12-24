@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:flow="http://www.springframework.org/schema/webflow-config" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms" xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:osgi-compendium="http://www.springframework.org/schema/osgi-compendium" xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+		http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	<bean class="com.hk.svr.pub.CmpInfoTmlUtil">
+		<property name="map">
+			<map>
+				<entry key="0">
+					<list>
+						<bean class="com.hk.bean.CmpInfoTml">
+							<property name="tmlId" value="0" />
+							<property name="name" value="基本模板" />
+						</bean>
+						<bean class="com.hk.bean.CmpInfoTml">
+							<property name="tmlId" value="1" />
+							<property name="name" value="模板1" />
+						</bean>
+					</list>
+				</entry>
+				<entry key="1">
+					<list>
+						<bean class="com.hk.bean.CmpInfoTml">
+							<property name="tmlId" value="0" />
+							<property name="name" value="基本模板" />
+						</bean>
+					</list>
+				</entry>
+				<entry key="2">
+					<list>
+						<bean class="com.hk.bean.CmpInfoTml">
+							<property name="tmlId" value="0" />
+							<property name="name" value="基本模板" />
+						</bean>
+					</list>
+				</entry>
+				<entry key="3">
+					<list>
+						<bean class="com.hk.bean.CmpInfoTml">
+							<property name="tmlId" value="0" />
+							<property name="name" value="基本模板" />
+						</bean>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean class="com.hk.bean.CmpOrgNav">
+		<property name="defCmpOrgNavs">
+			<list>
+				<bean class="com.hk.bean.CmpOrgNav">
+					<property name="name" value="机构简介"></property>
+					<!-- 挂接功能属性参考 com.hk.bean.CmpNav.reffunc -->
+					<property name="reffunc" value="2"></property>
+					<property name="showflg" value="1"></property>
+				</bean>
+				<bean class="com.hk.bean.CmpOrgNav">
+					<property name="name" value="招生简章"></property>
+					<!-- 挂接功能属性参考 com.hk.bean.CmpNav.reffunc -->
+					<property name="reffunc" value="15"></property>
+					<property name="showflg" value="1"></property>
+				</bean>
+				<bean class="com.hk.bean.CmpOrgNav">
+					<property name="name" value="机构证书"></property>
+					<property name="reffunc" value="3"></property>
+					<property name="showflg" value="2"></property>
+				</bean>
+				<bean class="com.hk.bean.CmpOrgNav">
+					<property name="name" value="课程设置"></property>
+					<property name="reffunc" value="3"></property>
+					<property name="showflg" value="1"></property>
+				</bean>
+				<bean class="com.hk.bean.CmpOrgNav">
+					<property name="name" value="师资介绍"></property>
+					<property name="reffunc" value="3"></property>
+					<property name="showflg" value="2"></property>
+				</bean>
+				<bean class="com.hk.bean.CmpOrgNav">
+					<property name="name" value="校园环境"></property>
+					<property name="reffunc" value="3"></property>
+					<property name="showflg" value="2"></property>
+				</bean>
+				<bean class="com.hk.bean.CmpOrgNav">
+					<property name="name" value="新闻动态"></property>
+					<property name="reffunc" value="3"></property>
+					<property name="showflg" value="1"></property>
+				</bean>
+				<bean class="com.hk.bean.CmpOrgNav">
+					<property name="name" value="求职招聘"></property>
+					<property name="reffunc" value="3"></property>
+					<property name="showflg" value="1"></property>
+				</bean>
+				<bean class="com.hk.bean.CmpOrgNav">
+					<property name="name" value="在线咨询"></property>
+					<property name="reffunc" value="7"></property>
+				</bean>
+				<bean class="com.hk.bean.CmpOrgNav">
+					<property name="name" value="联系我们"></property>
+					<property name="reffunc" value="2"></property>
+					<property name="showflg" value="1"></property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<!-- 企业网站模块配置 -->
+	<bean id="cmpPageModUtil" class="com.hk.svr.pub.CmpPageModUtil">
+		<!-- pageModId current max 16 -->
+		<property name="cmpModMap">
+			<map>
+				<entry key="20">
+					<bean class="com.hk.bean.CmpMod">
+						<property name="modId" value="1"></property>
+						<property name="name" value="教育模板1"></property>
+						<property name="homePageModList">
+							<list>
+								<!-- 模块 -->
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="1" />
+									<property name="name" value="通栏中间图片广告模块" />
+									<!-- 通栏  -->
+									<property name="pos" value="0" />
+									<property name="intro" value="位置在导航栏下的第一行" />
+									<property name="dataSize" value="4" />
+									<property name="modflg" value="0" />
+									<property name="admodflg" value="2" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="12" />
+									<property name="name" value="通栏左边文字广告模块" />
+									<!-- 通栏  -->
+									<property name="pos" value="0" />
+									<property name="intro" value="位置在通栏图片广告左侧" />
+									<property name="dataSize" value="6" />
+									<property name="modflg" value="0" />
+									<property name="admodflg" value="1" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="13" />
+									<property name="name" value="通栏右边文字广告模块" />
+									<!-- 通栏  -->
+									<property name="pos" value="0" />
+									<property name="intro" value="位置在通栏图片广告又侧" />
+									<property name="dataSize" value="6" />
+									<property name="modflg" value="0" />
+									<property name="admodflg" value="1" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="14" />
+									<property name="name" value="通栏中间图片上部文字广告" />
+									<!-- 通栏  -->
+									<property name="pos" value="0" />
+									<property name="intro" value="通栏中间图片上部文字广告" />
+									<property name="dataSize" value="-1" />
+									<property name="modflg" value="0" />
+									<property name="admodflg" value="1" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="15" />
+									<property name="name" value="通栏中间图片下部文字广告" />
+									<!-- 通栏  -->
+									<property name="pos" value="0" />
+									<property name="intro" value="通栏中间图片下部文字广告" />
+									<property name="dataSize" value="-1" />
+									<property name="modflg" value="0" />
+									<property name="admodflg" value="1" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="16" />
+									<property name="name" value="通栏全图片广告模块" />
+									<!-- 通栏  -->
+									<property name="pos" value="0" />
+									<property name="intro" value="位置在通栏图片文字混排广告下面" />
+									<property name="dataSize" value="4" />
+									<property name="modflg" value="0" />
+									<property name="admodflg" value="2" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="2" />
+									<property name="name" value="焦点图模块" />
+									<!-- 左边  -->
+									<property name="pos" value="1" />
+									<property name="intro" value="位置在页面左边" />
+									<property name="dataSize" value="4" />
+									<property name="modflg" value="1" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="3" />
+									<property name="name" value="焦点图下的文章列表模块" />
+									<!-- 左边  -->
+									<property name="pos" value="1" />
+									<property name="intro" value="位置在左边焦点图下面" />
+									<property name="dataSize" value="6" />
+									<property name="modflg" value="1" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="4" />
+									<property name="name" value="中间图片广告模块" />
+									<!-- 中间  -->
+									<property name="pos" value="2" />
+									<property name="intro" value="位置在页面中间区域" />
+									<property name="dataSize" value="4" />
+									<property name="modflg" value="0" />
+									<property name="admodflg" value="2" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="5" />
+									<property name="name" value="中间文字广告模块" />
+									<!-- 中间  -->
+									<property name="pos" value="2" />
+									<property name="intro" value="位置在页面中间广告区域下面" />
+									<property name="dataSize" value="6" />
+									<property name="modflg" value="0" />
+									<property name="admodflg" value="1" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="6" />
+									<property name="name" value="标签页文章模块" />
+									<!-- 中间  -->
+									<property name="pos" value="2" />
+									<property name="intro" value="位置在页面中间区域，标签为栏目名称" />
+									<property name="dataSize" value="12" />
+									<property name="modflg" value="1" />
+									<property name="cmpNavArticleCount" value="12" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="7" />
+									<property name="name" value="右边自定义内容模块" />
+									<!-- 右边  -->
+									<property name="pos" value="2" />
+									<property name="intro" value="位置在页面右边区域" />
+									<property name="dataSize" value="6" />
+									<property name="modflg" value="1" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="8" />
+									<property name="name" value="右边自定义广告模块" />
+									<!-- 右边  -->
+									<property name="pos" value="2" />
+									<property name="intro" value="位置在页面右边区域" />
+									<property name="dataSize" value="2" />
+									<property name="modflg" value="0" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="9" />
+									<property name="name" value="左边自定义内容区块(大)" />
+									<!-- 左边(大)  -->
+									<property name="pos" value="4" />
+									<property name="intro" value="位置在页面左边，第一个推荐的文章会自动成为主文章" />
+									<property name="dataSize" value="7" />
+									<property name="modflg" value="1" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="10" />
+									<property name="name" value="底部合作伙伴" />
+									<property name="pos" value="0" />
+									<property name="intro" value="位置在页面底部，通栏方式" />
+									<property name="dataSize" value="-1" />
+									<property name="modflg" value="2" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="11" />
+									<property name="name" value="底部友情链接" />
+									<property name="pos" value="0" />
+									<property name="intro" value="位置在页面底部，通栏方式" />
+									<property name="dataSize" value="-1" />
+									<property name="modflg" value="3" />
+								</bean>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="01">
+					<bean class="com.hk.bean.CmpMod">
+						<property name="modId" value="1"></property>
+						<property name="name" value="企业模板1"></property>
+						<property name="homePageModList">
+							<list>
+								<!-- 模块 -->
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="17" />
+									<property name="name" value="左边文章区块" />
+									<property name="intro" value="左边" />
+									<property name="dataSize" value="1" />
+									<property name="modflg" value="1" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="18" />
+									<property name="name" value="中间文章列表区块" />
+									<property name="intro" value="中间" />
+									<property name="dataSize" value="3" />
+									<property name="modflg" value="1" />
+								</bean>
+								<bean class="com.hk.bean.CmpPageMod">
+									<property name="pageModId" value="19" />
+									<property name="name" value="右边文章区块" />
+									<property name="intro" value="右边" />
+									<property name="dataSize" value="1" />
+									<property name="modflg" value="1" />
+								</bean>
+							</list>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="tmlModule1" class="com.hk.bean.TmlModule">
+		<property name="moduleId" value="1" />
+		<property name="name" value="点评模块" />
+		<property name="title" value="点评" />
+		<property name="admin_title" value="点评管理" />
+		<property name="funcurl" value="/epp/review_list.do" />
+		<property name="admin_funcurl" value="/epp/mgr/review_list.do" />
+	</bean>
+	<bean id="tmlModule2" class="com.hk.bean.TmlModule">
+		<property name="moduleId" value="2" />
+		<property name="name" value="留言模块" />
+		<property name="title" value="留言" />
+		<property name="admin_title" value="留言管理" />
+		<property name="funcurl" value="/epp/cmt_list.do" />
+		<property name="admin_funcurl" value="/epp/mgr/cmt_list.do" />
+	</bean>
+	<bean id="tmlModule3" class="com.hk.bean.TmlModule">
+		<property name="moduleId" value="3" />
+		<property name="name" value="公告模块" />
+		<property name="title" value="公告" />
+		<property name="admin_title" value="公告管理" />
+		<property name="funcurl" value="/epp/bulletin_list.do" />
+		<property name="admin_funcurl" value="/epp/mgr/bulletin_list.do" />
+	</bean>
+	<bean id="tmlModule4" class="com.hk.bean.TmlModule">
+		<property name="moduleId" value="4" />
+		<property name="name" value="优惠券模块" />
+		<property name="title" value="优惠券" />
+		<property name="admin_title" value="优惠券管理" />
+		<property name="funcurl" value="/epp/coupon_list.do" />
+		<property name="admin_funcurl" value="/epp/mgr/coupon_list.do" />
+	</bean>
+	<bean id="tmlModule5" class="com.hk.bean.TmlModule">
+		<property name="moduleId" value="5" />
+		<property name="name" value="环境展示模块" />
+		<property name="title" value="环境展示" />
+		<property name="admin_title" value="环境展示图片管理" />
+		<property name="funcurl" value="/epp/photo_ignorehead.do" />
+		<property name="admin_funcurl" value="/epp/mgr/photo_list.do" />
+	</bean>
+	<bean id="template1" class="com.hk.bean.Template">
+		<property name="templateId" value="1" />
+		<property name="kindId" value="1" />
+		<property name="name" value="餐厅模版1" />
+		<property name="tmlModuleList">
+			<list>
+				<ref bean="tmlModule1" />
+				<ref bean="tmlModule2" />
+				<ref bean="tmlModule3" />
+				<ref bean="tmlModule4" />
+			</list>
+		</property>
+	</bean>
+	<bean id="template2" class="com.hk.bean.Template">
+		<property name="templateId" value="2" />
+		<property name="kindId" value="1" />
+		<property name="name" value="餐厅模版2" />
+		<property name="tmlModuleList">
+			<list>
+				<ref bean="tmlModule1" />
+				<ref bean="tmlModule2" />
+			</list>
+		</property>
+	</bean>
+	<bean id="template3" class="com.hk.bean.Template">
+		<property name="templateId" value="1" />
+		<property name="kindId" value="2" />
+		<property name="name" value="咖啡厅模版1" />
+		<property name="tmlModuleList">
+			<list>
+				<ref bean="tmlModule1" />
+				<ref bean="tmlModule2" />
+				<ref bean="tmlModule3" />
+				<ref bean="tmlModule4" />
+				<ref bean="tmlModule5" />
+			</list>
+		</property>
+	</bean>
+	<bean id="template4" class="com.hk.bean.Template">
+		<property name="templateId" value="2" />
+		<property name="kindId" value="2" />
+		<property name="name" value="咖啡厅模版2" />
+		<property name="tmlModuleList">
+			<list>
+				<ref bean="tmlModule1" />
+				<ref bean="tmlModule2" />
+			</list>
+		</property>
+	</bean>
+	<bean id="templateUtil" class="com.hk.svr.pub.TemplateUtil">
+		<property name="templateList">
+			<list>
+				<ref bean="template1" />
+				<ref bean="template2" />
+				<ref bean="template3" />
+				<ref bean="template4" />
+			</list>
+		</property>
+	</bean>
+</beans>

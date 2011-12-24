@@ -1,0 +1,34 @@
+问题表
+CREATE TABLE  e_huoku.tb_question (
+  qid bigint(20) unsigned NOT NULL auto_increment,		//id
+  userid bigint(20) unsigned NOT NULL,					//用户id
+  content varchar(500) NOT NULL,						//问题内容
+  create_time datetime NOT NULL,						//创建时间
+  ansid bigint(20) unsigned NOT NULL,					//最佳答案id
+  PRIMARY KEY  USING BTREE (qid),
+  KEY Index_2 (userid)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+答案表
+CREATE TABLE  e_huoku.tb_answer (
+  ansid bigint(20) unsigned NOT NULL auto_increment,	//id
+  userid bigint(20) unsigned NOT NULL,					//用户id
+  qid bigint(20) unsigned NOT NULL,						//问题id
+  content varchar(3300) NOT NULL,						//答案内容
+  resolve_content varchar(3100) default NULL,			//解决方案的内容，里面为多个商品的组合格式(商品名称;价格;图片地址;taobao_url)，最多支持10个商品，
+  support_num int(10) unsigned NOT NULL,				//支持此方案的数量
+  discmd_num int(10) unsigned NOT NULL,					//反对此方案的数量
+  create_time datetime NOT NULL,						//创建时间
+  PRIMARY KEY  (ansid),
+  KEY Index_2 USING BTREE (qid)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+答案投票表
+CREATE TABLE  e_huoku.tb_answer_status (
+  oid bigint(20) unsigned NOT NULL auto_increment,		//id
+  ansid bigint(20) unsigned NOT NULL,					//答案id
+  userid bigint(20) unsigned NOT NULL,					//用户id
+  ans_status tinyint(1) unsigned NOT NULL,				//对答案的状态(0:支持,1:反对)
+  PRIMARY KEY  (oid),
+  UNIQUE KEY Index_2 (ansid,userid)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

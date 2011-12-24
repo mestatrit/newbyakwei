@@ -1,0 +1,49 @@
+用户表
+DROP TABLE IF EXISTS e_huoku.tb_user;
+CREATE TABLE  e_huoku.tb_user (
+  userid bigint(20) unsigned NOT NULL auto_increment,	//id
+  nick varchar(20) NOT NULL,	//昵称
+  gender tinyint(1) unsigned NOT NULL,	//性别
+  email varchar(50) default NULL,	//email
+  pwd char(32) default NULL,	//密码
+  intro varchar(500) default NULL,	//介绍
+  pic_path varchar(200) default NULL,		//头像路径
+  create_time datetime NOT NULL, 	//创建时间
+  cityid int(10) unsigned NOT NULL,	//城市id
+  reg_source int(10) unsigned NOT NULL,	//注册来源(新浪微博注册，豆瓣注册。。。)
+  api_pic_path varchar(500) default NULL,	//当没有正式注册时，使用的是api网站提供的头像数据
+  PRIMARY KEY  (userid),
+  KEY Index_3 (email),
+  KEY Index_2 USING BTREE (nick)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+用户api绑定表
+DROP TABLE IF EXISTS e_huoku.tb_user_api;
+CREATE TABLE  e_huoku.tb_user_api (
+  oid bigint(20) unsigned NOT NULL auto_increment,	//id
+  userid bigint(20) unsigned NOT NULL,	//用户id
+  reg_source int(10) unsigned NOT NULL,	// api类型与注册来源相同（新浪微博注册，豆瓣注册。。。）
+  access_token varchar(100) default NULL,	//用户在api源网站登录后产生的oauth access_token数据
+  token_secret varchar(100) default NULL,	//用户在api源网站登录后产生的oauth token_secret数据
+  login_name varchar(50) default NULL,	//用户在火酷使用的api源网站登录用户名
+  login_pwd varchar(50) default NULL,		//用户在火酷使用的api源网站登录用户密码（不加密）
+  PRIMARY KEY  (oid),
+  KEY Index_2 (userid),
+  KEY Index_3 (login_name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+注册过程：
+	1、通过火酷系统注册
+		执行火酷程序注册用户信息
+		
+	2、通过登录api源网站进行注册
+		点击链接到新浪、豆瓣等网站登录，登录后到绑定用户页面，进行已有用户绑定，或者者根据当前用户昵称进行创建用户
+		
+	3、通过火酷使用api源网站的用户名与密码进行注册
+		直接输入api网站的用户名与密码，登录后到绑定用户页面，进行已有用户绑定，或者者根据当前用户昵称进行创建用户
+	
+	通过第三方登录进行注册的用户，如果与火酷系统中现有用户昵称重复，将会在登录用户的昵称中用(第三方网站)的方式来区分
+	

@@ -1,0 +1,10 @@
+CREATE TABLE  e_huoku.tb_item_user_ref (
+  oid bigint(20) unsigned NOT NULL auto_increment,			//id
+  itemid bigint(20) unsigned NOT NULL,						//商品id
+  userid bigint(20) unsigned NOT NULL,						//用户id
+  flg tinyint(1) unsigned NOT NULL,							//类型(1:推荐的商品，2:想买的商品，3:拥有的商品)
+  `cmtid` bigint(20) unsigned NOT NULL,						//评论id，如果是拥有的商品，这里就是最新的评论的id
+  PRIMARY KEY  (oid),
+  KEY Index_2 (itemid),
+  KEY Index_3 (userid)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
