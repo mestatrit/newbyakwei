@@ -62,7 +62,8 @@ public class ActionFilter implements Filter {
 			}
 		}
 		req.setAttribute(REQUESTCONTEXTPATH_KEY, req.getContextPath());
-		String mappingUri = MappingUriCreater.findMappingUri(req);
+		String mappingUri = MappingUriCreater.findMappingUri(
+				req.getRequestURI(), req.getContextPath());
 		try {
 			ActionResultProcessor.processResult(
 					ActionExe.invoke(mappingUri, req, resp), req, resp);

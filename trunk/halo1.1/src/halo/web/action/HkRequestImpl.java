@@ -86,7 +86,8 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 
 	private void processCheckUpload(HttpServletRequest request, WebCnf webCnf) {
 		UploadFileCheckCnf checkCnf = webCnf
-				.getUploadFileCheckCnf(MappingUriCreater.findMappingUri(this));
+				.getUploadFileCheckCnf(MappingUriCreater.findMappingUri(
+						request.getRequestURI(), request.getContextPath()));
 		// 严格检查upload mappinguri,只有经过配置后的mappinguri才允许上传文件
 		// mappinguri, 例如 uri: {appctx}/user/set_head.do
 		// mappinguri: /user/set_head
