@@ -1,7 +1,5 @@
 package halo.web.action;
 
-import javax.servlet.http.HttpServletRequest;
-
 public class MappingUriCreater {
 
 	private MappingUriCreater() {
@@ -16,13 +14,13 @@ public class MappingUriCreater {
 	/**
 	 * 解析uri,"_"作为action与方法名的分隔符。例如：/user_list。可以对应UserAction中list的方法
 	 * 
-	 * @param request
+	 * @param uri
+	 *            request.getRequestURI
+	 * @param contextPath
 	 * @return
 	 */
-	public static String findMappingUri(HttpServletRequest request) {
-		String uri = request.getRequestURI();
-		String localuri = uri.substring(request.getContextPath().length(),
-				uri.length());
+	public static String findMappingUri(String uri, String contextPath) {
+		String localuri = uri.substring(contextPath.length(), uri.length());
 		String postfix = getPostfix(localuri);
 		if (postfix == null) {
 			// 如果uri为"/"结尾，则需要去掉""。例如/user/list/，需要获得有用的部分为/user/list
@@ -34,6 +32,33 @@ public class MappingUriCreater {
 		}
 		// 如果uri有后缀则去掉后缀。例如/user/list.do，需要获得有用的部分为/user/list
 		return localuri.substring(0, localuri.lastIndexOf(postfix));
+	}
+
+	// /**
+	// * 解析uri,"_"作为action与方法名的分隔符。例如：/user_list。可以对应UserAction中list的方法
+	// *
+	// * @param request
+	// * @return
+	// */
+	// public static String findMappingUri(HttpServletRequest request) {
+	// String uri = request.getRequestURI();
+	// String localuri = uri.substring(request.getContextPath().length(),
+	// uri.length());
+	// String postfix = getPostfix(localuri);
+	// if (postfix == null) {
+	// // 如果uri为"/"结尾，则需要去掉""。例如/user/list/，需要获得有用的部分为/user/list
+	// // 这种情况还没遇到，不知是否要去掉
+	// if (localuri.endsWith(endpfix)) {
+	// return localuri.substring(0, localuri.lastIndexOf(endpfix));
+	// }
+	// return localuri;
+	// }
+	// // 如果uri有后缀则去掉后缀。例如/user/list.do，需要获得有用的部分为/user/list
+	// return localuri.substring(0, localuri.lastIndexOf(postfix));
+	// }
+	public static String findPostfix(String uri, String contextPath) {
+		String localuri = uri.substring(contextPath.length(), uri.length());
+		return getPostfix(localuri);
 	}
 
 	/**
