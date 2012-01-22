@@ -27,6 +27,10 @@ public class DataSourceCnf {
 		cnfMap.put(key, value);
 	}
 
+	public String getValueForKey(String key) {
+		return cnfMap.get(key);
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

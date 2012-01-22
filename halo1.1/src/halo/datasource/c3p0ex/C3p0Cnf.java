@@ -50,10 +50,11 @@ public class C3p0Cnf {
 	public DataSource createDataSource(String dsName) {
 		File file = new File(cnfPath);
 		DataSourceCnf dataSourceCnf = this.getDataSourceCnf(file, dsName);
-		return this.buildC3p0DataSource(dataSourceCnf);
+		return buildC3p0DataSource(this.dataSourceCnfInfoWrapper, dataSourceCnf);
 	}
 
-	private ComboPooledDataSource buildC3p0DataSource(
+	protected static ComboPooledDataSource buildC3p0DataSource(
+			DataSourceCnfInfoWrapper dataSourceCnfInfoWrapper,
 			DataSourceCnf dataSourceCnf) {
 		ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
 		Map<String, String> map = dataSourceCnf.getCnfMap();
@@ -61,13 +62,16 @@ public class C3p0Cnf {
 		for (Entry<String, String> e : set) {
 			String fieldName = e.getKey();
 			String value = e.getValue();
-			setValue(comboPooledDataSource, fieldName, value);
+			setValue(dataSourceCnfInfoWrapper, comboPooledDataSource,
+					fieldName, value);
 		}
 		return comboPooledDataSource;
 	}
 
-	private void setValue(ComboPooledDataSource comboPooledDataSource,
-			String fieldName, String value) {
+	protected static void setValue(
+			DataSourceCnfInfoWrapper dataSourceCnfInfoWrapper,
+			ComboPooledDataSource comboPooledDataSource, String fieldName,
+			String value) {
 		try {
 			if (fieldName.equals("driverClass")) {
 				comboPooledDataSource.setDriverClass(value);
@@ -79,11 +83,11 @@ public class C3p0Cnf {
 				comboPooledDataSource.setUser(value);
 			}
 			else if (fieldName.equals("password")) {
-				if (this.dataSourceCnfInfoWrapper == null) {
+				if (dataSourceCnfInfoWrapper == null) {
 					comboPooledDataSource.setPassword(value);
 				}
 				else {
-					String pwd = this.dataSourceCnfInfoWrapper
+					String pwd = dataSourceCnfInfoWrapper
 							.getDecodedPassword(value);
 					comboPooledDataSource.setPassword(pwd);
 				}
