@@ -14,15 +14,13 @@ public class C3p0CnfDataSource implements DataSource {
 
 	private C3p0Cnf c3p0Cnf;
 
-	public void setDsName(String dsName) {
-		this.dsName = dsName;
-	}
-
-	public void setC3p0Cnf(C3p0Cnf c3p0Cnf) {
+	public C3p0CnfDataSource(C3p0Cnf c3p0Cnf, String dsName) {
 		this.c3p0Cnf = c3p0Cnf;
+		this.dsName = dsName;
+		this.init();
 	}
 
-	public void init() {
+	private void init() {
 		this.dataSource = this.c3p0Cnf.createDataSource(this.dsName);
 	}
 
