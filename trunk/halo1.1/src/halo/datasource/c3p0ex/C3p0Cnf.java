@@ -6,9 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,18 +17,16 @@ import javax.sql.DataSource;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-public class CnfFileDatasource implements DataSource {
-
-	private DataSource dataSource;
+/**
+ * c3p0连接池组装器
+ * 
+ * @author akwei
+ */
+public class C3p0Cnf {
 
 	private DataSourceCnfInfoWrapper dataSourceCnfInfoWrapper;
 
 	private String cnfPath;
-
-	private String dsName;
-
-	public CnfFileDatasource() {
-	}
 
 	public void setDataSourceCnfInfoWrapper(
 			DataSourceCnfInfoWrapper dataSourceCnfInfoWrapper) {
@@ -48,24 +43,11 @@ public class CnfFileDatasource implements DataSource {
 	}
 
 	/**
-	 * 数据源名称
-	 * 
-	 * @param dsName
-	 */
-	public void setDsName(String dsName) {
-		this.dsName = dsName;
-	}
-
-	public void init() {
-		this.dataSource = this.createDataSource();
-	}
-
-	/**
 	 * 使用配置文件，创建c3p0连接池
 	 * 
 	 * @return
 	 */
-	private DataSource createDataSource() {
+	public DataSource createDataSource(String dsName) {
 		File file = new File(cnfPath);
 		DataSourceCnf dataSourceCnf = this.getDataSourceCnf(file, dsName);
 		return this.buildC3p0DataSource(dataSourceCnf);
@@ -230,46 +212,5 @@ public class CnfFileDatasource implements DataSource {
 	private DataSourceCnf getDataSourceCnf(File file, String dsName) {
 		Map<String, DataSourceCnf> map = createDataSourceCnfMapFromFile(file);
 		return map.get(dsName);
-	}
-
-	@Override
-	public PrintWriter getLogWriter() throws SQLException {
-		return this.dataSource.getLogWriter();
-	}
-
-	@Override
-	public int getLoginTimeout() throws SQLException {
-		return this.dataSource.getLoginTimeout();
-	}
-
-	@Override
-	public void setLogWriter(PrintWriter arg0) throws SQLException {
-		this.dataSource.setLogWriter(arg0);
-	}
-
-	@Override
-	public void setLoginTimeout(int arg0) throws SQLException {
-		this.dataSource.setLoginTimeout(arg0);
-	}
-
-	@Override
-	public boolean isWrapperFor(Class<?> arg0) throws SQLException {
-		return false;
-	}
-
-	@Override
-	public <T> T unwrap(Class<T> arg0) throws SQLException {
-		return null;
-	}
-
-	@Override
-	public Connection getConnection() throws SQLException {
-		return this.dataSource.getConnection();
-	}
-
-	@Override
-	public Connection getConnection(String arg0, String arg1)
-			throws SQLException {
-		return this.dataSource.getConnection(arg0, arg1);
 	}
 }
