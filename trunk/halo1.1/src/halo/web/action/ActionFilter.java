@@ -69,6 +69,7 @@ public class ActionFilter implements Filter {
 					ActionExe.invoke(mappingUri, req, resp), req, resp);
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			PathProcessor.doExceptionForward(e, req, resp);
 		}
 	}
