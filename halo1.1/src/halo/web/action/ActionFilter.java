@@ -65,11 +65,11 @@ public class ActionFilter implements Filter {
 		String mappingUri = MappingUriCreater.findMappingUri(
 				req.getRequestURI(), req.getContextPath());
 		try {
-			ActionResultProcessor.processResult(
+			PathProcessor.processResult(
 					ActionExe.invoke(mappingUri, req, resp), req, resp);
 		}
 		catch (Exception e) {
-			throw new RuntimeException(e);
+			PathProcessor.doExceptionForward(e, req, resp);
 		}
 	}
 
