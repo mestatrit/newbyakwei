@@ -44,12 +44,12 @@ public class HttpClient4Util {
 		return httpclient.execute(httpGet);
 	}
 
-	public HttpResponse doPost(String url, HttpParameter httpData,
+	public HttpResponse doPost(String url, HttpParameter httpParameter,
 			String encodeing) throws ClientProtocolException, IOException {
 		HttpPost httpPost = new HttpPost(url);
-		if (httpData.isFileParameterEmpty()) {
+		if (httpParameter.isFileParameterEmpty()) {
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-			for (BasicParameter e : httpData.getBasicParameters()) {
+			for (BasicParameter e : httpParameter.getBasicParameters()) {
 				nameValuePairs.add(new BasicNameValuePair(e.getName(), e
 						.getValue()));
 			}
@@ -58,10 +58,10 @@ public class HttpClient4Util {
 		}
 		else {
 			MultipartEntity reqEntity = new MultipartEntity();
-			for (FileParameter e : httpData.getFileParameters()) {
+			for (FileParameter e : httpParameter.getFileParameters()) {
 				reqEntity.addPart(e.getName(), new FileBody(e.getFile()));
 			}
-			for (BasicParameter e : httpData.getBasicParameters()) {
+			for (BasicParameter e : httpParameter.getBasicParameters()) {
 				reqEntity.addPart(e.getName(), new StringBody(e.getValue(),
 						Charset.forName(encodeing)));
 			}
