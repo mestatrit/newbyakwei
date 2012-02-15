@@ -97,7 +97,7 @@ public interface HkRequest extends HttpServletRequest {
 
 	void setSessionValue(String name, Object value);
 
-	void removeSessionvalue(String name);
+	void removeSessionValue(String name);
 
 	void invalidateSession();
 
@@ -108,6 +108,8 @@ public interface HkRequest extends HttpServletRequest {
 	void reSetEncodeAttribute(String name);
 
 	void setEncodeAttribute(String name, String value);
+
+	void setEncodeAttribute(String name, String value, String charset);
 
 	void setUploadFiles(UploadFile[] uploadFiles);
 

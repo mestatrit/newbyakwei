@@ -414,7 +414,7 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 	}
 
 	@Override
-	public void removeSessionvalue(String name) {
+	public void removeSessionValue(String name) {
 		this.getHttpServletRequest().getSession().removeAttribute(name);
 	}
 
@@ -450,6 +450,15 @@ public class HkRequestImpl extends HttpServletRequestWrapper implements
 		this.setAttribute(name, value);
 		if (value != null) {
 			this.setAttribute("enc_" + name, DataUtil.urlEncoder(value));
+		}
+	}
+
+	@Override
+	public void setEncodeAttribute(String name, String value, String charset) {
+		this.setAttribute(name, value);
+		if (value != null) {
+			this.setAttribute("enc_" + name,
+					DataUtil.urlEncoder(value, charset));
 		}
 	}
 
