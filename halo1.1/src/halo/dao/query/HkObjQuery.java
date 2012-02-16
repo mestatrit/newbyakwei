@@ -299,6 +299,26 @@ public class HkObjQuery extends HkQuery {
 		return this.getObject(queryParam, clazz);
 	}
 
+	/**
+	 * select sql 对象操作
+	 * 
+	 * @param key
+	 *            分区key
+	 * @param keyValue
+	 *            分区value
+	 * @param clazz
+	 *            查询的对象类型
+	 * @param idValue
+	 *            对象id
+	 * @return
+	 */
+	public <T> T getObjectById(String key, Object keyValue, Class<T> clazz,
+			Object idValue) {
+		Map<String, Object> ctxMap = new HashMap<String, Object>();
+		ctxMap.put(key, keyValue);
+		return this.getObjectById(ctxMap, clazz, idValue);
+	}
+
 	public void setObjectSqlInfoCreater(
 			ObjectSqlInfoCreater objectSqlInfoCreater) {
 		this.objectSqlInfoCreater = objectSqlInfoCreater;
