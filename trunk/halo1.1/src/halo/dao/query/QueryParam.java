@@ -124,7 +124,7 @@ public class QueryParam extends Param {
 		return this.classList.size();
 	}
 
-	public void setWhereAndParams(String where, Object[] params) {
+	public void set(String where, Object[] params) {
 		this.where = where;
 		this.params = params;
 	}
