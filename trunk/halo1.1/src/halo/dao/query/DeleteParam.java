@@ -11,9 +11,19 @@ public class DeleteParam extends Param {
 		super(key, value);
 	}
 
+	private Class<?> clazz;
+
 	private String where;
 
 	private Object[] params;
+
+	public void setClazz(Class<?> clazz) {
+		this.clazz = clazz;
+	}
+
+	public Class<?> getClazz() {
+		return clazz;
+	}
 
 	public String getWhere() {
 		return where;

@@ -13,6 +13,10 @@ public class DataSourceStatus {
 		currentDsKey.set(dsKey);
 	}
 
+	public static void removeCurrentDsKey() {
+		currentDsKey.remove();
+	}
+
 	public static String getCurrentDsKey() {
 		return currentDsKey.get();
 	}

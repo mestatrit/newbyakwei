@@ -57,7 +57,7 @@ public class ConnectionProxyImpl implements ConnectionProxy {
 		for (Connection con : c) {
 			con.close();
 		}
-		DataSourceStatus.setCurrentDsKey(null);
+		DataSourceStatus.removeCurrentDsKey();
 	}
 
 	@Override

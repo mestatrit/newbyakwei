@@ -86,10 +86,11 @@ public class HkObjQuery extends HkQuery {
 		ObjectSqlInfo<T> objectSqlInfo = (ObjectSqlInfo<T>) this.objectSqlInfoCreater
 				.getObjectSqlInfo(t.getClass());
 		UpdateParam updateParam = new UpdateParam(key, keyValue);
+		updateParam.setClazz(t.getClass());
 		updateParam.init(objectSqlInfo.getColumnsForUpdate(),
 				objectSqlInfo.getIdColumn() + "=?", objectSqlInfo
 						.getSqlUpdateMapper().getParamsForUpdate(t));
-		return this.update(updateParam, t.getClass());
+		return this.update(updateParam);
 	}
 
 	/**
@@ -100,9 +101,9 @@ public class HkObjQuery extends HkQuery {
 	 *            需要update的对象类型
 	 * @return
 	 */
-	public <T> int update(UpdateParam updateParam, Class<T> clazz) {
-		PartitionTableInfo partitionTableInfo = this.parse(clazz,
-				updateParam.getCtxMap());
+	public <T> int update(UpdateParam updateParam) {
+		PartitionTableInfo partitionTableInfo = this.parse(
+				updateParam.getClazz(), updateParam.getCtxMap());
 		return this
 				.updateBySQL(partitionTableInfo.getDsKey(), SqlBuilder
 						.createUpdateSQL(partitionTableInfo,
@@ -119,9 +120,9 @@ public class HkObjQuery extends HkQuery {
 	 *            需要delete的对象类型
 	 * @return
 	 */
-	public <T> int delete(DeleteParam deleteParam, Class<T> clazz) {
-		PartitionTableInfo partitionTableInfo = this.parse(clazz,
-				deleteParam.getCtxMap());
+	public <T> int delete(DeleteParam deleteParam) {
+		PartitionTableInfo partitionTableInfo = this.parse(
+				deleteParam.getClazz(), deleteParam.getCtxMap());
 		return this.updateBySQL(
 				partitionTableInfo.getDsKey(),
 				SqlBuilder.createDeleteSQL(partitionTableInfo,
@@ -141,11 +142,12 @@ public class HkObjQuery extends HkQuery {
 	public <T> int deleteById(String key, Object keyValue, Class<T> clazz,
 			Object idValue) {
 		DeleteParam deleteParam = new DeleteParam(key, keyValue);
+		deleteParam.setClazz(clazz);
 		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
 				.getObjectSqlInfo(clazz);
 		deleteParam.setWhereAndParams(objectSqlInfo.getIdColumn() + "=?",
 				new Object[] { idValue });
-		return this.delete(deleteParam, clazz);
+		return this.delete(deleteParam);
 	}
 
 	/**
