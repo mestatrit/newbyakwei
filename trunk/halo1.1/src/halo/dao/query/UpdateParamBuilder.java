@@ -11,6 +11,8 @@ public class UpdateParamBuilder {
 
 	private final List<Object> paramList = new ArrayList<Object>();
 
+	private final List<Object> whereParamList = new ArrayList<Object>();
+
 	private final UpdateParam updateParam = new UpdateParam();
 
 	public void addKeyAndValue(String key, Object value) {
@@ -28,7 +30,7 @@ public class UpdateParamBuilder {
 
 	public void where(String field, Object value) {
 		whereColumnList.add(field);
-		paramList.add(value);
+		whereParamList.add(value);
 	}
 
 	public UpdateParam create() {
@@ -41,8 +43,11 @@ public class UpdateParamBuilder {
 				sb.append(" and ");
 			}
 		}
+		List<Object> objlist = new ArrayList<Object>();
+		objlist.addAll(paramList);
+		objlist.addAll(whereParamList);
 		updateParam.set(columnList.toArray(new String[columnList.size()]),
-				sb.toString(), paramList.toArray());
+				sb.toString(), objlist.toArray());
 		return updateParam;
 	}
 }
