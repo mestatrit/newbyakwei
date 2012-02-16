@@ -33,8 +33,9 @@ public class SimpleQuery {
 
 	public <T> int delete(Class<T> clazz, String where, Object[] params) {
 		DeleteParam deleteParam = new DeleteParam(null, null);
+		deleteParam.setClazz(clazz);
 		deleteParam.setWhereAndParams(where, params);
-		return this.hkObjQuery.delete(deleteParam, clazz);
+		return this.hkObjQuery.delete(deleteParam);
 	}
 
 	public <T> int deleteById(Class<T> clazz, Object idValue) {
