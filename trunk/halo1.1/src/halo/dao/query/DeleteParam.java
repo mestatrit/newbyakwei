@@ -7,6 +7,9 @@ package halo.dao.query;
  */
 public class DeleteParam extends Param {
 
+	public DeleteParam() {
+	}
+
 	public DeleteParam(String key, Object value) {
 		super(key, value);
 	}
