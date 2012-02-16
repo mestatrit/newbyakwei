@@ -51,6 +51,9 @@ public abstract class Param {
 	 * @param ctxMap
 	 */
 	public void addKeyAdnValueFromMap(Map<String, Object> ctxMap) {
+		if (ctxMap == null) {
+			return;
+		}
 		Set<Entry<String, Object>> set = ctxMap.entrySet();
 		for (Entry<String, Object> e : set) {
 			if (e.getValue() != null) {

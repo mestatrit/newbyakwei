@@ -43,8 +43,7 @@ public class SimpleQuery {
 	}
 
 	public <T> T getById(Class<T> clazz, Object idValue) {
-		return this.hkObjQuery.getObjectById(new QueryParam(null, null), clazz,
-				idValue);
+		return this.hkObjQuery.getObjectById(null, clazz, idValue);
 	}
 
 	public <T> List<T> getList(Class<T> clazz, String where, Object[] params,
