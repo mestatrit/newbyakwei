@@ -12,6 +12,9 @@ import java.util.List;
  */
 public class QueryParam extends Param {
 
+	public QueryParam() {
+	}
+
 	public QueryParam(String key, Object value) {
 		super(key, value);
 	}
@@ -132,8 +135,10 @@ public class QueryParam extends Param {
 	/**
 	 * 设置查询数据范围
 	 * 
-	 * @param begin 设置获取数据开始的位置
-	 * @param size 设置获取数据的数量。<=0时，获取所有数据;>0时获取指定数量数据
+	 * @param begin
+	 *            设置获取数据开始的位置
+	 * @param size
+	 *            设置获取数据的数量。<=0时，获取所有数据;>0时获取指定数量数据
 	 */
 	public void setRange(int begin, int size) {
 		this.begin = begin;

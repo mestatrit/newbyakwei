@@ -2,6 +2,7 @@ package halo.dao.query;
 
 import halo.util.NumberUtil;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,10 +41,12 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	/**
+	 * insert对象
+	 * 
 	 * @param key
-	 *            分区关键字
+	 *            分区key
 	 * @param keyValue
-	 *            分区关键字对应的值
+	 *            分区value
 	 * @param t
 	 *            需要insert的对象
 	 * @return mysql中返回自增id,其他数据库中返回值暂时为null
@@ -66,6 +69,15 @@ public class HkObjQuery extends HkQuery {
 		return NumberUtil.getNumber(this.insertObj(key, keyValue, t));
 	}
 
+	/**
+	 * insert对象
+	 * 
+	 * @param insertParam
+	 *            insert所包含的信息参考 {@link InsertParam}
+	 * @param t
+	 *            需要insert的对象
+	 * @return
+	 */
 	public <T> Number insertObjForNumber(InsertParam insertParam, T t) {
 		return NumberUtil.getNumber(this.insertObj(insertParam, t));
 	}
@@ -74,9 +86,9 @@ public class HkObjQuery extends HkQuery {
 	 * update sql操作，update一条记录的所有字段
 	 * 
 	 * @param key
-	 *            分区关键字
+	 *            分区key
 	 * @param keyValue
-	 *            分区关键字对应的值
+	 *            分区value
 	 * @param t
 	 *            update 的对象
 	 * @return update sql的返回值
@@ -97,6 +109,7 @@ public class HkObjQuery extends HkQuery {
 	 * update sql 操作
 	 * 
 	 * @param updateParam
+	 *            update所包含的信息参考 {@link UpdateParam}
 	 * @param clazz
 	 *            需要update的对象类型
 	 * @return
@@ -120,9 +133,10 @@ public class HkObjQuery extends HkQuery {
 	 * delete sql操作
 	 * 
 	 * @param deleteParam
+	 *            delete所包含的信息参考 {@link DeleteParam}
 	 * @param clazz
 	 *            需要delete的对象类型
-	 * @return
+	 * @return delete sql的返回值
 	 */
 	public int delete(DeleteParam deleteParam) {
 		PartitionTableInfo partitionTableInfo = this.parse(
@@ -134,18 +148,39 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	/**
-	 * 根据id删除对象
+	 * 通过id删除对象
 	 * 
-	 * @param <T>
-	 * @param param
+	 * @param key
+	 *            分区key
+	 * @param keyValue
+	 *            分区value
 	 * @param clazz
 	 *            需要delete的对象类型
 	 * @param idValue
-	 * @return
+	 * @return delete sql返回值
 	 */
 	public <T> int deleteById(String key, Object keyValue, Class<T> clazz,
 			Object idValue) {
-		DeleteParam deleteParam = new DeleteParam(key, keyValue);
+		Map<String, Object> ctxMap = new HashMap<String, Object>();
+		ctxMap.put(key, keyValue);
+		return this.deleteById(ctxMap, clazz, idValue);
+	}
+
+	/**
+	 * 通过id删除对象
+	 * 
+	 * @param ctxMap
+	 *            分区kye-value的map
+	 * @param clazz
+	 *            需要delete的对象类
+	 * @param idValue
+	 *            对象id
+	 * @return delete sql返回值
+	 */
+	public <T> int deleteById(Map<String, Object> ctxMap, Class<T> clazz,
+			Object idValue) {
+		DeleteParam deleteParam = new DeleteParam();
+		deleteParam.addKeyAdnValueFromMap(ctxMap);
 		deleteParam.setClazz(clazz);
 		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
 				.getObjectSqlInfo(clazz);
@@ -157,7 +192,6 @@ public class HkObjQuery extends HkQuery {
 	/**
 	 * 查询操作，如果QueryParam 中columns没有赋值,则查询表中的所有列，程序将会自动复制列信息到columns属性
 	 * 
-	 * @param <T>
 	 * @param queryParam
 	 * @param mapper
 	 * @return
@@ -176,13 +210,12 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	/**
-	 * 数据查询select
+	 * select [columns]
 	 * 
-	 * @param <T>
 	 * @param queryParam
 	 * @param clazz
-	 *            返回对象类型，如果 queryParam没有设置classes参数，默认使用此参数 根据此类型可以获得匹配的mapper
-	 * @return
+	 *            返回结果类型
+	 * @return sql 结果集合
 	 */
 	public <T> List<T> getList(QueryParam queryParam, Class<T> clazz) {
 		if (queryParam.getClassCount() == 0) {
@@ -195,7 +228,7 @@ public class HkObjQuery extends HkQuery {
 	 * count sql 操作
 	 * 
 	 * @param countParam
-	 * @return sql结果
+	 * @return sql 结果
 	 */
 	public int count(CountParam countParam) {
 		PartitionTableInfo[] partitionTableInfos = this.parse(
@@ -207,11 +240,11 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	/**
-	 * 查询操作，如果QueryParam 中columns没有赋值,则查询表中的所有列，程序将会自动复制列信息到columns属性
+	 * select sql 对象操作
 	 * 
-	 * @param <T>
 	 * @param queryParam
 	 * @param mapper
+	 *            参考 {@link RowMapper}
 	 * @return
 	 */
 	public <T> T getObject(QueryParam queryParam, RowMapper<T> mapper) {
@@ -227,9 +260,8 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	/**
-	 * 查询单个对象
+	 * select sql 对象操作
 	 * 
-	 * @param <T>
 	 * @param queryParam
 	 * @param clazz
 	 *            根据此类型可以获得匹配的mapper
@@ -243,12 +275,36 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	/**
+	 * select sql 通过id获取对象操作
+	 * 
+	 * @param ctxMap
+	 *            分区key-value的map
+	 * @param clazz
+	 *            返回的结果对象类型
+	 * @param idValue
+	 *            对象id
+	 * @return 查询结果对象
+	 */
+	public <T> T getObjectById(Map<String, Object> ctxMap, Class<T> clazz,
+			Object idValue) {
+		QueryParam queryParam = new QueryParam();
+		queryParam.addKeyAdnValueFromMap(ctxMap);
+		queryParam.set(this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
+				.getIdColumn() + "=?", new Object[] { idValue });
+		queryParam.setOrder(null);
+		queryParam.setRange(0, 1);
+		if (queryParam.getClassCount() == 0) {
+			queryParam.addClass(clazz);
+		}
+		return this.getObject(queryParam, clazz);
+	}
+
+	/**
 	 * 根据id查询对象,默认查询 clazz 对象数据
 	 * 
-	 * @param <T>
 	 * @param queryParam
 	 * @param clazz
-	 *            根据此类型可以获得匹配的mapper
+	 *            根据此类型可以获得匹配的RowMapper
 	 * @param idValue
 	 * @return
 	 */
@@ -272,7 +328,6 @@ public class HkObjQuery extends HkQuery {
 	/**
 	 * 获得真实的操作的数据表信息
 	 * 
-	 * @param <T>
 	 * @param clazz
 	 * @param ctxMap
 	 * @return
@@ -289,7 +344,6 @@ public class HkObjQuery extends HkQuery {
 	/**
 	 * 获得真实的操作的数据表信息
 	 * 
-	 * @param <T>
 	 * @param classes
 	 * @param ctxMap
 	 * @return
@@ -304,7 +358,7 @@ public class HkObjQuery extends HkQuery {
 	}
 
 	/**
-	 * 从class中获得与数据库对应的字段名称
+	 * 从classes中获得与数据库对应的字段名称
 	 * 
 	 * @param classes
 	 * @return

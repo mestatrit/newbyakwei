@@ -35,7 +35,6 @@ public class ObjectSqlInfoCreater implements InitializingBean {
 	}
 
 	/**
-	 * @param <T>
 	 * @param clazz
 	 * @return
 	 */
