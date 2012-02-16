@@ -1,7 +1,7 @@
 package halo.dao.query;
 
 /**
- * 更新时参数的对象表示方式，完全是为了程序易读<br/>
+ * update sql 操作时需要拼装sql以及赋值的辅助类
  * 
  * @author akwei
  */
@@ -47,7 +47,7 @@ public class UpdateParam extends Param {
 	 * @param params
 	 *            设置条件对应的参数
 	 */
-	public void init(String[] updateColumns, String where, Object[] params) {
+	public void set(String[] updateColumns, String where, Object[] params) {
 		this.updateColumns = updateColumns;
 		this.where = where;
 		this.params = params;
