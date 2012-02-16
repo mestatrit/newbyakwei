@@ -7,6 +7,9 @@ package halo.dao.query;
  */
 public class UpdateParam extends Param {
 
+	public UpdateParam() {
+	}
+
 	public UpdateParam(String key, Object value) {
 		super(key, value);
 	}

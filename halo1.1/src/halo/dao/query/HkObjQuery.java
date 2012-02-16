@@ -101,7 +101,7 @@ public class HkObjQuery extends HkQuery {
 	 *            需要update的对象类型
 	 * @return
 	 */
-	public <T> int update(UpdateParam updateParam) {
+	public int update(UpdateParam updateParam) {
 		PartitionTableInfo partitionTableInfo = this.parse(
 				updateParam.getClazz(), updateParam.getCtxMap());
 		return this
@@ -112,6 +112,10 @@ public class HkObjQuery extends HkQuery {
 						.getParams());
 	}
 
+	public int update(UpdateParamBuilder updateParamBuilder) {
+		return this.update(updateParamBuilder.create());
+	}
+
 	/**
 	 * delete sql操作
 	 * 
@@ -120,7 +124,7 @@ public class HkObjQuery extends HkQuery {
 	 *            需要delete的对象类型
 	 * @return
 	 */
-	public <T> int delete(DeleteParam deleteParam) {
+	public int delete(DeleteParam deleteParam) {
 		PartitionTableInfo partitionTableInfo = this.parse(
 				deleteParam.getClazz(), deleteParam.getCtxMap());
 		return this.updateBySQL(
@@ -145,7 +149,7 @@ public class HkObjQuery extends HkQuery {
 		deleteParam.setClazz(clazz);
 		ObjectSqlInfo<T> objectSqlInfo = this.objectSqlInfoCreater
 				.getObjectSqlInfo(clazz);
-		deleteParam.setWhereAndParams(objectSqlInfo.getIdColumn() + "=?",
+		deleteParam.set(objectSqlInfo.getIdColumn() + "=?",
 				new Object[] { idValue });
 		return this.delete(deleteParam);
 	}
@@ -193,7 +197,7 @@ public class HkObjQuery extends HkQuery {
 	 * @param countParam
 	 * @return sql结果
 	 */
-	public <T> int count(CountParam countParam) {
+	public int count(CountParam countParam) {
 		PartitionTableInfo[] partitionTableInfos = this.parse(
 				countParam.getClasses(), countParam.getCtxMap());
 		return this.countBySQL(
@@ -250,9 +254,8 @@ public class HkObjQuery extends HkQuery {
 	 */
 	public <T> T getObjectById(QueryParam queryParam, Class<T> clazz,
 			Object idValue) {
-		queryParam.setWhereAndParams(this.objectSqlInfoCreater
-				.getObjectSqlInfo(clazz).getIdColumn() + "=?",
-				new Object[] { idValue });
+		queryParam.set(this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
+				.getIdColumn() + "=?", new Object[] { idValue });
 		queryParam.setOrder(null);
 		queryParam.setRange(0, 1);
 		if (queryParam.getClassCount() == 0) {
@@ -303,7 +306,6 @@ public class HkObjQuery extends HkQuery {
 	/**
 	 * 从class中获得与数据库对应的字段名称
 	 * 
-	 * @param <T>
 	 * @param classes
 	 * @return
 	 */

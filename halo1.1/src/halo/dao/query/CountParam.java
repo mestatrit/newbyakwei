@@ -50,7 +50,7 @@ public class CountParam extends Param {
 		return params;
 	}
 
-	public void setWhereAndParams(String where, Object[] params) {
+	public void set(String where, Object[] params) {
 		this.where = where;
 		this.params = params;
 	}

@@ -27,14 +27,14 @@ public class SimpleQuery {
 	public <T> int count(Class<T> clazz, String where, Object[] params) {
 		CountParam countParam = new CountParam();
 		countParam.addClass(clazz);
-		countParam.setWhereAndParams(where, params);
+		countParam.set(where, params);
 		return this.hkObjQuery.count(countParam);
 	}
 
 	public <T> int delete(Class<T> clazz, String where, Object[] params) {
 		DeleteParam deleteParam = new DeleteParam(null, null);
 		deleteParam.setClazz(clazz);
-		deleteParam.setWhereAndParams(where, params);
+		deleteParam.set(where, params);
 		return this.hkObjQuery.delete(deleteParam);
 	}
 
@@ -50,7 +50,7 @@ public class SimpleQuery {
 	public <T> List<T> getList(Class<T> clazz, String where, Object[] params,
 			String order, int begin, int size) {
 		QueryParam queryParam = new QueryParam(null, null);
-		queryParam.setWhereAndParams(where, params);
+		queryParam.set(where, params);
 		queryParam.setOrder(order);
 		queryParam.setRange(begin, size);
 		return this.hkObjQuery.getList(queryParam, clazz);
@@ -85,7 +85,7 @@ public class SimpleQuery {
 			}
 		}
 		paramList.addAll(fieldValueList);
-		queryParam.setWhereAndParams(sb.toString(),
+		queryParam.set(sb.toString(),
 				paramList.toArray(new Object[paramList.size()]));
 		return this.hkObjQuery.getList(queryParam, clazz);
 	}
@@ -97,7 +97,7 @@ public class SimpleQuery {
 	public <T> T getObject(Class<T> clazz, String where, Object[] params,
 			String order) {
 		QueryParam queryParam = new QueryParam(null, null);
-		queryParam.setWhereAndParams(where, params);
+		queryParam.set(where, params);
 		queryParam.setOrder(order);
 		return this.hkObjQuery.getObject(queryParam, clazz);
 	}
