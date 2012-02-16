@@ -87,7 +87,7 @@ public class HkObjQuery extends HkQuery {
 				.getObjectSqlInfo(t.getClass());
 		UpdateParam updateParam = new UpdateParam(key, keyValue);
 		updateParam.setClazz(t.getClass());
-		updateParam.init(objectSqlInfo.getColumnsForUpdate(),
+		updateParam.set(objectSqlInfo.getColumnsForUpdate(),
 				objectSqlInfo.getIdColumn() + "=?", objectSqlInfo
 						.getSqlUpdateMapper().getParamsForUpdate(t));
 		return this.update(updateParam);
