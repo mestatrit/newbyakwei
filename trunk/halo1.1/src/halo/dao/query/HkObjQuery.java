@@ -299,27 +299,6 @@ public class HkObjQuery extends HkQuery {
 		return this.getObject(queryParam, clazz);
 	}
 
-	/**
-	 * 根据id查询对象,默认查询 clazz 对象数据
-	 * 
-	 * @param queryParam
-	 * @param clazz
-	 *            根据此类型可以获得匹配的RowMapper
-	 * @param idValue
-	 * @return
-	 */
-	public <T> T getObjectById(QueryParam queryParam, Class<T> clazz,
-			Object idValue) {
-		queryParam.set(this.objectSqlInfoCreater.getObjectSqlInfo(clazz)
-				.getIdColumn() + "=?", new Object[] { idValue });
-		queryParam.setOrder(null);
-		queryParam.setRange(0, 1);
-		if (queryParam.getClassCount() == 0) {
-			queryParam.addClass(clazz);
-		}
-		return this.getObject(queryParam, clazz);
-	}
-
 	public void setObjectSqlInfoCreater(
 			ObjectSqlInfoCreater objectSqlInfoCreater) {
 		this.objectSqlInfoCreater = objectSqlInfoCreater;
