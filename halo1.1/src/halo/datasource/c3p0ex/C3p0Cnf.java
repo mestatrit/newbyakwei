@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
- * c3p0连接池组装器
+ * c3p0连接池组装器，对配置文件进行解析，配置数据源密码加密解密类，完成数据源的创建
  * 
  * @author akwei
  */
