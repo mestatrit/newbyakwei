@@ -38,7 +38,8 @@ public class HkDataSourceWrapper implements DataSource, InitializingBean {
 		DataSource ds = this.dataSourceMap.get(DataSourceStatus
 				.getCurrentDsKey());
 		if (ds == null) {
-			throw new RuntimeException("no datasource");
+			throw new RuntimeException("no datasource forKey [ "
+					+ DataSourceStatus.getCurrentDsKey() + " ]");
 		}
 		return ds;
 	}

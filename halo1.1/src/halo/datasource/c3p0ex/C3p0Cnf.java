@@ -50,6 +50,9 @@ public class C3p0Cnf {
 	public DataSource createDataSource(String dsName) {
 		File file = new File(cnfPath);
 		DataSourceCnf dataSourceCnf = this.getDataSourceCnf(file, dsName);
+		if (dataSourceCnf == null) {
+			throw new RuntimeException("no config dsName [ " + dsName + " ]");
+		}
 		return buildC3p0DataSource(this.dataSourceCnfInfoWrapper, dataSourceCnf);
 	}
 
