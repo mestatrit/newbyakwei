@@ -17,160 +17,147 @@ import org.springframework.beans.factory.InitializingBean;
  */
 public class WebCnf implements InitializingBean {
 
-	public static final String UPLOAD_LIMIT_SIZE_KEY = "COM.HALO.CACTUS_HTTPREQUEST_UPLOAD_LIMIT_SIZE_KEY";
+    public static final String UPLOAD_LIMIT_SIZE_KEY = "COM.HALO.CACTUS_HTTPREQUEST_UPLOAD_LIMIT_SIZE_KEY";
 
-	public static final String UPLOAD_EXCEEDEDSIZE_KEY = "COM.HALO.CACTUS_UPLOAD_EXCEEDEDSIZE_KEY";
+    public static final String UPLOAD_EXCEEDEDSIZE_KEY = "COM.HALO.CACTUS_UPLOAD_EXCEEDEDSIZE_KEY";
 
-	public static final String UPLOAD_ERROR_KEY = "COM.HALO.CACTUS_UPLOAD_ERROR_KEY";
+    public static final String UPLOAD_ERROR_KEY = "COM.HALO.CACTUS_UPLOAD_ERROR_KEY";
 
-	public static final String MULTI_HTTPSERVLETREQUEST_KEY = "COM.HALO.CACTUS_MULTI_HTTPSERVLETREQUEST";
+    public static final String MULTI_HTTPSERVLETREQUEST_KEY = "COM.HALO.CACTUS_MULTI_HTTPSERVLETREQUEST";
 
-	public static final String SIMPLEPAGE_ATTRIBUTE = "COM.HALO.CACTUS.SIMPLEPAGE.ATTRIBUTE";
+    public static final String SIMPLEPAGE_ATTRIBUTE = "COM.HALO.CACTUS.SIMPLEPAGE.ATTRIBUTE";
 
-	public static final String PAGESUPPORT_ATTRIBUTE = "COM.HALO.CACTUS.PAGESUPPORT.ATTRIBUTE";
+    public static final String PAGESUPPORT_ATTRIBUTE = "COM.HALO.CACTUS.PAGESUPPORT.ATTRIBUTE";
 
-	private static WebCnf webCnfObj;
+    private static WebCnf webCnfObj;
 
-	public static WebCnf getInstance() {
-		return webCnfObj;
-	}
+    public static WebCnf getInstance() {
+        return webCnfObj;
+    }
 
-	private List<String> scanPathList;
+    private List<String> scanPathList;
 
-	/**
-	 * 源数据编码
-	 */
-	private String sourceCharset;
+    private String uploadFileTempPath = "/halotemp/";
 
-	/**
-	 * 目标数据编码
-	 */
-	private String targetCharset;
+    private List<String> fileUploadCheckUriCnfList;
 
-	private String uploadFileTempPath = "/cactustemp/";
+    private final List<UploadFileCheckCnf> uploadFileCheckCnfs = new ArrayList<UploadFileCheckCnf>();
 
-	private List<String> fileUploadCheckUriCnfList;
+    private final Map<String, UploadFileCheckCnf> map = new HashMap<String, UploadFileCheckCnf>();
 
-	private final List<UploadFileCheckCnf> uploadFileCheckCnfs = new ArrayList<UploadFileCheckCnf>();
+    private boolean mustCheckUpload;
 
-	private final Map<String, UploadFileCheckCnf> map = new HashMap<String, UploadFileCheckCnf>();
+    /**
+     * 设置是否需要进行字符转码
+     */
+    public void setNeedCharsetEncode(boolean needCharsetEncode) {
+        ServletUtil.NEED_CHARSET_ENCODE = needCharsetEncode;
+    }
 
-	private boolean mustCheckUpload;
+    /**
+     * 源数据编码，如果不设置编码，默认将会对get方式的url进行iso-8859-1到utf-8编码的转换
+     * 
+     * @param sourceCharset
+     */
+    public void setSourceCharset(String sourceCharset) {
+        if (sourceCharset == null || sourceCharset.length() == 0) {
+            return;
+        }
+        ServletUtil.CHARSET_SOURCE = sourceCharset;
+    }
 
-	/**
-	 * 源数据编码，如果不设置编码，默认将会对get方式的url进行iso-8859-1到utf-8编码的转换
-	 * 
-	 * @param sourceCharset
-	 */
-	public void setSourceCharset(String sourceCharset) {
-		if (sourceCharset == null || sourceCharset.length() == 0) {
-			return;
-		}
-		this.sourceCharset = sourceCharset;
-		ServletUtil.CHARSET_SOURCE = this.sourceCharset;
-	}
+    /**
+     * 目标数据编码，如果不设置编码，默认将会对get方式的url进行iso-8859-1到utf-8编码的转换
+     * 
+     * @param targetCharset
+     */
+    public void setTargetCharset(String targetCharset) {
+        if (targetCharset == null || targetCharset.length() == 0) {
+            return;
+        }
+        ServletUtil.CHARSET_TARGET = targetCharset;
+    }
 
-	/**
-	 * 目标数据编码，如果不设置编码，默认将会对get方式的url进行iso-8859-1到utf-8编码的转换
-	 * 
-	 * @param targetCharset
-	 */
-	public void setTargetCharset(String targetCharset) {
-		if (targetCharset == null || targetCharset.length() == 0) {
-			return;
-		}
-		this.targetCharset = targetCharset;
-		ServletUtil.CHARSET_TARGET = this.targetCharset;
-	}
+    /**
+     * 设置是否强制检查允许上传的uri，只有配置过的uri才能接受文件上传，否则不允许文件上传，并且传递的参数也无法获取
+     * 
+     * @param mustCheckUpload
+     */
+    public void setMustCheckUpload(boolean mustCheckUpload) {
+        this.mustCheckUpload = mustCheckUpload;
+    }
 
-	public String getSourceCharset() {
-		return sourceCharset;
-	}
+    /**
+     * 设置文件上传的临时目录
+     * 
+     * @param uploadFileTempPath
+     */
+    public void setUploadFileTempPath(String uploadFileTempPath) {
+        if (!uploadFileTempPath.endsWith("/")) {
+            this.uploadFileTempPath = uploadFileTempPath + "/";
+        }
+        else {
+            this.uploadFileTempPath = uploadFileTempPath;
+        }
+    }
 
-	public String getTargetCharset() {
-		return targetCharset;
-	}
+    public String getUploadFileTempPath() {
+        return uploadFileTempPath;
+    }
 
-	/**
-	 * 设置是否强制检查允许上传的uri，只有配置过的uri才能接受文件上传，否则不允许文件上传，并且传递的参数也无法获取
-	 * 
-	 * @param mustCheckUpload
-	 */
-	public void setMustCheckUpload(boolean mustCheckUpload) {
-		this.mustCheckUpload = mustCheckUpload;
-	}
+    public boolean isMustCheckUpload() {
+        return mustCheckUpload;
+    }
 
-	/**
-	 * 设置文件上传的临时目录
-	 * 
-	 * @param uploadFileTempPath
-	 */
-	public void setUploadFileTempPath(String uploadFileTempPath) {
-		if (!uploadFileTempPath.endsWith("/")) {
-			this.uploadFileTempPath = uploadFileTempPath + "/";
-		}
-		else {
-			this.uploadFileTempPath = uploadFileTempPath;
-		}
-	}
+    /**
+     * 设置文件上传所允许通过的urlmapping以及允许上传文件的大小以MB来计算
+     * 
+     * <pre>
+     * 配置示例:
+     *  /user/head/upload:2 , uri最后忽略.do 等后缀
+     * </pre>
+     * 
+     * @param fileUploadCheckUriList
+     */
+    public void setFileUploadCheckUriCnfList(
+            List<String> fileUploadCheckUriCnfList) {
+        this.fileUploadCheckUriCnfList = fileUploadCheckUriCnfList;
+    }
 
-	public String getUploadFileTempPath() {
-		return uploadFileTempPath;
-	}
+    public List<String> getFileUploadCheckUriCnfList() {
+        return fileUploadCheckUriCnfList;
+    }
 
-	public boolean isMustCheckUpload() {
-		return mustCheckUpload;
-	}
+    public void setScanPathList(List<String> scanPathList) {
+        this.scanPathList = scanPathList;
+    }
 
-	/**
-	 * 设置文件上传所允许通过的urlmapping以及允许上传文件的大小以MB来计算
-	 * 
-	 * <pre>
-	 * 配置示例:
-	 *  /user/head/upload:2 , uri最后忽略.do 等后缀
-	 * </pre>
-	 * 
-	 * @param fileUploadCheckUriList
-	 */
-	public void setFileUploadCheckUriCnfList(
-			List<String> fileUploadCheckUriCnfList) {
-		this.fileUploadCheckUriCnfList = fileUploadCheckUriCnfList;
-	}
+    private void initUploadFileCheckCnf() {
+        if (this.fileUploadCheckUriCnfList == null) {
+            return;
+        }
+        for (String cnf : this.fileUploadCheckUriCnfList) {
+            String[] s = cnf.split(":");
+            if (s.length != 2) {
+                continue;
+            }
+            int maxSize = Integer.valueOf(s[1]);
+            if (maxSize > 0) {
+                UploadFileCheckCnf o = new UploadFileCheckCnf(maxSize, s[0]);
+                this.uploadFileCheckCnfs.add(o);
+                map.put(s[0], o);
+            }
+        }
+    }
 
-	public List<String> getFileUploadCheckUriCnfList() {
-		return fileUploadCheckUriCnfList;
-	}
+    public UploadFileCheckCnf getUploadFileCheckCnf(String mappingUri) {
+        return map.get(mappingUri);
+    }
 
-	public void setScanPathList(List<String> scanPathList) {
-		this.scanPathList = scanPathList;
-	}
-
-	private void initUploadFileCheckCnf() {
-		if (this.fileUploadCheckUriCnfList == null) {
-			return;
-		}
-		for (String cnf : this.fileUploadCheckUriCnfList) {
-			String[] s = cnf.split(":");
-			if (s.length != 2) {
-				continue;
-			}
-			int maxSize = Integer.valueOf(s[1]);
-			if (maxSize > 0) {
-				UploadFileCheckCnf o = new UploadFileCheckCnf(maxSize, s[0]);
-				this.uploadFileCheckCnfs.add(o);
-				map.put(s[0], o);
-			}
-		}
-	}
-
-	public UploadFileCheckCnf getUploadFileCheckCnf(String mappingUri) {
-		return map.get(mappingUri);
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		WebCnf.webCnfObj = this;
-		DefActionFinder.init(scanPathList);
-		this.initUploadFileCheckCnf();
-	}
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        WebCnf.webCnfObj = this;
+        DefActionFinder.init(scanPathList);
+        this.initUploadFileCheckCnf();
+    }
 }
