@@ -1,123 +1,182 @@
-创建dao接口，继承com.dev3g.cactus.dao.query.IDao
+创建一个 实体类
 
-示例代码：
 
 {{{
 
-package demo.svr.dao;
+package demo.haloweb.dev3g.model;
 
+import halo.dao.annotation.Column;
+import halo.dao.annotation.Id;
+import halo.dao.annotation.Table;
+
+import java.util.Date;
+
+@Table(name = "user")
+public class User {
+
+    @Id
+    private int userid;
+
+    @Column
+    private String name;
+
+    @Column
+    private int sex;
+
+    @Column("createtime")
+    private Date createTime;
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+}
+
+
+}}}
+
+第二个实体类
+
+{{{
+
+package demo.haloweb.dev3g.model;
+
+import halo.dao.annotation.Column;
+import halo.dao.annotation.Id;
+import halo.dao.annotation.Table;
+
+@Table(name = "userinfo")
+public class UserInfo {
+
+    @Id
+    private int userid;
+
+    @Column
+    private String content;
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+}
+
+}}}
+
+创建一个UserDao，进行数据操作
+
+{{{
+
+package demo.haloweb.dev3g.model;
+
+import halo.dao.query.SimpleQuery;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
-
-import com.dev3g.cactus.dao.query.IDao;
-
-import demo.bean.UserInfo;
-
-public interface UserInfoDao extends IDao<UserInfo> {
-
-	List<UserInfo> getListByGender(int gender, int begin, int size);
-}
-
-}}}
-
-实现接口
-
-{{{
-
-package demo.svr.dao.impl;
-
-import java.util.List;
-
-import com.dev3g.cactus.dao.query.BaseDao;
-
-import demo.bean.UserInfo;
-import demo.svr.dao.UserInfoDao;
-
-/**
- * insert update delete selectById 等单表操作的方法已经在IDao中定义，并在BaseDao中实现，所以可以直接用
- * 
- * @author akwei
- */
-public class UserInfoDaoImpl extends BaseDao<UserInfo> implements UserInfoDao {
-
-	@Override
-	public Class<UserInfo> getClazz() {
-		// 返回对应的class，用来指定当前dao操作的表
-		return UserInfo.class;
-	}
-
-	@Override
-	public List<UserInfo> getListByGender(int gender, int begin, int size) {
-		return this.getList("gender=?", new Object[] { gender }, "nick asc",
-				begin, size);
-		// 如果是按照gender分表：
-//		return this.getList(gender, "gender=?", new Object[] { gender },
-//				"nick asc", begin, size);
-	}
-}
-
-}}}
-
-如果要进行 insert update delete getById的操作，不需要在接口中声明，因为IDao已经声明过这些方法了，BaseDao已经实现了这些方法，所以可以直接调用这些方法，例如在service中调用：
-
-创建Service接口:
-
-{{{
-
-package demo.svr;
-
-import demo.bean.UserInfo;
-
-public interface UserInfoService {
-
-	void createUserInfo(UserInfo userInfo);
-
-	void updateUserInfo(UserInfo userInfo);
-
-	void deleteUserInfo(long userid);
-
-	UserInfo getUserInfo(long userid);
-}
-
-
-}}}
-
-实现Service接口：
-
-{{{
-
-package demo.svr.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
-import demo.bean.UserInfo;
-import demo.svr.UserInfoService;
-import demo.svr.dao.UserInfoDao;
+@Component("userDao")
+public class UserDao {
 
-public class UserInfoSvrviceImpl implements UserInfoService {
+    @Autowired
+    private SimpleQuery query;
 
-	@Autowired
-	private UserInfoDao userInfoDao;
+    public User insert(User user) {
+        user.setUserid(query.insertForNumber(user).intValue());
+        return user;
+    }
 
-	@Override
-	public void createUserInfo(UserInfo userInfo) {
-		this.userInfoDao.save(userInfo);
-	}
+    public void update(User user) {
+        query.update(user);
+    }
 
-	@Override
-	public void deleteUserInfo(long userid) {
-		this.userInfoDao.deleteById(userid);
-	}
+    public void updateName(int userid, String name) {
+        query.updateBySQL(User.class, "name=?", "userid=?", new Object[] {
+                name, userid });
+    }
 
-	@Override
-	public UserInfo getUserInfo(long userid) {
-		return this.userInfoDao.getById(userid);
-	}
+    public void deleteById(int userid) {
+        query.deleteById(User.class, userid);
+    }
 
-	@Override
-	public void updateUserInfo(UserInfo userInfo) {
-		this.userInfoDao.update(userInfo);
-	}
+    public void deleteBySex(int sex) {
+        query.delete(User.class, "sex=?", new Object[] { sex });
+    }
+
+    public User getById(int userid) {
+        return query.getById(User.class, userid);
+    }
+
+    public List<User> getListBySex(int sex, int begin, int size) {
+        return query.getList(User.class, "sex=?", new Object[] { sex },
+                "name desc", begin, size);
+    }
+
+    /**
+     * join 操作，不建议使用join方式读取多张表
+     * 
+     * @param begin
+     * @param size
+     * @return
+     */
+    public List<User> getListForJoin(int begin, int size) {
+        return query.getList(new Class[] { User.class, UserInfo.class },
+                "user.userid=userinfo.userid", null, "userid asc",
+                new RowMapper<User>() {
+
+                    @Override
+                    public User mapRow(ResultSet rs, int arg1)
+                            throws SQLException {
+                        User user = query.getHkObjQuery()
+                                .getRowMapper(User.class).mapRow(rs, arg1);
+                        UserInfo userInfo = query.getHkObjQuery()
+                                .getRowMapper(UserInfo.class).mapRow(rs, arg1);
+                        user.setUserInfo(userInfo);
+                        return user;
+                    }
+                }, begin, size);
+    }
 }
-
 
 }}}
