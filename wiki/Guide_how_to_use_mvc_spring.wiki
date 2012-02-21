@@ -1,51 +1,38 @@
 {{{
 
-======================================================================
 <!-- 在spring的配置文件中添加 -->
-<!-- 1，启动annotation方式 -->
 <context:annotation-config />
-<!-- 2，配置工具类 -->
-<bean id="hkUtil" class="halo.util.HaloUtil" />
-<!-- 3，添加配置信息 -->
-<bean id="webCnf" class="halo.web.action.util.WebCnf">
-	<!-- 如果需要对url get方式进行编码，就需要配置一下2项 -->
-	<!-- 原get 方式编码，非必须 -->
-	<property name="sourceCharset" value="ISO-8859-1" />
-	<!-- 原get 目标编码，非必须 -->
-	<property name="targetCharset" value="UTF-8" />
-	<!-- 设置是否需要限制url的文件上传，true:之允许配置过的uri接受文件上传，false:允许任意url接受文件上传，非必须 -->
-	<property name="mustCheckUpload" value="true" />
-	<!-- 设置对应uri的文件上传，以及大小限制，如果设置了 mustCheckUpload=true，则，只有以下的uri才允许文件上传，非必须 -->
-	<property name="fileUploadCheckUriCnfList">
-		<list>
-			<!-- 格式为取出[requestContextPath之后的uri，去掉.do等后缀]:[文件大小(单位M)] -->
-			<value>/user_list:80</value>
-		</list>
-	</property>
-	<!-- 配置文件上传的临时目录 -->
-	<property name="uploadFileTempPath" value="/cactustemp/" />
-	<!-- 配置action的扫描目录，目录可以深度扫描，只需要定义根目录 -->
-	<property name="scanPathList">
-	        <list>
-	                <value>action.web</value>
-	        </list>
-	</property>
-</bean>
-
-======================================================================
-spring.xml最简配置：
-<context:annotation-config />
-<!-- must config -->
-<bean id="hkUtil" class="halo.util.HaloUtil" />
-<bean id="webCnf" class="halo.web.util.WebCnf">
-	<property name="uploadFileTempPath" value="/cactustemp/" />
-	<property name="scanPathList">
-		<list>
-			<value>action.web</value>
-		</list>
-	</property>
-</bean>
-
-======================================================================
+	<!-- 通过annotation 扫描的根目录 -->
+	<context:component-scan base-package="demo.haloweb.dev3g.web">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
+	</context:component-scan>
+	<!-- must config -->
+	<bean id="haloUtil" class="halo.util.HaloUtil" />
+	<bean class="halo.web.action.ExceptionConfig">
+		<property name="exceptionMap">
+			<map>
+				<entry key="java.lang.Exception" value="/web/error.jsp">
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="webCnf" class="halo.web.util.WebCnf">
+		<!-- 设置文件上传的临时目录 -->
+		<property name="uploadFileTempPath" value="/Users/fire9/temp/" />
+		<!-- 是否需要进行字符编码转换 -->
+		<property name="needCharsetEncode" value="true" />
+		<!-- 原编码 -->
+		<property name="sourceCharset" value="iso-8859-1" />
+		<!-- 目标编码 -->
+		<property name="targetCharset" value="utf-8" />
+		<!-- 强制url进行上传文件检查，不通过配置的url不能接收文件上传 -->
+		<property name="mustCheckUpload" value="true" />
+		<!-- 接收文件检查的url 格式：/actionname/method:[file size](单位为M) -->
+		<property name="fileUploadCheckUriCnfList">
+			<list>
+				<value>/hello/upload:20</value>
+			</list>
+		</property>
+	</bean>
 
 }}}
