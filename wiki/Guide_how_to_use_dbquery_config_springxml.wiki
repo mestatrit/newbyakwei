@@ -3,6 +3,7 @@
 {{{
 
 <context:annotation-config />
+        <!-- 配置需要spring扫描的目录 -->
 	<context:component-scan base-package="demo.haloweb.dev3g.model">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
 	</context:component-scan>
