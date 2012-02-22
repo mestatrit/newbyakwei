@@ -1,7 +1,6 @@
 package halo.web.util;
 
 import halo.web.action.UploadFileCheckCnf;
-import halo.web.action.actionmapping.DefActionFinder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,8 +33,6 @@ public class WebCnf implements InitializingBean {
     public static WebCnf getInstance() {
         return webCnfObj;
     }
-
-    private List<String> scanPathList;
 
     private String uploadFileTempPath = "/halotemp/";
 
@@ -128,10 +125,6 @@ public class WebCnf implements InitializingBean {
         return fileUploadCheckUriCnfList;
     }
 
-    public void setScanPathList(List<String> scanPathList) {
-        this.scanPathList = scanPathList;
-    }
-
     private void initUploadFileCheckCnf() {
         if (this.fileUploadCheckUriCnfList == null) {
             return;
@@ -157,7 +150,6 @@ public class WebCnf implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         WebCnf.webCnfObj = this;
-        DefActionFinder.init(scanPathList);
         this.initUploadFileCheckCnf();
     }
 }
