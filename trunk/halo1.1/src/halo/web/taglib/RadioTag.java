@@ -31,7 +31,7 @@ public class RadioTag extends BaseTag {
         RadioAreaTag parent = this.getRadioAreaTag(this.getParent());
         writer.append("<input type=\"radio\"");
         if (this.oid != null) {
-            writer.append(" id=\"").append(this.id.toString()).append("\"");
+            writer.append(" id=\"").append(this.oid.toString()).append("\"");
         }
         if (parent.getName() != null) {
             writer.append(" name=\"").append(parent.getName().toString())
