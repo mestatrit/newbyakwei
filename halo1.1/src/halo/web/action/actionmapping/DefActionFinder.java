@@ -21,22 +21,21 @@ public class DefActionFinder {
     private static final Map<String, Object> actionMap = new HashMap<String, Object>();
 
     /**
-     * 查找Action class
+     * 查找Action 对象，从spring bean容器中获取
      * 
-     * @param actionUrl
-     *            除去request.getContextPath部分与除去后缀部分剩下的mappingUri
+     * @param actionName
      * @return
-     * @throws NoActionException
+     * @throws NoActionException 没有对应的action对象时抛出此异常
      */
-    public static Object findAction(String actionUrl) throws NoActionException {
-        Object obj = actionMap.get(actionUrl);
+    public static Object findAction(String actionName) throws NoActionException {
+        Object obj = actionMap.get(actionName);
         if (obj == null) {
-            obj = getBeanFromSpring(actionUrl);
+            obj = getBeanFromSpring(actionName);
             if (obj != null) {
-                actionMap.put(actionUrl, obj);
+                actionMap.put(actionName, obj);
             }
             else {
-                throw new NoActionException("no action [ " + actionUrl
+                throw new NoActionException("no action [ " + actionName
                         + " ] is exist");
             }
         }
