@@ -1,0 +1,47 @@
+ds0={
+	driverClass:com.mysql.jdbc.Driver0
+	jdbcUrl:jdbc:mysql://127.0.0.1:3306/orderdemo?useUnicode=true&characterEncoding=UTF-80
+	user:root0
+	password:root_pwd0
+	maxStatements:1200
+	idleConnectionTestPeriod:600
+	maxPoolSize:4000
+	initialPoolSize:200
+	minPoolSize:500
+}
+
+ds1={
+	driverClass:com.mysql.jdbc.Driver1
+	jdbcUrl:jdbc:mysql://127.0.0.1:3306/orderdemo?useUnicode=true&characterEncoding=UTF-81
+	user:root1
+	password:root_pwd1
+	maxStatements:1201
+	idleConnectionTestPeriod:601
+	maxPoolSize:4001
+	initialPoolSize:201
+	minPoolSize:501
+}
+
+ds2={
+	driverClass:com.mysql.jdbc.Driver2
+	jdbcUrl:jdbc:mysql://127.0.0.1:3306/orderdemo?useUnicode=true&characterEncoding=UTF-82
+	user:root2
+	password:root_pwd2
+	maxStatements:1202
+	idleConnectionTestPeriod:602
+	maxPoolSize:4002
+	initialPoolSize:202
+	minPoolSize:502
+}
+
+ds_orderdemo={
+	driverClass:com.mysql.jdbc.Driver3
+	jdbcUrl:jdbc:mysql://127.0.0.1:3306/orderdemo?useUnicode=true&characterEncoding=UTF-83
+	user:root3
+	password:root_pwd3
+	maxStatements:1203
+	idleConnectionTestPeriod:603
+	maxPoolSize:4003
+	initialPoolSize:203
+	minPoolSize:503
+}

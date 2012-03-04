@@ -1,0 +1,11 @@
+ds0={
+	driverClass:com.mysql.jdbc.Driver
+	jdbcUrl:jdbc:mysql://127.0.0.1:3306/orderdemo?useUnicode=true&amp;characterEncoding=UTF-8
+	user:root
+	password:root_pwd
+	maxStatements:120
+	idleConnectionTestPeriod:60
+	maxPoolSize:400
+	initialPoolSize:20
+	minPoolSize:50
+}
