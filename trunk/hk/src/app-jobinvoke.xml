@@ -437,9 +437,9 @@
 				<ref bean="userRecentUpdateJobTrigger" />
 				<ref bean="cardJobTrigger" />
 				<ref bean="hotUpdateJobTrigger" />
+				<!--
 				<ref bean="smsSessionTrigger" />
 				<ref bean="smsJobDetailTrigger" />
-				<!--
 				-->
 			</list>
 		</property>
