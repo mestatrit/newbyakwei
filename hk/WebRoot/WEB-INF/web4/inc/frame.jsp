@@ -157,10 +157,6 @@
 						<a>联系我们 </a> 
 					</div>
 					<div>
-						<a href="http://www.cntorg.com/" target="_blank">中国淘客网</a> |
-						<a href="http://www.vivatclub.com/" target="_blank">北京维瓦特国际商务俱乐部</a>
-					</div>
-					<div>
 						* Copyright ® 2009 huoku.com All rights reserved 京ICP备09054036号
 					</div>
 				</div>
