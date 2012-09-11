@@ -1,6 +1,7 @@
 package iwant.bean;
 
 import halo.util.DesUtil;
+import halo.util.P;
 import iwant.bean.exception.NoAdminUserException;
 
 /**
@@ -164,5 +165,53 @@ public class AdminUser {
         // P.println(desUtil.encrypt("adminzsiei89"));
         // P.println("zhuhai");
         // P.println(desUtil.encrypt("adminzhe897f"));
+        P.println("hangzhou");// 杭州
+        P.println(desUtil.encrypt("admindienue"));
+        P.println("ningbo");// 宁波
+        P.println(desUtil.encrypt("jdyeigh"));
+        P.println("wenzhou");// 温州
+        P.println(desUtil.encrypt("diurje"));
+        P.println("jiaxing");// 嘉兴
+        P.println(desUtil.encrypt("dkiebgwe"));
+        P.println("huzhou");// 湖州
+        P.println(desUtil.encrypt("foejgke"));
+        P.println("shaoxing");// 绍兴
+        P.println(desUtil.encrypt("dieyngkr"));
+        P.println("jinhua");// 金华
+        P.println(desUtil.encrypt("jdljenf"));
+        P.println("hengzhou");// 蘅州
+        P.println(desUtil.encrypt("weefgs"));
+        P.println("zhoushan");// 舟山
+        P.println(desUtil.encrypt("fgdfg"));
+        P.println("taizhou2");// 台州
+        P.println(desUtil.encrypt("egdsg"));
+        P.println("lishui");// 丽水
+        P.println(desUtil.encrypt("seerger"));
+        P.println("wuxi");// 无锡
+        P.println(desUtil.encrypt("engidg"));
+        P.println("xuzhou");// 徐州
+        P.println(desUtil.encrypt("digndk"));
+        P.println("changzhou");// 常州
+        P.println(desUtil.encrypt("sndkrf"));
+        P.println("suzhou");// 苏州
+        P.println(desUtil.encrypt("fgsdgs"));
+        P.println("nantong");// 南通
+        P.println(desUtil.encrypt("fbdffg"));
+        P.println("lianyungang");// 连云港
+        P.println(desUtil.encrypt("gddsf"));
+        P.println("huaian");// 淮安
+        P.println(desUtil.encrypt("ergcxv"));
+        P.println("yancheng");// 盐城
+        P.println(desUtil.encrypt("dfcvsd"));
+        P.println("yangzhou");// 扬州
+        P.println(desUtil.encrypt("rgfgas"));
+        P.println("zhenjiang");// 镇江
+        P.println(desUtil.encrypt("sgsdf"));
+        P.println("taizhou");// 泰州
+        P.println(desUtil.encrypt("bsdgw"));
+        P.println("suqian");// 宿迁
+        P.println(desUtil.encrypt("asdfrh"));
+        P.println("kunshan");// 昆山
+        P.println(desUtil.encrypt("ndser"));
     }
 }
