@@ -32,15 +32,13 @@ public class DeleteProjectJob {
 		this.processing = true;
 		try {
 			List<ProjectRecycle> list = this.projectSvr.getProjectRecycleList(
-					0, 100);
+			        0, 100);
 			List<Slide> slideList = null;
 			for (ProjectRecycle o : list) {
 				slideList = this.pptSvr.getSlideListByProjectid(
-						o.getProjectid(), 0, 100);
-				while (!slideList.isEmpty()) {
-					for (Slide slide : slideList) {
-						this.pptSvr.deleteSlideTx(slide);
-					}
+				        o.getProjectid(), 0, 100);
+				for (Slide slide : slideList) {
+					this.pptSvr.deleteSlideTx(slide);
 				}
 				this.projectSvr.deleteProjectRecycle(o);
 			}
